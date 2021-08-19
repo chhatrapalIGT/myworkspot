@@ -12,7 +12,7 @@ import { Switch, Route } from 'react-router-dom';
 
 // import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Demo from '../../components/Demo/index';
+import Profile from '../../components/Profile';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import GlobalStyle from '../../global-styles';
 
@@ -20,7 +20,8 @@ export default function App() {
   return (
     <div>
       <Switch>
-        <Route exact path="/" component={Demo} />
+        <Route exact path="/" component={Profile} />
+        {/* <Route exact path="/" component={Demo} /> */}
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
