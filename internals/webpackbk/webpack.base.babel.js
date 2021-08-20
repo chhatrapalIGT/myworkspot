@@ -3,13 +3,9 @@
  */
 
 const path = require('path');
-// const webpack = require('webpack');
-const Dotenv = require('dotenv-webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
 
-const IS_BUILD_SOURCE_MAP = true;
-
-const webPackConfigs = options => ({
+module.exports = options => ({
   mode: options.mode,
   entry: options.entry,
   output: Object.assign(
@@ -24,46 +20,43 @@ const webPackConfigs = options => ({
   module: {
     rules: [
       {
-        test: /\.js$/, // Transform all .js files required somewhere with Babel
-        exclude: /node_modules\/(?!(react-redux-toastr)\/).*/,
+        test: /\.jsx?$/, // Transform all .js and .jsx files required somewhere with Babel
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: options.babelQuery,
         },
       },
       {
-        test: /\.(scss|css)$/,
+        // Preprocess our own .css files
+        // This is the place to add your own loaders (e.g. sass/less etc.)
+        // for a list of loaders, see https://webpack.js.org/loaders/#styling
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        // Preprocess 3rd party .css files located in node_modules
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(eot|otf|ttf|woff|woff2)$/,
+        use: 'file-loader',
+      },
+      {
+        test: /\.svg$/,
         use: [
           {
-            loader:
-              options.mode === 'development'
-                ? 'style-loader'
-                : MiniCssExtractPlugin.loader,
-          },
-          {
-            loader: 'css-loader',
+            loader: 'svg-url-loader',
             options: {
-              sourceMap: IS_BUILD_SOURCE_MAP,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: IS_BUILD_SOURCE_MAP,
-            },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: IS_BUILD_SOURCE_MAP,
+              // Inline files smaller than 10 kB
+              limit: 10 * 1024,
+              noquotes: true,
             },
           },
         ],
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2)$/,
-        exclude: /images/,
-        use: 'file-loader',
       },
       {
         test: /\.(jpg|png|gif)$/,
@@ -100,16 +93,6 @@ const webPackConfigs = options => ({
         ],
       },
       {
-        test: /\.svg$/,
-        include: /sprite/,
-        use: 'svg-sprite-loader',
-      },
-      {
-        test: /\.svg$/,
-        use: 'url-loader',
-        exclude: /sprite/,
-      },
-      {
         test: /\.html$/,
         use: 'html-loader',
       },
@@ -128,19 +111,16 @@ const webPackConfigs = options => ({
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; Terser will automatically
     // drop any unreachable code.
-    new Dotenv(),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+    }),
   ]),
   resolve: {
-    modules: ['app', 'node_modules'],
-    alias: {
-      moment$: 'moment/moment.js',
-    },
+    modules: ['node_modules', 'app'],
     extensions: ['.js', '.jsx', '.react.js'],
-    mainFields: ['browser', 'main', 'jsnext:main'],
+    mainFields: ['browser', 'jsnext:main', 'main'],
   },
-  devtool: false,
+  devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
 });
-
-module.exports = webPackConfigs;
