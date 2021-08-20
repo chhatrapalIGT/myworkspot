@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import './styles.css';
+import './styles.scss';
 
 const FAQ = () => {
   const handlecolor = () => {};
