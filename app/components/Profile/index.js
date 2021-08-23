@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Fade, Button, Container } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import ProfileModal from './ProfileModal';
 
-const Profile = () => {
+const Profile = props => {
   const [open, setOpen] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [userListData, setUserListData] = useState([]);
   return (
     <Container>
       <div className="m-4">
@@ -82,7 +86,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
       <h3> Weekly Default Calender Section </h3>
       <div className="card m-4">
         <div className="card-body" />
@@ -96,17 +99,25 @@ const Profile = () => {
           <h6 className="text-muted">
             You can delegate My Workspot access to other colleagues at EAB
           </h6>
+          {userListData}
+          Notifications {console.log('userListData', userListData)}
           <Button bg="light" text="dark">
-            Notifications{' '}
             <span className="badge bg-white text-dark rounded-circle">4</span>
           </Button>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
             <button
+              onClick={() => setModalShow(true)}
               className="btn border-primary text-primary bg-white"
               type="button"
             >
               Delegate My workspot Access
             </button>
+            <ProfileModal
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+              handleSelectChange={props.handleSelectChange()}
+              selectedData={setUserListData}
+            />
           </div>
         </div>
       </div>
@@ -114,4 +125,7 @@ const Profile = () => {
   );
 };
 
+Profile.propTypes = {
+  handleSelectChange: PropTypes.func,
+};
 export default Profile;
