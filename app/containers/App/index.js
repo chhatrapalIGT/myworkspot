@@ -16,15 +16,17 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import ProfilePage from '../ProfilePage';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import GlobalStyle from '../../global-styles';
-import WorkSpot from '../../components/WorkSpot/index';
 import Faq from '../../components/FAQ';
+import Report from '../ReportPage';
+import Boarding from '../onBoardingPage';
 
 const App = props => (
   <div>
     <Switch>
-      <Route exact path="/" component={ProfilePage} props={props} />
+      <Route exact path="/" component={ProfilePage} />
       <Route exact path="/faq" component={Faq} />
-      <Route path="/WorkSpot" component={WorkSpot} />
+      <Route exact path="/report" props={props} component={Report} />
+      <Route exact path="/boarding" props={props} component={Boarding} />
       <Route component={NotFoundPage} />
     </Switch>
     <GlobalStyle />
