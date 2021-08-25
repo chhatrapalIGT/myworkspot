@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'Museo Slab 500';
+    src: url('MuseoSlab-500.eot');
+    src: url('MuseoSlab-500.eot?#iefix') format('embedded-opentype'),
+        url('MuseoSlab-500.woff2') format('woff2'),
+        url('MuseoSlab-500.woff') format('woff'),
+        url('MuseoSlab-500.ttf') format('truetype'),
+        url('MuseoSlab-500.svg#MuseoSlab-500') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Museo Slab 900';
+    src: url('MuseoSlab-900.eot');
+    src: url('MuseoSlab-900.eot?#iefix') format('embedded-opentype'),
+        url('MuseoSlab-900.woff2') format('woff2'),
+        url('MuseoSlab-900.woff') format('woff'),
+        url('MuseoSlab-900.ttf') format('truetype'),
+        url('MuseoSlab-900.svg#MuseoSlab-900') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Museo Slab 700';
+    src: url('MuseoSlab-700.eot');
+    src: url('MuseoSlab-700.eot?#iefix') format('embedded-opentype'),
+        url('MuseoSlab-700.woff2') format('woff2'),
+        url('MuseoSlab-700.woff') format('woff'),
+        url('MuseoSlab-700.ttf') format('truetype'),
+        url('MuseoSlab-700.svg#MuseoSlab-700') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
