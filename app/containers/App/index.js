@@ -16,6 +16,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import ProfilePage from '../ProfilePage';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import GlobalStyle from '../../global-styles';
+import WorkSpot from '../../components/WorkSpot/index';
 import Faq from '../../components/FAQ';
 
 const App = props => (
@@ -23,6 +24,7 @@ const App = props => (
     <Switch>
       <Route exact path="/" component={ProfilePage} props={props} />
       <Route exact path="/faq" component={Faq} />
+      <Route path="/WorkSpot" component={WorkSpot} />
       <Route component={NotFoundPage} />
     </Switch>
     <GlobalStyle />
