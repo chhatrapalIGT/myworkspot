@@ -43,10 +43,10 @@ const Report = props => {
                 }}
               >
                 <option>--- Select ----</option>
-                <option value="1">All Team Members</option>
-                <option value="2">Jane Coper</option>
-                <option value="3">Wade Warren</option>
-                <option value="4">Alex ander</option>
+                <option value="all">All Team Members</option>
+                <option value="jane Coper">Jane Coper</option>
+                <option value="wade Warren">Wade Warren</option>
+                <option value="alex ander">Alex ander</option>
               </Form.Control>
 
               <Form.Label>Select Office Area</Form.Label>
@@ -57,11 +57,11 @@ const Report = props => {
                 }}
               >
                 <option>--- Select ----</option>
-                <option value="1" name="Richmon">
+                <option value="richmond" name="Richmon">
                   Richmon ,VA
                 </option>
-                <option value="2">Washington ,DC</option>
-                <option value="3">Bloomington , MN</option>
+                <option value="washington">Washington ,DC</option>
+                <option value="bloomington">Bloomington , MN</option>
               </Form.Control>
               <Form.Label>Select Date</Form.Label>
 
