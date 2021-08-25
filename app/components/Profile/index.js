@@ -1,8 +1,66 @@
-import React, { useState } from 'react';
-import { Fade, Button, Container } from 'react-bootstrap';
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
+import {
+  Fade,
+  Button,
+  Container,
+  Modal,
+  Form,
+  ListGroup,
+} from 'react-bootstrap';
+import Axios from 'axios';
 
-const Profile = () => {
+const Profile = props => {
   const [open, setOpen] = useState(false);
+  const [show, setShow] = useState(false);
+  // //for modal
+  const [search, setSearch] = useState(false);
+  const [allUser, setAllUser] = useState([]);
+  const [searchName, setSearchName] = useState([]);
+  const [userListData, setUserListData] = useState([]);
+  const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
+    Axios.get(url).then(res => {
+      setAllUser(res.data);
+      setSearchName(res.data);
+    });
+  }, []);
+
+  const handleChange = event => {
+    let newList = [];
+    if (event.target.value !== '') {
+      setSearch(true);
+      newList = allUser.filter(({ userName }) => {
+        const finalDataList = userName.toLowerCase();
+        const filter = event.target.value.toLowerCase();
+        return finalDataList.includes(filter);
+      });
+    } else {
+      setSearch(false);
+      newList = allUser;
+    }
+    setSearchName(newList);
+  };
+
+  const selectData = [];
+  let finalData = [];
+  const handleUserSelect = username => {
+    if (selectData.includes(username)) {
+      const index = selectData.indexOf(username);
+      selectData.splice(index, 1);
+    } else {
+      selectData.push(username);
+    }
+    finalData = selectData;
+  };
+
+  const handleClose = () => {
+    setUserListData(finalData);
+    setShow(false);
+  };
+
   return (
     <Container>
       <div className="m-4">
@@ -43,7 +101,7 @@ const Profile = () => {
               <div className="row">
                 <p className="text-muted"> Badge Number</p>
                 {!open && (
-                  <button
+                  <Button
                     onClick={() => {
                       setOpen(!open);
                     }}
@@ -52,7 +110,7 @@ const Profile = () => {
                     type="button"
                   >
                     + Add My Badge
-                  </button>
+                  </Button>
                 )}
                 <Fade in={open}>
                   <div
@@ -69,12 +127,12 @@ const Profile = () => {
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                     />
-                    <button type="button" className="btn btn-primary ml-2">
+                    <Button type="button" className="btn btn-primary ml-2">
                       Save
-                    </button>
-                    <button type="button" className="btn btn-primary">
+                    </Button>
+                    <Button type="button" className="btn btn-primary">
                       Cancel
-                    </button>
+                    </Button>
                   </div>
                 </Fade>
               </div>
@@ -82,7 +140,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
       <h3> Weekly Default Calender Section </h3>
       <div className="card m-4">
         <div className="card-body" />
@@ -96,22 +153,73 @@ const Profile = () => {
           <h6 className="text-muted">
             You can delegate My Workspot access to other colleagues at EAB
           </h6>
-          <Button bg="light" text="dark">
-            Notifications{' '}
-            <span className="badge bg-white text-dark rounded-circle">4</span>
-          </Button>
+          {userListData.map(i => (
+            <h5>{i}</h5>
+          ))}
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button
+            <Button
+              onClick={handleShow}
               className="btn border-primary text-primary bg-white"
               type="button"
             >
               Delegate My workspot Access
-            </button>
+            </Button>
+            <Modal
+              size="md"
+              show={show}
+              onHide={handleClose}
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  Delegate My Workspot Access
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form.Control
+                  type="text"
+                  placeholder="Search"
+                  onChange={handleChange}
+                  className="mb-3"
+                />
+                <ListGroup>
+                  {searchName &&
+                    searchName.map(i => (
+                      <ListGroup.Item
+                        onClick={() => handleUserSelect(i.userName)}
+                        value={i.userName}
+                        key={i}
+                      >
+                        <img
+                          src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
+                          alt="data"
+                          width="20px"
+                        />
+                        {i.userName}
+                      </ListGroup.Item>
+                    ))}
+                </ListGroup>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={handleClose}>Save</Button>
+                <Button onClick={handleClose}>Close</Button>
+              </Modal.Footer>
+            </Modal>
           </div>
+        </div>
+      </div>
+      <div className="card m-4">
+        <div className="card-body">
+          <h5 className="text-muted">I can update my workspot for</h5>
+          {userListData.map(i => (
+            <h5>{i}</h5>
+          ))}
         </div>
       </div>
     </Container>
   );
 };
 
+Profile.propTypes = {};
 export default Profile;

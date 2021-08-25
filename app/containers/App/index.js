@@ -9,23 +9,24 @@
 
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+// import PropTypes from 'prop-types';
+import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 // import HomePage from 'containers/HomePage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Profile from '../../components/Profile';
+import ProfilePage from '../ProfilePage';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import GlobalStyle from '../../global-styles';
 import Faq from '../../components/FAQ';
 
-export default function App() {
-  return (
-    <div>
-      <Switch>
-        <Route exact path="/" component={Profile} />
-        <Route exact path="/faq" component={Faq} />
-        <Route component={NotFoundPage} />
-      </Switch>
-      <GlobalStyle />
-    </div>
-  );
-}
+const App = props => (
+  <div>
+    <Switch>
+      <Route exact path="/" component={ProfilePage} props={props} />
+      <Route exact path="/faq" component={Faq} />
+      <Route component={NotFoundPage} />
+    </Switch>
+    <GlobalStyle />
+  </div>
+);
+
+export default App;
