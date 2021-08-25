@@ -26,6 +26,9 @@ const Header = () => (
                 <a href>Office Maps</a>
               </li>
               <li>
+                <a href="/workspot">Update My Workspot</a>
+              </li>
+              <li>
                 <a href>Help</a>
               </li>
             </ul>
