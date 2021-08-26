@@ -576,7 +576,7 @@ input {
     }
   }
   .modal-body {
-    padding: 1rem 1.5rem;
+    padding: 1rem 0rem 0rem;
     max-height: calc(100vh - 230px);
     overflow: auto;
 
@@ -754,7 +754,7 @@ input {
         z-index: 99;
       }
     }
-    input[type='checkbox'] {
+    input[type='radio'] {
       position: absolute;
       cursor: pointer;
       width: 100%;
@@ -915,7 +915,6 @@ input {
     margin: 0.8rem auto;
   }
 }
-
 #app {
   padding-top: 90px;
 }

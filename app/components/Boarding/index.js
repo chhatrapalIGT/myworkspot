@@ -1,9 +1,14 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form, Container, ListGroup } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import 'font-awesome/css/font-awesome.min.css';
 import '../FAQ/styles.scss';
 import Axios from 'axios';
+import logo from '../../images/Illustration.svg';
+import plus from '../../images/plus.svg';
 
 const Boarding = ({
   handleButtonData,
@@ -12,28 +17,27 @@ const Boarding = ({
   handleUserSelect,
   handleSubmit,
 }) => {
-  const [show, setShow] = useState(false);
-
   // eslint-disable-next-line no-unused-vars
-  const [search, setSearch] = useState(false);
+  // const [search, setSearch] = useState(false);
   const [searchName, setSearchName] = useState([]);
   const [allUser, setAllUser] = useState([]);
+  const [modal, setModal] = useState(false);
 
-  const handleChange = event => {
-    let newList = [];
-    if (event.target.value !== '') {
-      setSearch(true);
-      newList = allUser.filter(({ name }) => {
-        const finalDataList = name.toLowerCase();
-        const filter = event.target.value.toLowerCase();
-        return finalDataList.includes(filter);
-      });
-    } else {
-      setSearch(false);
-      newList = allUser;
-    }
-    setSearchName(newList);
-  };
+  // const handleChange = event => {
+  //   let newList = [];
+  //   if (event.target.value !== '') {
+  //     setSearch(true);
+  //     newList = allUser.filter(({ name }) => {
+  //       const finalDataList = name.toLowerCase();
+  //       const filter = event.target.value.toLowerCase();
+  //       return finalDataList.includes(filter);
+  //     });
+  //   } else {
+  //     setSearch(false);
+  //     newList = allUser;
+  //   }
+  //   setSearchName(newList);
+  // };
 
   useEffect(() => {
     const url = `https://mocki.io/v1/0a505005-9da4-44c7-9000-0447e1dd3fb2`;
@@ -44,120 +48,170 @@ const Boarding = ({
   }, []);
 
   return (
-    <Container>
-      <div className="m-4">
-        <h3> Hello User </h3>
-      </div>
-      <div className="card m-4">
-        <div className="card-body">
-          <div className="row">
-            <div className="mb-4">
-              <div className="m-4">
-                <h3> Weekly Default </h3>
-                <p>
-                  Hello this is weekly default ... Hello this is weekly default
-                  ... Hello this is weekly default
-                </p>
+    <>
+      <div className="wrapper_main">
+        <div className="onboarding-main">
+          <div className="container">
+            <div className="top-illustration">
+              <div className="imaage-wrapper">
+                <img src={logo} alt="" />
               </div>
-              <hr className="solid" />
+              <div className="welcome">
+                <h2>Hello, Alexander</h2>
+                <p>Lets complete your My Workspot profile</p>
+              </div>
             </div>
-            <div className="card-group">
-              {state.timings.map(t => (
-                <div className="card">
-                  <div className="card-body">
-                    <h5 className="card-title">{t.day.toUpperCase()}</h5>
-                    <Button
-                      className="set_icon fa fa-plus-square "
-                      id="day"
-                      value={t.day}
-                      onClick={() => {
-                        handleButtonData(t.day);
-                        setShow(true);
-                      }}
-                    />
-                    <br />
-                    {(t && t.name && t.name) || (
-                      <p style={{ marginLeft: '20%', marginTop: '10px' }}>
-                        To Schedule
-                      </p>
-                    )}
+          </div>
+
+          <div className="weekly-default mt-40">
+            <div className="container">
+              <div className="card on-boarding-inner">
+                <h4 className="common-title">Weekly Default</h4>
+                <p className="w-50 stroke-2 mt-3">
+                  Your weekly default will pre-populate for each week unless you
+                  update My Workspot for a specific day. You can update My
+                  Workspot for a particular day on the homepage.
+                </p>
+                <div className="mt-4 weekly-default-inner px-0 d-flex flex-wrap">
+                  {state.timings.map(t => (
+                    <div className="day_one">
+                      <p className="day-name">{t.day}</p>
+
+                      <a
+                        href
+                        data-bs-toggle="modal"
+                        data-bs-target="#set_location"
+                      >
+                        <div
+                          className={`${
+                            t.name
+                              ? 'day-one-wrapper work-from-office border-top-blue'
+                              : 'day-one-wrapper add-location'
+                          }`}
+                        >
+                          {t.name || (
+                            <img
+                              className="plus-icon"
+                              src={plus}
+                              alt=""
+                              id="day"
+                              value={t.day}
+                              onClick={() => {
+                                handleButtonData(t.day);
+                                setModal(true);
+                              }}
+                            />
+                          )}
+                        </div>
+                      </a>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="badge-number">
+                  <p className="title">
+                    Badge Number <span>(Optional)</span>
+                  </p>
+                  <div className="badge-number-inner">
+                    <input type="text" disabled value="BB" />
+                    <input type="text" placeholder="XXX" />
+                    <span>−</span>
+                    <input type="text" placeholder="XXX" />
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
-            <Modal
-              size="md"
-              aria-labelledby="contained-modal-title-vcenter"
-              centered
-              show={show}
-              onHide={() => setShow(false)}
-            >
-              <Modal.Header closeIcon>
-                <Modal.Title id="contained-modal-title-vcenter">
-                  Set {state.selectedDay.toUpperCase()} Schedule
-                  <h6>Choose Your Place</h6>
-                </Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form.Control
-                  type="text"
-                  placeholder="Search"
-                  onChange={handleChange}
-                  className="mb-3"
-                />
-                <ListGroup>
-                  {searchName &&
-                    searchName.map(i => (
-                      <ListGroup.Item
-                        onClick={() => handleUserSelect(i.name)}
-                        value={i.name}
-                        key={i}
-                        className="fa fa-building"
-                      >
-                        {' '}
-                        {i.name}
-                      </ListGroup.Item>
-                    ))}
-                </ListGroup>
-                <p>Remote work</p>
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="exampleCheck1"
-                    onClick={() => handleCheckbox()}
-                  />
-                  {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                  <label>Apply to all days of the week</label>
-                </div>
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="exampleCheck1"
-                  />
-                  {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                  <label>Private space requested</label>
-                </div>
-              </Modal.Body>
-              <Modal.Footer className="footer_data">
-                <Button
-                  onClick={() => {
-                    handleSubmit();
-                    setShow(false);
-                  }}
-                >
-                  Save
-                </Button>
-                <Button variant="outline-dark" onClick={() => setShow(false)}>
-                  Cancel
-                </Button>
-              </Modal.Footer>
-            </Modal>
+          </div>
+
+          <div className="container">
+            <button type="submit" className=" action-btn">
+              Confirm
+            </button>
           </div>
         </div>
       </div>
-    </Container>
+
+      <Modal
+        className="modal fade test_modal"
+        show={modal}
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header d-block">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Set Tuesday Schedule
+              </h5>
+              <p className="mb-0 mt-2 stroke-2">
+                Choose a place where you usually work on this day <br /> of the
+                week
+              </p>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setModal(false)}
+              />
+            </div>
+            <div className="modal-body">
+              <form className="delegate-workspot-access" action="submit">
+                <span className="small-title stroke-2 d-block mb-2">
+                  EAB Office
+                </span>
+                {searchName &&
+                  searchName.map(i => (
+                    <div className="form-group">
+                      {/* <div className="color-block blue-bg" /> */}
+                      <input
+                        id={i.name}
+                        type="radio"
+                        name="location"
+                        className="checkbox"
+                        value={i.name}
+                        onClick={() => handleUserSelect(i.name, true)}
+                      />
+                      <label htmlFor="jane">{i.name} </label>
+                    </div>
+                  ))}
+
+                <div className="applyall d-flex align-items-center">
+                  <input
+                    type="checkbox"
+                    id="apply-all"
+                    onClick={() => handleCheckbox()}
+                  />
+                  <label htmlFor="apply-all" className="stroke-2">
+                    Apply to all days of the week
+                  </label>
+                </div>
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn save-data"
+                onClick={() => {
+                  handleSubmit();
+                  setModal(false);
+                }}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="btn dismiss"
+                data-bs-dismiss="modal"
+                onClick={() => setModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 };
 
