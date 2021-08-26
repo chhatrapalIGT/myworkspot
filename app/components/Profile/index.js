@@ -1,15 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import {
-  Fade,
-  Button,
-  Container,
-  Modal,
-  Form,
-  ListGroup,
-} from 'react-bootstrap';
+import React, { useState, useEffect, Fragment } from 'react';
 import Axios from 'axios';
-
+import { Modal } from 'react-bootstrap';
+import ProfileImg from '../assets/images/myprofile.png';
+import Edit from '../assets/images/edit.svg';
+import Close from '../assets/images/close.svg';
+import Work from '../assets/images/workspot1.png';
 const Profile = props => {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
@@ -18,8 +14,6 @@ const Profile = props => {
   const [allUser, setAllUser] = useState([]);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
-  const handleShow = () => setShow(true);
-
   useEffect(() => {
     const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
     Axios.get(url).then(res => {
@@ -62,162 +56,216 @@ const Profile = props => {
   };
 
   return (
-    <Container>
-      <div className="m-4">
-        <h3> My Profile </h3>
+    <Fragment>
+      <div className="wrapper_main">
+        <div className="my-profile">
+          <div className="container">
+            <h4 className="common-title">My Profile</h4>
+            <div className="card my-profile-inner">
+              <div className="left-aside d-flex align-items-center justify-content-center">
+                <div className="wrapper">
+                  <div className="profile-picture">
+                    <img src={ProfileImg} alt="" />
+                  </div>
+                  <h3 className="profile-username">Alexander Doe</h3>
+                  <span className="designation">UX / UI Designer</span>
+                </div>
+              </div>
+              <div className="right-content">
+                <div className="col_one">
+                  <div className="attr_one">
+                    <span>Employee ID</span>
+                    <p>237561</p>
+                  </div>
+                  <div className="attr_one">
+                    <span>Manager</span>
+                    <p>Cameron Williamson</p>
+                  </div>
+                </div>
+                <div className="col_one">
+                  <div className="attr_one">
+                    <span>Primary Office</span>
+                    <p>Birmingham, AL</p>
+                  </div>
+                  <div className="attr_one">
+                    <span>Assigned Space</span>
+                    <p>1435</p>
+                  </div>
+                </div>
+                <div className="col_one">
+                  <div className="attr_one">
+                    <span>Badge Number</span>
+                    <p>BB 4878 999</p>
+                    <a className="replace" href>
+                      <img src={Edit} alt="" />
+                      Replace My Badge
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="weekly-default mt-40">
+          <div className="container">
+            <h4 className="common-title">Weekly Default</h4>
+            <p className="w-50 stroke-2 mt-3">
+              Your weekly default will pre-populate for each week unless you
+              update My Workspot for a specific day. You can update My Workspot
+              for a particular day on the homepage.
+            </p>
+            <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
+              <div className="day_one">
+                <p className="day-name">Monday</p>
+                <div className="day-one-wrapper work-from-office border-top-blue">
+                  <p className="work-station">Washington, DC</p>
+                </div>
+              </div>
+              <div className="day_one">
+                <p className="day-name">Tuesday</p>
+                <div className="day-one-wrapper work-from-office border-top-orange">
+                  <p className="work-station">Richmond, VA</p>
+                </div>
+              </div>
+              <div className="day_one">
+                <p className="day-name">Monday</p>
+                <div className="day-one-wrapper work-from-office border-top-orange">
+                  <p className="work-station">Richmond, VA</p>
+                </div>
+              </div>
+              <div className="day_one">
+                <p className="day-name">Monday</p>
+                <div className="day-one-wrapper work-from-home">
+                  <p className="work-station">Remote Work</p>
+                </div>
+              </div>
+              <div className="day_one">
+                <p className="day-name">Monday</p>
+                <div className="day-one-wrapper work-from-home">
+                  <p className="work-station">Remote Work</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="workspot-access mt-40">
+          <div className="container">
+            <h4 className="common-title">My Workspot Access</h4>
+            <p className="w-50 stroke-2 mt-3">
+              You can delegate My Workspot access to other colleagues at EAB.
+            </p>
+            <div className="card mt-4 work-access-inner">
+              <div className="d-flex w-100 justify-content-between align-items-center">
+                <h5>Delegate My Workspot access to</h5>
+                <button
+                  type="button"
+                  onClick={() => setShow(true)}
+                  className="btn blue-color-btn"
+                >
+                  Delegate My Workspot Access
+                </button>
+              </div>
+              <div className="access-to">
+                {userListData &&
+                  userListData.map(i => (
+                    <div className="access-one">
+                      <img src={ProfileImg} alt="" />
+                      {i}
+                      <a className="close_btn" href>
+                        <img src={Close} alt="" />
+                      </a>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="workspot-access mt-4">
+          <div className="container">
+            <div className="card work-access-inner">
+              <div className="d-flex w-100 justify-content-between align-items-center">
+                <h5>I Can Update My Workspot for</h5>
+              </div>
+              <div className="access-to update-workshop">
+                <div className="access-one">
+                  <img src="./images/profileof.png" alt="" />
+                  Wade Warren
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="card m-4">
-        <div className="card-body">
-          <div className="row">
-            <div className="col-3">
-              <img
-                src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-                className="rounded-circle"
-                alt="img_profile"
-                width="200px"
+
+      <Modal
+        className="modal fade test_modal"
+        show={show}
+        onHide={handleClose}
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Modal title
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => {
+                  setShow(false);
+                }}
               />
             </div>
-            <div className="col-2 my-auto">
-              <div className="row">
-                <p className="text-muted"> Employee ID</p>
-                <p> 132545</p>
-              </div>
-              <div className="row">
-                <p className="text-muted"> Manager </p>
-                <p> 132545</p>
-              </div>
-            </div>
-            <div className="col-2 my-auto">
-              <div className="row">
-                <p className="text-muted"> Primary Office</p>
-                <p> 132545</p>
-              </div>
-              <div className="row">
-                <p className="text-muted"> Assigned Space </p>
-                <p> 132545</p>
-              </div>
-            </div>
-            <div className="col-5 mt-3">
-              <div className="row">
-                <p className="text-muted"> Badge Number</p>
-                {!open && (
-                  <Button
-                    onClick={() => {
-                      setOpen(!open);
-                    }}
-                    aria-controls="example-fade-text"
-                    aria-expanded={open}
-                    type="button"
-                  >
-                    + Add My Badge
-                  </Button>
-                )}
-                <Fade in={open}>
-                  <div
-                    className="input-group mb-3 collapse"
-                    id="example-fade-text"
-                  >
-                    <span className="input-group-text" id="basic-addon1">
-                      BB
-                    </span>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="223-423"
-                      aria-label="Username"
-                      aria-describedby="basic-addon1"
-                    />
-                    <Button type="button" className="btn btn-primary ml-2">
-                      Save
-                    </Button>
-                    <Button type="button" className="btn btn-primary">
-                      Cancel
-                    </Button>
-                  </div>
-                </Fade>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <h3> Weekly Default Calender Section </h3>
-      <div className="card m-4">
-        <div className="card-body" />
-      </div>
-      <h3> My Workspot Access </h3>
-      <h6 className="text-muted">
-        You can delegate My Workspot access to other colleagues at EAB
-      </h6>
-      <div className="card m-4">
-        <div className="card-body">
-          <h6 className="text-muted">
-            You can delegate My Workspot access to other colleagues at EAB
-          </h6>
-          {userListData.map(i => (
-            <h5>{i}</h5>
-          ))}
-          <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-            <Button
-              onClick={handleShow}
-              className="btn border-primary text-primary bg-white"
-              type="button"
-            >
-              Delegate My workspot Access
-            </Button>
-            <Modal
-              size="md"
-              show={show}
-              onHide={handleClose}
-              aria-labelledby="contained-modal-title-vcenter"
-              centered
-            >
-              <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
-                  Delegate My Workspot Access
-                </Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form.Control
-                  type="text"
-                  placeholder="Search"
+            <div className="modal-body">
+              <form className="delegate-workspot-access" action="submit">
+                <input
+                  type="search"
+                  placeholder="Search..."
+                  className="searchbox"
                   onChange={handleChange}
-                  className="mb-3"
                 />
-                <ListGroup>
-                  {searchName &&
-                    searchName.map(i => (
-                      <ListGroup.Item
-                        onClick={() => handleUserSelect(i.userName)}
-                        value={i.userName}
-                        key={i}
-                      >
-                        <img
-                          src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
-                          alt="data"
-                          width="20px"
-                        />
-                        {i.userName}
-                      </ListGroup.Item>
-                    ))}
-                </ListGroup>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button onClick={handleClose}>Save</Button>
-                <Button onClick={handleClose}>Close</Button>
-              </Modal.Footer>
-            </Modal>
+                {searchName &&
+                  searchName.map(i => (
+                    <div
+                      aria-hidden="true"
+                      className="form-group"
+                      onClick={() => handleUserSelect(i.userName)}
+                    >
+                      <img src={ProfileImg} alt="" />
+                      <input id="jane" type="checkbox" className="checkbox" />
+                      <label htmlFor="jane">{i.userName}</label>
+                    </div>
+                  ))}
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="btn save-data"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                onClick={() => setShow(false)}
+                className="btn dismiss"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="card m-4">
-        <div className="card-body">
-          <h5 className="text-muted">I can update my workspot for</h5>
-          {userListData.map(i => (
-            <h5>{i}</h5>
-          ))}
-        </div>
-      </div>
-    </Container>
+      </Modal>
+    </Fragment>
   );
 };
 
