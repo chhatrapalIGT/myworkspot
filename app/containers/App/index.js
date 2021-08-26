@@ -23,10 +23,10 @@ import Boarding from '../onBoardingPage';
 const App = props => (
   <div>
     <Switch>
-      <Route exact path="/" component={ProfilePage} />
+      <Route exact path="/" component={Boarding} props={props} />
+      <Route exact path="/profile" component={ProfilePage} props={props} />
       <Route exact path="/faq" component={Faq} />
       <Route exact path="/report" props={props} component={Report} />
-      <Route exact path="/boarding" props={props} component={Boarding} />
       <Route component={NotFoundPage} />
     </Switch>
     <GlobalStyle />

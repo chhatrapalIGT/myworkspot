@@ -11,31 +11,31 @@ class BorardingPage extends Component {
     super(props);
     this.state = {
       selectedDay: '',
-      selectedNames: [],
+      selectedNames: '',
       checked: false,
       timings: [
         {
-          day: 'monday',
+          day: 'Monday',
           active: false,
           name: '',
         },
         {
-          day: 'tuesday',
+          day: 'Tuesday',
           active: false,
           name: '',
         },
         {
-          day: 'wednesday',
+          day: 'Wednesday',
           active: false,
           name: '',
         },
         {
-          day: 'thursday',
+          day: 'Thursday',
           active: false,
           name: '',
         },
         {
-          day: 'friday',
+          day: 'Friday',
           active: false,
           name: '',
         },
