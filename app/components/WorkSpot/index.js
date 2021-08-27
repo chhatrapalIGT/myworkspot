@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Modal from 'react-bootstrap/Modal';
+import moment from 'moment';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './custom.scss';
@@ -111,14 +112,17 @@ const WorkSpot = () => {
                     {/* <Datepicker
                       controls={['calendar']}
                       display="inline"
+                      min={moment().toDate()}
                       onChange={date => {
                         onChange(date);
                       }}
                       selectMultiple={true}
                       selectCounter={true}
+                      dateFormat="MMM DD,YYYY"
+
                       // marked={[
                       //   {
-                      //     date: data && data.date,
+                      //     date: new Date(2021, 7, 29),
                       //     color: '#46c4f3',
                       //     markCssClass: 'square-mark',
                       //   },
