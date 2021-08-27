@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-boolean-value */
 import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
@@ -7,11 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './custom.scss';
 import { CloseButton } from 'react-bootstrap';
-import 'react-calendar/dist/Calendar.css';
 // import Axios from 'axios';
-
-import '@mobiscroll/react/dist/css/mobiscroll.min.css';
-import { Datepicker } from '@mobiscroll/react';
 
 const WorkSpot = () => {
   const [isModal, setModal] = useState(false);
@@ -111,7 +108,7 @@ const WorkSpot = () => {
 
                 <div className="calendar">
                   <div className="mb-4 react-calendar">
-                    <Datepicker
+                    {/* <Datepicker
                       controls={['calendar']}
                       display="inline"
                       onChange={date => {
@@ -126,7 +123,7 @@ const WorkSpot = () => {
                       //     markCssClass: 'square-mark',
                       //   },
                       // ]}
-                    />
+                    /> */}
 
                     <div className="mt-0 react-calendar">
                       <div className="card-body">
