@@ -89,17 +89,7 @@ const Boarding = ({
                               : 'day-one-wrapper add-location'
                           }`}
                         >
-                          {t.name ? (
-                            <label
-                              value={t.day}
-                              onClick={() => {
-                                handleButtonData(t.day);
-                                setModal(true);
-                              }}
-                            >
-                              {t.name}
-                            </label>
-                          ) : (
+                          {t.name || (
                             <img
                               className="plus-icon"
                               src={plus}
@@ -144,7 +134,6 @@ const Boarding = ({
       <Modal
         className="modal fade test_modal"
         show={modal}
-        onHide={() => setModal(false)}
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
@@ -152,8 +141,7 @@ const Boarding = ({
           <div className="modal-content">
             <div className="modal-header d-block">
               <h5 className="modal-title" id="exampleModalLabel">
-                Set {state.selectedDay && state.selectedDay.toUpperCase()}{' '}
-                Schedule
+                Set Tuesday Schedule
               </h5>
               <p className="mb-0 mt-2 stroke-2">
                 Choose a place where you usually work on this day <br /> of the
@@ -184,9 +172,7 @@ const Boarding = ({
                         value={i.name}
                         onClick={() => handleUserSelect(i.name, true)}
                       />
-                      <label htmlFor="jane" value={i.name}>
-                        {i.name}
-                      </label>
+                      <label htmlFor="jane">{i.name} </label>
                     </div>
                   ))}
 

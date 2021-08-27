@@ -6,8 +6,57 @@ import ProfileImg from '../assets/images/myprofile.png';
 import Edit from '../assets/images/edit.svg';
 import Close from '../assets/images/close.svg';
 import Work from '../assets/images/workspot1.png';
-const Profile = props => (
-  <Fragment>
+const Profile = props => {
+  const [open, setOpen] = useState(false);
+  const [show, setShow] = useState(false);
+  // //for modal
+  const [search, setSearch] = useState(false);
+  const [allUser, setAllUser] = useState([]);
+  const [searchName, setSearchName] = useState([]);
+  const [userListData, setUserListData] = useState([]);
+  useEffect(() => {
+    const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
+    Axios.get(url).then(res => {
+      setAllUser(res.data);
+      setSearchName(res.data);
+    });
+  }, []);
+
+  const handleChange = event => {
+    let newList = [];
+    if (event.target.value !== '') {
+      setSearch(true);
+      newList = allUser.filter(({ userName }) => {
+        const finalDataList = userName.toLowerCase();
+        const filter = event.target.value.toLowerCase();
+        return finalDataList.includes(filter);
+      });
+    } else {
+      setSearch(false);
+      newList = allUser;
+    }
+    setSearchName(newList);
+  };
+
+  const selectData = [];
+  let finalData = [];
+  const handleUserSelect = username => {
+    if (selectData.includes(username)) {
+      const index = selectData.indexOf(username);
+      selectData.splice(index, 1);
+    } else {
+      selectData.push(username);
+    }
+    finalData = selectData;
+  };
+
+  const handleClose = () => {
+    setUserListData(finalData);
+    setShow(false);
+  };
+
+  return (
+    <Fragment>
     <div className="wrapper_main">
       <div className="my-profile">
         <div className="container">
@@ -112,15 +161,15 @@ const Profile = props => (
               <h5>Delegate My Workspot access to</h5>
               <button
                 type="button"
-                onClick={props.handleShow}
+                onClick={() => setShow(true)}
                 className="btn blue-color-btn"
               >
                 Delegate My Workspot Access
               </button>
             </div>
             <div className="access-to">
-              {props.state.userListData &&
-                props.state.userListData.map(i => (
+              {userListData &&
+                userListData.map(i => (
                   <div className="access-one">
                     <img src={ProfileImg} alt="" />
                     {i}
@@ -153,8 +202,8 @@ const Profile = props => (
 
     <Modal
       className="modal fade test_modal"
-      show={props.state.show}
-      onHide={() => props.handleClose()}
+      show={show}
+      onHide={() => handleClose()}
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
@@ -169,7 +218,9 @@ const Profile = props => (
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
-              onClick={props.handleClose}
+              onClick={() => {
+                setShow(false);
+              }}
             />
           </div>
           <div className="modal-body">
@@ -178,14 +229,14 @@ const Profile = props => (
                 type="search"
                 placeholder="Search..."
                 className="searchbox"
-                onChange={props.handleChange}
+                onChange={handleChange}
               />
-              {props.state.searchName &&
-                props.state.searchName.map(i => (
+              {searchName &&
+                searchName.map(i => (
                   <div
                     aria-hidden="true"
                     className="form-group"
-                    onClick={() => props.handleUserSelect(i.userName)}
+                    onClick={() => handleUserSelect(i.userName)}
                   >
                     <img src={ProfileImg} alt="" />
                     <input id="jane" type="checkbox" className="checkbox" />
@@ -197,14 +248,14 @@ const Profile = props => (
           <div className="modal-footer">
             <button
               type="button"
-              onClick={props.handleClose}
+              onClick={handleClose}
               className="btn save-data"
             >
               Save
             </button>
             <button
               type="button"
-              onClick={props.handleClose}
+              onClick={() => setShow(false)}
               className="btn dismiss"
               data-bs-dismiss="modal"
             >
