@@ -15,6 +15,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 // import HomePage from 'containers/HomePage/Loadable';
 import Spinner from 'react-bootstrap/Spinner';
 import ProfilePage from '../ProfilePage';
+import Washington from '../../components/OfficeWDC ';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import Faq from '../../components/FAQ';
 import Report from '../ReportPage';
@@ -41,6 +42,7 @@ const App = props => {
           <Route exact path="/faq" component={Faq} />
           <Route exact path="/report" props={props} component={Report} />
           <Route exact path="/workspot" props={props} component={WorkSpot} />
+          <Route exact path="/office" component={Washington} props={props} />
           <Route component={NotFoundPage} />
         </Switch>
       )}

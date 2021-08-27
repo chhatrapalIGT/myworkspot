@@ -28,25 +28,25 @@ const Header = () => {
         <div className="container">
           <div className="header_wrapper d-flex align-items-center justify-content-between">
             <div className="logo_wrapper">
-              <a href>
+              <a href="true">
                 <img src={Headerlogo} alt="" />
               </a>
             </div>
             <div className={`${sidebar && 'show'} main-menu`}>
               <ul>
                 <li>
-                  <a className="active" href="./">
+                  <a className="active" href="true">
                     Home
                   </a>
                 </li>
                 <li>
-                  <a href="./MyTeam.html">My Team</a>
+                  <a href="true">My Team</a>
                 </li>
                 <li>
-                  <a href>Office Maps</a>
+                  <a href="true">Office Maps</a>
                 </li>
                 <li>
-                  <a href>Help</a>
+                  <a href="true">Help</a>
                 </li>
               </ul>
             </div>
@@ -63,16 +63,16 @@ const Header = () => {
               <div className={`profile-inner ${editProfile && 'opened'}`}>
                 <ul className="profile-menus">
                   <li>
-                    <a href="/profilepage.html">Profile</a>
+                    <a href="true">Profile</a>
                   </li>
                   <li>
-                    <a href>Options</a>
+                    <a href="true">Options</a>
                   </li>
                   <li>
-                    <a href>Change password</a>
+                    <a href="true">Change password</a>
                   </li>
                   <li>
-                    <a href>Logout</a>
+                    <a href="true">Logout</a>
                   </li>
                 </ul>
               </div>
