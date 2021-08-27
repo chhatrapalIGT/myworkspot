@@ -16,6 +16,7 @@ const Report = props => {
           variant="primary"
           className="justify-content-md-end"
           onClick={() => setShow(true)}
+          style={{ marginTop: '40px', backgroundColor: '#002d50' }}
         >
           Invite Team to the Office
         </Button>
@@ -48,7 +49,6 @@ const Report = props => {
                 <option value="wade Warren">Wade Warren</option>
                 <option value="alex ander">Alex ander</option>
               </Form.Control>
-
               <Form.Label>Select Office Area</Form.Label>
               <Form.Control
                 as="select"
@@ -64,7 +64,6 @@ const Report = props => {
                 <option value="bloomington">Bloomington , MN</option>
               </Form.Control>
               <Form.Label>Select Date</Form.Label>
-
               <div className="date_pick">
                 <MultipleDatePicker
                   disabled

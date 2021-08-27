@@ -154,7 +154,7 @@ const Profile = props => (
     <Modal
       className="modal fade test_modal"
       show={props.state.show}
-      onHide={props.handleClose}
+      onHide={() => props.handleClose()}
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
