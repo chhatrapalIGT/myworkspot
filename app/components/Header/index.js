@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import '../assets/css/style.scss';
 import '../assets/css/style.css';
 import Headerlogo from '../assets/images/logo_main.svg';
@@ -7,6 +7,21 @@ import Profile from '../assets/images/profileof.png';
 const Header = () => {
   const [sidebar, setSidebar] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
+  const divRef = useRef();
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside, false);
+    document.addEventListener('mousedown', handleClickOutside, false);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside, false);
+      document.removeEventListener('mousedown', handleClickOutside, false);
+    };
+  });
+  const handleClickOutside = event => {
+    if (divRef && divRef.current && !divRef.current.contains(event.target)) {
+      setEditProfile(false);
+    }
+  };
   return (
     <div>
       <header className="site-header">
@@ -35,10 +50,11 @@ const Header = () => {
                 </li>
               </ul>
             </div>
-            <div className="right-menus">
+            <div className="right-menus" ref={divRef}>
               <div
                 aria-hidden="true"
                 onClick={() => setEditProfile(!editProfile)}
+                onHide={() => setEditProfile(false)}
                 className={`username has-dropdown ${editProfile && 'toggled'}`}
               >
                 <span>Alexander</span>{' '}
