@@ -11,7 +11,7 @@ const OfficeWDC = () => {
   const [office, setOffice] = useState('');
   const [allUser, setAllUser] = useState([]);
   const [floor, setFloor] = useState([]);
-  const [finalFloor, setFinalFloor] = useState([]);
+  const [finalFloor, setFinalFloor] = useState('Floor1');
 
   useEffect(() => {
     const url = `https://mocki.io/v1/0a505005-9da4-44c7-9000-0447e1dd3fb2`;
@@ -64,7 +64,7 @@ const OfficeWDC = () => {
           case 'Floor1':
             return Uber;
           case 'Floor 2':
-            return Talabat;
+            return Swiggy;
         }
         break;
       case 'Birmigham , AL':
@@ -100,7 +100,9 @@ const OfficeWDC = () => {
               {allUser &&
                 allUser.map(obj => (
                   <>
-                    <option value={obj.name}>{obj.name}</option>
+                    <option value={obj.name} key={obj.name}>
+                      {obj.name}
+                    </option>
                   </>
                 ))}
             </Form.Control>
