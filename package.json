@@ -82,11 +82,11 @@
     "invariant": "2.2.4",
     "ip": "1.1.5",
     "lodash": "4.17.11",
-    "mini-css-extract-plugin": "^1.0.0",
+    "mini-css-extract-plugin": "^2.2.0",
     "minimist": "1.2.0",
     "node-sass": "^4.14.1",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
-    "postcss-loader": "^4.0.4",
+    "postcss-loader": "^4.2.0",
     "prop-types": "15.7.2",
     "react": "16.8.6",
     "react-bootstrap": "^1.6.1",
@@ -100,7 +100,7 @@
     "redux-saga": "1.0.2",
     "reselect": "4.0.0",
     "sanitize.css": "8.0.0",
-    "sass-loader": "^10.0.3",
+    "sass-loader": "^10.1.1",
     "styled-components": "4.2.0"
   },
   "devDependencies": {
