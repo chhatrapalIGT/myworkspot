@@ -1,13 +1,24 @@
 /* eslint-disable default-case */
 import React, { useState, useEffect } from 'react';
-import { Card, Form, ListGroup, Badge } from 'react-bootstrap';
 import Axios from 'axios';
+import PropTypes from 'prop-types';
+
 import Office from '../../images/off.svg';
 import Swiggy from '../../images/swiggy.png';
 import Talabat from '../../images/talabat.png';
-import Uber from '../../images/ubereats.png';
+import heartImage from '../../images/heart.png';
+import location from '../../images/location.png';
+import Zoomin from '../../images/zoomin.png';
+import Zoomout from '../../images/zoomout.png';
+import Floor from '../../images/floormap.png';
 
-const OfficeWDC = () => {
+const OfficeWDC = ({
+  imgRefData,
+  handleZoomIn,
+  handleZoomOut,
+  handleDefault,
+  imgStyle,
+}) => {
   const [office, setOffice] = useState('');
   const [allUser, setAllUser] = useState([]);
   const [floor, setFloor] = useState([]);
@@ -54,7 +65,7 @@ const OfficeWDC = () => {
       case 'Washington , DC':
         switch (finalFloor) {
           case 'Floor1':
-            return Swiggy;
+            return Floor;
           case 'Floor 2':
             return Talabat;
         }
@@ -62,7 +73,7 @@ const OfficeWDC = () => {
       case 'Richmond , VA':
         switch (finalFloor) {
           case 'Floor1':
-            return Uber;
+            return Floor;
           case 'Floor 2':
             return Swiggy;
         }
@@ -81,75 +92,149 @@ const OfficeWDC = () => {
   };
 
   return (
-    <div className="container">
-      <div className="row my-3">
-        <div className="col-6">
-          <h2>Office Maps</h2>
-        </div>
-        <div className="col-6 d-flex">
-          <Form.Group controlId="floatingSelect" className="d-flex">
-            <Form.Control
-              className="dropdown_list"
-              as="select"
-              value={office}
-              onChange={e => {
-                setOffice(e.target.value);
-              }}
-            >
-              <option>----Open this select menu----</option>
-              {allUser &&
-                allUser.map(obj => (
-                  <>
-                    <option value={obj.name} key={obj.name}>
-                      {obj.name}
-                    </option>
-                  </>
-                ))}
-            </Form.Control>
-            <Form.Control
-              className="dropdown_list"
-              as="select"
-              onChange={e => {
-                setFinalFloor(e.target.value);
-              }}
-              onClick={() => setFloors(office)}
-            >
-              {floor && floor.length
-                ? floor &&
-                  floor.map(obj => (
-                    <>
-                      <option value={obj}>{obj}</option>
-                    </>
-                  ))
-                : 'No Floor Found'}
-            </Form.Control>
-          </Form.Group>
+    <div className="wrapper_main">
+      <div className="office_maps">
+        <div className="container">
+          <div className="head d-flex align-items-center">
+            <h4 className="common-title">Office Maps</h4>
+            <div className="office-selections">
+              <div className="selction_one">
+                <label htmlFor="Office">Office</label>
+                <select
+                  name=""
+                  id=""
+                  value={office}
+                  onChange={e => {
+                    setOffice(e.target.value);
+                  }}
+                >
+                  {allUser &&
+                    allUser.map(obj => (
+                      <>
+                        <option value={obj.name} key={obj.name}>
+                          {obj.name}
+                        </option>
+                      </>
+                    ))}
+                </select>
+              </div>
+              <div className="selction_one">
+                <label htmlFor="Building/Floor">Building/Floor</label>
+                <select
+                  name=""
+                  id=""
+                  onChange={e => {
+                    setFinalFloor(e.target.value);
+                  }}
+                  onClick={() => setFloors(office)}
+                >
+                  {floor && floor.length
+                    ? floor &&
+                      floor.map(obj => (
+                        <>
+                          <option value={obj}>{obj}</option>
+                        </>
+                      ))
+                    : 'No Floor Found'}
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <Card>
-        <div className="row">
-          <div className="col-3">
-            <ListGroup>
-              <ListGroup.Item>
-                {office}
-                <br />
-                <Badge pill bg="primary" className="bg-success">
-                  {finalFloor}
-                </Badge>
-              </ListGroup.Item>
-              <h5>Office resource</h5>
-              <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-              <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-              <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-              <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-            </ListGroup>
-          </div>
-          <div className="col-9">
-            <img src={Icon(office, finalFloor)} alt="office" />
+      <div className="office-structure mt-4">
+        <div className="container">
+          <div className="card office-structure-inner">
+            <div className="left-panel">
+              <div className="office-info">
+                <p className="name"> {office}</p>
+                <span className="floor"> {finalFloor}</span>
+              </div>
+              <div className="office-resource">
+                <p>Office Resources</p>
+                <div className="office-part-one yellow">
+                  <span className="informer" />
+                  <label htmlFor="my-spot">Yellow</label>
+                </div>
+                <div className="office-part-one teal">
+                  <span className="informer" />
+                  <label htmlFor="my-spot">Teal</label>
+                </div>
+                <div className="office-part-one orange">
+                  <span className="informer" />
+                  <label htmlFor="my-spot">Orange</label>
+                </div>
+                <div className="office-part-one blue">
+                  <span className="informer" />
+                  <label htmlFor="my-spot">Blue</label>
+                </div>
+                <div className="office-part-one teal">
+                  <span className="informer">315</span>
+                  <label htmlFor="my-spot">Bel-Air</label>
+                </div>
+                <div className="office-part-one teal">
+                  <span className="informer">332</span>
+                  <label htmlFor="my-spot">Walkerville</label>
+                </div>
+                <div className="office-part-one white">
+                  <span className="informer">334</span>
+                  <label htmlFor="my-spot">Common Room</label>
+                </div>
+                <div className="office-part-one black">
+                  <span className="informer">359</span>
+                  <label htmlFor="my-spot">The Post</label>
+                </div>
+                <div className="office-part-one heart pink">
+                  <span className="informer">
+                    <img src={heartImage} alt="" />
+                  </span>
+                  <label htmlFor="my-spot">AED</label>
+                </div>
+              </div>
+            </div>
+            <div className="right-map">
+              <img
+                src={Icon(office, finalFloor)}
+                alt=""
+                ref={imgRefData}
+                style={imgStyle}
+              />
+              <div className="toolbar">
+                <button
+                  className="location"
+                  type="button"
+                  onClick={() => handleDefault()}
+                >
+                  <img src={location} alt="" />
+                </button>
+                <button
+                  className="zoomin"
+                  type="button"
+                  onClick={() => handleZoomIn()}
+                >
+                  <img src={Zoomin} alt="" />
+                </button>
+                <button
+                  className="zoomout"
+                  type="button"
+                  onClick={() => handleZoomOut()}
+                >
+                  <img src={Zoomout} alt="" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
+};
+
+OfficeWDC.propTypes = {
+  imgRefData: PropTypes.object,
+  imgStyle: PropTypes.object,
+  handleZoomOut: PropTypes.func,
+  handleZoomIn: PropTypes.func,
+  handleDefault: PropTypes.func,
 };
 export default OfficeWDC;

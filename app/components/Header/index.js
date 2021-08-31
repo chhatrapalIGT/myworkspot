@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../assets/css/style.scss';
 import '../assets/css/style.css';
+import { Link } from 'react-router-dom';
 import Headerlogo from '../assets/images/logo_main.svg';
 import Profile from '../assets/images/profileof.png';
 
@@ -43,7 +44,9 @@ const Header = () => {
                   <a href="true">My Team</a>
                 </li>
                 <li>
-                  <a href="true">Office Maps</a>
+                  <Link to="/office" activeClassName="active">
+                    <a href="true">Office Maps</a>
+                  </Link>
                 </li>
                 <li>
                   <a href="true">Help</a>

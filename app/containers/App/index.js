@@ -15,7 +15,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 // import HomePage from 'containers/HomePage/Loadable';
 import Spinner from 'react-bootstrap/Spinner';
 import ProfilePage from '../ProfilePage';
-import Washington from '../../components/OfficeWDC ';
+import Washington from '../OfficeMapPage';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import Faq from '../../components/FAQ';
 import Report from '../ReportPage';
