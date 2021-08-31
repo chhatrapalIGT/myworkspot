@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import 'font-awesome/css/font-awesome.min.css';
 import '../FAQ/styles.scss';
 import Axios from 'axios';
 import logo from '../../images/Illustration.svg';
