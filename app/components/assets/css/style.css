@@ -1027,6 +1027,14 @@ input {
 /*# sourceMappingURL=style.css.map */
 
 /****************************************************Responsive***********************************/
+@media (max-width: 1365px) {
+  .building-block-head .block-info .building-name,
+  .building-block-head .block-info .floor-name,
+  .building-block-head .block-info .color-code {
+    font-size: 32px;
+  }
+}
+
 @media (max-width: 1199px) {
   .w-50 {
     width: 100% !important;
@@ -1052,6 +1060,47 @@ input {
   }
   body.modal-open .site-header {
     width: 100%;
+  }
+  .building-block-head .block-info .building-name,
+  .building-block-head .block-info .floor-name,
+  .building-block-head .block-info .color-code {
+    font-size: 32px;
+  }
+  .building-block-head .building-location-strip {
+    margin-top: 60px;
+  }
+  .building-block-head .block-info {
+    margin-top: 0;
+  }
+  .building-block-head {
+    background-size: auto !important;
+  }
+  .weekly-default
+    .weekly-default-inner
+    .day_one
+    .day-one-wrapper
+    .work-station {
+    font-size: 12px;
+  }
+  .office-structure .office-structure-inner .left-panel .office-info {
+    padding: 20px 18px 15px;
+  }
+  .office-structure .office-structure-inner .left-panel .office-resource {
+    padding: 20px 18px;
+  }
+  .myteam_wrapper
+    .weekly-default
+    .weekly-default-inner
+    .my_team_member
+    .member-name {
+    font-size: 12px;
+  }
+  .myteam_wrapper
+    .weekly-default
+    .weekly-default-inner
+    .my_team_member
+    .designation {
+    font-size: 10px;
   }
 }
 
@@ -1145,6 +1194,89 @@ input {
   .onboarding-main .top-illustration .welcome h2 {
     font-size: 26px;
   }
+  .update-office-workspot .weekly-default-inner .day_one .date {
+    margin-bottom: 12px;
+    width: 25px;
+    height: 25px;
+  }
+  .building-block-head .block-info .building-name,
+  .building-block-head .block-info .floor-name,
+  .building-block-head .block-info .color-code {
+    font-size: 26px;
+  }
+  .weekly-default.month-view-content .day_one:nth-child(n + 8) .day-name {
+    display: block;
+  }
+  .weekly-default.month-view-content .day_one:nth-child(7n) {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  .office-structure .office-structure-inner .left-panel,
+  .office-structure .office-structure-inner .right-map {
+    width: 100%;
+  }
+  .office-structure .office-structure-inner .left-panel {
+    border-bottom: 1px solid #ebeef1;
+  }
+  .office-structure .office-structure-inner {
+    flex-wrap: wrap;
+  }
+  .myteam_wrapper .weekly-default .weekly-default-inner > div {
+    width: calc(33.33% - 10px);
+    margin-right: 5px;
+  }
+  .myteam_wrapper .weekly-default .weekly-default-inner .my_team_member {
+    width: 100%;
+    text-align: center;
+    height: 100%;
+    margin-bottom: 15px;
+  }
+  .myteam_wrapper .weekly-default .weekly-default-inner .my_team_member > div {
+    justify-content: center;
+    margin-bottom: 0 !important;
+  }
+  .myteam_wrapper
+    .weekly-default
+    .weekly-default-inner
+    .my_team_member
+    .member-name {
+    width: auto;
+    margin-left: 8px;
+  }
+  .myteam_wrapper
+    .weekly-default
+    .weekly-default-inner
+    .my_team_member
+    .designation {
+    padding-left: 24px;
+  }
+  .myteam_wrapper .weekly-default .weekly-default-inner {
+    padding-bottom: 15px !important;
+    position: relative;
+  }
+  .myteam_wrapper .weekly-default .weekly-default-inner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25px;
+    width: calc(100% - 50px);
+    height: 1px;
+    background: #d1dce7;
+  }
+  .myteam_wrapper
+    .weekly-default
+    .weekly-default-inner:not(:first-child)
+    .day_one
+    .day-name {
+    display: block;
+  }
+  .myteam_wrapper
+    .weekly-default
+    .weekly-default-inner:not(:first-child)
+    .day_one
+    .date {
+    display: flex;
+  }
 }
 
 @media (max-width: 767px) {
@@ -1174,7 +1306,7 @@ input {
     margin-right: 10px;
   }
   .wrapper_main {
-    padding: 22px 0;
+    padding: 30px 0;
   }
   .site-header {
     padding: 12px 0;
@@ -1210,6 +1342,106 @@ input {
   .onboarding-main .on-boarding-inner {
     padding: 20px 15px;
   }
+  .update-office-workspot .input-button-strip {
+    flex-wrap: wrap;
+  }
+  .input-button-strip .updatespot {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .building-block-head {
+    background-image: none !important;
+    padding: 15px 15px;
+  }
+  .building-block-head .block-info .building-name,
+  .building-block-head .block-info .floor-name,
+  .building-block-head .block-info .color-code {
+    font-size: 22px;
+    margin-bottom: 0;
+  }
+  .building-block-head .block-info .floor-name {
+    padding: 0 12px;
+    margin: 0 12px;
+  }
+  .building-block-head .building-location-strip > div {
+    margin-top: 12px;
+  }
+  .input-button-strip .change-log .what-day {
+    font-size: 12px;
+    padding: 0 12px;
+  }
+  .input-button-strip .change-log .prev,
+  .input-button-strip .change-log .next {
+    width: 40px;
+  }
+  .update-office-workspot .week-month-toggle {
+    margin-left: 12px;
+  }
+  .update-office-workspot .week-month-toggle .week-view {
+    font-size: 12px;
+    width: 70px;
+  }
+  .blue-bg-btn,
+  .light-blue-bg-btn {
+    font-size: 14px;
+  }
+  .update-office-workspot .week-range {
+    font-size: 14px;
+  }
+  .building-block-head .building-location-strip {
+    display: block !important;
+  }
+  .building-block-head .building-location-strip .location {
+    border-right: none;
+  }
+  .delegate-workspot-access .small-title {
+    padding: 0 1rem;
+  }
+  .delegate-workspot-access .form-group {
+    padding: 0.85rem 3rem 0.85rem 1rem;
+  }
+  .delegate-workspot-access .applyall {
+    padding: 1rem;
+  }
+  .weekly-default.month-view-content .day_one:nth-child(7n) {
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+  .office_maps .head {
+    display: block !important;
+  }
+  .office_maps .head .office-selections .selction_one:not(:last-child) {
+    margin: 0;
+  }
+  .office_maps .head .office-selections .selction_one {
+    width: calc(50% - 8px);
+  }
+  .office_maps .head .office-selections .selction_one select {
+    width: 100%;
+    text-overflow: ellipsis;
+  }
+  .office_maps .head .office-selections {
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  .modal .modal-body {
+    padding: 1rem 1rem;
+  }
+  .input-button-strip {
+    flex-wrap: wrap;
+  }
+  .input-button-strip .updatespot {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  .myteam_wrapper .weekly-default .weekly-default-inner > div {
+    width: 100%;
+  }
+  .week-range {
+    font-size: 14px;
+    margin-right: 12px !important;
+  }
 }
 
 @media (max-width: 575px) {
@@ -1223,6 +1455,21 @@ input {
   .onboarding-main .top-illustration .welcome p {
     font-size: 14px;
     margin-bottom: 0;
+  }
+  .input-button-strip .change-log .prev,
+  .input-button-strip .change-log .next {
+    width: 30px;
+  }
+  .update-office-workspot .week-month-toggle .week-view {
+    width: 60px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .calendar_main .bottom {
+    display: block;
+  }
+  .calendar_main .bottom span {
+    width: 100%;
   }
 }
 
@@ -1245,5 +1492,17 @@ input {
     .badge-number-inner
     input:last-child {
     margin-left: 5px;
+  }
+  .building-block-head .block-info .building-name,
+  .building-block-head .block-info .floor-name,
+  .building-block-head .block-info .color-code {
+    font-size: 16px;
+  }
+  .building-block-head > p {
+    font-size: 12px;
+  }
+  .datepicker-Wrapper .date {
+    width: 2rem;
+    height: 2rem;
   }
 }
