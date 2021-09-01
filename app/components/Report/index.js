@@ -1,99 +1,396 @@
-import React, { useState } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
-import MultipleDatePicker from 'react-multiple-datepicker';
-import PropTypes from 'prop-types';
-
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
+// import PropTypes from 'prop-types';
+import Axios from 'axios';
+import Multiselect from 'multiselect-react-dropdown';
+import { Modal } from 'react-bootstrap';
 import '../FAQ/styles.scss';
 
-const Report = props => {
+const Report = () => {
   const [show, setShow] = useState(false);
+  const [allUser, setAllUser] = useState([]);
+  const [selected, setSelected] = useState([]);
+
+  const img1 = document.createElement('img');
+  img1.setAttribute(
+    'src',
+    'https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg',
+  );
+  // console.log('img1', img1);
+  // img1 = ProfileImg;
+  // img1 = document.body.appendChild(img1);
+  const optionData =
+    allUser &&
+    allUser.map(item => ({
+      name: `${item.userName}`,
+      id: item.userName,
+      value: item.userName,
+    }));
+
+  const handleClose = () => {
+    // setUserListData(finalData);
+    setShow(false);
+  };
+  useEffect(() => {
+    const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
+    Axios.get(url).then(res => {
+      setAllUser(res.data);
+      // setSearchName(res.data);
+    });
+  }, []);
 
   return (
     <div>
-      <h2>My Team</h2>
-      <div className="d-grid gap-2 d-md-flex justify-content-md-end pb-2">
-        <Button
-          variant="primary"
-          className="justify-content-md-end"
-          onClick={() => setShow(true)}
-          style={{ marginTop: '40px', backgroundColor: '#002d50' }}
-        >
-          Invite Team to the Office
-        </Button>
+      <div className="wrapper_main">
+        <div className="myteam_wrapper">
+          <div className="container">
+            <h4 className="common-title">My Team</h4>
 
-        <Modal
-          size="md"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-          show={show}
-          onHide={() => setShow(false)}
-        >
-          <Modal.Header closeIcon>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Invite Team to the Office
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h4>Centered Modal</h4>
-            <p>
-              <Form.Label>Select Team Members</Form.Label>
-              <Form.Control
-                as="select"
-                onChange={e => {
-                  console.log('e.target.value', e.target.value);
+            <div className="input-button-strip mt-4 w-100 d-flex align-items-center">
+              <p className="week-range mb-0 me-4">June 14 – 18, 2021</p>
+              <div className="change-log">
+                <button type="submit" className="prev">
+                  &lsaquo;
+                </button>
+                <span className="what-day">Today</span>
+                <button type="submit" className="next">
+                  &rsaquo;
+                </button>
+              </div>
+              <div className="updatespot">
+                <button
+                  type="submit"
+                  className="blue-bg-btn d-flex align-items-center"
+                  data-bs-toggle="modal"
+                  data-bs-target="#invite_team"
+                  onClick={() => setShow(true)}
+                >
+                  <span className="material-icons me-2">add</span>Invite Team to
+                  the Office
+                </button>
+              </div>
+            </div>
+
+            <div className="card weekly-default mt-4">
+              <div className="weekly-default-inner d-flex flex-wrap align-items-end">
+                <div className="my_team_member">
+                  <div className="d-flex align-items-center mb-1">
+                    <img src="./images/profileof.png" alt="" />
+                    <span className="member-name">My Workspace</span>
+                  </div>
+                  <span className="designation">UX/UI Designer</span>
+                </div>
+                <div className="day_one disabled">
+                  <p className="day-name">Monday</p>
+                  <p className="date">14</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Washington, DC</p>
+                    <span className="floor-location">
+                      <img src="./images/floor-location.png" alt="" />
+                      Fl 4-Blue
+                    </span>
+                  </div>
+                </div>
+                <div className="day_one current-day">
+                  <p className="day-name">Tuesday</p>
+                  <p className="date today">15</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Richmond, VA</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Wednesday</p>
+                  <p className="date">16</p>
+                  <div className="day-one-wrapper has-half-paid-off work-from-office border-top-black">
+                    <p className="work-station">Richmond, VA</p>
+                  </div>
+                  <div className="day-one-wrapper half-paid-off">
+                    <p className="work-station">Paid Time Off</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Thursday</p>
+                  <p className="date">17</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Remote Work</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Friday</p>
+                  <p className="date">18</p>
+                  <div className="day-one-wrapper paid-off">
+                    <p className="work-station">Paid Time Off</p>
+                  </div>
+                </div>
+              </div>
+              <div className="weekly-default-inner d-flex flex-wrap align-items-end">
+                <div className="my_team_member">
+                  <div className="d-flex align-items-center mb-1">
+                    <img src="./images/profileof.png" alt="" />
+                    <span className="member-name">My Workspace</span>
+                  </div>
+                  <span className="designation">UX/UI Designer</span>
+                </div>
+                <div className="day_one disabled">
+                  <p className="day-name">Monday</p>
+                  <p className="date">14</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Washington, DC</p>
+                  </div>
+                </div>
+                <div className="day_one current-day">
+                  <p className="day-name">Tuesday</p>
+                  <p className="date today">15</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Richmond, VA</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Wednesday</p>
+                  <p className="date">16</p>
+                  <div className="day-one-wrapper has-half-paid-off work-from-office border-top-black">
+                    <p className="work-station">Richmond, VA</p>
+                  </div>
+                  <div className="day-one-wrapper half-paid-off">
+                    <p className="work-station">Paid Time Off</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Thursday</p>
+                  <p className="date">17</p>
+                  <div className="day-one-wrapper work-from-home">
+                    <p className="work-station">Remote Work</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Friday</p>
+                  <p className="date">18</p>
+                  <div className="day-one-wrapper paid-off">
+                    <p className="work-station">Paid Time Off</p>
+                  </div>
+                </div>
+              </div>
+              <div className="weekly-default-inner d-flex flex-wrap align-items-end">
+                <div className="my_team_member">
+                  <div className="d-flex align-items-center mb-1">
+                    <img src="./images/profileof.png" alt="" />
+                    <span className="member-name">My Workspace</span>
+                  </div>
+                  <span className="designation">UX/UI Designer</span>
+                </div>
+                <div className="day_one disabled">
+                  <p className="day-name">Monday</p>
+                  <p className="date">14</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Washington, DC</p>
+                  </div>
+                </div>
+                <div className="day_one current-day">
+                  <p className="day-name">Tuesday</p>
+                  <p className="date today">15</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Richmond, VA</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Wednesday</p>
+                  <p className="date">16</p>
+                  <div className="day-one-wrapper has-half-paid-off work-from-office border-top-black">
+                    <p className="work-station">Richmond, VA</p>
+                  </div>
+                  <div className="day-one-wrapper half-paid-off">
+                    <p className="work-station">Paid Time Off</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Thursday</p>
+                  <p className="date">17</p>
+                  <div className="day-one-wrapper work-from-home">
+                    <p className="work-station">Remote Work</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Friday</p>
+                  <p className="date">18</p>
+                  <div className="day-one-wrapper paid-off">
+                    <p className="work-station">Paid Time Off</p>
+                  </div>
+                </div>
+              </div>
+              <div className="weekly-default-inner d-flex flex-wrap align-items-end">
+                <div className="my_team_member">
+                  <div className="d-flex align-items-center mb-1">
+                    <img src="./images/profileof.png" alt="" />
+                    <span className="member-name">My Workspace</span>
+                  </div>
+                  <span className="designation">UX/UI Designer</span>
+                </div>
+                <div className="day_one disabled">
+                  <p className="day-name">Monday</p>
+                  <p className="date">14</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Washington, DC</p>
+                  </div>
+                </div>
+                <div className="day_one current-day">
+                  <p className="day-name">Tuesday</p>
+                  <p className="date today">15</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Richmond, VA</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Wednesday</p>
+                  <p className="date">16</p>
+                  <div className="day-one-wrapper has-half-paid-off work-from-office border-top-black">
+                    <p className="work-station">Richmond, VA</p>
+                  </div>
+                  <div className="day-one-wrapper half-paid-off">
+                    <p className="work-station">Paid Time Off</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Thursday</p>
+                  <p className="date">17</p>
+                  <div className="day-one-wrapper work-from-home">
+                    <p className="work-station">Remote Work</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Friday</p>
+                  <p className="date">18</p>
+                  <div className="day-one-wrapper paid-off">
+                    <p className="work-station">Paid Time Off</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Modal
+        className="modal fade test_modal"
+        // id="invite_team"
+        // tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        show={show}
+        onHide={handleClose}
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Invite Team to the Office
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => {
+                  setShow(false);
                 }}
-              >
-                <option>--- Select ----</option>
-                <option value="all">All Team Members</option>
-                <option value="jane Coper">Jane Coper</option>
-                <option value="wade Warren">Wade Warren</option>
-                <option value="alex ander">Alex ander</option>
-              </Form.Control>
-              <Form.Label>Select Office Area</Form.Label>
-              <Form.Control
-                as="select"
-                onChange={e => {
-                  console.log('e.target.value', e.target.value, e.target.name);
-                }}
-              >
-                <option>--- Select ----</option>
-                <option value="richmond" name="Richmon">
-                  Richmon ,VA
-                </option>
-                <option value="washington">Washington ,DC</option>
-                <option value="bloomington">Bloomington , MN</option>
-              </Form.Control>
-              <Form.Label>Select Date</Form.Label>
-              <div className="date_pick">
-                <MultipleDatePicker
-                  disabled
-                  calendarPosition="center"
-                  onSubmit={props.handleSubmit}
-                  style={{
-                    fontFamily: 'sans-serif',
-                    textAlign: 'center',
-                    width: '100px',
-                  }}
+              />
+            </div>
+            <div className="modal-body modal-body_myteam">
+              {/* <div className="invite-team-wrapp mb-3"> */}
+              <Multiselect
+                options={optionData} // Options to display in the dropdown
+                // selectedValues={selected} // Preselected value to persist in dropdown
+                // onSelect={this.onSelect} // Function will trigger on select event
+                // onRemove={this.onRemove} // Function will trigger on remove event
+                displayValue="name" // Property name to display in the dropdown options
+                className="mb-3 tessssss"
+              />
+              {/* </div> */}
+              {/* <div className="access-to">
+                  <div className="access-one">
+                    <img src={ProfileImg} alt="" />
+                    Wade Warren
+                    <a className="close_btn" href>
+                      <img src="./images/close.svg" alt="" />
+                    </a>
+                  </div>
+                  <div className="access-one">
+                    <img src={ProfileImg} alt="" />
+                    Cameron Williamson
+                    <a className="close_btn" href>
+                      <img src="./images/close.svg" alt="" />
+                    </a>
+                  </div>
+                  <div className="access-one">
+                    <img src={ProfileImg} alt="" />
+                    Cameron Williamson
+                    <a className="close_btn" href>
+                      <img src="./images/close.svg" alt="" />
+                    </a>
+                  </div>
+                </div> */}
+              {/* </div> */}
+              <div className="selection">
+                <select name="" id="">
+                  <option value="">Remote Work</option>
+                  <option value="">Washington, DC</option>
+                  <option value="">Malbourne, Aus</option>
+                  <option value="">Lords, UK</option>
+                </select>
+              </div>
+              <div className="invite-team-wrapp choose-date mt-3">
+                <div className="access-to">
+                  <div className="access-one">
+                    Jun 16th, 2021
+                    <a className="close_btn" href>
+                      <img src="./images/close.svg" alt="" />
+                    </a>
+                  </div>
+                  <div className="access-one">
+                    Jun 18th, 2021
+                    <a className="close_btn" href>
+                      <img src="./images/close.svg" alt="" />
+                    </a>
+                  </div>
+                  <span className="material-icons-outlined">
+                    calendar_today
+                  </span>
+                </div>
+              </div>
+              <div className="description mt-3">
+                <textarea
+                  name=""
+                  id=""
+                  placeholder="Add a Message"
+                  cols="30"
+                  rows="10"
                 />
               </div>
-              <Form.Label>Add a Message</Form.Label>
-              <Form.Control as="textarea" rows={3} />
-            </p>
-          </Modal.Body>
-          <Modal.Footer className="footer_data">
-            <Button onClick={() => setShow(false)}>Invite</Button>
-            <Button variant="outline-dark" onClick={() => setShow(false)}>
-              Cancel
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+              <p className="notice mb-1 mt-2">
+                An email invitation will be sent to the selected team member(s)
+                once you click Invite.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn save-data">
+                Invite
+              </button>
+              <button
+                type="button"
+                className="btn dismiss"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
 
 Report.propTypes = {
-  handleSubmit: PropTypes.func,
+  // handleSubmit: PropTypes.func,
 };
 
 export default Report;
