@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import PropTypes from 'prop-types';
-
+import Draggable from 'react-draggable';
 import Office from '../../images/off.svg';
 import Swiggy from '../../images/swiggy.png';
 import Talabat from '../../images/talabat.png';
@@ -13,13 +13,14 @@ import Zoomout from '../../images/zoomout.png';
 import Floor from '../../images/floormap.png';
 
 const OfficeWDC = ({
-  imgRefData,
   handleZoomIn,
   handleZoomOut,
   handleDefault,
   imgStyle,
+  state,
 }) => {
-  const [office, setOffice] = useState('');
+  const isDraggable = state.scale > 1;
+  const [office, setOffice] = useState('Washington , DC');
   const [allUser, setAllUser] = useState([]);
   const [floor, setFloor] = useState([]);
   const [finalFloor, setFinalFloor] = useState('Floor1');
@@ -59,7 +60,6 @@ const OfficeWDC = ({
     }
     setFloor(Data);
   };
-
   const Icon = () => {
     switch (office) {
       case 'Washington , DC':
@@ -193,12 +193,20 @@ const OfficeWDC = ({
               </div>
             </div>
             <div className="right-map">
-              <img
-                src={Icon(office, finalFloor)}
-                alt=""
-                ref={imgRefData}
-                style={imgStyle}
-              />
+              <Draggable disabled={!isDraggable} key={state.version}>
+                <div
+                  className="drag_image"
+                  style={isDraggable ? { cursor: 'move' } : null}
+                >
+                  <img
+                    src={Icon(office, finalFloor)}
+                    alt=""
+                    style={imgStyle}
+                    draggable="false"
+                  />
+                </div>
+              </Draggable>
+
               <div className="toolbar">
                 <button
                   className="location"
@@ -231,8 +239,8 @@ const OfficeWDC = ({
 };
 
 OfficeWDC.propTypes = {
-  imgRefData: PropTypes.object,
   imgStyle: PropTypes.object,
+  state: PropTypes.object,
   handleZoomOut: PropTypes.func,
   handleZoomIn: PropTypes.func,
   handleDefault: PropTypes.func,

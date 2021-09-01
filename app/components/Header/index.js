@@ -36,12 +36,16 @@ const Header = () => {
             <div className={`${sidebar && 'show'} main-menu`}>
               <ul>
                 <li>
-                  <a className="active" href="true">
-                    Home
-                  </a>
+                  <Link to="/" activeClassName="active">
+                    <a className="active" href="true">
+                      Home
+                    </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="true">My Team</a>
+                  <Link to="/report" activeClassName="active">
+                    <a href="true">My Team</a>
+                  </Link>
                 </li>
                 <li>
                   <Link to="/office" activeClassName="active">
@@ -66,7 +70,9 @@ const Header = () => {
               <div className={`profile-inner ${editProfile && 'opened'}`}>
                 <ul className="profile-menus">
                   <li>
-                    <a href="true">Profile</a>
+                    <Link to="/profile" activeClassName="active">
+                      <a href="true">Profile</a>
+                    </Link>
                   </li>
                   <li>
                     <a href="true">Options</a>
