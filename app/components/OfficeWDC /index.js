@@ -3,14 +3,22 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
-import Office from '../../images/off.svg';
-import Swiggy from '../../images/swiggy.png';
-import Talabat from '../../images/talabat.png';
+// import Office from '../../images/off.svg';
+// import Swiggy from '../../images/swiggy.png';
+// import Talabat from '../../images/talabat.png';
 import heartImage from '../../images/heart.png';
 import location from '../../images/location.png';
 import Zoomin from '../../images/zoomin.png';
 import Zoomout from '../../images/zoomout.png';
 import Floor from '../../images/floormap.png';
+import map1 from '../../images/Map_1.svg';
+import map2 from '../../images/Map_2.svg';
+import map3 from '../../images/Map_3.svg';
+import map4 from '../../images/Map_4.svg';
+import map5 from '../../images/Map_5.svg';
+import map6 from '../../images/Map_6.svg';
+import map7 from '../../images/Map_7.svg';
+import map8 from '../../images/Map_8.svg';
 
 const OfficeWDC = ({
   handleZoomIn,
@@ -67,7 +75,13 @@ const OfficeWDC = ({
           case 'Floor1':
             return Floor;
           case 'Floor 2':
-            return Talabat;
+            return map1;
+          case 'Floor 3':
+            return map2;
+          case 'Floor 4':
+            return map3;
+          case 'Floor 5':
+            return map4;
         }
         break;
       case 'Richmond , VA':
@@ -75,15 +89,29 @@ const OfficeWDC = ({
           case 'Floor1':
             return Floor;
           case 'Floor 2':
-            return Swiggy;
+            return map5;
+          case 'Floor 3':
+            return map6;
         }
         break;
       case 'Birmigham , AL':
         switch (finalFloor) {
           case 'Floor1':
-            return Office;
+            return map8;
           case 'Floor 2':
-            return Talabat;
+            return map7;
+        }
+        break;
+      case 'Bloomington , MN':
+        switch (finalFloor) {
+          case 'Floor1':
+            return map1;
+          case 'Floor 2':
+            return map2;
+          case 'Floor 3':
+            return map3;
+          case 'Floor 4':
+            return map4;
         }
         break;
       default:
