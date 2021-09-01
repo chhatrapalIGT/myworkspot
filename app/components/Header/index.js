@@ -53,6 +53,11 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/workspot">
+                    <a href="true">Office Maps With Header</a>
+                  </Link>
+                </li>
+                <li>
                   <a href="true">Help</a>
                 </li>
               </ul>

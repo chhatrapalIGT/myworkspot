@@ -20,7 +20,7 @@ import Washington from '../OfficeMapPage';
 import Faq from '../../components/FAQ';
 import Report from '../ReportPage';
 import Boarding from '../onBoardingPage';
-import WorkSpot from '../../components/WorkSpot';
+import WorkSpot from '../WorkspotPage';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);

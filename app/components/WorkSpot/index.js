@@ -1,209 +1,1052 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-boolean-value */
-import React, { useState } from 'react';
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
+import React, { useState, useEffect, useRef } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import './custom.scss';
-import { CloseButton } from 'react-bootstrap';
-// import Axios from 'axios';
+import PropTypes from 'prop-types';
 
-const WorkSpot = () => {
+import './custom.scss';
+import { Datepicker } from '@mobiscroll/react';
+// import Axios from 'axios';
+import Floormap from '../../images/floormap.png';
+import location from '../../images/location.png';
+import zoomin from '../../images/zoomin.png';
+import zoomout from '../../images/zoomout.png';
+import ProfileImg from '../assets/images/myprofile.png';
+import profile from '../assets/images/profileof.png';
+import '../../../src/lib/mobiscroll/css/mobiscroll.react.min.css';
+
+const WorkSpot = ({
+  onSubmit,
+  state,
+  onChange,
+  onDateChange,
+  handleUserSelect,
+  handleChange,
+  handleClose,
+}) => {
   const [isModal, setModal] = useState(false);
-  const [type, setType] = useState('Remote Work');
-  const [value, onChange] = useState(new Date());
+  // const [search, setSearch] = useState(false);
+  const [isEmployeeModal, setEmployeeModal] = useState(false);
+  const [isEmployee, setEmployee] = useState(false);
+  // const [type, setType] = useState('Remote Work');
+  // const [value, onChange] = useState(new Date());
+  const divRef = useRef();
   // const [data, setData] = useState([]);
+  // const [allUser, setAllUser] = useState([]);
+  // const [searchName, setSearchName] = useState([]);
+  // const [userListData, setUserListData] = useState([]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside, false);
+    document.addEventListener('mousedown', handleClickOutside, false);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside, false);
+      document.removeEventListener('mousedown', handleClickOutside, false);
+    };
+  });
+
+  const handleClickOutside = event => {
+    if (divRef && divRef.current && !divRef.current.contains(event.target)) {
+      setModal(false);
+    }
+  };
+
+  // useEffect(() => {
+  //   const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
+  //   Axios.get(url).then(res => {
+  //     setAllUser(res.data);
+  //     setSearchName(res.data);
+  //     console.log(`allUser`, allUser);
+  //   });
+  // }, []);
 
   // useEffect(() => {
   //   const url = `https://mocki.io/v1/2884f5b8-f4c0-428e-947e-a0aa339ffaa5 `;
 
   //   Axios.get(url).then(res => {
   //     setData(res.data);
-
+  //     console.log(`data`, data);
   //     // setSearchName(res.data);
   //   });
   // }, []);
 
-  const onSubmit = () => {
-    const payload = {
-      date: value.valueText,
-      work: type,
-    };
-    console.log(`payload`, payload);
-  };
+  // const onSubmit = () => {
+  //   const payload = {
+  //     date: value.valueText,
+  //     work: type,
+  //   };
+  //   console.log(`payload`, payload);
+  // };
+
+  // const selectData = [];
+  // let finalData = [];
+  // const handleUserSelect = username => {
+  //   if (selectData.includes(username)) {
+  //     const index = selectData.indexOf(username);
+  //     selectData.splice(index, 1);
+  //   } else {
+  //     selectData.push(username);
+  //   }
+  //   finalData = selectData;
+  // };
+
+  // const handleChange = event => {
+  //   let newList = [];
+  //   if (event.target.value !== '') {
+  //     setSearch(true);
+  //     newList = allUser.filter(({ userName }) => {
+  //       const finalDataList = userName.toLowerCase();
+  //       const filter = event.target.value.toLowerCase();
+  //       return finalDataList.includes(filter);
+  //     });
+  //   } else {
+  //     setSearch(false);
+  //     newList = allUser;
+  //   }
+  //   setSearchName(newList);
+  // };
+
+  // const handleClose = () => {
+  //   setUserListData(finalData);
+  //   console.log(`userListData`, userListData);
+  //   setEmployeeModal(false);
+  // };
 
   return (
-    <div className="container wrapper">
-      <div>
-        <div className="row">
-          {/* <Card.Body> */}
-          <Card className="col-4">
-            <Card.Title>Office Maps</Card.Title>
-            <Card.Header>Washington, DC</Card.Header>
-            <ListGroup variant="flush">
-              <ListGroup.Item>floor 3</ListGroup.Item>
-            </ListGroup>
+    <div className="wrapper_main">
+      <div className="container">
+        <div className="card building-block-head blue">
+          <p className="stroke-2">
+            Hi Alexander, your <span> DC </span> neighborhood today is
+          </p>
 
-            <Card.Header>Office Resources</Card.Header>
-            <ListGroup variant="flush">
-              <ListGroup.Item>Yellow</ListGroup.Item>
-              <ListGroup.Item>Teal</ListGroup.Item>
-              <ListGroup.Item>Orange</ListGroup.Item>
-              <ListGroup.Item>Blue</ListGroup.Item>
-              <ListGroup.Item>Bel-Air</ListGroup.Item>
-              <ListGroup.Item>walkervile</ListGroup.Item>
-              <ListGroup.Item>Common Room</ListGroup.Item>
-              <ListGroup.Item>The Post</ListGroup.Item>
-              <ListGroup.Item>AED</ListGroup.Item>
-            </ListGroup>
-          </Card>
-          <Card className="col-8">
-            <Card.Subtitle className="mb-2 text-muted">
-              Card Subtitle
-            </Card.Subtitle>
+          <div className="block-info d-flex flex-wrap">
+            <h3 className="building-name">Building 2</h3>
+            <h3 className="floor-name">Floor 3</h3>
+            <h3 className="color-code">Blue</h3>
+          </div>
+          <div className="building-location-strip d-flex flex-wrap align-items-center">
+            <div className="location d-flex align-items-center">
+              <img src="./images/Union.svg" alt="" /> 2445 M Street NW,
+              Washington, DC 20037
+            </div>
+            <div className="change-workspot d-flex align-items-center">
+              <img src="./images/edit-pen.svg" alt="" />{' '}
+              <a
+                href
+                className="change-workspot"
+                onClick={() => setModal(true)}
+              >
+                Change Todays Workspot
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <Button onClick={() => setModal(true)} className="float-right">
-              {' '}
-              Update My WorkSpot
-            </Button>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card content.
-            </Card.Text>
+      <div className="office-structure mt-4">
+        <div className="container">
+          <div className="card office-structure-inner">
+            <div className="left-panel">
+              <div className="office-info">
+                <p className="name">Washington, DC</p>
+                <span className="floor">floor 3</span>
+                <span className="floor">floor 4</span>
+              </div>
+              <div className="office-resource">
+                <p>Office Resources</p>
+                <div className="office-part-one yellow">
+                  <span className="informer" />
+                  <label htmlFor="my-spot">Yellow</label>
+                </div>
+                <div className="office-part-one teal">
+                  <span className="informer" />
+                  <label htmlFor="my-spot">Teal</label>
+                </div>
+                <div className="office-part-one orange">
+                  <span className="informer" />
+                  <label htmlFor="my-spot">Orange</label>
+                </div>
+                <div className="office-part-one blue">
+                  <span className="informer" />
+                  <label htmlFor="my-spot">Blue</label>
+                </div>
+                <div className="office-part-one teal">
+                  <span className="informer">315</span>
+                  <label htmlFor="my-spot">Bel-Air</label>
+                </div>
+                <div className="office-part-one teal">
+                  <span className="informer">332</span>
+                  <label htmlFor="my-spot">Walkerville</label>
+                </div>
+                <div className="office-part-one white">
+                  <span className="informer">334</span>
+                  <label htmlFor="my-spot">Common Room</label>
+                </div>
+                <div className="office-part-one black">
+                  <span className="informer">359</span>
+                  <label htmlFor="my-spot">The Post</label>
+                </div>
+                <div className="office-part-one heart pink">
+                  <span className="informer">
+                    <img src="./images/heart.png" alt="" />
+                  </span>
+                  <label htmlFor="my-spot">AED</label>
+                </div>
+              </div>
+            </div>
+            <div className="right-map">
+              <img src={Floormap} alt="" />
+              <div className="toolbar">
+                <button className="location" type="button">
+                  <img src={location} alt="" />
+                </button>
+                <button className="zoomin" type="button">
+                  <img src={zoomin} alt="" />
+                </button>
+                <button className="zoomout" type="button">
+                  <img src={zoomout} alt="" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <Modal
-              size="md"
-              aria-labelledby="contained-modal-title-vcenter"
-              centered
-              show={isModal}
-              className="modal"
+      <div className="container">
+        <div className="update-office-workspot mt-40">
+          <p className="week-range">June 14 – 18, 2021</p>
+
+          <div className="input-button-strip w-100 d-flex align-items-center">
+            <div className="change-log">
+              <button type="submit" className="prev">
+                &lsaquo;
+              </button>
+              <span className="what-day">Today</span>
+              <button type="submit" className="next">
+                &rsaquo;
+              </button>
+            </div>
+            <div
+              className="week-month-toggle nav nav-tabs"
+              id="nav-tab"
+              role="tablist"
             >
-              <CloseButton onClick={() => setModal(false)} />
-              <Modal.Header>
-                <Modal.Title id="contained-modal-title-vcenter">
-                  Update My WorkSpot
-                </Modal.Title>
-              </Modal.Header>
+              <button
+                className="nav-link week-view active"
+                id="nav-week-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#nav-week-view"
+                type="button"
+                role="tab"
+                aria-controls="nav-home"
+                aria-selected="true"
+              >
+                Week
+              </button>
+              <button
+                className="nav-link week-view"
+                id="nav-month-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#nav-month-view"
+                type="button"
+                role="tab"
+                aria-controls="nav-profile"
+                aria-selected="false"
+              >
+                Month
+              </button>
+            </div>
+            <div className="updatespot">
+              <button
+                type="submit"
+                className="blue-bg-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#showCalendar"
+                onClick={() => setModal(true)}
+              >
+                Update My Workspot
+              </button>
+            </div>
+          </div>
 
-              <Modal.Body>
-                <Form.Group controlId="formBasicSelect">
-                  <Form.Control
-                    className="dropdown_list"
-                    as="select"
-                    value={type}
-                    onChange={e => {
-                      setType(e.target.value);
-                    }}
+          <div className="tab-content" id="nav-tabContent">
+            <div
+              className="tab-pane fade show active"
+              id="nav-week-view"
+              role="tabpanel"
+              aria-labelledby="nav-home-tab"
+            >
+              <div className="card weekly-default">
+                <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
+                  <div className="day_one disabled">
+                    <p className="day-name">Monday</p>
+                    <p className="date">14</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Washington, DC</p>
+                    </div>
+                  </div>
+                  <div className="day_one">
+                    <p className="day-name">Tuesday</p>
+                    <p className="date today">15</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                  </div>
+                  <div className="day_one">
+                    <p className="day-name">Wednesday</p>
+                    <p className="date">16</p>
+                    <div className="day-one-wrapper has-half-paid-off work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                    <div className="day-one-wrapper half-paid-off">
+                      <p className="work-station">Paid Time Off</p>
+                    </div>
+                  </div>
+                  <div className="day_one">
+                    <p className="day-name">Thursday</p>
+                    <p className="date">17</p>
+                    <div className="day-one-wrapper work-from-home">
+                      <p className="work-station">Remote Work</p>
+                    </div>
+                  </div>
+                  <div className="day_one">
+                    <p className="day-name">Friday</p>
+                    <p className="date">18</p>
+                    <div className="day-one-wrapper paid-off">
+                      <p className="work-station">Paid Time Off</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {state.userListData.length > 0 && (
+              <div className="mt-4">
+                Search results
+                <label style={{ float: 'right' }}> Remove All</label>
+                <hr />
+              </div>
+            )}
+            {state.userListData &&
+              state.userListData.map(obj => (
+                <>
+                  <div
+                    className="tab-pane fade show active"
+                    id="nav-week-view"
+                    role="tabpanel"
+                    aria-labelledby="nav-home-tab"
                   >
-                    <option value="Washington, DC">Washington, DC</option>
-                    <option value="Bloomington, MN">Bloomington, MN</option>
-                    <option value="Birmingham, AL">Birmingham, AL</option>
-                    <option value="Remote Work">Remote Work</option>
-                    <option value="Richmond, VA">Richmond, VA</option>
-                    <option value="Paid Time Off">Paid Time Off</option>
-                  </Form.Control>
-                </Form.Group>
-
-                <div className="calendar">
-                  <div className="mb-4 react-calendar">
-                    {/* <Datepicker
-                      controls={['calendar']}
-                      display="inline"
-                      min={moment().toDate()}
-                      onChange={date => {
-                        onChange(date);
-                      }}
-                      selectMultiple={true}
-                      selectCounter={true}
-                      dateFormat="MMM DD,YYYY"
-
-                      // marked={[
-                      //   {
-                      //     date: new Date(2021, 7, 29),
-                      //     color: '#46c4f3',
-                      //     markCssClass: 'square-mark',
-                      //   },
-                      // ]}
-                    /> */}
-
-                    <div className="mt-0 react-calendar">
-                      <div className="card-body">
-                        <div className="row">
-                          <div className="col-4 my-auto">
-                            <div className="d-flex calendar-footer">
-                              <p />
-                              <span style={{ fontSize: '12px' }}>
-                                Washington, DC
-                              </span>
-                            </div>
-                            <div className="d-flex calendar-footer">
-                              <p />
-                              <span style={{ fontSize: '12px' }}>
-                                Bloomington, MN
-                              </span>
-                            </div>
+                    <div className="card weekly-default">
+                      <div className=" card mt-4 card-user-header">
+                        <img src={profile} alt="" />
+                        {'   '}
+                        <label>
+                          <b>{obj}</b>
+                        </label>
+                        <label style={{ float: 'right' }}> Remove</label>
+                      </div>
+                      <div className="card1 weekly-default-inner d-flex flex-wrap">
+                        <div className="day_one disabled">
+                          <p className="day-name">Monday</p>
+                          <p className="date">14</p>
+                          <div
+                            className="day-one-wrapper work-from-office border-top-blue"
+                            onClick={() => setEmployee(true)}
+                            aria-hidden="true"
+                          >
+                            <p className="work-station">Washington, DC</p>
                           </div>
-
-                          <div className="col-4 my-auto">
-                            <div className="d-flex calendar-footer">
-                              <p />
-                              <span style={{ fontSize: '12px' }}>
-                                Birmingham, AL
-                              </span>
-                            </div>
-                            <div className="d-flex calendar-footer">
-                              <p />
-                              <span style={{ fontSize: '12px' }}>
-                                Remote Work
-                              </span>
-                            </div>
+                        </div>
+                        <div className="day_one">
+                          <p className="day-name">Tuesday</p>
+                          <p className="date today">15</p>
+                          <div
+                            className="day-one-wrapper work-from-office border-top-blue"
+                            onClick={() => setEmployee(true)}
+                            aria-hidden="true"
+                          >
+                            <p className="work-station">Richmond, VA</p>
                           </div>
-
-                          <div className="col-4 my-auto">
-                            <div className="d-flex calendar-footer">
-                              <p />
-                              <span style={{ fontSize: '12px' }}>
-                                Richmond, VA
-                              </span>
-                            </div>
-                            <div className="d-flex calendar-footer">
-                              <p />
-                              <span style={{ fontSize: '12px' }}>
-                                Paid Time Off
-                              </span>
-                            </div>
+                        </div>
+                        <div className="day_one">
+                          <p className="day-name">Wednesday</p>
+                          <p className="date">16</p>
+                          <div className="day-one-wrapper has-half-paid-off work-from-office border-top-blue">
+                            <p className="work-station">Richmond, VA</p>
+                          </div>
+                          <div className="day-one-wrapper half-paid-off">
+                            <p className="work-station">Paid Time Off</p>
+                          </div>
+                        </div>
+                        <div className="day_one">
+                          <p className="day-name">Thursday</p>
+                          <p className="date">17</p>
+                          <div
+                            className="day-one-wrapper work-from-home"
+                            onClick={() => setEmployee(true)}
+                            aria-hidden="true"
+                          >
+                            <p className="work-station">Remote Work</p>
+                          </div>
+                        </div>
+                        <div className="day_one">
+                          <p className="day-name">Friday</p>
+                          <p className="date">18</p>
+                          <div
+                            className="day-one-wrapper paid-off"
+                            onClick={() => setEmployee(true)}
+                            aria-hidden="true"
+                          >
+                            <p className="work-station">Paid Time Off</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                </>
+              ))}
+            <div
+              className="tab-pane fade"
+              id="nav-month-view"
+              role="tabpanel"
+              aria-labelledby="nav-profile-tab"
+            >
+              <div className="card weekly-default month-view-content">
+                <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
+                  <div className="day_one disabled weekend">
+                    <p className="day-name">Sunday</p>
+                    <p className="date">30</p>
+                    <div className="day-one-wrapper">
+                      <p className="work-station">Washington, DC</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Monday</p>
+                    <p className="date">1</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Washington, DC</p>
+                      <span className="floor-location">
+                        <img src="./images/floor-location.png" alt="" />
+                        Fl 4-Blue
+                      </span>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Tuesday</p>
+                    <p className="date">2</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Wednesday</p>
+                    <p className="date">3</p>
+                    <div className="day-one-wrapper has-half-paid-off work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                    <div className="day-one-wrapper half-paid-off">
+                      <p className="work-station">Paid Time Off </p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Thursday</p>
+                    <p className="date">4</p>
+                    <div className="day-one-wrapper work-from-home">
+                      <p className="work-station">Remote Work</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Friday</p>
+                    <p className="date">5</p>
+                    <div className="day-one-wrapper paid-off">
+                      <p className="work-station">Paid Time Off</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled weekend">
+                    <p className="day-name">Saturday</p>
+                    <p className="date">6</p>
+                    <div className="day-one-wrapper" />
+                  </div>
+                  <div className="day_one disabled weekend">
+                    <p className="day-name">Sunday</p>
+                    <p className="date">7</p>
+                    <div className="day-one-wrapper" />
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Monday</p>
+                    <p className="date">8</p>
+                    <div className="day-one-wrapper has-half-paid-off work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                    <div className="day-one-wrapper half-paid-off">
+                      <p className="work-station">Paid Time Off</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Tuesday</p>
+                    <p className="date">9</p>
+                    <div className="day-one-wrapper work-from-home">
+                      <p className="work-station">Remote Work</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Wednesday</p>
+                    <p className="date">10</p>
+                    <div className="day-one-wrapper paid-off">
+                      <p className="work-station">Paid Time Off</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Thursday</p>
+                    <p className="date">11</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Washington, DC</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Friday</p>
+                    <p className="date">12</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled weekend">
+                    <p className="day-name">Saturday</p>
+                    <p className="date">13</p>
+                    <div className="day-one-wrapper" />
+                  </div>
+                  <div className="day_one disabled weekend">
+                    <p className="day-name">Sunday</p>
+                    <p className="date">14</p>
+                    <div className="day-one-wrapper" />
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Monday</p>
+                    <p className="date">15</p>
+                    <div className="day-one-wrapper paid-off">
+                      <p className="work-station">Paid Time Off</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Tuesday</p>
+                    <p className="date">16</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Washington, DC</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Wednesday</p>
+                    <p className="date">17</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Thursday</p>
+                    <p className="date">18</p>
+                    <div className="day-one-wrapper has-half-paid-off work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                    <div className="day-one-wrapper half-paid-off">
+                      <p className="work-station">Paid Time Off</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Friday</p>
+                    <p className="date">19</p>
+                    <div className="day-one-wrapper work-from-home">
+                      <p className="work-station">Remote Work</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled weekend">
+                    <p className="day-name">Saturday</p>
+                    <p className="date">20</p>
+                    <div className="day-one-wrapper" />
+                  </div>
+                  <div className="day_one disabled weekend">
+                    <p className="day-name">Sunday</p>
+                    <p className="date">21</p>
+                    <div className="day-one-wrapper" />
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Monday</p>
+                    <p className="date">22</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Tuesday</p>
+                    <p className="date">23</p>
+                    <div className="day-one-wrapper has-half-paid-off work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                    <div className="day-one-wrapper half-paid-off">
+                      <p className="work-station">Paid Time Off</p>
+                    </div>
+                  </div>
+                  <div className="day_one disabled">
+                    <p className="day-name">Wednesday</p>
+                    <p className="date">24</p>
+                    <div className="day-one-wrapper work-from-home">
+                      <p className="work-station">Remote Work</p>
+                    </div>
+                  </div>
+                  <div className="day_one current-day">
+                    <p className="day-name">Thursday</p>
+                    <p className="date today">25</p>
+                    <div className="day-one-wrapper paid-off">
+                      <p className="work-station">Paid Time Off</p>
+                    </div>
+                  </div>
+                  <div className="day_one">
+                    <p className="day-name">Friday</p>
+                    <p className="date">26</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Washington, DC</p>
+                    </div>
+                  </div>
+                  <div className="day_one weekend">
+                    <p className="day-name">Saturday</p>
+                    <p className="date">27</p>
+                    <div className="day-one-wrapper" />
+                  </div>
+                  <div className="day_one weekend">
+                    <p className="day-name">Sunday</p>
+                    <p className="date">28</p>
+                    <div className="day-one-wrapper" />
+                  </div>
+                  <div className="day_one">
+                    <p className="day-name">Monday</p>
+                    <p className="date">29</p>
+                    <div className="day-one-wrapper work-from-home">
+                      <p className="work-station">Remote Work</p>
+                    </div>
+                  </div>
+                  <div className="day_one">
+                    <p className="day-name">Tuesday</p>
+                    <p className="date">30</p>
+                    <div className="day-one-wrapper paid-off">
+                      <p className="work-station">Paid Time Off</p>
+                    </div>
+                  </div>
+                  <div className="day_one">
+                    <p className="day-name">Wednesday</p>
+                    <p className="date">31</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Washington, DC</p>
+                    </div>
+                  </div>
+                  <div className="day_one">
+                    <p className="day-name">Thursday</p>
+                    <p className="date">1</p>
+                    <div className="day-one-wrapper work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                  </div>
+                  <div className="day_one">
+                    <p className="day-name">Friday</p>
+                    <p className="date">2</p>
+                    <div className="day-one-wrapper has-half-paid-off work-from-office border-top-blue">
+                      <p className="work-station">Richmond, VA</p>
+                    </div>
+                    <div className="day-one-wrapper half-paid-off">
+                      <p className="work-station">Paid Time Off </p>
+                    </div>
+                  </div>
+                  <div className="day_one weekend">
+                    <p className="day-name">Saturday</p>
+                    <p className="date">3</p>
+                    <div className="day-one-wrapper" />
+                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <p>
-                  If you would like to update your weekly default, you can
-                  update this under <a href="/profile">My Propfile</a>
-                </p>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button
-                  onClick={() => {
-                    onSubmit();
-                    setModal(false);
-                  }}
-                >
-                  Update
-                </Button>
-                <Button onClick={() => setModal(false)}>Cancel</Button>
-              </Modal.Footer>
-            </Modal>
-          </Card>
+          <button
+            type="submit"
+            className="light-blue-bg-btn mt-4"
+            onClick={() => setEmployeeModal(true)}
+          >
+            {' '}
+            <img src="./images/search-blue.svg" alt="" /> Search for Colleagues
+          </button>
         </div>
       </div>
+
+      <Modal
+        ref={divRef}
+        className="modal fade test_modal"
+        show={isModal}
+        onHide={() => setModal(false)}
+        // id="showCalendar"
+        // tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Update My Workspot
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setModal(false)}
+              />
+            </div>
+            <div className="modal-body modal-view">
+              <div className="calendarpop">
+                <div className="selection">
+                  <select
+                    name="location"
+                    id=""
+                    // onChange={e => {
+                    //   setType(e.target.value);
+                    // }}
+                    onChange={onChange}
+                  >
+                    <option value="Remote Work">Remote Work</option>
+                    <option value="Washington, DC">Washington, DC</option>
+                    <option value="Malbourne, Aus">Malbourne, Aus</option>
+                    <option value="Lord's, UK">Lords, UK</option>
+                  </select>
+                </div>
+                <div className="calendar_main">
+                  <Datepicker
+                    controls={['calendar']}
+                    display="inline"
+                    name="date"
+                    min={moment().toDate()}
+                    // onChange={date => {
+                    //   // state.dateValue(date);
+                    //   console.log(`date`, date);
+                    // }}
+                    onChange={onDateChange}
+                    selectMultiple={true}
+                    selectCounter={true}
+                    dateFormat="MMM DD,YYYY"
+                    marked={[
+                      {
+                        date: new Date(2021, 8, 2),
+                        // color: '#46c4f3',
+                        markCssClass: 'mbsc-calendar-marks1',
+                      },
+                      {
+                        date: new Date(2021, 8, 4),
+                        // color: '#159833',
+                        markCssClass: 'mbsc-calendar-marks1',
+                      },
+                      {
+                        date: new Date(2021, 8, 5),
+                        // color: '#b05cbf',
+                        markCssClass: 'mbsc-calendar-marks2',
+                      },
+                      {
+                        date: new Date(2021, 8, 7),
+                        // color: '#3adecf',
+                        markCssClass: 'mbsc-calendar-marks3',
+                      },
+                      {
+                        date: new Date(2021, 8, 6),
+                        // color: '#c8d235'
+                        markCssClass: 'mbsc-calendar-marks3',
+                      },
+                      // {
+                      //     date: new Date(year, month, 8),
+                      //     color: '#46c4f3'
+                      // }, {
+                      //     date: new Date(year, month, 10),
+                      //     color: '#7e56bd',
+                      //     markCssClass: 'square-mark'
+                      // }, {
+                      //     date: new Date(year, month, 13),
+                      //     color: '#f13f77'
+                      // }, {
+                      //     date: new Date(year, month, 16),
+                      //     color: '#21b326',
+                      //     markCssClass: 'square-mark'
+                      // }, {
+                      //     date: new Date(year, month, 16),
+                      //     color: '#ffa93a',
+                      //     markCssClass: 'triangle-mark'
+                      // }
+                    ]}
+                  />
+                  <div className="bottom">
+                    <span className="eab-ofc">EAB Office</span>
+                    <span className="remote">Remote Work</span>
+                    <span className="paidoff">Paid Time Off</span>
+                  </div>
+                </div>
+                <div className="checkbox-label">
+                  <input type="checkbox" id="private-space" />
+                  <label htmlFor="private-space">Private space requested</label>
+                </div>
+                <p className="notice">
+                  If you would like to update your weekly default, you can
+                  update this under <a href>My Profile</a>
+                </p>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn save-data"
+                onClick={() => {
+                  setModal(false);
+                  onSubmit();
+                }}
+              >
+                Update
+              </button>
+              <button
+                type="button"
+                className="btn dismiss"
+                data-bs-dismiss="modal"
+                onClick={() => setModal(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        ref={divRef}
+        className="modal fade test_modal"
+        show={isEmployeeModal}
+        onHide={() => setEmployeeModal(false)}
+        // id="showCalendar"
+        // tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Update My Workspot
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setEmployeeModal(false)}
+              />
+            </div>
+            <div className="modal-body">
+              <form className="delegate-workspot-access" action="submit">
+                <input
+                  type="search"
+                  placeholder="Search..."
+                  className="searchbox"
+                  onChange={handleChange}
+                />
+                {console.log(`searchName`, state.searchName)}
+                {state.searchName &&
+                  state.searchName.map(i => (
+                    <div
+                      aria-hidden="true"
+                      className="form-group"
+                      onClick={() => handleUserSelect(i.userName)}
+                    >
+                      <img src={ProfileImg} alt="" />
+                      <input id="jane" type="checkbox" className="checkbox" />
+                      <label htmlFor="jane">{i.userName}</label>
+                    </div>
+                  ))}
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn save-data"
+                onClick={() => {
+                  setEmployeeModal(false);
+                  // onSubmit();
+                  handleClose();
+                }}
+              >
+                Update
+              </button>
+              <button
+                type="button"
+                className="btn dismiss"
+                data-bs-dismiss="modal"
+                onClick={() => setEmployeeModal(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        ref={divRef}
+        className="modal fade test_modal"
+        show={isEmployee}
+        onHide={() => setEmployee(false)}
+        // id="showCalendar"
+        // tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        style={{ maxWidth: 'calc(100% - 20rem)' }}
+        aria-hidden="true"
+        centered
+        size="lg"
+      >
+        <div className=" modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Update My Workspot
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setEmployee(false)}
+              />
+            </div>
+            <div
+              className="modal-body"
+              style={{ maxHeight: 'calc(100vh - 600px)' }}
+            >
+              {/* <form className="delegate-workspot-access" action="submit">
+                <input
+                  type="search"
+                  placeholder="Search..."
+                  className="searchbox"
+                  onChange={handleChange}
+                />
+                {console.log(`searchName`, state.searchName)}
+                {state.searchName &&
+                  state.searchName.map(i => (
+                    <div
+                      aria-hidden="true"
+                      className="form-group"
+                      onClick={() => handleUserSelect(i.userName)}
+                    >
+                      <img src={ProfileImg} alt="" />
+                      <input id="jane" type="checkbox" className="checkbox" />
+                      <label htmlFor="jane">{i.userName}</label>
+                    </div>
+                  ))}
+              </form> */}
+              <div className="office-structure mt-4">
+                <div className="container">
+                  <div className="card office-structure-inner">
+                    <div className="left-panel">
+                      <div className="office-info">
+                        <p className="name">Washington, DC</p>
+                        <span className="floor">floor 3</span>
+                        <span className="floor">floor 4</span>
+                      </div>
+                      <div className="office-resource">
+                        <p>Office Resources</p>
+                        <div className="office-part-one yellow">
+                          <span className="informer" />
+                          <label htmlFor="my-spot">Yellow</label>
+                        </div>
+                        <div className="office-part-one teal">
+                          <span className="informer" />
+                          <label htmlFor="my-spot">Teal</label>
+                        </div>
+                        <div className="office-part-one orange">
+                          <span className="informer" />
+                          <label htmlFor="my-spot">Orange</label>
+                        </div>
+                        <div className="office-part-one blue">
+                          <span className="informer" />
+                          <label htmlFor="my-spot">Blue</label>
+                        </div>
+                        <div className="office-part-one teal">
+                          <span className="informer">315</span>
+                          <label htmlFor="my-spot">Bel-Air</label>
+                        </div>
+                        <div className="office-part-one teal">
+                          <span className="informer">332</span>
+                          <label htmlFor="my-spot">Walkerville</label>
+                        </div>
+                        <div className="office-part-one white">
+                          <span className="informer">334</span>
+                          <label htmlFor="my-spot">Common Room</label>
+                        </div>
+                        <div className="office-part-one black">
+                          <span className="informer">359</span>
+                          <label htmlFor="my-spot">The Post</label>
+                        </div>
+                        <div className="office-part-one heart pink">
+                          <span className="informer">
+                            <img src="./images/heart.png" alt="" />
+                          </span>
+                          <label htmlFor="my-spot">AED</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="right-map">
+                      <img src={Floormap} alt="" />
+                      <div className="toolbar">
+                        <button className="location" type="button">
+                          <img src={location} alt="" />
+                        </button>
+                        <button className="zoomin" type="button">
+                          <img src={zoomin} alt="" />
+                        </button>
+                        <button className="zoomout" type="button">
+                          <img src={zoomout} alt="" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <div className="modal-footer">
+              <button
+                type="button"
+                className="btn save-data"
+                onClick={() => {
+                  setEmployee(false);
+                  // onSubmit();
+                  handleClose();
+                }}
+              >
+                Update
+              </button>
+              <button
+                type="button"
+                className="btn dismiss"
+                data-bs-dismiss="modal"
+                onClick={() => setEmployee(false)}
+              >
+                Close
+              </button>
+            </div> */}
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
 
+WorkSpot.propTypes = {
+  onSubmit: PropTypes.func,
+  state: PropTypes.object,
+  onChange: PropTypes.func,
+  onDateChange: PropTypes.func,
+  handleUserSelect: PropTypes.func,
+  handleChange: PropTypes.func,
+  handleClose: PropTypes.func,
+};
 export default WorkSpot;
