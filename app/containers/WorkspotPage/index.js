@@ -4,6 +4,8 @@
 import React, { Component, createRef } from 'react';
 // import PropTypes from 'prop-types';
 import Axios from 'axios';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import Workspot from '../../components/WorkSpot';
 
 class WorkSpotPage extends Component {
@@ -112,15 +114,21 @@ class WorkSpotPage extends Component {
 
   render() {
     return (
-      <Workspot
-        onSubmit={this.onSubmit}
-        handleUserSelect={this.handleUserSelect}
-        handleChange={this.handleChange}
-        handleClose={this.handleClose}
-        state={this.state}
-        onChange={this.onChange}
-        onDateChange={this.onDateChange}
-      />
+      <>
+        <div id="content-wrap">
+          <Header />
+          <Workspot
+            onSubmit={this.onSubmit}
+            handleUserSelect={this.handleUserSelect}
+            handleChange={this.handleChange}
+            handleClose={this.handleClose}
+            state={this.state}
+            onChange={this.onChange}
+            onDateChange={this.onDateChange}
+          />
+        </div>
+        <Footer />
+      </>
     );
   }
 }

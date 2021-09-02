@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 // import { compose } from 'redux';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import Report from '../../components/Report';
 
 class ReportPage extends Component {
@@ -17,7 +19,15 @@ class ReportPage extends Component {
   };
 
   render() {
-    return <Report handleSubmit={this.handleSubmit} />;
+    return (
+      <>
+        <div id="content-wrap">
+          <Header />
+          <Report handleSubmit={this.handleSubmit} />{' '}
+        </div>
+        <Footer />
+      </>
+    );
   }
 }
 

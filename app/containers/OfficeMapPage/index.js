@@ -2,6 +2,8 @@
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import Office from '../../components/OfficeWDC ';
 
 const zoomStep = 1;
@@ -52,15 +54,21 @@ class OfficeMap extends Component {
     };
 
     return (
-      <Office
-        imgStyle={imgStyle}
-        state={this.state}
-        handleZoomIn={this.handleZoomIn}
-        handleZoomOut={this.handleZoomOut}
-        handleDefault={this.handleDefault}
-        handleMouseOut={this.handleMouseOut}
-        handleMouseMove={this.handleMouseMove}
-      />
+      <>
+        <div id="content-wrap">
+          <Header />
+          <Office
+            imgStyle={imgStyle}
+            state={this.state}
+            handleZoomIn={this.handleZoomIn}
+            handleZoomOut={this.handleZoomOut}
+            handleDefault={this.handleDefault}
+            handleMouseOut={this.handleMouseOut}
+            handleMouseMove={this.handleMouseMove}
+          />{' '}
+        </div>
+        <Footer />
+      </>
     );
   }
 }

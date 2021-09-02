@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import Axios from 'axios';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import Profile from '../../components/Profile';
 
 class ProfilePage extends Component {
@@ -66,13 +68,19 @@ class ProfilePage extends Component {
 
   render() {
     return (
-      <Profile
-        state={this.state}
-        handleChange={this.handleChange}
-        handleClose={this.handleClose}
-        handleUserSelect={this.handleUserSelect}
-        handleShow={this.handleShow}
-      />
+      <>
+        <div id="content-wrap">
+          <Header />
+          <Profile
+            state={this.state}
+            handleChange={this.handleChange}
+            handleClose={this.handleClose}
+            handleUserSelect={this.handleUserSelect}
+            handleShow={this.handleShow}
+          />
+        </div>
+        <Footer />
+      </>
     );
   }
 }

@@ -32,8 +32,6 @@ import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
-import Demo from './components/Header';
-import Footer from './components/Footer';
 
 // Create redux store with history
 const initialState = {};
@@ -45,11 +43,7 @@ const render = messages => {
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <div id="content-wrap">
-            <Demo />
-            <App />
-          </div>
-          <Footer />
+          <App />
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,

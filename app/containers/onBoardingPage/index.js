@@ -4,7 +4,9 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 // import { compose } from 'redux';
+import Demo from '../../components/Header';
 import Boarding from '../../components/Boarding';
+import Footer from '../../components/Footer';
 
 class BorardingPage extends Component {
   constructor(props) {
@@ -82,13 +84,19 @@ class BorardingPage extends Component {
 
   render() {
     return (
-      <Boarding
-        handleCheckbox={this.handleCheckbox}
-        handleUserSelect={this.handleUserSelect}
-        handleButtonData={this.handleButtonData}
-        handleSubmit={this.handleSubmit}
-        state={this.state}
-      />
+      <>
+        <div id="content-wrap">
+          <Demo />
+          <Boarding
+            handleCheckbox={this.handleCheckbox}
+            handleUserSelect={this.handleUserSelect}
+            handleButtonData={this.handleButtonData}
+            handleSubmit={this.handleSubmit}
+            state={this.state}
+          />
+        </div>
+        <Footer />
+      </>
     );
   }
 }
