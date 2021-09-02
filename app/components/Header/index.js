@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../assets/css/style.scss';
 import '../assets/css/style.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Headerlogo from '../assets/images/logo_main.svg';
 import Profile from '../assets/images/profileof.png';
 
@@ -9,7 +9,8 @@ const Header = () => {
   const [sidebar, setSidebar] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
   const divRef = useRef();
-
+  const location = useLocation();
+  const pathName = location.pathname;
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside, false);
     document.addEventListener('mousedown', handleClickOutside, false);
@@ -29,32 +30,49 @@ const Header = () => {
         <div className="container">
           <div className="header_wrapper d-flex align-items-center justify-content-between">
             <div className="logo_wrapper">
-              <a href="true">
-                <img src={Headerlogo} alt="" />
-              </a>
+              <Link to="/" activeClassName="active">
+                <a href="true">
+                  <img src={Headerlogo} alt="" />
+                </a>
+              </Link>
             </div>
             <div className={`${sidebar && 'show'} main-menu`}>
               <ul>
                 <li>
                   <Link to="/" activeClassName="active">
-                    <a className="active" href="true">
+                    <a className={pathName === '/' && 'active'} href="true">
                       Home
                     </a>
                   </Link>
                 </li>
                 <li>
                   <Link to="/report" activeClassName="active">
-                    <a href="true">My Team</a>
+                    <a
+                      className={pathName === '/report' && 'active'}
+                      href="true"
+                    >
+                      My Team
+                    </a>
                   </Link>
                 </li>
                 <li>
                   <Link to="/office" activeClassName="active">
-                    <a href="true">Office Maps</a>
+                    <a
+                      className={pathName === '/office' && 'active'}
+                      href="true"
+                    >
+                      Office Maps
+                    </a>
                   </Link>
                 </li>
                 <li>
                   <Link to="/workspot">
-                    <a href="true">Office Maps With Header</a>
+                    <a
+                      className={pathName === '/workspot' && 'active'}
+                      href="true"
+                    >
+                      Office Maps With Header
+                    </a>
                   </Link>
                 </li>
                 <li>
@@ -76,7 +94,12 @@ const Header = () => {
                 <ul className="profile-menus">
                   <li>
                     <Link to="/profile" activeClassName="active">
-                      <a href="true">Profile</a>
+                      <a
+                        className={pathName === '/profile' && 'active'}
+                        href="true"
+                      >
+                        Profile
+                      </a>
                     </Link>
                   </li>
                   <li>
