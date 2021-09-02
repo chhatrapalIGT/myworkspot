@@ -1,15 +1,18 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import { Modal } from 'react-bootstrap';
 // import PropTypes from 'prop-types';
+// import moment from 'moment';
+// import { Datepicker } from '@mobiscroll/react';
+import '../../../src/lib/mobiscroll/css/mobiscroll.react.min.css';
 import Axios from 'axios';
 import Multiselect from 'multiselect-react-dropdown';
-import { Modal } from 'react-bootstrap';
+
 import '../FAQ/styles.scss';
 
 const Report = () => {
   const [show, setShow] = useState(false);
   const [allUser, setAllUser] = useState([]);
-  const [selected, setSelected] = useState([]);
+  // const [selected, setSelected] = useState([]);
 
   const img1 = document.createElement('img');
   img1.setAttribute(

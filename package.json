@@ -85,6 +85,7 @@
     "mini-css-extract-plugin": "^1.0.0",
     "minimist": "1.2.0",
     "multiselect-react-dropdown": "^2.0.5",
+    "moment": "^2.29.1",
     "node-sass": "^4.14.1",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "postcss-loader": "^4.0.4",
@@ -102,8 +103,9 @@
     "redux-saga": "1.0.2",
     "reselect": "4.0.0",
     "sanitize.css": "8.0.0",
-    "sass-loader": "^10.0.3",
-    "styled-components": "4.2.0"
+    "sass-loader": "^10.1.1",
+    "styled-components": "4.2.0",
+    "@mobiscroll/react": "file:./src/lib/mobiscroll-package/mobiscroll-react-5.8.1.tgz"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
