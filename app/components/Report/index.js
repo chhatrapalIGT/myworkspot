@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 // import PropTypes from 'prop-types';
-// import moment from 'moment';
-// import { Datepicker } from '@mobiscroll/react';
+import moment from 'moment';
+import { Datepicker } from '@mobiscroll/react';
 import '../../../src/lib/mobiscroll/css/mobiscroll.react.min.css';
 import Axios from 'axios';
 import Multiselect from 'multiselect-react-dropdown';
-
+import ProfileImg from '../assets/images/myprofile.png';
 import '../FAQ/styles.scss';
 
 const Report = () => {
@@ -78,7 +78,7 @@ const Report = () => {
               <div className="weekly-default-inner d-flex flex-wrap align-items-end">
                 <div className="my_team_member">
                   <div className="d-flex align-items-center mb-1">
-                    <img src="./images/profileof.png" alt="" />
+                    <img src={ProfileImg} alt="" />
                     <span className="member-name">My Workspace</span>
                   </div>
                   <span className="designation">UX/UI Designer</span>
@@ -129,7 +129,54 @@ const Report = () => {
               <div className="weekly-default-inner d-flex flex-wrap align-items-end">
                 <div className="my_team_member">
                   <div className="d-flex align-items-center mb-1">
-                    <img src="./images/profileof.png" alt="" />
+                    <img src={ProfileImg} alt="" />
+                    <span className="member-name">Jane Cooper</span>
+                  </div>
+                  <span className="designation">UX/UI Designer</span>
+                </div>
+                <div className="day_one disabled">
+                  <p className="day-name">Monday</p>
+                  <p className="date">14</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Washington, DC</p>
+                  </div>
+                </div>
+                <div className="day_one current-day">
+                  <p className="day-name">Tuesday</p>
+                  <p className="date today">15</p>
+                  <div className="day-one-wrapper work-from-office border-top-black">
+                    <p className="work-station">Richmond, VA</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Wednesday</p>
+                  <p className="date">16</p>
+                  <div className="day-one-wrapper has-half-paid-off work-from-office border-top-black">
+                    <p className="work-station">Richmond, VA</p>
+                  </div>
+                  <div className="day-one-wrapper half-paid-off">
+                    <p className="work-station">Paid Time Off</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Thursday</p>
+                  <p className="date">17</p>
+                  <div className="day-one-wrapper work-from-home">
+                    <p className="work-station">Remote Work</p>
+                  </div>
+                </div>
+                <div className="day_one">
+                  <p className="day-name">Friday</p>
+                  <p className="date">18</p>
+                  <div className="day-one-wrapper paid-off">
+                    <p className="work-station">Paid Time Off</p>
+                  </div>
+                </div>
+              </div>
+              <div className="weekly-default-inner d-flex flex-wrap align-items-end">
+                <div className="my_team_member">
+                  <div className="d-flex align-items-center mb-1">
+                    <img src={ProfileImg} alt="" />
                     <span className="member-name">My Workspace</span>
                   </div>
                   <span className="designation">UX/UI Designer</span>
@@ -176,55 +223,8 @@ const Report = () => {
               <div className="weekly-default-inner d-flex flex-wrap align-items-end">
                 <div className="my_team_member">
                   <div className="d-flex align-items-center mb-1">
-                    <img src="./images/profileof.png" alt="" />
-                    <span className="member-name">My Workspace</span>
-                  </div>
-                  <span className="designation">UX/UI Designer</span>
-                </div>
-                <div className="day_one disabled">
-                  <p className="day-name">Monday</p>
-                  <p className="date">14</p>
-                  <div className="day-one-wrapper work-from-office border-top-black">
-                    <p className="work-station">Washington, DC</p>
-                  </div>
-                </div>
-                <div className="day_one current-day">
-                  <p className="day-name">Tuesday</p>
-                  <p className="date today">15</p>
-                  <div className="day-one-wrapper work-from-office border-top-black">
-                    <p className="work-station">Richmond, VA</p>
-                  </div>
-                </div>
-                <div className="day_one">
-                  <p className="day-name">Wednesday</p>
-                  <p className="date">16</p>
-                  <div className="day-one-wrapper has-half-paid-off work-from-office border-top-black">
-                    <p className="work-station">Richmond, VA</p>
-                  </div>
-                  <div className="day-one-wrapper half-paid-off">
-                    <p className="work-station">Paid Time Off</p>
-                  </div>
-                </div>
-                <div className="day_one">
-                  <p className="day-name">Thursday</p>
-                  <p className="date">17</p>
-                  <div className="day-one-wrapper work-from-home">
-                    <p className="work-station">Remote Work</p>
-                  </div>
-                </div>
-                <div className="day_one">
-                  <p className="day-name">Friday</p>
-                  <p className="date">18</p>
-                  <div className="day-one-wrapper paid-off">
-                    <p className="work-station">Paid Time Off</p>
-                  </div>
-                </div>
-              </div>
-              <div className="weekly-default-inner d-flex flex-wrap align-items-end">
-                <div className="my_team_member">
-                  <div className="d-flex align-items-center mb-1">
-                    <img src="./images/profileof.png" alt="" />
-                    <span className="member-name">My Workspace</span>
+                    <img src={ProfileImg} alt="" />
+                    <span className="member-name">Cameron Williaso...</span>
                   </div>
                   <span className="designation">UX/UI Designer</span>
                 </div>
@@ -334,14 +334,14 @@ const Report = () => {
               {/* </div> */}
               <div className="selection">
                 <select name="" id="">
-                  <option value="">Remote Work</option>
                   <option value="">Washington, DC</option>
-                  <option value="">Malbourne, Aus</option>
-                  <option value="">Lords, UK</option>
+                  <option value="">Richmond, VA</option>
+                  <option value="">Birmingham, AL</option>
+                  <option value="">Bloomington, MN</option>
                 </select>
               </div>
               <div className="invite-team-wrapp choose-date mt-3">
-                <div className="access-to">
+                {/* <div className="access-to">
                   <div className="access-one">
                     Jun 16th, 2021
                     <a className="close_btn" href>
@@ -357,7 +357,36 @@ const Report = () => {
                   <span className="material-icons-outlined">
                     calendar_today
                   </span>
-                </div>
+                </div> */}
+                <Datepicker
+                  controls={['calendar']}
+                  selectMultiple
+                  min={moment().toDate()}
+                  dateFormat="MMM DD,YYYY"
+                  className="dataaaa"
+                  marked={[
+                    {
+                      date: new Date(2021, 8, 2),
+                      markCssClass: 'mbsc-calendar-marks1',
+                    },
+                    {
+                      date: new Date(2021, 8, 4),
+                      markCssClass: 'mbsc-calendar-marks1',
+                    },
+                    {
+                      date: new Date(2021, 8, 5),
+                      markCssClass: 'mbsc-calendar-marks2',
+                    },
+                    {
+                      date: new Date(2021, 8, 7),
+                      markCssClass: 'mbsc-calendar-marks3',
+                    },
+                    {
+                      date: new Date(2021, 8, 6),
+                      markCssClass: 'mbsc-calendar-marks3',
+                    },
+                  ]}
+                />
               </div>
               <div className="description mt-3">
                 <textarea
@@ -379,6 +408,7 @@ const Report = () => {
               </button>
               <button
                 type="button"
+                onClick={() => setShow(false)}
                 className="btn dismiss"
                 data-bs-dismiss="modal"
               >

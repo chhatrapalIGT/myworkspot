@@ -134,19 +134,19 @@ const Profile = props => {
                 </div>
               </div>
               <div className="day_one">
-                <p className="day-name">Monday</p>
+                <p className="day-name">Wednesday</p>
                 <div className="day-one-wrapper work-from-office border-top-orange">
                   <p className="work-station">Richmond, VA</p>
                 </div>
               </div>
               <div className="day_one">
-                <p className="day-name">Monday</p>
+                <p className="day-name">Thursday</p>
                 <div className="day-one-wrapper work-from-home">
                   <p className="work-station">Remote Work</p>
                 </div>
               </div>
               <div className="day_one">
-                <p className="day-name">Monday</p>
+                <p className="day-name">Friday</p>
                 <div className="day-one-wrapper work-from-home">
                   <p className="work-station">Remote Work</p>
                 </div>
@@ -163,7 +163,7 @@ const Profile = props => {
             </p>
             <div className="card mt-4 work-access-inner">
               <div className="d-flex w-100 justify-content-between align-items-center">
-                <h5>Delegate My Workspot access to</h5>
+                <h5>Delegate My Workspot Access to</h5>
                 <button
                   type="button"
                   onClick={() => setShow(true)}
@@ -196,7 +196,7 @@ const Profile = props => {
               </div>
               <div className="access-to update-workshop">
                 <div className="access-one">
-                  <img src="./images/profileof.png" alt="" />
+                  <img src={ProfileImg} alt="" />
                   Wade Warren
                 </div>
               </div>
