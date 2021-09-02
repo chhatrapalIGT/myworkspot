@@ -1024,6 +1024,11 @@ input {
   opacity: 1;
   cursor: not-allowed;
 }
+
+.weekly-default.month-view-content .day_one {
+  margin-bottom: 32px;
+  width: calc(14.28% - 10px);
+}
 /*# sourceMappingURL=style.css.map */
 
 /****************************************************Responsive***********************************/

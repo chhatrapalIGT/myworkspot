@@ -5,10 +5,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-
 import './custom.scss';
 import { Datepicker } from '@mobiscroll/react';
-// import Axios from 'axios';
 import Floormap from '../../images/floormap.png';
 import location from '../../images/location.png';
 import zoomin from '../../images/zoomin.png';
@@ -27,16 +25,9 @@ const WorkSpot = ({
   handleClose,
 }) => {
   const [isModal, setModal] = useState(false);
-  // const [search, setSearch] = useState(false);
   const [isEmployeeModal, setEmployeeModal] = useState(false);
   const [isEmployee, setEmployee] = useState(false);
-  // const [type, setType] = useState('Remote Work');
-  // const [value, onChange] = useState(new Date());
   const divRef = useRef();
-  // const [data, setData] = useState([]);
-  // const [allUser, setAllUser] = useState([]);
-  // const [searchName, setSearchName] = useState([]);
-  // const [userListData, setUserListData] = useState([]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside, false);
@@ -52,67 +43,6 @@ const WorkSpot = ({
       setModal(false);
     }
   };
-
-  // useEffect(() => {
-  //   const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
-  //   Axios.get(url).then(res => {
-  //     setAllUser(res.data);
-  //     setSearchName(res.data);
-  //     console.log(`allUser`, allUser);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   const url = `https://mocki.io/v1/2884f5b8-f4c0-428e-947e-a0aa339ffaa5 `;
-
-  //   Axios.get(url).then(res => {
-  //     setData(res.data);
-  //     console.log(`data`, data);
-  //     // setSearchName(res.data);
-  //   });
-  // }, []);
-
-  // const onSubmit = () => {
-  //   const payload = {
-  //     date: value.valueText,
-  //     work: type,
-  //   };
-  //   console.log(`payload`, payload);
-  // };
-
-  // const selectData = [];
-  // let finalData = [];
-  // const handleUserSelect = username => {
-  //   if (selectData.includes(username)) {
-  //     const index = selectData.indexOf(username);
-  //     selectData.splice(index, 1);
-  //   } else {
-  //     selectData.push(username);
-  //   }
-  //   finalData = selectData;
-  // };
-
-  // const handleChange = event => {
-  //   let newList = [];
-  //   if (event.target.value !== '') {
-  //     setSearch(true);
-  //     newList = allUser.filter(({ userName }) => {
-  //       const finalDataList = userName.toLowerCase();
-  //       const filter = event.target.value.toLowerCase();
-  //       return finalDataList.includes(filter);
-  //     });
-  //   } else {
-  //     setSearch(false);
-  //     newList = allUser;
-  //   }
-  //   setSearchName(newList);
-  // };
-
-  // const handleClose = () => {
-  //   setUserListData(finalData);
-  //   console.log(`userListData`, userListData);
-  //   setEmployeeModal(false);
-  // };
 
   return (
     <div className="wrapper_main">
@@ -682,8 +612,6 @@ const WorkSpot = ({
         className="modal fade test_modal"
         show={isModal}
         onHide={() => setModal(false)}
-        // id="showCalendar"
-        // tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
@@ -704,14 +632,7 @@ const WorkSpot = ({
             <div className="modal-body modal-view">
               <div className="calendarpop">
                 <div className="selection">
-                  <select
-                    name="location"
-                    id=""
-                    // onChange={e => {
-                    //   setType(e.target.value);
-                    // }}
-                    onChange={onChange}
-                  >
+                  <select name="location" id="" onChange={onChange}>
                     <option value="Remote Work">Remote Work</option>
                     <option value="Washington, DC">Washington, DC</option>
                     <option value="Malbourne, Aus">Malbourne, Aus</option>
@@ -724,10 +645,6 @@ const WorkSpot = ({
                     display="inline"
                     name="date"
                     min={moment().toDate()}
-                    // onChange={date => {
-                    //   // state.dateValue(date);
-                    //   console.log(`date`, date);
-                    // }}
                     onChange={onDateChange}
                     selectMultiple={true}
                     selectCounter={true}
@@ -735,48 +652,24 @@ const WorkSpot = ({
                     marked={[
                       {
                         date: new Date(2021, 8, 2),
-                        // color: '#46c4f3',
                         markCssClass: 'mbsc-calendar-marks1',
                       },
                       {
                         date: new Date(2021, 8, 4),
-                        // color: '#159833',
                         markCssClass: 'mbsc-calendar-marks1',
                       },
                       {
                         date: new Date(2021, 8, 5),
-                        // color: '#b05cbf',
                         markCssClass: 'mbsc-calendar-marks2',
                       },
                       {
                         date: new Date(2021, 8, 7),
-                        // color: '#3adecf',
                         markCssClass: 'mbsc-calendar-marks3',
                       },
                       {
                         date: new Date(2021, 8, 6),
-                        // color: '#c8d235'
                         markCssClass: 'mbsc-calendar-marks3',
                       },
-                      // {
-                      //     date: new Date(year, month, 8),
-                      //     color: '#46c4f3'
-                      // }, {
-                      //     date: new Date(year, month, 10),
-                      //     color: '#7e56bd',
-                      //     markCssClass: 'square-mark'
-                      // }, {
-                      //     date: new Date(year, month, 13),
-                      //     color: '#f13f77'
-                      // }, {
-                      //     date: new Date(year, month, 16),
-                      //     color: '#21b326',
-                      //     markCssClass: 'square-mark'
-                      // }, {
-                      //     date: new Date(year, month, 16),
-                      //     color: '#ffa93a',
-                      //     markCssClass: 'triangle-mark'
-                      // }
                     ]}
                   />
                   <div className="bottom">
@@ -824,8 +717,6 @@ const WorkSpot = ({
         className="modal fade test_modal"
         show={isEmployeeModal}
         onHide={() => setEmployeeModal(false)}
-        // id="showCalendar"
-        // tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
@@ -851,7 +742,6 @@ const WorkSpot = ({
                   className="searchbox"
                   onChange={handleChange}
                 />
-                {console.log(`searchName`, state.searchName)}
                 {state.searchName &&
                   state.searchName.map(i => (
                     <div
@@ -922,27 +812,6 @@ const WorkSpot = ({
               className="modal-body"
               style={{ maxHeight: 'calc(100vh - 600px)' }}
             >
-              {/* <form className="delegate-workspot-access" action="submit">
-                <input
-                  type="search"
-                  placeholder="Search..."
-                  className="searchbox"
-                  onChange={handleChange}
-                />
-                {console.log(`searchName`, state.searchName)}
-                {state.searchName &&
-                  state.searchName.map(i => (
-                    <div
-                      aria-hidden="true"
-                      className="form-group"
-                      onClick={() => handleUserSelect(i.userName)}
-                    >
-                      <img src={ProfileImg} alt="" />
-                      <input id="jane" type="checkbox" className="checkbox" />
-                      <label htmlFor="jane">{i.userName}</label>
-                    </div>
-                  ))}
-              </form> */}
               <div className="office-structure mt-4">
                 <div className="container">
                   <div className="card office-structure-inner">
@@ -1012,27 +881,6 @@ const WorkSpot = ({
                 </div>
               </div>
             </div>
-            {/* <div className="modal-footer">
-              <button
-                type="button"
-                className="btn save-data"
-                onClick={() => {
-                  setEmployee(false);
-                  // onSubmit();
-                  handleClose();
-                }}
-              >
-                Update
-              </button>
-              <button
-                type="button"
-                className="btn dismiss"
-                data-bs-dismiss="modal"
-                onClick={() => setEmployee(false)}
-              >
-                Close
-              </button>
-            </div> */}
           </div>
         </div>
       </Modal>
