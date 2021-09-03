@@ -623,7 +623,12 @@ input[type='text'] {
 .invite-team-wrapp {
   border: 1px solid #d1dce7;
   border-radius: 8px;
-  padding: 8px 10px;
+  padding: 1px 6px;
+
+  > input {
+    border: 0px;
+    height: 45px;
+  }
 
   &.choose-date {
     position: relative;
@@ -1124,6 +1129,10 @@ input[type='text'] {
 .update-office-workspot {
   .weekly-default-inner {
     .day_one {
+      .employee-wrapper:hover {
+        background-color: #d1dce7 !important;
+        border: 1px solid;
+      }
       .day-name {
         margin-bottom: 10px;
       }
@@ -2158,7 +2167,7 @@ li.highlightOption:hover {
 
 .mbsc-ios.mbsc-form-control-wrapper:after,
 .mbsc-ios.mbsc-form-control-wrapper:before {
-  border: none;
+  border: none !important;
 }
 
 .mbsc-calendar-row > div.mbsc-calendar-cell {

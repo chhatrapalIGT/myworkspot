@@ -300,7 +300,11 @@ const WorkSpot = ({
                     <p className="day-name">Tuesday</p>
                     <p className="date today">15</p>
                     <div className="day-one-wrapper work-from-office border-top-blue">
-                      <p className="work-station">Richmond, VA</p>
+                      <p className="work-station work-floor">Richmond, VA</p>
+                      <span className="floor-location">
+                        <img src={Vector} alt="" />
+                        Bldg 1
+                      </span>
                     </div>
                   </div>
                   <div className="day_one">
@@ -392,7 +396,7 @@ const WorkSpot = ({
                           <p className="day-name">Tuesday</p>
                           <p className="date today">15</p>
                           <div
-                            className="day-one-wrapper work-from-office border-top-blue"
+                            className="day-one-wrapper employee-wrapper work-from-office border-top-blue"
                             onClick={() => setEmployee(true)}
                             aria-hidden="true"
                           >
@@ -402,10 +406,10 @@ const WorkSpot = ({
                         <div className="day_one">
                           <p className="day-name">Wednesday</p>
                           <p className="date">16</p>
-                          <div className="day-one-wrapper has-half-paid-off work-from-office border-top-blue">
+                          <div className="day-one-wrapper employee-wrapper has-half-paid-off work-from-office border-top-blue">
                             <p className="work-station">Richmond, VA</p>
                           </div>
-                          <div className="day-one-wrapper half-paid-off">
+                          <div className="day-one-wrapper employee-wrapper half-paid-off">
                             <p className="work-station">Paid Time Off</p>
                           </div>
                         </div>
@@ -413,7 +417,7 @@ const WorkSpot = ({
                           <p className="day-name">Thursday</p>
                           <p className="date">17</p>
                           <div
-                            className="day-one-wrapper work-from-home"
+                            className="day-one-wrapper employee-wrapper work-from-home"
                             onClick={() => setEmployee(true)}
                             aria-hidden="true"
                           >
@@ -424,7 +428,7 @@ const WorkSpot = ({
                           <p className="day-name">Friday</p>
                           <p className="date">18</p>
                           <div
-                            className="day-one-wrapper paid-off"
+                            className="day-one-wrapper employee-wrapper paid-off"
                             onClick={() => setEmployee(true)}
                             aria-hidden="true"
                           >
@@ -1062,7 +1066,7 @@ const WorkSpot = ({
                         name="location"
                         className="checkbox"
                         value={i.name}
-                        onClick={() => handleUserSelect(i.name, true)}
+                        // onClick={() => handleUserSelect(i.name, true)}
                       />
                       <label htmlFor="jane" value={i.name}>
                         {i.name}

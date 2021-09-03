@@ -1,85 +1,83 @@
-
 $mbsc-font-path: '' !default;
 
 @font-face {
-    font-family: 'Mobiscroll';
-    src: 
-        url($mbsc-font-path + 'icons_mobiscroll.woff?dxqurt') format('woff'),
-        url($mbsc-font-path + 'icons_mobiscroll.woff') format('woff'),
-        url($mbsc-font-path + 'icons_mobiscroll.ttf?dxqurt') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Mobiscroll';
+  src: url($mbsc-font-path+'icons_mobiscroll.woff?dxqurt') format('woff'),
+    url($mbsc-font-path+'icons_mobiscroll.woff') format('woff'),
+    url($mbsc-font-path+'icons_mobiscroll.ttf?dxqurt') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 .mbsc-font-icon:before {
-    font-family: 'Mobiscroll';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-family: 'Mobiscroll';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Icons */
 
 .mbsc-icon-arrow-down5::before {
-    content: "\ea01";
+  content: '\ea01';
 }
 .mbsc-icon-arrow-left5::before {
-    content: "\ea02";
+  content: '\ea02';
 }
 .mbsc-icon-arrow-right5::before {
-    content: "\ea03";
+  content: '\ea03';
 }
 .mbsc-icon-arrow-up5::before {
-    content: "\ea04";
+  content: '\ea04';
 }
 .mbsc-icon-ion-ios7-arrow-back::before {
-    content: "\ea05";
+  content: '\ea05';
 }
 .mbsc-icon-ion-ios7-arrow-forward::before {
-    content: "\ea06";
+  content: '\ea06';
 }
 .mbsc-icon-ion-ios7-checkmark-empty::before {
-    content: "\ea07";
+  content: '\ea07';
 }
 .mbsc-icon-ios-backspace::before {
-    content: "\ea08";
+  content: '\ea08';
 }
 .mbsc-icon-material-bookmark::before {
-    content: "\ea09";
+  content: '\ea09';
 }
 .mbsc-icon-material-cloud-download::before {
-    content: "\ea0a";
+  content: '\ea0a';
 }
 .mbsc-icon-material-delete::before {
-    content: "\ea0b";
+  content: '\ea0b';
 }
 .mbsc-icon-material-favorite::before {
-    content: "\ea0c";
+  content: '\ea0c';
 }
 .mbsc-icon-material-flag::before {
-    content: "\ea0d";
+  content: '\ea0d';
 }
 .mbsc-icon-material-https::before {
-    content: "\ea0e";
+  content: '\ea0e';
 }
 .mbsc-icon-material-label::before {
-    content: "\ea0f";
+  content: '\ea0f';
 }
 .mbsc-icon-material-notifications::before {
-    content: "\ea10";
+  content: '\ea10';
 }
 .mbsc-icon-material-refresh::before {
-    content: "\ea11";
+  content: '\ea11';
 }
 .mbsc-icon-material-schedule::before {
-    content: "\ea12";
+  content: '\ea12';
 }
 .mbsc-icon-material-share::before {
-    content: "\ea13";
+  content: '\ea13';
 }
 
 // calendar component
@@ -135,13 +133,10 @@ $mbsc-calendar-event-dark: null !default;
 @function get-contrast-color($color) {
   @if (lightness($color) > 67%) {
     @return #000;
-  }
-
-  @else {
+  } @else {
     @return #fff;
   }
 }
-
 
 $mbsc-ios-accent: #007aff !default;
 $mbsc-ios-background: #f7f7f7 !default;
@@ -153,13 +148,13 @@ $mbsc-ios-dark-text: #ffffff !default;
 
 /* Base colors */
 $mbsc-ios-primary: #3f97f6 !default;
-$mbsc-ios-secondary: #90979E !default;
-$mbsc-ios-success: #43BE5F !default;
+$mbsc-ios-secondary: #90979e !default;
+$mbsc-ios-success: #43be5f !default;
 $mbsc-ios-danger: #f5504e !default;
 $mbsc-ios-warning: #f8b042 !default;
-$mbsc-ios-info: #5BB7C5 !default;
+$mbsc-ios-info: #5bb7c5 !default;
 $mbsc-ios-light: #fff !default;
-$mbsc-ios-dark: #47494A !default;
+$mbsc-ios-dark: #47494a !default;
 
 $mbsc-ios-error: #d8332a;
 
@@ -190,40 +185,38 @@ $mbsc-ios-dark-calendar-border: $mbsc-calendar-border-dark !default;
 $mbsc-ios-dark-calendar-mark: $mbsc-calendar-mark-dark !default;
 $mbsc-ios-dark-calendar-event: $mbsc-calendar-event-dark !default;
 
-$mbsc-ios-colors: ( // Colors map
-  'background': $mbsc-ios-background,
+$mbsc-ios-colors: (
+  // Colors map
+    'background': $mbsc-ios-background,
   'text': $mbsc-ios-text,
   'accent': $mbsc-ios-accent,
-
   'calendar-background': $mbsc-ios-calendar-background,
   'calendar-text': $mbsc-ios-calendar-text,
   'calendar-accent': $mbsc-ios-calendar-accent,
   'calendar-border': $mbsc-ios-calendar-border,
   'calendar-mark': $mbsc-ios-calendar-mark,
   'calendar-event': $mbsc-ios-calendar-event,
-
   'form-background': $mbsc-ios-form-background,
   'form-text': $mbsc-ios-form-text,
   'form-accent': $mbsc-ios-form-accent,
-  'form-error': $mbsc-ios-form-error,
+  'form-error': $mbsc-ios-form-error
 );
 
-$mbsc-ios-dark-colors: ( // Colors map
-  'background': $mbsc-ios-dark-background,
+$mbsc-ios-dark-colors: (
+  // Colors map
+    'background': $mbsc-ios-dark-background,
   'text': $mbsc-ios-dark-text,
   'accent': $mbsc-ios-dark-accent,
-
   'calendar-background': $mbsc-ios-dark-calendar-background,
   'calendar-text': $mbsc-ios-dark-calendar-text,
   'calendar-accent': $mbsc-ios-dark-calendar-accent,
   'calendar-border': $mbsc-ios-dark-calendar-border,
   'calendar-mark': $mbsc-ios-dark-calendar-mark,
   'calendar-event': $mbsc-ios-dark-calendar-event,
-
   'form-background': $mbsc-ios-dark-form-background,
   'form-text': $mbsc-ios-dark-form-text,
   'form-accent': $mbsc-ios-dark-form-accent,
-  'form-error': $mbsc-ios-dark-form-error,
+  'form-error': $mbsc-ios-dark-form-error
 );
 
 @function mbsc-ios-colors($params) {
@@ -231,30 +224,32 @@ $mbsc-ios-dark-colors: ( // Colors map
   $text: map-get($params, 'text');
   $accent: map-get($params, 'accent');
 
-  $background-limited: hsl(hue($background), saturation($background), max(lightness($background), 3%));
+  $background-limited: hsl(
+    hue($background),
+    saturation($background),
+    max(lightness($background), 3%)
+  );
   $background-alt: lighten($background, 6%);
   $border-color: '';
 
   @if (lightness($background) > 50%) {
     $border-color: darken($background-limited, 17%);
-  }
-
-  @else {
+  } @else {
     $border-color: lighten($background, 20%);
   }
 
-  @return ( // General colors
-    'background-alt': $background-alt,
+  @return (
+    // General colors
+      'background-alt': $background-alt,
     'background-limited': $background-limited,
-    'border-color': $border-color,
+    'border-color': $border-color
   );
 }
 
-
-@mixin mbsc-ios-calendar($theme, $params) {}
+@mixin mbsc-ios-calendar($theme, $params) {
+}
 
 // calendar-view component
-
 
 @mixin mbsc-ios-calendar-view($theme, $params) {
   $background: map-get($params, 'background');
@@ -269,9 +264,13 @@ $mbsc-ios-dark-colors: ( // Colors map
   $event-param: map-get($params, 'calendar-event');
 
   $background: if($background-param, $background-param, $background);
-  $text: if($text-param, $text-param, if($background-param, get-contrast-color($background), $text));
+  $text: if(
+    $text-param,
+    $text-param,
+    if($background-param, get-contrast-color($background), $text)
+  );
   $accent: if($accent-param, $accent-param, $accent);
-  $event: if($event-param, $event-param, #5AC8FA);
+  $event: if($event-param, $event-param, #5ac8fa);
 
   $background-alt: '';
   $border-color: '';
@@ -285,9 +284,7 @@ $mbsc-ios-dark-colors: ( // Colors map
     $popup-background: $background-alt;
     $popup-cell: $background-alt;
     $hover: darken($background, 10%);
-  }
-
-  @else {
+  } @else {
     $background-alt: $background;
     $border-color: lighten($background, 20%);
     $popup-background: lighten($background, 16%);
@@ -301,9 +298,7 @@ $mbsc-ios-dark-colors: ( // Colors map
   @if (lightness($background) > 50%) {
     $highlight: lighten(desaturate($accent, 14%), 39%);
     $highlight-contrast: #000;
-  }
-
-  @else {
+  } @else {
     $highlight: darken(desaturate($accent, 14%), 39%);
     $highlight-contrast: #fff;
   }
@@ -340,7 +335,7 @@ $mbsc-ios-dark-colors: ( // Colors map
     }
 
     &.mbsc-hover .mbsc-calendar-cell-text {
-      background-color: rgba($accent, .3);
+      background-color: rgba($accent, 0.3);
     }
 
     /* range highlight and selection */
@@ -364,12 +359,12 @@ $mbsc-ios-dark-colors: ( // Colors map
     }
 
     &.mbsc-focus .mbsc-calendar-cell-text {
-      box-shadow: 0 0 0 2px rgba($text, .5);
+      box-shadow: 0 0 0 2px rgba($text, 0.5);
     }
 
     &.mbsc-focus .mbsc-calendar-day-text {
       box-shadow: none;
-      border-color: rgba($text, .5);
+      border-color: rgba($text, 0.5);
     }
 
     &.mbsc-calendar-mark {
@@ -401,7 +396,6 @@ $mbsc-ios-dark-colors: ( // Colors map
 
     /* Picker */
     &.mbsc-calendar-popup {
-
       .mbsc-popup-arrow,
       .mbsc-popup-body {
         background: $popup-background;
@@ -416,7 +410,6 @@ $mbsc-ios-dark-colors: ( // Colors map
 
 // datepicker component
 
-
 @mixin mbsc-ios-datepicker($theme, $params) {
   $background: map-get($params, 'background');
   $accent: map-get($params, 'accent');
@@ -430,13 +423,14 @@ $mbsc-ios-dark-colors: ( // Colors map
 
   @if (lightness($background) > 50%) {
     $background-alt: lighten($background, 3%);
-    $background-top-bottom: adjust-hue(darken(saturate($background, 12%), 13%), 216deg);
+    $background-top-bottom: adjust-hue(
+      darken(saturate($background, 12%), 13%),
+      216deg
+    );
     $border-color: darken($background, 17%);
     $clear-hover: darken($border-color, 10%);
     $buttons-background: darken($background, 3%);
-  }
-
-  @else {
+  } @else {
     $background-alt: lighten($background, 11%);
     $background-top-bottom: lighten($background, 11%);
     $border-color: lighten($background, 20%);
@@ -445,9 +439,7 @@ $mbsc-ios-dark-colors: ( // Colors map
   }
 
   .mbsc-#{$theme} {
-
     &.mbsc-picker {
-
       .mbsc-popup-arrow,
       .mbsc-popup-body {
         background: $background-alt;
@@ -459,7 +451,6 @@ $mbsc-ios-dark-colors: ( // Colors map
     }
 
     &.mbsc-datepicker {
-
       .mbsc-calendar,
       .mbsc-calendar-slide,
       .mbsc-calendar-cell {
@@ -485,7 +476,7 @@ $mbsc-ios-dark-colors: ( // Colors map
 
     &.mbsc-range-control-text-empty,
     &.mbsc-range-control-text-empty.active {
-      color: rgba($text, .4);
+      color: rgba($text, 0.4);
     }
 
     &.mbsc-range-label-clear {
@@ -496,16 +487,14 @@ $mbsc-ios-dark-colors: ( // Colors map
       }
     }
   }
-
 }
 
 // datetime component
 
-
-@mixin mbsc-ios-datetime($theme, $params) {}
+@mixin mbsc-ios-datetime($theme, $params) {
+}
 
 // button component
-
 
 $mbsc-ios-button-color: $mbsc-button-color-light !default;
 $mbsc-ios-button-text: $mbsc-button-text-light !default;
@@ -513,13 +502,21 @@ $mbsc-ios-button-text: $mbsc-button-text-light !default;
 $mbsc-ios-dark-button-color: $mbsc-button-color-dark !default;
 $mbsc-ios-dark-button-text: $mbsc-button-text-dark !default;
 
-$mbsc-ios-colors: map-merge($mbsc-ios-colors, ('button-color': $mbsc-ios-button-color,
+$mbsc-ios-colors: map-merge(
+  $mbsc-ios-colors,
+  (
+    'button-color': $mbsc-ios-button-color,
     'button-text': $mbsc-ios-button-text,
-  ));
+  )
+);
 
-$mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-ios-dark-button-color,
+$mbsc-ios-dark-colors: map-merge(
+  $mbsc-ios-dark-colors,
+  (
+    'button-color': $mbsc-ios-dark-button-color,
     'button-text': $mbsc-ios-dark-button-text,
-  ));
+  )
+);
 
 @mixin mbsc-ios-button($theme, $params) {
   $background: map-get($params, 'background');
@@ -534,17 +531,19 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
   $button-background: '';
   $background-contrast: '';
 
-  @if(lightness($background) > 50%) {
+  @if (lightness($background) > 50%) {
     $button-background: lighten($background, 10%);
     $background-contrast: #000;
-  }
-
-  @else {
+  } @else {
     $button-background: lighten($background, 23%);
     $background-contrast: #fff;
   }
 
-  $button-background: if($button-background-param, $button-background-param, $button-background);
+  $button-background: if(
+    $button-background-param,
+    $button-background-param,
+    $button-background
+  );
   $button-text: if($button-text-param, $button-text-param, $accent);
 
   $form-background: $background;
@@ -579,7 +578,11 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     $form-selection: darken(desaturate($accent, 15%), 3%);
   }
 
-  $form-selection: if($button-background-param, $button-background-param, $form-selection);
+  $form-selection: if(
+    $button-background-param,
+    $button-background-param,
+    $form-selection
+  );
   $flat-color: if($button-background-param, $button-background-param, $accent);
 
   .mbsc-#{$theme} {
@@ -610,7 +613,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     }
 
     &.mbsc-button.mbsc-focus {
-      background: rgba($background-contrast, .05);
+      background: rgba($background-contrast, 0.05);
       // box-shadow: 0 0 0 2px rgba($text, .3);
     }
 
@@ -771,11 +774,10 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
 
 // popup component
 
-
 @mixin mbsc-ios-popup($theme, $params) {
-  $background: map-get($params, "background");
-  $text: map-get($params, "text");
-  $accent: map-get($params, "accent");
+  $background: map-get($params, 'background');
+  $text: map-get($params, 'text');
+  $accent: map-get($params, 'accent');
 
   $is-dark: false;
   $button-hover: '';
@@ -787,10 +789,11 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     $button-hover: darken($background, 5%);
     $buttons-background: $background; // darken($background, 3%);
     $popup-border: darken($background, 17%);
-    $popup-background: adjust-hue(darken(saturate($background, 24%), 1%), 240deg);
-  }
-
-  @else {
+    $popup-background: adjust-hue(
+      darken(saturate($background, 24%), 1%),
+      240deg
+    );
+  } @else {
     $is-dark: true;
     $button-hover: lighten($background, 14%);
     $buttons-background: lighten($background, 16%);
@@ -802,7 +805,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     &.mbsc-popup-arrow {
       background: $popup-background;
       // border-color: $popup-border;
-      box-shadow: 0 0 1em rgba(0, 0, 0, .2);
+      box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
     }
 
     &.mbsc-popup-top,
@@ -819,7 +822,9 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     &.mbsc-popup-body-round,
     &.mbsc-popup-body-center,
     &.mbsc-popup-body-anchored {
-      box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+      box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+        0px 24px 38px 3px rgba(0, 0, 0, 0.14),
+        0px 9px 46px 8px rgba(0, 0, 0, 0.12);
     }
 
     &.mbsc-popup-header-center {
@@ -856,13 +861,12 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     }
 
     &.mbsc-popup-button-flex.mbsc-button.mbsc-disabled {
-      color: rgba($accent, .2);
+      color: rgba($accent, 0.2);
     }
   }
 }
 
 // scroller component
-
 
 @mixin mbsc-ios-scroller($theme, $params) {
   $background: map-get($params, 'background');
@@ -880,14 +884,15 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
 
   @if (lightness($background) > 50%) {
     $background-alt: lighten($background, 3%);
-    $background-top-bottom: adjust-hue(darken(saturate($background, 12%), 13%), 216deg);
+    $background-top-bottom: adjust-hue(
+      darken(saturate($background, 12%), 13%),
+      216deg
+    );
     $item-3d: darken($background, 33%);
     $overlay: $background-alt;
     $scroller-background: $background-alt;
     $scroller-selected-line: #000;
-  }
-
-  @else {
+  } @else {
     $background-alt: lighten($background, 11%);
     $background-top-bottom: lighten($background, 11%);
     $item-3d: lighten($background, 40%);
@@ -907,16 +912,26 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     }
 
     &.mbsc-scroller-wheel-overlay {
-      background: linear-gradient($overlay, rgba($overlay, 0) 52%, rgba($overlay, 0) 48%, $overlay);
+      background: linear-gradient(
+        $overlay,
+        rgba($overlay, 0) 52%,
+        rgba($overlay, 0) 48%,
+        $overlay
+      );
     }
 
     &.mbsc-scroller-wheel-overlay-top,
     &.mbsc-scroller-wheel-overlay-bottom {
-      background: linear-gradient($background-top-bottom, rgba($background-top-bottom, 0) 52%, rgba($background-top-bottom, 0) 48%, $background-top-bottom);
+      background: linear-gradient(
+        $background-top-bottom,
+        rgba($background-top-bottom, 0) 52%,
+        rgba($background-top-bottom, 0) 48%,
+        $background-top-bottom
+      );
     }
 
     &.mbsc-scroller-wheel-line {
-      background: rgba($scroller-selected-line, .1);
+      background: rgba($scroller-selected-line, 0.1);
     }
 
     &.mbsc-scroller-wheel-item {
@@ -932,9 +947,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     &.mbsc-scroller-wheel-item-2d,
     &.mbsc-scroller-wheel-item.mbsc-selected {
       color: $text;
-
     }
-
 
     /* 3D */
 
@@ -966,7 +979,6 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     /* Desktop style */
 
     &.mbsc-scroller-pointer {
-
       &.mbsc-scroller {
         background: $scroller-background;
       }
@@ -982,7 +994,6 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
       .mbsc-scroller-wheel-item.mbsc-selected {
         color: $accent;
       }
-
     }
   }
 }
@@ -990,30 +1001,24 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
 // Theme builder function for ios theme
 
 @mixin mbsc-ios-theme($theme, $colors) {
-    @include mbsc-ios-calendar($theme, $colors);
-    @include mbsc-ios-calendar-view($theme, $colors);
-    @include mbsc-ios-datepicker($theme, $colors);
-    @include mbsc-ios-datetime($theme, $colors);
-    @include mbsc-ios-button($theme, $colors);
-    @include mbsc-ios-popup($theme, $colors);
-    @include mbsc-ios-scroller($theme, $colors);
+  @include mbsc-ios-calendar($theme, $colors);
+  @include mbsc-ios-calendar-view($theme, $colors);
+  @include mbsc-ios-datepicker($theme, $colors);
+  @include mbsc-ios-datetime($theme, $colors);
+  @include mbsc-ios-button($theme, $colors);
+  @include mbsc-ios-popup($theme, $colors);
+  @include mbsc-ios-scroller($theme, $colors);
 }
 
 @mixin mbsc-custom-theme($theme, $base-theme, $colors) {
-    @if $base-theme==ios {
-        @include mbsc-ios-theme($theme, $colors);
-    }
+  @if $base-theme==ios {
+    @include mbsc-ios-theme($theme, $colors);
+  }
 }
 
-
-
-
 @if ($mbsc-ios-theme) {
-
   .mbsc-ios {
-
     &.mbsc-picker {
-
       .mbsc-popup-overlay-top,
       .mbsc-popup-overlay-bottom {
         background: none;
@@ -1046,7 +1051,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
 
     &.mbsc-picker-header {
       line-height: 1.25em;
-      padding: .75em 4.375em;
+      padding: 0.75em 4.375em;
       font-weight: bold;
       text-align: center;
       border-bottom: 1px solid;
@@ -1055,7 +1060,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     /* Range Controls */
 
     &.mbsc-range-control-wrapper {
-      padding: 0 .75em;
+      padding: 0 0.75em;
       overflow: hidden;
     }
 
@@ -1069,24 +1074,36 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
 
     // Segmented width based on controls
 
-    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-timegrid .mbsc-range-control-wrapper .mbsc-segmented,
-    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-time .mbsc-range-control-wrapper .mbsc-segmented,
-    &.mbsc-datepicker-control-date.mbsc-datepicker-control-time .mbsc-range-control-wrapper .mbsc-segmented,
-    &.mbsc-datepicker-control-datetime .mbsc-range-control-wrapper .mbsc-segmented {
+    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-timegrid
+      .mbsc-range-control-wrapper
+      .mbsc-segmented,
+    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-time
+      .mbsc-range-control-wrapper
+      .mbsc-segmented,
+    &.mbsc-datepicker-control-date.mbsc-datepicker-control-time
+      .mbsc-range-control-wrapper
+      .mbsc-segmented,
+    &.mbsc-datepicker-control-datetime
+      .mbsc-range-control-wrapper
+      .mbsc-segmented {
       width: 25em; // 400px: default format can show -> "09/25/2020 12:30 AM"
     }
 
     &.mbsc-range-control-wrapper .mbsc-segmented-button {
       display: block;
-      padding: 0 .5em;
+      padding: 0 0.5em;
     }
 
-    &.mbsc-range-control-wrapper .mbsc-range-value-nonempty .mbsc-segmented-button {
-      padding: 0 2.0625em 0 .5em;
+    &.mbsc-range-control-wrapper
+      .mbsc-range-value-nonempty
+      .mbsc-segmented-button {
+      padding: 0 2.0625em 0 0.5em;
     }
 
-    &.mbsc-range-control-wrapper .mbsc-range-value-nonempty .mbsc-segmented-button.mbsc-rtl {
-      padding: 0 .5em 0 2.0625em;
+    &.mbsc-range-control-wrapper
+      .mbsc-range-value-nonempty
+      .mbsc-segmented-button.mbsc-rtl {
+      padding: 0 0.5em 0 2.0625em;
     }
 
     &.mbsc-range-control-label,
@@ -1104,23 +1121,23 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
     }
 
     &.mbsc-range-control-label {
-      padding: .615385em .615385em 0 .615385em; // 8px
+      padding: 0.615385em 0.615385em 0 0.615385em; // 8px
     }
 
     &.mbsc-range-control-value {
-      padding: 0 .615385em .615385em .615385em; // 8px
+      padding: 0 0.615385em 0.615385em 0.615385em; // 8px
       text-overflow: ellipsis;
       overflow: hidden;
 
       &.active {
-        padding: 0 .571429em .571429em .571429em; // 8px
+        padding: 0 0.571429em 0.571429em 0.571429em; // 8px
         font-size: 1.076923em; // 14px
         line-height: 1.428572em; // 20px
       }
     }
 
     &.mbsc-range-label-clear {
-      margin-top: -.692308em; // 9px
+      margin-top: -0.692308em; // 9px
       width: 1.307693em; // 17px
       height: 1.307693em;
 
@@ -1132,14 +1149,11 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ('button-color': $mbsc-i
         left: 1em;
       }
     }
-
   }
 
   @include mbsc-ios-datepicker('ios', $mbsc-ios-colors);
   @include mbsc-ios-datepicker('ios-dark', $mbsc-ios-dark-colors);
 }
-
-
 
 $mbsc-material-accent: #1a73e8 !default;
 $mbsc-material-background: #fff !default;
@@ -1151,13 +1165,13 @@ $mbsc-material-dark-text: #fff !default;
 
 /* Base colors */
 $mbsc-material-primary: #3f97f6 !default;
-$mbsc-material-secondary: #90979E !default;
-$mbsc-material-success: #43BE5F !default;
+$mbsc-material-secondary: #90979e !default;
+$mbsc-material-success: #43be5f !default;
 $mbsc-material-danger: #f5504e !default;
 $mbsc-material-warning: #f8b042 !default;
-$mbsc-material-info: #5BB7C5 !default;
+$mbsc-material-info: #5bb7c5 !default;
 $mbsc-material-light: #fff !default;
-$mbsc-material-dark: #47494A !default;
+$mbsc-material-dark: #47494a !default;
 
 $mbsc-material-error: #de3226;
 
@@ -1188,40 +1202,38 @@ $mbsc-material-dark-calendar-border: $mbsc-calendar-border-dark !default;
 $mbsc-material-dark-calendar-mark: $mbsc-calendar-mark-dark !default;
 $mbsc-material-dark-calendar-event: $mbsc-calendar-event-dark !default;
 
-$mbsc-material-colors: ( // Colors map
-  'background': $mbsc-material-background,
+$mbsc-material-colors: (
+  // Colors map
+    'background': $mbsc-material-background,
   'text': $mbsc-material-text,
   'accent': $mbsc-material-accent,
-
   'calendar-background': $mbsc-material-calendar-background,
   'calendar-text': $mbsc-material-calendar-text,
   'calendar-accent': $mbsc-material-calendar-accent,
   'calendar-border': $mbsc-material-calendar-border,
   'calendar-mark': $mbsc-material-calendar-mark,
   'calendar-event': $mbsc-material-calendar-event,
-
   'form-background': $mbsc-material-form-background,
   'form-text': $mbsc-material-form-text,
   'form-accent': $mbsc-material-form-accent,
-  'form-error': $mbsc-material-form-error,
+  'form-error': $mbsc-material-form-error
 );
 
-$mbsc-material-dark-colors: ( // Colors map
-  'background': $mbsc-material-dark-background,
+$mbsc-material-dark-colors: (
+  // Colors map
+    'background': $mbsc-material-dark-background,
   'text': $mbsc-material-dark-text,
   'accent': $mbsc-material-dark-accent,
-
   'calendar-background': $mbsc-material-dark-calendar-background,
   'calendar-text': $mbsc-material-dark-calendar-text,
   'calendar-accent': $mbsc-material-dark-calendar-accent,
   'calendar-border': $mbsc-material-dark-calendar-border,
   'calendar-mark': $mbsc-material-dark-calendar-mark,
   'calendar-event': $mbsc-material-dark-calendar-event,
-
   'form-background': $mbsc-material-dark-form-background,
   'form-text': $mbsc-material-dark-form-text,
   'form-accent': $mbsc-material-dark-form-accent,
-  'form-error': $mbsc-material-dark-form-error,
+  'form-error': $mbsc-material-dark-form-error
 );
 
 @function mbsc-material-colors($params) {
@@ -1232,9 +1244,7 @@ $mbsc-material-dark-colors: ( // Colors map
   @return ();
 }
 
-
 @mixin mbsc-material-datepicker($theme, $params) {
-
   $background: map-get($params, 'background');
   $text: map-get($params, 'text');
   $accent: map-get($params, 'accent');
@@ -1247,9 +1257,7 @@ $mbsc-material-dark-colors: ( // Colors map
     $ctrl-background: darken($text, 36%);
     $clear-icon: lighten($text, 50%);
     $clear-icon-hover: darken($clear-icon, 20%);
-  }
-
-  @else {
+  } @else {
     $ctrl-background: lighten($text, 24%);
     $clear-icon: darken($text, 50%);
     $clear-icon-hover: lighten($clear-icon, 20%);
@@ -1284,7 +1292,7 @@ $mbsc-material-dark-colors: ( // Colors map
     /* Range Controls */
 
     &.mbsc-range-control-wrapper {
-      border-bottom: 1px solid rgba($ctrl-background, .2);
+      border-bottom: 1px solid rgba($ctrl-background, 0.2);
     }
 
     &.mbsc-range-control-wrapper &.mbsc-segmented-button {
@@ -1302,7 +1310,7 @@ $mbsc-material-dark-colors: ( // Colors map
 
     &.mbsc-range-control-text-empty,
     &.mbsc-range-control-text-empty.active {
-      color: rgba($text, .4);
+      color: rgba($text, 0.4);
     }
 
     &.mbsc-range-label-clear {
@@ -1312,18 +1320,15 @@ $mbsc-material-dark-colors: ( // Colors map
         color: $clear-icon-hover;
       }
     }
-
   }
 }
 
-
 @if ($mbsc-material-theme) {
-
   .mbsc-material {
     &.mbsc-picker-header {
       font-size: 1.25em;
       font-weight: 500;
-      padding: .8em .8em 0 .8em;
+      padding: 0.8em 0.8em 0 0.8em;
       line-height: 1.4em;
       text-align: center;
     }
@@ -1332,7 +1337,6 @@ $mbsc-material-dark-colors: ( // Colors map
 
     // Overrides for the segmented
     &.mbsc-range-control-wrapper {
-
       .mbsc-segmented {
         padding: 0;
         max-width: 100%;
@@ -1344,7 +1348,7 @@ $mbsc-material-dark-colors: ( // Colors map
         border: 0;
         border-bottom: 2px solid transparent;
         border-radius: 0;
-        padding: .8571422em 1.142857em; // 12px 16px (14px based)
+        padding: 0.8571422em 1.142857em; // 12px 16px (14px based)
         display: block;
       }
 
@@ -1367,10 +1371,18 @@ $mbsc-material-dark-colors: ( // Colors map
 
     // Segmented width based on controls
 
-    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-timegrid .mbsc-range-control-wrapper .mbsc-segmented,
-    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-time .mbsc-range-control-wrapper .mbsc-segmented,
-    &.mbsc-datepicker-control-date.mbsc-datepicker-control-time .mbsc-range-control-wrapper .mbsc-segmented,
-    &.mbsc-datepicker-control-datetime .mbsc-range-control-wrapper .mbsc-segmented {
+    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-timegrid
+      .mbsc-range-control-wrapper
+      .mbsc-segmented,
+    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-time
+      .mbsc-range-control-wrapper
+      .mbsc-segmented,
+    &.mbsc-datepicker-control-date.mbsc-datepicker-control-time
+      .mbsc-range-control-wrapper
+      .mbsc-segmented,
+    &.mbsc-datepicker-control-datetime
+      .mbsc-range-control-wrapper
+      .mbsc-segmented {
       width: 25em; // 400px: default format can show -> "09/25/2020 12:30 AM"
     }
 
@@ -1385,17 +1397,17 @@ $mbsc-material-dark-colors: ( // Colors map
     }
 
     &.mbsc-range-label-clear {
-      margin-top: -.625em; // 10px
-      right: .75em; // 12px
+      margin-top: -0.625em; // 10px
+      right: 0.75em; // 12px
       width: 1.3125em; // 21px
       height: 1.3125em;
 
       &.mbsc-ltr {
-        right: .75em;
+        right: 0.75em;
       }
 
       &.mbsc-rtl {
-        left: .75em;
+        left: 0.75em;
       }
     }
 
@@ -1408,10 +1420,11 @@ $mbsc-material-dark-colors: ( // Colors map
   }
 
   @include mbsc-material-datepicker('material', $mbsc-material-colors);
-  @include mbsc-material-datepicker('material-dark', $mbsc-material-dark-colors);
+  @include mbsc-material-datepicker(
+    'material-dark',
+    $mbsc-material-dark-colors
+  );
 }
-
-
 
 $mbsc-windows-accent: #0078d7 !default;
 $mbsc-windows-background: #ffffff !default;
@@ -1423,13 +1436,13 @@ $mbsc-windows-dark-text: #ffffff !default;
 
 /* Base colors */
 $mbsc-windows-primary: #3f97f6 !default;
-$mbsc-windows-secondary: #90979E !default;
-$mbsc-windows-success: #43BE5F !default;
+$mbsc-windows-secondary: #90979e !default;
+$mbsc-windows-success: #43be5f !default;
 $mbsc-windows-danger: #f5504e !default;
 $mbsc-windows-warning: #f8b042 !default;
-$mbsc-windows-info: #5BB7C5 !default;
+$mbsc-windows-info: #5bb7c5 !default;
 $mbsc-windows-light: #fff !default;
-$mbsc-windows-dark: #47494A !default;
+$mbsc-windows-dark: #47494a !default;
 
 $mbsc-windows-error: #a4262c;
 
@@ -1460,53 +1473,49 @@ $mbsc-windows-dark-calendar-border: $mbsc-calendar-border-dark !default;
 $mbsc-windows-dark-calendar-mark: $mbsc-calendar-mark-dark !default;
 $mbsc-windows-dark-calendar-event: $mbsc-calendar-event-dark !default;
 
-$mbsc-windows-colors: ( // Colors map
-  'background': $mbsc-windows-background,
+$mbsc-windows-colors: (
+  // Colors map
+    'background': $mbsc-windows-background,
   'text': $mbsc-windows-text,
   'accent': $mbsc-windows-accent,
-  
   'calendar-background': $mbsc-windows-calendar-background,
   'calendar-text': $mbsc-windows-calendar-text,
   'calendar-accent': $mbsc-windows-calendar-accent,
   'calendar-border': $mbsc-windows-calendar-border,
   'calendar-mark': $mbsc-windows-calendar-mark,
   'calendar-event': $mbsc-windows-calendar-event,
-
   'form-background': $mbsc-windows-form-background,
   'form-text': $mbsc-windows-form-text,
   'form-accent': $mbsc-windows-form-accent,
-  'form-error': $mbsc-windows-form-error,
+  'form-error': $mbsc-windows-form-error
 );
 
-$mbsc-windows-dark-colors: ( // Colors map
-  'background': $mbsc-windows-dark-background,
+$mbsc-windows-dark-colors: (
+  // Colors map
+    'background': $mbsc-windows-dark-background,
   'text': $mbsc-windows-dark-text,
   'accent': $mbsc-windows-dark-accent,
-  
   'calendar-background': $mbsc-windows-dark-calendar-background,
   'calendar-text': $mbsc-windows-dark-calendar-text,
   'calendar-accent': $mbsc-windows-dark-calendar-accent,
   'calendar-border': $mbsc-windows-dark-calendar-border,
   'calendar-mark': $mbsc-windows-dark-calendar-mark,
   'calendar-event': $mbsc-windows-dark-calendar-event,
-
   'form-background': $mbsc-windows-dark-form-background,
   'form-text': $mbsc-windows-dark-form-text,
   'form-accent': $mbsc-windows-dark-form-accent,
-  'form-error': $mbsc-windows-dark-form-error,
+  'form-error': $mbsc-windows-dark-form-error
 );
 
 @function mbsc-windows-colors($params) {
   $background: map-get($params, 'background');
   $text: map-get($params, 'text');
   $accent: map-get($params, 'accent');
-  
+
   @return ();
 }
 
-
 @mixin mbsc-windows-datepicker($theme, $params) {
-
   $background: map-get($params, 'background');
   $text: map-get($params, 'text');
   $accent: map-get($params, 'accent');
@@ -1515,9 +1524,7 @@ $mbsc-windows-dark-colors: ( // Colors map
 
   @if (lightness($background) > 50%) {
     $button-bg: darken($background, 20%);
-  }
-
-  @else {
+  } @else {
     $button-bg: lighten($background, 15%);
   }
 
@@ -1527,9 +1534,7 @@ $mbsc-windows-dark-colors: ( // Colors map
   @if (lightness($background) > 50%) {
     $border: darken($background, 10%);
     $hover: lighten($text, 70%);
-  }
-
-  @else {
+  } @else {
     $border: lighten($background, 10%);
     $hover: darken($text, 70%);
   }
@@ -1571,11 +1576,11 @@ $mbsc-windows-dark-colors: ( // Colors map
 
     &.mbsc-range-control-text-empty,
     &.mbsc-range-control-text-empty.active {
-      color: rgba($text, .4);
+      color: rgba($text, 0.4);
     }
 
     &.mbsc-range-label-clear {
-      color: rgba($text, .6);
+      color: rgba($text, 0.6);
 
       &:hover {
         color: $text;
@@ -1584,12 +1589,10 @@ $mbsc-windows-dark-colors: ( // Colors map
   }
 }
 
-
 @if ($mbsc-windows-theme) {
-
   .mbsc-windows {
     &.mbsc-picker-header {
-      padding: .5em;
+      padding: 0.5em;
       font-weight: bold;
       text-align: center;
       border-bottom: 1px solid;
@@ -1604,7 +1607,6 @@ $mbsc-windows-dark-colors: ( // Colors map
 
     // overwrites for the segmented
     &.mbsc-range-control-wrapper {
-
       .mbsc-segmented {
         padding: 0;
         max-width: 100%;
@@ -1615,7 +1617,7 @@ $mbsc-windows-dark-colors: ( // Colors map
         background: none;
         border: 0;
         border-bottom: 2px solid transparent;
-        padding: .625em 1em; // 10px 8px;
+        padding: 0.625em 1em; // 10px 8px;
         line-height: 1.25em; // 20px
         display: block;
         text-align: left;
@@ -1636,10 +1638,18 @@ $mbsc-windows-dark-colors: ( // Colors map
 
     // Segmented width based on controls
 
-    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-timegrid .mbsc-range-control-wrapper .mbsc-segmented,
-    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-time .mbsc-range-control-wrapper .mbsc-segmented,
-    &.mbsc-datepicker-control-date.mbsc-datepicker-control-time .mbsc-range-control-wrapper .mbsc-segmented,
-    &.mbsc-datepicker-control-datetime .mbsc-range-control-wrapper .mbsc-segmented {
+    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-timegrid
+      .mbsc-range-control-wrapper
+      .mbsc-segmented,
+    &.mbsc-datepicker-control-calendar.mbsc-datepicker-control-time
+      .mbsc-range-control-wrapper
+      .mbsc-segmented,
+    &.mbsc-datepicker-control-date.mbsc-datepicker-control-time
+      .mbsc-range-control-wrapper
+      .mbsc-segmented,
+    &.mbsc-datepicker-control-datetime
+      .mbsc-range-control-wrapper
+      .mbsc-segmented {
       width: 26.25em; // 420px: default format can show -> "09/25/2020 12:30 AM"
     }
 
@@ -1657,15 +1667,15 @@ $mbsc-windows-dark-colors: ( // Colors map
     &.mbsc-range-label-clear {
       width: 1em; // 16px
       height: 1em;
-      right: .4375em; // 7px;
-      margin-top: -.5em;
+      right: 0.4375em; // 7px;
+      margin-top: -0.5em;
 
       &.mbsc-ltr {
-        right: .4375em; // 7px;
+        right: 0.4375em; // 7px;
       }
 
       &.mbsc-rtl {
-        left: .4375em; // 7px
+        left: 0.4375em; // 7px
       }
     }
   }
@@ -1674,7 +1684,6 @@ $mbsc-windows-dark-colors: ( // Colors map
   @include mbsc-windows-datepicker('windows-dark', $mbsc-windows-dark-colors);
 }
 
-
 /* Needed for angular */
 mbsc-datetime {
   display: block;
@@ -1682,13 +1691,14 @@ mbsc-datetime {
 }
 
 .mbsc-datepicker .mbsc-calendar {
-  padding-bottom: .5em;
+  padding-bottom: 0.5em;
   // For IE11
   display: block;
+  width: 430px !important;
 }
 
 .mbsc-datepicker .mbsc-calendar-week-days {
-  padding: 0 .5em;
+  padding: 0 0.5em;
   box-sizing: border-box;
   margin-left: -1px;
 }
@@ -1751,10 +1761,8 @@ mbsc-datetime {
 }
 
 .mbsc-datepicker .mbsc-calendar-slide {
-  padding: 0 .5em;
+  padding: 0 0.5em;
 }
-
-
 
 $mbsc-mobiscroll-accent: #2b93e6 !default;
 $mbsc-mobiscroll-background: #ffffff !default;
@@ -1766,13 +1774,13 @@ $mbsc-mobiscroll-dark-text: #ffffff !default;
 
 /* Base colors */
 $mbsc-mobiscroll-primary: #3f97f6 !default;
-$mbsc-mobiscroll-secondary: #90979E !default;
-$mbsc-mobiscroll-success: #43BE5F !default;
+$mbsc-mobiscroll-secondary: #90979e !default;
+$mbsc-mobiscroll-success: #43be5f !default;
 $mbsc-mobiscroll-danger: #f5504e !default;
 $mbsc-mobiscroll-warning: #f8b042 !default;
-$mbsc-mobiscroll-info: #5BB7C5 !default;
+$mbsc-mobiscroll-info: #5bb7c5 !default;
 $mbsc-mobiscroll-light: darken(#fff, 10%) !default;
-$mbsc-mobiscroll-dark: #47494A !default;
+$mbsc-mobiscroll-dark: #47494a !default;
 
 $mbsc-mobiscroll-error: #de3226;
 
@@ -1787,24 +1795,26 @@ $mbsc-mobiscroll-dark-form-text: $mbsc-form-text-dark !default;
 $mbsc-mobiscroll-form-error: $mbsc-form-error-light !default;
 $mbsc-mobiscroll-dark-form-error: $mbsc-form-error-dark !default;
 
-$mbsc-mobiscroll-colors: ( // Colors map
-  'background': $mbsc-mobiscroll-background,
+$mbsc-mobiscroll-colors: (
+  // Colors map
+    'background': $mbsc-mobiscroll-background,
   'text': $mbsc-mobiscroll-text,
   'accent': $mbsc-mobiscroll-accent,
   'form-background': $mbsc-mobiscroll-form-background,
   'form-accent': $mbsc-mobiscroll-form-accent,
   'form-text': $mbsc-mobiscroll-form-text,
-  'form-error': $mbsc-mobiscroll-form-error,
+  'form-error': $mbsc-mobiscroll-form-error
 );
 
-$mbsc-mobiscroll-dark-colors: ( // Colors map
-  'background': $mbsc-mobiscroll-dark-background,
+$mbsc-mobiscroll-dark-colors: (
+  // Colors map
+    'background': $mbsc-mobiscroll-dark-background,
   'text': $mbsc-mobiscroll-dark-text,
   'accent': $mbsc-mobiscroll-dark-accent,
   'form-background': $mbsc-mobiscroll-dark-form-background,
   'form-accent': $mbsc-mobiscroll-dark-form-accent,
   'form-text': $mbsc-mobiscroll-dark-form-text,
-  'form-error': $mbsc-mobiscroll-dark-form-error,
+  'form-error': $mbsc-mobiscroll-dark-form-error
 );
 
 @function mbsc-mobiscroll-colors($params) {
@@ -1814,7 +1824,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
   @return ();
 }
-
 
 @mixin mbsc-mobiscroll-segmented($theme, $params) {
   $background: map-get($params, 'background');
@@ -1830,12 +1839,9 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
   @if (lightness($background) > 50%) {
     $btn-light: darken($background, 3%);
-  }
-
-  @else {
+  } @else {
     $btn-light: $background;
   }
-
 
   .mbsc-#{$theme} {
     &.mbsc-segmented-button.mbsc-button {
@@ -1843,11 +1849,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       border-color: $accent;
 
       &.mbsc-hover {
-        background: rgba($accent, .1);
+        background: rgba($accent, 0.1);
       }
 
       &.mbsc-active {
-        background: rgba($accent, .3);
+        background: rgba($accent, 0.3);
       }
 
       &.mbsc-selected {
@@ -1858,36 +1864,35 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 }
 
-
 @if ($mbsc-mobiscroll-theme) {
   .mbsc-mobiscroll {
     &.mbsc-segmented {
-      padding: .5em 1em;
+      padding: 0.5em 1em;
     }
 
     &.mbsc-segmented-item:first-child {
       .mbsc-segmented-button {
-        border-top-left-radius: .25em;
-        border-bottom-left-radius: .25em;
+        border-top-left-radius: 0.25em;
+        border-bottom-left-radius: 0.25em;
       }
     }
 
     &.mbsc-segmented-item:last-child {
       .mbsc-segmented-button {
-        border-top-right-radius: .25em;
-        border-bottom-right-radius: .25em;
-        border-right-width: .142858em;
+        border-top-right-radius: 0.25em;
+        border-bottom-right-radius: 0.25em;
+        border-right-width: 0.142858em;
       }
     }
 
     &.mbsc-segmented-button.mbsc-button {
       margin: 0;
-      padding: .428572em 1.142858em;
+      padding: 0.428572em 1.142858em;
       background: none;
-      border: .142858em solid transparent;
+      border: 0.142858em solid transparent;
       border-right-width: 0;
       border-radius: 0;
-      font-size: .875em;
+      font-size: 0.875em;
       line-height: 1.428572em;
 
       &.mbsc-active,
@@ -1903,11 +1908,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-mobiscroll-primary, .2);
+          background: rgba($mbsc-mobiscroll-primary, 0.2);
         }
 
         &.mbsc-focus {
-          background: rgba($mbsc-mobiscroll-primary, .3);
+          background: rgba($mbsc-mobiscroll-primary, 0.3);
         }
 
         &.mbsc-selected {
@@ -1921,11 +1926,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-mobiscroll-secondary, .2);
+          background: rgba($mbsc-mobiscroll-secondary, 0.2);
         }
 
         &.mbsc-focus {
-          background: rgba($mbsc-mobiscroll-secondary, .3);
+          background: rgba($mbsc-mobiscroll-secondary, 0.3);
         }
 
         &.mbsc-selected {
@@ -1939,11 +1944,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-mobiscroll-success, .2);
+          background: rgba($mbsc-mobiscroll-success, 0.2);
         }
 
         &.mbsc-focus {
-          background: rgba($mbsc-mobiscroll-success, .3);
+          background: rgba($mbsc-mobiscroll-success, 0.3);
         }
 
         &.mbsc-selected {
@@ -1957,11 +1962,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-mobiscroll-danger, .2);
+          background: rgba($mbsc-mobiscroll-danger, 0.2);
         }
 
         &.mbsc-focus {
-          background: rgba($mbsc-mobiscroll-danger, .3);
+          background: rgba($mbsc-mobiscroll-danger, 0.3);
         }
 
         &.mbsc-selected {
@@ -1975,11 +1980,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-mobiscroll-warning, .2);
+          background: rgba($mbsc-mobiscroll-warning, 0.2);
         }
 
         &.mbsc-focus {
-          background: rgba($mbsc-mobiscroll-warning, .3);
+          background: rgba($mbsc-mobiscroll-warning, 0.3);
         }
 
         &.mbsc-selected {
@@ -1993,11 +1998,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-mobiscroll-info, .2);
+          background: rgba($mbsc-mobiscroll-info, 0.2);
         }
 
         &.mbsc-focus {
-          background: rgba($mbsc-mobiscroll-info, .3);
+          background: rgba($mbsc-mobiscroll-info, 0.3);
         }
 
         &.mbsc-selected {
@@ -2008,10 +2013,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 
   @include mbsc-mobiscroll-segmented('mobiscroll', $mbsc-mobiscroll-colors);
-  @include mbsc-mobiscroll-segmented('mobiscroll-dark', $mbsc-mobiscroll-dark-colors);
+  @include mbsc-mobiscroll-segmented(
+    'mobiscroll-dark',
+    $mbsc-mobiscroll-dark-colors
+  );
 }
-
-
 
 @mixin mbsc-ios-segmented($theme, $params) {
   $background: map-get($params, 'background');
@@ -2034,9 +2040,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     $selectbox: #fff;
     $selectbox-contrast: #000;
     $shadow: darken($background, 24%);
-  }
-
-  @else {
+  } @else {
     $is-dark: true;
     $button-background: lighten($background, 11%);
     $selectbox: #5a5a5a;
@@ -2050,11 +2054,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-segmented-item:before {
-      border-color: rgba($selectbox-contrast, .2);
+      border-color: rgba($selectbox-contrast, 0.2);
     }
 
     &.mbsc-segmented-item.mbsc-focus .mbsc-segmented-selectbox {
-      box-shadow: 0 0 0 .0625em rgba($selectbox-contrast, .5) inset;
+      box-shadow: 0 0 0 0.0625em rgba($selectbox-contrast, 0.5) inset;
     }
 
     &.mbsc-segmented-selectbox-inner {
@@ -2072,7 +2076,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     /* Inside popup and calendar header */
     @if ($is-dark) {
-
       &.mbsc-datepicker .mbsc-segmented,
       &.mbsc-popup &.mbsc-segmented,
       &.mbsc-calendar-header &.mbsc-segmented {
@@ -2116,24 +2119,23 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 }
 
-
 @if ($mbsc-ios-theme) {
   .mbsc-ios {
     &.mbsc-segmented {
-      margin: .75em;
-      padding: .0625em;
+      margin: 0.75em;
+      padding: 0.0625em;
       position: relative;
-      border-radius: .5625em;
+      border-radius: 0.5625em;
     }
 
     &.mbsc-segmented-item:before {
       content: '';
       position: absolute;
       border-left: 1px solid;
-      top: .3125em;
-      bottom: .3125em;
+      top: 0.3125em;
+      bottom: 0.3125em;
       opacity: 1;
-      transition: opacity .2s ease-in-out;
+      transition: opacity 0.2s ease-in-out;
     }
 
     &.mbsc-segmented-item.mbsc-ltr:before {
@@ -2152,23 +2154,23 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-segmented-selectbox {
       position: absolute;
-      padding: .0625em;
+      padding: 0.0625em;
       left: 0;
       right: 0;
       top: 0;
       bottom: 0;
       user-select: none;
-      border-radius: .4375em;
+      border-radius: 0.4375em;
     }
 
     &.mbsc-segmented-selectbox-animate {
-      transition: transform .2s ease-in-out;
+      transition: transform 0.2s ease-in-out;
     }
 
     &.mbsc-segmented-selectbox-inner {
       height: 100%;
-      border-radius: .4375em;
-      transition: transform .1s ease-in-out;
+      border-radius: 0.4375em;
+      transition: transform 0.1s ease-in-out;
       visibility: hidden;
     }
 
@@ -2186,15 +2188,15 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-segmented-dragging {
       .mbsc-segmented-selectbox-inner {
-        transform: scale(.97, .95);
+        transform: scale(0.97, 0.95);
       }
 
       .mbsc-segmented-item:first-child .mbsc-segmented-selectbox-inner {
-        transform: scale(.97, .95) translateX(.0625em);
+        transform: scale(0.97, 0.95) translateX(0.0625em);
       }
 
       .mbsc-segmented-item:last-child .mbsc-segmented-selectbox-inner {
-        transform: scale(.97, .95) translateX(-.0625em);
+        transform: scale(0.97, 0.95) translateX(-0.0625em);
       }
     }
 
@@ -2204,11 +2206,12 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-segmented-button.mbsc-button {
       margin: 0;
-      padding: 0 .615385em; // 0 8px
+      padding: 0 0.615385em; // 0 8px
       border-radius: 0;
-      font-size: .8125em; // 13px
+      font-size: 0.8125em; // 13px
       line-height: 2.307693em; // 30px / 13px
-      transition: opacity .1s ease-out, background-color .1s ease-out, transform .1s ease-in-out;
+      transition: opacity 0.1s ease-out, background-color 0.1s ease-out,
+        transform 0.1s ease-in-out;
       // for the scaling to look better
       -webkit-font-smoothing: subpixel-antialiased;
 
@@ -2218,8 +2221,10 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       }
     }
 
-    &.mbsc-segmented-dragging .mbsc-segmented-item-selected .mbsc-segmented-button {
-      transform: scale(.97, .95);
+    &.mbsc-segmented-dragging
+      .mbsc-segmented-item-selected
+      .mbsc-segmented-button {
+      transform: scale(0.97, 0.95);
     }
 
     &.mbsc-segmented-item-selected:first-child .mbsc-segmented-button {
@@ -2229,14 +2234,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     &.mbsc-segmented-item-selected:last-child .mbsc-segmented-button {
       transform-origin: right;
     }
-
   }
 
   @include mbsc-ios-segmented('ios', $mbsc-ios-colors);
   @include mbsc-ios-segmented('ios-dark', $mbsc-ios-dark-colors);
 }
-
-
 
 @mixin mbsc-material-segmented($theme, $params) {
   $background: map-get($params, 'background');
@@ -2258,23 +2260,20 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     $button-background: darken($background, 19%);
     $button-color: darken($text, 36%);
     $button-text: darken($text, 36%);
-  }
-
-  @else {
+  } @else {
     $button-background: lighten($background, 17%);
     $button-color: lighten($text, 24%);
     $button-text: lighten($text, 24%);
   }
 
   .mbsc-#{$theme} {
-
     &.mbsc-segmented-button.mbsc-button {
       border-color: $accent;
       color: $button-text;
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($button-color, .2);
+        background: rgba($button-color, 0.2);
       }
 
       &.mbsc-selected {
@@ -2283,17 +2282,16 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       }
 
       &.mbsc-focus::after {
-        background: rgba($button-text, .2);
+        background: rgba($button-text, 0.2);
       }
     }
   }
 }
 
-
 @if ($mbsc-material-theme) {
   .mbsc-material {
     &.mbsc-segmented {
-      padding: .75em;
+      padding: 0.75em;
     }
 
     &.mbsc-segmented-selectbox {
@@ -2302,39 +2300,39 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-segmented-item:first-child {
       .mbsc-segmented-button {
-        border-top-left-radius: .25em;
-        border-bottom-left-radius: .25em;
+        border-top-left-radius: 0.25em;
+        border-bottom-left-radius: 0.25em;
       }
 
       .mbsc-segmented-button.mbsc-rtl {
-        border-radius: 0 .25em .25em 0;
-        border-right-width: .142858em;
+        border-radius: 0 0.25em 0.25em 0;
+        border-right-width: 0.142858em;
       }
     }
 
     &.mbsc-segmented-item:last-child {
       .mbsc-segmented-button {
-        border-top-right-radius: .25em;
-        border-bottom-right-radius: .25em;
-        border-right-width: .142858em;
+        border-top-right-radius: 0.25em;
+        border-bottom-right-radius: 0.25em;
+        border-right-width: 0.142858em;
       }
 
       .mbsc-segmented-button.mbsc-rtl {
-        border-radius: .25em 0 0 .25em;
+        border-radius: 0.25em 0 0 0.25em;
         border-right-width: 0;
       }
     }
 
     &.mbsc-segmented-button.mbsc-button {
       margin: 0;
-      padding: .285715em 1.142858em;
-      border: .142858em solid transparent;
+      padding: 0.285715em 1.142858em;
+      border: 0.142858em solid transparent;
       border-right-width: 0;
       border-radius: 0;
       background: none;
       box-shadow: none;
       min-width: auto;
-      font-size: .875em;
+      font-size: 0.875em;
 
       &.mbsc-hover,
       &.mbsc-active {
@@ -2359,7 +2357,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-material-primary, .2);
+          background: rgba($mbsc-material-primary, 0.2);
         }
 
         &.mbsc-selected {
@@ -2373,7 +2371,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-material-secondary, .2);
+          background: rgba($mbsc-material-secondary, 0.2);
         }
 
         &.mbsc-selected {
@@ -2387,7 +2385,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-material-success, .2);
+          background: rgba($mbsc-material-success, 0.2);
         }
 
         &.mbsc-selected {
@@ -2401,7 +2399,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-material-danger, .2);
+          background: rgba($mbsc-material-danger, 0.2);
         }
 
         &.mbsc-selected {
@@ -2415,7 +2413,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-material-warning, .2);
+          background: rgba($mbsc-material-warning, 0.2);
         }
 
         &.mbsc-selected {
@@ -2429,7 +2427,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
         &.mbsc-hover,
         &.mbsc-active {
-          background: rgba($mbsc-material-info, .2);
+          background: rgba($mbsc-material-info, 0.2);
         }
 
         &.mbsc-selected {
@@ -2437,14 +2435,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
         }
       }
     }
-
   }
 
   @include mbsc-material-segmented('material', $mbsc-material-colors);
   @include mbsc-material-segmented('material-dark', $mbsc-material-dark-colors);
 }
-
-
 
 @mixin mbsc-windows-segmented($theme, $params) {
   $background: map-get($params, 'background');
@@ -2473,9 +2468,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     $button-bg: darken($background, 20%);
     $border: darken($background, 10%);
     $form-background: lighten($background, 13%);
-  }
-
-  @else {
+  } @else {
     $button-border: lighten($background, 35%);
     $button-active: darken($text, 33%);
     $button-hover: lighten($background, 17%);
@@ -2505,11 +2498,10 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 }
 
-
 @if ($mbsc-windows-theme) {
   .mbsc-windows {
     &.mbsc-segmented {
-      padding: .75em;
+      padding: 0.75em;
     }
 
     &.mbsc-segmented-selectbox {
@@ -2531,7 +2523,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
       /* Color presets */
       &.mbsc-button-primary {
-
         &.mbsc-active,
         &.mbsc-selected {
           background: $mbsc-windows-primary;
@@ -2539,7 +2530,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       }
 
       &.mbsc-button-secondary {
-
         &.mbsc-active,
         &.mbsc-selected {
           background: $mbsc-windows-secondary;
@@ -2547,7 +2537,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       }
 
       &.mbsc-button-success {
-
         &.mbsc-active,
         &.mbsc-selected {
           background: $mbsc-windows-success;
@@ -2555,7 +2544,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       }
 
       &.mbsc-button-danger {
-
         &.mbsc-active,
         &.mbsc-selected {
           background: $mbsc-windows-danger;
@@ -2563,7 +2551,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       }
 
       &.mbsc-button-warning {
-
         &.mbsc-active,
         &.mbsc-selected {
           background: $mbsc-windows-warning;
@@ -2571,7 +2558,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       }
 
       &.mbsc-button-info {
-
         &.mbsc-active,
         &.mbsc-selected {
           background: $mbsc-windows-info;
@@ -2583,7 +2569,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   @include mbsc-windows-segmented('windows', $mbsc-windows-colors);
   @include mbsc-windows-segmented('windows-dark', $mbsc-windows-dark-colors);
 }
-
 
 .mbsc-segmented {
   // display: table;
@@ -2623,33 +2608,26 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   width: 100%;
 }
 
-
-
 @if ($mbsc-ios-theme) {
   @include mbsc-ios-calendar('ios', $mbsc-ios-colors);
   @include mbsc-ios-calendar('ios-dark', $mbsc-ios-dark-colors);
 }
 
-
-
-@mixin mbsc-material-calendar($theme, $params) {}
-
+@mixin mbsc-material-calendar($theme, $params) {
+}
 
 @if ($mbsc-material-theme) {
   @include mbsc-material-calendar('material', $mbsc-material-colors);
   @include mbsc-material-calendar('material-dark', $mbsc-material-dark-colors);
 }
 
-
-
-@mixin mbsc-windows-calendar($theme, $params) {}
-
+@mixin mbsc-windows-calendar($theme, $params) {
+}
 
 @if ($mbsc-windows-theme) {
   @include mbsc-windows-calendar('windows', $mbsc-windows-colors);
   @include mbsc-windows-calendar('windows-dark', $mbsc-windows-dark-colors);
 }
-
 
 .mbsc-icon {
   display: inline-block;
@@ -2669,8 +2647,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   fill: currentColor;
 }
 
-
-
 @mixin mbsc-ios-timegrid($theme, $params) {
   $background: map-get($params, 'background');
   $accent: map-get($params, 'accent');
@@ -2682,18 +2658,15 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   @if (lightness($background) > 50%) {
     $background-hover: lighten($accent, 35%);
     $selected-text: lighten($text, 100%);
-  }
-
-  @else {
+  } @else {
     $background-hover: darken($accent, 25%);
     $selected-text: lighten($text, 100%);
   }
 
   .mbsc-#{$theme} {
-
     &.mbsc-timegrid-item:hover,
     &.mbsc-timegrid-item:focus {
-      background: rgba($accent, .3);
+      background: rgba($accent, 0.3);
     }
 
     &.mbsc-timegrid-item.mbsc-selected {
@@ -2703,32 +2676,27 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 }
 
-
 @if ($mbsc-ios-theme) {
   .mbsc-ios {
-
     &.mbsc-timegrid-item {
       line-height: 2em;
-      margin: .5em .625em;
+      margin: 0.5em 0.625em;
       border-radius: 2em;
-      font-size: .875em;
+      font-size: 0.875em;
     }
 
     &.mbsc-timegrid-item.mbsc-selected,
     &.mbsc-timegrid-item:hover,
     &.mbsc-timegrid-item:focus {
       font-size: 1em;
-      margin: 0 .25em;
+      margin: 0 0.25em;
       outline: none;
     }
-
   }
 }
 
 @include mbsc-ios-timegrid('ios', $mbsc-ios-colors);
 @include mbsc-ios-timegrid('ios-dark', $mbsc-ios-dark-colors);
-
-
 
 @mixin mbsc-material-timegrid($theme, $params) {
   $background: map-get($params, 'background');
@@ -2741,18 +2709,15 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   @if (lightness($background) > 50%) {
     $background-hover: lighten($accent, 35%);
     $selected-text: lighten($text, 100%);
-  }
-
-  @else {
+  } @else {
     $background-hover: darken($accent, 25%);
     $selected-text: darken($text, 100%);
   }
 
   .mbsc-#{$theme} {
-
     &.mbsc-timegrid-item:hover,
     &.mbsc-timegrid-item:focus {
-      background: rgba($text, .1);
+      background: rgba($text, 0.1);
     }
 
     &.mbsc-timegrid-item.mbsc-selected {
@@ -2762,21 +2727,19 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 }
 
-
 @if ($mbsc-material-theme) {
   .mbsc-material {
-
     &.mbsc-timegrid-item {
       line-height: 2em;
-      margin: .5em .625em;
+      margin: 0.5em 0.625em;
       border-radius: 2em;
-      font-size: .875em;
+      font-size: 0.875em;
     }
 
     &.mbsc-timegrid-item.mbsc-selected,
     &.mbsc-timegrid-item:hover,
     &.mbsc-timegrid-item:focus {
-      margin: 0 .25em;
+      margin: 0 0.25em;
       outline: none;
     }
   }
@@ -2785,8 +2748,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 @include mbsc-material-timegrid('material', $mbsc-material-colors);
 @include mbsc-material-timegrid('material-dark', $mbsc-material-dark-colors);
 
-
-
 @mixin mbsc-windows-timegrid($theme, $params) {
   $background: map-get($params, 'background');
   $accent: map-get($params, 'accent');
@@ -2794,29 +2755,27 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
   .mbsc-#{$theme} {
     &.mbsc-timegrid-item.mbsc-selected {
-      background: rgba($accent, .25);
+      background: rgba($accent, 0.25);
       color: $text;
     }
 
     &.mbsc-timegrid-item:hover,
     &.mbsc-timegrid-item:focus {
-      background: rgba($text, .1);
+      background: rgba($text, 0.1);
     }
 
     &.mbsc-timegrid-item.mbsc-selected:hover,
     &.mbsc-timegrid-item.mbsc-selected:focus {
-      background: mix(rgba($accent, .5), rgba($text, .2));
+      background: mix(rgba($accent, 0.5), rgba($text, 0.2));
     }
   }
 }
 
-
 @if ($mbsc-windows-theme) {
   .mbsc-windows {
-
     &.mbsc-timegrid-item {
       padding: 1.3125em 0;
-      margin: .0625em;
+      margin: 0.0625em;
       font-size: 14px;
     }
 
@@ -2828,7 +2787,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
 @include mbsc-windows-timegrid('windows', $mbsc-windows-colors);
 @include mbsc-windows-timegrid('windows-dark', $mbsc-windows-dark-colors);
-
 
 // When the calendar control is present, then the calendar specifies the height,
 // but when the row is wrapped, we need a minimum height, so the grid won't collapse
@@ -2987,15 +2945,12 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 }
 
 @media (-webkit-min-device-pixel-ratio: 2) {
-
   .mbsc-hb,
   .mbsc-hb:before,
   .mbsc-hb:after {
-    border-width: .5px !important;
+    border-width: 0.5px !important;
   }
 }
-
-
 
 @if ($mbsc-ios-theme) {
   .mbsc-ios {
@@ -3015,15 +2970,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 }
 
+@mixin mbsc-material-datetime($theme, $params) {
+}
 
-
-@mixin mbsc-material-datetime($theme, $params) {}
-
-
-
-
-@mixin mbsc-windows-datetime($theme, $params) {}
-
+@mixin mbsc-windows-datetime($theme, $params) {
+}
 
 @if ($mbsc-windows-theme) {
   .mbsc-windows {
@@ -3043,13 +2994,10 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 }
 
-
-
-
 @mixin mbsc-mobiscroll-calendar-view($theme, $params) {
-  $background: map-get($params, "background");
-  $text: map-get($params, "text");
-  $accent: map-get($params, "accent");
+  $background: map-get($params, 'background');
+  $text: map-get($params, 'text');
+  $accent: map-get($params, 'accent');
 
   .mbsc-#{$theme} {
     &.mbsc-calendar-wrapper-fixed {
@@ -3092,7 +3040,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 }
 
-
 @if ($mbsc-mobiscroll-theme) {
   .mbsc-mobiscroll {
     &.mbsc-calendar-header {
@@ -3122,10 +3069,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 
   @include mbsc-mobiscroll-calendar-view('mobiscroll', $mbsc-mobiscroll-colors);
-  @include mbsc-mobiscroll-calendar-view('mobiscroll-dark', $mbsc-mobiscroll-dark-colors);
+  @include mbsc-mobiscroll-calendar-view(
+    'mobiscroll-dark',
+    $mbsc-mobiscroll-dark-colors
+  );
 }
-
-
 
 @if ($mbsc-ios-theme) {
   .mbsc-ios {
@@ -3140,7 +3088,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-calendar-cell-text {
       height: 2em;
-      padding: 0 .5em;
+      padding: 0 0.5em;
       line-height: 2em;
       border-radius: 2em;
     }
@@ -3181,7 +3129,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       position: absolute;
       left: -1px;
       right: -1px;
-      top: .25em;
+      top: 0.25em;
       z-index: 0;
       box-sizing: border-box;
     }
@@ -3244,7 +3192,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     /* Labels */
 
     &.mbsc-calendar-text:before {
-      border-radius: .2em;
+      border-radius: 0.2em;
     }
 
     &.mbsc-calendar-label {
@@ -3253,13 +3201,13 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-calendar-label-background {
       background: currentColor;
-      border-radius: .2em;
-      opacity: .5;
-      transition: opacity .15s ease-in-out;
+      border-radius: 0.2em;
+      opacity: 0.5;
+      transition: opacity 0.15s ease-in-out;
     }
 
     &.mbsc-calendar-label-hover .mbsc-calendar-label-background {
-      opacity: .6;
+      opacity: 0.6;
     }
 
     &.mbsc-calendar-label.mbsc-calendar-label-hover:before {
@@ -3268,7 +3216,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-calendar-label-dragging .mbsc-calendar-label-background,
     &.mbsc-calendar-label-active .mbsc-calendar-label-background {
-      opacity: .9;
+      opacity: 0.9;
     }
 
     /* Desktop styling */
@@ -3325,19 +3273,19 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       .mbsc-calendar-text {
         height: 1.8em;
         line-height: 1.8em;
-        margin: 0 .4em .2em .4em;
+        margin: 0 0.4em 0.2em 0.4em;
 
         &:before {
-          border-radius: .4em;
+          border-radius: 0.4em;
         }
       }
 
       .mbsc-calendar-label {
-        padding: 0 .4em;
+        padding: 0 0.4em;
       }
 
       .mbsc-calendar-label-background {
-        border-radius: .4em;
+        border-radius: 0.4em;
       }
 
       .mbsc-calendar-label-text {
@@ -3346,7 +3294,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-calendar-height-md.mbsc-calendar-width-md {
-
       .mbsc-calendar-week-day.mbsc-ltr,
       .mbsc-calendar-day.mbsc-ltr,
       .mbsc-calendar-marks.mbsc-ltr {
@@ -3365,8 +3312,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   @include mbsc-ios-calendar-view('ios-dark', $mbsc-ios-dark-colors);
 }
 
-
-
 @mixin mbsc-material-calendar-view($theme, $params) {
   $background: map-get($params, 'background');
   $text: map-get($params, 'text');
@@ -3380,7 +3325,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   $event-param: map-get($params, 'calendar-event');
 
   $background: if($background-param, $background-param, $background);
-  $text: if($text-param, $text-param, if($background-param, get-contrast-color($background-param), $text));
+  $text: if(
+    $text-param,
+    $text-param,
+    if($background-param, get-contrast-color($background-param), $text)
+  );
   $accent: if($accent-param, $accent-param, $accent);
   $mark: if($mark-param, $mark-param, $accent);
   $event: if($event-param, $event-param, $accent);
@@ -3409,9 +3358,8 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   $border: if($border-param, $border-param, $border);
 
   .mbsc-#{$theme} {
-
     &.mbsc-calendar-wrapper:after {
-      box-shadow: inset 0 .5em .25em -.5em rgba($text, 0.5);
+      box-shadow: inset 0 0.5em 0.25em -0.5em rgba($text, 0.5);
     }
 
     &.mbsc-calendar-button.mbsc-button {
@@ -3427,7 +3375,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-calendar-week-day {
-      color: rgba($text, .7);
+      color: rgba($text, 0.7);
     }
 
     &.mbsc-calendar-cell-text {
@@ -3439,12 +3387,12 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-focus .mbsc-calendar-cell-text {
-      box-shadow: 0 0 0 2px rgba($text, .7);
+      box-shadow: 0 0 0 2px rgba($text, 0.7);
       // border-color: rgba($text, .7);
     }
 
     &.mbsc-hover .mbsc-calendar-cell-text {
-      background: rgba($cell-hover, .1);
+      background: rgba($cell-hover, 0.1);
     }
 
     /* range highlight and selection */
@@ -3454,7 +3402,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-range-day::after {
-      background-color: rgba($accent, .25);
+      background-color: rgba($accent, 0.25);
     }
 
     &.mbsc-selected .mbsc-calendar-cell-text {
@@ -3478,7 +3426,8 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-calendar-label.mbsc-calendar-label-active,
     &.mbsc-calendar-label.mbsc-calendar-label-dragging {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 1px 3px -1px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.14),
+        0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 1px 3px -1px rgba(0, 0, 0, 0.2);
     }
 
     &.mbsc-calendar-text-more {
@@ -3491,7 +3440,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     /* Picker */
     &.mbsc-calendar-popup {
-
       .mbsc-popup-arrow,
       .mbsc-popup-body {
         background: $picker-background;
@@ -3500,7 +3448,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     /* Desktop style */
     &.mbsc-calendar-height-md {
-
       .mbsc-calendar-week-day,
       .mbsc-calendar-day {
         border-color: $border;
@@ -3508,7 +3455,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
   }
 }
-
 
 @if ($mbsc-material-theme) {
   .mbsc-material {
@@ -3528,7 +3474,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-calendar-header .mbsc-calendar-week-days {
-      padding: 0 .5em;
+      padding: 0 0.5em;
       box-sizing: border-box;
     }
 
@@ -3547,7 +3493,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-calendar-button.mbsc-button {
-      padding: .428572em;
+      padding: 0.428572em;
     }
 
     &.mbsc-calendar-title {
@@ -3559,7 +3505,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-calendar-cell-text {
       height: 2em;
-      padding: 0 .5em;
+      padding: 0 0.5em;
       line-height: 2em;
       border-radius: 2em;
     }
@@ -3568,9 +3514,9 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       height: 1.846154em;
       width: 1.846154em;
       line-height: 1.846154em;
-      margin: .230769em auto;
+      margin: 0.230769em auto;
       padding: 0;
-      font-size: .8125em;
+      font-size: 0.8125em;
       border: 2px solid transparent;
     }
 
@@ -3583,7 +3529,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       position: absolute;
       left: 0;
       right: 0;
-      top: .25em;
+      top: 0.25em;
       z-index: -1;
     }
 
@@ -3596,7 +3542,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-range-day-start.mbsc-ltr::after,
     &.mbsc-range-day-end.mbsc-rtl::after {
-      margin-left: -.875em;
+      margin-left: -0.875em;
       border-radius: 2em 0 0 2em;
       left: 50%;
       right: 0;
@@ -3604,7 +3550,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-range-day-end.mbsc-ltr::after,
     &.mbsc-range-day-start.mbsc-rtl::after {
-      margin-right: -.875em;
+      margin-right: -0.875em;
       border-radius: 0 2em 2em 0;
       right: 50%;
       left: 0;
@@ -3630,8 +3576,8 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     /* Marks */
 
     &.mbsc-calendar-marks {
-      margin-top: -.375em;
-      transition: transform .1s ease-out;
+      margin-top: -0.375em;
+      transition: transform 0.1s ease-out;
     }
 
     &.mbsc-focus .mbsc-calendar-marks,
@@ -3640,22 +3586,22 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     &.mbsc-calendar-day-colors .mbsc-calendar-marks,
     &.mbsc-highlighted .mbsc-calendar-marks,
     &.mbsc-hover-highlighted .mbsc-calendar-marks {
-      transform: translate3d(0, .25em, 0);
+      transform: translate3d(0, 0.25em, 0);
     }
 
     /* Labels */
     &.mbsc-calendar-label {
       font-weight: 600;
-      border-radius: .2em;
+      border-radius: 0.2em;
     }
 
     &.mbsc-calendar-label-background {
       background: currentColor;
-      border-radius: .2em;
+      border-radius: 0.2em;
     }
 
     &.mbsc-calendar-text:before {
-      border-radius: .2em;
+      border-radius: 0.2em;
     }
 
     /* Desktop style */
@@ -3677,7 +3623,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-calendar-width-md {
-
       .mbsc-calendar-week-days {
         padding: 0;
       }
@@ -3695,7 +3640,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       }
 
       .mbsc-calendar-day-text {
-        margin: .461539em;
+        margin: 0.461539em;
       }
 
       .mbsc-calendar-marks {
@@ -3707,20 +3652,20 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       .mbsc-calendar-text {
         height: 1.8em;
         line-height: 1.8em;
-        margin: 0 .4em .2em .4em;
+        margin: 0 0.4em 0.2em 0.4em;
 
         &:before {
-          border-radius: .4em;
+          border-radius: 0.4em;
         }
       }
 
       .mbsc-calendar-label {
-        padding: 0 .4em;
-        border-radius: .4em;
+        padding: 0 0.4em;
+        border-radius: 0.4em;
       }
 
       .mbsc-calendar-label-background {
-        border-radius: .4em;
+        border-radius: 0.4em;
       }
 
       .mbsc-calendar-label-text {
@@ -3729,7 +3674,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-calendar-height-md.mbsc-calendar-width-md {
-
       .mbsc-calendar-week-day.mbsc-ltr,
       .mbsc-calendar-day.mbsc-ltr,
       .mbsc-calendar-marks.mbsc-ltr {
@@ -3745,10 +3689,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 
   @include mbsc-material-calendar-view('material', $mbsc-material-colors);
-  @include mbsc-material-calendar-view('material-dark', $mbsc-material-dark-colors);
+  @include mbsc-material-calendar-view(
+    'material-dark',
+    $mbsc-material-dark-colors
+  );
 }
-
-
 
 @mixin mbsc-windows-calendar-view($theme, $params) {
   $background: map-get($params, 'background');
@@ -3763,9 +3708,13 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   $event-param: map-get($params, 'calendar-event');
 
   $background: if($background-param, $background-param, $background);
-  $text: if($text-param, $text-param, if($background-param, get-contrast-color($background-param), $text));
+  $text: if(
+    $text-param,
+    $text-param,
+    if($background-param, get-contrast-color($background-param), $text)
+  );
   $accent: if($accent-param, $accent-param, $accent);
-  $mark: if($mark-param, $mark-param, rgba($text, .5));
+  $mark: if($mark-param, $mark-param, rgba($text, 0.5));
   $event: if($event-param, $event-param, $accent);
 
   $alt-text: '';
@@ -3777,14 +3726,12 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     $alt-text: lighten($text, 20%);
     $border: darken($background, 10%);
     $button-bg: darken($background, 20%);
-    $hover: rgba($text, .1);
-  }
-
-  @else {
+    $hover: rgba($text, 0.1);
+  } @else {
     $alt-text: darken($text, 20%);
     $border: lighten($background, 10%);
     $button-bg: lighten($background, 15%);
-    $hover: rgba($text, .22);
+    $hover: rgba($text, 0.22);
   }
 
   $border: if($border-param, $border-param, $border);
@@ -3827,7 +3774,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     /* range highlight and selection */
 
     &.mbsc-range-day {
-      border-left-color: rgba($accent, .25);
+      border-left-color: rgba($accent, 0.25);
     }
 
     &.mbsc-range-day-start.mbsc-ltr,
@@ -3866,7 +3813,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     &.mbsc-selected,
     &.mbsc-range-day {
       .mbsc-calendar-cell-inner {
-        background: rgba($accent, .25);
+        background: rgba($accent, 0.25);
       }
     }
 
@@ -3921,7 +3868,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     /* Picker */
     &.mbsc-calendar-popup {
-
       .mbsc-popup-arrow,
       .mbsc-popup {
         background: $background;
@@ -3934,7 +3880,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
   }
 }
-
 
 @if ($mbsc-windows-theme) {
   .mbsc-windows {
@@ -3951,7 +3896,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-calendar-controls {
-      padding: .5em;
+      padding: 0.5em;
       min-height: 2.125em;
     }
 
@@ -3967,13 +3912,13 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-calendar-week-nr {
       width: 2.166667em;
-      font-size: .75em;
+      font-size: 0.75em;
       font-weight: bold;
       line-height: 3em;
     }
 
     &.mbsc-calendar-picker-slide {
-      padding: .25em;
+      padding: 0.25em;
     }
 
     &.mbsc-calendar-cell {
@@ -4019,7 +3964,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-calendar-day-text {
       display: inline-block;
-      font-size: .875em;
+      font-size: 0.875em;
       line-height: 2.285715em;
       border-radius: 2em;
       width: 2.285715em;
@@ -4032,12 +3977,12 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     /* Marks */
     &.mbsc-calendar-marks {
-      bottom: .25em;
+      bottom: 0.25em;
       // margin-top: -0.5em;
     }
 
     &.mbsc-calendar-text {
-      margin: 0 0 .2em 0;
+      margin: 0 0 0.2em 0;
     }
 
     &.mbsc-calendar-label-background {
@@ -4045,7 +3990,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-calendar-width-md {
-
       .mbsc-calendar-title {
         font-size: 1.625em;
         font-weight: 300;
@@ -4074,7 +4018,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
       .mbsc-calendar-marks {
         // margin: 0;
-        bottom: .5em;
+        bottom: 0.5em;
         padding: 0 0.625em;
       }
 
@@ -4084,9 +4028,9 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       }
 
       .mbsc-calendar-label {
-        padding: 0 .6em;
+        padding: 0 0.6em;
         margin: 0;
-        margin-bottom: .2em;
+        margin-bottom: 0.2em;
       }
 
       .mbsc-calendar-label-text {
@@ -4108,9 +4052,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 
   @include mbsc-windows-calendar-view('windows', $mbsc-windows-colors);
-  @include mbsc-windows-calendar-view('windows-dark', $mbsc-windows-dark-colors);
+  @include mbsc-windows-calendar-view(
+    'windows-dark',
+    $mbsc-windows-dark-colors
+  );
 }
-
 
 @keyframes mbsc-zoom-in-up {
   from {
@@ -4127,7 +4073,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 @keyframes mbsc-zoom-in-down {
   from {
     opacity: 0;
-    transform: scale(.5);
+    transform: scale(0.5);
   }
 
   to {
@@ -4156,7 +4102,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
   to {
     opacity: 0;
-    transform: scale(.5);
+    transform: scale(0.5);
   }
 }
 
@@ -4295,22 +4241,22 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
 .mbsc-calendar-picker-in-up {
   opacity: 0;
-  animation: mbsc-zoom-in-up 200ms cubic-bezier(0.0, 0.0, 0.2, 1);
+  animation: mbsc-zoom-in-up 200ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .mbsc-calendar-picker-in-down {
   opacity: 0;
-  animation: mbsc-zoom-in-down 200ms cubic-bezier(0.0, 0.0, 0.2, 1);
+  animation: mbsc-zoom-in-down 200ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .mbsc-calendar-picker-out-up {
   opacity: 0;
-  animation: mbsc-zoom-out-up 200ms cubic-bezier(0.4, 0.0, 1, 1);
+  animation: mbsc-zoom-out-up 200ms cubic-bezier(0.4, 0, 1, 1);
 }
 
 .mbsc-calendar-picker-out-down {
   opacity: 0;
-  animation: mbsc-zoom-out-down 200ms cubic-bezier(0.0, 0.0, 0.2, 1);
+  animation: mbsc-zoom-out-down 200ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .mbsc-calendar-scroll-wrapper > div {
@@ -4379,7 +4325,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
 .mbsc-calendar-cell-inner {
   display: inline-block;
-  padding: 0 .25em;
+  padding: 0 0.25em;
   vertical-align: middle;
 }
 
@@ -4402,7 +4348,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
 .mbsc-calendar-year-text,
 .mbsc-calendar-month-text {
-  margin: .875em 0;
+  margin: 0.875em 0;
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 4.5em;
@@ -4462,7 +4408,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, .1);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 /* Marks */
@@ -4506,7 +4452,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 }
 
 .mbsc-calendar-label {
-  padding: 0 .3em;
+  padding: 0 0.3em;
 }
 
 .mbsc-calendar-text:focus {
@@ -4529,21 +4475,21 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   right: 0;
   bottom: 0;
   left: 0;
-  transition: background-color .2s;
+  transition: background-color 0.2s;
 }
 
 .mbsc-calendar-label.mbsc-calendar-label-hover:before {
-  background-color: rgba(0, 0, 0, .2);
+  background-color: rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
 .mbsc-calendar-text-more {
-  padding: 0 .3em;
+  padding: 0 0.3em;
 }
 
 .mbsc-calendar-text-more.mbsc-calendar-label-active:before,
 .mbsc-calendar-text-more.mbsc-calendar-label-hover:before {
-  background-color: rgba(0, 0, 0, .1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .mbsc-calendar-text {
@@ -4575,7 +4521,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   position: absolute;
   top: 0;
   height: 100%;
-  width: .5em;
+  width: 0.5em;
   z-index: 2;
   cursor: ew-resize;
 }
@@ -4585,11 +4531,11 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   display: none;
   position: absolute;
   top: 50%;
-  width: .8em;
-  height: .8em;
-  margin-top: -.4em;
+  width: 0.8em;
+  height: 0.8em;
+  margin-top: -0.4em;
   background: #fff;
-  border-radius: .8em;
+  border-radius: 0.8em;
   border: 1px solid currentColor;
   box-sizing: border-box;
 }
@@ -4606,12 +4552,12 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
 .mbsc-calendar-label-resize-start.mbsc-ltr:after,
 .mbsc-calendar-label-resize-end.mbsc-rtl:after {
-  left: -.4em;
+  left: -0.4em;
 }
 
 .mbsc-calendar-label-resize-end.mbsc-ltr:after,
 .mbsc-calendar-label-resize-start.mbsc-rtl:after {
-  right: -.4em;
+  right: -0.4em;
 }
 
 .mbsc-calendar-label-resize-start-touch:before,
@@ -4640,7 +4586,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 }
 
 .mbsc-calendar-label-inactive {
-  opacity: .4;
+  opacity: 0.4;
 }
 
 .mbsc-calendar-label-hidden {
@@ -4651,8 +4597,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   z-index: 3;
 }
 
-
-
 @mixin mbsc-mobiscroll-popup($theme, $params) {
   $background: map-get($params, 'background');
   $text: map-get($params, 'text');
@@ -4661,28 +4605,29 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   .mbsc-#{$theme} {
     &.mbsc-popup {
       background: $background;
-      box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+      box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+        0px 24px 38px 3px rgba(0, 0, 0, 0.14),
+        0px 9px 46px 8px rgba(0, 0, 0, 0.12);
       color: $text;
     }
 
     &.mbsc-popup-arrow {
       background: $background;
-      box-shadow: 0 0 1em rgba(0, 0, 0, .2);
+      box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
     }
   }
 }
 
-
 @if ($mbsc-mobiscroll-theme) {
   @include mbsc-mobiscroll-popup('mobiscroll', $mbsc-mobiscroll-colors);
-  @include mbsc-mobiscroll-popup('mobiscroll-dark', $mbsc-mobiscroll-dark-colors);
+  @include mbsc-mobiscroll-popup(
+    'mobiscroll-dark',
+    $mbsc-mobiscroll-dark-colors
+  );
 }
-
-
 
 @if ($mbsc-ios-theme) {
   .mbsc-ios {
-
     &.mbsc-popup-wrapper-bottom-full {
       padding-top: 1em;
     }
@@ -4704,23 +4649,23 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-popup-body-center {
-      border-radius: .9375em;
+      border-radius: 0.9375em;
     }
 
     &.mbsc-popup-body-bottom-full {
-      border-radius: .75em .75em 0 0;
+      border-radius: 0.75em 0.75em 0 0;
     }
 
     &.mbsc-popup-body-top-full {
-      border-radius: 0 0 .75em .75em;
+      border-radius: 0 0 0.75em 0.75em;
     }
 
     &.mbsc-popup-body-anchored {
-      border-radius: .9375em;
+      border-radius: 0.9375em;
     }
 
     &.mbsc-popup-arrow {
-      border-radius: 0 .375em;
+      border-radius: 0 0.375em;
     }
 
     &.mbsc-popup-header {
@@ -4730,7 +4675,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       right: 0;
       left: 0;
       line-height: 1.25em;
-      padding: .75em 4.375em;
+      padding: 0.75em 4.375em;
       font-weight: bold;
       text-align: center;
     }
@@ -4742,7 +4687,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-popup-header-center {
       position: relative;
-      padding: .75em .5em;
+      padding: 0.75em 0.5em;
       border-bottom: 1px solid;
     }
 
@@ -4766,8 +4711,8 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-popup-button.mbsc-font {
       // line-height: 2.75em;
-      margin-top: .25em;
-      margin-bottom: .25em;
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
       z-index: 2;
     }
 
@@ -4786,12 +4731,12 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     &.mbsc-popup-buttons-anchored,
     &.mbsc-popup-buttons-top,
     &.mbsc-popup-buttons-bottom {
-      padding: 0 .25em;
+      padding: 0 0.25em;
     }
 
     &.mbsc-popup-buttons-top-full,
     &.mbsc-popup-buttons-bottom-full {
-      padding: .375em .25em;
+      padding: 0.375em 0.25em;
     }
 
     /* Button styling for centered popup and desktop styled top/bottom popup */
@@ -4814,8 +4759,8 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-popup-button-flex.mbsc-font.mbsc-button {
       opacity: 1;
-      margin-top: .5em;
-      margin-bottom: .5em;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
     }
 
     &.mbsc-popup-button-flex.mbsc-font.mbsc-button-flat {
@@ -4844,12 +4789,12 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     /* Desktop styling */
 
     &.mbsc-popup-body-round {
-      border-radius: .9375em;
+      border-radius: 0.9375em;
     }
 
     &.mbsc-popup-pointer {
       .mbsc-popup-body-round {
-        border-radius: .5em;
+        border-radius: 0.5em;
       }
     }
 
@@ -4860,22 +4805,19 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
       // .mbsc-popup-body-bottom.mbsc-popup-short,
       .mbsc-popup-body-bottom-full {
-        border-radius: .75em .75em 0 0;
+        border-radius: 0.75em 0.75em 0 0;
       }
 
       // .mbsc-popup-body-top.mbsc-popup-short,
       .mbsc-popup-body-top-full {
-        border-radius: 0 0 .75em .75em;
+        border-radius: 0 0 0.75em 0.75em;
       }
     }
-
   }
 
   @include mbsc-ios-popup('ios', $mbsc-ios-colors);
   @include mbsc-ios-popup('ios-dark', $mbsc-ios-dark-colors);
 }
-
-
 
 @mixin mbsc-material-popup($theme, $params) {
   $background: map-get($params, 'background');
@@ -4886,22 +4828,22 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
   @if (lightness($background) > 50%) {
     $popup-background: $background;
-  }
-
-  @else {
+  } @else {
     $popup-background: lighten($background, 19%);
   }
 
   .mbsc-#{$theme} {
     &.mbsc-popup-body {
       background: $popup-background;
-      box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+      box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+        0px 24px 38px 3px rgba(0, 0, 0, 0.14),
+        0px 9px 46px 8px rgba(0, 0, 0, 0.12);
       color: $text;
     }
 
     &.mbsc-popup-arrow {
       background: $popup-background;
-      box-shadow: 0 0 1em rgba(0, 0, 0, .2);
+      box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
     }
 
     &.mbsc-popup-button.mbsc-font {
@@ -4910,25 +4852,23 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 }
 
-
 @if ($mbsc-material-theme) {
   .mbsc-material {
-
     &.mbsc-popup-body-center,
     &.mbsc-popup-body-anchored,
     &.mbsc-popup-body-round {
-      border-radius: .25em;
+      border-radius: 0.25em;
     }
 
     &.mbsc-popup-header {
       font-size: 1.25em;
       font-weight: 500;
-      padding: .8em .8em 0 .8em;
+      padding: 0.8em 0.8em 0 0.8em;
       line-height: 1.4em;
     }
 
     &.mbsc-popup-buttons {
-      padding: .5em;
+      padding: 0.5em;
     }
 
     &.mbsc-popup-buttons.mbsc-ltr {
@@ -4948,17 +4888,16 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
       margin-top: 0;
       margin-bottom: 0;
       font-weight: 500;
-      font-size: .9375em;
+      font-size: 0.9375em;
     }
 
     &.mbsc-popup-round {
-
       .mbsc-popup-body-bottom-full {
-        border-radius: .25em .25em 0 0;
+        border-radius: 0.25em 0.25em 0 0;
       }
 
       .mbsc-popup-body-top-full {
-        border-radius: 0 0 .25em .25em;
+        border-radius: 0 0 0.25em 0.25em;
       }
     }
   }
@@ -4967,20 +4906,16 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   @include mbsc-material-popup('material-dark', $mbsc-material-dark-colors);
 }
 
-
-
 @mixin mbsc-windows-popup($theme, $params) {
-  $background: map-get($params, "background");
-  $text: map-get($params, "text");
-  $accent: map-get($params, "accent");
+  $background: map-get($params, 'background');
+  $text: map-get($params, 'text');
+  $accent: map-get($params, 'accent');
 
   $border: '';
 
   @if (lightness($background) > 50%) {
     $border: darken($background, 10%);
-  }
-
-  @else {
+  } @else {
     $border: lighten($background, 10%);
   }
 
@@ -4988,7 +4923,8 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     &.mbsc-popup {
       background: $background;
       border-color: $border;
-      box-shadow: rgba(0, 0, 0, 0.133) 0 6px 14px 0, rgba(0, 0, 0, 0.11) 0 1px 4px 0;
+      box-shadow: rgba(0, 0, 0, 0.133) 0 6px 14px 0,
+        rgba(0, 0, 0, 0.11) 0 1px 4px 0;
       color: $text;
     }
 
@@ -5004,20 +4940,18 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   }
 }
 
-
 @if ($mbsc-windows-theme) {
   .mbsc-windows {
-
     &.mbsc-popup {
       border: 1px solid;
     }
 
     &.mbsc-popup-anchored-top {
-      margin-top: -.75em;
+      margin-top: -0.75em;
     }
 
     &.mbsc-popup-anchored-bottom {
-      margin-top: .75em;
+      margin-top: 0.75em;
     }
 
     &.mbsc-popup-arrow {
@@ -5028,12 +4962,12 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-popup-arrow-bottom,
     &.mbsc-popup-arrow-top {
-      margin-left: -.5em;
+      margin-left: -0.5em;
     }
 
     &.mbsc-popup-arrow-left,
     &.mbsc-popup-arrow-right {
-      margin-top: -.5em;
+      margin-top: -0.5em;
     }
 
     &.mbsc-popup-arrow-bottom {
@@ -5053,7 +4987,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
     }
 
     &.mbsc-popup-header {
-      padding: .5em;
+      padding: 0.5em;
       font-weight: bold;
       text-align: center;
       border-bottom: 1px solid;
@@ -5067,8 +5001,8 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
     &.mbsc-popup-button.mbsc-font {
       flex: 1 1;
-      padding-top: .25em;
-      padding-bottom: .25em;
+      padding-top: 0.25em;
+      padding-bottom: 0.25em;
     }
 
     &.mbsc-popup-button.mbsc-button-flat {
@@ -5079,7 +5013,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   @include mbsc-windows-popup('windows', $mbsc-windows-colors);
   @include mbsc-windows-popup('windows-dark', $mbsc-windows-dark-colors);
 }
-
 
 @keyframes mbsc-fade-in {
   from {
@@ -5231,7 +5164,8 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 .mbsc-popup-wrapper-center {
   padding: 1em;
   align-items: center;
-  border-width: var(--mbsc-safe-top) var(--mbsc-safe-right) var(--mbsc-safe-bottom) var(--mbsc-safe-left);
+  border-width: var(--mbsc-safe-top) var(--mbsc-safe-right)
+    var(--mbsc-safe-bottom) var(--mbsc-safe-left);
 }
 
 .mbsc-popup-wrapper-top {
@@ -5245,7 +5179,8 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 }
 
 .mbsc-popup-wrapper-anchored {
-  border-width: 0 var(--mbsc-safe-right) var(--mbsc-safe-bottom) var(--mbsc-safe-left);
+  border-width: 0 var(--mbsc-safe-right) var(--mbsc-safe-bottom)
+    var(--mbsc-safe-left);
 }
 
 .mbsc-popup-hidden {
@@ -5261,18 +5196,18 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   left: 0;
   margin: -10em;
   pointer-events: auto;
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, 0.5);
   transform: translateZ(0);
 }
 
 .mbsc-popup-overlay-in {
   opacity: 1;
-  animation: mbsc-fade-in 150ms cubic-bezier(0.0, 0.0, 0.2, 1);
+  animation: mbsc-fade-in 150ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .mbsc-popup-overlay-out {
   opacity: 0;
-  animation: mbsc-fade-out 75ms cubic-bezier(0.4, 0.0, 1, 1);
+  animation: mbsc-fade-out 75ms cubic-bezier(0.4, 0, 1, 1);
 }
 
 .mbsc-popup {
@@ -5378,7 +5313,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 .mbsc-popup-arrow-top,
 .mbsc-popup-arrow-bottom {
   left: 50%;
-  margin-left: -.75em;
+  margin-left: -0.75em;
   transform: rotate(-45deg);
 }
 
@@ -5393,7 +5328,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 .mbsc-popup-arrow-left,
 .mbsc-popup-arrow-right {
   top: 50%;
-  margin-top: -.75em;
+  margin-top: -0.75em;
   transform: rotate(45deg);
 }
 
@@ -5452,28 +5387,28 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 
 .mbsc-popup-pop-in {
   opacity: 1;
-  animation: mbsc-pop-in 150ms cubic-bezier(0.0, 0.0, 0.2, 1);
+  animation: mbsc-pop-in 150ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .mbsc-popup-pop-out {
   opacity: 0;
-  animation: mbsc-pop-out 75ms cubic-bezier(0.4, 0.0, 1, 1);
+  animation: mbsc-pop-out 75ms cubic-bezier(0.4, 0, 1, 1);
 }
 
 .mbsc-popup-slide-up-in {
-  animation: mbsc-slide-up-in 250ms cubic-bezier(0.0, 0.0, 0.2, 1);
+  animation: mbsc-slide-up-in 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .mbsc-popup-slide-up-out {
-  animation: mbsc-slide-up-out 200ms cubic-bezier(0.4, 0.0, 1, 1);
+  animation: mbsc-slide-up-out 200ms cubic-bezier(0.4, 0, 1, 1);
 }
 
 .mbsc-popup-slide-down-in {
-  animation: mbsc-slide-down-in 250ms cubic-bezier(0.0, 0.0, 0.2, 1);
+  animation: mbsc-slide-down-in 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .mbsc-popup-slide-down-out {
-  animation: mbsc-slide-down-out 200ms cubic-bezier(0.4, 0.0, 1, 1);
+  animation: mbsc-slide-down-out 200ms cubic-bezier(0.4, 0, 1, 1);
 }
 
 /* Desktop styling */
@@ -5486,7 +5421,6 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
 }
 
 .mbsc-popup-round {
-
   .mbsc-popup-slide-up-in {
     animation-name: mbsc-slide-up-in, mbsc-fade-in;
   }
@@ -5514,10 +5448,7 @@ $mbsc-mobiscroll-dark-colors: ( // Colors map
   //   margin-top: 0;
   //   margin-bottom: 0;
   // }
-
 }
-
-
 
 $mbsc-mobiscroll-button-color: $mbsc-button-color-light !default;
 $mbsc-mobiscroll-button-text: $mbsc-button-text-light !default;
@@ -5525,13 +5456,21 @@ $mbsc-mobiscroll-button-text: $mbsc-button-text-light !default;
 $mbsc-mobiscroll-dark-button-color: $mbsc-button-color-dark !default;
 $mbsc-mobiscroll-dark-button-text: $mbsc-button-text-dark !default;
 
-$mbsc-mobiscroll-colors: map-merge($mbsc-mobiscroll-colors, ('button-color': $mbsc-mobiscroll-button-color,
+$mbsc-mobiscroll-colors: map-merge(
+  $mbsc-mobiscroll-colors,
+  (
+    'button-color': $mbsc-mobiscroll-button-color,
     'button-text': $mbsc-mobiscroll-button-text,
-  ));
+  )
+);
 
-$mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-color': $mbsc-mobiscroll-dark-button-color,
+$mbsc-mobiscroll-dark-colors: map-merge(
+  $mbsc-mobiscroll-dark-colors,
+  (
+    'button-color': $mbsc-mobiscroll-dark-button-color,
     'button-text': $mbsc-mobiscroll-dark-button-text,
-  ));
+  )
+);
 
 @mixin mbsc-mobiscroll-button($theme, $params) {
   $background: map-get($params, 'background');
@@ -5541,15 +5480,21 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
   $button-background-param: map-get($params, 'button-color');
   $button-text-param: map-get($params, 'button-text');
 
-  $btn-background: if($button-background-param, $button-background-param, $accent);
-  $btn-text-base: if($button-background-param, $button-background-param, $background);
+  $btn-background: if(
+    $button-background-param,
+    $button-background-param,
+    $accent
+  );
+  $btn-text-base: if(
+    $button-background-param,
+    $button-background-param,
+    $background
+  );
   $btn-text: '';
 
   @if (lightness($btn-text-base) > 50%) {
     $btn-text: darken($btn-text-base, 3%);
-  }
-
-  @else {
+  } @else {
     $btn-text: $btn-text-base;
   }
 
@@ -5566,11 +5511,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
       color: $btn-background;
 
       &.mbsc-hover {
-        background: rgba($btn-background, .2);
+        background: rgba($btn-background, 0.2);
       }
 
       &.mbsc-active {
-        background: rgba($btn-background, .3);
+        background: rgba($btn-background, 0.3);
       }
     }
 
@@ -5587,7 +5532,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
 
     &.mbsc-button.mbsc-focus {
       // background: rgba($accent, .3);
-      box-shadow: 0 0 0 2px rgba($text, .5);
+      box-shadow: 0 0 0 2px rgba($text, 0.5);
     }
 
     /* Predefined colors */
@@ -5635,11 +5580,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
       color: $mbsc-mobiscroll-primary;
 
       &.mbsc-hover {
-        background: rgba($mbsc-mobiscroll-primary, .2);
+        background: rgba($mbsc-mobiscroll-primary, 0.2);
       }
 
       &.mbsc-active {
-        background: rgba($mbsc-mobiscroll-primary, .3);
+        background: rgba($mbsc-mobiscroll-primary, 0.3);
       }
     }
 
@@ -5647,11 +5592,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
       color: $mbsc-mobiscroll-secondary;
 
       &.mbsc-hover {
-        background: rgba($mbsc-mobiscroll-secondary, .2);
+        background: rgba($mbsc-mobiscroll-secondary, 0.2);
       }
 
       &.mbsc-active {
-        background: rgba($mbsc-mobiscroll-secondary, .3);
+        background: rgba($mbsc-mobiscroll-secondary, 0.3);
       }
     }
 
@@ -5659,11 +5604,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
       color: $mbsc-mobiscroll-success;
 
       &.mbsc-hover {
-        background: rgba($mbsc-mobiscroll-success, .2);
+        background: rgba($mbsc-mobiscroll-success, 0.2);
       }
 
       &.mbsc-active {
-        background: rgba($mbsc-mobiscroll-success, .3);
+        background: rgba($mbsc-mobiscroll-success, 0.3);
       }
     }
 
@@ -5671,11 +5616,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
       color: $mbsc-mobiscroll-danger;
 
       &.mbsc-hover {
-        background: rgba($mbsc-mobiscroll-danger, .2);
+        background: rgba($mbsc-mobiscroll-danger, 0.2);
       }
 
       &.mbsc-active {
-        background: rgba($mbsc-mobiscroll-danger, .3);
+        background: rgba($mbsc-mobiscroll-danger, 0.3);
       }
     }
 
@@ -5683,11 +5628,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
       color: $mbsc-mobiscroll-warning;
 
       &.mbsc-hover {
-        background: rgba($mbsc-mobiscroll-warning, .2);
+        background: rgba($mbsc-mobiscroll-warning, 0.2);
       }
 
       &.mbsc-active {
-        background: rgba($mbsc-mobiscroll-warning, .3);
+        background: rgba($mbsc-mobiscroll-warning, 0.3);
       }
     }
 
@@ -5695,11 +5640,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
       color: $mbsc-mobiscroll-info;
 
       &.mbsc-hover {
-        background: rgba($mbsc-mobiscroll-info, .2);
+        background: rgba($mbsc-mobiscroll-info, 0.2);
       }
 
       &.mbsc-active {
-        background: rgba($mbsc-mobiscroll-info, .3);
+        background: rgba($mbsc-mobiscroll-info, 0.3);
       }
     }
 
@@ -5707,11 +5652,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
       color: $mbsc-mobiscroll-dark;
 
       &.mbsc-hover {
-        background: rgba($mbsc-mobiscroll-dark, .2);
+        background: rgba($mbsc-mobiscroll-dark, 0.2);
       }
 
       &.mbsc-active {
-        background: rgba($mbsc-mobiscroll-dark, .3);
+        background: rgba($mbsc-mobiscroll-dark, 0.3);
       }
     }
 
@@ -5719,11 +5664,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
       color: darken($mbsc-mobiscroll-light, 20%);
 
       &.mbsc-hover {
-        background: rgba($mbsc-mobiscroll-light, .2);
+        background: rgba($mbsc-mobiscroll-light, 0.2);
       }
 
       &.mbsc-active {
-        background: rgba($mbsc-mobiscroll-light, .3);
+        background: rgba($mbsc-mobiscroll-light, 0.3);
       }
     }
 
@@ -5809,7 +5754,6 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
   }
 }
 
-
 @if ($mbsc-mobiscroll-theme) {
   .mbsc-mobiscroll {
     &.mbsc-icon-button {
@@ -5818,27 +5762,27 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
 
     &.mbsc-button {
       font-size: 1em;
-      margin: .5em;
-      padding: .25em .625em;
+      margin: 0.5em;
+      padding: 0.25em 0.625em;
       line-height: 1.75em;
-      border-radius: .25em;
+      border-radius: 0.25em;
       text-transform: uppercase;
-      transition: background-color .2s ease-out;
+      transition: background-color 0.2s ease-out;
     }
 
     &.mbsc-button-standard {
       &.mbsc-hover {
-        opacity: .8;
+        opacity: 0.8;
       }
 
       &.mbsc-active {
-        opacity: .6;
+        opacity: 0.6;
       }
     }
 
     &.mbsc-button-outline {
       &.mbsc-hover {
-        opacity: .8;
+        opacity: 0.8;
       }
 
       &.mbsc-active {
@@ -5848,72 +5792,73 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
 
     &.mbsc-button:disabled,
     &.mbsc-button.mbsc-disabled {
-      opacity: .3;
+      opacity: 0.3;
     }
 
     &.mbsc-ltr {
       &.mbsc-button-icon-start {
-        padding-right: .625em;
+        padding-right: 0.625em;
       }
 
       &.mbsc-button-icon-end {
-        padding-left: .625em;
+        padding-left: 0.625em;
       }
     }
 
     &.mbsc-rtl {
       &.mbsc-button-icon-start {
-        padding-left: .625em;
+        padding-left: 0.625em;
       }
 
       &.mbsc-button-icon-end {
-        padding-right: .625em;
+        padding-right: 0.625em;
       }
     }
 
     .mbsc-button-group,
     .mbsc-button-group-justified {
-      margin: .5em;
+      margin: 0.5em;
     }
 
     .mbsc-button-group-block {
-      margin: .5em 1em;
+      margin: 0.5em 1em;
     }
   }
 
   @include mbsc-mobiscroll-button('mobiscroll', $mbsc-mobiscroll-colors);
-  @include mbsc-mobiscroll-button('mobiscroll-dark', $mbsc-mobiscroll-dark-colors);
+  @include mbsc-mobiscroll-button(
+    'mobiscroll-dark',
+    $mbsc-mobiscroll-dark-colors
+  );
 }
-
-
 
 @if ($mbsc-ios-theme) {
   .mbsc-ios {
     &.mbsc-button {
-      padding: 0 .5em;
-      margin: .5em .25em;
+      padding: 0 0.5em;
+      margin: 0.5em 0.25em;
       line-height: 2.25em;
-      border-radius: .25em;
-      transition: opacity .1s ease-out, background-color .1s ease-out;
+      border-radius: 0.25em;
+      transition: opacity 0.1s ease-out, background-color 0.1s ease-out;
     }
 
     &.mbsc-icon-button {
-      padding: .5em;
+      padding: 0.5em;
       line-height: normal;
       border-radius: 4em;
     }
 
     &.mbsc-button.mbsc-hover {
-      opacity: .7;
+      opacity: 0.7;
     }
 
     &.mbsc-button.mbsc-active {
-      opacity: .5;
+      opacity: 0.5;
     }
 
     &.mbsc-button:disabled,
     &.mbsc-button.mbsc-disabled {
-      opacity: .2;
+      opacity: 0.2;
     }
 
     &.mbsc-button-outline.mbsc-active {
@@ -5922,32 +5867,32 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
 
     &.mbsc-ltr {
       &.mbsc-button-icon-start {
-        padding-right: .375em;
+        padding-right: 0.375em;
       }
 
       &.mbsc-button-icon-end {
-        padding-left: .375em;
+        padding-left: 0.375em;
       }
     }
 
     &.mbsc-rtl {
       &.mbsc-button-icon-start {
-        padding-left: .375em;
+        padding-left: 0.375em;
       }
 
       &.mbsc-button-icon-end {
-        padding-right: .375em;
+        padding-right: 0.375em;
       }
     }
 
     .mbsc-button-group,
     .mbsc-button-group-justified,
     .mbsc-button-group-block {
-      margin: .5em .75em;
+      margin: 0.5em 0.75em;
     }
 
     .mbsc-button-group-block {
-      margin: .5em 1em;
+      margin: 0.5em 1em;
     }
   }
 
@@ -5955,21 +5900,27 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ('button-c
   @include mbsc-ios-button('ios-dark', $mbsc-ios-dark-colors);
 }
 
-
-
 $mbsc-material-button-color: $mbsc-button-color-light !default;
 $mbsc-material-button-text: $mbsc-button-text-light !default;
 
 $mbsc-material-dark-button-color: $mbsc-button-color-dark !default;
 $mbsc-material-dark-button-text: $mbsc-button-text-dark !default;
 
-$mbsc-material-colors: map-merge($mbsc-material-colors, ('button-color': $mbsc-material-button-color,
+$mbsc-material-colors: map-merge(
+  $mbsc-material-colors,
+  (
+    'button-color': $mbsc-material-button-color,
     'button-text': $mbsc-material-button-text,
-  ));
+  )
+);
 
-$mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color': $mbsc-material-dark-button-color,
+$mbsc-material-dark-colors: map-merge(
+  $mbsc-material-dark-colors,
+  (
+    'button-color': $mbsc-material-dark-button-color,
     'button-text': $mbsc-material-dark-button-text,
-  ));
+  )
+);
 
 @mixin mbsc-material-button($theme, $params) {
   $background: map-get($params, 'background');
@@ -5986,30 +5937,39 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
   @if (lightness($background) > 50%) {
     $button-text: darken($text, 36%);
     $button-background: darken($background, 19%);
-  }
-
-  @else {
+  } @else {
     $button-text: lighten($text, 24%);
     $button-background: lighten($background, 17%);
   }
 
-  $button-background: if($button-background-param, $button-background-param, $button-background);
+  $button-background: if(
+    $button-background-param,
+    $button-background-param,
+    $button-background
+  );
   $button-text: if($button-text-param, $button-text-param, $button-text);
-  $flatout-color: if($button-background-param, $button-background, $button-text);
+  $flatout-color: if(
+    $button-background-param,
+    $button-background,
+    $button-text
+  );
 
   .mbsc-#{$theme} {
     &.mbsc-button-standard {
       background: $button-background;
       color: $button-text;
-      box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+      box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+        0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 
       &.mbsc-hover {
-        box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+        box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+          0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
       }
 
       &.mbsc-focus,
       &.mbsc-active {
-        box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+        box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+          0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
       }
     }
 
@@ -6020,11 +5980,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($flatout-color, .2);
+        background: rgba($flatout-color, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($flatout-color, .3);
+        background: rgba($flatout-color, 0.3);
       }
     }
 
@@ -6079,11 +6039,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-primary, .2);
+        background: rgba($mbsc-material-primary, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-primary, .3);
+        background: rgba($mbsc-material-primary, 0.3);
       }
     }
 
@@ -6092,11 +6052,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-secondary, .2);
+        background: rgba($mbsc-material-secondary, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-secondary, .3);
+        background: rgba($mbsc-material-secondary, 0.3);
       }
     }
 
@@ -6105,11 +6065,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-success, .2);
+        background: rgba($mbsc-material-success, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-success, .3);
+        background: rgba($mbsc-material-success, 0.3);
       }
     }
 
@@ -6118,11 +6078,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-danger, .2);
+        background: rgba($mbsc-material-danger, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-danger, .3);
+        background: rgba($mbsc-material-danger, 0.3);
       }
     }
 
@@ -6131,11 +6091,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-warning, .2);
+        background: rgba($mbsc-material-warning, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-warning, .3);
+        background: rgba($mbsc-material-warning, 0.3);
       }
     }
 
@@ -6144,11 +6104,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-info, .2);
+        background: rgba($mbsc-material-info, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-info, .3);
+        background: rgba($mbsc-material-info, 0.3);
       }
     }
 
@@ -6157,11 +6117,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-dark, .2);
+        background: rgba($mbsc-material-dark, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-dark, .3);
+        background: rgba($mbsc-material-dark, 0.3);
       }
     }
 
@@ -6170,11 +6130,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-light, .2);
+        background: rgba($mbsc-material-light, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-light, .3);
+        background: rgba($mbsc-material-light, 0.3);
       }
     }
 
@@ -6184,11 +6144,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-primary, .2);
+        background: rgba($mbsc-material-primary, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-primary, .3);
+        background: rgba($mbsc-material-primary, 0.3);
       }
     }
 
@@ -6198,11 +6158,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-secondary, .2);
+        background: rgba($mbsc-material-secondary, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-secondary, .3);
+        background: rgba($mbsc-material-secondary, 0.3);
       }
     }
 
@@ -6212,11 +6172,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-success, .2);
+        background: rgba($mbsc-material-success, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-success, .3);
+        background: rgba($mbsc-material-success, 0.3);
       }
     }
 
@@ -6226,11 +6186,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-danger, .2);
+        background: rgba($mbsc-material-danger, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-danger, .3);
+        background: rgba($mbsc-material-danger, 0.3);
       }
     }
 
@@ -6240,11 +6200,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-warning, .2);
+        background: rgba($mbsc-material-warning, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-warning, .3);
+        background: rgba($mbsc-material-warning, 0.3);
       }
     }
 
@@ -6254,11 +6214,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-info, .2);
+        background: rgba($mbsc-material-info, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-info, .3);
+        background: rgba($mbsc-material-info, 0.3);
       }
     }
 
@@ -6268,11 +6228,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-dark, .2);
+        background: rgba($mbsc-material-dark, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-dark, .3);
+        background: rgba($mbsc-material-dark, 0.3);
       }
     }
 
@@ -6282,29 +6242,28 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
       &.mbsc-hover,
       &.mbsc-active {
-        background: rgba($mbsc-material-light, .2);
+        background: rgba($mbsc-material-light, 0.2);
       }
 
       &.mbsc-focus {
-        background: rgba($mbsc-material-light, .3);
+        background: rgba($mbsc-material-light, 0.3);
       }
     }
   }
 }
 
-
 @if ($mbsc-material-theme) {
   .mbsc-material {
     &.mbsc-button {
       min-width: 4.571429em;
-      padding: .428572em 1.142858em;
-      border-radius: .285715em;
-      font-size: .875em;
+      padding: 0.428572em 1.142858em;
+      border-radius: 0.285715em;
+      font-size: 0.875em;
       font-weight: 600;
       text-transform: uppercase;
       line-height: 1.714286em;
-      transition: box-shadow .2s ease-out, background-color .2s ease-out;
-      margin: .5em;
+      transition: box-shadow 0.2s ease-out, background-color 0.2s ease-out;
+      margin: 0.5em;
     }
 
     &.mbsc-button-outline {
@@ -6317,7 +6276,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
     &.mbsc-icon-button {
       min-width: 0;
-      padding: .5em;
+      padding: 0.5em;
       border-radius: 2em;
       font-size: 1em;
       line-height: normal;
@@ -6331,40 +6290,40 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
 
     &.mbsc-button:disabled,
     &.mbsc-button.mbsc-disabled {
-      opacity: .3;
+      opacity: 0.3;
     }
 
     &.mbsc-ltr {
       &.mbsc-button-icon-start {
-        padding-right: .5em;
-        margin-left: -.25em;
+        padding-right: 0.5em;
+        margin-left: -0.25em;
       }
 
       &.mbsc-button-icon-end {
-        padding-left: .5em;
-        margin-right: -.25em;
+        padding-left: 0.5em;
+        margin-right: -0.25em;
       }
     }
 
     &.mbsc-rtl {
       &.mbsc-button-icon-start {
-        padding-left: .5em;
-        margin-right: -.25em;
+        padding-left: 0.5em;
+        margin-right: -0.25em;
       }
 
       &.mbsc-button-icon-end {
-        padding-right: .5em;
-        margin-left: -.25em;
+        padding-right: 0.5em;
+        margin-left: -0.25em;
       }
     }
 
     .mbsc-button-group,
     .mbsc-button-group-justified {
-      margin: .5em;
+      margin: 0.5em;
     }
 
     .mbsc-button-group-block {
-      margin: .5em 1em;
+      margin: 0.5em 1em;
     }
   }
 
@@ -6372,21 +6331,27 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ('button-color
   @include mbsc-material-button('material-dark', $mbsc-material-dark-colors);
 }
 
-
-
 $mbsc-windows-button-color: $mbsc-button-color-light !default;
 $mbsc-windows-button-text: $mbsc-button-text-light !default;
 
 $mbsc-windows-dark-button-color: $mbsc-button-color-dark !default;
 $mbsc-windows-dark-button-text: $mbsc-button-text-dark !default;
 
-$mbsc-windows-colors: map-merge($mbsc-windows-colors, ('button-color': $mbsc-windows-button-color,
+$mbsc-windows-colors: map-merge(
+  $mbsc-windows-colors,
+  (
+    'button-color': $mbsc-windows-button-color,
     'button-text': $mbsc-windows-button-text,
-  ));
+  )
+);
 
-$mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ('button-color': $mbsc-windows-dark-button-color,
+$mbsc-windows-dark-colors: map-merge(
+  $mbsc-windows-dark-colors,
+  (
+    'button-color': $mbsc-windows-dark-button-color,
     'button-text': $mbsc-windows-dark-button-text,
-  ));
+  )
+);
 
 @mixin mbsc-windows-button($theme, $params) {
   $background: map-get($params, 'background');
@@ -6409,38 +6374,39 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ('button-color':
     $hover: lighten($button-text, 70%);
     $button-border: darken($background, 40%);
     $button-border-hover: darken($background, 50%);
-  }
-
-  @else {
+  } @else {
     $button-bg: lighten($background, 15%);
     $hover: darken($button-text, 70%);
     $button-border: lighten($background, 35%);
     $button-border-hover: lighten($background, 45%);
   }
 
-  $button-bg: if($button-background-param, $button-background-param, $button-bg);
+  $button-bg: if(
+    $button-background-param,
+    $button-background-param,
+    $button-bg
+  );
 
-  @if($button-background-param) {
+  @if ($button-background-param) {
     $button-border: $button-background-param;
 
     @if (lightness($button-background-param) > 50%) {
       $button-border-hover: darken($button-border, 10%);
-    }
-
-    @else {
+    } @else {
       $button-border-hover: lighten($button-border, 10%);
     }
   }
 
-
-  $active-base: if($button-background-param, $button-background-param, $background);
+  $active-base: if(
+    $button-background-param,
+    $button-background-param,
+    $background
+  );
   $button-active: '';
 
   @if (lightness($active-base) > 50%) {
     $button-active: lighten($button-text, 28%);
-  }
-
-  @else {
+  } @else {
     $button-active: darken($button-text, 33%);
   }
 
@@ -6755,15 +6721,14 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ('button-color':
   }
 }
 
-
 @if ($mbsc-windows-theme) {
   .mbsc-windows {
     &.mbsc-button {
-      padding: 0 .5em;
+      padding: 0 0.5em;
       line-height: 1.75em;
-      margin: .5em .25em;
-      border: .125em solid transparent;
-      transition: border-color .1s ease-out, background-color .1s ease-out;
+      margin: 0.5em 0.25em;
+      border: 0.125em solid transparent;
+      transition: border-color 0.1s ease-out, background-color 0.1s ease-out;
     }
 
     &.mbsc-icon-button {
@@ -6772,10 +6737,10 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ('button-color':
     }
 
     &.mbsc-button-flat {
-      transition: background-color .1s ease-out;
+      transition: background-color 0.1s ease-out;
 
       &.mbsc-hover {
-        opacity: .7;
+        opacity: 0.7;
       }
 
       &.mbsc-active {
@@ -6785,43 +6750,42 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ('button-color':
 
     &.mbsc-button:disabled,
     &.mbsc-button.mbsc-disabled {
-      opacity: .3;
+      opacity: 0.3;
     }
 
     &.mbsc-ltr {
       &.mbsc-button-icon-start {
-        padding-right: .5em;
+        padding-right: 0.5em;
       }
 
       &.mbsc-button-icon-end {
-        padding-left: .5em;
+        padding-left: 0.5em;
       }
     }
 
     &.mbsc-rtl {
       &.mbsc-button-icon-start {
-        padding-left: .5em;
+        padding-left: 0.5em;
       }
 
       &.mbsc-button-icon-end {
-        padding-right: .5em;
+        padding-right: 0.5em;
       }
     }
 
     .mbsc-button-group,
     .mbsc-button-group-justified {
-      margin: .5em .75em;
+      margin: 0.5em 0.75em;
     }
 
     .mbsc-button-group-block {
-      margin: .5em 1em;
+      margin: 0.5em 1em;
     }
   }
 
   @include mbsc-windows-button('windows', $mbsc-windows-colors);
   @include mbsc-windows-button('windows-dark', $mbsc-windows-dark-colors);
 }
-
 
 .mbsc-button {
   position: relative;
@@ -6858,7 +6822,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ('button-color':
 .mbsc-icon-button {
   width: 2.5em;
   height: 2.5em;
-  padding: .5em;
+  padding: 0.5em;
   flex: 0 0 auto;
 }
 
@@ -6899,8 +6863,6 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ('button-color':
   flex: 1 auto;
 }
 
-
-
 $mbsc-ios-input-background: $mbsc-input-background-light !default;
 $mbsc-ios-input-text: $mbsc-input-text-light !default;
 $mbsc-ios-input-accent: $mbsc-input-accent-light !default;
@@ -6911,19 +6873,27 @@ $mbsc-ios-dark-input-text: $mbsc-input-text-dark !default;
 $mbsc-ios-dark-input-accent: $mbsc-input-accent-dark !default;
 $mbsc-ios-dark-input-border: $mbsc-input-border-dark !default;
 
-$mbsc-ios-colors: map-merge($mbsc-ios-colors, ( // Colors map
-    'input-background': $mbsc-ios-input-background,
+$mbsc-ios-colors: map-merge(
+  $mbsc-ios-colors,
+  (
+    // Colors map
+      'input-background': $mbsc-ios-input-background,
     'input-text': $mbsc-ios-input-text,
     'input-accent': $mbsc-ios-input-accent,
-    'input-border': $mbsc-ios-input-border,
-  ));
+    'input-border': $mbsc-ios-input-border
+  )
+);
 
-$mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
-    'input-background': $mbsc-ios-dark-input-background,
+$mbsc-ios-dark-colors: map-merge(
+  $mbsc-ios-dark-colors,
+  (
+    // Colors map
+      'input-background': $mbsc-ios-dark-input-background,
     'input-text': $mbsc-ios-dark-input-text,
     'input-accent': $mbsc-ios-dark-input-accent,
-    'input-border': $mbsc-ios-dark-input-border,
-  ));
+    'input-border': $mbsc-ios-dark-input-border
+  )
+);
 
 @mixin mbsc-ios-input($theme, $params) {
   $background: map-get($params, 'background');
@@ -6951,7 +6921,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     $input-background: lighten($background, 6%);
     $input-background-popup: $input-background;
     $input-tag-background: darken($background, 10%);
-    $textfield-icon-color: lighten($text, 54.90);
+    $textfield-icon-color: lighten($text, 54.9);
     $border-color: darken($background, 17%);
   }
 
@@ -7058,14 +7028,11 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     &.mbsc-textfield-tag-clear {
       color: $textfield-icon-color;
     }
-
   }
 }
 
-
 @if ($mbsc-ios-theme) {
   .mbsc-ios {
-
     /* Wrapper */
 
     &.mbsc-textfield-wrapper-has-icon-right.mbsc-rtl,
@@ -7076,7 +7043,6 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     &.mbsc-textfield-wrapper-has-icon-left.mbsc-ltr:before,
     &.mbsc-textfield-wrapper-has-icon-left.mbsc-ltr:after {
       left: 3.375em;
-
     }
 
     &.mbsc-textfield-wrapper-has-icon-right.mbsc-rtl:after,
@@ -7092,7 +7058,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     }
 
     &.mbsc-textfield-inner.mbsc-disabled {
-      opacity: .5;
+      opacity: 0.5;
     }
 
     /* Form element */
@@ -7122,16 +7088,16 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     /* Icons */
 
     &.mbsc-textfield-icon {
-      top: .625em;
+      top: 0.625em;
       z-index: 1;
     }
 
     &.mbsc-textfield-icon-left {
-      left: .9375em;
+      left: 0.9375em;
     }
 
     &.mbsc-textfield-icon-right {
-      right: .9375em;
+      right: 0.9375em;
     }
 
     &.mbsc-textfield-icon-floating,
@@ -7154,8 +7120,8 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     }
 
     &.mbsc-label-stacked {
-      top: .666667em;
-      font-size: .75em;
+      top: 0.666667em;
+      font-size: 0.75em;
       line-height: 1em;
     }
 
@@ -7168,7 +7134,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     }
 
     &.mbsc-label-floating {
-      top: .875em;
+      top: 0.875em;
       line-height: 2em;
     }
 
@@ -7181,11 +7147,11 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     }
 
     &.mbsc-label-floating-active.mbsc-label {
-      transform: translateY(-.75em) scale(.75);
+      transform: translateY(-0.75em) scale(0.75);
     }
 
     &.mbsc-label.mbsc-disabled {
-      opacity: .5;
+      opacity: 0.5;
     }
 
     /* Error message */
@@ -7209,7 +7175,6 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     }
 
     /* Underline input --------------------------------------------------------------------------- */
-
 
     /* Form element*/
 
@@ -7261,9 +7226,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
       padding-right: 1.333334em;
     }
 
-
     /* ------------------------------------------------------------------------------------------- */
-
 
     /* Box & outline input common styles --------------------------------------------------------- */
 
@@ -7285,7 +7248,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
 
     &.mbsc-textfield-box,
     &.mbsc-textfield-outline {
-      border-radius: .5em;
+      border-radius: 0.5em;
       border: 1px solid transparent;
     }
 
@@ -7353,7 +7316,7 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     /* Select icon */
 
     &.mbsc-select-icon {
-      top: .625em;
+      top: 0.625em;
     }
 
     &.mbsc-select-icon-stacked,
@@ -7362,11 +7325,11 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     }
 
     &.mbsc-select-icon.mbsc-ltr {
-      right: .9375em;
+      right: 0.9375em;
     }
 
     &.mbsc-select-icon.mbsc-rtl {
-      left: .9375em;
+      left: 0.9375em;
     }
 
     &.mbsc-select-icon-right.mbsc-ltr {
@@ -7390,14 +7353,14 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     }
 
     &.mbsc-textarea-inner {
-      padding-top: .625em;
-      padding-bottom: .625em;
+      padding-top: 0.625em;
+      padding-bottom: 0.625em;
     }
 
     &.mbsc-textarea-inner.mbsc-textfield-inner-box,
     &.mbsc-textarea-inner.mbsc-textfield-inner-outline {
       border: 1px solid transparent;
-      border-radius: .5em;
+      border-radius: 0.5em;
     }
 
     &.mbsc-textarea-inner.mbsc-textfield-inner-stacked,
@@ -7413,8 +7376,8 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     }
 
     &.mbsc-textfield.mbsc-textfield-tags {
-      padding-top: .3125em;
-      padding-bottom: .3125em;
+      padding-top: 0.3125em;
+      padding-bottom: 0.3125em;
       min-height: 2.75em;
     }
 
@@ -7428,14 +7391,11 @@ $mbsc-ios-dark-colors: map-merge($mbsc-ios-dark-colors, ( // Colors map
     &.mbsc-textfield-tag {
       border-radius: 1em;
     }
-
   }
 
   @include mbsc-ios-input('ios', $mbsc-ios-colors);
   @include mbsc-ios-input('ios-dark', $mbsc-ios-dark-colors);
 }
-
-
 
 $mbsc-material-input-background: $mbsc-input-background-light !default;
 $mbsc-material-input-text: $mbsc-input-text-light !default;
@@ -7447,19 +7407,27 @@ $mbsc-material-dark-input-text: $mbsc-input-text-dark !default;
 $mbsc-material-dark-input-accent: $mbsc-input-accent-dark !default;
 $mbsc-material-dark-input-border: $mbsc-input-border-dark !default;
 
-$mbsc-material-colors: map-merge($mbsc-material-colors, ( // Colors map
-    'input-background': $mbsc-material-input-background,
+$mbsc-material-colors: map-merge(
+  $mbsc-material-colors,
+  (
+    // Colors map
+      'input-background': $mbsc-material-input-background,
     'input-text': $mbsc-material-input-text,
     'input-accent': $mbsc-material-input-accent,
-    'input-border': $mbsc-material-input-border,
-  ));
+    'input-border': $mbsc-material-input-border
+  )
+);
 
-$mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors map
-    'input-background': $mbsc-material-dark-input-background,
+$mbsc-material-dark-colors: map-merge(
+  $mbsc-material-dark-colors,
+  (
+    // Colors map
+      'input-background': $mbsc-material-dark-input-background,
     'input-text': $mbsc-material-dark-input-text,
     'input-accent': $mbsc-material-dark-input-accent,
-    'input-border': $mbsc-material-dark-input-border,
-  ));
+    'input-border': $mbsc-material-dark-input-border
+  )
+);
 
 @mixin mbsc-material-input($theme, $params) {
   $background: map-get($params, 'background');
@@ -7490,10 +7458,10 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
   // Light background
   @if (lightness($background) > 50%) {
     $input-base-color: darken($text, 19%);
-    $input-text: rgba($input-base-color, .87);
-    $input-border-color: rgba($input-base-color, .42);
-    $input-icon-color: rgba($input-base-color, .54);
-    $input-label-color: rgba($input-base-color, .6);
+    $input-text: rgba($input-base-color, 0.87);
+    $input-border-color: rgba($input-base-color, 0.42);
+    $input-icon-color: rgba($input-base-color, 0.54);
+    $input-label-color: rgba($input-base-color, 0.6);
     $input-background: if($bg-param, $bg-param, $background);
     $input-box-background: if($bg-param, $bg-param, darken($background, 4%));
     $input-box-hover-background: darken($input-box-background, 3%);
@@ -7507,7 +7475,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     $input-text: $input-base-color;
     $input-border-color: $input-base-color;
     $input-icon-color: $input-base-color;
-    $input-label-color: rgba($input-base-color, .6);
+    $input-label-color: rgba($input-base-color, 0.6);
     $input-background: if($bg-param, $bg-param, $background);
     $input-box-background: if($bg-param, $bg-param, lighten($background, 4%));
     $input-box-hover-background: lighten($input-box-background, 3%);
@@ -7521,7 +7489,6 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
   $input-border-color: if($brd-param, $brd-param, $input-border-color);
 
   .mbsc-#{$theme} {
-
     /* Form element */
 
     &.mbsc-textfield {
@@ -7599,7 +7566,6 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     /* ----------------------------------------------------------------------------------------- */
-
 
     /* Outline input --------------------------------------------------------------------------- */
 
@@ -7637,10 +7603,8 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
   }
 }
 
-
 @if ($mbsc-material-theme) {
   .mbsc-material {
-
     /* Wrapper */
 
     &.mbsc-textfield-wrapper {
@@ -7651,7 +7615,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     /* Inner wrapper */
 
     &.mbsc-textfield-inner.mbsc-disabled {
-      opacity: .5;
+      opacity: 0.5;
     }
 
     /* Form element */
@@ -7663,7 +7627,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
       background-color: transparent;
       border-bottom: 1px solid;
       font-size: 1em;
-      transition: border-color .2s;
+      transition: border-color 0.2s;
     }
 
     &.mbsc-textfield-has-icon-left {
@@ -7677,7 +7641,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     /* Icon */
 
     &.mbsc-textfield-icon {
-      top: .375em;
+      top: 0.375em;
     }
 
     &.mbsc-textfield-icon-floating,
@@ -7695,7 +7659,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
       width: 100%;
       height: 2px;
       transform: scaleX(0);
-      transition: transform 180ms cubic-bezier(.4, 0, .2, 1);
+      transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 2;
     }
 
@@ -7706,7 +7670,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     /* Label */
 
     &.mbsc-label {
-      font-size: .75em;
+      font-size: 0.75em;
     }
 
     &.mbsc-label-inline {
@@ -7715,11 +7679,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     &.mbsc-label-inline.mbsc-ltr {
-      padding-right: .5em;
+      padding-right: 0.5em;
     }
 
     &.mbsc-label-inline.mbsc-rtl {
-      padding-left: .5em;
+      padding-left: 0.5em;
     }
 
     &.mbsc-label-floating {
@@ -7729,11 +7693,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     &.mbsc-label-floating-active {
-      transform: translateY(-1.125em) scale(.75);
+      transform: translateY(-1.125em) scale(0.75);
     }
 
     &.mbsc-label.mbsc-disabled {
-      opacity: .5;
+      opacity: 0.5;
     }
 
     /* Error message */
@@ -7754,7 +7718,6 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
       right: 2.66667em;
     }
 
-
     /* Underline input --------------------------------------------------------------------------- */
 
     /* Form element */
@@ -7762,13 +7725,13 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     &.mbsc-textfield-underline-stacked,
     &.mbsc-textfield-underline-floating {
       height: 3em;
-      padding-top: .875em;
+      padding-top: 0.875em;
     }
 
     /* Icon */
 
     &.mbsc-textfield-icon-underline {
-      top: .25em;
+      top: 0.25em;
     }
 
     &.mbsc-textfield-icon-underline.mbsc-textfield-icon-floating,
@@ -7800,14 +7763,13 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
 
     /* ------------------------------------------------------------------------------------------- */
 
-
     /* Box input --------------------------------------------------------------------------------- */
 
     /* Inner wrapper */
 
     &.mbsc-textfield-box,
     &.mbsc-textfield-inner-box {
-      border-radius: .25em .25em 0 0;
+      border-radius: 0.25em 0.25em 0 0;
     }
 
     /* Form element */
@@ -7833,7 +7795,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     &.mbsc-label-box-stacked {
-      top: .666667em;
+      top: 0.666667em;
     }
 
     &.mbsc-label-box-floating {
@@ -7841,11 +7803,10 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     &.mbsc-label-box-floating.mbsc-label-floating-active {
-      transform: translateY(-.625em) scale(.75);
+      transform: translateY(-0.625em) scale(0.75);
     }
 
     /* ------------------------------------------------------------------------------------------- */
-
 
     /* Outline input ----------------------------------------------------------------------------- */
 
@@ -7865,10 +7826,10 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     &.mbsc-textfield-fieldset {
-      top: -.5em;
+      top: -0.5em;
       border: 1px solid;
       border-radius: 4px;
-      transition: border-color .2s;
+      transition: border-color 0.2s;
     }
 
     &.mbsc-textfield-fieldset-has-icon-left {
@@ -7886,7 +7847,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     &.mbsc-textfield-legend {
       padding: 0;
       margin: 0;
-      font-size: .75em;
+      font-size: 0.75em;
       color: transparent;
       width: 0.01px; // Fraction needed for IE11
       white-space: nowrap;
@@ -7894,8 +7855,8 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
 
     &.mbsc-textfield-legend-active {
       width: auto;
-      padding: 0 .333334em;
-      margin: 0 -.333334em;
+      padding: 0 0.333334em;
+      margin: 0 -0.333334em;
     }
 
     /* Label */
@@ -7905,7 +7866,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     &.mbsc-label-outline-stacked {
-      top: -.5em;
+      top: -0.5em;
       margin: 0 2px; // Compensate borders
     }
 
@@ -7916,7 +7877,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
 
     &.mbsc-label-outline-floating.mbsc-label-floating-active {
       margin-top: -1px;
-      transform: translateY(-1.5em) scale(.75);
+      transform: translateY(-1.5em) scale(0.75);
     }
 
     /* Error message */
@@ -7926,7 +7887,6 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     /* ------------------------------------------------------------------------------------------- */
-
 
     /* Box & outline input common styles --------------------------------------------------------- */
 
@@ -7946,12 +7906,12 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
 
     &.mbsc-textfield-icon-outline-left,
     &.mbsc-textfield-icon-box-left {
-      left: .75em;
+      left: 0.75em;
     }
 
     &.mbsc-textfield-icon-outline-right,
     &.mbsc-textfield-icon-box-right {
-      right: .75em;
+      right: 0.75em;
     }
 
     /* Label */
@@ -8054,15 +8014,15 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     /* Select icon */
 
     &.mbsc-select-icon {
-      top: .375em;
+      top: 0.375em;
     }
 
     &.mbsc-select-icon.mbsc-ltr {
-      right: .75em;
+      right: 0.75em;
     }
 
     &.mbsc-select-icon.mbsc-rtl {
-      left: .75em;
+      left: 0.75em;
     }
 
     &.mbsc-select-icon-right.mbsc-ltr {
@@ -8080,7 +8040,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     &.mbsc-select-icon-underline {
-      top: .25em;
+      top: 0.25em;
     }
 
     &.mbsc-select-icon-underline.mbsc-ltr {
@@ -8108,7 +8068,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
 
     &.mbsc-textarea {
       height: 1.875em;
-      padding-bottom: .375em;
+      padding-bottom: 0.375em;
     }
 
     &.mbsc-textarea.mbsc-textfield-stacked,
@@ -8123,11 +8083,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     &.mbsc-textarea.mbsc-textfield-underline {
-      padding-bottom: .3125em;
+      padding-bottom: 0.3125em;
     }
 
     &.mbsc-textarea-inner.mbsc-textfield-inner-box {
-      padding-top: .375em;
+      padding-top: 0.375em;
     }
 
     &.mbsc-textarea-inner.mbsc-textfield-inner-stacked,
@@ -8141,7 +8101,7 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     &.mbsc-textarea-inner.mbsc-textfield-inner-underline {
-      padding-top: .25em;
+      padding-top: 0.25em;
     }
 
     &.mbsc-textarea-inner.mbsc-textfield-inner-underline.mbsc-textfield-inner-stacked,
@@ -8157,15 +8117,15 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     }
 
     &.mbsc-textfield-tags-inner.mbsc-textfield-inner-outline {
-      padding-top: .625em;
-      padding-bottom: .625em;
+      padding-top: 0.625em;
+      padding-bottom: 0.625em;
     }
 
     &.mbsc-textfield-tags.mbsc-textfield {
       padding-bottom: 0;
       min-height: 2.25em;
     }
-    
+
     &.mbsc-textfield-tags.mbsc-textfield-outline {
       padding-top: 1px;
       padding-bottom: 1px;
@@ -8174,14 +8134,11 @@ $mbsc-material-dark-colors: map-merge($mbsc-material-dark-colors, ( // Colors ma
     &.mbsc-textfield-tag {
       border-radius: 1em;
     }
-
   }
 
   @include mbsc-material-input('material', $mbsc-material-colors);
   @include mbsc-material-input('material-dark', $mbsc-material-dark-colors);
 }
-
-
 
 $mbsc-mobiscroll-input-background: $mbsc-input-background-light !default;
 $mbsc-mobiscroll-input-text: $mbsc-input-text-light !default;
@@ -8193,20 +8150,27 @@ $mbsc-mobiscroll-dark-input-text: $mbsc-input-text-dark !default;
 $mbsc-mobiscroll-dark-input-accent: $mbsc-input-accent-dark !default;
 $mbsc-mobiscroll-dark-input-border: $mbsc-input-border-dark !default;
 
-$mbsc-mobiscroll-colors: map-merge($mbsc-mobiscroll-colors, ( // Colors map
-    'input-background': $mbsc-mobiscroll-input-background,
+$mbsc-mobiscroll-colors: map-merge(
+  $mbsc-mobiscroll-colors,
+  (
+    // Colors map
+      'input-background': $mbsc-mobiscroll-input-background,
     'input-text': $mbsc-mobiscroll-input-text,
     'input-accent': $mbsc-mobiscroll-input-accent,
-    'input-border': $mbsc-mobiscroll-input-border,
-  ));
+    'input-border': $mbsc-mobiscroll-input-border
+  )
+);
 
-$mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Colors map
-    'input-background': $mbsc-mobiscroll-dark-input-background,
+$mbsc-mobiscroll-dark-colors: map-merge(
+  $mbsc-mobiscroll-dark-colors,
+  (
+    // Colors map
+      'input-background': $mbsc-mobiscroll-dark-input-background,
     'input-text': $mbsc-mobiscroll-dark-input-text,
     'input-accent': $mbsc-mobiscroll-dark-input-accent,
-    'input-border': $mbsc-mobiscroll-dark-input-border,
-  ));
-
+    'input-border': $mbsc-mobiscroll-dark-input-border
+  )
+);
 
 @mixin mbsc-mobiscroll-input($theme, $params) {
   $background: map-get($params, 'background');
@@ -8236,10 +8200,10 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
   // Light background
   @if (lightness($background) > 50%) {
     $input-base-color: darken($text, 27%);
-    $input-text: rgba($input-base-color, .87);
-    $input-border-color: rgba($input-base-color, .42);
-    $input-icon-color: rgba($input-base-color, .54);
-    $input-label-color: rgba($input-base-color, .6);
+    $input-text: rgba($input-base-color, 0.87);
+    $input-border-color: rgba($input-base-color, 0.42);
+    $input-icon-color: rgba($input-base-color, 0.54);
+    $input-label-color: rgba($input-base-color, 0.6);
     $input-background: if($bg-param, $bg-param, $background);
     $input-box-background: if($bg-param, $bg-param, darken($background, 4%));
     $input-box-hover-background: darken($input-box-background, 3%);
@@ -8252,7 +8216,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     $input-text: $input-base-color;
     $input-border-color: $input-base-color;
     $input-icon-color: $input-base-color;
-    $input-label-color: rgba($input-base-color, .6);
+    $input-label-color: rgba($input-base-color, 0.6);
     $input-background: if($bg-param, $bg-param, $background);
     $input-box-background: if($bg-param, $bg-param, lighten($background, 4%));
     $input-box-hover-background: lighten($input-box-background, 3%);
@@ -8265,7 +8229,6 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
   $input-label-color: if($text-param, $text-param, $input-label-color);
 
   .mbsc-#{$theme} {
-
     /* Form element */
 
     &.mbsc-textfield {
@@ -8344,7 +8307,6 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
 
     /* ----------------------------------------------------------------------------------------- */
 
-
     /* Outline input --------------------------------------------------------------------------- */
 
     &.mbsc-textfield-fieldset {
@@ -8371,10 +8333,8 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
   }
 }
 
-
 @if ($mbsc-mobiscroll-theme) {
   .mbsc-mobiscroll {
-
     /* Wrapper */
 
     &.mbsc-textfield-wrapper {
@@ -8385,7 +8345,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     /* Inner wrapper */
 
     &.mbsc-textfield-inner.mbsc-disabled {
-      opacity: .5;
+      opacity: 0.5;
     }
 
     /* Form element */
@@ -8397,7 +8357,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
       background-color: transparent;
       border-bottom: 1px solid;
       font-size: 1em;
-      transition: border-color .2s;
+      transition: border-color 0.2s;
     }
 
     &.mbsc-textfield-has-icon-left {
@@ -8411,7 +8371,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     /* Icon */
 
     &.mbsc-textfield-icon {
-      top: .375em;
+      top: 0.375em;
     }
 
     &.mbsc-textfield-icon-floating,
@@ -8429,7 +8389,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
       width: 100%;
       height: 2px;
       transform: scaleX(0);
-      transition: transform 180ms cubic-bezier(.4, 0, .2, 1);
+      transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 2;
     }
 
@@ -8440,7 +8400,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     /* Label */
 
     &.mbsc-label {
-      font-size: .75em;
+      font-size: 0.75em;
     }
 
     &.mbsc-label-inline {
@@ -8449,11 +8409,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     }
 
     &.mbsc-label-inline.mbsc-ltr {
-      padding-right: .5em;
+      padding-right: 0.5em;
     }
 
     &.mbsc-label-inline.mbsc-rtl {
-      padding-left: .5em;
+      padding-left: 0.5em;
     }
 
     &.mbsc-label-floating {
@@ -8463,11 +8423,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     }
 
     &.mbsc-label-floating-active {
-      transform: translateY(-1.125em) scale(.75);
+      transform: translateY(-1.125em) scale(0.75);
     }
 
     &.mbsc-label.mbsc-disabled {
-      opacity: .5;
+      opacity: 0.5;
     }
 
     /* Error message */
@@ -8488,7 +8448,6 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
       right: 2.66667em;
     }
 
-
     /* Underline input --------------------------------------------------------------------------- */
 
     /* Form element */
@@ -8496,13 +8455,13 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     &.mbsc-textfield-underline-stacked,
     &.mbsc-textfield-underline-floating {
       height: 3em;
-      padding-top: .875em;
+      padding-top: 0.875em;
     }
 
     /* Icon */
 
     &.mbsc-textfield-icon-underline {
-      top: .25em;
+      top: 0.25em;
     }
 
     &.mbsc-textfield-icon-underline.mbsc-textfield-icon-floating,
@@ -8534,14 +8493,13 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
 
     /* ------------------------------------------------------------------------------------------- */
 
-
     /* Box input --------------------------------------------------------------------------------- */
 
     /* Inner wrapper */
 
     &.mbsc-textfield-box,
     &.mbsc-textfield-inner-box {
-      border-radius: .25em .25em 0 0;
+      border-radius: 0.25em 0.25em 0 0;
     }
 
     /* Form element */
@@ -8568,7 +8526,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     }
 
     &.mbsc-label-box-stacked {
-      top: .666667em;
+      top: 0.666667em;
     }
 
     &.mbsc-label-box-floating {
@@ -8576,11 +8534,10 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     }
 
     &.mbsc-label-box-floating.mbsc-label-floating-active {
-      transform: translateY(-.625em) scale(.75);
+      transform: translateY(-0.625em) scale(0.75);
     }
 
     /* ------------------------------------------------------------------------------------------- */
-
 
     /* Outline input ----------------------------------------------------------------------------- */
 
@@ -8600,10 +8557,10 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     }
 
     &.mbsc-textfield-fieldset {
-      top: -.5em;
+      top: -0.5em;
       border: 1px solid;
       border-radius: 4px;
-      transition: border-color .2s;
+      transition: border-color 0.2s;
     }
 
     &.mbsc-textfield-fieldset-has-icon-left {
@@ -8621,7 +8578,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     &.mbsc-textfield-legend {
       padding: 0;
       margin: 0;
-      font-size: .75em;
+      font-size: 0.75em;
       color: transparent;
       width: 0.01px; // Fraction needed for IE11
       white-space: nowrap;
@@ -8629,8 +8586,8 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
 
     &.mbsc-textfield-legend-active {
       width: auto;
-      padding: 0 .333334em;
-      margin: 0 -.333334em;
+      padding: 0 0.333334em;
+      margin: 0 -0.333334em;
     }
 
     /* Label */
@@ -8640,7 +8597,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     }
 
     &.mbsc-label-outline-stacked {
-      top: -.5em;
+      top: -0.5em;
       margin: 0 2px; // Compensate borders
     }
 
@@ -8651,7 +8608,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
 
     &.mbsc-label-outline-floating.mbsc-label-floating-active {
       margin-top: -1px;
-      transform: translateY(-1.5em) scale(.75);
+      transform: translateY(-1.5em) scale(0.75);
     }
 
     /* Error message */
@@ -8661,7 +8618,6 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     }
 
     /* ------------------------------------------------------------------------------------------- */
-
 
     /* Box & outline input common styles --------------------------------------------------------- */
 
@@ -8681,12 +8637,12 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
 
     &.mbsc-textfield-icon-outline-left,
     &.mbsc-textfield-icon-box-left {
-      left: .75em;
+      left: 0.75em;
     }
 
     &.mbsc-textfield-icon-outline-right,
     &.mbsc-textfield-icon-box-right {
-      right: .75em;
+      right: 0.75em;
     }
 
     /* Label */
@@ -8789,15 +8745,15 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     /* Select icon */
 
     &.mbsc-select-icon {
-      top: .375em;
+      top: 0.375em;
     }
 
     &.mbsc-select-icon.mbsc-ltr {
-      right: .75em;
+      right: 0.75em;
     }
 
     &.mbsc-select-icon.mbsc-rtl {
-      left: .75em;
+      left: 0.75em;
     }
 
     &.mbsc-select-icon-right.mbsc-ltr {
@@ -8815,7 +8771,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     }
 
     &.mbsc-select-icon-underline {
-      top: .25em;
+      top: 0.25em;
     }
 
     &.mbsc-select-icon-underline.mbsc-ltr {
@@ -8843,7 +8799,7 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
 
     &.mbsc-textarea {
       height: 1.875em;
-      padding-bottom: .375em;
+      padding-bottom: 0.375em;
     }
 
     &.mbsc-textarea.mbsc-textfield-stacked,
@@ -8858,11 +8814,11 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     }
 
     &.mbsc-textarea.mbsc-textfield-underline {
-      padding-bottom: .3125em;
+      padding-bottom: 0.3125em;
     }
 
     &.mbsc-textarea-inner.mbsc-textfield-inner-box {
-      padding-top: .375em;
+      padding-top: 0.375em;
     }
 
     &.mbsc-textarea-inner.mbsc-textfield-inner-stacked,
@@ -8876,21 +8832,21 @@ $mbsc-mobiscroll-dark-colors: map-merge($mbsc-mobiscroll-dark-colors, ( // Color
     }
 
     &.mbsc-textarea-inner.mbsc-textfield-inner-underline {
-      padding-top: .25em;
+      padding-top: 0.25em;
     }
 
     &.mbsc-textarea-inner.mbsc-textfield-inner-underline.mbsc-textfield-inner-stacked,
     &.mbsc-textarea-inner.mbsc-textfield-inner-underline.mbsc-textfield-inner-floating {
       padding-top: 1.125em;
     }
-
   }
 
   @include mbsc-mobiscroll-input('mobiscroll', $mbsc-mobiscroll-colors);
-  @include mbsc-mobiscroll-input('mobiscroll-dark', $mbsc-mobiscroll-dark-colors);
+  @include mbsc-mobiscroll-input(
+    'mobiscroll-dark',
+    $mbsc-mobiscroll-dark-colors
+  );
 }
-
-
 
 $mbsc-windows-input-background: $mbsc-input-background-light !default;
 $mbsc-windows-input-text: $mbsc-input-text-light !default;
@@ -8902,19 +8858,27 @@ $mbsc-windows-dark-input-text: $mbsc-input-text-dark !default;
 $mbsc-windows-dark-input-accent: $mbsc-input-accent-dark !default;
 $mbsc-windows-dark-input-border: $mbsc-input-border-dark !default;
 
-$mbsc-windows-colors: map-merge($mbsc-windows-colors, ( // Colors map
-    'input-background': $mbsc-windows-input-background,
+$mbsc-windows-colors: map-merge(
+  $mbsc-windows-colors,
+  (
+    // Colors map
+      'input-background': $mbsc-windows-input-background,
     'input-text': $mbsc-windows-input-text,
     'input-accent': $mbsc-windows-input-accent,
-    'input-border': $mbsc-windows-input-border,
-  ));
+    'input-border': $mbsc-windows-input-border
+  )
+);
 
-$mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
-    'input-background': $mbsc-windows-dark-input-background,
+$mbsc-windows-dark-colors: map-merge(
+  $mbsc-windows-dark-colors,
+  (
+    // Colors map
+      'input-background': $mbsc-windows-dark-input-background,
     'input-text': $mbsc-windows-dark-input-text,
     'input-accent': $mbsc-windows-dark-input-accent,
-    'input-border': $mbsc-windows-dark-input-border,
-  ));
+    'input-border': $mbsc-windows-dark-input-border
+  )
+);
 
 @mixin mbsc-windows-input($theme, $params) {
   $background: map-get($params, 'background');
@@ -8960,7 +8924,6 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
   $input-border: if($brd-param, $brd-param, $input-border);
 
   .mbsc-#{$theme} {
-
     /* Wrapper */
 
     &.mbsc-textfield-wrapper {
@@ -9047,14 +9010,11 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     &.mbsc-textfield-tag {
       background: $input-tag-background;
     }
-
   }
 }
 
-
 @if ($mbsc-windows-theme) {
   .mbsc-windows {
-
     /* Wrapper */
 
     &.mbsc-textfield-wrapper {
@@ -9073,7 +9033,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 
     &.mbsc-textfield {
       height: 2em;
-      padding: 0 .5em;
+      padding: 0 0.5em;
       border: 1px solid;
       border-radius: 2px;
     }
@@ -9081,7 +9041,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     /* Icons */
 
     &.mbsc-textfield-icon {
-      top: .4375em;
+      top: 0.4375em;
       width: 1.125em;
       height: 1.125em;
       line-height: 1.125em;
@@ -9097,24 +9057,24 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     }
 
     &.mbsc-textfield-icon-left {
-      left: .4375em;
+      left: 0.4375em;
     }
 
     &.mbsc-textfield-icon-right {
-      right: .4375em;
+      right: 0.4375em;
     }
 
     /* Error  */
 
     &.mbsc-error-message {
-      font-size: .75em;
+      font-size: 0.75em;
     }
 
     /* Label */
 
     &.mbsc-label {
       line-height: 2em;
-      font-size: .875em;
+      font-size: 0.875em;
       font-weight: 600;
     }
 
@@ -9131,11 +9091,11 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     }
 
     &.mbsc-label-floating.mbsc-ltr {
-      transform: translateX(.571429em);
+      transform: translateX(0.571429em);
     }
 
     &.mbsc-label-floating.mbsc-rtl {
-      transform: translateX(-.5em);
+      transform: translateX(-0.5em);
     }
 
     // TODO: check if simplify elsewhere too if there is a separate mbsc-label-{labeltype}-has-icon-{align} class?
@@ -9191,7 +9151,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     /* Select icon */
 
     &.mbsc-select-icon {
-      top: .4375em;
+      top: 0.4375em;
       width: 1.125em;
       height: 1.125em;
       line-height: 1.125em;
@@ -9199,11 +9159,11 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     }
 
     &.mbsc-select-icon.mbsc-ltr {
-      right: .4375em;
+      right: 0.4375em;
     }
 
     &.mbsc-select-icon.mbsc-rtl {
-      left: .4375em;
+      left: 0.4375em;
     }
 
     &.mbsc-select-icon-right.mbsc-ltr {
@@ -9218,29 +9178,29 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 
     &.mbsc-textarea {
       height: 3.5em;
-      padding-top: .1875em;
-      padding-bottom: .1875em;
+      padding-top: 0.1875em;
+      padding-bottom: 0.1875em;
     }
 
     /* Input tags */
 
     &.mbsc-textfield.mbsc-textfield-tags {
-      padding: .125em;
+      padding: 0.125em;
       min-height: 2em;
     }
 
     &.mbsc-textfield-tag {
-      margin: .125em;
+      margin: 0.125em;
     }
-    
+
     &.mbsc-textfield-tag.mbsc-ltr {
-      margin-right: .125em;
+      margin-right: 0.125em;
     }
-    
+
     &.mbsc-textfield-tag.mbsc-rtl {
-      margin-left: .125em;
+      margin-left: 0.125em;
     }
-    
+
     &.mbsc-textfield-tag-text {
       line-height: 1.571429em; // 22px
     }
@@ -9248,15 +9208,13 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     &.mbsc-textfield-tag-clear.mbsc-icon {
       width: 1.375em;
       height: 1.375em;
-      border-width: .125em;
+      border-width: 0.125em;
     }
-
   }
 
   @include mbsc-windows-input('windows', $mbsc-windows-colors);
   @include mbsc-windows-input('windows-dark', $mbsc-windows-dark-colors);
 }
-
 
 // Dummy animation to detect initial autofill in webkit browsers
 @keyframes autofill {
@@ -9323,12 +9281,12 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 }
 
 .mbsc-textfield::-moz-placeholder {
-  opacity: .5;
+  opacity: 0.5;
   color: inherit;
 }
 
 .mbsc-textfield::-webkit-input-placeholder {
-  opacity: .5;
+  opacity: 0.5;
   color: inherit;
 }
 
@@ -9340,12 +9298,12 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 
 .mbsc-textfield-floating::-moz-placeholder {
   opacity: 0;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
 }
 
 .mbsc-textfield-floating::-webkit-input-placeholder {
   opacity: 0;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
 }
 
 .mbsc-textfield-floating::-webkit-datetime-edit {
@@ -9357,11 +9315,11 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 }
 
 .mbsc-textfield-floating-active::-moz-placeholder {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .mbsc-textfield-floating-active::-webkit-input-placeholder {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .mbsc-textfield-floating-active::-webkit-datetime-edit {
@@ -9419,7 +9377,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 }
 
 .mbsc-label-floating-animate {
-  transition: transform .2s;
+  transition: transform 0.2s;
 }
 
 .mbsc-label-floating.mbsc-ltr {
@@ -9435,7 +9393,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 .mbsc-error-message {
   position: absolute;
   top: 100%;
-  font-size: .75em;
+  font-size: 0.75em;
   line-height: 1.5em;
 }
 
@@ -9496,22 +9454,22 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 
 .mbsc-textfield-tag {
   display: inline-block;
-  margin: .25em 0;
+  margin: 0.25em 0;
   line-height: normal;
 }
 
 .mbsc-textfield-tag.mbsc-ltr {
-  margin-right: .5em;
-  padding-left: .75em;
+  margin-right: 0.5em;
+  padding-left: 0.75em;
 }
 
 .mbsc-textfield-tag.mbsc-rtl {
-  margin-left: .5em;
-  padding-right: .75em;
+  margin-left: 0.5em;
+  padding-right: 0.75em;
 }
 
 .mbsc-textfield-tag-text {
-  font-size: .875em;
+  font-size: 0.875em;
   line-height: 1.857143em; // 26px
 }
 
@@ -9519,35 +9477,30 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
   width: 1.625em;
   height: 1.625em;
   vertical-align: top;
-  border: .25em solid transparent;
+  border: 0.25em solid transparent;
   box-sizing: border-box;
   cursor: pointer;
 }
 
-
-
-
-@mixin mbsc-mobiscroll-form-controls($theme, $params) {}
-
+@mixin mbsc-mobiscroll-form-controls($theme, $params) {
+}
 
 @if ($mbsc-mobiscroll-theme) {
   .mbsc-mobiscroll {
-
     &.mbsc-form-control-label.mbsc-disabled,
     &.mbsc-description.mbsc-disabled {
-      opacity: .4;
+      opacity: 0.4;
     }
   }
 
   @include mbsc-mobiscroll-form-controls('mobiscroll', $mbsc-mobiscroll-colors);
-  @include mbsc-mobiscroll-form-controls('mobiscroll-dark', $mbsc-mobiscroll-dark-colors);
+  @include mbsc-mobiscroll-form-controls(
+    'mobiscroll-dark',
+    $mbsc-mobiscroll-dark-colors
+  );
 }
 
-
-
-
 @mixin mbsc-ios-form-controls($theme, $params) {
-
   $text: map-get($params, 'text');
   $background: map-get($params, 'background');
 
@@ -9565,9 +9518,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     $border-color: darken($background, 17%);
     $wrapper-background: lighten($background, 6%);
     $wrapper-background-popup: $wrapper-background;
-  }
-
-  @else {
+  } @else {
     $is-dark: true;
     $border-color: lighten($background, 20%);
     $wrapper-background: lighten($background, 11%);
@@ -9577,7 +9528,6 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
   $error: if($err-param, $err-param, $mbsc-ios-error);
 
   .mbsc-#{$theme} {
-
     /* Wrapper */
 
     &.mbsc-form-control-wrapper {
@@ -9604,10 +9554,8 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
   }
 }
 
-
 @if ($mbsc-ios-theme) {
   .mbsc-ios {
-
     &.mbsc-form-control-wrapper {
       margin-top: -1px;
     }
@@ -9655,22 +9603,24 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 
     &.mbsc-form-control-label.mbsc-disabled,
     &.mbsc-description.mbsc-disabled {
-      opacity: .3;
+      opacity: 0.3;
     }
 
     .mbsc-form-group-inset .mbsc-form-group-title + .mbsc-form-control-wrapper,
     .mbsc-form-group-inset .mbsc-form-control-wrapper:first-child {
-      border-top-left-radius: .5em;
-      border-top-right-radius: .5em;
+      border-top-left-radius: 0.5em;
+      border-top-right-radius: 0.5em;
     }
 
     .mbsc-form-group-inset .mbsc-form-control-wrapper:last-child {
-      border-bottom-left-radius: .5em;
-      border-bottom-right-radius: .5em;
+      border-bottom-left-radius: 0.5em;
+      border-bottom-right-radius: 0.5em;
     }
 
     .mbsc-form-group-inset .mbsc-form-group-title,
-    .mbsc-form-group-inset .mbsc-form-group-title + .mbsc-form-control-wrapper:before,
+    .mbsc-form-group-inset
+      .mbsc-form-group-title
+      + .mbsc-form-control-wrapper:before,
     .mbsc-form-group-inset .mbsc-form-control-wrapper:first-child:before,
     .mbsc-form-group-inset .mbsc-form-control-wrapper:last-child:after {
       border-width: 0;
@@ -9681,44 +9631,41 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
   @include mbsc-ios-form-controls('ios-dark', $mbsc-ios-dark-colors);
 }
 
-
-
-
-@mixin mbsc-material-form-controls($theme, $params) {}
-
+@mixin mbsc-material-form-controls($theme, $params) {
+}
 
 @if ($mbsc-material-theme) {
   .mbsc-material {
-
     &.mbsc-form-control-label.mbsc-disabled,
     &.mbsc-description.mbsc-disabled {
-      opacity: .3;
+      opacity: 0.3;
     }
   }
 
   @include mbsc-material-form-controls('material', $mbsc-material-colors);
-  @include mbsc-material-form-controls('material-dark', $mbsc-material-dark-colors);
+  @include mbsc-material-form-controls(
+    'material-dark',
+    $mbsc-material-dark-colors
+  );
 }
 
-
-
-
-@mixin mbsc-windows-form-controls($theme, $params) {}
-
+@mixin mbsc-windows-form-controls($theme, $params) {
+}
 
 @if ($mbsc-windows-theme) {
   .mbsc-windows {
-
     &.mbsc-form-control-label.mbsc-disabled,
     &.mbsc-description.mbsc-disabled {
-      opacity: .3;
+      opacity: 0.3;
     }
   }
 
   @include mbsc-windows-form-controls('windows', $mbsc-windows-colors);
-  @include mbsc-windows-form-controls('windows-dark', $mbsc-windows-dark-colors);
+  @include mbsc-windows-form-controls(
+    'windows-dark',
+    $mbsc-windows-dark-colors
+  );
 }
-
 
 .mbsc-form-control-label {
   display: block;
@@ -9736,8 +9683,6 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
   z-index: 3;
 }
 
-
-
 @mixin mbsc-material-scroller($theme, $params) {
   $background: map-get($params, 'background');
   $text: map-get($params, 'text');
@@ -9749,35 +9694,38 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     }
 
     &.mbsc-scroller-wheel-multi,
-    &.mbsc-scroller-pointer .mbsc-wheel-group-cont-single .mbsc-scroller-wheel-single {
+    &.mbsc-scroller-pointer
+      .mbsc-wheel-group-cont-single
+      .mbsc-scroller-wheel-single {
       border-color: transparent;
     }
 
     &.mbsc-scroller-wheel-item.mbsc-active,
     &.mbsc-scroller-wheel-item.mbsc-hover,
     &.mbsc-scroller-wheel-item.mbsc-focus {
-      background: rgba(0, 0, 0, .05);
+      background: rgba(0, 0, 0, 0.05);
     }
 
     &.mbsc-wheel-checkmark::after {
       border-color: $accent;
     }
 
-    &.mbsc-scroller-pointer .mbsc-wheel-group-cont-single .mbsc-scroller-wheel-item {
+    &.mbsc-scroller-pointer
+      .mbsc-wheel-group-cont-single
+      .mbsc-scroller-wheel-item {
       &.mbsc-selected {
         color: $accent;
-        background: rgba(0, 0, 0, .15);
+        background: rgba(0, 0, 0, 0.15);
       }
     }
   }
 }
 
-
 @if ($mbsc-material-theme) {
   .mbsc-material {
     &.mbsc-scroller-wheel-wrapper {
-      margin: 0 .25em;
-      padding: .5em 0;
+      margin: 0 0.25em;
+      padding: 0.5em 0;
     }
 
     &.mbsc-scroller-wheel-cont {
@@ -9785,11 +9733,11 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     }
 
     &.mbsc-scroller-wheel-group {
-      padding: 2em .25em;
+      padding: 2em 0.25em;
     }
 
     &.mbsc-scroller-wheel-item {
-      padding: 0 .272727em;
+      padding: 0 0.272727em;
       font-size: 1.375em;
       text-align: center;
     }
@@ -9805,10 +9753,10 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
       position: absolute;
       top: 50%;
       display: none;
-      border-radius: .1875em;
+      border-radius: 0.1875em;
       width: 1.3em;
       height: 1.3em;
-      margin-top: -.55em;
+      margin-top: -0.55em;
 
       &::after {
         content: '';
@@ -9818,14 +9766,14 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 
         top: 0.27273em;
         left: 0.27273em;
-        width: .8125em;
-        height: .4375em;
+        width: 0.8125em;
+        height: 0.4375em;
         opacity: 0;
-        border: .125em solid;
+        border: 0.125em solid;
         border-top: 0;
         border-right: 0;
         transform: scale(0) rotate(-45deg);
-        transition: transform .1s ease-out;
+        transition: transform 0.1s ease-out;
       }
 
       &.mbsc-selected::after {
@@ -9834,11 +9782,11 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
       }
 
       &.mbsc-ltr {
-        left: .25em;
+        left: 0.25em;
       }
 
       &.mbsc-rtl {
-        right: .25em;
+        right: 0.25em;
       }
     }
 
@@ -9849,9 +9797,8 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     /* Desktop styling */
 
     &.mbsc-scroller-pointer {
-
       .mbsc-scroller-wheel-group {
-        padding: 0 .5em;
+        padding: 0 0.5em;
       }
 
       .mbsc-scroller-wheel-wrapper {
@@ -9885,40 +9832,37 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
   @include mbsc-material-scroller('material-dark', $mbsc-material-dark-colors);
 }
 
-
-
 @if ($mbsc-ios-theme) {
   .mbsc-ios {
-
     &.mbsc-scroller-wheel-multi.mbsc-scroller-wheel-cont-3d {
       visibility: hidden;
     }
 
     &.mbsc-scroller-wheel-group-cont {
-      padding: 0 .625em;
+      padding: 0 0.625em;
     }
 
     &.mbsc-scroller-wheel-group {
-      padding: .625em;
+      padding: 0.625em;
     }
 
     &.mbsc-wheel-group-checkmark {
-      padding: .625em 0;
+      padding: 0.625em 0;
     }
 
     &.mbsc-scroller-wheel-line {
       display: block;
       z-index: 1;
-      border-radius: .5em;
-      margin: 0 .625em;
+      border-radius: 0.5em;
+      margin: 0 0.625em;
     }
 
     &.mbsc-scroller-wheel-item {
-      padding: 0 .5em;
+      padding: 0 0.5em;
       font-size: 1.25em;
       text-align: center;
       box-sizing: border-box;
-      border-radius: .5em;
+      border-radius: 0.5em;
     }
 
     &.mbsc-scroller-wheel-overlay {
@@ -9945,12 +9889,12 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 
         top: 32%;
         left: 26%;
-        width: .75em;
-        height: .375em;
-        border: .125em solid currentColor;
+        width: 0.75em;
+        height: 0.375em;
+        border: 0.125em solid currentColor;
         border-top: 0;
         border-right: 0;
-        transition: opacity .2s ease-in-out;
+        transition: opacity 0.2s ease-in-out;
       }
     }
 
@@ -9984,7 +9928,6 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     // 2d is not visible when checkmarks are there, but it defines the width, so we need the same padding
     &.mbsc-scroller-wheel-item-2d,
     &.mbsc-scroller-wheel-item-3d {
-
       &.mbsc-wheel-item-checkmark {
         padding-left: 1.75em;
         padding-right: 1.75em;
@@ -9994,14 +9937,13 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     /* Desktop styling */
 
     &.mbsc-scroller-pointer {
-
       .mbsc-scroller-wheel-overlay {
         display: none;
       }
 
       .mbsc-scroller-wheel-item {
         font-size: 1em;
-        padding: 0 .75em;
+        padding: 0 0.75em;
 
         &.mbsc-wheel-item-checkmark.mbsc-ltr {
           text-align: left;
@@ -10013,16 +9955,12 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
           padding-right: 1.75em;
         }
       }
-
     }
-
   }
 
   @include mbsc-ios-scroller('ios', $mbsc-ios-colors);
   @include mbsc-ios-scroller('ios-dark', $mbsc-ios-dark-colors);
 }
-
-
 
 @mixin mbsc-windows-scroller($theme, $params) {
   $background: map-get($params, 'background');
@@ -10034,9 +9972,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 
   @if (lightness($background) > 50%) {
     $border: darken($background, 10%);
-  }
-
-  @else {
+  } @else {
     $border: lighten($background, 10%);
   }
 
@@ -10047,29 +9983,29 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     }
 
     &.mbsc-scroller-wheel-line {
-      background: rgba($accent, .4);
+      background: rgba($accent, 0.4);
     }
 
     &.mbsc-scroller-wheel-item.mbsc-active,
     &.mbsc-scroller-wheel-item.mbsc-hover,
     &.mbsc-scroller-wheel-item.mbsc-focus {
-      background: rgba($text, .1);
+      background: rgba($text, 0.1);
     }
 
     &.mbsc-wheel-checkmark::after {
       border-color: $accent;
     }
 
-    &.mbsc-scroller-pointer .mbsc-wheel-group-cont-single .mbsc-scroller-wheel-item.mbsc-selected {
+    &.mbsc-scroller-pointer
+      .mbsc-wheel-group-cont-single
+      .mbsc-scroller-wheel-item.mbsc-selected {
       color: $accent;
     }
   }
 }
 
-
 @if ($mbsc-windows-theme) {
   .mbsc-windows {
-
     &.mbsc-scroller {
       position: relative;
     }
@@ -10093,13 +10029,14 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     }
 
     &.mbsc-scroller-wheel-item {
-      padding: 0 .5em;
+      padding: 0 0.5em;
       box-sizing: border-box;
       text-align: center;
     }
 
     &.mbsc-wheel-item-multi {
-      padding: 0 2.0625em; // .5em is added for more space between checkmark and text
+      padding: 0
+        2.0625em; // .5em is added for more space between checkmark and text
 
       &.mbsc-ltr {
         text-align: left;
@@ -10123,7 +10060,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
       top: 50%;
       display: none;
 
-      margin-top: -.8125em;
+      margin-top: -0.8125em;
       width: 1.5625em;
       height: 1.5625em;
 
@@ -10137,9 +10074,9 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 
         top: 28%;
         left: 21%;
-        width: .875em;
-        height: .475em;
-        border: .125em solid;
+        width: 0.875em;
+        height: 0.475em;
+        border: 0.125em solid;
         border-top: 0;
         border-right: 0;
       }
@@ -10149,11 +10086,11 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
       }
 
       &.mbsc-ltr {
-        left: .25em;
+        left: 0.25em;
       }
 
       &.mbsc-rtl {
-        right: .25em;
+        right: 0.25em;
       }
     }
 
@@ -10164,7 +10101,6 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
     /* Desktop styling */
 
     &.mbsc-scroller-pointer {
-
       .mbsc-scroller-wheel-item {
         padding: 0 1.25em;
       }
@@ -10180,7 +10116,8 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
       }
 
       .mbsc-wheel-item-multi {
-        padding: 0 2.0625em; // .5em is added for more space between checkmark and text
+        padding: 0
+          2.0625em; // .5em is added for more space between checkmark and text
       }
     }
 
@@ -10192,7 +10129,6 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
   @include mbsc-windows-scroller('windows', $mbsc-windows-colors);
   @include mbsc-windows-scroller('windows-dark', $mbsc-windows-dark-colors);
 }
-
 
 .mbsc-scroller {
   width: 100%;
@@ -10321,7 +10257,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
 }
 
 .mbsc-scroller-wheel-item.mbsc-disabled {
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .mbsc-scroller-bar-cont {
@@ -10333,7 +10269,7 @@ $mbsc-windows-dark-colors: map-merge($mbsc-windows-dark-colors, ( // Colors map
   opacity: 0;
   background: rgba(0, 0, 0, 0.05);
   transform: translateZ(0);
-  transition: opacity .2s;
+  transition: opacity 0.2s;
 
   &.mbsc-ltr {
     right: 0;

@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 // import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Datepicker } from '@mobiscroll/react';
-import '../../../src/lib/mobiscroll/css/mobiscroll.react.min.css';
+import '../../../src/lib/mobiscroll/css/mobiscroll.react.scss';
 import Axios from 'axios';
 import Multiselect from 'multiselect-react-dropdown';
 import ProfileImg from '../assets/images/myprofile.png';
@@ -341,8 +341,8 @@ const Report = () => {
                 </select>
               </div>
               <div className="invite-team-wrapp choose-date mt-3">
-                {/* <div className="access-to">
-                  <div className="access-one">
+                <div className="access-to">
+                  {/* <div className="access-one">
                     Jun 16th, 2021
                     <a className="close_btn" href>
                       <img src="./images/close.svg" alt="" />
@@ -353,17 +353,22 @@ const Report = () => {
                     <a className="close_btn" href>
                       <img src="./images/close.svg" alt="" />
                     </a>
-                  </div>
+                  </div> */}
                   <span className="material-icons-outlined">
                     calendar_today
                   </span>
-                </div> */}
+                </div>
                 <Datepicker
                   controls={['calendar']}
                   selectMultiple
                   min={moment().toDate()}
                   dateFormat="MMM DD,YYYY"
                   className="dataaaa"
+                  selectCounter
+                  inputComponent="input"
+                  inputProps={{
+                    placeholder: 'Select Date(s)',
+                  }}
                   marked={[
                     {
                       date: new Date(2021, 8, 2),
