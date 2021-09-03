@@ -10,7 +10,6 @@ import heartImage from '../../images/heart.png';
 import location from '../../images/location.png';
 import Zoomin from '../../images/zoomin.png';
 import Zoomout from '../../images/zoomout.png';
-import Floor from '../../images/floormap.png';
 import map1 from '../../images/Map_1.svg';
 import map2 from '../../images/Map_2.svg';
 import map3 from '../../images/Map_3.svg';
@@ -19,6 +18,8 @@ import map5 from '../../images/Map_5.svg';
 import map6 from '../../images/Map_6.svg';
 import map7 from '../../images/Map_7.svg';
 import map8 from '../../images/Map_8.svg';
+import map9 from '../../images/Map_9.svg';
+import map10 from '../../images/Map_10.svg';
 
 const OfficeWDC = ({
   handleZoomIn,
@@ -31,10 +32,11 @@ const OfficeWDC = ({
   const [office, setOffice] = useState('Washington , DC');
   const [allUser, setAllUser] = useState([]);
   const [floor, setFloor] = useState([]);
-  const [finalFloor, setFinalFloor] = useState('Floor1');
+  const [finalFloor, setFinalFloor] = useState('Floor 2');
+  const [imgSrc, setImgSrc] = useState('');
 
   useEffect(() => {
-    const url = `https://mocki.io/v1/0a505005-9da4-44c7-9000-0447e1dd3fb2`;
+    const url = `https://mocki.io/v1/947b4269-a50f-4e16-8157-30d04fb8879a`;
     Axios.get(url, {}).then(res => {
       setAllUser(res.data);
     });
@@ -46,77 +48,85 @@ const OfficeWDC = ({
     }
   }, [office]);
 
-  const setFloors = () => {
+  const setFloors = value => {
     let Data = [];
 
-    switch (office) {
+    const switchValue = value || office;
+
+    switch (switchValue) {
       case 'Washington , DC':
-        Data = ['Floor1', 'Floor 2', 'Floor 3', 'Floor 4', 'Floor 5'];
+        Data = ['Floor 2', 'Floor 3', 'Floor 4', 'Floor 8'];
         break;
       case 'Richmond , VA':
-        Data = ['Floor1', 'Floor 2', 'Floor 3'];
+        Data = [
+          'Building 1',
+          'Building 2',
+          'Building 3 , Floor 1',
+          'Building 3 , Floor 2',
+        ];
         break;
       case 'Birmigham , AL':
-        Data = ['Floor1', 'Floor 2'];
+        Data = ['Building 1'];
         break;
       case 'Bloomington , MN':
-        Data = ['Floor1', 'Floor 2', 'Floor 3', 'Floor 4'];
+        Data = ['Building 1'];
         break;
 
       default:
         Data = ['No Floor Found '];
     }
     setFloor(Data);
+    Icon(switchValue, Data[0]);
   };
-  const Icon = () => {
-    switch (office) {
+  const Icon = (valOffice, valFinalFloor) => {
+    const switchOffice = valOffice || office;
+    const switchFinalFloor = valFinalFloor || finalFloor;
+    let imageSrc = '';
+
+    switch (switchOffice) {
       case 'Washington , DC':
-        switch (finalFloor) {
-          case 'Floor1':
-            return Floor;
+        switch (switchFinalFloor) {
           case 'Floor 2':
-            return map1;
+            imageSrc = map2;
+            break;
           case 'Floor 3':
-            return map2;
+            imageSrc = map1;
+            break;
           case 'Floor 4':
-            return map3;
-          case 'Floor 5':
-            return map4;
+            imageSrc = map3;
+            break;
+          case 'Floor 8':
+            imageSrc = map4;
+            break;
         }
         break;
       case 'Richmond , VA':
-        switch (finalFloor) {
-          case 'Floor1':
-            return Floor;
-          case 'Floor 2':
-            return map5;
-          case 'Floor 3':
-            return map6;
+        switch (switchFinalFloor) {
+          case 'Building 1':
+            imageSrc = map5;
+            break;
+          case 'Building 2':
+            imageSrc = map6;
+            break;
+          case 'Building 3 , Floor 1':
+            imageSrc = map7;
+            break;
+          case 'Building 3 , Floor 2':
+            imageSrc = map8;
+            break;
         }
         break;
       case 'Birmigham , AL':
-        switch (finalFloor) {
-          case 'Floor1':
-            return map8;
-          case 'Floor 2':
-            return map7;
-        }
+        imageSrc = map10;
         break;
+
       case 'Bloomington , MN':
-        switch (finalFloor) {
-          case 'Floor1':
-            return map1;
-          case 'Floor 2':
-            return map2;
-          case 'Floor 3':
-            return map3;
-          case 'Floor 4':
-            return map4;
-        }
+        imageSrc = map9;
         break;
+
       default:
     }
-    return null;
+    setImgSrc(imageSrc);
   };
 
   return (
@@ -134,6 +144,7 @@ const OfficeWDC = ({
                   value={office}
                   onChange={e => {
                     setOffice(e.target.value);
+                    setFloors(e.target.value);
                   }}
                 >
                   {allUser &&
@@ -151,16 +162,21 @@ const OfficeWDC = ({
                 <select
                   name=""
                   id=""
+                  disabled={
+                    office === 'Birmigham , AL' || office === 'Bloomington , MN'
+                  }
                   onChange={e => {
+                    Icon(office, e.target.value);
                     setFinalFloor(e.target.value);
                   }}
-                  onClick={() => setFloors(office)}
                 >
                   {floor && floor.length
                     ? floor &&
                       floor.map(obj => (
                         <>
-                          <option value={obj}>{obj}</option>
+                          <option value={obj} key={obj}>
+                            {obj}
+                          </option>
                         </>
                       ))
                     : 'No Floor Found'}
@@ -226,12 +242,7 @@ const OfficeWDC = ({
                   className="drag_image"
                   style={isDraggable ? { cursor: 'move' } : null}
                 >
-                  <img
-                    src={Icon(office, finalFloor)}
-                    alt=""
-                    style={imgStyle}
-                    draggable="false"
-                  />
+                  <img src={imgSrc} alt="" style={imgStyle} draggable="false" />
                 </div>
               </Draggable>
 

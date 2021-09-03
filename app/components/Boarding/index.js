@@ -1,9 +1,14 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable indent */
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import '../FAQ/styles.scss';
 import Axios from 'axios';
 import logo from '../../images/Illustration.svg';
@@ -15,12 +20,15 @@ const Boarding = ({
   handleCheckbox,
   handleUserSelect,
   handleSubmit,
+  handleSubmitData,
+  handleBadgeData,
 }) => {
   // eslint-disable-next-line no-unused-vars
   // const [search, setSearch] = useState(false);
   const [searchName, setSearchName] = useState([]);
   const [allUser, setAllUser] = useState([]);
   const [modal, setModal] = useState(false);
+  const history = useHistory();
 
   // const handleChange = event => {
   //   let newList = [];
@@ -37,6 +45,11 @@ const Boarding = ({
   //   }
   //   setSearchName(newList);
   // };
+
+  const handleChange = name => {
+    setModal(true);
+    handleButtonData(name);
+  };
 
   useEffect(() => {
     const url = `https://mocki.io/v1/0a505005-9da4-44c7-9000-0447e1dd3fb2`;
@@ -82,10 +95,15 @@ const Boarding = ({
                         data-bs-target="#set_location"
                       >
                         <div
-                          className={`${
-                            t.name
-                              ? 'day-one-wrapper work-from-office border-top-blue'
-                              : 'day-one-wrapper add-location'
+                          onClick={() => handleChange(t.day)}
+                          className={`day-one-wrapper ${
+                            t.name === ''
+                              ? 'add-location'
+                              : t.name !== 'Remote Work'
+                              ? 'work-from-office border-top-blue'
+                              : t.name === 'Remote Work'
+                              ? 'work-from-home'
+                              : 'add-location'
                           }`}
                         >
                           {t.name ? (
@@ -107,7 +125,6 @@ const Boarding = ({
                               value={t.day}
                               onClick={() => {
                                 handleButtonData(t.day);
-                                setModal(true);
                               }}
                             />
                           )}
@@ -123,9 +140,19 @@ const Boarding = ({
                   </p>
                   <div className="badge-number-inner">
                     <input type="text" disabled value="BB" />
-                    <input type="text" placeholder="XXX" />
+                    <input
+                      name="badge"
+                      type="text"
+                      placeholder="XXX"
+                      onChange={handleBadgeData}
+                    />
                     <span>−</span>
-                    <input type="text" placeholder="XXX" />
+                    <input
+                      name="badgedata"
+                      type="text"
+                      placeholder="XXX"
+                      onChange={handleBadgeData}
+                    />
                   </div>
                 </div>
               </div>
@@ -133,7 +160,13 @@ const Boarding = ({
           </div>
 
           <div className="container">
-            <button type="submit" className=" action-btn">
+            <button
+              type="button"
+              className=" action-btn"
+              onClick={() => {
+                handleSubmitData();
+              }}
+            >
               Confirm
             </button>
           </div>
@@ -233,6 +266,8 @@ Boarding.propTypes = {
   handleUserSelect: PropTypes.func,
   handleSubmit: PropTypes.func,
   handleCheckbox: PropTypes.func,
+  handleSubmitData: PropTypes.func,
+  handleBadgeData: PropTypes.func,
   state: PropTypes.object,
 };
 

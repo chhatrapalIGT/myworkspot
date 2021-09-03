@@ -36,83 +36,93 @@ const Header = () => {
                 </a>
               </Link>
             </div>
-            <div className={`${sidebar && 'show'} main-menu`}>
-              <ul>
-                <li>
-                  <Link to="/" activeClassName="active">
-                    <a className={pathName === '/' && 'active'} href="true">
-                      Home
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/report" activeClassName="active">
-                    <a
-                      className={pathName === '/report' && 'active'}
-                      href="true"
-                    >
-                      My Team
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/office" activeClassName="active">
-                    <a
-                      className={pathName === '/office' && 'active'}
-                      href="true"
-                    >
-                      Office Maps
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/workspot">
-                    <a
-                      className={pathName === '/workspot' && 'active'}
-                      href="true"
-                    >
-                      Office Maps With Header
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <a href="true">Help</a>
-                </li>
-              </ul>
-            </div>
+            {pathName !== '/' && (
+              <div className={`${sidebar && 'show'} main-menu`}>
+                <ul>
+                  <li>
+                    <Link to="/" activeClassName="active">
+                      <a className={pathName === '/' && 'active'} href="true">
+                        Home
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/report" activeClassName="active">
+                      <a
+                        className={pathName === '/report' && 'active'}
+                        href="true"
+                      >
+                        My Team
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/office" activeClassName="active">
+                      <a
+                        className={pathName === '/office' && 'active'}
+                        href="true"
+                      >
+                        Office Maps
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/workspot">
+                      <a
+                        className={pathName === '/workspot' && 'active'}
+                        href="true"
+                      >
+                        Office Maps With Header
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/faq" activeClassName="active">
+                      <a href="true">Help</a>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
             <div className="right-menus" ref={divRef}>
               <div
                 aria-hidden="true"
                 onClick={() => setEditProfile(!editProfile)}
                 onHide={() => setEditProfile(false)}
-                className={`username has-dropdown ${editProfile && 'toggled'}`}
+                className={
+                  pathName === '/'
+                    ? `username ${editProfile && 'toggled'}`
+                    : `username has-dropdown ${editProfile && 'toggled'}`
+                }
               >
                 <span>Alexander</span>{' '}
                 <img src={Profile} className="user-img" alt="" />
               </div>
-              <div className={`profile-inner ${editProfile && 'opened'}`}>
-                <ul className="profile-menus">
-                  <li>
-                    <Link to="/profile" activeClassName="active">
-                      <a
-                        className={pathName === '/profile' && 'active'}
-                        href="true"
-                      >
-                        Profile
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <a href="true">Options</a>
-                  </li>
-                  <li>
-                    <a href="true">Change password</a>
-                  </li>
-                  <li>
-                    <a href="true">Logout</a>
-                  </li>
-                </ul>
-              </div>
+              {pathName !== '/' && (
+                <div className={`profile-inner ${editProfile && 'opened'}`}>
+                  <ul className="profile-menus">
+                    <li>
+                      <Link to="/profile" activeClassName="active">
+                        <a
+                          className={pathName === '/profile' && 'active'}
+                          href="true"
+                        >
+                          Profile
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
+                      <a href="true">Options</a>
+                    </li>
+                    <li>
+                      <a href="true">Change password</a>
+                    </li>
+                    <li>
+                      <a href="true">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              )}
               <button
                 type="button"
                 onClick={() => setSidebar(!sidebar)}

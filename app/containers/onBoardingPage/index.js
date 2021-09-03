@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 // import { compose } from 'redux';
 import Demo from '../../components/Header';
@@ -74,12 +74,26 @@ class BorardingPage extends Component {
     }
   };
 
+  handleSubmitData = () => {
+    const { timings, badge, badgedata } = this.state;
+    const { history } = this.props;
+    const final = timings.filter(data => data.name !== '');
+    const value =
+      final.length >= 5 && badge && badgedata ? history.push('/report') : '';
+    return value;
+  };
+
   handleUserSelect = name => {
     this.setState({ selectedNames: name });
   };
 
   handleCheckbox = () => {
     this.setState({ checked: true });
+  };
+
+  handleBadgeData = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   };
 
   render() {
@@ -92,6 +106,8 @@ class BorardingPage extends Component {
             handleUserSelect={this.handleUserSelect}
             handleButtonData={this.handleButtonData}
             handleSubmit={this.handleSubmit}
+            handleSubmitData={this.handleSubmitData}
+            handleBadgeData={this.handleBadgeData}
             state={this.state}
           />
         </div>
@@ -101,6 +117,8 @@ class BorardingPage extends Component {
   }
 }
 
-BorardingPage.propTypes = {};
+BorardingPage.propTypes = {
+  history: PropTypes.object,
+};
 
 export default BorardingPage;

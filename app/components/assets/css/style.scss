@@ -1015,6 +1015,9 @@ input[type='text'] {
           border-width: 2px;
           border-style: dashed;
         }
+        &:hover {
+          background-color: #d1dce7;
+        }
 
         .plus-icon {
           width: 24px;
