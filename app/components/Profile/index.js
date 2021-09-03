@@ -9,7 +9,6 @@ import Work from '../assets/images/workspot1.png';
 const Profile = props => {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
-  // //for modal
   const [search, setSearch] = useState(false);
   const [allUser, setAllUser] = useState([]);
   const [searchName, setSearchName] = useState([]);

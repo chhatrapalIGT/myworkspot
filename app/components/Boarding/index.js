@@ -24,27 +24,10 @@ const Boarding = ({
   handleBadgeData,
 }) => {
   // eslint-disable-next-line no-unused-vars
-  // const [search, setSearch] = useState(false);
   const [searchName, setSearchName] = useState([]);
   const [allUser, setAllUser] = useState([]);
   const [modal, setModal] = useState(false);
   const history = useHistory();
-
-  // const handleChange = event => {
-  //   let newList = [];
-  //   if (event.target.value !== '') {
-  //     setSearch(true);
-  //     newList = allUser.filter(({ name }) => {
-  //       const finalDataList = name.toLowerCase();
-  //       const filter = event.target.value.toLowerCase();
-  //       return finalDataList.includes(filter);
-  //     });
-  //   } else {
-  //     setSearch(false);
-  //     newList = allUser;
-  //   }
-  //   setSearchName(newList);
-  // };
 
   const handleChange = name => {
     setModal(true);
@@ -212,7 +195,6 @@ const Boarding = ({
                         id={i.name}
                         type="radio"
                         name="location"
-                        className="checkbox"
                         value={i.name}
                         onClick={() => handleUserSelect(i.name, true)}
                       />

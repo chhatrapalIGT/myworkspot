@@ -45,7 +45,6 @@ class ProfilePage extends Component {
     this.setState({ searchName: newList });
   };
 
-  // let finalData = this.state;
   handleUserSelect = username => {
     const { selectData } = this.state;
     if (selectData.includes(username)) {

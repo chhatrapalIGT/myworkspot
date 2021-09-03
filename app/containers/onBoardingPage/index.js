@@ -79,7 +79,7 @@ class BorardingPage extends Component {
     const { history } = this.props;
     const final = timings.filter(data => data.name !== '');
     const value =
-      final.length >= 5 && badge && badgedata ? history.push('/report') : '';
+      final.length >= 5 && badge && badgedata ? history.push('/workspot') : '';
     return value;
   };
 
