@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-boolean-value */
@@ -6,14 +7,20 @@ import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import './custom.scss';
+import Draggable from 'react-draggable';
+import { Link } from 'react-router-dom';
 import { Datepicker } from '@mobiscroll/react';
+import Axios from 'axios';
 import Floormap from '../../images/floormap.png';
 import location from '../../images/location.png';
 import zoomin from '../../images/zoomin.png';
 import zoomout from '../../images/zoomout.png';
+import union from '../assets/images/Union.svg';
+import editPen from '../assets/images/edit-pen.svg';
 import ProfileImg from '../assets/images/myprofile.png';
 import profile from '../assets/images/profileof.png';
-import '../../../src/lib/mobiscroll/css/mobiscroll.react.min.css';
+import '../../../src/lib/mobiscroll/css/mobiscroll.react.scss';
+import Vector from '../assets/images/Vector.svg';
 
 const WorkSpot = ({
   onSubmit,
@@ -23,10 +30,18 @@ const WorkSpot = ({
   handleUserSelect,
   handleChange,
   handleClose,
+  handleRemove,
+  handleZoomIn,
+  handleZoomOut,
+  handleDefault,
+  imgStyle,
 }) => {
+  const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
   const [isEmployeeModal, setEmployeeModal] = useState(false);
   const [isEmployee, setEmployee] = useState(false);
+  const [isLocation, setLocation] = useState(false);
+  const [locationName, setLocationName] = useState([]);
   const divRef = useRef();
 
   useEffect(() => {
@@ -44,6 +59,14 @@ const WorkSpot = ({
     }
   };
 
+  useEffect(() => {
+    const url = `https://mocki.io/v1/0a505005-9da4-44c7-9000-0447e1dd3fb2`;
+    Axios.get(url, {}).then(res => {
+      // setAllUser(res.data);
+      setLocationName(res.data);
+    });
+  }, []);
+
   return (
     <div className="wrapper_main">
       <div className="container">
@@ -59,27 +82,32 @@ const WorkSpot = ({
           </div>
           <div className="building-location-strip d-flex flex-wrap align-items-center">
             <div className="location d-flex align-items-center">
-              <img src="./images/Union.svg" alt="" /> 2445 M Street NW,
-              Washington, DC 20037
+              <img src={union} alt="" /> 2445 M Street NW, Washington, DC 20037
             </div>
             <div className="change-workspot d-flex align-items-center">
-              <img src="./images/edit-pen.svg" alt="" />{' '}
+              <img src={editPen} alt="" />{' '}
               <a
                 href
                 className="change-workspot"
                 onClick={() => setModal(true)}
               >
-                Change Todays Workspot
+                Change Today's Workspot
               </a>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="office-structure mt-4">
-        <div className="container">
-          <div className="card office-structure-inner">
-            <div className="left-panel">
+      <div
+        className="office-structure mt-4"
+        style={{ height: 'calc(100vh - 400px)' }}
+      >
+        <div className="container" style={{ height: '100%' }}>
+          <div
+            className="card office-structure-inner"
+            style={{ height: '100%' }}
+          >
+            <div className="left-panel" style={{ overflow: 'auto' }}>
               <div className="office-info">
                 <p className="name">Washington, DC</p>
                 <span className="floor">floor 3</span>
@@ -125,18 +153,64 @@ const WorkSpot = ({
                   </span>
                   <label htmlFor="my-spot">AED</label>
                 </div>
+                <div className="office-part-one teal">
+                  <span className="informer">315</span>
+                  <label htmlFor="my-spot">Bel-Air</label>
+                </div>
+                <div className="office-part-one teal">
+                  <span className="informer">332</span>
+                  <label htmlFor="my-spot">Walkerville</label>
+                </div>
+                <div className="office-part-one white">
+                  <span className="informer">334</span>
+                  <label htmlFor="my-spot">Common Room</label>
+                </div>
+                <div className="office-part-one black">
+                  <span className="informer">359</span>
+                  <label htmlFor="my-spot">The Post</label>
+                </div>
+                <div className="office-part-one heart pink">
+                  <span className="informer">
+                    <img src="./images/heart.png" alt="" />
+                  </span>
+                  <label htmlFor="my-spot">AED</label>
+                </div>
               </div>
             </div>
             <div className="right-map">
-              <img src={Floormap} alt="" />
+              <Draggable disabled={!isDraggable} key={state.version}>
+                <div
+                  className="drag_image"
+                  style={isDraggable ? { cursor: 'move' } : null}
+                >
+                  <img
+                    src={Floormap}
+                    alt=""
+                    style={imgStyle}
+                    draggable="false"
+                  />
+                </div>
+              </Draggable>
               <div className="toolbar">
-                <button className="location" type="button">
+                <button
+                  className="location"
+                  type="button"
+                  onClick={() => handleDefault()}
+                >
                   <img src={location} alt="" />
                 </button>
-                <button className="zoomin" type="button">
+                <button
+                  className="zoomin"
+                  type="button"
+                  onClick={() => handleZoomIn()}
+                >
                   <img src={zoomin} alt="" />
                 </button>
-                <button className="zoomout" type="button">
+                <button
+                  className="zoomout"
+                  type="button"
+                  onClick={() => handleZoomOut()}
+                >
                   <img src={zoomout} alt="" />
                 </button>
               </div>
@@ -215,7 +289,11 @@ const WorkSpot = ({
                     <p className="day-name">Monday</p>
                     <p className="date">14</p>
                     <div className="day-one-wrapper work-from-office border-top-blue">
-                      <p className="work-station">Washington, DC</p>
+                      <p className="work-station work-floor">Washington, DC</p>
+                      <span className="floor-location">
+                        <img src={Vector} alt="" />
+                        Fl 4-Blue
+                      </span>
                     </div>
                   </div>
                   <div className="day_one">
@@ -237,7 +315,13 @@ const WorkSpot = ({
                   </div>
                   <div className="day_one">
                     <p className="day-name">Thursday</p>
-                    <p className="date">17</p>
+                    <p
+                      className="date"
+                      onClick={() => setLocation(true)}
+                      aria-hidden="true"
+                    >
+                      17
+                    </p>
                     <div className="day-one-wrapper work-from-home">
                       <p className="work-station">Remote Work</p>
                     </div>
@@ -255,7 +339,10 @@ const WorkSpot = ({
             {state.userListData.length > 0 && (
               <div className="mt-4">
                 Search results
-                <label style={{ float: 'right' }}> Remove All</label>
+                <label className="weekly-remove" style={{ float: 'right' }}>
+                  {' '}
+                  Remove All
+                </label>
                 <hr />
               </div>
             )}
@@ -270,12 +357,24 @@ const WorkSpot = ({
                   >
                     <div className="card weekly-default">
                       <div className=" card mt-4 card-user-header">
-                        <img src={profile} alt="" />
+                        <img
+                          src={profile}
+                          alt=""
+                          style={{ padding: '0px 18px 12px 0px' }}
+                        />
                         {'   '}
                         <label>
                           <b>{obj}</b>
                         </label>
-                        <label style={{ float: 'right' }}> Remove</label>
+                        <div
+                          style={{ float: 'right' }}
+                          className="weekly-remove"
+                          aria-hidden="true"
+                          onClick={() => handleRemove(obj)}
+                        >
+                          {' '}
+                          Remove
+                        </div>
                       </div>
                       <div className="card1 weekly-default-inner d-flex flex-wrap">
                         <div className="day_one disabled">
@@ -633,10 +732,11 @@ const WorkSpot = ({
               <div className="calendarpop">
                 <div className="selection">
                   <select name="location" id="" onChange={onChange}>
-                    <option value="Remote Work">Remote Work</option>
                     <option value="Washington, DC">Washington, DC</option>
-                    <option value="Malbourne, Aus">Malbourne, Aus</option>
-                    <option value="Lord's, UK">Lords, UK</option>
+                    <option value="Richmond, VA">Richmond, VA</option>
+                    <option value="Birmingham, AL">Birmingham, AL</option>
+                    <option value="Bloomingtom, MN">Bloomingtom, MN</option>
+                    <option value="Remote Work">Remote Work</option>
                   </select>
                 </div>
                 <div className="calendar_main">
@@ -649,6 +749,7 @@ const WorkSpot = ({
                     selectMultiple={true}
                     selectCounter={true}
                     dateFormat="MMM DD,YYYY"
+                    // headerText="dates selected"
                     marked={[
                       {
                         date: new Date(2021, 8, 2),
@@ -684,7 +785,12 @@ const WorkSpot = ({
                 </div>
                 <p className="notice">
                   If you would like to update your weekly default, you can
-                  update this under <a href>My Profile</a>
+                  update this under
+                  <Link to="profile" activeClassName="active">
+                    <a className="active" href="true">
+                      My Profile
+                    </a>
+                  </Link>
                 </p>
               </div>
             </div>
@@ -705,7 +811,7 @@ const WorkSpot = ({
                 data-bs-dismiss="modal"
                 onClick={() => setModal(false)}
               >
-                Close
+                Cancel
               </button>
             </div>
           </div>
@@ -871,15 +977,39 @@ const WorkSpot = ({
                       </div>
                     </div>
                     <div className="right-map">
-                      <img src={Floormap} alt="" />
+                      <Draggable disabled={!isDraggable} key={state.version}>
+                        <div
+                          className="drag_image"
+                          style={isDraggable ? { cursor: 'move' } : null}
+                        >
+                          <img
+                            src={Floormap}
+                            alt=""
+                            style={imgStyle}
+                            draggable="false"
+                          />
+                        </div>
+                      </Draggable>
                       <div className="toolbar">
-                        <button className="location" type="button">
+                        <button
+                          className="location"
+                          type="button"
+                          onClick={() => handleDefault()}
+                        >
                           <img src={location} alt="" />
                         </button>
-                        <button className="zoomin" type="button">
+                        <button
+                          className="zoomin"
+                          type="button"
+                          onClick={() => handleZoomIn()}
+                        >
                           <img src={zoomin} alt="" />
                         </button>
-                        <button className="zoomout" type="button">
+                        <button
+                          className="zoomout"
+                          type="button"
+                          onClick={() => handleZoomOut()}
+                        >
                           <img src={zoomout} alt="" />
                         </button>
                       </div>
@@ -887,6 +1017,90 @@ const WorkSpot = ({
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        ref={divRef}
+        className="modal fade test_modal"
+        show={isLocation}
+        onHide={() => setLocation(false)}
+        aria-labelledby="exampleModalLabel"
+        style={{ maxWidth: 'calc(100% - 20rem)' }}
+        aria-hidden="true"
+        centered
+        size="lg"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Edit
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setLocation(false)}
+              />
+            </div>
+            <div className="modal-body modal-view">
+              <form className="delegate-workspot-access" action="submit">
+                <span className="small-title stroke-2 d-block mb-2">
+                  EAB Office
+                </span>
+                {locationName &&
+                  locationName.map(i => (
+                    <div className="form-group">
+                      {/* <div className="color-block blue-bg" /> */}
+                      <input
+                        id={i.name}
+                        type="radio"
+                        name="location"
+                        className="checkbox"
+                        value={i.name}
+                        onClick={() => handleUserSelect(i.name, true)}
+                      />
+                      <label htmlFor="jane" value={i.name}>
+                        {i.name}
+                      </label>
+                    </div>
+                  ))}
+                <hr />
+                <p className="notice">
+                  If you would like to update your weekly default, you can
+                  update this under {'   '}
+                  <Link to="profile" activeClassName="active">
+                    <a className="active" href="true">
+                      My Profile
+                    </a>
+                  </Link>
+                </p>
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn save-data"
+                onClick={() => {
+                  setLocation(false);
+                  // onSubmit();
+                  handleClose();
+                }}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="btn dismiss"
+                data-bs-dismiss="modal"
+                onClick={() => setLocation(false)}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -903,5 +1117,10 @@ WorkSpot.propTypes = {
   handleUserSelect: PropTypes.func,
   handleChange: PropTypes.func,
   handleClose: PropTypes.func,
+  imgStyle: PropTypes.object,
+  handleRemove: PropTypes.func,
+  handleZoomOut: PropTypes.func,
+  handleZoomIn: PropTypes.func,
+  handleDefault: PropTypes.func,
 };
 export default WorkSpot;

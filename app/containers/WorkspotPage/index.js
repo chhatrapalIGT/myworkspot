@@ -1,19 +1,23 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import Axios from 'axios';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Workspot from '../../components/WorkSpot';
 
+const zoomStep = 1;
+const maxScale = 5;
+const minScale = 1;
+const defaultScale = minScale;
+const defaultRotate = 0;
+
 class WorkSpotPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      height: null,
-      width: null,
       search: false,
       type: '',
       dateValue: new Date(),
@@ -23,34 +27,37 @@ class WorkSpotPage extends Component {
       selectData: [],
       finalData: [],
       date: [],
-      location: '',
+      location: 'Washington, DC',
+      scale: defaultScale,
+      rotate: defaultRotate,
+      version: 0,
     };
-    this.imgRef = createRef();
   }
 
   handleZoomIn = () => {
-    const height = this.imgRef.current.clientHeight;
-    const width = this.imgRef.current.clientWidth;
-    this.setState({
-      height: height + 30,
-      width: width + 30,
+    this.setState(state => {
+      const newScale = state.scale + zoomStep;
+      return {
+        scale: newScale <= maxScale ? newScale : maxScale,
+      };
     });
   };
 
   handleZoomOut = () => {
-    const height = this.imgRef.current.clientHeight;
-    const width = this.imgRef.current.clientWidth;
-    this.setState({
-      height: height - 20,
-      width: width - 20,
+    this.setState(state => {
+      const newScale = state.scale - zoomStep;
+      return {
+        scale: newScale >= minScale ? newScale : minScale,
+      };
     });
   };
 
   handleDefault = () => {
-    this.setState({
-      height: this.initialHeight,
-      width: this.initialWidth,
-    });
+    this.setState(state => ({
+      scale: defaultScale,
+      rotate: 0,
+      version: state.version + 1,
+    }));
   };
 
   componentDidMount() {
@@ -70,6 +77,17 @@ class WorkSpotPage extends Component {
       selectData.push(username);
     }
     this.state.finalData = selectData;
+  };
+
+  handleRemove = name => {
+    const { userListData } = this.state;
+    if (userListData.includes(name)) {
+      const idx = userListData.indexOf(name);
+      userListData.splice(idx, 1);
+    } else {
+      userListData.push(name);
+    }
+    return userListData;
   };
 
   handleChange = event => {
@@ -113,6 +131,10 @@ class WorkSpotPage extends Component {
   };
 
   render() {
+    const imgStyle = {
+      transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
+    };
+
     return (
       <>
         <div id="content-wrap">
@@ -125,6 +147,11 @@ class WorkSpotPage extends Component {
             state={this.state}
             onChange={this.onChange}
             onDateChange={this.onDateChange}
+            handleRemove={this.handleRemove}
+            imgStyle={imgStyle}
+            handleZoomIn={this.handleZoomIn}
+            handleZoomOut={this.handleZoomOut}
+            handleDefault={this.handleDefault}
           />
         </div>
         <Footer />

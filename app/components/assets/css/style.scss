@@ -882,7 +882,7 @@ input[type='text'] {
       font-size: 14px;
       -webkit-text-stroke: 0.25px;
       color: #002d50;
-      padding-left: 10px;
+      padding-left: 0px !important;
 
       &::after {
         content: '';
@@ -1548,6 +1548,8 @@ input[type='text'] {
         &::-webkit-scrollbar {
           display: none;
         }
+        max-height: calc(100% - 133px);
+
         & > p {
           font-size: 14px;
           font-weight: 600;
@@ -1926,7 +1928,8 @@ input[type='text'] {
 }
 .modal {
   .notice {
-    font-size: 12px;
+    font-size: 14px;
+    margin: 0rem 1.5rem;
 
     a {
       color: #0072ce;
@@ -2156,4 +2159,20 @@ li.highlightOption:hover {
 .mbsc-ios.mbsc-form-control-wrapper:after,
 .mbsc-ios.mbsc-form-control-wrapper:before {
   border: none;
+}
+
+.mbsc-calendar-row > div.mbsc-calendar-cell {
+  &:first-child,
+  &:last-child {
+    pointer-events: none !important;
+  }
+}
+
+.work-floor {
+  margin-bottom: 0px;
+}
+
+.date:hover {
+  background-color: #d1dce7;
+  color: #0072ce;
 }
