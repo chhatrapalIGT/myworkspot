@@ -679,9 +679,21 @@ input[type='text'] {
   .modal-content {
     border-radius: 8px;
   }
+  .myteam_header {
+    justify-content: flex-start;
+  }
   .modal-header {
     border-bottom: none;
     padding: 1.5rem 1.5rem 0rem;
+    .left-panel {
+      width: 220px;
+      border-right: 1px solid #ebeef1;
+    }
+    .myteam-user {
+      img {
+        margin: 0rem 0.5rem 0rem 1rem;
+      }
+    }
 
     h5 {
       font-size: 18px;
@@ -1524,9 +1536,15 @@ input[type='text'] {
           margin-bottom: 4px;
         }
       }
+      .myteam_res {
+        max-height: calc(100% - 300px);
+      }
       .office-resource {
         padding: 20px 30px;
-
+        overflow: auto;
+        &::-webkit-scrollbar {
+          display: none;
+        }
         & > p {
           font-size: 14px;
           font-weight: 600;
@@ -1609,9 +1627,12 @@ input[type='text'] {
       justify-content: center;
       padding: 20px;
       position: relative;
-      max-height: 60vh;
+      height: 100%;
       // border: 1px solid;
       overflow: hidden;
+      img {
+        max-width: 100%;
+      }
       .drag_image {
         height: 55vh;
         width: 100vw;
@@ -2004,6 +2025,9 @@ input[type='text'] {
   border: none;
   background: transparent;
 }
+.test_modal-employee > div.modal-dialog {
+  min-width: 80% !important;
+}
 @media (min-width: 576px) {
   .modal-dialog {
     width: 100%;
@@ -2124,4 +2148,9 @@ li.highlightOption:hover {
 
 .mbsc-calendar-marks {
   overflow: visible;
+}
+
+.mbsc-ios.mbsc-form-control-wrapper:after,
+.mbsc-ios.mbsc-form-control-wrapper:before {
+  border: none;
 }

@@ -783,23 +783,30 @@ const WorkSpot = ({
 
       <Modal
         ref={divRef}
-        className="modal fade test_modal"
+        className="modal fade test_modal test_modal-employee"
         show={isEmployee}
         onHide={() => setEmployee(false)}
         // id="showCalendar"
         // tabindex="-1"
         aria-labelledby="exampleModalLabel"
-        style={{ maxWidth: 'calc(100% - 20rem)' }}
+        style={{ maxWidth: 'calc(100% - 10rem)' }}
         aria-hidden="true"
         centered
         size="lg"
       >
         <div className=" modal-dialog-centered">
           <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Update My Workspot
-              </h5>
+            <div className="modal-header myteam_header">
+              <div className="left-panel myteam_card">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Tuesday, June 15, 2021
+                </h5>
+              </div>
+              <div className="myteam-user">
+                {' '}
+                <img src={profile} alt="" />
+                <label htmlFor="my-spot">Jane Cooper</label>
+              </div>
               <button
                 type="button"
                 className="btn-close"
@@ -808,12 +815,12 @@ const WorkSpot = ({
                 onClick={() => setEmployee(false)}
               />
             </div>
-            <div
-              className="modal-body"
-              style={{ maxHeight: 'calc(100vh - 600px)' }}
-            >
-              <div className="office-structure mt-4">
-                <div className="container">
+            <div className="modal-body">
+              <div className="office-structure">
+                <div
+                  className="container p-0"
+                  style={{ height: 'calc(100vh - 500px)', overflow: 'hidden' }}
+                >
                   <div className="card office-structure-inner">
                     <div className="left-panel">
                       <div className="office-info">
@@ -821,7 +828,7 @@ const WorkSpot = ({
                         <span className="floor">floor 3</span>
                         <span className="floor">floor 4</span>
                       </div>
-                      <div className="office-resource">
+                      <div className="office-resource myteam_res">
                         <p>Office Resources</p>
                         <div className="office-part-one yellow">
                           <span className="informer" />
