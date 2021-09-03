@@ -76,6 +76,7 @@ const OfficeWDC = ({
         Data = ['No Floor Found '];
     }
     setFloor(Data);
+    setFinalFloor(Data[0]);
     Icon(switchValue, Data[0]);
   };
   const Icon = (valOffice, valFinalFloor) => {
