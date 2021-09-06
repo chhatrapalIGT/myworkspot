@@ -789,7 +789,7 @@ const WorkSpot = ({
                 </div>
                 <p className="notice">
                   If you would like to update your weekly default, you can
-                  update this under
+                  update this under{' '}
                   <Link to="profile" activeClassName="active">
                     <a className="active" href="true">
                       My Profile

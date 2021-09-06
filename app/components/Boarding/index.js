@@ -94,7 +94,6 @@ const Boarding = ({
                               value={t.day}
                               onClick={() => {
                                 handleButtonData(t.day);
-                                setModal(true);
                               }}
                             >
                               {t.name}
@@ -195,6 +194,7 @@ const Boarding = ({
                         id={i.name}
                         type="radio"
                         name="location"
+                        className="checkbox"
                         value={i.name}
                         onClick={() => handleUserSelect(i.name, true)}
                       />
