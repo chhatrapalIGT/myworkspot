@@ -1,28 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-else-return */
-/* eslint-disable no-shadow */
 /* eslint-disable dot-notation */
+/* eslint-disable no-shadow */
 /* eslint-disable no-plusplus */
-/* eslint-disable prefer-const */
 import moment from 'moment';
-
-export const WEEKDAYS = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-];
-
-export const MONTH_WEEKDAYS = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
 
 export const getWeekStartEndDate = (date, direction) => {
   if (direction === 'prev') {
@@ -94,7 +75,7 @@ export const getMonthStartEndDate = date => {
     .subtract(1, 'months')
     .endOf('month')
     .toDate(); // Get prev month last date of provided date => return date
-  let lastMonthLastDay = lastMonthLastDate.getDate(); // Get last day of last month => return number => e.g 28,30,31
+  const lastMonthLastDay = lastMonthLastDate.getDate(); // Get last day of last month => return number => e.g 28,30,31
   let currentMonthLastDay = endOfMonth.getDay();
   const dateToDisplay = [];
   for (let i = firstWeekDay - 1; i >= 0; i--) {

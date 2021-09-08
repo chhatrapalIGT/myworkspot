@@ -1,7 +1,5 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-unused-expressions */
@@ -16,8 +14,6 @@ import ProfileImg from '../assets/images/myprofile.png';
 
 import {
   getWeekStartEndDate,
-  // WEEKDAYS,
-  // MONTH_WEEKDAYS,
   getMonthStartEndDate,
   getWeekTitle,
 } from './helpers';
@@ -187,7 +183,6 @@ const Calender = ({
           </div>
 
           <div className="tab-content" id="nav-tabContent">
-            {/* <Calendar from="workspot" /> */}
             {period === 'week' ? (
               <>
                 <div
@@ -208,13 +203,13 @@ const Calender = ({
                           <span className="designation">UX/UI Designer</span>
                         </div>
                       )}
-                      {days.dateToDisplay.map((item, idx) => (
+                      {days.dateToDisplay.map(item => (
                         <>
                           <div
                             className="day_one"
                             onClick={() => setLocation(true)}
                             aria-hidden="true"
-                            key={`${item.value}_${idx}`}
+                            key={`${item.value}`}
                           >
                             <p className="day-name">{item.day}</p>
                             <p
@@ -281,11 +276,8 @@ const Calender = ({
                             Remove
                           </div>
                           <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
-                            {days.dateToDisplay.map((item, idx) => (
-                              <div
-                                className="day_one"
-                                key={`${item.value}_${idx}`}
-                              >
+                            {days.dateToDisplay.map(item => (
+                              <div className="day_one" key={`${item.value}`}>
                                 <p className="day-name">{item.day}</p>
                                 <p
                                   className="date"
@@ -322,7 +314,7 @@ const Calender = ({
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
                   {days.dateToDisplay.map(items => (
                     <>
-                      {items.map((item, idx) => (
+                      {items.map(item => (
                         <div
                           className={`${
                             item.disable &&
@@ -332,7 +324,7 @@ const Calender = ({
                               ? 'day_one disabled'
                               : 'day_one'
                           }`}
-                          key={`${item.value}_${idx}`}
+                          key={`${item.value}`}
                         >
                           <p className="day-name">{item.day}</p>
                           <p
