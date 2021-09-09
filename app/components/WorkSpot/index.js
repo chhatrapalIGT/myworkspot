@@ -263,23 +263,24 @@ const WorkSpot = ({
                     // headerText="dates selected"
                     marked={[
                       {
-                        date: new Date(2021, 8, 2),
+                        date: new Date(2021, 8, 13),
+                        color: '#46c4f3',
                         markCssClass: 'mbsc-calendar-marks1',
                       },
                       {
-                        date: new Date(2021, 8, 4),
+                        date: new Date(2021, 8, 22),
                         markCssClass: 'mbsc-calendar-marks1',
                       },
                       {
-                        date: new Date(2021, 8, 5),
+                        date: new Date(2021, 8, 18),
                         markCssClass: 'mbsc-calendar-marks2',
                       },
                       {
-                        date: new Date(2021, 8, 7),
+                        date: new Date(2021, 8, 29),
                         markCssClass: 'mbsc-calendar-marks3',
                       },
                       {
-                        date: new Date(2021, 8, 6),
+                        date: new Date(2021, 8, 30),
                         markCssClass: 'mbsc-calendar-marks3',
                       },
                     ]}
