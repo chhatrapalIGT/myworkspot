@@ -90,7 +90,7 @@ body {
   color: #526e88;
   font-size: 14px;
   line-height: 1.7;
-  background: #f5f7fa;
+  background: #f8faff;
 
   &.modal-open {
     .site-header {
@@ -1651,7 +1651,7 @@ input[type='text'] {
         max-width: 100%;
       }
       .drag_image {
-        height: 55vh;
+        height: auto;
         width: 100vw;
         img {
           width: 100%;
@@ -1960,6 +1960,12 @@ input[type='text'] {
         &.current-day {
           .day-one-wrapper {
             background-image: none;
+          }
+        }
+
+        &:nth-child(n + 8) {
+          .date {
+            display: none;
           }
         }
       }

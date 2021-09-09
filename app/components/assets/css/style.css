@@ -73,14 +73,6 @@
   transition: 0.25s all ease-in-out;
 }
 
-body {
-  font-family: 'Museo Sans Regular';
-  color: #526e88;
-  font-size: 14px;
-  line-height: 1.7;
-  background: #f5f7fa;
-}
-
 body.modal-open .site-header {
   width: calc(100% - 17px);
 }

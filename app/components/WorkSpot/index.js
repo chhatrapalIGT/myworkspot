@@ -73,7 +73,10 @@ const WorkSpot = ({
   return (
     <div className="wrapper_main">
       <div className="container">
-        <div className="card building-block-head blue">
+        <div
+          className="card building-block-head blue"
+          style={{ backgroundColor: 'white' }}
+        >
           <p className="stroke-2">
             Hi Alexander, your <span> DC </span> neighborhood today is
           </p>
@@ -101,10 +104,7 @@ const WorkSpot = ({
         </div>
       </div>
 
-      <div
-        className="office-structure mt-4"
-        style={{ height: 'calc(100vh - 400px)' }}
-      >
+      <div className="office-structure mt-4">
         <div className="container" style={{ height: '100%' }}>
           <div
             className="card office-structure-inner"
@@ -133,28 +133,6 @@ const WorkSpot = ({
                 <div className="office-part-one blue">
                   <span className="informer" />
                   <label htmlFor="my-spot">Blue</label>
-                </div>
-                <div className="office-part-one teal">
-                  <span className="informer">315</span>
-                  <label htmlFor="my-spot">Bel-Air</label>
-                </div>
-                <div className="office-part-one teal">
-                  <span className="informer">332</span>
-                  <label htmlFor="my-spot">Walkerville</label>
-                </div>
-                <div className="office-part-one white">
-                  <span className="informer">334</span>
-                  <label htmlFor="my-spot">Common Room</label>
-                </div>
-                <div className="office-part-one black">
-                  <span className="informer">359</span>
-                  <label htmlFor="my-spot">The Post</label>
-                </div>
-                <div className="office-part-one heart pink">
-                  <span className="informer">
-                    <img src="./images/heart.png" alt="" />
-                  </span>
-                  <label htmlFor="my-spot">AED</label>
                 </div>
                 <div className="office-part-one teal">
                   <span className="informer">315</span>
@@ -511,7 +489,7 @@ const WorkSpot = ({
                           />
                         </div>
                       </Draggable>
-                      <div className="toolbar">
+                      <div className="toolbar scroll_btn">
                         <button
                           className="location"
                           type="button"

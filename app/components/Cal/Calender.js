@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -28,6 +29,7 @@ const Calender = ({
   setVisible,
   setShow,
   handleRemove,
+  allUser,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
@@ -94,12 +96,13 @@ const Calender = ({
     setSelectedWeek(new Date());
   };
   return (
-    <div className={`${!setVisible ? 'myteam_wrapper' : ''}`}>
+    <div className={!setVisible && 'myteam_wrapper'}>
       <div className="container">
-        <div className="update-office-workspot mt-40">
-          <p className="week-range">{title}</p>
+        <div className={setVisible && 'update-office-workspot mt-40'}>
+          {setVisible && <p className="week-range">{title}</p>}
 
           <div className="input-button-strip w-100 d-flex align-items-center">
+            {!setVisible && <p className="week-range mb-0 me-4">{title}</p>}
             <div className="change-log">
               <button
                 type="submit"
@@ -191,48 +194,96 @@ const Calender = ({
                   role="tabpanel"
                   aria-labelledby="nav-home-tab"
                 >
-                  <div className="card weekly-default mt-4">
+                  <div
+                    className={
+                      setVisible
+                        ? 'card weekly-default mt-4 '
+                        : 'card weekly-default mt-4 month-view-content'
+                    }
+                  >
                     <div className="weekly-default-inner d-flex flex-wrap align-items-end">
-                      {/* <div className="card mt-4 weekly-default-inner d-flex flex-wrap"> */}
                       {!setVisible && (
-                        <div className="my_team_member">
-                          <div className="d-flex align-items-center mb-1">
-                            <img src={ProfileImg} alt="" />
-                            <span className="member-name">My Workspace</span>
-                          </div>
-                          <span className="designation">UX/UI Designer</span>
-                        </div>
-                      )}
-                      {days.dateToDisplay.map(item => (
                         <>
-                          <div
-                            className="day_one"
-                            onClick={() => setLocation(true)}
-                            aria-hidden="true"
-                            key={`${item.value}`}
-                          >
-                            <p className="day-name">{item.day}</p>
-                            <p
-                              className="date"
-                              style={{
-                                background: isDateSelected(item.date),
-                              }}
-                            >
-                              {' '}
-                              {item.value}
-                            </p>
-                            <div className="day-one-wrapper work-from-office border-top-blue">
-                              <p className="work-station work-floor">
-                                Washington, DC
-                              </p>
-                              <span className="floor-location">
-                                <img src={Vector} alt="" />
-                                Fl 4-Blue
-                              </span>
-                            </div>
-                          </div>
+                          {allUser &&
+                            allUser.map(user => (
+                              <>
+                                <div className="my_team_member">
+                                  <div className="d-flex align-items-center mb-1">
+                                    <img src={ProfileImg} alt="" />
+                                    <span className="member-name">
+                                      My Workspace
+                                    </span>
+                                  </div>
+                                  <span className="designation">
+                                    UX/UI Designer
+                                  </span>
+                                </div>
+                                {days.dateToDisplay.map(item => (
+                                  <>
+                                    <div
+                                      className="day_one"
+                                      onClick={() => setLocation(true)}
+                                      aria-hidden="true"
+                                      key={`${item.value}`}
+                                    >
+                                      <p className="day-name">{item.day}</p>
+                                      <p
+                                        className="date"
+                                        style={{
+                                          background: isDateSelected(item.date),
+                                        }}
+                                      >
+                                        {' '}
+                                        {item.value}
+                                      </p>
+                                      <div className="day-one-wrapper work-from-office border-top-blue">
+                                        <p className="work-station work-floor">
+                                          Washington, DC
+                                        </p>
+                                        <span className="floor-location">
+                                          <img src={Vector} alt="" />
+                                          Fl 4-Blue
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </>
+                                ))}
+                              </>
+                            ))}
                         </>
-                      ))}
+                      )}
+
+                      {setVisible &&
+                        days.dateToDisplay.map(item => (
+                          <>
+                            <div
+                              className="day_one"
+                              onClick={() => setLocation(true)}
+                              aria-hidden="true"
+                              key={`${item.value}`}
+                            >
+                              <p className="day-name">{item.day}</p>
+                              <p
+                                className="date"
+                                style={{
+                                  background: isDateSelected(item.date),
+                                }}
+                              >
+                                {' '}
+                                {item.value}
+                              </p>
+                              <div className="day-one-wrapper work-from-office border-top-blue">
+                                <p className="work-station work-floor">
+                                  Washington, DC
+                                </p>
+                                <span className="floor-location">
+                                  <img src={Vector} alt="" />
+                                  Fl 4-Blue
+                                </span>
+                              </div>
+                            </div>
+                          </>
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -243,7 +294,6 @@ const Calender = ({
                       {' '}
                       Remove All
                     </label>
-                    <hr />
                   </div>
                 )}
 
@@ -318,7 +368,9 @@ const Calender = ({
                         <div
                           className={`${
                             item.disable &&
-                            (item.day === 'Saturday' || item.day === 'Sunday')
+                            (item.day === 'Saturday' ||
+                              item.day === 'Sunday' ||
+                              item.weekend)
                               ? 'day_one disabled weekend'
                               : item.disable
                               ? 'day_one disabled'
@@ -338,7 +390,9 @@ const Calender = ({
                           <div
                             className={`${
                               item.disable &&
-                              (item.day === 'Saturday' || item.day === 'Sunday')
+                              (item.day === 'Saturday' ||
+                                item.day === 'Sunday' ||
+                                item.weekend)
                                 ? 'day-one-wrapper'
                                 : 'day-one-wrapper work-from-office border-top-blue'
                             }`}
@@ -384,6 +438,7 @@ Calender.propTypes = {
   setVisible: PropTypes.func,
   setShow: PropTypes.func,
   handleRemove: PropTypes.func,
+  allUser: PropTypes.object,
 };
 
 export default Calender;
