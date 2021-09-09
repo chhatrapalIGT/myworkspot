@@ -12,6 +12,7 @@ import Vector from '../assets/images/Vector.svg';
 import floorLocation from '../assets/images/floor-location.png';
 import profile from '../assets/images/profileof.png';
 import ProfileImg from '../assets/images/myprofile.png';
+import searchicon from '../assets/images/search-blue.svg';
 
 import {
   getWeekStartEndDate,
@@ -419,8 +420,7 @@ const Calender = ({
               onClick={() => setEmployeeModal(true)}
             >
               {' '}
-              <img src="./images/search-blue.svg" alt="" /> Search for
-              Colleagues
+              <img src={searchicon} alt="" /> Search for Colleagues
             </button>
           )}
         </div>

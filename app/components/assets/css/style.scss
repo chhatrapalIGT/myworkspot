@@ -857,7 +857,9 @@ input[type='text'] {
     position: relative;
     width: 100%;
     padding: 0.85rem 0rem;
-
+    img {
+      margin-right: 10px;
+    }
     &.work-from-home {
       position: relative;
 
@@ -1361,6 +1363,7 @@ input[type='text'] {
       border-right: 1px solid #d1dce7;
       font-size: 16px;
       -webkit-text-stroke: 0.2px;
+      cursor: pointer;
     }
   }
 }
@@ -1942,7 +1945,7 @@ input[type='text'] {
 .modal {
   .notice {
     font-size: 14px;
-    margin: 0rem 1.5rem;
+    // margin: 0rem 1.5rem;
 
     a {
       color: #0072ce;

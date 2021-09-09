@@ -102,13 +102,12 @@ const Header = () => {
                 <div className={`profile-inner ${editProfile && 'opened'}`}>
                   <ul className="profile-menus">
                     <li>
-                      <Link to="/profile" activeClassName="active">
-                        <a
-                          className={pathName === '/profile' && 'active'}
-                          href="true"
-                        >
-                          Profile
-                        </a>
+                      <Link
+                        className={pathName === '/profile' && 'active'}
+                        to="/profile"
+                        activeClassName="active"
+                      >
+                        Profile
                       </Link>
                     </li>
                     <li>
