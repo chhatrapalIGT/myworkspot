@@ -32,9 +32,11 @@ const Report = () => {
   }, []);
 
   return (
-    <div>
-      <h4 className="common-title">My Team</h4>
-      <Calender defaultSelected="week" setShow={setShow} />
+    <div className="container mt-4">
+      <h4 className="common-title" style={{ marginLeft: '20px' }}>
+        My Team
+      </h4>
+      <Calender defaultSelected="week" setShow={setShow} allUser={allUser} />
 
       <Modal
         className="modal fade test_modal"

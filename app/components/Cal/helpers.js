@@ -117,7 +117,9 @@ export const getMonthStartEndDate = date => {
         .add(nextMonthDate - 1, 'days'),
       value: nextMonthDate++,
       disable: true,
-      day: moment(date).format('dddd'),
+      day: moment(startOfMonth)
+        .add(nextMonthDate, 'days')
+        .format('dddd'),
     });
     currentMonthLastDay++;
   }
