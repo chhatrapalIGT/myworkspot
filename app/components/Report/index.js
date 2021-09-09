@@ -129,7 +129,6 @@ const Report = () => {
                   dateFormat="MMM DD,YYYY"
                   className="dataaaa"
                   selectCounter
-                  inputComponent="input"
                   inputProps={{
                     placeholder: 'Select Date(s)',
                   }}

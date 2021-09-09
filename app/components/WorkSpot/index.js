@@ -10,7 +10,7 @@ import Draggable from 'react-draggable';
 import { Link } from 'react-router-dom';
 import { Datepicker } from '@mobiscroll/react';
 import Axios from 'axios';
-import Floormap from '../../images/floormap.png';
+import Floormap from '../../images/Map_2.svg';
 import location from '../../images/location.png';
 import zoomin from '../../images/zoomin.png';
 import zoomout from '../../images/zoomout.png';
@@ -252,6 +252,14 @@ const WorkSpot = ({
                     selectMultiple={true}
                     selectCounter={true}
                     dateFormat="MMM DD,YYYY"
+                    invalid={[
+                      {
+                        recurring: {
+                          repeat: 'weekly',
+                          weekDays: 'SA,SU',
+                        },
+                      },
+                    ]}
                     // headerText="dates selected"
                     marked={[
                       {
@@ -421,11 +429,8 @@ const WorkSpot = ({
               />
             </div>
             <div className="modal-body">
-              <div className="office-structure">
-                <div
-                  className="container p-0"
-                  style={{ height: 'calc(100vh - 500px)', overflow: 'hidden' }}
-                >
+              <div className="office-structure office-structure-modal">
+                <div className="container p-0">
                   <div className="card office-structure-inner">
                     <div className="left-panel">
                       <div className="office-info">
@@ -489,7 +494,7 @@ const WorkSpot = ({
                           />
                         </div>
                       </Draggable>
-                      <div className="toolbar scroll_btn">
+                      <div className="toolbar">
                         <button
                           className="location"
                           type="button"

@@ -294,6 +294,7 @@ const Calender = ({
                       {' '}
                       Remove All
                     </label>
+                    <hr />
                   </div>
                 )}
 

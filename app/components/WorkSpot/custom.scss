@@ -81,3 +81,10 @@
 .scroll_btn {
   padding-bottom: 75px !important;
 }
+
+.office-structure-modal {
+  .container {
+    height: 'calc(100vh - 500px)';
+    overflow: 'hidden';
+  }
+}
