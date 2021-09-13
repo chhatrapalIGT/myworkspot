@@ -243,7 +243,7 @@ const Profile = props => {
                       onClick={() => handleUserSelect(i.userName)}
                     >
                       <img src={ProfileImg} alt="" />
-                      <input id="jane" type="checkbox" className="checkbox" />
+                      <input id="jane" type="radio" className="checkbox" />
                       <label htmlFor="jane">{i.userName}</label>
                     </div>
                   ))}

@@ -161,6 +161,7 @@ const Boarding = ({
         onHide={() => setModal(false)}
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
+        id="set_location"
       >
         <div className="modal-dialog">
           <div className="modal-content">

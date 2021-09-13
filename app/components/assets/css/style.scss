@@ -401,11 +401,17 @@ input[type='text'] {
   box-shadow: 1px 1px 4px rgba($color: #999999, $alpha: 0.3) !important;
   flex-direction: unset;
   display: block;
+  background-color: #fff !important;
 }
 
 .wrapper_main {
   padding: 50px 0;
   min-height: calc(100vh - 175px);
+}
+
+.btn-check:focus + .btn,
+.btn:focus {
+  box-shadow: none;
 }
 
 .my-profile {
@@ -517,6 +523,8 @@ input[type='text'] {
 
         .work-station {
           font-weight: 600;
+          color: #002d50;
+          margin-bottom: 6px;
         }
 
         &.work-from-office {
@@ -689,7 +697,7 @@ input[type='text'] {
   }
   .modal-header {
     border-bottom: none;
-    padding: 1.5rem 1.5rem 0rem;
+    padding: 1.5rem 1.5rem 1rem;
     .left-panel {
       width: 220px;
       border-right: 1px solid #ebeef1;
@@ -723,10 +731,10 @@ input[type='text'] {
     }
   }
   .modal-body {
-    padding: 1rem 0rem 0rem;
+    padding: 1rem 1.5rem;
     max-height: calc(100vh - 230px);
     overflow: auto;
-
+    
     &_myteam {
       padding: 1rem 1.5rem !important;
     }
@@ -848,7 +856,7 @@ input[type='text'] {
     border-radius: 8px;
     outline: none;
     display: block;
-    // width: calc(100% - 3rem);
+    width: calc(100% - 3rem);
     margin: 0 auto 10px;
   }
   .form-group {
@@ -856,7 +864,8 @@ input[type='text'] {
     align-items: center;
     position: relative;
     width: 100%;
-    padding: 0.85rem 0rem;
+    // padding: 0.85rem 0rem;
+    padding: 0.85rem 3rem 0.85rem 1.5rem;
     img {
       margin-right: 10px;
     }
@@ -1945,7 +1954,6 @@ input[type='text'] {
 .modal {
   .notice {
     font-size: 14px;
-    // margin: 0rem 1.5rem;
 
     a {
       color: #0072ce;
@@ -2106,26 +2114,7 @@ div.searchWrapper {
     border: none !important;
     height: 30px;
   }
-  span.chip {
-    // display: flex;
-    // align-items: center;
-    // line-height: 1;
-    // padding: 4px 5px;
-    // border: 1px solid #d1dce7;
-    // border-radius: 50px;
-    // font-weight: 600;
-    // font-size: 14px;
-    // color: #002d50;
-    // margin: 4px 0;
-
-    // background: #ebeef1;
-    // padding: 8px 10px;
-    // padding-right: 3px;
-    // margin-right: 6px;
-    // font-size: 12px;
-    // background: url('../images/close.svg') no-repeat right;
-  }
-}
+ }
 li.highlightOption,
 li.highlightOption:hover {
   background: #fff;
@@ -2182,13 +2171,6 @@ li.highlightOption:hover {
 .mbsc-ios.mbsc-form-control-wrapper:before {
   border: none !important;
 }
-
-// .mbsc-calendar-row > div.mbsc-calendar-cell {
-//   &:first-child,
-//   &:last-child {
-//     pointer-events: none !important;
-//   }
-// }
 
 .mbsc-disabled .mbsc-calendar-cell-text {
   opacity: 1 !important;

@@ -231,7 +231,7 @@ const WorkSpot = ({
                 onClick={() => setModal(false)}
               />
             </div>
-            <div className="modal-body modal-view">
+            <div className="modal-body">
               <div className="calendarpop">
                 <div className="selection">
                   <select name="location" id="" onChange={onChange}>
@@ -336,6 +336,7 @@ const WorkSpot = ({
         onHide={() => setEmployeeModal(false)}
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
+        id="delegate_workspot"
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
@@ -367,7 +368,7 @@ const WorkSpot = ({
                       onClick={() => handleUserSelect(i.userName)}
                     >
                       <img src={ProfileImg} alt="" />
-                      <input id="jane" type="checkbox" className="checkbox" />
+                      <input id="jane" type="radio" className="checkbox" />
                       <label htmlFor="jane">{i.userName}</label>
                     </div>
                   ))}
@@ -536,6 +537,7 @@ const WorkSpot = ({
         aria-hidden="true"
         centered
         size="lg"
+        id="set_location"
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
@@ -551,7 +553,7 @@ const WorkSpot = ({
                 onClick={() => setLocation(false)}
               />
             </div>
-            <div className="modal-body modal-view">
+            <div className="modal-body">
               <form className="delegate-workspot-access" action="submit">
                 <span className="small-title stroke-2 d-block mb-2">
                   EAB Office
