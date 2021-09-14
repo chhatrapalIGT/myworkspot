@@ -41,9 +41,9 @@ const WorkSpot = ({
   const [isEmployeeModal, setEmployeeModal] = useState(false);
   const [isEmployee, setEmployee] = useState(false);
   const [isLocation, setLocation] = useState(false);
+  const [isdate, setDate] = useState('');
   const [locationName, setLocationName] = useState([]);
   const divRef = useRef();
-
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside, false);
     document.addEventListener('mousedown', handleClickOutside, false);
@@ -91,7 +91,13 @@ const WorkSpot = ({
               <img src={union} alt="" /> 2445 M Street NW, Washington, DC 20037
             </div>
             <div className="change-workspot d-flex align-items-center">
-              <img src={editPen} alt="" />{' '}
+              <img
+                src={editPen}
+                alt=""
+                onClick={() => setModal(true)}
+                className="onHover"
+                aria-hidden="true"
+              />{' '}
               <a
                 href
                 className="change-workspot"
@@ -113,8 +119,8 @@ const WorkSpot = ({
             <div className="left-panel" style={{ overflow: 'auto' }}>
               <div className="office-info">
                 <p className="name">Washington, DC</p>
-                <span className="floor">floor 3</span>
-                <span className="floor">floor 4</span>
+                <span className="floor">Floor 3</span>
+                {/* <span className="floor">Floor 4</span> */}
               </div>
               <div className="office-resource">
                 <p>Office Resources</p>
@@ -208,8 +214,8 @@ const WorkSpot = ({
         setEmployee={setEmployee}
         setVisible={setVisible}
         handleRemove={handleRemove}
+        setDate={setDate}
       />
-
       <Modal
         className="modal fade test_modal"
         show={isModal}
@@ -247,7 +253,7 @@ const WorkSpot = ({
                     controls={['calendar']}
                     display="inline"
                     name="date"
-                    min={moment().toDate()}
+                    minDate={moment().toDate()}
                     onChange={onDateChange}
                     selectMultiple={true}
                     selectCounter={true}
@@ -414,7 +420,7 @@ const WorkSpot = ({
             <div className="modal-header myteam_header">
               <div className="left-panel myteam_card">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Tuesday, June 15, 2021
+                  {isdate}
                 </h5>
               </div>
               <div className="myteam-user">
@@ -543,7 +549,7 @@ const WorkSpot = ({
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Edit
+                Edit {isdate}
               </h5>
               <button
                 type="button"
@@ -575,7 +581,7 @@ const WorkSpot = ({
                     </div>
                   ))}
                 <hr />
-                <p className="notice">
+                <p className="notice" style={{ padding: '0 1.5rem' }}>
                   If you would like to update your weekly default, you can
                   update this under {'   '}
                   <Link to="profile" activeClassName="active">

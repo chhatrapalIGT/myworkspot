@@ -6,6 +6,11 @@
 import moment from 'moment';
 
 export const getWeekStartEndDate = (date, direction) => {
+  const prevDate = moment(date).isBefore(moment().subtract(1, 'day'));
+  // const a = moment()
+  //   .add(1, 'day')
+  //   .toString();
+  // const prevDate = moment(date).isBefore(a);
   if (direction === 'prev') {
     const newDate = moment(date);
     date = newDate.subtract(2, 'days');
@@ -35,7 +40,7 @@ export const getWeekStartEndDate = (date, direction) => {
   for (let i = firstDay; i < firstDay + 5; i++) {
     dateToDisplay.push({
       value: isMonthEnd ? ++newIndex : i,
-      disable: false,
+      disable: prevDate,
       day: moment(startDate)
         .add(i - firstDay, 'days')
         .format('dddd'),
@@ -91,10 +96,10 @@ export const getMonthStartEndDate = date => {
   }
   Array.from(Array(lastDay)).forEach((item, i) => {
     const date = moment(startOfMonth).add(i, 'days');
-
+    const prevDate = moment(date).isBefore(moment().subtract(1, 'day'));
     const newObj = {
       value: i + 1,
-      disable: false,
+      disable: prevDate,
       date,
       day: moment(startOfMonth)
         .add(i, 'days')
