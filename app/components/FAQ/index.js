@@ -9,9 +9,14 @@ const FAQ = () => {
   const handlecolor = () => {};
   return (
     <>
-      <div id="content-wrap">
+      <div
+        id="content-wrap"
+        style={{
+          backgroundColor: '#dde7fa4f',
+        }}
+      >
         <Header />
-        <div className="pt-5 main">
+        <div className="pt-5 main pb-4">
           <div className="container">
             <div className="row">
               <div className="col-md-3">

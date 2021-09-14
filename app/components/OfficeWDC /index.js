@@ -61,8 +61,8 @@ const OfficeWDC = ({
         Data = [
           'Building 1',
           'Building 2',
-          'Building 3 , Floor 1',
-          'Building 3 , Floor 2',
+          'Building 3, Floor 1',
+          'Building 3, Floor 2',
         ];
         break;
       case 'Birmigham , AL':
@@ -109,10 +109,10 @@ const OfficeWDC = ({
           case 'Building 2':
             imageSrc = map6;
             break;
-          case 'Building 3 , Floor 1':
+          case 'Building 3, Floor 1':
             imageSrc = map7;
             break;
-          case 'Building 3 , Floor 2':
+          case 'Building 3, Floor 2':
             imageSrc = map8;
             break;
         }
@@ -147,11 +147,12 @@ const OfficeWDC = ({
                     setOffice(e.target.value);
                     setFloors(e.target.value);
                   }}
+                  className="set_drop"
                 >
                   {allUser &&
                     allUser.map(obj => (
                       <>
-                        <option value={obj.name} key={obj.name}>
+                        <option value={obj.name} key={obj.name} id="building">
                           {obj.name}
                         </option>
                       </>
@@ -161,6 +162,7 @@ const OfficeWDC = ({
               <div className="selction_one">
                 <label htmlFor="Building/Floor">Building/Floor</label>
                 <select
+                  className="set_drop"
                   name=""
                   id=""
                   disabled={
@@ -175,7 +177,7 @@ const OfficeWDC = ({
                     ? floor &&
                       floor.map(obj => (
                         <>
-                          <option value={obj} key={obj}>
+                          <option value={obj} key={obj} id="floors">
                             {obj}
                           </option>
                         </>

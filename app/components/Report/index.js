@@ -1,25 +1,45 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Datepicker } from '@mobiscroll/react';
 import '../../../src/lib/mobiscroll/css/mobiscroll.react.scss';
 import Axios from 'axios';
-import Multiselect from 'multiselect-react-dropdown';
+import Select from 'react-select';
 import Calender from '../Cal/Calender';
 import '../FAQ/styles.scss';
 
-const Report = () => {
+const options = [
+  {
+    value: 'All Team Members',
+    label: 'All Team Members',
+    flag:
+      'https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=50&ext=jpg',
+  },
+  {
+    value: 'jane cooper',
+    label: 'jane cooper',
+    flag:
+      'https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=50&ext=jpg',
+  },
+  {
+    value: 'Wade warren',
+    label: 'Wade warren',
+    flag:
+      'https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=50&ext=jpg',
+  },
+  {
+    value: 'cameron williamson',
+    label: 'cameron williamson',
+    flag:
+      'https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=50&ext=jpg',
+  },
+];
+
+const Report = ({ handleChange, state }) => {
   const [show, setShow] = useState(false);
   const [allUser, setAllUser] = useState([]);
-
-  const optionData =
-    allUser &&
-    allUser.map(item => ({
-      name: `${item.userName}`,
-      id: item.userName,
-      value: item.userName,
-    }));
 
   const handleClose = () => {
     setShow(false);
@@ -30,6 +50,19 @@ const Report = () => {
       setAllUser(res.data);
     });
   }, []);
+
+  const updatedEmpData = options.map(item => {
+    // eslint-disable-next-line no-param-reassign
+    item.label = (
+      <>
+        <div className="drop_update">
+          <img src={item.flag} alt="flag" />
+          {item.value}
+        </div>
+      </>
+    );
+    return item;
+  });
 
   return (
     <div className="container mt-4">
@@ -62,40 +95,15 @@ const Report = () => {
               />
             </div>
             <div className="modal-body modal-body_myteam">
-              {/* <div className="invite-team-wrapp mb-3"> */}
-              <Multiselect
-                options={optionData} // Options to display in the dropdown
-                // selectedValues={selected} // Preselected value to persist in dropdown
-                // onSelect={this.onSelect} // Function will trigger on select event
-                // onRemove={this.onRemove} // Function will trigger on remove event
-                displayValue="name" // Property name to display in the dropdown options
-                className="mb-3 tessssss"
+              <Select
+                isMulti
+                value={state.selectedOption}
+                onChange={handleChange}
+                options={updatedEmpData}
+                className="mb-3"
+                name="employee"
+                placeholder="Select Team members"
               />
-              {/* </div> */}
-              {/* <div className="access-to">
-                  <div className="access-one">
-                    <img src={ProfileImg} alt="" />
-                    Wade Warren
-                    <a className="close_btn" href>
-                      <img src="./images/close.svg" alt="" />
-                    </a>
-                  </div>
-                  <div className="access-one">
-                    <img src={ProfileImg} alt="" />
-                    Cameron Williamson
-                    <a className="close_btn" href>
-                      <img src="./images/close.svg" alt="" />
-                    </a>
-                  </div>
-                  <div className="access-one">
-                    <img src={ProfileImg} alt="" />
-                    Cameron Williamson
-                    <a className="close_btn" href>
-                      <img src="./images/close.svg" alt="" />
-                    </a>
-                  </div>
-                </div> */}
-              {/* </div> */}
               <div className="selection">
                 <select name="" id="">
                   <option value="">Washington, DC</option>
@@ -191,7 +199,8 @@ const Report = () => {
 };
 
 Report.propTypes = {
-  // handleSubmit: PropTypes.func,
+  handleChange: PropTypes.func,
+  state: PropTypes.object,
 };
 
 export default Report;

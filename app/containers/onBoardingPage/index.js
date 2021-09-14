@@ -51,7 +51,6 @@ class BorardingPage extends Component {
 
   handleSubmit = () => {
     const { timings, selectedNames, selectedDay, checked } = this.state;
-
     if (!checked) {
       const data = timings.map(obj => {
         if (obj.day === selectedDay) {
@@ -75,16 +74,21 @@ class BorardingPage extends Component {
   };
 
   handleSubmitData = () => {
-    const { timings, badge, badgedata } = this.state;
+    const { timings } = this.state;
     const { history } = this.props;
     const final = timings.filter(data => data.name !== '');
-    const value =
-      final.length >= 5 && badge && badgedata ? history.push('/workspot') : '';
+    const value = final.length >= 5 ? history.push('/') : '';
     return value;
   };
 
-  handleUserSelect = name => {
-    this.setState({ selectedNames: name });
+  onChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
+  handleUserSelect = event => {
+    const { value } = event.target;
+    this.setState({ selectedNames: value });
   };
 
   handleCheckbox = () => {

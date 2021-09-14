@@ -18,6 +18,36 @@ class ProfilePage extends Component {
       userListData: [],
       selectData: [],
       finalData: [],
+      selectedDay: '',
+      selectedNames: '',
+      checked: false,
+      timings: [
+        {
+          day: 'Monday',
+          active: false,
+          name: '',
+        },
+        {
+          day: 'Tuesday',
+          active: false,
+          name: '',
+        },
+        {
+          day: 'Wednesday',
+          active: false,
+          name: '',
+        },
+        {
+          day: 'Thursday',
+          active: false,
+          name: '',
+        },
+        {
+          day: 'Friday',
+          active: false,
+          name: '',
+        },
+      ],
     };
   }
 
@@ -65,6 +95,66 @@ class ProfilePage extends Component {
     this.setState({ show: true });
   };
 
+  handleButtonData = selectedDay => {
+    this.setState({ selectedDay });
+  };
+
+  handleSubmit = () => {
+    const { timings, selectedNames, selectedDay, checked } = this.state;
+
+    if (!checked) {
+      const data = timings.map(obj => {
+        if (obj.day === selectedDay) {
+          // eslint-disable-next-line no-param-reassign
+          obj.name = selectedNames;
+          return obj;
+        }
+        return obj;
+      });
+
+      this.setState({ timings: data });
+    } else {
+      const data = timings.map(obj => {
+        // eslint-disable-next-line no-param-reassign
+        obj.name = selectedNames;
+        return obj;
+      });
+
+      this.setState({ timings: data, checked: false });
+    }
+  };
+
+  handleUserSelectData = event => {
+    const { value } = event.target;
+    this.setState({ selectedNames: value });
+  };
+
+  handleCheckbox = () => {
+    this.setState({ checked: true });
+  };
+
+  // allTabColor = type => {
+  //   let color;
+  //   switch (type) {
+  //     case 'Washington , DC':
+  //       color = 'border-top-orange';
+  //       break;
+  //     case 'Richmond , VA':
+  //       color = 'border-top-blue';
+  //       break;
+  //     case 'Birmigham , AL':
+  //       color = 'border-top-green';
+  //       break;
+  //     case 'Bloomington , MN':
+  //       color = 'border-top-black';
+  //       break;
+
+  //     default:
+  //       color = 'white';
+  //   }
+  //   return color;
+  // };
+
   render() {
     return (
       <>
@@ -72,10 +162,15 @@ class ProfilePage extends Component {
           <Header />
           <Profile
             state={this.state}
+            handleCheckbox={this.handleCheckbox}
+            handleUserSelect={this.handleUserSelect}
+            handleButtonData={this.handleButtonData}
+            handleSubmit={this.handleSubmit}
             handleChange={this.handleChange}
             handleClose={this.handleClose}
-            handleUserSelect={this.handleUserSelect}
+            handleUserSelectData={this.handleUserSelectData}
             handleShow={this.handleShow}
+            allTabColor={this.allTabColor}
           />
         </div>
         <Footer />

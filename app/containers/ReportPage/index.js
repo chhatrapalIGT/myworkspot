@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
@@ -11,8 +12,16 @@ import Report from '../../components/Report';
 class ReportPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selectedOption: [],
+    };
   }
+
+  handleChange = option => {
+    this.setState(() => ({
+      selectedOption: option,
+    }));
+  };
 
   handleSubmit = dates => {
     console.log(`handlesub`, dates);
@@ -23,7 +32,11 @@ class ReportPage extends Component {
       <>
         <div id="content-wrap">
           <Header />
-          <Report handleSubmit={this.handleSubmit} />{' '}
+          <Report
+            handleSubmit={this.handleSubmit}
+            state={this.state}
+            handleChange={this.handleChange}
+          />{' '}
         </div>
         <Footer />
       </>

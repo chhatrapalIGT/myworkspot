@@ -127,12 +127,14 @@ const Boarding = ({
                       type="text"
                       placeholder="XXX"
                       onChange={handleBadgeData}
+                      maxLength="3"
                     />
                     <span>−</span>
                     <input
                       name="badgedata"
                       type="text"
                       placeholder="XXX"
+                      maxLength="3"
                       onChange={handleBadgeData}
                     />
                   </div>
@@ -161,14 +163,12 @@ const Boarding = ({
         onHide={() => setModal(false)}
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
-        id="set_location"
       >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header d-block">
               <h5 className="modal-title" id="exampleModalLabel">
-                Set {state.selectedDay && state.selectedDay.toUpperCase()}{' '}
-                Schedule
+                Set {state.selectedDay && state.selectedDay} Schedule
               </h5>
               <p className="mb-0 mt-2 stroke-2">
                 Choose a place where you usually work on this day <br /> of the
@@ -187,23 +187,16 @@ const Boarding = ({
                 <span className="small-title stroke-2 d-block mb-2">
                   EAB Office
                 </span>
-                {searchName &&
-                  searchName.map(i => (
-                    <div className="form-group">
-                      {/* <div className="color-block blue-bg" /> */}
-                      <input
-                        id={i.name}
-                        type="radio"
-                        name="location"
-                        className="checkbox"
-                        value={i.name}
-                        onClick={() => handleUserSelect(i.name, true)}
-                      />
-                      <label htmlFor="jane" value={i.name}>
-                        {i.name}
-                      </label>
-                    </div>
-                  ))}
+                <div className="selection">
+                  <select name="location" onChange={handleUserSelect}>
+                    {searchName &&
+                      searchName.map(i => (
+                        <option htmlFor="jane" value={i.name} id="location">
+                          {i.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
 
                 <div className="applyall d-flex align-items-center">
                   <input

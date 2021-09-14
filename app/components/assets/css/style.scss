@@ -173,6 +173,7 @@ input[type='text'] {
     border-radius: 8px;
     border: 1px solid #d1dce7;
     -webkit-appearance: none;
+    background-color: white;
     color: #00355f;
     font-weight: 600;
     outline: none;
@@ -184,33 +185,6 @@ input[type='text'] {
   border-radius: 8px;
   padding: 5px 12px;
   height: 48px;
-}
-.selection {
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-right: 2px solid #95a7b8;
-    border-bottom: 2px solid #95a7b8;
-    transform: translateY(-50%) rotate(45deg);
-    right: 20px;
-    top: 48%;
-  }
-
-  select {
-    width: 100%;
-    padding: 5px 15px;
-    height: 48px;
-    border-radius: 8px;
-    border: 1px solid #d1dce7;
-    -webkit-appearance: none;
-    color: #00355f;
-    font-weight: 600;
-    outline: none;
-  }
 }
 
 .site-header {
@@ -551,7 +525,7 @@ input[type='text'] {
   border-top-color: #00b1b0 !important;
 }
 .border-top-black {
-  border-top-color: #00355f !important;
+  border-top-color: #070808 !important;
 }
 .blue-color-btn {
   padding: 12px 18px;
@@ -1030,6 +1004,7 @@ input[type='text'] {
           justify-content: center;
           border-width: 2px;
           border-style: dashed;
+          cursor: pointer;
         }
         &:hover {
           background-color: #d1dce7;
@@ -1044,6 +1019,7 @@ input[type='text'] {
           justify-content: center;
           background: rgba(209, 220, 231, 0.7);
           border-radius: 50%;
+          cursor: pointer;
         }
       }
     }
@@ -2080,7 +2056,7 @@ input[type='text'] {
   }
 }
 #app {
-  padding-top: 90px;
+  padding-top: 78px;
   position: relative;
   min-height: 100vh;
 }
@@ -2104,17 +2080,6 @@ input[type='text'] {
 }
 
 /************ dropdown selection *****/
-.selection select {
-  width: 100%;
-  padding: 5px 15px;
-  height: 48px;
-  border-radius: 8px;
-  border: 1px solid #d1dce7;
-  -webkit-appearance: none;
-  color: #00355f;
-  font-weight: 600;
-  outline: none;
-}
 
 /************ dropdown selection *****/
 
@@ -2200,4 +2165,96 @@ li.highlightOption:hover {
 
 .onHover:hover {
   cursor: pointer;
+}
+.set_drop {
+  background-color: white;
+  &:hover {
+    background-color: #c9c1c14d;
+  }
+}
+select.set_drop option[id='building'],
+[id='floors'] {
+  background-color: white !important;
+}
+
+.selection select * {
+  font-size: 20px;
+}
+.drop_update {
+  display: flex;
+  border: black;
+  align-items: center;
+  img {
+    margin-right: 10px;
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.css-1rhbuit-multiValue {
+  background: #ebeef1;
+  padding: 0;
+  padding-right: 3px;
+  margin-right: 6px;
+  font-size: 12px;
+  border: 1px solid #d1dce7;
+  border-radius: 50px !important;
+  font-weight: 600;
+  &:hover {
+    background: #d1dce7;
+  }
+  .css-12jo7m5 {
+    padding: 3px 3px 3px 0px;
+    display: flex;
+    font-size: 13px;
+
+    img {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #fff;
+      margin-right: 3px;
+      border-radius: 50%;
+    }
+  }
+  .css-xb97g8 {
+    svg {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      background: #ebeef1 !important;
+      border-radius: 50%;
+      margin-left: 12px;
+      border: 2px solid #ebeef1;
+      &:hover {
+        background: rgba(82, 110, 136, 0.7) !important;
+        border-color: #ccc !important;
+      }
+    }
+    &:hover {
+      background-color: unset !important;
+      color: unset;
+      border-radius: 50%;
+    }
+  }
+}
+
+.css-1hb7zxy-IndicatorsContainer > div:first-child {
+  display: none;
+}
+
+.css-26l3qy-menu {
+  display: visible !important;
+}
+
+.css-1hb7zxy-IndicatorsContainer {
+  display: none;
 }
