@@ -31,6 +31,7 @@ const Calender = ({
   setShow,
   handleRemove,
   allUser,
+  setDate,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
@@ -43,7 +44,7 @@ const Calender = ({
     date => {
       return date && date.startOf('day').isSame(days.currentDate.startOf('day'))
         ? 'lightblue'
-        : 'white';
+        : 'date';
     },
     [days.currentDate],
   );
@@ -167,7 +168,7 @@ const Calender = ({
                   data-bs-target="#showCalendar"
                   onClick={() => setModal(true)}
                 >
-                  Update My Workspot
+                  Update <i>my</i>Workspot
                 </button>
               </div>
             ) : (
@@ -222,7 +223,11 @@ const Calender = ({
                                 {days.dateToDisplay.map(item => (
                                   <>
                                     <div
-                                      className="day_one"
+                                      className={
+                                        item.disable
+                                          ? 'day_one disabled'
+                                          : 'day_one'
+                                      }
                                       onClick={() => setLocation(true)}
                                       aria-hidden="true"
                                       key={`${item.value}`}
@@ -243,7 +248,7 @@ const Calender = ({
                                         </p>
                                         <span className="floor-location">
                                           <img src={Vector} alt="" />
-                                          Fl 4-Blue
+                                          Fl 4 - Blue
                                         </span>
                                       </div>
                                     </div>
@@ -258,9 +263,9 @@ const Calender = ({
                         days.dateToDisplay.map(item => (
                           <>
                             <div
-                              className="day_one"
-                              onClick={() => setLocation(true)}
-                              aria-hidden="true"
+                              className={
+                                item.disable ? 'day_one disabled' : 'day_one'
+                              }
                               key={`${item.value}`}
                             >
                               <p className="day-name">{item.day}</p>
@@ -273,13 +278,25 @@ const Calender = ({
                                 {' '}
                                 {item.value}
                               </p>
-                              <div className="day-one-wrapper work-from-office border-top-blue">
+
+                              <div
+                                className="day-one-wrapper work-from-office border-top-blue"
+                                onClick={() => {
+                                  !item.disable && setLocation(true);
+                                  setDate(
+                                    moment(item.date).format(
+                                      'dddd,MMMM DD,YYYY',
+                                    ),
+                                  );
+                                }}
+                                aria-hidden="true"
+                              >
                                 <p className="work-station work-floor">
                                   Washington, DC
                                 </p>
                                 <span className="floor-location">
                                   <img src={Vector} alt="" />
-                                  Fl 4-Blue
+                                  Fl 4 - Blue
                                 </span>
                               </div>
                             </div>
@@ -309,27 +326,39 @@ const Calender = ({
                     >
                       <div className="card weekly-default">
                         <div className="card mt-4 card-user-header">
-                          <img
-                            src={profile}
-                            alt=""
-                            style={{ padding: '0px 18px 12px 0px' }}
-                          />
-                          {'   '}
-                          <label>
-                            <b>{obj}</b>
-                          </label>
                           <div
-                            style={{ float: 'right' }}
-                            className="weekly-remove"
-                            aria-hidden="true"
-                            onClick={() => handleRemove(obj)}
+                            style={{
+                              borderBottom: '1px solid #d1dce7',
+                              padding: '0px 25px',
+                            }}
                           >
-                            {' '}
-                            Remove
+                            <img
+                              src={profile}
+                              alt=""
+                              style={{ padding: '0px 18px 12px 0px' }}
+                            />
+                            {'   '}
+                            <label>
+                              <b>{obj}</b>
+                            </label>
+                            <div
+                              style={{ float: 'right' }}
+                              className="weekly-remove"
+                              aria-hidden="true"
+                              onClick={() => handleRemove(obj)}
+                            >
+                              {' '}
+                              Remove
+                            </div>
                           </div>
-                          <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
+                          <div className="weekly-default-inner d-flex flex-wrap">
                             {days.dateToDisplay.map(item => (
-                              <div className="day_one" key={`${item.value}`}>
+                              <div
+                                className={
+                                  item.disable ? 'day_one disabled' : 'day_one'
+                                }
+                                key={`${item.value}`}
+                              >
                                 <p className="day-name">{item.day}</p>
                                 <p
                                   className="date"
@@ -342,7 +371,14 @@ const Calender = ({
                                 </p>
                                 <div
                                   className="day-one-wrapper work-from-office border-top-blue"
-                                  onClick={() => setEmployee(true)}
+                                  onClick={() => {
+                                    setEmployee(true);
+                                    setDate(
+                                      moment(item.date).format(
+                                        'dddd,MMMM DD,YYYY',
+                                      ),
+                                    );
+                                  }}
                                   aria-hidden="true"
                                 >
                                   <p className="work-station work-floor">
@@ -398,11 +434,15 @@ const Calender = ({
                                 ? 'day-one-wrapper'
                                 : 'day-one-wrapper work-from-office border-top-blue'
                             }`}
+                            onClick={() => {
+                              !item.disable && setLocation(true);
+                            }}
+                            aria-hidden="true"
                           >
                             <p className="work-station">Washington, DC</p>
                             <span className="floor-location">
                               <img src={floorLocation} alt="" />
-                              Fl 4-Blue
+                              Fl 4 - Blue
                             </span>
                           </div>
                         </div>
@@ -440,6 +480,7 @@ Calender.propTypes = {
   setShow: PropTypes.func,
   handleRemove: PropTypes.func,
   allUser: PropTypes.object,
+  setDate: PropTypes.string,
 };
 
 export default Calender;
