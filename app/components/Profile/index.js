@@ -1,23 +1,49 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable indent */
+/* eslint-disable no-nested-ternary */
+
 import React, { useState, useEffect, Fragment } from 'react';
 import Axios from 'axios';
+import PropTypes from 'prop-types';
+
 import { Modal } from 'react-bootstrap';
 import ProfileImg from '../assets/images/myprofile.png';
 import Edit from '../assets/images/edit.svg';
+import plus from '../../images/plus.svg';
+
 import Close from '../assets/images/close.svg';
 import Work from '../assets/images/workspot1.png';
-const Profile = props => {
+
+const Profile = ({
+  handleButtonData,
+  state,
+  handleCheckbox,
+  handleUserSelectData,
+  handleSubmit,
+  handleSubmitData,
+}) => {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
+  const [modal, setModal] = useState(false);
+
   const [search, setSearch] = useState(false);
   const [allUser, setAllUser] = useState([]);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
+  const [boardingData, setBoardingData] = useState([]);
   useEffect(() => {
     const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
     Axios.get(url).then(res => {
       setAllUser(res.data);
       setSearchName(res.data);
+    });
+    const urlData = `https://mocki.io/v1/0a505005-9da4-44c7-9000-0447e1dd3fb2`;
+    Axios.get(urlData, {}).then(res => {
+      setBoardingData(res.data);
     });
   }, []);
 
@@ -52,6 +78,11 @@ const Profile = props => {
   const handleClose = () => {
     setUserListData(finalData);
     setShow(false);
+  };
+
+  const handleChangeDay = name => {
+    setModal(true);
+    handleButtonData(name);
   };
 
   // const handleRemove = i => {
@@ -111,7 +142,7 @@ const Profile = props => {
           </div>
         </div>
 
-        <div className="weekly-default mt-40">
+        <div className="weekly-default onboarding-main mt-40">
           <div className="container">
             <h4 className="common-title">Weekly Default</h4>
             <p className="w-50 stroke-2 mt-3">
@@ -119,36 +150,69 @@ const Profile = props => {
               update My Workspot for a specific day. You can update My Workspot
               for a particular day on the homepage.
             </p>
-            <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
-              <div className="day_one">
-                <p className="day-name">Monday</p>
-                <div className="day-one-wrapper work-from-office border-top-blue">
-                  <p className="work-station">Washington, DC</p>
-                </div>
-              </div>
-              <div className="day_one">
-                <p className="day-name">Tuesday</p>
-                <div className="day-one-wrapper work-from-office border-top-orange">
-                  <p className="work-station">Richmond, VA</p>
-                </div>
-              </div>
-              <div className="day_one">
-                <p className="day-name">Wednesday</p>
-                <div className="day-one-wrapper work-from-office border-top-orange">
-                  <p className="work-station">Richmond, VA</p>
-                </div>
-              </div>
-              <div className="day_one">
-                <p className="day-name">Thursday</p>
-                <div className="day-one-wrapper work-from-home">
-                  <p className="work-station">Remote Work</p>
-                </div>
-              </div>
-              <div className="day_one">
-                <p className="day-name">Friday</p>
-                <div className="day-one-wrapper work-from-home">
-                  <p className="work-station">Remote Work</p>
-                </div>
+            <div className="on-boarding-inner p-0">
+              <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
+                {state.timings.map(t => (
+                  <div className="day_one">
+                    <p className="day-name">{t.day}</p>
+
+                    <a
+                      href
+                      data-bs-toggle="modal"
+                      data-bs-target="#set_location"
+                    >
+                      {/* <div
+                        onClick={() => handleChangeDay(t.day)}
+                        className={classNames(
+                          ` day-one-wrapper  ${
+                            t.name === ''
+                              ? 'add-location'
+                              : t.name !== 'Remote Work'
+                              ? `work-from-office ${allTabColor(t.name)}`
+                              : t.name === 'Remote Work'
+                              ? 'work-from-home'
+                              : 'add-location'
+                          } `,
+                        )}
+                      > */}
+
+                      <div
+                        onClick={() => handleChangeDay(t.day)}
+                        className={`day-one-wrapper ${
+                          t.name === ''
+                            ? 'add-location'
+                            : t.name !== 'Remote Work'
+                            ? 'work-from-office border-top-blue'
+                            : t.name === 'Remote Work'
+                            ? 'work-from-home'
+                            : 'add-location'
+                        }`}
+                      >
+                        {t.name ? (
+                          <label
+                            value={t.day}
+                            onClick={() => {
+                              handleButtonData(t.day);
+                            }}
+                          >
+                            {t.name}
+                          </label>
+                        ) : (
+                          <img
+                            className="plus-icon"
+                            src={plus}
+                            alt=""
+                            id="day"
+                            value={t.day}
+                            onClick={() => {
+                              handleButtonData(t.day);
+                            }}
+                          />
+                        )}
+                      </div>
+                    </a>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -203,6 +267,84 @@ const Profile = props => {
           </div>
         </div>
       </div>
+
+      <Modal
+        className="modal fade test_modal"
+        show={modal}
+        onHide={() => setModal(false)}
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header d-block">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Set {state.selectedDay && state.selectedDay} Schedule
+              </h5>
+              <p className="mb-0 mt-2 stroke-2">
+                Choose a place where you usually work on this day <br /> of the
+                week
+              </p>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setModal(false)}
+              />
+            </div>
+            <div className="modal-body">
+              <form className="delegate-workspot-access" action="submit">
+                <span className="small-title stroke-2 d-block mb-2">
+                  EAB Office
+                </span>
+
+                <div className="selection">
+                  <select name="location" onChange={handleUserSelectData}>
+                    {boardingData &&
+                      boardingData.map(i => (
+                        <option htmlFor="jane" value={i.name} id="location">
+                          {i.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+
+                <div className="applyall d-flex align-items-center">
+                  <input
+                    type="checkbox"
+                    id="apply-all"
+                    onClick={() => handleCheckbox()}
+                  />
+                  <label htmlFor="apply-all" className="stroke-2">
+                    Apply to all days of the week
+                  </label>
+                </div>
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn save-data"
+                onClick={() => {
+                  handleSubmit();
+                  setModal(false);
+                }}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="btn dismiss"
+                data-bs-dismiss="modal"
+                onClick={() => setModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
 
       <Modal
         className="modal fade test_modal"
@@ -273,5 +415,12 @@ const Profile = props => {
   );
 };
 
-Profile.propTypes = {};
+Profile.propTypes = {
+  handleButtonData: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  handleCheckbox: PropTypes.func,
+  handleSubmitData: PropTypes.func,
+  state: PropTypes.object,
+  handleUserSelectData: PropTypes.func,
+};
 export default Profile;

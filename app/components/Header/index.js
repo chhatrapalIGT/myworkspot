@@ -77,10 +77,10 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/faq" activeClassName="active">
+                    <Link to="/faq">
                       <a
-                        className={pathName === '/faq' && 'active'}
                         href="true"
+                        className={pathName === '/faq' && 'active'}
                       >
                         Help
                       </a>

@@ -37,11 +37,11 @@ const App = props => {
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
         <Switch>
-          <Route exact path="/" component={Boarding} props={props} />
+          <Route exact path="/" component={WorkSpot} props={props} />
+          <Route exact path="/board" props={props} component={Boarding} />
           <Route exact path="/profile" component={ProfilePage} props={props} />
           <Route exact path="/faq" component={Faq} />
           <Route exact path="/report" props={props} component={Report} />
-          <Route exact path="/workspot" props={props} component={WorkSpot} />
           <Route exact path="/office" component={Washington} props={props} />
           <Route component={NotFoundPage} />
         </Switch>
