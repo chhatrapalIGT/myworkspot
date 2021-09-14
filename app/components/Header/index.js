@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../assets/css/style.scss';
 import '../assets/css/style.css';
 import { Link, useLocation } from 'react-router-dom';
-import Headerlogo from '../assets/images/logo_main.svg';
+import Headerlogo from '../assets/images/logo_mains.svg';
 import Profile from '../assets/images/profileof.png';
 
 const Header = () => {
@@ -36,7 +36,7 @@ const Header = () => {
                 </a>
               </Link>
             </div>
-            {pathName !== '/' && (
+            {pathName !== '/board' && (
               <div className={`${sidebar && 'show'} main-menu`}>
                 <ul>
                   <li>
@@ -67,18 +67,23 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/workspot">
+                    <Link to="/board">
                       <a
-                        className={pathName === '/workspot' && 'active'}
+                        className={pathName === '/board' && 'active'}
                         href="true"
                       >
-                        Office Maps With Header
+                        OnBoarding
                       </a>
                     </Link>
                   </li>
                   <li>
                     <Link to="/faq" activeClassName="active">
-                      <a href="true">Help</a>
+                      <a
+                        className={pathName === '/faq' && 'active'}
+                        href="true"
+                      >
+                        Help
+                      </a>
                     </Link>
                   </li>
                 </ul>
@@ -90,7 +95,7 @@ const Header = () => {
                 onClick={() => setEditProfile(!editProfile)}
                 onHide={() => setEditProfile(false)}
                 className={
-                  pathName === '/'
+                  pathName === '/board'
                     ? `username ${editProfile && 'toggled'}`
                     : `username has-dropdown ${editProfile && 'toggled'}`
                 }
@@ -98,7 +103,7 @@ const Header = () => {
                 <span>Alexander</span>{' '}
                 <img src={Profile} className="user-img" alt="" />
               </div>
-              {pathName !== '/' && (
+              {pathName !== '/board' && (
                 <div className={`profile-inner ${editProfile && 'opened'}`}>
                   <ul className="profile-menus">
                     <li>

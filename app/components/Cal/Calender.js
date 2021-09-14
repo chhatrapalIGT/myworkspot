@@ -50,7 +50,7 @@ const Calender = ({
 
   const title = useMemo(() => {
     return period === 'month'
-      ? `${moment(days.startDate).format('MMMM')} ${moment(
+      ? `${moment(days.startDate).format('MMMM')}${moment(
           days.startDate,
         ).year()}`
       : getWeekTitle(days);
@@ -103,8 +103,7 @@ const Calender = ({
           {setVisible && <p className="week-range">{title}</p>}
 
           <div className="input-button-strip w-100 d-flex align-items-center">
-            {!setVisible && <p className="week-range mb-0 me-4">{title}</p>}
-            <div className="change-log">
+            <div className="change-log  me-4">
               <button
                 type="submit"
                 className="prev"
@@ -123,6 +122,7 @@ const Calender = ({
                 &rsaquo;
               </button>
             </div>
+            {!setVisible && <p className="week-range mb-0">{title}</p>}
             {setVisible && (
               <div
                 className="week-month-toggle nav nav-tabs"
