@@ -177,6 +177,7 @@ input[type='text'] {
     color: #00355f;
     font-weight: 600;
     outline: none;
+    cursor: pointer;
   }
 }
 
@@ -807,12 +808,13 @@ input[type='text'] {
   }
 
   .applyall {
-    padding: 1rem 1.5rem 1rem;
+    padding: 1rem 0rem;
     input[type='checkbox'] {
       width: 19px;
       height: 19px;
       border-radius: 0;
       margin-right: 10px;
+      cursor: pointer;
     }
     label {
       font-size: 14px;
@@ -2169,7 +2171,7 @@ li.highlightOption:hover {
 .set_drop {
   background-color: white;
   &:hover {
-    background-color: #c9c1c14d;
+    cursor: pointer;
   }
 }
 select.set_drop option[id='building'],
@@ -2255,6 +2257,6 @@ select.set_drop option[id='building'],
   display: visible !important;
 }
 
-.css-1hb7zxy-IndicatorsContainer {
+.css-1okebmr-indicatorSeparator {
   display: none;
 }

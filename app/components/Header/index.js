@@ -30,11 +30,17 @@ const Header = () => {
         <div className="container">
           <div className="header_wrapper d-flex align-items-center justify-content-between">
             <div className="logo_wrapper">
-              <Link to="/" activeClassName="active">
-                <a href="true">
+              {pathName === '/board' ? (
+                <a href>
                   <img src={Headerlogo} alt="" />
                 </a>
-              </Link>
+              ) : (
+                <Link to="/" activeClassName="active">
+                  <a href="true">
+                    <img src={Headerlogo} alt="" />
+                  </a>
+                </Link>
+              )}
             </div>
             {pathName !== '/board' && (
               <div className={`${sidebar && 'show'} main-menu`}>
