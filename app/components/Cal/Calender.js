@@ -97,6 +97,16 @@ const Calender = ({
       : setDays(getWeekStartEndDate(new Date()));
     setSelectedWeek(new Date());
   };
+
+  const isCurrentDate = useCallback(
+    date => {
+      return (
+        date && date.startOf('day').isSame(days.currentDate.startOf('day'))
+      );
+    },
+    [days.currentDate],
+  );
+
   return (
     <div className={!setVisible && 'myteam_wrapper'}>
       <div className="container">
@@ -280,12 +290,12 @@ const Calender = ({
                               </p>
 
                               <div
-                                className="day-one-wrapper work-from-office border-top-blue"
+                                className="day-one-wrapper  work-from-office day-pointer border-top-blue"
                                 onClick={() => {
                                   !item.disable && setLocation(true);
                                   setDate(
                                     moment(item.date).format(
-                                      'dddd,MMMM DD,YYYY',
+                                      'dddd, MMMM DD, YYYY',
                                     ),
                                   );
                                 }}
@@ -369,13 +379,19 @@ const Calender = ({
                                   {' '}
                                   {item.value}
                                 </p>
+
                                 <div
-                                  className="day-one-wrapper work-from-office border-top-blue"
+                                  className={
+                                    isCurrentDate(item.date)
+                                      ? 'day-one-wrapper work-from-office day-pointer border-top-blue'
+                                      : 'day-one-wrapper work-from-office border-top-blue'
+                                  }
                                   onClick={() => {
-                                    setEmployee(true);
+                                    isCurrentDate(item.date) &&
+                                      setEmployee(true);
                                     setDate(
                                       moment(item.date).format(
-                                        'dddd,MMMM DD,YYYY',
+                                        'dddd, MMMM DD, YYYY',
                                       ),
                                     );
                                   }}
@@ -386,7 +402,7 @@ const Calender = ({
                                   </p>
                                   <span className="floor-location">
                                     <img src={Vector} alt="" />
-                                    Fl 4-Bluesdsddf
+                                    Fl 4 - Blue
                                   </span>
                                 </div>
                               </div>
@@ -432,7 +448,7 @@ const Calender = ({
                                 item.day === 'Sunday' ||
                                 item.weekend)
                                 ? 'day-one-wrapper'
-                                : 'day-one-wrapper work-from-office border-top-blue'
+                                : 'day-one-wrapper work-from-office day-pointer border-top-blue'
                             }`}
                             onClick={() => {
                               !item.disable && setLocation(true);

@@ -443,8 +443,8 @@ const WorkSpot = ({
                     <div className="left-panel">
                       <div className="office-info">
                         <p className="name">Washington, DC</p>
-                        <span className="floor">floor 3</span>
-                        <span className="floor">floor 4</span>
+                        <span className="floor">Floor 3</span>
+                        {/* <span className="floor">floor 4</span> */}
                       </div>
                       <div className="office-resource myteam_res">
                         <p>Office Resources</p>
@@ -561,25 +561,20 @@ const WorkSpot = ({
             </div>
             <div className="modal-body">
               <form className="delegate-workspot-access" action="submit">
-                <span className="small-title stroke-2 d-block mb-2">
-                  EAB Office
-                </span>
-                {locationName &&
-                  locationName.map(i => (
-                    <div className="form-group">
-                      <input
-                        id={i.name}
-                        type="radio"
-                        name="location"
-                        className="checkbox"
-                        value={i.name}
-                        // onClick={() => handleUserSelect(i.name, true)}
-                      />
-                      <label htmlFor="jane" value={i.name}>
-                        {i.name}
-                      </label>
-                    </div>
-                  ))}
+                <div className="selection" style={{ padding: '1rem 1.5rem' }}>
+                  <select name="location" className="dropdown_opt">
+                    {locationName &&
+                      locationName.map(i => (
+                        <option
+                          onChange={handleUserSelect}
+                          value={i.name}
+                          id="location"
+                        >
+                          {i.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
                 <hr />
                 <p className="notice" style={{ padding: '0 1.5rem' }}>
                   If you would like to update your weekly default, you can

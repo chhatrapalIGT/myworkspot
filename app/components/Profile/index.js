@@ -357,6 +357,7 @@ const Profile = ({
         onHide={() => handleClose()}
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
+        id="set_location"
       >
         <div className="modal-dialog">
           <div className="modal-content">
