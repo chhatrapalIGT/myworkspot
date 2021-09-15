@@ -184,9 +184,6 @@ const Boarding = ({
             </div>
             <div className="modal-body">
               <form className="delegate-workspot-access" action="submit">
-                <span className="small-title stroke-2 d-block mb-2">
-                  EAB Office
-                </span>
                 <div className="selection">
                   <select name="location" onChange={handleUserSelect}>
                     {searchName &&

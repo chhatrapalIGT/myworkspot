@@ -100,7 +100,7 @@ const Report = ({ handleChange, state }) => {
                 value={state.selectedOption}
                 onChange={handleChange}
                 options={updatedEmpData}
-                className="mb-3"
+                className="mb-3 "
                 name="employee"
                 placeholder="Select Team Member(s)"
               />

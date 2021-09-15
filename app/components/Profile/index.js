@@ -295,10 +295,6 @@ const Profile = ({
             </div>
             <div className="modal-body">
               <form className="delegate-workspot-access" action="submit">
-                <span className="small-title stroke-2 d-block mb-2">
-                  EAB Office
-                </span>
-
                 <div className="selection">
                   <select name="location" onChange={handleUserSelectData}>
                     {boardingData &&
@@ -352,6 +348,7 @@ const Profile = ({
         onHide={() => handleClose()}
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
+        id="set_location"
       >
         <div className="modal-dialog">
           <div className="modal-content">
