@@ -41,7 +41,7 @@ const Profile = ({
       setAllUser(res.data);
       setSearchName(res.data);
     });
-    const urlData = `https://mocki.io/v1/0a505005-9da4-44c7-9000-0447e1dd3fb2`;
+    const urlData = `https://mocki.io/v1/947b4269-a50f-4e16-8157-30d04fb8879a`;
     Axios.get(urlData, {}).then(res => {
       setBoardingData(res.data);
     });
@@ -295,18 +295,23 @@ const Profile = ({
             </div>
             <div className="modal-body">
               <form className="delegate-workspot-access" action="submit">
-                <span className="small-title stroke-2 d-block mb-2">
-                  EAB Office
-                </span>
-
                 <div className="selection">
                   <select name="location" onChange={handleUserSelectData}>
-                    {boardingData &&
-                      boardingData.map(i => (
-                        <option htmlFor="jane" value={i.name} id="location">
-                          {i.name}
-                        </option>
-                      ))}
+                    <optgroup label="EAB Office">
+                      {boardingData &&
+                        boardingData.map(i => (
+                          <option
+                            htmlFor="jane"
+                            value={i.name}
+                            id="location"
+                            style={{ padding: '50px' }}
+                          >
+                            {i.name}
+                          </option>
+                        ))}
+                    </optgroup>
+                    <hr />
+                    <option value="remote Work">Remote work</option>
                   </select>
                 </div>
 

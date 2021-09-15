@@ -50,7 +50,6 @@ const OfficeWDC = ({
 
   const setFloors = value => {
     let Data = [];
-
     const switchValue = value || office;
 
     switch (switchValue) {
@@ -162,7 +161,11 @@ const OfficeWDC = ({
               <div className="selction_one">
                 <label htmlFor="Building/Floor">Building/Floor</label>
                 <select
-                  className="set_drop"
+                  className={
+                    office === 'Birmigham , AL' || office === 'Bloomington , MN'
+                      ? ''
+                      : 'set_drop'
+                  }
                   name=""
                   id=""
                   disabled={

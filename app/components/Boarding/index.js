@@ -35,7 +35,7 @@ const Boarding = ({
   };
 
   useEffect(() => {
-    const url = `https://mocki.io/v1/0a505005-9da4-44c7-9000-0447e1dd3fb2`;
+    const url = `https://mocki.io/v1/947b4269-a50f-4e16-8157-30d04fb8879a`;
     Axios.get(url, {}).then(res => {
       setAllUser(res.data);
       setSearchName(res.data);
@@ -189,12 +189,21 @@ const Boarding = ({
                 </span>
                 <div className="selection">
                   <select name="location" onChange={handleUserSelect}>
-                    {searchName &&
-                      searchName.map(i => (
-                        <option htmlFor="jane" value={i.name} id="location">
-                          {i.name}
-                        </option>
-                      ))}
+                    <optgroup label="EAB Office">
+                      {searchName &&
+                        searchName.map(i => (
+                          <option
+                            htmlFor="jane"
+                            value={i.name}
+                            id="location"
+                            style={{ padding: '50px' }}
+                          >
+                            {i.name}
+                          </option>
+                        ))}
+                    </optgroup>
+                    <hr />
+                    <option value="remote Work">Remote work</option>
                   </select>
                 </div>
 
