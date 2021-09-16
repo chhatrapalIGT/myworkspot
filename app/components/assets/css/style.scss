@@ -1440,9 +1440,9 @@ input[type='text'] {
         }
       }
 
-      &:nth-child(7n) {
-        margin-right: 0;
-      }
+      // &:nth-child(7n) {
+      //   margin-right: 0;
+      // }
 
       &:nth-child(n + 8) {
         .day-name {
