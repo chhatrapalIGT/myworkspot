@@ -21,6 +21,7 @@ import Faq from '../../components/FAQ';
 import Report from '../ReportPage';
 import Boarding from '../onBoardingPage';
 import WorkSpot from '../WorkspotPage';
+import Login from '../LoginPage';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
@@ -38,10 +39,11 @@ const App = props => {
       ) : (
         <Switch>
           <Route exact path="/" component={WorkSpot} props={props} />
-          <Route exact path="/board" props={props} component={Boarding} />
+          <Route exact path="/login" component={Login} props={props} />
           <Route exact path="/profile" component={ProfilePage} props={props} />
           <Route exact path="/faq" component={Faq} />
           <Route exact path="/report" props={props} component={Report} />
+          <Route exact path="/board" props={props} component={Boarding} />
           <Route exact path="/office" component={Washington} props={props} />
           <Route component={NotFoundPage} />
         </Switch>

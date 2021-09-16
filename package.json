@@ -64,6 +64,7 @@
     "babel-core": "7.0.0-bridge.0"
   },
   "dependencies": {
+    "@azure/msal-browser": "^2.17.0",
     "@babel/polyfill": "7.4.3",
     "@mobiscroll/react": "file:./src/lib/mobiscroll-package/mobiscroll-react-5.8.1.tgz",
     "axios": "^0.21.1",
