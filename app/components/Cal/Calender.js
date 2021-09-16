@@ -44,7 +44,7 @@ const Calender = ({
     date => {
       return date && date.startOf('day').isSame(days.currentDate.startOf('day'))
         ? 'lightblue'
-        : 'date';
+        : 'white';
     },
     [days.currentDate],
   );
@@ -290,7 +290,11 @@ const Calender = ({
                               </p>
 
                               <div
-                                className="day-one-wrapper  work-from-office day-pointer border-top-blue"
+                                className={
+                                  item.disable
+                                    ? 'day-one-wrapper work-from-office  border-top-blue'
+                                    : 'day-one-wrapper work-from-office day-pointer border-top-blue'
+                                }
                                 onClick={() => {
                                   !item.disable && setLocation(true);
                                   setDate(

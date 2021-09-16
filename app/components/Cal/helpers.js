@@ -6,11 +6,6 @@
 import moment from 'moment';
 
 export const getWeekStartEndDate = (date, direction) => {
-  const prevDate = moment(date).isBefore(moment().subtract(1, 'day'));
-  // const a = moment()
-  //   .add(1, 'day')
-  //   .toString();
-  // const prevDate = moment(date).isBefore(a);
   if (direction === 'prev') {
     const newDate = moment(date);
     date = newDate.subtract(2, 'days');
@@ -24,6 +19,7 @@ export const getWeekStartEndDate = (date, direction) => {
     .endOf('week')
     .add(1, 'days')
     .toDate();
+
   const firstDay = startDate.getDate();
   const lastDay = endDate.getDate();
   const currentDay = currentDate.toDate().getDate();
@@ -37,7 +33,10 @@ export const getWeekStartEndDate = (date, direction) => {
   const dateToDisplay = [];
   let isMonthEnd = false;
   let newIndex = 0;
+
   for (let i = firstDay; i < firstDay + 5; i++) {
+    const date = moment(startDate).add(i - firstDay, 'days');
+    const prevDate = moment(date).isBefore(moment(), 'day');
     dateToDisplay.push({
       value: isMonthEnd ? ++newIndex : i,
       disable: prevDate,
@@ -46,7 +45,6 @@ export const getWeekStartEndDate = (date, direction) => {
         .format('dddd'),
       date: moment(startDate).add(i - firstDay, 'days'),
     });
-    const date = moment(startDate).add(i - firstDay, 'days');
     if (
       date.format('DD-MM-YYYY') === endOfMonth ||
       date.format('DD-MM-YYYY') === prevEndOfMonth
@@ -96,7 +94,7 @@ export const getMonthStartEndDate = date => {
   }
   Array.from(Array(lastDay)).forEach((item, i) => {
     const date = moment(startOfMonth).add(i, 'days');
-    const prevDate = moment(date).isBefore(moment().subtract(1, 'day'));
+    const prevDate = moment(date).isBefore(moment(), 'day');
     const newObj = {
       value: i + 1,
       disable: prevDate,
@@ -122,8 +120,10 @@ export const getMonthStartEndDate = date => {
         .add(nextMonthDate - 1, 'days'),
       value: nextMonthDate++,
       disable: true,
-      day: moment(startOfMonth)
-        .add(nextMonthDate, 'days')
+      day: moment(date)
+        .add(1, 'months')
+        .startOf('month')
+        .add(nextMonthDate - 2, 'days')
         .format('dddd'),
     });
     currentMonthLastDay++;

@@ -252,24 +252,26 @@ const WorkSpot = ({
                   <Datepicker
                     controls={['calendar']}
                     display="inline"
+                    returnFormat="moment"
+                    min={moment().toDate()}
+                    // max={moment().endOf('month')}
                     name="date"
-                    minDate={moment().toDate()}
                     onChange={onDateChange}
                     selectMultiple={true}
-                    selectCounter={true}
+                    selectCounter
                     dateFormat="MMM DD,YYYY"
-                    invalid={[
-                      {
-                        recurring: {
-                          repeat: 'weekly',
-                          weekDays: 'SA,SU',
-                        },
-                      },
-                    ]}
                     // headerText="dates selected"
+                    // invalid={[
+                    //   {
+                    //     recurring: {
+                    //       repeat: 'weekly',
+                    //       weekDays: 'SA,SU',
+                    //     },
+                    //   },
+                    // ]}
                     marked={[
                       {
-                        date: new Date(2021, 8, 13),
+                        date: new Date(2021, 8, 28),
                         color: '#46c4f3',
                         markCssClass: 'mbsc-calendar-marks1',
                       },

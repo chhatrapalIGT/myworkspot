@@ -2152,9 +2152,40 @@ li.highlightOption:hover {
   border: none !important;
 }
 
-.mbsc-disabled .mbsc-calendar-cell-text {
-  opacity: 1 !important;
+.mbsc-calendar-row {
+  pointer-events: visible;
+  & > div.mbsc-calendar-cell {
+    &:first-child,
+    &:last-child {
+      pointer-events: none !important;
+    }
+  }
 }
+
+.mbsc-calendar-row {
+  .mbsc-calendar-year-inner,
+  .mbsc-calendar-month-inner {
+    pointer-events: visible;
+  }
+}
+
+.mbsc-calendar-header {
+  margin-bottom: 1rem;
+  .mbsc-calendar-title,
+  .mbsc-button-icon {
+    color: #01213a;
+  }
+}
+
+.mbsc-calendar-week-days {
+  .mbsc-calendar-week-day {
+    font-size: 14px !important;
+  }
+}
+
+// .mbsc-disabled .mbsc-calendar-cell-text {
+//   opacity: 1 !important;
+// }
 
 .work-floor {
   margin-bottom: 0px;
