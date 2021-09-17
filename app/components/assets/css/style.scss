@@ -1010,6 +1010,7 @@ input[type='text'] {
         }
         &:hover {
           background-color: #d1dce7;
+          cursor: pointer;
         }
 
         .plus-icon {
@@ -1035,15 +1036,24 @@ input[type='text'] {
     font-size: 16px;
     background: #002d50;
 
-    &:hover {
-      background-color: #005aa3;
-    }
+    // &:hover {
+    //   background-color: #005aa3;
+    // }
 
     &.disabled {
       background: #d1dce7;
       opacity: 1;
       cursor: not-allowed;
     }
+  }
+  .change_btn {
+    background-color: #005aa3;
+    margin-top: 30px;
+    padding: 12px 20px;
+    border: none;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
   }
 }
 
@@ -2297,4 +2307,11 @@ select.set_drop option[id='building'],
 
 .css-1okebmr-indicatorSeparator {
   display: none;
+}
+
+.mbsc-ios.mbsc-form-control-wrapper {
+  cursor: pointer;
+}
+.invite-team-wrapp.choose-date {
+  cursor: pointer;
 }

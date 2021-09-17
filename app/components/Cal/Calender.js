@@ -32,6 +32,7 @@ const Calender = ({
   handleRemove,
   allUser,
   setDate,
+  setEmployeeLocationDetail,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
@@ -238,7 +239,11 @@ const Calender = ({
                                           ? 'day_one disabled'
                                           : 'day_one'
                                       }
-                                      onClick={() => setLocation(true)}
+                                      onClick={() => {
+                                        isCurrentDate(item.date) &&
+                                          setEmployeeLocationDetail(true);
+                                        setLocation(true);
+                                      }}
                                       aria-hidden="true"
                                       key={`${item.value}`}
                                     >
@@ -506,6 +511,7 @@ Calender.propTypes = {
   handleRemove: PropTypes.func,
   allUser: PropTypes.object,
   setDate: PropTypes.string,
+  setEmployeeLocationDetail: PropTypes.bool,
 };
 
 export default Calender;

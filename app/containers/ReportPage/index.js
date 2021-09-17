@@ -12,11 +12,21 @@ import Report from '../../components/Report';
 import reducer from './reducer';
 import { requestGetLocation } from './actions';
 
+const zoomStep = 1;
+const maxScale = 5;
+const minScale = 1;
+const defaultScale = minScale;
+const defaultRotate = 0;
 class ReportPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedOption: [],
+      scale: defaultScale,
+      rotate: defaultRotate,
+      version: 0,
+      selectedNames: '',
+      date: [],
     };
   }
 
@@ -26,8 +36,39 @@ class ReportPage extends Component {
     }));
   };
 
-  handleSubmit = dates => {
-    console.log(`handlesub`, dates);
+  handleUserSelect = event => {
+    const { value } = event.target;
+    this.setState({ selectedNames: value });
+  };
+
+  handleZoomIn = () => {
+    this.setState(state => {
+      const newScale = state.scale + zoomStep;
+      return {
+        scale: newScale <= maxScale ? newScale : maxScale,
+      };
+    });
+  };
+
+  onDateChange = event => {
+    this.setState({ date: event.valueText });
+  };
+
+  handleZoomOut = () => {
+    this.setState(state => {
+      const newScale = state.scale - zoomStep;
+      return {
+        scale: newScale >= minScale ? newScale : minScale,
+      };
+    });
+  };
+
+  handleDefault = () => {
+    this.setState(state => ({
+      scale: defaultScale,
+      rotate: 0,
+      version: state.version + 1,
+    }));
   };
 
   componentDidMount() {
@@ -35,14 +76,22 @@ class ReportPage extends Component {
   }
 
   render() {
+    const imgStyle = {
+      transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
+    };
     return (
       <>
         <div id="content-wrap">
           <Header />
           <Report
-            handleSubmit={this.handleSubmit}
             state={this.state}
             handleChange={this.handleChange}
+            imgStyle={imgStyle}
+            handleZoomIn={this.handleZoomIn}
+            handleZoomOut={this.handleZoomOut}
+            handleDefault={this.handleDefault}
+            handleUserSelect={this.handleUserSelect}
+            onDateChange={this.onDateChange}
           />{' '}
         </div>
         <Footer />

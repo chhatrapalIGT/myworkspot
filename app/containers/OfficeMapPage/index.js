@@ -1,7 +1,14 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import PropTypes from 'prop-types';
+import saga from './saga';
+import reducer from './reducer';
+import { requestGetOfficeData } from './actions';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Office from '../../components/OfficeWDC ';
@@ -48,6 +55,10 @@ class OfficeMap extends Component {
     }));
   };
 
+  componentDidMount() {
+    this.props.requestGetOfficeData({});
+  }
+
   render() {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
@@ -73,6 +84,30 @@ class OfficeMap extends Component {
   }
 }
 
-OfficeMap.propTypes = {};
+const mapStateToProps = state => {
+  const {} = state;
+  return {};
+};
 
-export default OfficeMap;
+export function mapDispatchToProps(dispatch) {
+  return {
+    requestGetOfficeData: payload => dispatch(requestGetOfficeData(payload)),
+
+    dispatch,
+  };
+}
+const withReducer = injectReducer({ key: 'officeData', reducer });
+const withSaga = injectSaga({ key: 'officeData', saga });
+
+OfficeMap.propTypes = {
+  requestGetOfficeData: PropTypes.func,
+};
+
+export default compose(
+  withReducer,
+  withSaga,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(OfficeMap);

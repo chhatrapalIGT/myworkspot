@@ -2,8 +2,14 @@
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-// import { compose } from 'redux';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import saga from './saga';
+import reducer from './reducer';
+import { requestGetOfficeLocation } from './actions';
+
 import Demo from '../../components/Header';
 import Boarding from '../../components/Boarding';
 import Footer from '../../components/Footer';
@@ -100,6 +106,10 @@ class BorardingPage extends Component {
     this.setState({ [name]: value });
   };
 
+  componentDidMount() {
+    this.props.requestGetOfficeLocation({});
+  }
+
   render() {
     return (
       <>
@@ -121,8 +131,39 @@ class BorardingPage extends Component {
   }
 }
 
+// BorardingPage.propTypes = {
+//   history: PropTypes.object,
+// };
+
+// export default BorardingPage;
+
+const mapStateToProps = state => {
+  const {} = state;
+  console.log(`state`, state);
+  return {};
+};
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    requestGetOfficeLocation: payload =>
+      dispatch(requestGetOfficeLocation(payload)),
+
+    dispatch,
+  };
+}
+const withReducer = injectReducer({ key: 'locationData', reducer });
+const withSaga = injectSaga({ key: 'locationData', saga });
+
 BorardingPage.propTypes = {
+  requestGetOfficeLocation: PropTypes.func,
   history: PropTypes.object,
 };
 
-export default BorardingPage;
+export default compose(
+  withReducer,
+  withSaga,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(BorardingPage);
