@@ -131,16 +131,9 @@ class BorardingPage extends Component {
   }
 }
 
-// BorardingPage.propTypes = {
-//   history: PropTypes.object,
-// };
-
-// export default BorardingPage;
-
 const mapStateToProps = state => {
-  const {} = state;
-  console.log(`state`, state);
-  return {};
+  const { workspot } = state;
+  return { workspot };
 };
 
 export function mapDispatchToProps(dispatch) {

@@ -85,8 +85,8 @@ class OfficeMap extends Component {
 }
 
 const mapStateToProps = state => {
-  const {} = state;
-  return {};
+  const { workspot } = state;
+  return { workspot };
 };
 
 export function mapDispatchToProps(dispatch) {
