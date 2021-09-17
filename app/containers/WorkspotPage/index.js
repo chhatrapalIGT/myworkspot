@@ -2,11 +2,16 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import injectReducer from 'utils/injectReducer';
+import PropTypes from 'prop-types';
 import Axios from 'axios';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Workspot from '../../components/WorkSpot';
+import reducer from './reducer';
+import { requestGetLocation } from './actions';
 
 const zoomStep = 1;
 const maxScale = 5;
@@ -31,6 +36,13 @@ class WorkSpotPage extends Component {
       scale: defaultScale,
       rotate: defaultRotate,
       version: 0,
+      d: '',
+      work_place: [
+        {
+          date: '',
+          work_area: '',
+        },
+      ],
     };
   }
 
@@ -61,6 +73,7 @@ class WorkSpotPage extends Component {
   };
 
   componentDidMount() {
+    this.props.requestGetLocation();
     const url = `https://mocki.io/v1/503b1d85-b034-466b-af55-fc5ae262e848`;
     Axios.get(url).then(res => {
       this.setState({ allUser: res.data });
@@ -107,6 +120,21 @@ class WorkSpotPage extends Component {
     this.setState({ searchName: newList });
   };
 
+  handleChangeWorkPlace = (value, idx, name) => {
+    // eslint-disable-next-line camelcase
+    const { work_place } = this.state;
+    const newplatformdata = work_place.map((pdata, sidx) => {
+      // pdata.date = this.state.d;
+      if (idx !== sidx) return pdata;
+      return { ...pdata, [name]: value };
+    });
+    this.setState({ work_place: newplatformdata }, () => {});
+  };
+
+  handleuserLocation = d => {
+    this.setState({ d });
+  };
+
   onChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -134,7 +162,8 @@ class WorkSpotPage extends Component {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
-
+    const { locationData } = this.props;
+    console.log(`this.props.locationData`, this.props.locationData);
     return (
       <>
         <div id="content-wrap">
@@ -152,6 +181,9 @@ class WorkSpotPage extends Component {
             handleZoomIn={this.handleZoomIn}
             handleZoomOut={this.handleZoomOut}
             handleDefault={this.handleDefault}
+            handleChangeWorkPlace={this.handleChangeWorkPlace}
+            handleuserLocation={this.handleuserLocation}
+            locationData={locationData}
           />
         </div>
         <Footer />
@@ -160,4 +192,36 @@ class WorkSpotPage extends Component {
   }
 }
 
-export default WorkSpotPage;
+const mapStateToProps = state => {
+  const { workspot } = state;
+  return {
+    locationData:
+      workspot &&
+      workspot.getLocationData &&
+      workspot.getLocationData.locationList,
+  };
+};
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    requestGetLocation: payload => dispatch(requestGetLocation(payload)),
+    dispatch,
+  };
+}
+
+const withReducer = injectReducer({ key: 'workspot', reducer });
+
+WorkSpotPage.propTypes = {
+  requestGetLocation: PropTypes.func,
+  locationData: PropTypes.object,
+};
+
+// export default WorkSpotPage;
+export default compose(
+  withReducer,
+  //   withSaga,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(WorkSpotPage);
