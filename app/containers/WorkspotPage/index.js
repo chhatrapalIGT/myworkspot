@@ -150,6 +150,7 @@ class WorkSpotPage extends Component {
       date,
       location,
     };
+    console.log(`payload`, payload);
   };
 
   handleClose = () => {
@@ -162,7 +163,6 @@ class WorkSpotPage extends Component {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
     const { locationData } = this.props;
-    console.log(`this.props.locationData`, this.props.locationData);
     return (
       <>
         <div id="content-wrap">
