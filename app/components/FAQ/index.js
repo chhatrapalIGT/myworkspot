@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Axios from 'axios';
 import Header from '../Header';
 import Footer from '../Footer';
 import './styles.scss';
 
+// const { API_URL } = CONSTANT;
+
 const FAQ = () => {
+  const [helpData, setHelpData] = useState();
   const handlecolor = () => {};
+
+  const requestGetData = () => {
+    const url = `http://4afd-122-170-3-194.ngrok.io/Help/GetData`;
+    Axios.get(url, {
+      withCredentials: true,
+    }).then(res => {
+      setHelpData(res.data.data);
+    });
+  };
+
+  useEffect(() => {
+    requestGetData();
+  }, []);
   return (
     <>
       <div

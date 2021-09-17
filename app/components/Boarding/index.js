@@ -42,6 +42,8 @@ const Boarding = ({
     });
   }, []);
 
+  const final = state.timings.filter(data => data.name !== '');
+
   return (
     <>
       <div className="wrapper_main">
@@ -146,7 +148,7 @@ const Boarding = ({
           <div className="container">
             <button
               type="button"
-              className=" action-btn"
+              className={final.length >= 5 ? 'change_btn' : 'action-btn'}
               onClick={() => {
                 handleSubmitData();
               }}
