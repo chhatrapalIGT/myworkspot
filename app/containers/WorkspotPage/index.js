@@ -122,7 +122,6 @@ class WorkSpotPage extends Component {
       date,
       location,
     };
-    console.log(`payload`, payload);
   };
 
   handleClose = () => {
