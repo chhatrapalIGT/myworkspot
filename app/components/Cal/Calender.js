@@ -52,7 +52,7 @@ const Calender = ({
 
   const title = useMemo(() => {
     return period === 'month'
-      ? `${moment(days.startDate).format('MMMM')}${moment(
+      ? `${moment(days.startDate).format('MMMM')} ${' '} ${moment(
           days.startDate,
         ).year()}`
       : getWeekTitle(days);
@@ -457,10 +457,15 @@ const Calender = ({
                                 item.day === 'Sunday' ||
                                 item.weekend)
                                 ? 'day-one-wrapper'
+                                : item.disable
+                                ? 'day-one-wrapper work-from-office border-top-blue'
                                 : 'day-one-wrapper work-from-office day-pointer border-top-blue'
                             }`}
                             onClick={() => {
                               !item.disable && setLocation(true);
+                              setDate(
+                                moment(item.date).format('dddd, MMMM DD, YYYY'),
+                              );
                             }}
                             aria-hidden="true"
                           >

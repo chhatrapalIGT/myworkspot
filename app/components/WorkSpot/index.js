@@ -34,6 +34,9 @@ const WorkSpot = ({
   handleZoomOut,
   handleDefault,
   imgStyle,
+  handleChangeWorkPlace,
+  handleuserLocation,
+  // locationData,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
@@ -63,7 +66,7 @@ const WorkSpot = ({
   };
 
   useEffect(() => {
-    const url = `https://mocki.io/v1/0a505005-9da4-44c7-9000-0447e1dd3fb2`;
+    const url = `https://mocki.io/v1/947b4269-a50f-4e16-8157-30d04fb8879a`;
     Axios.get(url, {}).then(res => {
       // setAllUser(res.data);
       setLocationName(res.data);
@@ -86,9 +89,17 @@ const WorkSpot = ({
             <h3 className="floor-name">Floor 3</h3>
             <h3 className="color-code">Blue</h3>
           </div>
+
           <div className="building-location-strip d-flex flex-wrap align-items-center">
-            <div className="location d-flex align-items-center">
-              <img src={union} alt="" /> 2445 M Street NW, Washington, DC 20037
+            <div
+              className="location d-flex align-items-center"
+              aria-hidden="true"
+              target="_blank"
+            >
+              <a target="_blank" href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7">
+                <img src={union} alt="" />
+              </a>
+              2445 M Street NW, Washington, DC 20037
             </div>
             <div className="change-workspot d-flex align-items-center">
               <img
@@ -563,20 +574,43 @@ const WorkSpot = ({
             </div>
             <div className="modal-body">
               <form className="delegate-workspot-access" action="submit">
-                <div className="selection" style={{ padding: '1rem 1.5rem' }}>
-                  <select name="location" className="dropdown_opt">
-                    {locationName &&
-                      locationName.map(i => (
-                        <option
-                          onChange={handleUserSelect}
-                          value={i.name}
-                          id="location"
-                        >
-                          {i.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
+                {state.work_place.map((obj, idx) => (
+                  <div
+                    aria-hidden="true"
+                    className="selection"
+                    style={{ padding: '1rem 1.5rem' }}
+                    // key={obj.date}
+                    onClick={() => handleuserLocation(isdate)}
+                  >
+                    <select
+                      name={`work_place[${[idx]}].work_area`}
+                      className="dropdown_opt"
+                      value={obj.work_area}
+                      onChange={e =>
+                        handleChangeWorkPlace(e.target.value, idx, 'work_area')
+                      }
+                    >
+                      <optgroup label="EAB office">
+                        {/* {locationData &&
+                          locationData.length > 0 &&
+                          locationData.map(i => ( */}
+                        {locationName &&
+                          locationName.map(i => (
+                            <option
+                              value={i.name}
+                              id="location"
+                              name="work_place"
+                            >
+                              {i.name}
+                            </option>
+                          ))}
+                      </optgroup>
+                      <hr />
+                      <option value="remote work">Remote Work</option>
+                    </select>
+                  </div>
+                ))}
+
                 <hr />
                 <p className="notice" style={{ padding: '0 1.5rem' }}>
                   If you would like to update your weekly default, you can
@@ -630,5 +664,8 @@ WorkSpot.propTypes = {
   handleZoomOut: PropTypes.func,
   handleZoomIn: PropTypes.func,
   handleDefault: PropTypes.func,
+  handleChangeWorkPlace: PropTypes.func,
+  handleuserLocation: PropTypes.func,
+  // locationData: PropTypes.object,
 };
 export default WorkSpot;
