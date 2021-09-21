@@ -214,7 +214,7 @@ const Calender = ({
                         : 'card weekly-default mt-4 month-view-content'
                     }
                   >
-                    <div className="weekly-default-inner d-flex flex-wrap align-items-end">
+                    <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
                       {!setVisible && (
                         <>
                           {allUser &&
@@ -224,7 +224,7 @@ const Calender = ({
                                   <div className="d-flex align-items-center mb-1">
                                     <img src={ProfileImg} alt="" />
                                     <span className="member-name">
-                                      My Workspace
+                                      {user.userName}
                                     </span>
                                   </div>
                                   <span className="designation">

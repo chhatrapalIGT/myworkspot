@@ -8,12 +8,15 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import { connect } from 'react-redux';
 
 // import HomePage from 'containers/HomePage/Loadable';
 import Spinner from 'react-bootstrap/Spinner';
+import { createStructuredSelector } from 'reselect';
+import { makeUserSelector } from './selectors';
 import ProfilePage from '../ProfilePage';
 import Washington from '../OfficeMapPage';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -21,7 +24,9 @@ import Faq from '../../components/FAQ';
 import Report from '../ReportPage';
 import Boarding from '../onBoardingPage';
 import WorkSpot from '../WorkspotPage';
-import Login from '../LoginPage';
+import Login from '../../components/Login';
+
+import AuthenticateRoute from '../../components/AuthenticateRoute';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
@@ -31,20 +36,49 @@ const App = props => {
       setPageLoading(false);
     }, 1000);
   });
-
   return (
     <div>
       {pageLoading ? (
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
         <Switch>
-          <Route exact path="/" component={WorkSpot} props={props} />
-          <Route exact path="/login" component={Login} props={props} />
-          <Route exact path="/profile" component={ProfilePage} props={props} />
-          <Route exact path="/faq" component={Faq} />
-          <Route exact path="/report" props={props} component={Report} />
-          <Route exact path="/board" props={props} component={Boarding} />
-          <Route exact path="/office" component={Washington} props={props} />
+          <AuthenticateRoute
+            exact
+            props={props}
+            path="/"
+            Route
+            component={WorkSpot}
+          />
+          <Route exact path="/login" component={Login} />
+          <AuthenticateRoute
+            exact
+            path="/profile"
+            Route
+            component={ProfilePage}
+            props={props}
+          />
+          <AuthenticateRoute exact path="/faq" component={Faq} />
+          <AuthenticateRoute
+            exact
+            path="/report"
+            Route
+            props={props}
+            component={Report}
+          />
+          <AuthenticateRoute
+            exact
+            path="/board"
+            props={props}
+            Route
+            component={Boarding}
+          />
+          <AuthenticateRoute
+            exact
+            Route
+            path="/office"
+            component={Washington}
+            props={props}
+          />
           <Route component={NotFoundPage} />
         </Switch>
       )}
@@ -52,4 +86,13 @@ const App = props => {
   );
 };
 
-export default App;
+const mapStateToProps = createStructuredSelector({
+  user: makeUserSelector(),
+});
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    null,
+  )(App),
+);

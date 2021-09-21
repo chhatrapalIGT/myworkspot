@@ -21,7 +21,9 @@ import App from 'containers/App';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
-
+import { PublicClientApplication } from '@azure/msal-browser';
+import { MsalProvider } from '@azure/msal-react';
+import { msalConfig } from './containers/LoginPage/config';
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
@@ -39,12 +41,15 @@ const initialState = {};
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 injectGlobalSagas(store);
+const msalInstance = new PublicClientApplication(msalConfig);
 const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <App />
+          <MsalProvider instance={msalInstance}>
+            <App />
+          </MsalProvider>
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,

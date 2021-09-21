@@ -1,36 +1,26 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
-import PropTypes from 'prop-types';
-// import { useMsal } from "@azure/msal-react";
+import { useHistory } from 'react-router-dom';
+import { useIsAuthenticated, useMsal } from '@azure/msal-react';
 
-const login = props => (
-  <div>
-    {console.log('props', props)}
-    {props.isAuthenticated ? (
-      <button
-        type="submit"
-        className="login-button"
-        name="Logout"
-        onClick={() => props.logout()}
-      >
-        Logout
-      </button>
-    ) : (
-      <button
-        type="submit"
-        className="login-button"
-        name="Login"
-        onClick={() => props.login()}
-      >
-        Login{' '}
-      </button>
-    )}
-  </div>
-);
+const login = () => {
+  const { instance } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
+  const history = useHistory();
 
-login.propTypes = {
-  login: PropTypes.func,
-  logout: PropTypes.func,
-  isAuthenticated: PropTypes.bool,
+  const LoginHandler = () => {
+    // console.log("Trying to login via popup")
+    try {
+      const loginResponse = instance.loginRedirect().then(response => {
+        console.log(`Login Response: ${response.json()}`);
+      });
+
+      console.log(loginResponse);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  return <div>{isAuthenticated ? history.push('/') : LoginHandler()}</div>;
 };
 
 export default login;

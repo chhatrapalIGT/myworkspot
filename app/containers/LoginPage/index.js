@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PublicClientApplication } from '@azure/msal-browser';
-import { config } from './config';
+import { msalConfig } from './config';
 import Login from '../../components/Login';
 
 class LoginPage extends React.Component {
@@ -16,9 +16,9 @@ class LoginPage extends React.Component {
 
     this.publicClientApplication = new PublicClientApplication({
       auth: {
-        clientId: config.appId,
-        authority: config.authority,
-        redirectUri: config.redirectUri,
+        clientId: msalConfig.appId,
+        authority: msalConfig.authority,
+        redirectUri: msalConfig.redirectUri,
       },
       cache: {
         cacheLocation: 'sessionStorage', // This configures where your cache will be stored
@@ -35,7 +35,7 @@ class LoginPage extends React.Component {
     const { history } = this.props;
     try {
       await this.publicClientApplication.loginPopup({
-        scopes: config.scopes,
+        scopes: msalConfig.scopes,
         prompt: 'select_account',
       });
       this.handleLogin();
@@ -56,9 +56,9 @@ class LoginPage extends React.Component {
     const { history } = this.props;
     try {
       await this.publicClientApplication.logoutPopup({
-        clientId: config.clientId,
-        authority: config.authority,
-        redirectUri: config.redirectUri,
+        clientId: msalConfig.clientId,
+        authority: msalConfig.authority,
+        redirectUri: msalConfig.redirectUri,
       });
       this.setState({ isAuthenticated: false });
       if (!this.state.isAuthenticated) {
