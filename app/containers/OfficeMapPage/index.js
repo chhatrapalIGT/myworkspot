@@ -63,6 +63,7 @@ class OfficeMap extends Component {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
+    const { officeLocation, officeLocationErrorHandle } = this.props;
 
     return (
       <>
@@ -76,6 +77,8 @@ class OfficeMap extends Component {
             handleDefault={this.handleDefault}
             handleMouseOut={this.handleMouseOut}
             handleMouseMove={this.handleMouseMove}
+            officeLocation={officeLocation}
+            officeLocationErrorHandle={officeLocationErrorHandle}
           />{' '}
         </div>
         <Footer />
@@ -85,8 +88,15 @@ class OfficeMap extends Component {
 }
 
 const mapStateToProps = state => {
-  const { workspot } = state;
-  return { workspot };
+  const { officeData } = state;
+  return {
+    officeLocation:
+      officeData &&
+      officeData.getOfficeData &&
+      officeData.getOfficeData.masterData,
+    officeLocationErrorHandle:
+      officeData && officeData.getOfficeData && officeData.getOfficeData,
+  };
 };
 
 export function mapDispatchToProps(dispatch) {
@@ -101,6 +111,8 @@ const withSaga = injectSaga({ key: 'officeData', saga });
 
 OfficeMap.propTypes = {
   requestGetOfficeData: PropTypes.func,
+  officeLocation: PropTypes.object,
+  officeLocationErrorHandle: PropTypes.string,
 };
 
 export default compose(

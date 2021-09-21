@@ -8,7 +8,7 @@ const { API_URL } = CONSTANT;
 
 export function* getData() {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/building/get/Washington , DC'`;
+  const requestURL = `${API_URL}/building/get`;
   try {
     const usersList = yield request({
       method: 'GET',
@@ -16,9 +16,9 @@ export function* getData() {
     });
     const { data } = usersList;
     if (data && data.success) {
-      yield put(getOfficeDataSuccess(data.data));
+      yield put(getOfficeDataSuccess(data.response));
     } else {
-      yield put(getOfficeDataSuccess(data.message));
+      yield put(getOfficeDataFailed(data.message));
     }
   } catch (err) {
     yield put(getOfficeDataFailed(err.message));

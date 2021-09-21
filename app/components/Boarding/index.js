@@ -22,6 +22,8 @@ const Boarding = ({
   handleSubmit,
   handleSubmitData,
   handleBadgeData,
+  locationErrorHandle,
+  location,
 }) => {
   // eslint-disable-next-line no-unused-vars
   const [searchName, setSearchName] = useState([]);
@@ -44,8 +46,35 @@ const Boarding = ({
 
   const final = state.timings.filter(data => data.name !== '');
 
+  const data = location && location.length && location[location.length - 1];
+
+  const finalLocation =
+    location && location.length
+      ? location.filter(obj => obj && obj.locationname !== 'Remote Work')
+      : '';
+
   return (
     <>
+      {locationErrorHandle &&
+        !locationErrorHandle.success &&
+        locationErrorHandle.error && (
+          <div
+            className="alert-dismissible fade show"
+            role="alert"
+            style={{
+              color: 'black',
+              fontSize: '20px',
+              height: '40px',
+              backgroundColor: '#f45a67',
+            }}
+          >
+            <p className="text-center m-auto">
+              {locationErrorHandle && !locationErrorHandle.success
+                ? locationErrorHandle.error
+                : ''}
+            </p>
+          </div>
+        )}
       <div className="wrapper_main">
         <div className="onboarding-main">
           <div className="container">
@@ -189,20 +218,22 @@ const Boarding = ({
                 <div className="selection">
                   <select name="location" onChange={handleUserSelect}>
                     <optgroup label="EAB Office">
-                      {searchName &&
-                        searchName.map(i => (
+                      {finalLocation &&
+                        finalLocation.map(i => (
                           <option
                             htmlFor="jane"
-                            value={i.name}
+                            value={i.locationname}
                             id="location"
                             style={{ padding: '50px' }}
                           >
-                            {i.name}
+                            {i.locationname}
                           </option>
                         ))}
                     </optgroup>
                     <hr />
-                    <option value="remote Work">Remote work</option>
+                    <option value={data && data.locationname}>
+                      {data && data.locationname}
+                    </option>
                   </select>
                 </div>
 
@@ -253,6 +284,8 @@ Boarding.propTypes = {
   handleSubmitData: PropTypes.func,
   handleBadgeData: PropTypes.func,
   state: PropTypes.object,
+  locationErrorHandle: PropTypes.string,
+  location: PropTypes.object,
 };
 
 export default Boarding;

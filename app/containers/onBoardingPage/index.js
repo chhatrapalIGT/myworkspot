@@ -111,6 +111,7 @@ class BorardingPage extends Component {
   }
 
   render() {
+    const { location, locationErrorHandle } = this.props;
     return (
       <>
         <div id="content-wrap">
@@ -123,6 +124,8 @@ class BorardingPage extends Component {
             handleSubmitData={this.handleSubmitData}
             handleBadgeData={this.handleBadgeData}
             state={this.state}
+            location={location}
+            locationErrorHandle={locationErrorHandle}
           />
         </div>
         <Footer />
@@ -132,8 +135,17 @@ class BorardingPage extends Component {
 }
 
 const mapStateToProps = state => {
-  const { workspot } = state;
-  return { workspot };
+  const { locationData } = state;
+  return {
+    location:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.location,
+    locationErrorHandle:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation,
+  };
 };
 
 export function mapDispatchToProps(dispatch) {
@@ -150,6 +162,8 @@ const withSaga = injectSaga({ key: 'locationData', saga });
 BorardingPage.propTypes = {
   requestGetOfficeLocation: PropTypes.func,
   history: PropTypes.object,
+  locationErrorHandle: PropTypes.string,
+  location: PropTypes.array,
 };
 
 export default compose(

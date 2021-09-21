@@ -162,7 +162,7 @@ input[type='text'] {
     border-right: 2px solid #95a7b8;
     border-bottom: 2px solid #95a7b8;
     transform: translateY(-50%) rotate(45deg);
-    right: 45px;
+    right: 24px;
     top: 48%;
   }
 
@@ -1035,6 +1035,7 @@ input[type='text'] {
     border-radius: 8px;
     font-size: 16px;
     background: #002d50;
+    outline: 0;
 
     // &:hover {
     //   background-color: #005aa3;
@@ -2072,7 +2073,7 @@ input[type='text'] {
   }
 }
 #app {
-  padding-top: 78px;
+  padding-top: 74px;
   position: relative;
   min-height: 100vh;
 }
@@ -2239,9 +2240,21 @@ select.set_drop option[id='building'],
   }
 }
 
-.css-yk16xz-control:hover {
-  cursor: pointer;
+.css-yk16xz-control {
+  height: 50px;
+  border-radius: 8px !important;
+  &:hover {
+    cursor: pointer;
+  }
+  .css-g1d714-ValueContainer {
+    height: 50px;
+  }
 }
+
+.mbsc-ios.mbsc-textfield {
+  padding: 0px !important;
+}
+
 .css-1rhbuit-multiValue {
   background: #ebeef1;
   padding: 0;

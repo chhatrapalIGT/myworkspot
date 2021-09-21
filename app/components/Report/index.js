@@ -102,276 +102,265 @@ const Report = ({
   });
 
   return (
-    <div className="container mt-4">
-      <h4 className="common-title" style={{ marginLeft: '20px' }}>
-        My Team
-      </h4>
-      <Calender
-        defaultSelected="week"
-        setShow={setShow}
-        allUser={allUser}
-        setEmployeeLocationDetail={setEmployeeLocationDetail}
-      />
+    <div className="wrapper_main">
+      <div className="container">
+        <h4 className="common-title" style={{ marginLeft: '20px' }}>
+          My Team
+        </h4>
+        <Calender
+          defaultSelected="week"
+          setShow={setShow}
+          allUser={allUser}
+          setEmployeeLocationDetail={setEmployeeLocationDetail}
+        />
 
-      <Modal
-        className="modal fade test_modal"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-        show={show}
-        onHide={handleClose}
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Invite Team to the Office
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                onClick={() => {
-                  setShow(false);
-                }}
-              />
-            </div>
-            <div className="modal-body modal-body_myteam">
-              <Select
-                isMulti
-                value={state.selectedOption}
-                onChange={handleChange}
-                options={updatedEmpData}
-                className="mb-3 "
-                name="employee"
-                placeholder="Select Team Member(s)"
-              />
-              <div className="selection">
-                <select name="location" onChange={handleUserSelect}>
-                  <optgroup label="EAB Office">
-                    {searchName &&
-                      searchName.map(i => (
-                        <option
-                          htmlFor="jane"
-                          value={i.name}
-                          id="location"
-                          style={{ padding: '50px' }}
-                        >
-                          {i.name}
-                        </option>
-                      ))}
-                  </optgroup>
-                  <hr />
-                  <option value="remote Work">Remote work</option>
-                </select>
-              </div>
-              <div className="invite-team-wrapp choose-date mt-3">
-                <div className="access-to">
-                  {/* <div className="access-one">
-                    Jun 16th, 2021
-                    <a className="close_btn" href>
-                      <img src="./images/close.svg" alt="" />
-                    </a>
-                  </div>
-                  <div className="access-one">
-                    Jun 18th, 2021
-                    <a className="close_btn" href>
-                      <img src="./images/close.svg" alt="" />
-                    </a>
-                  </div> */}
-                  <span className="material-icons-outlined">
-                    calendar_today
-                  </span>
-                </div>
-                <Datepicker
-                  controls={['calendar']}
-                  selectMultiple
-                  min={moment().toDate()}
-                  dateFormat="MMM DD,YYYY"
-                  className="dataaaa"
-                  selectCounter
-                  onChange={onDateChange}
-                  inputProps={{
-                    placeholder: 'Select Date(s)',
-                  }}
-                  marked={[
-                    {
-                      date: new Date(2021, 8, 2),
-                      markCssClass: 'mbsc-calendar-marks1',
-                    },
-                    {
-                      date: new Date(2021, 8, 4),
-                      markCssClass: 'mbsc-calendar-marks1',
-                    },
-                    {
-                      date: new Date(2021, 8, 5),
-                      markCssClass: 'mbsc-calendar-marks2',
-                    },
-                    {
-                      date: new Date(2021, 8, 7),
-                      markCssClass: 'mbsc-calendar-marks3',
-                    },
-                    {
-                      date: new Date(2021, 8, 6),
-                      markCssClass: 'mbsc-calendar-marks3',
-                    },
-                  ]}
-                />
-              </div>
-              <div className="description mt-3">
-                <textarea
-                  name=""
-                  id=""
-                  placeholder="Add a Message"
-                  cols="30"
-                  rows="10"
-                />
-              </div>
-              <p className="notice mb-1 mt-2">
-                An email invitation will be sent to the selected team member(s)
-                once you click Invite.
-              </p>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn save-data"
-                onClick={handleModalClose}
-              >
-                Invite
-              </button>
-              <button
-                type="button"
-                onClick={() => setShow(false)}
-                className="btn dismiss"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      </Modal>
-
-      <Modal
-        className="modal fade test_modal test_modal-employee"
-        show={employeeLocationDetail}
-        onHide={() => setEmployeeLocationDetail(false)}
-        aria-labelledby="exampleModalLabel"
-        style={{ maxWidth: 'calc(100% - 10rem)' }}
-        aria-hidden="true"
-        centered
-        size="lg"
-      >
-        <div className=" modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header myteam_header">
-              <div className="left-panel myteam_card">
+        <Modal
+          className="modal fade test_modal"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+          show={show}
+          onHide={handleClose}
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  {moment().format('dddd MMMM Do YYYY')}
+                  Invite Team to the Office
                 </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => {
+                    setShow(false);
+                  }}
+                />
               </div>
-              <div className="myteam-user">
-                {' '}
-                <img src={profile} alt="" />
-                <label htmlFor="my-spot">Jane Cooper</label>
+              <div className="modal-body modal-body_myteam">
+                <Select
+                  isMulti
+                  value={state.selectedOption}
+                  onChange={handleChange}
+                  options={updatedEmpData}
+                  className="mb-3 "
+                  name="employee"
+                  placeholder="Select Team Member(s)"
+                />
+                <div className="selection">
+                  <select name="location" onChange={handleUserSelect}>
+                    <optgroup label="EAB Office">
+                      {searchName &&
+                        searchName.map(i => (
+                          <option
+                            htmlFor="jane"
+                            value={i.name}
+                            id="location"
+                            style={{ padding: '50px' }}
+                          >
+                            {i.name}
+                          </option>
+                        ))}
+                    </optgroup>
+                    <hr />
+                    <option value="remote Work">Remote work</option>
+                  </select>
+                </div>
+                <div className="invite-team-wrapp choose-date mt-3">
+                  <div className="access-to">
+                    <span className="material-icons-outlined">
+                      calendar_today
+                    </span>
+                  </div>
+                  <Datepicker
+                    controls={['calendar']}
+                    selectMultiple
+                    min={moment().toDate()}
+                    dateFormat="MMM DD,YYYY"
+                    className="dataaaa"
+                    selectCounter
+                    onChange={onDateChange}
+                    inputProps={{
+                      placeholder: 'Select Date(s)',
+                    }}
+                    marked={[
+                      {
+                        date: new Date(2021, 8, 2),
+                        markCssClass: 'mbsc-calendar-marks1',
+                      },
+                      {
+                        date: new Date(2021, 8, 4),
+                        markCssClass: 'mbsc-calendar-marks1',
+                      },
+                      {
+                        date: new Date(2021, 8, 5),
+                        markCssClass: 'mbsc-calendar-marks2',
+                      },
+                      {
+                        date: new Date(2021, 8, 7),
+                        markCssClass: 'mbsc-calendar-marks3',
+                      },
+                      {
+                        date: new Date(2021, 8, 6),
+                        markCssClass: 'mbsc-calendar-marks3',
+                      },
+                    ]}
+                  />
+                </div>
+                <div className="description mt-3">
+                  <textarea
+                    name=""
+                    id=""
+                    placeholder="Add a Message"
+                    cols="30"
+                    rows="10"
+                  />
+                </div>
+                <p className="notice mb-1 mt-2">
+                  An email invitation will be sent to the selected team
+                  member(s) once you click Invite.
+                </p>
               </div>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                onClick={() => setEmployeeLocationDetail(false)}
-              />
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn save-data"
+                  onClick={handleModalClose}
+                >
+                  Invite
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShow(false)}
+                  className="btn dismiss"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-            <div className="modal-body">
-              <div className="office-structure office-structure-modal">
-                <div className="container p-0">
-                  <div className="card office-structure-inner">
-                    <div className="left-panel">
-                      <div className="office-info">
-                        <p className="name">Washington, DC</p>
-                        <span className="floor">Floor 3</span>
-                        {/* <span className="floor">floor 4</span> */}
+          </div>
+        </Modal>
+
+        <Modal
+          className="modal fade test_modal test_modal-employee"
+          show={employeeLocationDetail}
+          onHide={() => setEmployeeLocationDetail(false)}
+          aria-labelledby="exampleModalLabel"
+          style={{ maxWidth: 'calc(100% - 10rem)' }}
+          aria-hidden="true"
+          centered
+          size="lg"
+        >
+          <div className=" modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header myteam_header">
+                <div className="left-panel myteam_card">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    {moment().format('dddd MMMM Do YYYY')}
+                  </h5>
+                </div>
+                <div className="myteam-user">
+                  {' '}
+                  <img src={profile} alt="" />
+                  <label htmlFor="my-spot">Jane Cooper</label>
+                </div>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => setEmployeeLocationDetail(false)}
+                />
+              </div>
+              <div className="modal-body">
+                <div className="office-structure office-structure-modal">
+                  <div className="container p-0">
+                    <div className="card office-structure-inner">
+                      <div className="left-panel">
+                        <div className="office-info">
+                          <p className="name">Washington, DC</p>
+                          <span className="floor">Floor 3</span>
+                        </div>
+                        <div className="office-resource myteam_res">
+                          <p>Office Resources</p>
+                          <div className="office-part-one yellow">
+                            <span className="informer" />
+                            <label htmlFor="my-spot">Yellow</label>
+                          </div>
+                          <div className="office-part-one teal">
+                            <span className="informer" />
+                            <label htmlFor="my-spot">Teal</label>
+                          </div>
+                          <div className="office-part-one orange">
+                            <span className="informer" />
+                            <label htmlFor="my-spot">Orange</label>
+                          </div>
+                          <div className="office-part-one blue">
+                            <span className="informer" />
+                            <label htmlFor="my-spot">Blue</label>
+                          </div>
+                          <div className="office-part-one teal">
+                            <span className="informer">315</span>
+                            <label htmlFor="my-spot">Bel-Air</label>
+                          </div>
+                          <div className="office-part-one teal">
+                            <span className="informer">332</span>
+                            <label htmlFor="my-spot">Walkerville</label>
+                          </div>
+                          <div className="office-part-one white">
+                            <span className="informer">334</span>
+                            <label htmlFor="my-spot">Common Room</label>
+                          </div>
+                          <div className="office-part-one black">
+                            <span className="informer">359</span>
+                            <label htmlFor="my-spot">The Post</label>
+                          </div>
+                          <div className="office-part-one heart pink">
+                            <span className="informer">
+                              <img src="./images/heart.png" alt="" />
+                            </span>
+                            <label htmlFor="my-spot">AED</label>
+                          </div>
+                        </div>
                       </div>
-                      <div className="office-resource myteam_res">
-                        <p>Office Resources</p>
-                        <div className="office-part-one yellow">
-                          <span className="informer" />
-                          <label htmlFor="my-spot">Yellow</label>
+                      <div className="right-map">
+                        <Draggable disabled={!isDraggable} key={state.version}>
+                          <div
+                            className="drag_image"
+                            style={isDraggable ? { cursor: 'move' } : null}
+                          >
+                            <img
+                              src={Floormap}
+                              alt=""
+                              style={imgStyle}
+                              draggable="false"
+                            />
+                          </div>
+                        </Draggable>
+                        <div className="toolbar">
+                          <button
+                            className="location"
+                            type="button"
+                            onClick={() => handleDefault()}
+                          >
+                            <img src={location} alt="" />
+                          </button>
+                          <button
+                            className="zoomin"
+                            type="button"
+                            onClick={() => handleZoomIn()}
+                          >
+                            <img src={zoomin} alt="" />
+                          </button>
+                          <button
+                            className="zoomout"
+                            type="button"
+                            onClick={() => handleZoomOut()}
+                          >
+                            <img src={zoomout} alt="" />
+                          </button>
                         </div>
-                        <div className="office-part-one teal">
-                          <span className="informer" />
-                          <label htmlFor="my-spot">Teal</label>
-                        </div>
-                        <div className="office-part-one orange">
-                          <span className="informer" />
-                          <label htmlFor="my-spot">Orange</label>
-                        </div>
-                        <div className="office-part-one blue">
-                          <span className="informer" />
-                          <label htmlFor="my-spot">Blue</label>
-                        </div>
-                        <div className="office-part-one teal">
-                          <span className="informer">315</span>
-                          <label htmlFor="my-spot">Bel-Air</label>
-                        </div>
-                        <div className="office-part-one teal">
-                          <span className="informer">332</span>
-                          <label htmlFor="my-spot">Walkerville</label>
-                        </div>
-                        <div className="office-part-one white">
-                          <span className="informer">334</span>
-                          <label htmlFor="my-spot">Common Room</label>
-                        </div>
-                        <div className="office-part-one black">
-                          <span className="informer">359</span>
-                          <label htmlFor="my-spot">The Post</label>
-                        </div>
-                        <div className="office-part-one heart pink">
-                          <span className="informer">
-                            <img src="./images/heart.png" alt="" />
-                          </span>
-                          <label htmlFor="my-spot">AED</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="right-map">
-                      <Draggable disabled={!isDraggable} key={state.version}>
-                        <div
-                          className="drag_image"
-                          style={isDraggable ? { cursor: 'move' } : null}
-                        >
-                          <img
-                            src={Floormap}
-                            alt=""
-                            style={imgStyle}
-                            draggable="false"
-                          />
-                        </div>
-                      </Draggable>
-                      <div className="toolbar">
-                        <button
-                          className="location"
-                          type="button"
-                          onClick={() => handleDefault()}
-                        >
-                          <img src={location} alt="" />
-                        </button>
-                        <button
-                          className="zoomin"
-                          type="button"
-                          onClick={() => handleZoomIn()}
-                        >
-                          <img src={zoomin} alt="" />
-                        </button>
-                        <button
-                          className="zoomout"
-                          type="button"
-                          onClick={() => handleZoomOut()}
-                        >
-                          <img src={zoomout} alt="" />
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -379,8 +368,8 @@ const Report = ({
               </div>
             </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      </div>
     </div>
   );
 };

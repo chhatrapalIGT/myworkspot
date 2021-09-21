@@ -18,7 +18,7 @@ export function* getLocationData() {
     if (data && data.success) {
       yield put(getOfficeLocationSuccess(data.data));
     } else {
-      yield put(getOfficeLocationSuccess(data.message));
+      yield put(getOfficeLocationFailed(data.message));
     }
   } catch (err) {
     yield put(getOfficeLocationFailed(err.message));
