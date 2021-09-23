@@ -4,7 +4,7 @@ export const PORT = process.env.API_PORT;
 
 export default {
   API: {
-    URL: `${PROTOCOL}://${DOMAIN}:${PORT}/api/v1`,
+    URL: `${PROTOCOL}://${DOMAIN}:${PORT}`,
     ImageURL: `${PROTOCOL}://${DOMAIN}:${PORT}`,
     InvoiceURL: `${PROTOCOL}://${DOMAIN}:${PORT}`,
   },

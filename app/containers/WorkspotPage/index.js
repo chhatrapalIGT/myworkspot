@@ -11,7 +11,13 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Workspot from '../../components/WorkSpot';
 import reducer from './reducer';
-import { requestGetOfficeLocation } from '../onBoardingPage/actions';
+import { requestGetLocation } from './actions';
+import { getWorkSpotData } from './helpers';
+import {
+  getMonthStartEndDate,
+  getStartEndDate,
+  getWeekStartEndDate,
+} from '../../components/Cal/helpers';
 
 const zoomStep = 1;
 const maxScale = 5;
@@ -23,14 +29,9 @@ class WorkSpotPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: false,
-      type: '',
-      dateValue: new Date(),
+      defaultSelected: 'week',
+      searchValue: '',
       allUser: [],
-      searchName: [],
-      userListData: [],
-      selectData: [],
-      finalData: [],
       date: [],
       location: 'Washington, DC',
       scale: defaultScale,
@@ -43,6 +44,12 @@ class WorkSpotPage extends Component {
           work_area: '',
         },
       ],
+      workSpotData: [],
+      userList: [],
+      selectedColleagues: [],
+      selectedDateRange: {},
+      updatingObject: {},
+      editModal: false,
     };
   }
 
@@ -73,51 +80,50 @@ class WorkSpotPage extends Component {
   };
 
   componentDidMount() {
-    this.props.requestGetOfficeLocation();
+    const { defaultSelected } = this.state;
+    this.props.requestGetLocation();
+    const { dateToDisplay } =
+      defaultSelected === 'week'
+        ? getWeekStartEndDate(new Date())
+        : getMonthStartEndDate(new Date());
+    const { startDispDate, endDispDate } = getStartEndDate(
+      dateToDisplay,
+      defaultSelected,
+    );
+    this.getWorkSpots(startDispDate, endDispDate);
+    this.setState({
+      selectedDateRange: { startDate: startDispDate, endDate: endDispDate },
+    });
     const url = `https://mocki.io/v1/503b1d85-b034-466b-af55-fc5ae262e848`;
     Axios.get(url).then(res => {
-      this.setState({ allUser: res.data });
-      this.setState({ searchName: res.data });
+      this.setState({ userList: res.data });
     });
   }
 
   handleUserSelect = username => {
-    const { selectData } = this.state;
-    if (selectData.includes(username)) {
-      const index = selectData.indexOf(username);
-      selectData.splice(index, 1);
+    const { selectedColleagues } = this.state;
+    const newArr = [...selectedColleagues];
+    if (newArr.includes(username)) {
+      const index = newArr.indexOf(username);
+      newArr.splice(index, 1);
     } else {
-      selectData.push(username);
+      newArr.push(username);
     }
-    this.state.finalData = selectData;
+    this.setState({ selectedColleagues: newArr });
   };
 
   handleRemove = name => {
-    const { userListData } = this.state;
-    if (userListData.includes(name)) {
-      const idx = userListData.indexOf(name);
-      userListData.splice(idx, 1);
-    } else {
-      userListData.push(name);
+    const { allUser } = this.state;
+    const newArr = [...allUser];
+    if (newArr.includes(name)) {
+      const idx = newArr.indexOf(name);
+      newArr.splice(idx, 1);
     }
-    return userListData;
+    this.setState({ allUser: newArr });
   };
 
   handleChange = event => {
-    const { allUser } = this.state;
-    let newList = [];
-    if (event.target.value !== '') {
-      this.setState({ search: true });
-      newList = allUser.filter(({ userName }) => {
-        const finalDataList = userName.toLowerCase();
-        const filter = event.target.value.toLowerCase();
-        return finalDataList.includes(filter);
-      });
-    } else {
-      this.setState({ search: true });
-      newList = allUser;
-    }
-    this.setState({ searchName: newList });
+    this.setState({ searchValue: event.target.value });
   };
 
   handleChangeWorkPlace = (value, idx, name) => {
@@ -145,17 +151,47 @@ class WorkSpotPage extends Component {
   };
 
   onSubmit = () => {
-    const { location, date } = this.state;
-    const payload = {
-      date,
-      location,
-    };
-    console.log(`payload`, payload);
+    const { updatingObject, selectedDateRange } = this.state;
+    console.log(`payload`, updatingObject, selectedDateRange);
   };
 
-  handleClose = () => {
-    const { finalData } = this.state;
-    this.setState({ userListData: finalData });
+  handleClose = () => {};
+
+  handleColleageUpdate = () => {
+    const {
+      selectedColleagues,
+      selectedDateRange: { startDate, endDate },
+    } = this.state;
+    const newArr = [];
+    for (let i = 0; i < selectedColleagues.length; i += 1) {
+      const name = selectedColleagues[i];
+      const data = getWorkSpotData(startDate, endDate);
+      newArr.push({ workspot: data, userName: name });
+    }
+    this.setState({ allUser: newArr });
+  };
+
+  getWorkSpots = async (startDate, endDate) => {
+    const workSpotData = await getWorkSpotData(startDate, endDate);
+
+    this.setState({
+      selectedDateRange: { startDate, endDate },
+      workSpotData,
+    });
+  };
+
+  handleEditModal = val => {
+    this.setState({ editModal: val });
+  };
+
+  handleUpdatingModalData = (key, val) => {
+    if (!key) {
+      this.setState({ updatingObject: {} });
+    } else {
+      this.setState(prevState => ({
+        updatingObject: { ...prevState.updatingObject, [key]: val },
+      }));
+    }
   };
 
   render() {
@@ -163,6 +199,7 @@ class WorkSpotPage extends Component {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
     const { locationData } = this.props;
+
     return (
       <>
         <div id="content-wrap">
@@ -171,6 +208,7 @@ class WorkSpotPage extends Component {
             onSubmit={this.onSubmit}
             handleUserSelect={this.handleUserSelect}
             handleChange={this.handleChange}
+            handleColleageUpdate={this.handleColleageUpdate}
             handleClose={this.handleClose}
             state={this.state}
             onChange={this.onChange}
@@ -183,6 +221,9 @@ class WorkSpotPage extends Component {
             handleChangeWorkPlace={this.handleChangeWorkPlace}
             handleuserLocation={this.handleuserLocation}
             locationData={locationData}
+            getWorkSpots={this.getWorkSpots}
+            handleEditModal={this.handleEditModal}
+            handleUpdatingModalData={this.handleUpdatingModalData}
           />
         </div>
         <Footer />
@@ -203,8 +244,7 @@ const mapStateToProps = state => {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    requestGetOfficeLocation: payload =>
-      dispatch(requestGetOfficeLocation(payload)),
+    requestGetLocation: payload => dispatch(requestGetLocation(payload)),
     dispatch,
   };
 }
@@ -212,11 +252,10 @@ export function mapDispatchToProps(dispatch) {
 const withReducer = injectReducer({ key: 'workspot', reducer });
 
 WorkSpotPage.propTypes = {
-  requestGetOfficeLocation: PropTypes.func,
+  requestGetLocation: PropTypes.func,
   locationData: PropTypes.object,
 };
 
-// export default WorkSpotPage;
 export default compose(
   withReducer,
   //   withSaga,

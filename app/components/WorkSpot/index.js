@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ import Draggable from 'react-draggable';
 import { Link } from 'react-router-dom';
 import { Datepicker } from '@mobiscroll/react';
 import Axios from 'axios';
+import Alert from 'react-bootstrap/Alert';
 import Floormap from '../../images/Map_2.svg';
 import location from '../../images/location.png';
 import zoomin from '../../images/zoomin.png';
@@ -36,14 +37,17 @@ const WorkSpot = ({
   imgStyle,
   handleChangeWorkPlace,
   handleuserLocation,
-  // locationData,
+  locationData,
+  getWorkSpots,
+  handleColleageUpdate,
+  handleEditModal,
+  handleUpdatingModalData,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
   const [visible, setVisible] = useState(false);
   const [isEmployeeModal, setEmployeeModal] = useState(false);
   const [isEmployee, setEmployee] = useState(false);
-  const [isLocation, setLocation] = useState(false);
   const [isdate, setDate] = useState('');
   const [locationName, setLocationName] = useState([]);
   const divRef = useRef();
@@ -56,11 +60,20 @@ const WorkSpot = ({
     };
   });
 
+  const newArr = useMemo(() => {
+    const d =
+      locationData &&
+      locationData.length > 0 &&
+      locationData &&
+      locationData.filter(obj => !obj.locationname.includes('Remote Work'));
+    return d;
+  });
+
   const handleClickOutside = event => {
     if (divRef && divRef.current && !divRef.current.contains(event.target)) {
       setModal(false);
       setEmployee(false);
-      setLocation(false);
+      handleEditModal(false);
       setEmployeeModal(false);
     }
   };
@@ -73,6 +86,30 @@ const WorkSpot = ({
     });
   }, []);
 
+  const arr =
+    locationData &&
+    locationData.length > 0 &&
+    locationData &&
+    locationData.find(obj => obj.locationname.includes('Remote Work'));
+
+  const filteredData = useMemo(() => {
+    if (!state.searchValue) return state.userList;
+    return state.userList.filter(ele =>
+      ele.userName.toLowerCase().includes(state.searchValue.toLowerCase()),
+    );
+  }, [state.userList, state.searchValue]);
+
+  const updateModalData = (key, val) => {
+    handleUpdatingModalData(key, val);
+  };
+
+  const handleEditModalData = (modalState, date, prevLocation, userName) => {
+    handleEditModal(modalState);
+    updateModalData();
+    updateModalData('date', date);
+    updateModalData('prevLocation', prevLocation);
+    updateModalData('user', userName);
+  };
   return (
     <div className="wrapper_main">
       <div className="container">
@@ -217,15 +254,17 @@ const WorkSpot = ({
         </div>
       </div>
       <Calender
-        defaultSelected="week"
+        defaultSelected={state.defaultSelected}
         setModal={setModal}
-        setLocation={setLocation}
+        handleEditModal={handleEditModalData}
         setEmployeeModal={setEmployeeModal}
-        userListData={state.userListData}
+        allUser={state.allUser}
         setEmployee={setEmployee}
         setVisible={setVisible}
         handleRemove={handleRemove}
         setDate={setDate}
+        workSpotData={state.workSpotData}
+        getWorkSpots={getWorkSpots}
       />
       <Modal
         className="modal fade test_modal"
@@ -251,12 +290,40 @@ const WorkSpot = ({
             <div className="modal-body">
               <div className="calendarpop">
                 <div className="selection">
-                  <select name="location" id="" onChange={onChange}>
+                  {/* <select name="location" id="" onChange={onChange}>
                     <option value="Washington, DC">Washington, DC</option>
                     <option value="Richmond, VA">Richmond, VA</option>
                     <option value="Birmingham, AL">Birmingham, AL</option>
                     <option value="Bloomingtom, MN">Bloomingtom, MN</option>
                     <option value="Remote Work">Remote Work</option>
+                  </select> */}
+                  <select
+                    name="work_place"
+                    className="dropdown_opt"
+                    onChange={onChange}
+                  >
+                    <optgroup label="EAB office">
+                      {/* {locationName &&
+                        locationName.map(i => ( */}
+                      {newArr &&
+                        newArr.map(i => (
+                          <option
+                            value={i.locationname}
+                            id="location"
+                            name="work_place"
+                            selected={
+                              state.updatingObject.prevLocation ===
+                              i.locationname
+                            }
+                          >
+                            {i && i.locationname}
+                          </option>
+                        ))}
+                    </optgroup>
+                    <hr />
+                    <option value={arr && arr.locationname}>
+                      {arr && arr.locationname}
+                    </option>
                   </select>
                 </div>
                 <div className="calendar_main">
@@ -379,18 +446,22 @@ const WorkSpot = ({
                   className="searchbox"
                   onChange={handleChange}
                 />
-                {state.searchName &&
-                  state.searchName.map(i => (
-                    <div
-                      aria-hidden="true"
-                      className="form-group"
-                      onClick={() => handleUserSelect(i.userName)}
-                    >
-                      <img src={ProfileImg} alt="" />
-                      <input id="jane" type="radio" className="checkbox" />
-                      <label htmlFor="jane">{i.userName}</label>
-                    </div>
-                  ))}
+                {filteredData.map(i => (
+                  <div
+                    aria-hidden="true"
+                    className="form-group"
+                    onClick={() => handleUserSelect(i.userName)}
+                  >
+                    <img src={ProfileImg} alt="" />
+                    <input
+                      id="jane"
+                      type="radio"
+                      className="checkbox"
+                      checked={state.selectedColleagues.includes(i.userName)}
+                    />
+                    <label htmlFor="jane">{i.userName}</label>
+                  </div>
+                ))}
               </form>
             </div>
             <div className="modal-footer">
@@ -398,9 +469,8 @@ const WorkSpot = ({
                 type="button"
                 className="btn save-data"
                 onClick={() => {
+                  handleColleageUpdate();
                   setEmployeeModal(false);
-                  // onSubmit();
-                  handleClose();
                 }}
               >
                 Update
@@ -549,8 +619,8 @@ const WorkSpot = ({
 
       <Modal
         className="modal fade test_modal"
-        show={isLocation}
-        onHide={() => setLocation(false)}
+        show={state.editModal}
+        onHide={() => handleEditModal(false)}
         aria-labelledby="exampleModalLabel"
         style={{ maxWidth: 'calc(100% - 20rem)' }}
         aria-hidden="true"
@@ -569,47 +639,46 @@ const WorkSpot = ({
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={() => setLocation(false)}
+                onClick={() => handleEditModal(false)}
               />
             </div>
             <div className="modal-body">
               <form className="delegate-workspot-access" action="submit">
-                {state.work_place.map((obj, idx) => (
-                  <div
-                    aria-hidden="true"
-                    className="selection"
-                    style={{ padding: '1rem 1.5rem' }}
-                    // key={obj.date}
-                    onClick={() => handleuserLocation(isdate)}
+                <div
+                  aria-hidden="true"
+                  className="selection"
+                  style={{ padding: '1rem 1.5rem' }}
+                  onClick={() => handleuserLocation(isdate)}
+                >
+                  <select
+                    name="work_place"
+                    className="dropdown_opt"
+                    onChange={e => updateModalData('work_area', e.target.value)}
                   >
-                    <select
-                      name={`work_place[${[idx]}].work_area`}
-                      className="dropdown_opt"
-                      value={obj.work_area}
-                      onChange={e =>
-                        handleChangeWorkPlace(e.target.value, idx, 'work_area')
-                      }
-                    >
-                      <optgroup label="EAB office">
-                        {/* {locationData &&
-                          locationData.length > 0 &&
-                          locationData.map(i => ( */}
-                        {locationName &&
-                          locationName.map(i => (
-                            <option
-                              value={i.name}
-                              id="location"
-                              name="work_place"
-                            >
-                              {i.name}
-                            </option>
-                          ))}
-                      </optgroup>
-                      <hr />
-                      <option value="remote work">Remote Work</option>
-                    </select>
-                  </div>
-                ))}
+                    <optgroup label="EAB office">
+                      {/* {locationName &&
+                        locationName.map(i => ( */}
+                      {newArr &&
+                        newArr.map(i => (
+                          <option
+                            value={i.locationname}
+                            id="location"
+                            name="work_place"
+                            selected={
+                              state.updatingObject.prevLocation ===
+                              i.locationname
+                            }
+                          >
+                            {i && i.locationname}
+                          </option>
+                        ))}
+                    </optgroup>
+                    <hr />
+                    <option value={arr && arr.locationname}>
+                      {arr && arr.locationname}
+                    </option>
+                  </select>
+                </div>
 
                 <hr />
                 <p className="notice" style={{ padding: '0 1.5rem' }}>
@@ -628,9 +697,8 @@ const WorkSpot = ({
                 type="button"
                 className="btn save-data"
                 onClick={() => {
-                  setLocation(false);
-                  // onSubmit();
-                  handleClose();
+                  onSubmit();
+                  handleEditModal(false);
                 }}
               >
                 Save
@@ -639,7 +707,7 @@ const WorkSpot = ({
                 type="button"
                 className="btn dismiss"
                 data-bs-dismiss="modal"
-                onClick={() => setLocation(false)}
+                onClick={() => handleEditModal(false)}
               >
                 Cancel
               </button>
@@ -666,6 +734,10 @@ WorkSpot.propTypes = {
   handleDefault: PropTypes.func,
   handleChangeWorkPlace: PropTypes.func,
   handleuserLocation: PropTypes.func,
-  // locationData: PropTypes.object,
+  getWorkSpots: PropTypes.func,
+  handleColleageUpdate: PropTypes.func,
+  handleEditModal: PropTypes.func,
+  handleUpdatingModalData: PropTypes.func,
+  locationData: PropTypes.object,
 };
 export default WorkSpot;
