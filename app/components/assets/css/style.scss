@@ -2089,7 +2089,7 @@ input[type='text'] {
 }
 
 .app-spinner {
-  margin: 12% auto;
+  margin: 20% auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2327,4 +2327,12 @@ select.set_drop option[id='building'],
 }
 .invite-team-wrapp.choose-date {
   cursor: pointer;
+}
+
+.popup_err {
+  color: black;
+  font-size: 20px;
+  height: 40px;
+  background-color: #e85959;
+  line-height: 42px;
 }

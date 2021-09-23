@@ -4,13 +4,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import injectReducer from 'utils/injectReducer';
+// import injectReducer from 'utils/injectReducer';
+// import injectSaga from 'utils/injectSaga';
 import PropTypes from 'prop-types';
+// import saga from './saga';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Report from '../../components/Report';
-import reducer from './reducer';
-import { requestGetLocation } from './actions';
+// import reducer from './reducer';
+import { requestGetOfficeLocation } from '../onBoardingPage/actions';
 
 const zoomStep = 1;
 const maxScale = 5;
@@ -72,10 +74,11 @@ class ReportPage extends Component {
   };
 
   componentDidMount() {
-    this.props.requestGetLocation();
+    this.props.requestGetOfficeLocation();
   }
 
   render() {
+    const { locationErrorHandle, location } = this.props;
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
@@ -92,6 +95,8 @@ class ReportPage extends Component {
             handleDefault={this.handleDefault}
             handleUserSelect={this.handleUserSelect}
             onDateChange={this.onDateChange}
+            location={location}
+            locationErrorHandle={locationErrorHandle}
           />{' '}
         </div>
         <Footer />
@@ -100,32 +105,39 @@ class ReportPage extends Component {
   }
 }
 const mapStateToProps = state => {
-  const { workspot } = state;
+  const { locationData } = state;
   return {
-    locationData:
-      workspot &&
-      workspot.getLocationData &&
-      workspot.getLocationData.locationList,
+    location:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.location,
+    locationErrorHandle:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation,
   };
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    requestGetLocation: payload => dispatch(requestGetLocation(payload)),
+    requestGetOfficeLocation: payload =>
+      dispatch(requestGetOfficeLocation(payload)),
     dispatch,
   };
 }
 
-const withReducer = injectReducer({ key: 'myTeam', reducer });
+// const withReducer = injectReducer({ key: 'myTeam', reducer });
+// const withSaga = injectSaga({ key: 'myTeam', saga });
 
 ReportPage.propTypes = {
-  requestGetLocation: PropTypes.func,
+  requestGetOfficeLocation: PropTypes.func,
+  locationErrorHandle: PropTypes.string,
+  location: PropTypes.object,
 };
 
-// export default WorkSpotPage;
 export default compose(
-  withReducer,
-  //   withSaga,
+  // withReducer,
+  // withSaga,
   connect(
     mapStateToProps,
     mapDispatchToProps,

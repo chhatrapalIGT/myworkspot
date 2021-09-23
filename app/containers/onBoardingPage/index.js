@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import saga from './saga';
 import reducer from './reducer';
-import { requestGetOfficeLocation } from './actions';
+import { requestGetOfficeLocation, requestAddOfficeLocation } from './actions';
 
 import Demo from '../../components/Header';
 import Boarding from '../../components/Boarding';
@@ -19,32 +19,27 @@ class BorardingPage extends Component {
     super(props);
     this.state = {
       selectedDay: '',
-      selectedNames: '',
+      selectedNames: 'Washington , DC',
       checked: false,
       timings: [
         {
           day: 'Monday',
-          active: false,
           name: '',
         },
         {
           day: 'Tuesday',
-          active: false,
           name: '',
         },
         {
           day: 'Wednesday',
-          active: false,
           name: '',
         },
         {
           day: 'Thursday',
-          active: false,
           name: '',
         },
         {
           day: 'Friday',
-          active: false,
           name: '',
         },
       ],
@@ -53,6 +48,11 @@ class BorardingPage extends Component {
 
   handleButtonData = selectedDay => {
     this.setState({ selectedDay });
+  };
+
+  handleUserSelect = event => {
+    const { value } = event.target;
+    this.setState({ selectedNames: value });
   };
 
   handleSubmit = () => {
@@ -80,9 +80,29 @@ class BorardingPage extends Component {
   };
 
   handleSubmitData = () => {
-    const { timings } = this.state;
-    const { history } = this.props;
+    const { timings, badge, badgedata } = this.state;
+    const { location, history } = this.props;
     const final = timings.filter(data => data.name !== '');
+
+    const finalLocationDay = [];
+    final.forEach(data => {
+      // eslint-disable-next-line array-callback-return
+      location.map(e => {
+        if (e.locationname === data.name) {
+          finalLocationDay.push({
+            defaultlocation: e.id,
+            dayofweek: data.day,
+          });
+        }
+      });
+    });
+
+    const data = {
+      data: finalLocationDay,
+      employeeid: '239321',
+      badgenumber: badge.concat(badgedata),
+    };
+    this.props.requestAddOfficeLocation(data);
     const value = final.length >= 5 ? history.push('/') : '';
     return value;
   };
@@ -90,11 +110,6 @@ class BorardingPage extends Component {
   onChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
-  };
-
-  handleUserSelect = event => {
-    const { value } = event.target;
-    this.setState({ selectedNames: value });
   };
 
   handleCheckbox = () => {
@@ -152,6 +167,8 @@ export function mapDispatchToProps(dispatch) {
   return {
     requestGetOfficeLocation: payload =>
       dispatch(requestGetOfficeLocation(payload)),
+    requestAddOfficeLocation: payload =>
+      dispatch(requestAddOfficeLocation(payload)),
 
     dispatch,
   };
@@ -161,6 +178,7 @@ const withSaga = injectSaga({ key: 'locationData', saga });
 
 BorardingPage.propTypes = {
   requestGetOfficeLocation: PropTypes.func,
+  requestAddOfficeLocation: PropTypes.func,
   history: PropTypes.object,
   locationErrorHandle: PropTypes.string,
   location: PropTypes.array,

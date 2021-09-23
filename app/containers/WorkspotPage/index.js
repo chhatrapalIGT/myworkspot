@@ -11,7 +11,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Workspot from '../../components/WorkSpot';
 import reducer from './reducer';
-import { requestGetLocation } from './actions';
+import { requestGetOfficeLocation } from '../onBoardingPage/actions';
 
 const zoomStep = 1;
 const maxScale = 5;
@@ -73,7 +73,7 @@ class WorkSpotPage extends Component {
   };
 
   componentDidMount() {
-    this.props.requestGetLocation();
+    this.props.requestGetOfficeLocation();
     const url = `https://mocki.io/v1/503b1d85-b034-466b-af55-fc5ae262e848`;
     Axios.get(url).then(res => {
       this.setState({ allUser: res.data });
@@ -203,7 +203,8 @@ const mapStateToProps = state => {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    requestGetLocation: payload => dispatch(requestGetLocation(payload)),
+    requestGetOfficeLocation: payload =>
+      dispatch(requestGetOfficeLocation(payload)),
     dispatch,
   };
 }
@@ -211,7 +212,7 @@ export function mapDispatchToProps(dispatch) {
 const withReducer = injectReducer({ key: 'workspot', reducer });
 
 WorkSpotPage.propTypes = {
-  requestGetLocation: PropTypes.func,
+  requestGetOfficeLocation: PropTypes.func,
   locationData: PropTypes.object,
 };
 
