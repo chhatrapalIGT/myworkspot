@@ -5,15 +5,16 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Axios from 'axios';
-import saga from './saga';
 import reducer from './reducer';
-import { requestGetProfileOfficeData } from './actions';
-
+import saga from './saga';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Profile from '../../components/Profile';
-import { requestUserlistData } from './actions';
+import {
+  requestUserlistData,
+  requestDelegateData,
+  requestGetProfileOfficeData,
+} from './actions';
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -62,40 +63,9 @@ class ProfilePage extends Component {
 
   componentDidMount() {
     this.props.requestGetProfileOfficeData();
+    this.props.requestDelegateData();
     this.props.requestUserlistData();
-    const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
-    Axios.get(url).then(res => {
-      const datas = res.data;
-      this.setState({ allUser: datas, searchName: datas });
-    });
   }
-
-  handleChange = event => {
-    let newList = [];
-    if (event.target.value !== '') {
-      this.setState({ search: true });
-      newList = this.state.allUser.filter(({ userName }) => {
-        const finalDataList = userName.toLowerCase();
-        const filter = event.target.value.toLowerCase();
-        return finalDataList.includes(filter);
-      });
-    } else {
-      this.setState({ search: false });
-      newList = this.state.allUser;
-    }
-    this.setState({ searchName: newList });
-  };
-
-  handleUserSelect = username => {
-    const { selectData } = this.state;
-    if (selectData.includes(username)) {
-      const index = selectData.indexOf(username);
-      selectData.splice(index, 1);
-    } else {
-      selectData.push(username);
-    }
-    this.state.finalData = selectData;
-  };
 
   handleClose = () => {
     const { finalData } = this.state;
@@ -170,7 +140,7 @@ class ProfilePage extends Component {
   // };
 
   render() {
-    const { getProfileLocation, userData } = this.props;
+    const { getProfileLocation, userData, delegateList } = this.props;
     return (
       <>
         <div id="content-wrap">
@@ -188,6 +158,7 @@ class ProfilePage extends Component {
             allTabColor={this.allTabColor}
             getProfileLocation={getProfileLocation}
             userData={userData}
+            delegateList={delegateList}
           />
         </div>
         <Footer />
@@ -205,14 +176,18 @@ const mapStateToProps = state => {
       profile.userList &&
       profile.userList.user &&
       profile.userList.user[0],
+    delegateList:
+      profile && profile.delegateList && profile.delegateList.delegate,
+    delegateSuccess:
+      profile && profile.delegateList && profile.delegateList.success,
   };
 };
-
 export function mapDispatchToProps(dispatch) {
   return {
     requestGetProfileOfficeData: payload =>
       dispatch(requestGetProfileOfficeData(payload)),
     requestUserlistData: payload => dispatch(requestUserlistData(payload)),
+    requestDelegateData: payload => dispatch(requestDelegateData(payload)),
     dispatch,
   };
 }
@@ -224,6 +199,8 @@ ProfilePage.propTypes = {
   getProfileLocation: PropTypes.object,
   requestUserlistData: PropTypes.func,
   userData: PropTypes.object,
+  requestDelegateData: PropTypes.object,
+  delegateList: PropTypes.object,
 };
 
 export default compose(

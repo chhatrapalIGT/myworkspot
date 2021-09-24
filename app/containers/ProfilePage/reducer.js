@@ -6,6 +6,9 @@ import {
   REQUEST_USERLIST_DATA,
   SUCCESS_USERLIST_DATA,
   FAILED_USERLIST_DATA,
+  REQUEST_DELEGATE_DATA,
+  SUCCESS_DELEGATE_DATA,
+  FAILED_DELEGATE_DATA,
 } from './constants';
 
 // The initial state of the App
@@ -23,6 +26,13 @@ const initialState = {
     loading: false,
     message: '',
     user: {},
+  },
+  delegateList: {
+    error: '',
+    success: false,
+    loading: false,
+    message: '',
+    delegate: {},
   },
 };
 
@@ -61,6 +71,22 @@ const profilePageReducer = (state = initialState, action) =>
         draft.userList.success = false;
         draft.userList.user = [];
         draft.userList.error = action.payload;
+        break;
+      case REQUEST_DELEGATE_DATA:
+        draft.delegateList.loading = true;
+        draft.delegateList.error = '';
+        break;
+      case SUCCESS_DELEGATE_DATA:
+        draft.delegateList.loading = false;
+        draft.delegateList.success = true;
+        draft.delegateList.delegate = action.payload.userData;
+        draft.delegateList.error = '';
+        break;
+      case FAILED_DELEGATE_DATA:
+        draft.delegateList.loading = false;
+        draft.delegateList.success = false;
+        draft.delegateList.delegate = [];
+        draft.delegateList.error = action.payload;
         break;
     }
   });
