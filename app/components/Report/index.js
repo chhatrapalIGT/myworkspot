@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect } from 'react';
@@ -56,6 +57,7 @@ const Report = ({
   onDateChange,
   location,
   locationErrorHandle,
+  getWorkSpots,
 }) => {
   const data = location && location.length && location[location.length - 1];
 
@@ -68,6 +70,7 @@ const Report = ({
   const isDraggable = state.scale > 1;
 
   const [allUser, setAllUser] = useState([]);
+  const [modalData, setModalData] = useState({});
   const [employeeLocationDetail, setEmployeeLocationDetail] = useState(false);
 
   const handleClose = () => {
@@ -131,8 +134,10 @@ const Report = ({
           <Calender
             defaultSelected="week"
             setShow={setShow}
-            allUser={allUser}
+            allUser={state.allUser}
             setEmployeeLocationDetail={setEmployeeLocationDetail}
+            getWorkSpots={getWorkSpots}
+            handleEditModal={datas => setModalData(datas)}
           />
 
           <Modal
@@ -412,6 +417,7 @@ Report.propTypes = {
   onDateChange: PropTypes.func,
   locationErrorHandle: PropTypes.string,
   location: PropTypes.object,
+  getWorkSpots: PropTypes.func,
 };
 
 export default Report;

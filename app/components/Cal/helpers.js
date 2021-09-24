@@ -167,3 +167,12 @@ export const getWeekTitle = dateObj => {
     }-${endMonth} ${endDate.getDate()}, ${moment(dateObj.startDate).year()}`;
   }
 };
+
+export const getStartEndDate = (datesArr, period) => {
+  if (period === 'month') {
+    datesArr = [].concat(...datesArr);
+  }
+  const startDispDate = datesArr[0].date;
+  const endDispDate = datesArr[datesArr.length - 1].date;
+  return { startDispDate, endDispDate };
+};
