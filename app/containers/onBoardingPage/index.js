@@ -100,9 +100,10 @@ class BorardingPage extends Component {
     const data = {
       data: finalLocationDay,
       employeeid: '239321',
-      badgenumber: badge.concat(badgedata),
     };
-    this.props.requestAddOfficeLocation(data);
+
+    const finalData = { ...data, badgenumber: badge.concat(badgedata) };
+    this.props.requestAddOfficeLocation(finalData);
     const value = final.length >= 5 ? history.push('/') : '';
     return value;
   };

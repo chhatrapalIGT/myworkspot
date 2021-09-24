@@ -25,6 +25,7 @@ const Profile = ({
   handleUserSelectData,
   handleSubmit,
   handleSubmitData,
+  getProfileLocation,
 }) => {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
@@ -152,67 +153,40 @@ const Profile = ({
             </p>
             <div className="on-boarding-inner p-0">
               <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
-                {state.timings.map(t => (
-                  <div className="day_one">
-                    <p className="day-name">{t.day}</p>
+                {getProfileLocation &&
+                  getProfileLocation.weeklyLocation.map(t => (
+                    <div className="day_one">
+                      <p className="day-name">{t.dayofweek}</p>
 
-                    <a
-                      href
-                      data-bs-toggle="modal"
-                      data-bs-target="#set_location"
-                    >
-                      {/* <div
-                        onClick={() => handleChangeDay(t.day)}
-                        className={classNames(
-                          ` day-one-wrapper  ${
-                            t.name === ''
+                      <a
+                        href
+                        data-bs-toggle="modal"
+                        data-bs-target="#set_location"
+                      >
+                        <div
+                          onClick={() => handleChangeDay(t.dayofweek)}
+                          className={`day-one-wrapper ${
+                            t.locationName === ''
                               ? 'add-location'
-                              : t.name !== 'Remote Work'
-                              ? `work-from-office ${allTabColor(t.name)}`
-                              : t.name === 'Remote Work'
+                              : t.locationName !== 'Remote Work'
+                              ? 'work-from-office border-top-blue'
+                              : t.locationName === 'Remote Work'
                               ? 'work-from-home'
                               : 'add-location'
-                          } `,
-                        )}
-                      > */}
-
-                      <div
-                        onClick={() => handleChangeDay(t.day)}
-                        className={`day-one-wrapper ${
-                          t.name === ''
-                            ? 'add-location'
-                            : t.name !== 'Remote Work'
-                            ? 'work-from-office border-top-blue'
-                            : t.name === 'Remote Work'
-                            ? 'work-from-home'
-                            : 'add-location'
-                        }`}
-                      >
-                        {t.name ? (
+                          }`}
+                        >
                           <label
-                            value={t.day}
+                            value={t.dayofweek}
                             onClick={() => {
-                              handleButtonData(t.day);
+                              handleButtonData(t.dayofweek);
                             }}
                           >
-                            {t.name}
+                            {t.locationName}
                           </label>
-                        ) : (
-                          <img
-                            className="plus-icon"
-                            src={plus}
-                            alt=""
-                            id="day"
-                            value={t.day}
-                            onClick={() => {
-                              handleButtonData(t.day);
-                            }}
-                          />
-                        )}
-                      </div>
-                    </a>
-                  </div>
-                ))}
+                        </div>
+                      </a>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -428,5 +402,6 @@ Profile.propTypes = {
   handleSubmitData: PropTypes.func,
   state: PropTypes.object,
   handleUserSelectData: PropTypes.func,
+  getProfileLocation: PropTypes.object,
 };
 export default Profile;

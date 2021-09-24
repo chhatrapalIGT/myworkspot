@@ -1,7 +1,15 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import Axios from 'axios';
+import saga from './saga';
+import reducer from './reducer';
+import { requestGetProfileOfficeData } from './actions';
+
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Profile from '../../components/Profile';
@@ -52,6 +60,7 @@ class ProfilePage extends Component {
   }
 
   componentDidMount() {
+    this.props.requestGetProfileOfficeData();
     const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
     Axios.get(url).then(res => {
       const datas = res.data;
@@ -96,11 +105,15 @@ class ProfilePage extends Component {
   };
 
   handleButtonData = selectedDay => {
+    console.log(`selectedDay`, selectedDay);
     this.setState({ selectedDay });
   };
 
   handleSubmit = () => {
     const { timings, selectedNames, selectedDay, checked } = this.state;
+    console.log(`timings`, timings);
+    console.log(`selectedNames`, selectedNames);
+    console.log(`selectedDay`, selectedDay);
 
     if (!checked) {
       const data = timings.map(obj => {
@@ -111,7 +124,6 @@ class ProfilePage extends Component {
         }
         return obj;
       });
-
       this.setState({ timings: data });
     } else {
       const data = timings.map(obj => {
@@ -156,6 +168,7 @@ class ProfilePage extends Component {
   // };
 
   render() {
+    const { getProfileLocation } = this.props;
     return (
       <>
         <div id="content-wrap">
@@ -171,6 +184,7 @@ class ProfilePage extends Component {
             handleUserSelectData={this.handleUserSelectData}
             handleShow={this.handleShow}
             allTabColor={this.allTabColor}
+            getProfileLocation={getProfileLocation}
           />
         </div>
         <Footer />
@@ -179,6 +193,34 @@ class ProfilePage extends Component {
   }
 }
 
-ProfilePage.propTypes = {};
+const mapStateToProps = state => {
+  const { profile } = state;
+  return {
+    getProfileLocation: profile && profile.getOffice,
+  };
+};
 
-export default ProfilePage;
+export function mapDispatchToProps(dispatch) {
+  return {
+    requestGetProfileOfficeData: payload =>
+      dispatch(requestGetProfileOfficeData(payload)),
+
+    dispatch,
+  };
+}
+const withReducer = injectReducer({ key: 'profile', reducer });
+const withSaga = injectSaga({ key: 'profile', saga });
+
+ProfilePage.propTypes = {
+  requestGetProfileOfficeData: PropTypes.func,
+  getProfileLocation: PropTypes.object,
+};
+
+export default compose(
+  withReducer,
+  withSaga,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(ProfilePage);
