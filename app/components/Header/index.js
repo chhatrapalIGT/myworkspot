@@ -57,7 +57,7 @@ const Header = props => {
                       </a>
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link to="/report" activeClassName="active">
                       <a
                         className={pathName === '/report' && 'active'}
@@ -66,8 +66,8 @@ const Header = props => {
                         My Team
                       </a>
                     </Link>
-                  </li>
-                  <li>
+                  </li> */}
+                  {/* <li>
                     <Link to="/office" activeClassName="active">
                       <a
                         className={pathName === '/office' && 'active'}
@@ -76,7 +76,7 @@ const Header = props => {
                         Office Maps
                       </a>
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to="/board">
                       <a
@@ -87,7 +87,7 @@ const Header = props => {
                       </a>
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link to="/faq">
                       <a
                         href="true"
@@ -96,7 +96,7 @@ const Header = props => {
                         Help
                       </a>
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             )}
@@ -128,7 +128,7 @@ const Header = props => {
                         Profile
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <a href="true">Options</a>
                     </li>
                     <li>
@@ -136,7 +136,7 @@ const Header = props => {
                     </li>
                     <li>
                       <a href="true">Logout</a>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               )}

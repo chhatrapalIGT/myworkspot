@@ -41,7 +41,7 @@ export function* getLocationData() {
 
 export function* getUserListData() {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/User/GetData?employeeid=239321`;
+  const requestURL = `${API_URL}/User/GetData?employeeid=239323`;
   try {
     const usersList = yield request({
       method: 'GET',

@@ -316,13 +316,13 @@ const Profile = ({
                   <h5>
                     Delegate <i>my</i>Workspot Access to
                   </h5>
-                  <button
+                  {/* <button
                     type="button"
                     onClick={() => setShow(true)}
                     className="btn blue-color-btn"
                   >
                     Delegate <i>my</i>Workspot Access
-                  </button>
+                  </button> */}
                 </div>
                 <div className="access-to">
                   {userListData &&
