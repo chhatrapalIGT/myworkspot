@@ -42,6 +42,9 @@ const WorkSpot = ({
   handleColleageUpdate,
   handleEditModal,
   handleUpdatingModalData,
+  onUpdateWorkspot,
+  // workspotMessage,
+  workspotSuccess,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
@@ -85,6 +88,11 @@ const WorkSpot = ({
       setLocationName(res.data);
     });
   }, []);
+
+  // const getCurrentData = state.workSpotData.find(ele =>
+  //   moment(ele.date, 'MM/D/YYYY').isSame(moment().format('MM/D/YY')),
+  // );
+  // console.log(`getCurrentData`, getCurrentData);
 
   const arr =
     locationData &&
@@ -337,7 +345,7 @@ const WorkSpot = ({
                     onChange={onDateChange}
                     selectMultiple={true}
                     selectCounter
-                    dateFormat="MMM DD,YYYY"
+                    dateFormat="YYYY-MM-DD"
                     // headerText="dates selected"
                     // invalid={[
                     //   {
@@ -377,10 +385,10 @@ const WorkSpot = ({
                     <span className="paidoff">Paid Time Off</span>
                   </div>
                 </div>
-                <div className="checkbox-label">
+                {/* <div className="checkbox-label">
                   <input type="checkbox" id="private-space" />
                   <label htmlFor="private-space">Private space requested</label>
-                </div>
+                </div> */}
                 <p className="notice">
                   If you would like to update your weekly default, you can
                   update this under{' '}
@@ -397,8 +405,9 @@ const WorkSpot = ({
                 type="button"
                 className="btn save-data"
                 onClick={() => {
-                  setModal(false);
-                  onSubmit();
+                  // eslint-disable-next-line no-unused-expressions
+                  workspotSuccess && setModal(false);
+                  onUpdateWorkspot();
                 }}
               >
                 Update
@@ -739,5 +748,8 @@ WorkSpot.propTypes = {
   handleEditModal: PropTypes.func,
   handleUpdatingModalData: PropTypes.func,
   locationData: PropTypes.object,
+  onUpdateWorkspot: PropTypes.func,
+  workspotSuccess: PropTypes.bool,
+  // workspotMessage: PropTypes.string,
 };
 export default WorkSpot;

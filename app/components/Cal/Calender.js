@@ -8,6 +8,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import Spinner from 'react-bootstrap/Spinner';
 import Vector from '../assets/images/Vector.svg';
 import floorLocation from '../assets/images/floor-location.png';
 import profile from '../assets/images/profileof.png';
@@ -38,6 +39,7 @@ const Calender = ({
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
+  const [currDate, setCurrDate] = useState(new Date());
   const [days, setDays] = useState(() =>
     defaultSelected === 'week'
       ? getWeekStartEndDate(new Date())
@@ -51,7 +53,6 @@ const Calender = ({
     },
     [days.currentDate],
   );
-
   const title = useMemo(() => {
     return period === 'month'
       ? `${moment(days.startDate).format('MMMM')} ${' '} ${moment(
@@ -293,7 +294,8 @@ const Calender = ({
                                           </p>
                                           <span className="floor-location">
                                             <img src={Vector} alt="" />
-                                            {data && data.floor}
+                                            {data && data.floor} -{' '}
+                                            {data && data.color}
                                           </span>
                                         </div>
                                       </div>
@@ -304,7 +306,14 @@ const Calender = ({
                             ))}
                         </>
                       )}
-                      {setVisible &&
+                      {setVisible && !workSpotData.length ? (
+                        <Spinner
+                          className="app-spinner"
+                          animation="grow"
+                          variant="dark"
+                        />
+                      ) : (
+                        setVisible &&
                         workSpotData.length > 0 &&
                         days.dateToDisplay.map(item => {
                           const data = getCorrespondingData(item.date);
@@ -329,12 +338,13 @@ const Calender = ({
 
                                 <div
                                   className={
-                                    item.disable
+                                    item.disable || !isCurrentDate(item.date)
                                       ? 'day-one-wrapper work-from-office  border-top-blue'
                                       : 'day-one-wrapper work-from-office day-pointer border-top-blue'
                                   }
                                   onClick={() => {
                                     !item.disable &&
+                                      isCurrentDate(item.date) &&
                                       handleEditModal(
                                         true,
                                         item.date,
@@ -354,13 +364,14 @@ const Calender = ({
                                   </p>
                                   <span className="floor-location">
                                     <img src={Vector} alt="" />
-                                    {data && data.floor}
+                                    {data && data.floor} - {data && data.color}
                                   </span>
                                 </div>
                               </div>
                             </>
                           );
-                        })}
+                        })
+                      )}
                     </div>
                   </div>
                 </div>
@@ -452,11 +463,12 @@ const Calender = ({
                                     aria-hidden="true"
                                   >
                                     <p className="work-station work-floor">
-                                      {data.state},{data.city}
+                                      {data && data.locationName}
                                     </p>
                                     <span className="floor-location">
                                       <img src={Vector} alt="" />
-                                      {data.building}-{data.color}
+                                      {data && data.floor} -{' '}
+                                      {data && data.color}
                                     </span>
                                   </div>
                                 </div>
@@ -505,12 +517,13 @@ const Calender = ({
                                   item.day === 'Sunday' ||
                                   item.weekend)
                                   ? 'day-one-wrapper'
-                                  : item.disable
+                                  : item.disable || !isCurrentDate(item.date)
                                   ? 'day-one-wrapper work-from-office border-top-blue'
                                   : 'day-one-wrapper work-from-office day-pointer border-top-blue'
                               }`}
                               onClick={() => {
                                 !item.disable &&
+                                  isCurrentDate(item.date) &&
                                   handleEditModal(
                                     true,
                                     item.date,
@@ -530,7 +543,7 @@ const Calender = ({
                               </p>
                               <span className="floor-location">
                                 <img src={floorLocation} alt="" />
-                                {data && data.floor}
+                                {data && data.floor} - {data && data.color}
                               </span>
                             </div>
                           </div>

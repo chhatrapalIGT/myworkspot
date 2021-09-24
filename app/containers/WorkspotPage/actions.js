@@ -5,6 +5,9 @@ import {
   REQUEST_GET_WEEKLY_DEFAULT,
   SUCCESS_GET_WEEKLY_DEFAULT,
   FAILED_GET_WEEKLY_DEFAULT,
+  REQUEST_UPDATE_WORKSPOT,
+  SUCCESS_UPDATE_WORKSPOT,
+  FAILED_UPDATE_WORKSPOT,
 } from './constants';
 
 export const requestGetLocation = payload => ({
@@ -34,5 +37,20 @@ export const getWeeklyDefaultSuccess = payload => ({
 
 export const getWeeklyDefaultFailed = error => ({
   type: FAILED_GET_WEEKLY_DEFAULT,
+  payload: error,
+});
+
+export const requestUpdateWorkspot = payload => ({
+  type: REQUEST_UPDATE_WORKSPOT,
+  payload,
+});
+
+export const updateWorkspotSuccess = payload => ({
+  type: SUCCESS_UPDATE_WORKSPOT,
+  payload,
+});
+
+export const updateWorkspotFailed = error => ({
+  type: FAILED_UPDATE_WORKSPOT,
   payload: error,
 });

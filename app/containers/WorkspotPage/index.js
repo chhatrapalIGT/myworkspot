@@ -1,9 +1,11 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import injectReducer from 'utils/injectReducer';
 import PropTypes from 'prop-types';
+// import moment from 'moment';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -11,7 +13,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Workspot from '../../components/WorkSpot';
 import reducer from './reducer';
-import { requestGetLocation } from './actions';
+import { requestGetLocation, requestUpdateWorkspot } from './actions';
 import { getWorkSpotData } from './helpers';
 import {
   getMonthStartEndDate,
@@ -32,18 +34,19 @@ class WorkSpotPage extends Component {
       defaultSelected: 'week',
       searchValue: '',
       allUser: [],
-      date: [],
+      date: '',
       location: 'Washington, DC',
       scale: defaultScale,
       rotate: defaultRotate,
       version: 0,
       d: '',
-      work_place: [
-        {
-          date: '',
-          work_area: '',
-        },
-      ],
+      work_place: '',
+      // work_place: [
+      //   {
+      //     date: '',
+      //     work_area: '',
+      //   },
+      // ],
       workSpotData: [],
       userList: [],
       selectedColleagues: [],
@@ -147,12 +150,48 @@ class WorkSpotPage extends Component {
   };
 
   onDateChange = event => {
+    const { date } = this.state;
     this.setState({ date: event.valueText });
+    console.log(`date>>>>`, date);
   };
 
   onSubmit = () => {
+    // eslint-disable-next-line no-unused-vars
+    // const { locationData } = this.props;
     const { updatingObject, selectedDateRange } = this.state;
+    console.log(`updatingObject`, updatingObject);
+
     console.log(`payload`, updatingObject, selectedDateRange);
+    //   const a =
+    //   locationData && locationData.find(obj => obj.locationname === work_place);
+    // const payload = {
+    //   data: {
+    //     // eslint-disable-next-line radix
+    //     locationid: parseInt(a.id),
+    //     weekofday: locDate,
+    //   },
+    //   employeeid: 239321,
+    // };
+    // console.log(`payload`, payload);
+    // this.props.requestUpdateWorkspot(payload);
+  };
+
+  onUpdateWorkspot = () => {
+    const { work_place, date } = this.state;
+    const locDate = date.split(',');
+    const { locationData } = this.props;
+
+    const a =
+      locationData && locationData.find(obj => obj.locationname === work_place);
+    const payload = {
+      data: {
+        // eslint-disable-next-line radix
+        locationid: parseInt(a.id),
+        weekofday: locDate,
+      },
+      employeeid: 239321,
+    };
+    this.props.requestUpdateWorkspot(payload);
   };
 
   handleClose = () => {};
@@ -198,8 +237,7 @@ class WorkSpotPage extends Component {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
-    const { locationData } = this.props;
-
+    const { locationData, workspotSuccess, workspotMessage } = this.props;
     return (
       <>
         <div id="content-wrap">
@@ -224,6 +262,9 @@ class WorkSpotPage extends Component {
             getWorkSpots={this.getWorkSpots}
             handleEditModal={this.handleEditModal}
             handleUpdatingModalData={this.handleUpdatingModalData}
+            onUpdateWorkspot={this.onUpdateWorkspot}
+            workspotSuccess={workspotSuccess}
+            workspotMessage={workspotMessage}
           />
         </div>
         <Footer />
@@ -239,12 +280,17 @@ const mapStateToProps = state => {
       workspot &&
       workspot.getLocationData &&
       workspot.getLocationData.locationList,
+    workspotSuccess:
+      Workspot && Workspot.updateWorkspot && Workspot.updateWorkspot.success,
+    workspotMessage:
+      Workspot && Workspot.updateWorkspot && Workspot.updateWorkspot.message,
   };
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
     requestGetLocation: payload => dispatch(requestGetLocation(payload)),
+    requestUpdateWorkspot: payload => dispatch(requestUpdateWorkspot(payload)),
     dispatch,
   };
 }
@@ -253,7 +299,10 @@ const withReducer = injectReducer({ key: 'workspot', reducer });
 
 WorkSpotPage.propTypes = {
   requestGetLocation: PropTypes.func,
+  requestUpdateWorkspot: PropTypes.func,
   locationData: PropTypes.object,
+  workspotSuccess: PropTypes.bool,
+  workspotMessage: PropTypes.string,
 };
 
 export default compose(

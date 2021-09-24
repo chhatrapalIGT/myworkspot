@@ -7,6 +7,9 @@ import {
   REQUEST_GET_WEEKLY_DEFAULT,
   SUCCESS_GET_WEEKLY_DEFAULT,
   FAILED_GET_WEEKLY_DEFAULT,
+  REQUEST_UPDATE_WORKSPOT,
+  SUCCESS_UPDATE_WORKSPOT,
+  FAILED_UPDATE_WORKSPOT,
 } from './constants';
 
 const initialState = {
@@ -19,6 +22,13 @@ const initialState = {
     success: false,
     message: '',
     weeklyData: {},
+  },
+
+  updateWorkspot: {
+    message: '',
+    success: false,
+    isLoading: false,
+    updateData: [],
   },
 };
 
@@ -55,6 +65,24 @@ const workspotReducer = (state = initialState, action) =>
         draft.getWeeklyDefaultData.success = false;
         draft.getWeeklyDefaultData.message = action.payload.message;
         draft.getWeeklyDefaultData.weeklyData = {};
+        break;
+      case REQUEST_UPDATE_WORKSPOT:
+        draft.updateWorkspot.success = false;
+        draft.updateWorkspot.isLoading = true;
+        draft.updateWorkspot.message = '';
+        draft.updateWorkspot.updateData = {};
+        break;
+      case SUCCESS_UPDATE_WORKSPOT:
+        draft.updateWorkspot.success = true;
+        draft.updateWorkspot.isLoading = false;
+        draft.updateWorkspot.message = action.payload.message;
+        draft.updateWorkspot.updateData = action.payload.deptData;
+        break;
+      case FAILED_UPDATE_WORKSPOT:
+        draft.updateWorkspot.success = false;
+        draft.updateWorkspot.isLoading = false;
+        draft.updateWorkspot.message = action.payload.message;
+        draft.updateWorkspot.updateData = {};
         break;
     }
   });
