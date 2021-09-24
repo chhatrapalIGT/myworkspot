@@ -7,17 +7,20 @@ import request from 'utils/request';
 
 import {
   REQUEST_GET_LOCATION,
-  // REQUEST_GET_WEEKLY_DEFAULT,
+  REQUEST_GET_WEEKLY_DEFAULT,
   REQUEST_UPDATE_WORKSPOT,
+  REQUEST_GET_NEIGHBORHOOD,
 } from './constants';
 
 import {
   getLocationSuccess,
   getLocationFailed,
-  // getWeeklyDefaultSuccess,
-  // getWeeklyDefaultFailed,
+  getWeeklyDefaultSuccess,
+  getWeeklyDefaultFailed,
   updateWorkspotSuccess,
   updateWorkspotFailed,
+  getNeighborhoodSuccess,
+  getNeighborhoodFailed,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -41,23 +44,23 @@ export function* getLocation() {
   }
 }
 
-// export function* getWeeklyData() {
-//   const requestURL = `${API_URL}/weaklyDefault/getData?groupBy=week`;
-//   try {
-//     const weeklyList = yield request({
-//       method: 'GET',
-//       url: requestURL,
-//     });
-//     const { data } = weeklyList;
-//     if (data && data.success) {
-//       yield put(getWeeklyDefaultSuccess(data));
-//     } else {
-//       yield put(getWeeklyDefaultFailed(data));
-//     }
-//   } catch (err) {
-//     yield put(getWeeklyDefaultFailed(err));
-//   }
-// }
+export function* getWeeklyData() {
+  const requestURL = `${API_URL}/weaklyDefault/getData?groupBy=week`;
+  try {
+    const weeklyList = yield request({
+      method: 'GET',
+      url: requestURL,
+    });
+    const { data } = weeklyList;
+    if (data && data.success) {
+      yield put(getWeeklyDefaultSuccess(data));
+    } else {
+      yield put(getWeeklyDefaultFailed(data));
+    }
+  } catch (err) {
+    yield put(getWeeklyDefaultFailed(err));
+  }
+}
 
 export function* updateWorkspot({ payload }) {
   const requestURL = `${API_URL}/workspot/editWorkSpot`;
@@ -78,8 +81,27 @@ export function* updateWorkspot({ payload }) {
   }
 }
 
+export function* getNeighborhood() {
+  const requestURL = `${API_URL}/neighborhoods/getneighborhood?employeeid=239321`;
+  try {
+    const neighborhhod = yield request({
+      method: 'GET',
+      url: requestURL,
+    });
+    const { data } = neighborhhod;
+    if (data && data.success) {
+      yield put(getNeighborhoodSuccess(data));
+    } else {
+      yield put(getNeighborhoodFailed(data));
+    }
+  } catch (err) {
+    yield put(getNeighborhoodFailed(err));
+  }
+}
+
 export default function* workSpotSaga() {
   yield takeLatest(REQUEST_GET_LOCATION, getLocation);
   yield takeLatest(REQUEST_UPDATE_WORKSPOT, updateWorkspot);
-  // yield takeLatest(REQUEST_GET_WEEKLY_DEFAULT, getWeeklyData);
+  yield takeLatest(REQUEST_GET_WEEKLY_DEFAULT, getWeeklyData);
+  yield takeLatest(REQUEST_GET_NEIGHBORHOOD, getNeighborhood);
 }

@@ -39,7 +39,6 @@ const Calender = ({
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
-  const [currDate, setCurrDate] = useState(new Date());
   const [days, setDays] = useState(() =>
     defaultSelected === 'week'
       ? getWeekStartEndDate(new Date())
@@ -55,7 +54,7 @@ const Calender = ({
   );
   const title = useMemo(() => {
     return period === 'month'
-      ? `${moment(days.startDate).format('MMMM')} ${' '} ${moment(
+      ? `${moment(days.startDate).format('MMMM')} ${'  '}  ${moment(
           days.startDate,
         ).year()}`
       : getWeekTitle(days);

@@ -8,6 +8,10 @@ import {
   REQUEST_UPDATE_WORKSPOT,
   SUCCESS_UPDATE_WORKSPOT,
   FAILED_UPDATE_WORKSPOT,
+  RESET_WORKSPOT,
+  REQUEST_GET_NEIGHBORHOOD,
+  SUCCESS_GET_NEIGHBORHOOD,
+  FAILED_GET_NEIGHBORHOOD,
 } from './constants';
 
 export const requestGetLocation = payload => ({
@@ -52,5 +56,24 @@ export const updateWorkspotSuccess = payload => ({
 
 export const updateWorkspotFailed = error => ({
   type: FAILED_UPDATE_WORKSPOT,
+  payload: error,
+});
+
+export const resetWorkspot = () => ({
+  type: RESET_WORKSPOT,
+});
+
+export const requestGetNeighborhood = payload => ({
+  type: REQUEST_GET_NEIGHBORHOOD,
+  payload,
+});
+
+export const getNeighborhoodSuccess = payload => ({
+  type: SUCCESS_GET_NEIGHBORHOOD,
+  payload,
+});
+
+export const getNeighborhoodFailed = error => ({
+  type: FAILED_GET_NEIGHBORHOOD,
   payload: error,
 });
