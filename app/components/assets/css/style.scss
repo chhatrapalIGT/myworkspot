@@ -945,6 +945,9 @@ input[type='text'] {
   }
   .on-boarding-inner {
     padding: 25px;
+    .desc {
+      width: 54% !important;
+    }
 
     .weekly-default-inner {
       border-top: 1px solid #ebeef1;
@@ -2097,6 +2100,9 @@ input[type='text'] {
   &.profile {
     margin: 0 auto;
   }
+  &.workspot_spinner {
+    margin: 10% auto;
+  }
 }
 
 /************ dropdown selection *****/
@@ -2334,9 +2340,6 @@ select.set_drop option[id='building'],
 
 .popup {
   &_err {
-    position: fixed;
-    width: 100%;
-    z-index: 9999999999;
     height: 40px;
     line-height: 42px;
     font-size: 20px;
@@ -2344,9 +2347,6 @@ select.set_drop option[id='building'],
     color: black;
   }
   &_success {
-    position: fixed;
-    width: 100%;
-    z-index: 9999999999;
     line-height: 42px;
     height: 40px;
     color: black;

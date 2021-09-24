@@ -122,7 +122,7 @@ const workspotReducer = (state = initialState, action) =>
         break;
       case SUCCESS_GET_NEIGHBORHOOD:
         draft.neighborhood.success = true;
-        // draft.neighborhood.message = action.payload.message;
+        draft.neighborhood.message = action.payload.message;
         draft.neighborhood.neighborhoodData = action.payload.locationdata;
         draft.apiSuccess = action.payload.success;
         draft.apiMessage = action.payload.message;

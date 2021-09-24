@@ -41,6 +41,7 @@ const App = props => {
       ) : (
         <Switch>
           <Route exact props={props} path="/" Route component={WorkSpot} />
+          {/* <Route exact path="/login" component={Login} /> */}
           <Route
             exact
             path="/profile"

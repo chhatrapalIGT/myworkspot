@@ -59,6 +59,8 @@ class WorkSpotPage extends Component {
       selectedDateRange: {},
       updatingObject: {},
       editModal: false,
+      errMessage: '',
+      errSuccess: false,
     };
   }
 
@@ -237,12 +239,20 @@ class WorkSpotPage extends Component {
   };
 
   getWorkSpots = async (startDate, endDate) => {
-    const workSpotData = await getWorkSpotData(startDate, endDate);
+    const { success, data, message } = await getWorkSpotData(
+      startDate,
+      endDate,
+    );
 
-    this.setState({
-      selectedDateRange: { startDate, endDate },
-      workSpotData,
-    });
+    if (success) {
+      this.setState({
+        selectedDateRange: { startDate, endDate },
+        workSpotData: data,
+      });
+    } else {
+      this.setState({ errMessage: message });
+      this.setState({ errSuccess: success });
+    }
   };
 
   handleEditModal = val => {
@@ -270,7 +280,10 @@ class WorkSpotPage extends Component {
       apiMessage,
       apiSuccess,
       neighborhoodData,
+      location,
+      neighborhood,
     } = this.props;
+    const { errMessage, errSuccess } = this.state;
     return (
       <>
         <div id="content-wrap">
@@ -301,6 +314,10 @@ class WorkSpotPage extends Component {
             apiMessage={apiMessage}
             apiSuccess={apiSuccess}
             neighborhoodData={neighborhoodData}
+            errMessage={errMessage}
+            errSuccess={errSuccess}
+            location={location}
+            neighborhood={neighborhood}
           />
         </div>
         <Footer />
@@ -326,6 +343,8 @@ const mapStateToProps = state => {
       workspot &&
       workspot.neighborhood &&
       workspot.neighborhood.neighborhoodData,
+    location: workspot && workspot.getLocationData,
+    neighborhood: workspot && workspot.neighborhood,
   };
 };
 
@@ -356,6 +375,8 @@ WorkSpotPage.propTypes = {
   resetWorkspot: PropTypes.func,
   requestGetNeighborhood: PropTypes.func,
   neighborhoodData: PropTypes.object,
+  location: PropTypes.object,
+  neighborhood: PropTypes.object,
 };
 
 export default compose(

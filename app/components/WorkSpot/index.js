@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
@@ -13,7 +14,7 @@ import { Datepicker } from '@mobiscroll/react';
 import Axios from 'axios';
 import { isEmpty } from 'lodash';
 import Floormap from '../../images/Map_2.svg';
-import location from '../../images/location.png';
+import locationMap from '../../images/location.png';
 import zoomin from '../../images/zoomin.png';
 import zoomout from '../../images/zoomout.png';
 import union from '../assets/images/Union.svg';
@@ -49,6 +50,10 @@ const WorkSpot = ({
   apiMessage,
   apiSuccess,
   neighborhoodData,
+  errMessage,
+  errSuccess,
+  location,
+  neighborhood,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
@@ -133,87 +138,102 @@ const WorkSpot = ({
   // console.log(`neighborhoodloc`, neighborhoodloc);
   return (
     <>
-      {apiMessage && (
+      {(apiMessage ||
+        errMessage ||
+        location.message ||
+        (neighborhood && neighborhood.message)) && (
         <div
-          className={`"alert-dismissible fade show ${
-            apiSuccess ? 'popup_success' : 'popup_err'
-          } "`}
+          className={`alert-dismissible fade show ${
+            apiSuccess || errSuccess || location.success || neighborhood.success
+              ? 'popup_success'
+              : 'popup_err'
+          } `}
           role="alert"
         >
-          <p className="text-center m-auto">{apiMessage}</p>
+          <p className="text-center m-auto">
+            {apiMessage ||
+              errMessage ||
+              location.message ||
+              neighborhood.message}
+          </p>
         </div>
       )}
+
       <div className="wrapper_main">
-        <div className="container">
-          <div
-            className="card building-block-head blue"
-            style={{ backgroundColor: 'white' }}
-          >
-            {isEmpty(neighborhoodData) ? (
-              <Spinner
-                className="app-spinner"
-                animation="grow"
-                variant="dark"
-              />
-            ) : (
-              <>
-                <p className="stroke-2">
-                  Hi {neighborhoodData && neighborhoodData.username}, your{' '}
-                  <span>
-                    {' '}
-                    {neighborhoodData && neighborhoodData.locationName}{' '}
-                  </span>{' '}
-                  neighborhood today is
-                </p>
+        {neighborhood &&
+          neighborhood.success &&
+          !isEmpty(neighborhood.neighborhoodData) && (
+            <div className="container">
+              <div
+                className="card building-block-head blue"
+                style={{ backgroundColor: 'white' }}
+              >
+                {isEmpty(neighborhoodData) ? (
+                  <Spinner
+                    className="app-spinner workspot_spinner"
+                    animation="grow"
+                    variant="dark"
+                  />
+                ) : (
+                  <>
+                    <p className="stroke-2">
+                      Hi {neighborhoodData && neighborhoodData.username}, your{' '}
+                      <span>
+                        {' '}
+                        {neighborhoodData && neighborhoodData.locationName}{' '}
+                      </span>{' '}
+                      neighborhood today is
+                    </p>
 
-                <div className="block-info d-flex flex-wrap">
-                  <h3 className="building-name">
-                    {neighborhoodData && neighborhoodData.building}
-                  </h3>
-                  <h3 className="floor-name">
-                    {neighborhoodData && neighborhoodData.floor}
-                  </h3>
-                  <h3 className="color-code">{neighborhoodColor}</h3>
-                </div>
+                    <div className="block-info d-flex flex-wrap">
+                      <h3 className="building-name">
+                        {neighborhoodData && neighborhoodData.building}
+                      </h3>
+                      <h3 className="floor-name">
+                        {neighborhoodData && neighborhoodData.floor}
+                      </h3>
+                      <h3 className="color-code">{neighborhoodColor}</h3>
+                    </div>
 
-                <div className="building-location-strip d-flex flex-wrap align-items-center">
-                  <div
-                    className="location d-flex align-items-center"
-                    aria-hidden="true"
-                    target="_blank"
-                  >
-                    <a
-                      target="_blank"
-                      href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
-                    >
-                      <img src={union} alt="" />
-                    </a>
-                    {neighborhoodData && neighborhoodData.officeAddress}
-                  </div>
-                  <div
-                    className="change-workspot d-flex align-items-center"
-                    onClick={() => {
-                      handleEditModal(true);
-                      // handleData();
-                      setDate('');
-                    }}
-                    aria-hidden="true"
-                  >
-                    <img
-                      src={editPen}
-                      alt=""
-                      className="onHover"
-                      aria-hidden="true"
-                    />{' '}
-                    <a href className="change-workspot">
-                      Change Today's Workspot
-                    </a>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
+                    <div className="building-location-strip d-flex flex-wrap align-items-center">
+                      <div
+                        className="location d-flex align-items-center"
+                        aria-hidden="true"
+                        target="_blank"
+                      >
+                        <a
+                          target="_blank"
+                          href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
+                        >
+                          <img src={union} alt="" />
+                        </a>
+                        {neighborhoodData && neighborhoodData.officeAddress}
+                      </div>
+                      <div
+                        className="change-workspot d-flex align-items-center"
+                        onClick={() => {
+                          handleEditModal(true);
+                          // handleData();
+                          setDate('');
+                        }}
+                        aria-hidden="true"
+                      >
+                        <img
+                          src={editPen}
+                          alt=""
+                          className="onHover"
+                          aria-hidden="true"
+                        />{' '}
+                        <a href className="change-workspot">
+                          Change Today's Workspot
+                        </a>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
 
         <div className="office-structure mt-4">
           <div className="container" style={{ height: '100%' }}>
@@ -289,7 +309,7 @@ const WorkSpot = ({
                     type="button"
                     onClick={() => handleDefault()}
                   >
-                    <img src={location} alt="" />
+                    <img src={locationMap} alt="" />
                   </button>
                   <button
                     className="zoomin"
@@ -347,13 +367,6 @@ const WorkSpot = ({
               <div className="modal-body">
                 <div className="calendarpop">
                   <div className="selection">
-                    {/* <select name="location" id="" onChange={onChange}>
-                    <option value="Washington, DC">Washington, DC</option>
-                    <option value="Richmond, VA">Richmond, VA</option>
-                    <option value="Birmingham, AL">Birmingham, AL</option>
-                    <option value="Bloomingtom, MN">Bloomingtom, MN</option>
-                    <option value="Remote Work">Remote Work</option>
-                  </select> */}
                     <select
                       name="work_place"
                       className="dropdown_opt"
@@ -406,17 +419,17 @@ const WorkSpot = ({
                       // ]}
                       marked={[
                         {
-                          date: new Date(2021, 8, 28),
+                          date: new Date(2021, 8, 27),
                           color: '#46c4f3',
                           markCssClass: 'mbsc-calendar-marks1',
                         },
                         {
-                          date: new Date(2021, 8, 22),
+                          date: new Date(2021, 8, 28),
                           markCssClass: 'mbsc-calendar-marks1',
                         },
                         {
-                          date: new Date(2021, 8, 18),
-                          markCssClass: 'mbsc-calendar-marks2',
+                          date: new Date(2021, 8, 29),
+                          markCssClass: 'mbsc-calendar-marks1',
                         },
                         {
                           date: new Date(2021, 8, 29),
@@ -651,7 +664,7 @@ const WorkSpot = ({
                             type="button"
                             onClick={() => handleDefault()}
                           >
-                            <img src={location} alt="" />
+                            <img src={locationMap} alt="" />
                           </button>
                           <button
                             className="zoomin"
@@ -810,5 +823,9 @@ WorkSpot.propTypes = {
   apiSuccess: PropTypes.bool,
   workspotMessage: PropTypes.string,
   neighborhoodData: PropTypes.object,
+  errMessage: PropTypes.string,
+  errSuccess: PropTypes.bool,
+  location: PropTypes.object,
+  neighborhood: PropTypes.object,
 };
 export default WorkSpot;

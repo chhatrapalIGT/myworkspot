@@ -80,7 +80,7 @@ const Boarding = ({
                 <div className="container">
                   <div className="card on-boarding-inner">
                     <h4 className="common-title">Weekly Default</h4>
-                    <p className="w-50 stroke-2 mt-3">
+                    <p className="desc stroke-2 mt-3">
                       Your weekly default will pre-populate for each week unless
                       you update My Workspot for a specific day. You can update
                       My Workspot for a particular day on the homepage.

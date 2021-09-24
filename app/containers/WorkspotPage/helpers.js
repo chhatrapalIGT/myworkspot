@@ -9,6 +9,8 @@ export const getWorkSpotData = async (startDate, endDate) => {
   const dates = [];
   let weeklyData;
   let isLoading = true;
+  let success = false;
+  let message = '';
   const currDate = moment(startDate)
     .subtract(1, 'day')
     .startOf('day');
@@ -19,11 +21,19 @@ export const getWorkSpotData = async (startDate, endDate) => {
   const url = `${API_URL}/workspot/getworkspotdata?startdate=${sDate}&enddate=${eDate}&employeeid=239321`;
   await Axios.get(url, {
     withCredentials: true,
-  }).then(res => {
-    isLoading = false;
-    weeklyData = res.data.data;
-  });
+  })
+    .then(res => {
+      isLoading = false;
+      weeklyData = res.data.data;
+      success = true;
+    })
+    .catch(err => {
+      success = false;
+      // eslint-disable-next-line prefer-destructuring
+      message = err.response.data.message;
+    });
 
+  if (!success) return { message, success };
   while (currDate.add(1, 'days').diff(lastDate) < 0) {
     const newArr =
       weeklyData &&
@@ -44,5 +54,5 @@ export const getWorkSpotData = async (startDate, endDate) => {
       color,
     });
   }
-  return dates;
+  return { data: dates, success: true };
 };
