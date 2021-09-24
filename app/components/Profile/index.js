@@ -246,9 +246,9 @@ const Profile = ({
           <div className="weekly-default onboarding-main mt-40">
             <div className="container">
               <h4 className="common-title">Weekly Default</h4>
-              <p className="w-50 stroke-2 mt-3">
+              <p className="stroke-2 mt-3 profile_desc">
                 Your weekly default will pre-populate for each week unless you
-                update <i>My</i>Workspot for a specific day. You can update My
+                update <i>my</i>Workspot for a specific day. You can update My
                 Workspot for a particular day on the homepage.
               </p>
               <div className="on-boarding-inner p-0">
@@ -305,23 +305,23 @@ const Profile = ({
           <div className="workspot-access mt-40">
             <div className="container">
               <h4 className="common-title">
-                <i>My</i>Workspot Access
+                <i>my</i>Workspot Access
               </h4>
               <p className="w-50 stroke-2 mt-3">
-                You can delegate <i>My</i>Workspot access to other colleagues at
+                You can delegate <i>my</i>Workspot access to other colleagues at
                 EAB.
               </p>
               <div className="card mt-4 work-access-inner">
                 <div className="d-flex w-100 justify-content-between align-items-center">
                   <h5>
-                    Delegate <i>My</i>Workspot Access to
+                    Delegate <i>my</i>Workspot Access to
                   </h5>
                   <button
                     type="button"
                     onClick={() => setShow(true)}
                     className="btn blue-color-btn"
                   >
-                    Delegate <i>My</i>Workspot Access
+                    Delegate <i>my</i>Workspot Access
                   </button>
                 </div>
                 <div className="access-to">
@@ -345,7 +345,7 @@ const Profile = ({
               <div className="card work-access-inner">
                 <div className="d-flex w-100 justify-content-between align-items-center">
                   <h5>
-                    I Can Update <i>My</i>Workspot for
+                    I Can Update <i>my</i>Workspot for
                   </h5>
                 </div>
                 <div className="access-to update-workshop">
@@ -454,7 +454,7 @@ const Profile = ({
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Delegate <i>My</i>Workspot Access
+                  Delegate <i>my</i>Workspot Access
                 </h5>
                 <button
                   type="button"

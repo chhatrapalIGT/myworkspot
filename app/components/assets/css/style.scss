@@ -943,11 +943,14 @@ input[type='text'] {
       }
     }
   }
+  .desc {
+    width: 54% !important;
+  }
+  .profile_desc{
+    width: 52%;
+  }
   .on-boarding-inner {
     padding: 25px;
-    .desc {
-      width: 54% !important;
-    }
 
     .weekly-default-inner {
       border-top: 1px solid #ebeef1;
