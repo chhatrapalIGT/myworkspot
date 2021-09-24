@@ -16,7 +16,6 @@ import Edit from '../assets/images/edit.svg';
 import plus from '../../images/plus.svg';
 
 import Close from '../assets/images/close.svg';
-import Work from '../assets/images/workspot1.png';
 
 const Profile = ({
   handleButtonData,
@@ -24,8 +23,9 @@ const Profile = ({
   handleCheckbox,
   handleUserSelectData,
   handleSubmit,
-  handleSubmitData,
   getProfileLocation,
+  userData,
+  delegateList,
 }) => {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
@@ -37,11 +37,8 @@ const Profile = ({
   const [userListData, setUserListData] = useState([]);
   const [boardingData, setBoardingData] = useState([]);
   useEffect(() => {
-    const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
-    Axios.get(url).then(res => {
-      setAllUser(res.data);
-      setSearchName(res.data);
-    });
+    setAllUser(delegateList);
+    setSearchName(delegateList);
     const urlData = `https://mocki.io/v1/947b4269-a50f-4e16-8157-30d04fb8879a`;
     Axios.get(urlData, {}).then(res => {
       setBoardingData(res.data);
@@ -52,8 +49,8 @@ const Profile = ({
     let newList = [];
     if (event.target.value !== '') {
       setSearch(true);
-      newList = allUser.filter(({ userName }) => {
-        const finalDataList = userName.toLowerCase();
+      newList = allUser.filter(({ firstname }) => {
+        const finalDataList = firstname.toLowerCase();
         const filter = event.target.value.toLowerCase();
         return finalDataList.includes(filter);
       });
@@ -66,12 +63,12 @@ const Profile = ({
 
   const selectData = [];
   let finalData = [];
-  const handleUserSelect = username => {
-    if (selectData.includes(username)) {
-      const index = selectData.indexOf(username);
+  const handleUserSelect = firstname => {
+    if (selectData.includes(firstname)) {
+      const index = selectData.indexOf(firstname);
       selectData.splice(index, 1);
     } else {
-      selectData.push(username);
+      selectData.push(firstname);
     }
     finalData = selectData;
   };
@@ -103,15 +100,21 @@ const Profile = ({
                   <div className="profile-picture">
                     <img src={ProfileImg} alt="" />
                   </div>
-                  <h3 className="profile-username">Alexander Doe</h3>
-                  <span className="designation">UX / UI Designer</span>
+                  <h3 className="profile-username">
+                    {' '}
+                    {userData && userData.firstname}{' '}
+                    {userData && userData.lastname}
+                  </h3>
+                  <span className="designation">
+                    {userData && userData.jobtitle}
+                  </span>
                 </div>
               </div>
               <div className="right-content">
                 <div className="col_one">
                   <div className="attr_one">
                     <span>Employee ID</span>
-                    <p>237561</p>
+                    <p> {userData && userData.employeeid}</p>
                   </div>
                   <div className="attr_one">
                     <span>Manager</span>
@@ -121,7 +124,7 @@ const Profile = ({
                 <div className="col_one">
                   <div className="attr_one">
                     <span>Primary Office</span>
-                    <p>Birmingham, AL</p>
+                    <p>{userData && userData.primaryofficelocation}</p>
                   </div>
                   <div className="attr_one">
                     <span>Assigned Space</span>
@@ -131,7 +134,7 @@ const Profile = ({
                 <div className="col_one">
                   <div className="attr_one">
                     <span>Badge Number</span>
-                    <p>BB 4878 999</p>
+                    <p>BB {userData && userData.badgeNumber}</p>
                     <a className="replace" href>
                       <img src={Edit} alt="" />
                       Replace My Badge
@@ -362,11 +365,11 @@ const Profile = ({
                     <div
                       aria-hidden="true"
                       className="form-group"
-                      onClick={() => handleUserSelect(i.userName)}
+                      onClick={() => handleUserSelect(i.firstname)}
                     >
                       <img src={ProfileImg} alt="" />
                       <input id="jane" type="radio" className="checkbox" />
-                      <label htmlFor="jane">{i.userName}</label>
+                      <label htmlFor="jane">{i.firstname}</label>
                     </div>
                   ))}
               </form>
@@ -399,9 +402,10 @@ Profile.propTypes = {
   handleButtonData: PropTypes.func,
   handleSubmit: PropTypes.func,
   handleCheckbox: PropTypes.func,
-  handleSubmitData: PropTypes.func,
   state: PropTypes.object,
   handleUserSelectData: PropTypes.func,
   getProfileLocation: PropTypes.object,
+  userData: PropTypes.object,
+  delegateList: PropTypes.object,
 };
 export default Profile;

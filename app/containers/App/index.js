@@ -50,7 +50,7 @@ const App = props => {
             component={WorkSpot}
           />
           <Route exact path="/login" component={Login} />
-          <AuthenticateRoute
+          <Route
             exact
             path="/profile"
             Route
