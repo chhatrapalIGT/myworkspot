@@ -53,13 +53,13 @@ const profilePageReducer = (state = initialState, action) =>
       case SUCCESS_USERLIST_DATA:
         draft.userList.loading = false;
         draft.userList.success = true;
-        draft.userList.weeklyLocation = action.payload;
+        draft.userList.user = action.payload.userData;
         draft.userList.error = '';
         break;
       case FAILED_USERLIST_DATA:
         draft.userList.loading = false;
         draft.userList.success = false;
-        draft.userList.weeklyLocation = [];
+        draft.userList.user = [];
         draft.userList.error = action.payload;
         break;
     }

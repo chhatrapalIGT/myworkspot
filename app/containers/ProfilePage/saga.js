@@ -35,7 +35,7 @@ export function* getLocationData() {
 
 export function* getUserListData() {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/User/GetData?employeeId=239321`;
+  const requestURL = `${API_URL}/User/GetData?employeeid=239321`;
   try {
     const usersList = yield request({
       method: 'GET',
@@ -44,12 +44,12 @@ export function* getUserListData() {
     const { data } = usersList;
     console.log('data userlist', data);
     if (data && data.success) {
-      yield put(getUserlistSuccess(data.data));
+      yield put(getUserlistSuccess(data));
     } else {
-      yield put(getUserlistFailed(data.message));
+      yield put(getUserlistFailed(data));
     }
   } catch (err) {
-    yield put(getUserlistFailed(err.message));
+    yield put(getUserlistFailed(err));
   }
 }
 

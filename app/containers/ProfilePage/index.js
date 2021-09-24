@@ -13,6 +13,7 @@ import { requestGetProfileOfficeData } from './actions';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Profile from '../../components/Profile';
+import { requestUserlistData } from './actions';
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -61,6 +62,7 @@ class ProfilePage extends Component {
 
   componentDidMount() {
     this.props.requestGetProfileOfficeData();
+    this.props.requestUserlistData();
     const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
     Axios.get(url).then(res => {
       const datas = res.data;
@@ -168,7 +170,7 @@ class ProfilePage extends Component {
   // };
 
   render() {
-    const { getProfileLocation } = this.props;
+    const { getProfileLocation, userData } = this.props;
     return (
       <>
         <div id="content-wrap">
@@ -185,6 +187,7 @@ class ProfilePage extends Component {
             handleShow={this.handleShow}
             allTabColor={this.allTabColor}
             getProfileLocation={getProfileLocation}
+            userData={userData}
           />
         </div>
         <Footer />
@@ -197,6 +200,11 @@ const mapStateToProps = state => {
   const { profile } = state;
   return {
     getProfileLocation: profile && profile.getOffice,
+    userData:
+      profile &&
+      profile.userList &&
+      profile.userList.user &&
+      profile.userList.user[0],
   };
 };
 
@@ -204,7 +212,7 @@ export function mapDispatchToProps(dispatch) {
   return {
     requestGetProfileOfficeData: payload =>
       dispatch(requestGetProfileOfficeData(payload)),
-
+    requestUserlistData: payload => dispatch(requestUserlistData(payload)),
     dispatch,
   };
 }
@@ -214,11 +222,14 @@ const withSaga = injectSaga({ key: 'profile', saga });
 ProfilePage.propTypes = {
   requestGetProfileOfficeData: PropTypes.func,
   getProfileLocation: PropTypes.object,
+  requestUserlistData: PropTypes.func,
+  userData: PropTypes.object,
 };
 
 export default compose(
   withReducer,
   withSaga,
+  //   withSaga,
   connect(
     mapStateToProps,
     mapDispatchToProps,

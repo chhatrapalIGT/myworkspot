@@ -26,6 +26,7 @@ const Profile = ({
   handleSubmit,
   handleSubmitData,
   getProfileLocation,
+  userData,
 }) => {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
@@ -103,15 +104,21 @@ const Profile = ({
                   <div className="profile-picture">
                     <img src={ProfileImg} alt="" />
                   </div>
-                  <h3 className="profile-username">Alexander Doe</h3>
-                  <span className="designation">UX / UI Designer</span>
+                  <h3 className="profile-username">
+                    {' '}
+                    {userData && userData.firstname}{' '}
+                    {userData && userData.lastname}
+                  </h3>
+                  <span className="designation">
+                    {userData && userData.jobtitle}
+                  </span>
                 </div>
               </div>
               <div className="right-content">
                 <div className="col_one">
                   <div className="attr_one">
                     <span>Employee ID</span>
-                    <p>237561</p>
+                    <p> {userData && userData.employeeid}</p>
                   </div>
                   <div className="attr_one">
                     <span>Manager</span>
@@ -121,7 +128,7 @@ const Profile = ({
                 <div className="col_one">
                   <div className="attr_one">
                     <span>Primary Office</span>
-                    <p>Birmingham, AL</p>
+                    <p>{userData && userData.primaryofficelocation}</p>
                   </div>
                   <div className="attr_one">
                     <span>Assigned Space</span>
@@ -131,7 +138,7 @@ const Profile = ({
                 <div className="col_one">
                   <div className="attr_one">
                     <span>Badge Number</span>
-                    <p>BB 4878 999</p>
+                    <p>BB {userData && userData.badgeNumber}</p>
                     <a className="replace" href>
                       <img src={Edit} alt="" />
                       Replace My Badge
@@ -403,5 +410,6 @@ Profile.propTypes = {
   state: PropTypes.object,
   handleUserSelectData: PropTypes.func,
   getProfileLocation: PropTypes.object,
+  userData: PropTypes.object,
 };
 export default Profile;
