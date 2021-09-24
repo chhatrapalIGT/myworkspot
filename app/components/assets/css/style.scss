@@ -946,7 +946,7 @@ input[type='text'] {
   .desc {
     width: 54% !important;
   }
-  .profile_desc{
+  .profile_desc {
     width: 52%;
   }
   .on-boarding-inner {
@@ -1728,7 +1728,9 @@ input[type='text'] {
   border: 1px solid #d1dce7;
   border-radius: 8px;
   margin-top: 20px;
-
+  .mbsc-ios.mbsc-datepicker-inline {
+    border-radius: 8px;
+  }
   .top {
     padding: 0.6rem 1rem;
     border-bottom: 1px solid #d1dce7;
