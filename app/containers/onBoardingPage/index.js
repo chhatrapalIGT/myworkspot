@@ -19,7 +19,7 @@ class BorardingPage extends Component {
     super(props);
     this.state = {
       selectedDay: '',
-      selectedNames: 'Washington , DC',
+      selectedNames: 'Washington, DC',
       checked: false,
       timings: [
         {
