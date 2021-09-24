@@ -1,6 +1,7 @@
 import workSpotSaga from './containers/WorkspotPage/saga';
 import officeMapData from './containers/OfficeMapPage/saga';
 import locationData from './containers/onBoardingPage/saga';
+import profileSaga from './containers/ProfilePage/saga';
 // import myTeamSaga from './containers/ReportPage/saga';
 
 import getInjectors from './utils/sagaInjectors';
@@ -13,6 +14,8 @@ export function injectGlobalSagas(store) {
   injectors.injectSaga(key, { saga: officeMapData });
   key = 'locationData';
   injectors.injectSaga(key, { saga: locationData });
+  key = 'profile';
+  injectors.injectSaga(key, { saga: profileSaga });
   // key = 'myTeam';
   // injectors.injectSaga(key, { saga: myTeamSaga });
 }

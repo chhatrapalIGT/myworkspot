@@ -10,6 +10,7 @@ import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import workspotReducer from './containers/WorkspotPage/reducer';
 import OfficeReducer from './containers/OfficeMapPage/reducer';
 import onBoardingReducer from './containers/onBoardingPage/reducer';
+import profilePageReducer from './containers/ProfilePage/reducer';
 // import myTeamReducer from './containers/ReportPage/reducer';
 
 /**
@@ -21,6 +22,7 @@ export default function createReducer(injectedReducers = {}) {
     workspot: workspotReducer,
     officeData: OfficeReducer,
     locationData: onBoardingReducer,
+    profile: profilePageReducer,
     // myTeam: myTeamReducer,
     router: connectRouter(history),
     ...injectedReducers,
