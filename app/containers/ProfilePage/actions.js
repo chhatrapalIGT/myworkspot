@@ -9,6 +9,9 @@ import {
   SUCCESS_DELEGATE_DATA,
   FAILED_DELEGATE_DATA,
   CLEAR_DATA,
+  REQUEST_BADGE_DATA,
+  SUCCESS_BADGE_DATA,
+  FAILED_BADGE_DATA,
 } from './constants';
 
 export const requestGetProfileOfficeData = payload => ({
@@ -58,4 +61,18 @@ export const getDelegateFailed = error => ({
 
 export const clearData = () => ({
   type: CLEAR_DATA,
+});
+export const requestBadgeData = payload => ({
+  type: REQUEST_BADGE_DATA,
+  payload,
+});
+
+export const getBadgeSuccess = payload => ({
+  type: SUCCESS_BADGE_DATA,
+  payload,
+});
+
+export const getBadgeFailed = error => ({
+  type: FAILED_BADGE_DATA,
+  payload: error,
 });

@@ -21,6 +21,7 @@ import {
   requestDelegateData,
   requestGetProfileOfficeData,
   clearData,
+  requestBadgeData,
 } from './actions';
 
 class ProfilePage extends Component {
@@ -88,6 +89,7 @@ class ProfilePage extends Component {
       getProfileLocation,
       apiMessage,
       locationMessage,
+      badgeUpdateData,
     } = this.props;
     if (
       getProfileLocation &&
@@ -97,11 +99,14 @@ class ProfilePage extends Component {
     ) {
       this.handleData();
     }
-    if (apiMessage || locationMessage) {
+    if (badgeUpdateData && badgeUpdateData.success && badgeUpdateData.message) {
+      this.props.requestUserlistData();
+    }
+    if (apiMessage || locationMessage || badgeUpdateData.message) {
       setTimeout(() => {
         this.props.clearData();
         this.props.clearBoardData();
-      }, 3000);
+      }, 5000);
     }
   }
 
@@ -114,8 +119,12 @@ class ProfilePage extends Component {
     this.setState({ show: true });
   };
 
+  handleBadgeData = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
   handleButtonData = selectedDay => {
-    console.log(`selectedDay`, selectedDay);
     this.setState({ selectedDay });
   };
 
@@ -199,6 +208,16 @@ class ProfilePage extends Component {
     this.setState({ checked: true });
   };
 
+  handleBadgeSubmit = () => {
+    const { badgeData } = this.state;
+    const data = {
+      employeeid: '239321',
+      badgeid: badgeData,
+    };
+
+    this.props.requestBadgeData(data);
+  };
+
   // allTabColor = type => {
   //   let color;
   //   switch (type) {
@@ -232,6 +251,7 @@ class ProfilePage extends Component {
       apiSuccess,
       locationSuccess,
       locationMessage,
+      badgeUpdateData,
     } = this.props;
     return (
       <>
@@ -254,9 +274,12 @@ class ProfilePage extends Component {
             delegateSuccess={delegateSuccess}
             location={location}
             apiMessage={apiMessage}
+            handleBadgeData={this.handleBadgeData}
+            handleBadgeSubmit={this.handleBadgeSubmit}
             apiSuccess={apiSuccess}
             locationSuccess={locationSuccess}
             locationMessage={locationMessage}
+            badgeUpdateData={badgeUpdateData}
           />
         </div>
         <Footer />
@@ -289,6 +312,7 @@ const mapStateToProps = state => {
     locationMessage: locationData && locationData.addOfficeLocation.message,
     apiSuccess: profile && profile.apiSuccess,
     apiMessage: profile && profile.apiMessage,
+    badgeUpdateData: profile && profile.badgeUpdate,
   };
 };
 export function mapDispatchToProps(dispatch) {
@@ -303,6 +327,8 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestAddOfficeLocation(payload)),
     clearData: () => dispatch(clearData()),
     clearBoardData: () => dispatch(clearBoardData()),
+    requestBadgeData: payload => dispatch(requestBadgeData(payload)),
+
     dispatch,
   };
 }
@@ -313,6 +339,7 @@ ProfilePage.propTypes = {
   requestGetProfileOfficeData: PropTypes.func,
   requestGetOfficeLocation: PropTypes.func,
   requestAddOfficeLocation: PropTypes.func,
+  requestBadgeData: PropTypes.func,
   location: PropTypes.array,
   getProfileLocation: PropTypes.object,
   requestUserlistData: PropTypes.func,
@@ -327,6 +354,7 @@ ProfilePage.propTypes = {
   locationMessage: PropTypes.string,
   clearData: PropTypes.object,
   clearBoardData: PropTypes.object,
+  badgeUpdateData: PropTypes.object,
 };
 
 export default compose(

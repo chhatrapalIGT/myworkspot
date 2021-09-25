@@ -4,6 +4,7 @@ import {
   REQUEST_GET_PROFILE_OFFICE_DATA,
   REQUEST_USERLIST_DATA,
   REQUEST_DELEGATE_DATA,
+  REQUEST_BADGE_DATA,
 } from './constants';
 import {
   getProfileOfficeDataSuccess,
@@ -12,6 +13,8 @@ import {
   getUserlistSuccess,
   getDelegateFailed,
   getDelegateSuccess,
+  getBadgeSuccess,
+  getBadgeFailed,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -75,8 +78,29 @@ export function* getDelegateListData() {
   }
 }
 
+export function* updateBadgeData({ payload }) {
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/Badges/editBadge`;
+  try {
+    const badgeList = yield request({
+      method: 'PUT',
+      url: requestURL,
+      data: payload,
+    });
+    const { data } = badgeList;
+    if (data && data.success) {
+      yield put(getBadgeSuccess(data));
+    } else {
+      yield put(getBadgeFailed(data));
+    }
+  } catch (err) {
+    yield put(getBadgeFailed(err));
+  }
+}
+
 export default function* profileData() {
   yield takeLatest(REQUEST_GET_PROFILE_OFFICE_DATA, getLocationData);
   yield takeLatest(REQUEST_USERLIST_DATA, getUserListData);
   yield takeLatest(REQUEST_DELEGATE_DATA, getDelegateListData);
+  yield takeLatest(REQUEST_BADGE_DATA, updateBadgeData);
 }

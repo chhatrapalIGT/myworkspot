@@ -31,9 +31,13 @@ const Profile = ({
   apiSuccess,
   locationSuccess,
   locationMessage,
+  handleBadgeData,
+  handleBadgeSubmit,
+  badgeUpdateData,
 }) => {
   const [open, setOpen] = useState(true);
   const [show, setShow] = useState(false);
+  const [openBadge, setOpenBadge] = useState(false);
   const [modal, setModal] = useState(false);
   const [search, setSearch] = useState(false);
   const [allUser, setAllUser] = useState([]);
@@ -116,54 +120,126 @@ const Profile = ({
           <div className="my-profile">
             <div className="container">
               <h4 className="common-title">My Profile</h4>
+
               <div className="card my-profile-inner">
-                <div className="left-aside d-flex align-items-center justify-content-center">
-                  <div className="wrapper">
-                    <div className="profile-picture">
-                      <img src={ProfileImg} alt="" />
+                {!userData ? (
+                  <Spinner
+                    className="app-spinner profile"
+                    animation="grow"
+                    variant="dark"
+                  />
+                ) : (
+                  <>
+                    <div className="left-aside d-flex align-items-center justify-content-center">
+                      <div className="wrapper">
+                        <div className="profile-picture">
+                          <img src={ProfileImg} alt="" />
+                        </div>
+                        <h3 className="profile-username">
+                          {' '}
+                          {userData && userData.firstname}{' '}
+                          {userData && userData.lastname}
+                        </h3>
+                        <span className="designation">
+                          {userData && userData.jobtitle}
+                        </span>
+                      </div>
                     </div>
-                    <h3 className="profile-username">
-                      {' '}
-                      {userData && userData.firstname}{' '}
-                      {userData && userData.lastname}
-                    </h3>
-                    <span className="designation">
-                      {userData && userData.jobtitle}
-                    </span>
-                  </div>
-                </div>
-                <div className="right-content">
-                  <div className="col_one">
-                    <div className="attr_one">
-                      <span>Employee ID</span>
-                      <p> {userData && userData.employeeid}</p>
+                    <div className="right-content">
+                      <div className="col_one">
+                        <div className="attr_one">
+                          <span>Employee ID</span>
+                          <p> {userData && userData.employeeid}</p>
+                        </div>
+                        <div className="attr_one">
+                          <span>Manager</span>
+                          <p>Cameron Williamson</p>
+                        </div>
+                      </div>
+                      <div className="col_one">
+                        <div className="attr_one">
+                          <span>Primary Office</span>
+                          <p>{userData && userData.primaryofficelocation}</p>
+                        </div>
+                        <div className="attr_one">
+                          <span>Assigned Space</span>
+                          <p>1435</p>
+                        </div>
+                      </div>
+                      <div className="col_one">
+                        <div className="attr_one">
+                          <span>Badge Number</span>
+                          {!openBadge && (
+                            <>
+                              <p>BB {userData && userData.badgeNumber}</p>
+                              <a
+                                className="replace"
+                                href
+                                onClick={() => setOpenBadge(true)}
+                              >
+                                <img src={Edit} alt="" />
+                                Replace My Badge
+                              </a>
+                            </>
+                          )}
+                          {openBadge && (
+                            <div className="badge-number d-flex">
+                              <div className="badge d-flex">
+                                <input
+                                  type="text"
+                                  disabled
+                                  value="BB"
+                                  style={{ width: '40px', color: 'black' }}
+                                />
+                                <input
+                                  name="badgeData"
+                                  type="text"
+                                  placeholder="233321"
+                                  maxLength="6"
+                                  onChange={handleBadgeData}
+                                />
+                              </div>
+                              <div className="badge d-flex onboarding-main">
+                                <button
+                                  type="button"
+                                  className="btn save-data mt-0 change_btn"
+                                  primary
+                                  onClick={() => {
+                                    handleBadgeSubmit();
+                                    setOpenBadge(false);
+                                  }}
+                                >
+                                  Save
+                                </button>
+                                {console.log(`setOpenBadge(false)`)}
+                                <button
+                                  type="button"
+                                  style={{
+                                    border: '1px solid',
+                                    borderRadius: '10px',
+                                    marginLeft: '10px',
+                                  }}
+                                  onClick={() => setOpenBadge(false)}
+                                  className="btn dismiss"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                          {badgeUpdateData &&
+                            !badgeUpdateData.success &&
+                            badgeUpdateData.message && (
+                              <p style={{ color: 'red' }}>
+                                {`! ${badgeUpdateData.message}`}
+                              </p>
+                            )}
+                        </div>
+                      </div>
                     </div>
-                    <div className="attr_one">
-                      <span>Manager</span>
-                      <p>Cameron Williamson</p>
-                    </div>
-                  </div>
-                  <div className="col_one">
-                    <div className="attr_one">
-                      <span>Primary Office</span>
-                      <p>{userData && userData.primaryofficelocation}</p>
-                    </div>
-                    <div className="attr_one">
-                      <span>Assigned Space</span>
-                      <p>1435</p>
-                    </div>
-                  </div>
-                  <div className="col_one">
-                    <div className="attr_one">
-                      <span>Badge Number</span>
-                      <p>BB {userData && userData.badgeNumber}</p>
-                      <a className="replace" href>
-                        <img src={Edit} alt="" />
-                        Replace My Badge
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -452,5 +528,8 @@ Profile.propTypes = {
   apiMessage: PropTypes.string,
   locationSuccess: PropTypes.bool,
   locationMessage: PropTypes.string,
+  handleBadgeData: PropTypes.func,
+  handleBadgeSubmit: PropTypes.func,
+  badgeUpdateData: PropTypes.object,
 };
 export default Profile;

@@ -10,6 +10,9 @@ import {
   SUCCESS_DELEGATE_DATA,
   FAILED_DELEGATE_DATA,
   CLEAR_DATA,
+  REQUEST_BADGE_DATA,
+  SUCCESS_BADGE_DATA,
+  FAILED_BADGE_DATA,
 } from './constants';
 
 // The initial state of the App
@@ -26,14 +29,20 @@ const initialState = {
     success: false,
     loading: false,
     message: '',
-    user: {},
+    user: [],
   },
   delegateList: {
     error: '',
     success: false,
     loading: false,
     message: '',
-    delegate: {},
+    delegate: [],
+  },
+  badgeUpdate: {
+    error: '',
+    success: false,
+    loading: false,
+    message: '',
   },
   apiSuccess: false,
   apiMessage: '',
@@ -106,6 +115,27 @@ const profilePageReducer = (state = initialState, action) =>
       case CLEAR_DATA:
         draft.apiMessage = '';
         draft.delegateList = [];
+        draft.badgeUpdate = [];
+        break;
+
+      case REQUEST_BADGE_DATA:
+        draft.badgeUpdate.loading = true;
+        draft.badgeUpdate.error = '';
+        break;
+      case SUCCESS_BADGE_DATA:
+        draft.badgeUpdate.loading = false;
+        draft.badgeUpdate.success = action.payload.success;
+        draft.badgeUpdate.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case FAILED_BADGE_DATA:
+        draft.badgeUpdate.loading = false;
+        draft.badgeUpdate.success = action.payload.success;
+        draft.badgeUpdate.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
     }
   });
 
