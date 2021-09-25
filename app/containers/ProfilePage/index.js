@@ -9,7 +9,7 @@ import saga from './saga';
 import reducer from './reducer';
 import {
   requestGetOfficeLocation,
-  // requestAddOfficeLocation,
+  requestAddOfficeLocation,
 } from '../onBoardingPage/actions';
 
 import Header from '../../components/Header';
@@ -74,7 +74,6 @@ class ProfilePage extends Component {
   }
 
   componentDidMount() {
-    this.props.requestGetProfileOfficeData();
     this.props.requestDelegateData();
     this.props.requestUserlistData();
     this.props.requestGetProfileOfficeData({});
@@ -110,20 +109,21 @@ class ProfilePage extends Component {
     this.setState({ data: false });
     const { timings, finalLocationDay } = this.state;
     const { getProfileLocation } = this.props;
-    const data = getProfileLocation && getProfileLocation.weeklyLocation;
-
-    data.forEach(obj => {
-      // eslint-disable-next-line array-callback-return
-      timings.map(e => {
-        if (e.day === obj.dayofweek) {
-          finalLocationDay.push({
-            day: obj.dayofweek,
-            name: obj.locationName,
-            id: obj.id,
-          });
-        }
+    const finalData = getProfileLocation && getProfileLocation.weeklyLocation;
+    if (finalData) {
+      finalData.forEach(obj => {
+        // eslint-disable-next-line array-callback-return
+        timings.map(e => {
+          if (e.day === obj.dayofweek) {
+            finalLocationDay.push({
+              day: obj.dayofweek,
+              name: obj.locationName,
+              id: obj.id,
+            });
+          }
+        });
       });
-    });
+    }
     return finalLocationDay;
   };
 
@@ -169,11 +169,11 @@ class ProfilePage extends Component {
       });
     });
 
-    // const data = {
-    //   data: finalLocatiopnUpdate,
-    //   employeeid: '239322',
-    // };
-    // this.props.requestAddOfficeLocation(data);
+    const data = {
+      data: finalLocatiopnUpdate,
+      employeeid: '239323',
+    };
+    this.props.requestAddOfficeLocation(data);
   };
 
   handleUserSelectData = event => {
@@ -208,7 +208,13 @@ class ProfilePage extends Component {
   // };
 
   render() {
-    const { getProfileLocation, userData, delegateList, location } = this.props;
+    const {
+      getProfileLocation,
+      delegateSuccess,
+      userData,
+      delegateList,
+      location,
+    } = this.props;
     return (
       <>
         <div id="content-wrap">
@@ -227,6 +233,7 @@ class ProfilePage extends Component {
             getProfileLocation={getProfileLocation}
             userData={userData}
             delegateList={delegateList}
+            delegateSuccess={delegateSuccess}
             location={location}
           />
         </div>
@@ -265,8 +272,8 @@ export function mapDispatchToProps(dispatch) {
     requestDelegateData: payload => dispatch(requestDelegateData(payload)),
     requestGetOfficeLocation: payload =>
       dispatch(requestGetOfficeLocation(payload)),
-    // requestAddOfficeLocation: payload =>
-    //   dispatch(requestAddOfficeLocation(payload)),
+    requestAddOfficeLocation: payload =>
+      dispatch(requestAddOfficeLocation(payload)),
 
     dispatch,
   };
@@ -277,7 +284,7 @@ const withSaga = injectSaga({ key: 'profile', saga });
 ProfilePage.propTypes = {
   requestGetProfileOfficeData: PropTypes.func,
   requestGetOfficeLocation: PropTypes.func,
-  // requestAddOfficeLocation: PropTypes.func,
+  requestAddOfficeLocation: PropTypes.func,
   location: PropTypes.array,
   getProfileLocation: PropTypes.object,
   requestUserlistData: PropTypes.func,
@@ -285,6 +292,7 @@ ProfilePage.propTypes = {
   requestDelegateData: PropTypes.object,
   delegateList: PropTypes.object,
   getProfileLocationSuccess: PropTypes.bool,
+  delegateSuccess: PropTypes.bool,
 };
 
 export default compose(

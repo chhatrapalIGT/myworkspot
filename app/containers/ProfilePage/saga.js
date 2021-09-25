@@ -19,7 +19,7 @@ const { API_URL } = CONSTANT;
 
 export function* getLocationData() {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/weaklyDefault/getweeklydefault?employeeid=239322`;
+  const requestURL = `${API_URL}/weaklyDefault/getweeklydefault?employeeid=239323`;
   try {
     const usersList = yield request({
       method: 'GET',

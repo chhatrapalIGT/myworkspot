@@ -7,7 +7,6 @@
 /* eslint-disable no-nested-ternary */
 
 import React, { useState, useEffect, Fragment } from 'react';
-import Axios from 'axios';
 import PropTypes from 'prop-types';
 
 import { Modal } from 'react-bootstrap';
@@ -26,9 +25,10 @@ const Profile = ({
   getProfileLocation,
   userData,
   delegateList,
+  delegateSuccess,
   location,
 }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [show, setShow] = useState(false);
   const [modal, setModal] = useState(false);
 
@@ -36,15 +36,13 @@ const Profile = ({
   const [allUser, setAllUser] = useState([]);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
-  const [boardingData, setBoardingData] = useState([]);
   useEffect(() => {
-    setAllUser(delegateList);
-    setSearchName(delegateList);
-    const urlData = `https://mocki.io/v1/947b4269-a50f-4e16-8157-30d04fb8879a`;
-    Axios.get(urlData, {}).then(res => {
-      setBoardingData(res.data);
-    });
-  }, []);
+    if (delegateList && delegateList.length && delegateSuccess && open) {
+      setAllUser(delegateList);
+      setSearchName(delegateList);
+      setOpen(false);
+    }
+  }, [delegateList]);
 
   const handleChange = event => {
     let newList = [];
@@ -375,16 +373,16 @@ const Profile = ({
                       className="searchbox"
                       onChange={handleChange}
                     />
-                    {searchName &&
+                    {searchName.length &&
                       searchName.map(i => (
                         <div
                           aria-hidden="true"
                           className="form-group"
-                          onClick={() => handleUserSelect(i.userName)}
+                          onClick={() => handleUserSelect(i.firstname)}
                         >
                           <img src={ProfileImg} alt="" />
                           <input id="jane" type="radio" className="checkbox" />
-                          <label htmlFor="jane">{i.userName}</label>
+                          <label htmlFor="jane">{i.firstname}</label>
                         </div>
                       ))}
                   </form>
@@ -425,5 +423,6 @@ Profile.propTypes = {
   userData: PropTypes.object,
   delegateList: PropTypes.object,
   location: PropTypes.object,
+  delegateSuccess: PropTypes.bool,
 };
 export default Profile;
