@@ -1,7 +1,6 @@
 import { ENV } from '../config';
 
 export default {
-  // API_URL: ENV.API.URL,
-  API_URL: 'http://54ec-122-170-3-194.ngrok.io',
+  API_URL: ENV.API.URL,
   INVOICE_URL: ENV.API.InvoiceURL,
 };
