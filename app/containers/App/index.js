@@ -24,9 +24,7 @@ import Faq from '../../components/FAQ';
 import Report from '../ReportPage';
 import Boarding from '../onBoardingPage';
 import WorkSpot from '../WorkspotPage';
-import Login from '../../components/Login';
-
-import AuthenticateRoute from '../../components/AuthenticateRoute';
+// import Login from '../../components/Login';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
@@ -42,14 +40,7 @@ const App = props => {
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
         <Switch>
-          <AuthenticateRoute
-            exact
-            props={props}
-            path="/"
-            Route
-            component={WorkSpot}
-          />
-          <Route exact path="/login" component={Login} />
+          <Route exact props={props} path="/" Route component={WorkSpot} />
           <Route
             exact
             path="/profile"
@@ -57,22 +48,10 @@ const App = props => {
             component={ProfilePage}
             props={props}
           />
-          <AuthenticateRoute exact path="/faq" component={Faq} />
-          <AuthenticateRoute
-            exact
-            path="/report"
-            Route
-            props={props}
-            component={Report}
-          />
-          <AuthenticateRoute
-            exact
-            path="/board"
-            props={props}
-            Route
-            component={Boarding}
-          />
-          <AuthenticateRoute
+          <Route exact path="/faq" component={Faq} />
+          <Route exact path="/report" Route props={props} component={Report} />
+          <Route exact path="/board" props={props} Route component={Boarding} />
+          <Route
             exact
             Route
             path="/office"
