@@ -35,7 +35,7 @@ class ProfilePage extends Component {
       finalData: [],
       finalLocationDay: [],
       selectedDay: '',
-      selectedNames: '',
+      selectedNames: 'Washington , DC',
       checked: false,
       data: true,
       timings: [

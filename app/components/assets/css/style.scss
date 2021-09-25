@@ -2094,6 +2094,9 @@ input[type='text'] {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  &.profile {
+    margin: 0 auto;
+  }
 }
 
 /************ dropdown selection *****/
