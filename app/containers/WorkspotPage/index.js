@@ -1,9 +1,11 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import injectReducer from 'utils/injectReducer';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -11,7 +13,13 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Workspot from '../../components/WorkSpot';
 import reducer from './reducer';
-import { requestGetLocation } from './actions';
+import {
+  requestGetLocation,
+  requestUpdateWorkspot,
+  // requestGetWeeklyDefault,
+  resetWorkspot,
+  requestGetNeighborhood,
+} from './actions';
 import { getWorkSpotData } from './helpers';
 import {
   getMonthStartEndDate,
@@ -32,18 +40,19 @@ class WorkSpotPage extends Component {
       defaultSelected: 'week',
       searchValue: '',
       allUser: [],
-      date: [],
+      date: '',
       location: 'Washington, DC',
       scale: defaultScale,
       rotate: defaultRotate,
       version: 0,
       d: '',
-      work_place: [
-        {
-          date: '',
-          work_area: '',
-        },
-      ],
+      work_place: '',
+      // work_place: [
+      //   {
+      //     date: '',
+      //     work_area: '',
+      //   },
+      // ],
       workSpotData: [],
       userList: [],
       selectedColleagues: [],
@@ -82,6 +91,7 @@ class WorkSpotPage extends Component {
   componentDidMount() {
     const { defaultSelected } = this.state;
     this.props.requestGetLocation();
+    this.props.requestGetNeighborhood();
     const { dateToDisplay } =
       defaultSelected === 'week'
         ? getWeekStartEndDate(new Date())
@@ -90,6 +100,7 @@ class WorkSpotPage extends Component {
       dateToDisplay,
       defaultSelected,
     );
+
     this.getWorkSpots(startDispDate, endDispDate);
     this.setState({
       selectedDateRange: { startDate: startDispDate, endDate: endDispDate },
@@ -98,6 +109,27 @@ class WorkSpotPage extends Component {
     Axios.get(url).then(res => {
       this.setState({ userList: res.data });
     });
+  }
+
+  componentDidUpdate() {
+    const { defaultSelected } = this.state;
+    const { workspotSuccess, workspotMessage } = this.props;
+
+    const { dateToDisplay } =
+      defaultSelected === 'week'
+        ? getWeekStartEndDate(new Date())
+        : getMonthStartEndDate(new Date());
+    const { startDispDate, endDispDate } = getStartEndDate(
+      dateToDisplay,
+      defaultSelected,
+    );
+
+    if (workspotSuccess && workspotMessage) {
+      setTimeout(() => {
+        this.props.resetWorkspot();
+        this.getWorkSpots(startDispDate, endDispDate);
+      }, 3000);
+    }
   }
 
   handleUserSelect = username => {
@@ -151,8 +183,41 @@ class WorkSpotPage extends Component {
   };
 
   onSubmit = () => {
-    const { updatingObject, selectedDateRange } = this.state;
-    console.log(`payload`, updatingObject, selectedDateRange);
+    // eslint-disable-next-line no-unused-vars
+    const { updatingObject } = this.state;
+    const { locationData } = this.props;
+    const a =
+      locationData &&
+      locationData.find(obj => obj.locationname === updatingObject.work_area);
+
+    const payload = {
+      data: {
+        // eslint-disable-next-line radix
+        locationid: parseInt(a.id),
+        weekofday: [moment(a.date).format('YYYY-MM-DD')],
+      },
+
+      employeeid: 239321,
+    };
+    this.props.requestUpdateWorkspot(payload);
+  };
+
+  onUpdateWorkspot = () => {
+    const { work_place, date } = this.state;
+    const locDate = date.split(',');
+    const { locationData } = this.props;
+
+    const a =
+      locationData && locationData.find(obj => obj.locationname === work_place);
+    const payload = {
+      data: {
+        // eslint-disable-next-line radix
+        locationid: parseInt(a.id),
+        weekofday: locDate,
+      },
+      employeeid: 239321,
+    };
+    this.props.requestUpdateWorkspot(payload);
   };
 
   handleClose = () => {};
@@ -198,8 +263,14 @@ class WorkSpotPage extends Component {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
-    const { locationData } = this.props;
-
+    const {
+      locationData,
+      workspotSuccess,
+      workspotMessage,
+      apiMessage,
+      apiSuccess,
+      neighborhoodData,
+    } = this.props;
     return (
       <>
         <div id="content-wrap">
@@ -224,6 +295,12 @@ class WorkSpotPage extends Component {
             getWorkSpots={this.getWorkSpots}
             handleEditModal={this.handleEditModal}
             handleUpdatingModalData={this.handleUpdatingModalData}
+            onUpdateWorkspot={this.onUpdateWorkspot}
+            workspotSuccess={workspotSuccess}
+            workspotMessage={workspotMessage}
+            apiMessage={apiMessage}
+            apiSuccess={apiSuccess}
+            neighborhoodData={neighborhoodData}
           />
         </div>
         <Footer />
@@ -239,12 +316,28 @@ const mapStateToProps = state => {
       workspot &&
       workspot.getLocationData &&
       workspot.getLocationData.locationList,
+    workspotSuccess:
+      workspot && workspot.updateWorkspot && workspot.updateWorkspot.success,
+    workspotMessage:
+      workspot && workspot.updateWorkspot && workspot.updateWorkspot.message,
+    apiMessage: workspot && workspot.apiMessage,
+    apiSuccess: workspot && workspot.apiSuccess,
+    neighborhoodData:
+      workspot &&
+      workspot.neighborhood &&
+      workspot.neighborhood.neighborhoodData,
   };
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
     requestGetLocation: payload => dispatch(requestGetLocation(payload)),
+    requestUpdateWorkspot: payload => dispatch(requestUpdateWorkspot(payload)),
+    // requestGetWeeklyDefault: payload =>
+    //   dispatch(requestGetWeeklyDefault(payload)),
+    resetWorkspot: () => dispatch(resetWorkspot()),
+    requestGetNeighborhood: payload =>
+      dispatch(requestGetNeighborhood(payload)),
     dispatch,
   };
 }
@@ -253,7 +346,16 @@ const withReducer = injectReducer({ key: 'workspot', reducer });
 
 WorkSpotPage.propTypes = {
   requestGetLocation: PropTypes.func,
+  requestUpdateWorkspot: PropTypes.func,
   locationData: PropTypes.object,
+  workspotSuccess: PropTypes.bool,
+  workspotMessage: PropTypes.string,
+  apiMessage: PropTypes.string,
+  apiSuccess: PropTypes.bool,
+  // requestGetWeeklyDefault: PropTypes.func,
+  resetWorkspot: PropTypes.func,
+  requestGetNeighborhood: PropTypes.func,
+  neighborhoodData: PropTypes.object,
 };
 
 export default compose(

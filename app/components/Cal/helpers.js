@@ -164,7 +164,7 @@ export const getWeekTitle = dateObj => {
   } else {
     return `${startMonth} ${
       dateObj.firstDay
-    }-${endMonth} ${endDate.getDate()}, ${moment(dateObj.startDate).year()}`;
+    } - ${endMonth} ${endDate.getDate()}, ${moment(dateObj.startDate).year()}`;
   }
 };
 
