@@ -8,6 +8,7 @@ import {
   REQUEST_DELEGATE_DATA,
   SUCCESS_DELEGATE_DATA,
   FAILED_DELEGATE_DATA,
+  CLEAR_DATA,
 } from './constants';
 
 export const requestGetProfileOfficeData = payload => ({
@@ -53,4 +54,8 @@ export const getDelegateSuccess = payload => ({
 export const getDelegateFailed = error => ({
   type: FAILED_DELEGATE_DATA,
   payload: error,
+});
+
+export const clearData = () => ({
+  type: CLEAR_DATA,
 });

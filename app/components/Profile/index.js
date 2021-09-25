@@ -29,11 +29,12 @@ const Profile = ({
   location,
   apiMessage,
   apiSuccess,
+  locationSuccess,
+  locationMessage,
 }) => {
   const [open, setOpen] = useState(true);
   const [show, setShow] = useState(false);
   const [modal, setModal] = useState(false);
-
   const [search, setSearch] = useState(false);
   const [allUser, setAllUser] = useState([]);
   const [searchName, setSearchName] = useState([]);
@@ -99,14 +100,16 @@ const Profile = ({
   return (
     <Fragment>
       <>
-        {apiMessage && (
+        {(apiMessage || locationMessage) && (
           <div
             className={`"alert-dismissible fade show ${
-              apiSuccess ? 'popup_success' : 'popup_err'
+              apiSuccess || locationSuccess ? 'popup_success' : 'popup_err'
             } "`}
             role="alert"
           >
-            <p className="text-center m-auto">{apiMessage || ''}</p>
+            <p className="text-center m-auto">
+              {apiMessage || locationMessage || ''}
+            </p>
           </div>
         )}
         <div className="wrapper_main">
@@ -447,5 +450,7 @@ Profile.propTypes = {
   delegateSuccess: PropTypes.bool,
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
+  locationSuccess: PropTypes.bool,
+  locationMessage: PropTypes.string,
 };
 export default Profile;

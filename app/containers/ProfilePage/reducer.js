@@ -9,6 +9,7 @@ import {
   REQUEST_DELEGATE_DATA,
   SUCCESS_DELEGATE_DATA,
   FAILED_DELEGATE_DATA,
+  CLEAR_DATA,
 } from './constants';
 
 // The initial state of the App
@@ -102,6 +103,9 @@ const profilePageReducer = (state = initialState, action) =>
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;
+      case CLEAR_DATA:
+        draft.apiMessage = '';
+        draft.delegateList = [];
     }
   });
 

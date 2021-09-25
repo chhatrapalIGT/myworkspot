@@ -10,6 +10,7 @@ import reducer from './reducer';
 import {
   requestGetOfficeLocation,
   requestAddOfficeLocation,
+  clearBoardData,
 } from '../onBoardingPage/actions';
 
 import Header from '../../components/Header';
@@ -19,6 +20,7 @@ import {
   requestUserlistData,
   requestDelegateData,
   requestGetProfileOfficeData,
+  clearData,
 } from './actions';
 
 class ProfilePage extends Component {
@@ -81,14 +83,26 @@ class ProfilePage extends Component {
   }
 
   componentDidUpdate() {
-    const { getProfileLocationSuccess, getProfileLocation } = this.props;
+    const {
+      getProfileLocationSuccess,
+      getProfileLocation,
+      apiMessage,
+      locationMessage,
+    } = this.props;
     if (
       getProfileLocation &&
       !getProfileLocation.loading &&
       getProfileLocationSuccess &&
       this.state.data
-    )
+    ) {
       this.handleData();
+    }
+    if (apiMessage || locationMessage) {
+      setTimeout(() => {
+        this.props.clearData();
+        this.props.clearBoardData();
+      }, 3000);
+    }
   }
 
   handleClose = () => {
@@ -216,6 +230,8 @@ class ProfilePage extends Component {
       location,
       apiMessage,
       apiSuccess,
+      locationSuccess,
+      locationMessage,
     } = this.props;
     return (
       <>
@@ -239,6 +255,8 @@ class ProfilePage extends Component {
             location={location}
             apiMessage={apiMessage}
             apiSuccess={apiSuccess}
+            locationSuccess={locationSuccess}
+            locationMessage={locationMessage}
           />
         </div>
         <Footer />
@@ -267,6 +285,8 @@ const mapStateToProps = state => {
       locationData &&
       locationData.getOfficeLocation &&
       locationData.getOfficeLocation.location,
+    locationSuccess: locationData && locationData.addOfficeLocation.success,
+    locationMessage: locationData && locationData.addOfficeLocation.message,
     apiSuccess: profile && profile.apiSuccess,
     apiMessage: profile && profile.apiMessage,
   };
@@ -281,7 +301,8 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestGetOfficeLocation(payload)),
     requestAddOfficeLocation: payload =>
       dispatch(requestAddOfficeLocation(payload)),
-
+    clearData: () => dispatch(clearData()),
+    clearBoardData: () => dispatch(clearBoardData()),
     dispatch,
   };
 }
@@ -302,6 +323,10 @@ ProfilePage.propTypes = {
   delegateSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
+  locationSuccess: PropTypes.bool,
+  locationMessage: PropTypes.string,
+  clearData: PropTypes.object,
+  clearBoardData: PropTypes.object,
 };
 
 export default compose(
