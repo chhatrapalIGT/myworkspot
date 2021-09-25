@@ -27,8 +27,7 @@ const Boarding = ({
   location,
 }) => {
   // eslint-disable-next-line no-unused-vars
-  const [searchName, setSearchName] = useState([]);
-  const [allUser, setAllUser] = useState([]);
+
   const [modal, setModal] = useState(false);
   const history = useHistory();
 
@@ -36,14 +35,6 @@ const Boarding = ({
     setModal(true);
     handleButtonData(name);
   };
-
-  useEffect(() => {
-    const url = `https://mocki.io/v1/947b4269-a50f-4e16-8157-30d04fb8879a`;
-    Axios.get(url, {}).then(res => {
-      setAllUser(res.data);
-      setSearchName(res.data);
-    });
-  }, []);
 
   const final = state.timings.filter(data => data.name !== '');
 
