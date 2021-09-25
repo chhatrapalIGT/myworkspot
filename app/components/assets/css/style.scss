@@ -1034,7 +1034,7 @@ input[type='text'] {
     color: #fff;
     border-radius: 8px;
     font-size: 16px;
-    background: #002d50;
+    background: #d1dce7;
     outline: 0;
 
     // &:hover {
@@ -2094,6 +2094,9 @@ input[type='text'] {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  &.profile {
+    margin: 0 auto;
+  }
 }
 
 /************ dropdown selection *****/
@@ -2329,12 +2332,27 @@ select.set_drop option[id='building'],
   cursor: pointer;
 }
 
-.popup_err {
-  color: black;
-  font-size: 20px;
-  height: 40px;
-  background-color: #e85959;
-  line-height: 42px;
+.popup {
+  &_err {
+    position: fixed;
+    width: 100%;
+    z-index: 9999999999;
+    height: 40px;
+    line-height: 42px;
+    font-size: 20px;
+    background-color: #e85959;
+    color: black;
+  }
+  &_success {
+    position: fixed;
+    width: 100%;
+    z-index: 9999999999;
+    line-height: 42px;
+    height: 40px;
+    color: black;
+    font-size: 20px;
+    background-color: #73da62;
+  }
 }
 
 .popup_success {

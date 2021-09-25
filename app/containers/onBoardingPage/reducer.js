@@ -6,6 +6,7 @@ import {
   REQUEST_ADD_OFFICE_LOCATION,
   SUCCESS_ADD_OFFICE_LOCATION,
   FAILED_ADD_OFFICE_LOCATION,
+  CLEAR_BOARD_DATA,
 } from './constants';
 
 // The initial state of the App
@@ -59,6 +60,9 @@ const onBoardingReducer = (state = initialState, action) =>
         draft.addOfficeLocation.loading = false;
         draft.addOfficeLocation.error = action.payload;
         break;
+      case CLEAR_BOARD_DATA:
+        draft.addOfficeLocation = {};
+        draft.getOfficeLocation = {};
     }
   });
 

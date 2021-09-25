@@ -7,3 +7,7 @@ export const FAILED_USERLIST_DATA = 'getUserlistFailed';
 export const REQUEST_DELEGATE_DATA = 'requestDelegateData';
 export const SUCCESS_DELEGATE_DATA = 'getDelegateSuccess';
 export const FAILED_DELEGATE_DATA = 'getDelegateFailed';
+export const CLEAR_DATA = 'clearData';
+export const REQUEST_BADGE_DATA = 'requestBadgeData';
+export const SUCCESS_BADGE_DATA = 'getBadgeSuccess';
+export const FAILED_BADGE_DATA = 'getBadgeFailed';

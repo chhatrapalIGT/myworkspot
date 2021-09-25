@@ -9,6 +9,10 @@ import {
   REQUEST_DELEGATE_DATA,
   SUCCESS_DELEGATE_DATA,
   FAILED_DELEGATE_DATA,
+  CLEAR_DATA,
+  REQUEST_BADGE_DATA,
+  SUCCESS_BADGE_DATA,
+  FAILED_BADGE_DATA,
 } from './constants';
 
 // The initial state of the App
@@ -25,15 +29,23 @@ const initialState = {
     success: false,
     loading: false,
     message: '',
-    user: {},
+    user: [],
   },
   delegateList: {
     error: '',
     success: false,
     loading: false,
     message: '',
-    delegate: {},
+    delegate: [],
   },
+  badgeUpdate: {
+    error: '',
+    success: false,
+    loading: false,
+    message: '',
+  },
+  apiSuccess: false,
+  apiMessage: '',
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -49,12 +61,16 @@ const profilePageReducer = (state = initialState, action) =>
         draft.getOffice.success = true;
         draft.getOffice.weeklyLocation = action.payload;
         draft.getOffice.error = '';
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       case FAILED_GET_PROFILE_OFFICE_DATA:
         draft.getOffice.loading = false;
         draft.getOffice.success = false;
         draft.getOffice.weeklyLocation = [];
         draft.getOffice.error = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       case REQUEST_USERLIST_DATA:
         draft.userList.loading = true;
@@ -65,12 +81,16 @@ const profilePageReducer = (state = initialState, action) =>
         draft.userList.success = true;
         draft.userList.user = action.payload.userData;
         draft.userList.error = '';
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       case FAILED_USERLIST_DATA:
         draft.userList.loading = false;
         draft.userList.success = false;
         draft.userList.user = [];
         draft.userList.error = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       case REQUEST_DELEGATE_DATA:
         draft.delegateList.loading = true;
@@ -81,12 +101,40 @@ const profilePageReducer = (state = initialState, action) =>
         draft.delegateList.success = true;
         draft.delegateList.delegate = action.payload.userData;
         draft.delegateList.error = '';
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       case FAILED_DELEGATE_DATA:
         draft.delegateList.loading = false;
         draft.delegateList.success = false;
         draft.delegateList.delegate = [];
         draft.delegateList.error = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case CLEAR_DATA:
+        draft.apiMessage = '';
+        draft.delegateList = [];
+        draft.badgeUpdate = [];
+        break;
+
+      case REQUEST_BADGE_DATA:
+        draft.badgeUpdate.loading = true;
+        draft.badgeUpdate.error = '';
+        break;
+      case SUCCESS_BADGE_DATA:
+        draft.badgeUpdate.loading = false;
+        draft.badgeUpdate.success = action.payload.success;
+        draft.badgeUpdate.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case FAILED_BADGE_DATA:
+        draft.badgeUpdate.loading = false;
+        draft.badgeUpdate.success = action.payload.success;
+        draft.badgeUpdate.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
     }
   });

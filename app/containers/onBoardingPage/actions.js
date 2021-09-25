@@ -5,6 +5,7 @@ import {
   REQUEST_ADD_OFFICE_LOCATION,
   SUCCESS_ADD_OFFICE_LOCATION,
   FAILED_ADD_OFFICE_LOCATION,
+  CLEAR_BOARD_DATA,
 } from './constants';
 
 export const requestGetOfficeLocation = payload => ({
@@ -35,4 +36,8 @@ export const addOfficeLocationSuccess = payload => ({
 export const addOfficeLocationFailed = payload => ({
   type: FAILED_ADD_OFFICE_LOCATION,
   payload,
+});
+
+export const clearBoardData = () => ({
+  type: CLEAR_BOARD_DATA,
 });

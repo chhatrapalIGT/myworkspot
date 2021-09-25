@@ -42,7 +42,12 @@ export function* addOffice({ payload }) {
       data: payload,
     });
     const { data } = officeList;
-    yield put(addOfficeLocationSuccess(data));
+    console.log('officeList', officeList);
+    if (data && data.success) {
+      yield put(addOfficeLocationSuccess(data));
+    } else {
+      yield put(getOfficeLocationFailed(data));
+    }
   } catch (error) {
     yield put(addOfficeLocationFailed(error));
   }
