@@ -214,6 +214,8 @@ class ProfilePage extends Component {
       userData,
       delegateList,
       location,
+      apiMessage,
+      apiSuccess,
     } = this.props;
     return (
       <>
@@ -235,6 +237,8 @@ class ProfilePage extends Component {
             delegateList={delegateList}
             delegateSuccess={delegateSuccess}
             location={location}
+            apiMessage={apiMessage}
+            apiSuccess={apiSuccess}
           />
         </div>
         <Footer />
@@ -245,6 +249,7 @@ class ProfilePage extends Component {
 
 const mapStateToProps = state => {
   const { profile, locationData } = state;
+  console.log('state', state);
   return {
     getProfileLocation: profile && profile.getOffice,
     userData:
@@ -262,6 +267,8 @@ const mapStateToProps = state => {
       locationData &&
       locationData.getOfficeLocation &&
       locationData.getOfficeLocation.location,
+    apiSuccess: profile && profile.apiSuccess,
+    apiMessage: profile && profile.apiMessage,
   };
 };
 export function mapDispatchToProps(dispatch) {
@@ -293,6 +300,8 @@ ProfilePage.propTypes = {
   delegateList: PropTypes.object,
   getProfileLocationSuccess: PropTypes.bool,
   delegateSuccess: PropTypes.bool,
+  apiMessage: PropTypes.string,
+  apiSuccess: PropTypes.bool,
 };
 
 export default compose(

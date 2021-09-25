@@ -29,7 +29,7 @@ export function* getLocationData() {
     if (data && data.success) {
       yield put(getProfileOfficeDataSuccess(data.data));
     } else {
-      yield put(getProfileOfficeDataFailed(data.message));
+      yield put(getProfileOfficeDataFailed(data));
     }
   } catch (err) {
     yield put(getProfileOfficeDataFailed(err.message));
@@ -68,7 +68,7 @@ export function* getDelegateListData() {
     if (data && data.success) {
       yield put(getDelegateSuccess(data));
     } else {
-      yield put(getDelegateFailed(data.message));
+      yield put(getDelegateFailed(data));
     }
   } catch (err) {
     yield put(getDelegateFailed(err.message));

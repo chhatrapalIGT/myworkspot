@@ -34,6 +34,8 @@ const initialState = {
     message: '',
     delegate: {},
   },
+  apiSuccess: false,
+  apiMessage: '',
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -49,12 +51,16 @@ const profilePageReducer = (state = initialState, action) =>
         draft.getOffice.success = true;
         draft.getOffice.weeklyLocation = action.payload;
         draft.getOffice.error = '';
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       case FAILED_GET_PROFILE_OFFICE_DATA:
         draft.getOffice.loading = false;
         draft.getOffice.success = false;
         draft.getOffice.weeklyLocation = [];
         draft.getOffice.error = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       case REQUEST_USERLIST_DATA:
         draft.userList.loading = true;
@@ -65,12 +71,16 @@ const profilePageReducer = (state = initialState, action) =>
         draft.userList.success = true;
         draft.userList.user = action.payload.userData;
         draft.userList.error = '';
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       case FAILED_USERLIST_DATA:
         draft.userList.loading = false;
         draft.userList.success = false;
         draft.userList.user = [];
         draft.userList.error = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       case REQUEST_DELEGATE_DATA:
         draft.delegateList.loading = true;
@@ -81,12 +91,16 @@ const profilePageReducer = (state = initialState, action) =>
         draft.delegateList.success = true;
         draft.delegateList.delegate = action.payload.userData;
         draft.delegateList.error = '';
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       case FAILED_DELEGATE_DATA:
         draft.delegateList.loading = false;
         draft.delegateList.success = false;
         draft.delegateList.delegate = [];
         draft.delegateList.error = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
     }
   });
