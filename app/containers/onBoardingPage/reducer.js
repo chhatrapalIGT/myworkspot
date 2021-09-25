@@ -3,6 +3,10 @@ import {
   REQUEST_GET_OFFICE_LOCATION,
   SUCCESS_GET_OFFICE_LOCATION,
   FAILED_GET_OFFICE_LOCATION,
+  REQUEST_ADD_OFFICE_LOCATION,
+  SUCCESS_ADD_OFFICE_LOCATION,
+  FAILED_ADD_OFFICE_LOCATION,
+  CLEAR_BOARD_DATA,
 } from './constants';
 
 // The initial state of the App
@@ -13,6 +17,12 @@ const initialState = {
     message: '',
     loading: false,
     location: [],
+  },
+  addOfficeLocation: {
+    error: '',
+    success: false,
+    message: '',
+    loading: false,
   },
 };
 
@@ -36,6 +46,23 @@ const onBoardingReducer = (state = initialState, action) =>
         draft.getOfficeLocation.location = [];
         draft.getOfficeLocation.error = action.payload;
         break;
+
+      case REQUEST_ADD_OFFICE_LOCATION:
+        draft.addOfficeLocation.loading = true;
+        draft.addOfficeLocation.error = '';
+        break;
+      case SUCCESS_ADD_OFFICE_LOCATION:
+        draft.addOfficeLocation.loading = false;
+        draft.addOfficeLocation = action.payload;
+        draft.addOfficeLocation.error = '';
+        break;
+      case FAILED_ADD_OFFICE_LOCATION:
+        draft.addOfficeLocation.loading = false;
+        draft.addOfficeLocation.error = action.payload;
+        break;
+      case CLEAR_BOARD_DATA:
+        draft.addOfficeLocation = {};
+        draft.getOfficeLocation = {};
     }
   });
 

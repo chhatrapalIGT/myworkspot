@@ -4,13 +4,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import injectReducer from 'utils/injectReducer';
+// import injectReducer from 'utils/injectReducer';
+// import injectSaga from 'utils/injectSaga';
 import PropTypes from 'prop-types';
+import Axios from 'axios';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Report from '../../components/Report';
-import reducer from './reducer';
-import { requestGetLocation } from './actions';
+// import reducer from './reducer';
+// import { requestGetLocation } from './actions';
+import { getWorkSpotData } from '../WorkspotPage/helpers';
+import { requestGetOfficeLocation } from '../onBoardingPage/actions';
+import {
+  getStartEndDate,
+  getWeekStartEndDate,
+} from '../../components/Cal/helpers';
 
 const zoomStep = 1;
 const maxScale = 5;
@@ -21,12 +29,14 @@ class ReportPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      defaultSelected: 'week',
       selectedOption: [],
       scale: defaultScale,
       rotate: defaultRotate,
       version: 0,
       selectedNames: '',
       date: [],
+      allUser: [],
     };
   }
 
@@ -72,13 +82,33 @@ class ReportPage extends Component {
   };
 
   componentDidMount() {
-    this.props.requestGetLocation();
+    this.props.requestGetOfficeLocation();
+    const { dateToDisplay } = getWeekStartEndDate(new Date());
+    const { startDispDate, endDispDate } = getStartEndDate(
+      dateToDisplay,
+      'week',
+    );
+    this.getUserData(startDispDate, endDispDate);
   }
 
+  getUserData = async (startDispDate, endDispDate) => {
+    const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
+    const res = await Axios.get(url);
+    const newArr = [];
+    for (let i = 0; i < res.data.length; i += 1) {
+      const name = res.data[i].userName;
+      const data = getWorkSpotData(startDispDate, endDispDate);
+      newArr.push({ workspot: data, userName: name });
+    }
+    this.setState({ allUser: newArr });
+  };
+
   render() {
+    const { locationErrorHandle, location } = this.props;
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
+
     return (
       <>
         <div id="content-wrap">
@@ -92,6 +122,9 @@ class ReportPage extends Component {
             handleDefault={this.handleDefault}
             handleUserSelect={this.handleUserSelect}
             onDateChange={this.onDateChange}
+            location={location}
+            locationErrorHandle={locationErrorHandle}
+            getWorkSpots={this.getUserData}
           />{' '}
         </div>
         <Footer />
@@ -100,32 +133,39 @@ class ReportPage extends Component {
   }
 }
 const mapStateToProps = state => {
-  const { workspot } = state;
+  const { locationData } = state;
   return {
-    locationData:
-      workspot &&
-      workspot.getLocationData &&
-      workspot.getLocationData.locationList,
+    location:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.location,
+    locationErrorHandle:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation,
   };
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    requestGetLocation: payload => dispatch(requestGetLocation(payload)),
+    requestGetOfficeLocation: payload =>
+      dispatch(requestGetOfficeLocation(payload)),
     dispatch,
   };
 }
 
-const withReducer = injectReducer({ key: 'myTeam', reducer });
+// const withReducer = injectReducer({ key: 'myTeam', reducer });
+// const withSaga = injectSaga({ key: 'myTeam', saga });
 
 ReportPage.propTypes = {
-  requestGetLocation: PropTypes.func,
+  requestGetOfficeLocation: PropTypes.func,
+  locationErrorHandle: PropTypes.string,
+  location: PropTypes.object,
 };
 
-// export default WorkSpotPage;
 export default compose(
-  withReducer,
-  //   withSaga,
+  // withReducer,
+  // withSaga,
   connect(
     mapStateToProps,
     mapDispatchToProps,

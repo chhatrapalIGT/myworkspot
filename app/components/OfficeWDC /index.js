@@ -1,8 +1,9 @@
+/* eslint-disable indent */
 /* eslint-disable default-case */
 import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
+import Spinner from 'react-bootstrap/Spinner';
 // import Office from '../../images/off.svg';
 // import Swiggy from '../../images/swiggy.png';
 // import Talabat from '../../images/talabat.png';
@@ -27,56 +28,43 @@ const OfficeWDC = ({
   handleDefault,
   imgStyle,
   state,
+  officeLocation,
+  officeLocationErrorHandle,
 }) => {
   const isDraggable = state.scale > 1;
   const [office, setOffice] = useState('Washington , DC');
-  const [allUser, setAllUser] = useState([]);
-  const [floor, setFloor] = useState([]);
+  const [floor, setFloor] = useState();
   const [finalFloor, setFinalFloor] = useState('Floor 2');
   const [imgSrc, setImgSrc] = useState('');
 
-  useEffect(() => {
-    const url = `https://mocki.io/v1/947b4269-a50f-4e16-8157-30d04fb8879a`;
-    Axios.get(url, {}).then(res => {
-      setAllUser(res.data);
-    });
-  }, []);
+  const finalFloorData =
+    officeLocation &&
+    officeLocation[0] &&
+    officeLocation[0].building &&
+    officeLocation[0].building.map(obj => obj);
 
   useEffect(() => {
     if (office.length) {
       setFloors(office);
     }
+    Icon();
   }, [office]);
 
   const setFloors = value => {
     let Data = [];
+
     const switchValue = value || office;
-
-    switch (switchValue) {
-      case 'Washington , DC':
-        Data = ['Floor 2', 'Floor 3', 'Floor 4', 'Floor 8'];
-        break;
-      case 'Richmond , VA':
-        Data = [
-          'Building 1',
-          'Building 2',
-          'Building 3, Floor 1',
-          'Building 3, Floor 2',
-        ];
-        break;
-      case 'Birmigham , AL':
-        Data = ['Building 1'];
-        break;
-      case 'Bloomington , MN':
-        Data = ['Building 1'];
-        break;
-
-      default:
-        Data = ['No Floor Found '];
-    }
-    setFloor(Data);
-    setFinalFloor(Data[0]);
-    Icon(switchValue, Data[0]);
+    Data =
+      officeLocation &&
+      officeLocation.find(obj =>
+        obj.location === switchValue ? obj.building : '',
+      );
+    setFloor(Data && Data.building);
+    setFinalFloor(Data && Data.building[0]);
+    Icon(
+      switchValue,
+      officeLocation && officeLocation[0] && officeLocation[0].building,
+    );
   };
   const Icon = (valOffice, valFinalFloor) => {
     const switchOffice = valOffice || office;
@@ -117,11 +105,19 @@ const OfficeWDC = ({
         }
         break;
       case 'Birmigham , AL':
-        imageSrc = map10;
+        switch (switchFinalFloor) {
+          case 'Building 1':
+            imageSrc = map10;
+            break;
+        }
         break;
 
       case 'Bloomington , MN':
-        imageSrc = map9;
+        switch (switchFinalFloor) {
+          case 'Building 1':
+            imageSrc = map9;
+            break;
+        }
         break;
 
       default:
@@ -130,156 +126,191 @@ const OfficeWDC = ({
   };
 
   return (
-    <div className="wrapper_main">
-      <div className="office_maps">
-        <div className="container">
-          <div className="head d-flex align-items-center">
-            <h4 className="common-title">Office Maps</h4>
-            <div className="office-selections">
-              <div className="selction_one">
-                <label htmlFor="Office">Office</label>
-                <select
-                  name=""
-                  id=""
-                  value={office}
-                  onChange={e => {
-                    setOffice(e.target.value);
-                    setFloors(e.target.value);
-                  }}
-                  className="set_drop"
-                >
-                  {allUser &&
-                    allUser.map(obj => (
-                      <>
-                        <option value={obj.name} key={obj.name} id="building">
-                          {obj.name}
-                        </option>
-                      </>
-                    ))}
-                </select>
-              </div>
-              <div className="selction_one">
-                <label htmlFor="Building/Floor">Building/Floor</label>
-                <select
-                  className={
-                    office === 'Birmigham , AL' || office === 'Bloomington , MN'
-                      ? ''
-                      : 'set_drop'
-                  }
-                  name=""
-                  id=""
-                  disabled={
-                    office === 'Birmigham , AL' || office === 'Bloomington , MN'
-                  }
-                  onChange={e => {
-                    Icon(office, e.target.value);
-                    setFinalFloor(e.target.value);
-                  }}
-                >
-                  {floor && floor.length
-                    ? floor &&
-                      floor.map(obj => (
-                        <>
-                          <option value={obj} key={obj} id="floors">
-                            {obj}
-                          </option>
-                        </>
-                      ))
-                    : 'No Floor Found'}
-                </select>
+    <>
+      {officeLocationErrorHandle &&
+        !officeLocationErrorHandle.success &&
+        officeLocationErrorHandle.error && (
+          <div className="alert-dismissible fade show popup_err" role="alert">
+            <p className="text-center m-auto">
+              {officeLocationErrorHandle && !officeLocationErrorHandle.success
+                ? officeLocationErrorHandle.error
+                : ''}
+            </p>
+          </div>
+        )}
+      {officeLocation && !officeLocation.length ? (
+        <Spinner className="app-spinner" animation="grow" variant="dark" />
+      ) : (
+        <div className="wrapper_main">
+          <div className="office_maps">
+            <div className="container">
+              <div className="head d-flex align-items-center">
+                <h4 className="common-title">Office Maps</h4>
+                <div className="office-selections">
+                  <div className="selction_one">
+                    <label htmlFor="Office">Office</label>
+                    <select
+                      name=""
+                      id=""
+                      value={office}
+                      onChange={e => {
+                        setOffice(e.target.value);
+                        setFloors(e.target.value);
+                      }}
+                      className="set_drop"
+                    >
+                      {officeLocation &&
+                        officeLocation.map(obj => (
+                          <>
+                            <option
+                              value={obj.location}
+                              key={obj.location}
+                              id="building"
+                            >
+                              {obj.location}
+                            </option>
+                          </>
+                        ))}
+                    </select>
+                  </div>
+                  <div className="selction_one">
+                    <label htmlFor="Building/Floor">Building/Floor</label>
+                    <select
+                      className={
+                        office === 'Birmigham , AL' ||
+                        office === 'Bloomington , MN'
+                          ? ''
+                          : 'set_drop'
+                      }
+                      name=""
+                      id=""
+                      disabled={
+                        office === 'Birmigham , AL' ||
+                        office === 'Bloomington , MN'
+                      }
+                      onChange={e => {
+                        Icon(office, e.target.value);
+                        setFinalFloor(e.target.value);
+                      }}
+                    >
+                      {floor && floor.length
+                        ? floor &&
+                          floor.map(obj => (
+                            <>
+                              <option value={obj} key={obj} id="floors">
+                                {obj}
+                              </option>
+                            </>
+                          ))
+                        : finalFloorData &&
+                          finalFloorData.map(data => (
+                            <option value={data} key={data} id="floors">
+                              {data}
+                            </option>
+                          ))}
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="office-structure mt-4">
-        <div className="container">
-          <div className="card office-structure-inner">
-            <div className="left-panel">
-              <div className="office-info">
-                <p className="name"> {office}</p>
-                <span className="floor"> {finalFloor}</span>
-              </div>
-              <div className="office-resource">
-                <p>Office Resources</p>
-                <div className="office-part-one yellow">
-                  <span className="informer" />
-                  <label htmlFor="my-spot">Yellow</label>
+          <div className="office-structure mt-4">
+            <div className="container">
+              <div className="card office-structure-inner">
+                <div className="left-panel">
+                  <div className="office-info">
+                    <p className="name"> {office}</p>
+                    <span className="floor">
+                      {finalFloor || (finalFloorData && finalFloorData[0])}
+                    </span>
+                  </div>
+                  <div className="office-resource">
+                    <p>Office Resources</p>
+                    <div className="office-part-one yellow">
+                      <span className="informer" />
+                      <label htmlFor="my-spot">Yellow</label>
+                    </div>
+                    <div className="office-part-one teal">
+                      <span className="informer" />
+                      <label htmlFor="my-spot">Teal</label>
+                    </div>
+                    <div className="office-part-one orange">
+                      <span className="informer" />
+                      <label htmlFor="my-spot">Orange</label>
+                    </div>
+                    <div className="office-part-one blue">
+                      <span className="informer" />
+                      <label htmlFor="my-spot">Blue</label>
+                    </div>
+                    <div className="office-part-one teal">
+                      <span className="informer">315</span>
+                      <label htmlFor="my-spot">Bel-Air</label>
+                    </div>
+                    <div className="office-part-one teal">
+                      <span className="informer">332</span>
+                      <label htmlFor="my-spot">Walkerville</label>
+                    </div>
+                    <div className="office-part-one white">
+                      <span className="informer">334</span>
+                      <label htmlFor="my-spot">Common Room</label>
+                    </div>
+                    <div className="office-part-one black">
+                      <span className="informer">359</span>
+                      <label htmlFor="my-spot">The Post</label>
+                    </div>
+                    <div className="office-part-one heart pink">
+                      <span className="informer">
+                        <img src={heartImage} alt="" />
+                      </span>
+                      <label htmlFor="my-spot">AED</label>
+                    </div>
+                  </div>
                 </div>
-                <div className="office-part-one teal">
-                  <span className="informer" />
-                  <label htmlFor="my-spot">Teal</label>
-                </div>
-                <div className="office-part-one orange">
-                  <span className="informer" />
-                  <label htmlFor="my-spot">Orange</label>
-                </div>
-                <div className="office-part-one blue">
-                  <span className="informer" />
-                  <label htmlFor="my-spot">Blue</label>
-                </div>
-                <div className="office-part-one teal">
-                  <span className="informer">315</span>
-                  <label htmlFor="my-spot">Bel-Air</label>
-                </div>
-                <div className="office-part-one teal">
-                  <span className="informer">332</span>
-                  <label htmlFor="my-spot">Walkerville</label>
-                </div>
-                <div className="office-part-one white">
-                  <span className="informer">334</span>
-                  <label htmlFor="my-spot">Common Room</label>
-                </div>
-                <div className="office-part-one black">
-                  <span className="informer">359</span>
-                  <label htmlFor="my-spot">The Post</label>
-                </div>
-                <div className="office-part-one heart pink">
-                  <span className="informer">
-                    <img src={heartImage} alt="" />
-                  </span>
-                  <label htmlFor="my-spot">AED</label>
-                </div>
-              </div>
-            </div>
-            <div className="right-map">
-              <Draggable disabled={!isDraggable} key={state.version}>
-                <div
-                  className="drag_image"
-                  style={isDraggable ? { cursor: 'move' } : null}
-                >
-                  <img src={imgSrc} alt="" style={imgStyle} draggable="false" />
-                </div>
-              </Draggable>
+                <div className="right-map">
+                  <Draggable disabled={!isDraggable} key={state.version}>
+                    <div
+                      className="drag_image"
+                      style={isDraggable ? { cursor: 'move' } : null}
+                    >
+                      <img
+                        src={imgSrc}
+                        alt=""
+                        style={imgStyle}
+                        draggable="false"
+                      />
+                    </div>
+                  </Draggable>
 
-              <div className="toolbar">
-                <button
-                  className="location"
-                  type="button"
-                  onClick={() => handleDefault()}
-                >
-                  <img src={location} alt="" />
-                </button>
-                <button
-                  className="zoomin"
-                  type="button"
-                  onClick={() => handleZoomIn()}
-                >
-                  <img src={Zoomin} alt="" />
-                </button>
-                <button
-                  className="zoomout"
-                  type="button"
-                  onClick={() => handleZoomOut()}
-                >
-                  <img src={Zoomout} alt="" />
-                </button>
+                  <div className="toolbar">
+                    <button
+                      className="location"
+                      type="button"
+                      onClick={() => handleDefault()}
+                    >
+                      <img src={location} alt="" />
+                    </button>
+                    <button
+                      className="zoomin"
+                      type="button"
+                      onClick={() => handleZoomIn()}
+                    >
+                      <img src={Zoomin} alt="" />
+                    </button>
+                    <button
+                      className="zoomout"
+                      type="button"
+                      onClick={() => handleZoomOut()}
+                    >
+                      <img src={Zoomout} alt="" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
@@ -289,5 +320,7 @@ OfficeWDC.propTypes = {
   handleZoomOut: PropTypes.func,
   handleZoomIn: PropTypes.func,
   handleDefault: PropTypes.func,
+  officeLocationErrorHandle: PropTypes.string,
+  officeLocation: PropTypes.object,
 };
 export default OfficeWDC;

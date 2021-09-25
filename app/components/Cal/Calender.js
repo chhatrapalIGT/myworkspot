@@ -8,6 +8,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import Spinner from 'react-bootstrap/Spinner';
 import Vector from '../assets/images/Vector.svg';
 import floorLocation from '../assets/images/floor-location.png';
 import profile from '../assets/images/profileof.png';
@@ -18,21 +19,23 @@ import {
   getWeekStartEndDate,
   getMonthStartEndDate,
   getWeekTitle,
+  getStartEndDate,
 } from './helpers';
 
 const Calender = ({
   defaultSelected,
   setModal,
-  userListData,
   setEmployeeModal,
   setEmployee,
-  setLocation,
+  handleEditModal,
   setVisible,
   setShow,
   handleRemove,
   allUser,
   setDate,
   setEmployeeLocationDetail,
+  workSpotData = [],
+  getWorkSpots,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
@@ -49,14 +52,21 @@ const Calender = ({
     },
     [days.currentDate],
   );
-
   const title = useMemo(() => {
     return period === 'month'
-      ? `${moment(days.startDate).format('MMMM')} ${' '} ${moment(
+      ? `${moment(days.startDate).format('MMMM')} ${'  '}  ${moment(
           days.startDate,
         ).year()}`
       : getWeekTitle(days);
   }, [period, days]);
+
+  const callAPI = (datesArr, periodValue) => {
+    const { startDispDate, endDispDate } = getStartEndDate(
+      datesArr,
+      periodValue,
+    );
+    getWorkSpots(startDispDate, endDispDate);
+  };
 
   const handlePrevNext = direction => {
     const { startDate, endDate } = days;
@@ -68,14 +78,15 @@ const Calender = ({
       const prevMonthEndDate = moment(startDate)
         .subtract(1, 'days')
         .toDate();
-      setDays(
-        getMonthStartEndDate(
-          direction === 'prev' ? prevMonthEndDate : nextMonthStartDate,
-          direction,
-        ),
+      const newDays = getMonthStartEndDate(
+        direction === 'prev' ? prevMonthEndDate : nextMonthStartDate,
+        direction,
       );
+      callAPI(newDays.dateToDisplay, period);
+      setDays(newDays);
     } else {
       const newDays = getWeekStartEndDate(date, direction);
+      callAPI(newDays.dateToDisplay, period);
       setDays(newDays);
       setSelectedWeek(newDays.startDate);
     }
@@ -87,15 +98,19 @@ const Calender = ({
       periodType === 'month'
         ? getMonthStartEndDate(startDate)
         : getWeekStartEndDate(selectedWeek);
+    callAPI(newDays.dateToDisplay, periodType);
     setDays(newDays);
     periodType === 'week' && setSelectedWeek(newDays.startDate);
     setPeriod(periodType);
   };
 
   const handleToday = () => {
-    period === 'month'
-      ? setDays(getMonthStartEndDate(new Date()))
-      : setDays(getWeekStartEndDate(new Date()));
+    const newDays =
+      period === 'month'
+        ? getMonthStartEndDate(new Date())
+        : getWeekStartEndDate(new Date());
+    callAPI(newDays.dateToDisplay, period);
+    setDays(newDays);
     setSelectedWeek(new Date());
   };
 
@@ -107,6 +122,13 @@ const Calender = ({
     },
     [days.currentDate],
   );
+
+  const getCorrespondingData = date => {
+    const a = workSpotData.find(ele =>
+      moment(ele.date, 'MM/D/YYYY').isSame(moment(date, 'MM/D/YYYY'), 'day'),
+    );
+    return a;
+  };
 
   return (
     <div className={!setVisible && 'myteam_wrapper'}>
@@ -218,113 +240,141 @@ const Calender = ({
                       {!setVisible && (
                         <>
                           {allUser &&
-                            allUser.map(user => (
+                            allUser.map((user, userIdx) => (
                               <>
                                 <div className="my_team_member">
                                   <div className="d-flex align-items-center mb-1">
                                     <img src={ProfileImg} alt="" />
                                     <span className="member-name">
-                                      {user.userName}
+                                      {user.userName || 'My Workspace'}
                                     </span>
                                   </div>
                                   <span className="designation">
                                     UX/UI Designer
                                   </span>
                                 </div>
-                                {days.dateToDisplay.map(item => (
-                                  <>
-                                    <div
-                                      className={
-                                        item.disable
-                                          ? 'day_one disabled'
-                                          : 'day_one'
-                                      }
-                                      onClick={() => {
-                                        isCurrentDate(item.date) &&
-                                          setEmployeeLocationDetail(true);
-                                        setLocation(true);
-                                      }}
-                                      aria-hidden="true"
-                                      key={`${item.value}`}
-                                    >
-                                      <p className="day-name">{item.day}</p>
-                                      <p
-                                        className="date"
-                                        style={{
-                                          background: isDateSelected(item.date),
+                                {days.dateToDisplay.map((item, itemIdx) => {
+                                  const data =
+                                    allUser[userIdx].workspot[itemIdx];
+                                  return (
+                                    <>
+                                      <div
+                                        className={
+                                          item.disable
+                                            ? 'day_one disabled'
+                                            : 'day_one'
+                                        }
+                                        onClick={() => {
+                                          if (isCurrentDate(item.date)) {
+                                            setEmployeeLocationDetail(true);
+                                            handleEditModal({
+                                              ...data,
+                                              user: user.userName,
+                                            });
+                                          }
                                         }}
+                                        aria-hidden="true"
+                                        key={`${item.value}`}
                                       >
-                                        {' '}
-                                        {item.value}
-                                      </p>
-                                      <div className="day-one-wrapper work-from-office border-top-blue">
-                                        <p className="work-station work-floor">
-                                          Washington, DC
+                                        <p className="day-name">{item.day}</p>
+                                        <p
+                                          className="date"
+                                          style={{
+                                            background: isDateSelected(
+                                              item.date,
+                                            ),
+                                          }}
+                                        >
+                                          {item.value}
                                         </p>
-                                        <span className="floor-location">
-                                          <img src={Vector} alt="" />
-                                          Fl 4 - Blue
-                                        </span>
+                                        <div className="day-one-wrapper work-from-office border-top-blue">
+                                          <p className="work-station work-floor">
+                                            {data && data.locationName}
+                                          </p>
+                                          <span className="floor-location">
+                                            <img src={Vector} alt="" />
+                                            {data && data.floor} -{' '}
+                                            {data && data.color}
+                                          </span>
+                                        </div>
                                       </div>
-                                    </div>
-                                  </>
-                                ))}
+                                    </>
+                                  );
+                                })}
                               </>
                             ))}
                         </>
                       )}
-
-                      {setVisible &&
-                        days.dateToDisplay.map(item => (
-                          <>
-                            <div
-                              className={
-                                item.disable ? 'day_one disabled' : 'day_one'
-                              }
-                              key={`${item.value}`}
-                            >
-                              <p className="day-name">{item.day}</p>
-                              <p
-                                className="date"
-                                style={{
-                                  background: isDateSelected(item.date),
-                                }}
-                              >
-                                {' '}
-                                {item.value}
-                              </p>
-
+                      {setVisible && !workSpotData.length ? (
+                        <Spinner
+                          className="app-spinner"
+                          animation="grow"
+                          variant="dark"
+                        />
+                      ) : (
+                        setVisible &&
+                        workSpotData.length > 0 &&
+                        days.dateToDisplay.map(item => {
+                          const data = getCorrespondingData(item.date);
+                          return (
+                            <>
                               <div
                                 className={
-                                  item.disable
-                                    ? 'day-one-wrapper work-from-office  border-top-blue'
-                                    : 'day-one-wrapper work-from-office day-pointer border-top-blue'
+                                  item.disable ? 'day_one disabled' : 'day_one'
                                 }
-                                onClick={() => {
-                                  !item.disable && setLocation(true);
-                                  setDate(
-                                    moment(item.date).format(
-                                      'dddd, MMMM DD, YYYY',
-                                    ),
-                                  );
-                                }}
-                                aria-hidden="true"
+                                key={`${item.value}`}
                               >
-                                <p className="work-station work-floor">
-                                  Washington, DC
+                                <p className="day-name">{item.day}</p>
+                                <p
+                                  className="date"
+                                  style={{
+                                    background: isDateSelected(item.date),
+                                  }}
+                                >
+                                  {' '}
+                                  {item.value}
                                 </p>
-                                <span className="floor-location">
-                                  <img src={Vector} alt="" />
-                                  Fl 4 - Blue
-                                </span>
+
+                                <div
+                                  className={
+                                    item.disable || !isCurrentDate(item.date)
+                                      ? 'day-one-wrapper work-from-office  border-top-blue'
+                                      : 'day-one-wrapper work-from-office day-pointer border-top-blue'
+                                  }
+                                  onClick={() => {
+                                    !item.disable &&
+                                      isCurrentDate(item.date) &&
+                                      handleEditModal(
+                                        true,
+                                        item.date,
+                                        `${data.state} , ${data.city}`,
+                                        'self',
+                                      );
+                                    setDate(
+                                      moment(item.date).format(
+                                        'dddd, MMMM DD, YYYY',
+                                      ),
+                                    );
+                                  }}
+                                  aria-hidden="true"
+                                >
+                                  <p className="work-station work-floor">
+                                    {data && data.locationName}
+                                  </p>
+                                  <span className="floor-location">
+                                    <img src={Vector} alt="" />
+                                    {data && data.floor} - {data && data.color}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          </>
-                        ))}
+                            </>
+                          );
+                        })
+                      )}
                     </div>
                   </div>
                 </div>
-                {userListData && userListData.length > 0 && (
+                {setVisible && allUser && allUser.length > 0 && (
                   <div className="mt-4">
                     Search results
                     <label className="weekly-remove" style={{ float: 'right' }}>
@@ -335,8 +385,9 @@ const Calender = ({
                   </div>
                 )}
 
-                {userListData &&
-                  userListData.map(obj => (
+                {setVisible &&
+                  allUser &&
+                  allUser.map((obj, userIdx) => (
                     <div
                       className="tab-pane fade show active"
                       id="nav-week-view"
@@ -358,7 +409,7 @@ const Calender = ({
                             />
                             {'   '}
                             <label>
-                              <b>{obj}</b>
+                              <b>{obj.userName}</b>
                             </label>
                             <div
                               style={{ float: 'right' }}
@@ -371,51 +422,57 @@ const Calender = ({
                             </div>
                           </div>
                           <div className="weekly-default-inner d-flex flex-wrap">
-                            {days.dateToDisplay.map(item => (
-                              <div
-                                className={
-                                  item.disable ? 'day_one disabled' : 'day_one'
-                                }
-                                key={`${item.value}`}
-                              >
-                                <p className="day-name">{item.day}</p>
-                                <p
-                                  className="date"
-                                  style={{
-                                    background: isDateSelected(item.date),
-                                  }}
-                                >
-                                  {' '}
-                                  {item.value}
-                                </p>
-
+                            {days.dateToDisplay.map((item, itemIdx) => {
+                              const data = allUser[userIdx].workspot[itemIdx];
+                              return (
                                 <div
                                   className={
-                                    isCurrentDate(item.date)
-                                      ? 'day-one-wrapper work-from-office day-pointer border-top-blue'
-                                      : 'day-one-wrapper work-from-office border-top-blue'
+                                    item.disable
+                                      ? 'day_one disabled'
+                                      : 'day_one'
                                   }
-                                  onClick={() => {
-                                    isCurrentDate(item.date) &&
-                                      setEmployee(true);
-                                    setDate(
-                                      moment(item.date).format(
-                                        'dddd, MMMM DD, YYYY',
-                                      ),
-                                    );
-                                  }}
-                                  aria-hidden="true"
+                                  key={`${item.value}`}
                                 >
-                                  <p className="work-station work-floor">
-                                    Washington, DC
+                                  <p className="day-name">{item.day}</p>
+                                  <p
+                                    className="date"
+                                    style={{
+                                      background: isDateSelected(item.date),
+                                    }}
+                                  >
+                                    {' '}
+                                    {item.value}
                                   </p>
-                                  <span className="floor-location">
-                                    <img src={Vector} alt="" />
-                                    Fl 4 - Blue
-                                  </span>
+
+                                  <div
+                                    className={
+                                      isCurrentDate(item.date)
+                                        ? 'day-one-wrapper work-from-office day-pointer border-top-blue'
+                                        : 'day-one-wrapper work-from-office border-top-blue'
+                                    }
+                                    onClick={() => {
+                                      isCurrentDate(item.date) &&
+                                        setEmployee(true);
+                                      setDate(
+                                        moment(item.date).format(
+                                          'dddd, MMMM DD, YYYY',
+                                        ),
+                                      );
+                                    }}
+                                    aria-hidden="true"
+                                  >
+                                    <p className="work-station work-floor">
+                                      {data && data.locationName}
+                                    </p>
+                                    <span className="floor-location">
+                                      <img src={Vector} alt="" />
+                                      {data && data.floor} -{' '}
+                                      {data && data.color}
+                                    </span>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       </div>
@@ -427,56 +484,70 @@ const Calender = ({
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
                   {days.dateToDisplay.map(items => (
                     <>
-                      {items.map(item => (
-                        <div
-                          className={`${
-                            item.disable &&
-                            (item.day === 'Saturday' ||
-                              item.day === 'Sunday' ||
-                              item.weekend)
-                              ? 'day_one disabled weekend'
-                              : item.disable
-                              ? 'day_one disabled'
-                              : 'day_one'
-                          }`}
-                          key={`${item.value}`}
-                        >
-                          <p className="day-name">{item.day}</p>
-                          <p
-                            className="date"
-                            style={{
-                              background: isDateSelected(item.date),
-                            }}
-                          >
-                            {item.value}
-                          </p>
+                      {items.map(item => {
+                        const data = getCorrespondingData(item.date);
+                        return (
                           <div
                             className={`${
                               item.disable &&
                               (item.day === 'Saturday' ||
                                 item.day === 'Sunday' ||
                                 item.weekend)
-                                ? 'day-one-wrapper'
+                                ? 'day_one disabled weekend'
                                 : item.disable
-                                ? 'day-one-wrapper work-from-office border-top-blue'
-                                : 'day-one-wrapper work-from-office day-pointer border-top-blue'
+                                ? 'day_one disabled'
+                                : 'day_one'
                             }`}
-                            onClick={() => {
-                              !item.disable && setLocation(true);
-                              setDate(
-                                moment(item.date).format('dddd, MMMM DD, YYYY'),
-                              );
-                            }}
-                            aria-hidden="true"
+                            key={`${item.value}`}
                           >
-                            <p className="work-station">Washington, DC</p>
-                            <span className="floor-location">
-                              <img src={floorLocation} alt="" />
-                              Fl 4 - Blue
-                            </span>
+                            <p className="day-name">{item.day}</p>
+                            <p
+                              className="date"
+                              style={{
+                                background: isDateSelected(item.date),
+                              }}
+                            >
+                              {item.value}
+                            </p>
+                            <div
+                              className={`${
+                                item.disable &&
+                                (item.day === 'Saturday' ||
+                                  item.day === 'Sunday' ||
+                                  item.weekend)
+                                  ? 'day-one-wrapper'
+                                  : item.disable || !isCurrentDate(item.date)
+                                  ? 'day-one-wrapper work-from-office border-top-blue'
+                                  : 'day-one-wrapper work-from-office day-pointer border-top-blue'
+                              }`}
+                              onClick={() => {
+                                !item.disable &&
+                                  isCurrentDate(item.date) &&
+                                  handleEditModal(
+                                    true,
+                                    item.date,
+                                    `${data.state} , ${data.city}`,
+                                    'self',
+                                  );
+                                setDate(
+                                  moment(item.date).format(
+                                    'dddd, MMMM DD, YYYY',
+                                  ),
+                                );
+                              }}
+                              aria-hidden="true"
+                            >
+                              <p className="work-station">
+                                {data && data.locationName}
+                              </p>
+                              <span className="floor-location">
+                                <img src={floorLocation} alt="" />
+                                {data && data.floor} - {data && data.color}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </>
                   ))}
                 </div>
@@ -502,14 +573,15 @@ const Calender = ({
 Calender.propTypes = {
   setModal: PropTypes.func,
   defaultSelected: PropTypes.string,
-  userListData: PropTypes.object,
   setEmployeeModal: PropTypes.func,
   setEmployee: PropTypes.func,
-  setLocation: PropTypes.func,
+  handleEditModal: PropTypes.func,
   setVisible: PropTypes.func,
   setShow: PropTypes.func,
   handleRemove: PropTypes.func,
-  allUser: PropTypes.object,
+  getWorkSpots: PropTypes.func,
+  allUser: PropTypes.array,
+  workSpotData: PropTypes.array,
   setDate: PropTypes.string,
   setEmployeeLocationDetail: PropTypes.bool,
 };

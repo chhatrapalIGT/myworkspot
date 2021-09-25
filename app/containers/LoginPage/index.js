@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { PublicClientApplication } from '@azure/msal-browser';
 import { msalConfig } from './config';
-import Login from '../../components/Login';
+// import Login from '../../components/Login';
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -73,7 +73,8 @@ class LoginPage extends React.Component {
   };
 
   render() {
-    return <Login state={this.state} login={this.login} logout={this.logout} />;
+    return null;
+    // <Login state={this.state} login={this.login} logout={this.logout} />;
   }
 }
 

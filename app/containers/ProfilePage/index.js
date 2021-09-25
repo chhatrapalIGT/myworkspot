@@ -1,10 +1,28 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-import Axios from 'axios';
+import PropTypes from 'prop-types';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import saga from './saga';
+import reducer from './reducer';
+import {
+  requestGetOfficeLocation,
+  requestAddOfficeLocation,
+  clearBoardData,
+} from '../onBoardingPage/actions';
+
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Profile from '../../components/Profile';
+import {
+  requestUserlistData,
+  requestDelegateData,
+  requestGetProfileOfficeData,
+  clearData,
+  requestBadgeData,
+} from './actions';
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -18,73 +36,79 @@ class ProfilePage extends Component {
       userListData: [],
       selectData: [],
       finalData: [],
+      finalLocationDay: [],
       selectedDay: '',
-      selectedNames: '',
+      selectedNames: 'Washington , DC',
       checked: false,
+      data: true,
       timings: [
         {
           day: 'Monday',
           active: false,
           name: '',
+          id: '',
         },
         {
           day: 'Tuesday',
           active: false,
           name: '',
+          id: '',
         },
         {
           day: 'Wednesday',
           active: false,
           name: '',
+          id: '',
         },
         {
           day: 'Thursday',
           active: false,
           name: '',
+          id: '',
         },
         {
           day: 'Friday',
           active: false,
           name: '',
+          id: '',
         },
       ],
     };
   }
 
   componentDidMount() {
-    const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
-    Axios.get(url).then(res => {
-      const datas = res.data;
-      this.setState({ allUser: datas, searchName: datas });
-    });
+    this.props.requestDelegateData();
+    this.props.requestUserlistData();
+    this.props.requestGetProfileOfficeData({});
+    this.props.requestGetOfficeLocation({});
   }
 
-  handleChange = event => {
-    let newList = [];
-    if (event.target.value !== '') {
-      this.setState({ search: true });
-      newList = this.state.allUser.filter(({ userName }) => {
-        const finalDataList = userName.toLowerCase();
-        const filter = event.target.value.toLowerCase();
-        return finalDataList.includes(filter);
-      });
-    } else {
-      this.setState({ search: false });
-      newList = this.state.allUser;
+  componentDidUpdate() {
+    const {
+      getProfileLocationSuccess,
+      getProfileLocation,
+      apiMessage,
+      locationMessage,
+      badgeUpdateData,
+    } = this.props;
+    if (
+      getProfileLocation &&
+      !getProfileLocation.loading &&
+      getProfileLocationSuccess &&
+      this.state.data
+    ) {
+      this.handleData();
     }
-    this.setState({ searchName: newList });
-  };
-
-  handleUserSelect = username => {
-    const { selectData } = this.state;
-    if (selectData.includes(username)) {
-      const index = selectData.indexOf(username);
-      selectData.splice(index, 1);
-    } else {
-      selectData.push(username);
+    if (badgeUpdateData && badgeUpdateData.success && badgeUpdateData.message) {
+      this.props.requestUserlistData();
     }
-    this.state.finalData = selectData;
-  };
+    if (apiMessage || locationMessage || badgeUpdateData.message) {
+      setTimeout(() => {
+        this.props.clearData();
+        this.props.clearBoardData();
+      }, 5000);
+    }
+  }
 
   handleClose = () => {
     const { finalData } = this.state;
@@ -95,15 +119,48 @@ class ProfilePage extends Component {
     this.setState({ show: true });
   };
 
+  handleBadgeData = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
   handleButtonData = selectedDay => {
     this.setState({ selectedDay });
   };
 
+  handleData = () => {
+    this.setState({ data: false });
+    const { timings, finalLocationDay } = this.state;
+    const { getProfileLocation } = this.props;
+    const finalData = getProfileLocation && getProfileLocation.weeklyLocation;
+    if (finalData) {
+      finalData.forEach(obj => {
+        // eslint-disable-next-line array-callback-return
+        timings.map(e => {
+          if (e.day === obj.dayofweek) {
+            finalLocationDay.push({
+              day: obj.dayofweek,
+              name: obj.locationName,
+              id: obj.id,
+            });
+          }
+        });
+      });
+    }
+    return finalLocationDay;
+  };
+
   handleSubmit = () => {
-    const { timings, selectedNames, selectedDay, checked } = this.state;
+    const {
+      selectedNames,
+      selectedDay,
+      checked,
+      finalLocationDay,
+    } = this.state;
+    const { location } = this.props;
 
     if (!checked) {
-      const data = timings.map(obj => {
+      const dataValue = finalLocationDay.map(obj => {
         if (obj.day === selectedDay) {
           // eslint-disable-next-line no-param-reassign
           obj.name = selectedNames;
@@ -111,17 +168,35 @@ class ProfilePage extends Component {
         }
         return obj;
       });
-
-      this.setState({ timings: data });
+      this.setState({ finalLocationDay: dataValue });
     } else {
-      const data = timings.map(obj => {
+      const dataValue = finalLocationDay.map(obj => {
         // eslint-disable-next-line no-param-reassign
         obj.name = selectedNames;
         return obj;
       });
 
-      this.setState({ timings: data, checked: false });
+      this.setState({ finalLocationDay: dataValue, checked: false });
     }
+
+    const finalLocatiopnUpdate = [];
+    finalLocationDay.forEach(data => {
+      // eslint-disable-next-line array-callback-return
+      location.map(e => {
+        if (e.locationname === data.name) {
+          finalLocatiopnUpdate.push({
+            defaultlocation: e.id,
+            dayofweek: data.day,
+          });
+        }
+      });
+    });
+
+    const data = {
+      data: finalLocatiopnUpdate,
+      employeeid: '239323',
+    };
+    this.props.requestAddOfficeLocation(data);
   };
 
   handleUserSelectData = event => {
@@ -131,6 +206,16 @@ class ProfilePage extends Component {
 
   handleCheckbox = () => {
     this.setState({ checked: true });
+  };
+
+  handleBadgeSubmit = () => {
+    const { badgeData } = this.state;
+    const data = {
+      employeeid: '239321',
+      badgeid: badgeData,
+    };
+
+    this.props.requestBadgeData(data);
   };
 
   // allTabColor = type => {
@@ -156,6 +241,18 @@ class ProfilePage extends Component {
   // };
 
   render() {
+    const {
+      getProfileLocation,
+      delegateSuccess,
+      userData,
+      delegateList,
+      location,
+      apiMessage,
+      apiSuccess,
+      locationSuccess,
+      locationMessage,
+      badgeUpdateData,
+    } = this.props;
     return (
       <>
         <div id="content-wrap">
@@ -171,6 +268,18 @@ class ProfilePage extends Component {
             handleUserSelectData={this.handleUserSelectData}
             handleShow={this.handleShow}
             allTabColor={this.allTabColor}
+            getProfileLocation={getProfileLocation}
+            userData={userData}
+            delegateList={delegateList}
+            delegateSuccess={delegateSuccess}
+            location={location}
+            apiMessage={apiMessage}
+            handleBadgeData={this.handleBadgeData}
+            handleBadgeSubmit={this.handleBadgeSubmit}
+            apiSuccess={apiSuccess}
+            locationSuccess={locationSuccess}
+            locationMessage={locationMessage}
+            badgeUpdateData={badgeUpdateData}
           />
         </div>
         <Footer />
@@ -179,6 +288,81 @@ class ProfilePage extends Component {
   }
 }
 
-ProfilePage.propTypes = {};
+const mapStateToProps = state => {
+  const { profile, locationData } = state;
+  console.log('state', state);
+  return {
+    getProfileLocation: profile && profile.getOffice,
+    userData:
+      profile &&
+      profile.userList &&
+      profile.userList.user &&
+      profile.userList.user[0],
+    delegateList:
+      profile && profile.delegateList && profile.delegateList.delegate,
+    delegateSuccess:
+      profile && profile.delegateList && profile.delegateList.success,
+    getProfileLocationSuccess:
+      profile && profile.getOffice && profile.getOffice.success,
+    location:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.location,
+    locationSuccess: locationData && locationData.addOfficeLocation.success,
+    locationMessage: locationData && locationData.addOfficeLocation.message,
+    apiSuccess: profile && profile.apiSuccess,
+    apiMessage: profile && profile.apiMessage,
+    badgeUpdateData: profile && profile.badgeUpdate,
+  };
+};
+export function mapDispatchToProps(dispatch) {
+  return {
+    requestGetProfileOfficeData: payload =>
+      dispatch(requestGetProfileOfficeData(payload)),
+    requestUserlistData: payload => dispatch(requestUserlistData(payload)),
+    requestDelegateData: payload => dispatch(requestDelegateData(payload)),
+    requestGetOfficeLocation: payload =>
+      dispatch(requestGetOfficeLocation(payload)),
+    requestAddOfficeLocation: payload =>
+      dispatch(requestAddOfficeLocation(payload)),
+    clearData: () => dispatch(clearData()),
+    clearBoardData: () => dispatch(clearBoardData()),
+    requestBadgeData: payload => dispatch(requestBadgeData(payload)),
 
-export default ProfilePage;
+    dispatch,
+  };
+}
+const withReducer = injectReducer({ key: 'profile', reducer });
+const withSaga = injectSaga({ key: 'profile', saga });
+
+ProfilePage.propTypes = {
+  requestGetProfileOfficeData: PropTypes.func,
+  requestGetOfficeLocation: PropTypes.func,
+  requestAddOfficeLocation: PropTypes.func,
+  requestBadgeData: PropTypes.func,
+  location: PropTypes.array,
+  getProfileLocation: PropTypes.object,
+  requestUserlistData: PropTypes.func,
+  userData: PropTypes.object,
+  requestDelegateData: PropTypes.object,
+  delegateList: PropTypes.object,
+  getProfileLocationSuccess: PropTypes.bool,
+  delegateSuccess: PropTypes.bool,
+  apiMessage: PropTypes.string,
+  apiSuccess: PropTypes.bool,
+  locationSuccess: PropTypes.bool,
+  locationMessage: PropTypes.string,
+  clearData: PropTypes.object,
+  clearBoardData: PropTypes.object,
+  badgeUpdateData: PropTypes.object,
+};
+
+export default compose(
+  withReducer,
+  withSaga,
+  //   withSaga,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(ProfilePage);
