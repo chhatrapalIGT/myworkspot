@@ -23,13 +23,14 @@ export function* getLocationData() {
       url: requestURL,
     });
     const { data } = usersList;
+    console.log(`data`, data);
     if (data && data.success) {
       yield put(getOfficeLocationSuccess(data.data));
     } else {
-      yield put(getOfficeLocationFailed(data.message));
+      yield put(getOfficeLocationFailed(data));
     }
   } catch (err) {
-    yield put(getOfficeLocationFailed(err.message));
+    yield put(getOfficeLocationFailed(err));
   }
 }
 
@@ -46,7 +47,7 @@ export function* addOffice({ payload }) {
     if (data && data.success) {
       yield put(addOfficeLocationSuccess(data));
     } else {
-      yield put(getOfficeLocationFailed(data));
+      yield put(addOfficeLocationFailed(data));
     }
   } catch (error) {
     yield put(addOfficeLocationFailed(error));

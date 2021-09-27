@@ -42,9 +42,10 @@ const onBoardingReducer = (state = initialState, action) =>
         break;
       case FAILED_GET_OFFICE_LOCATION:
         draft.getOfficeLocation.loading = false;
-        draft.getOfficeLocation.success = false;
         draft.getOfficeLocation.location = [];
-        draft.getOfficeLocation.error = action.payload;
+        draft.getOfficeLocation.success = action.payload.success;
+        draft.getOfficeLocation.message = action.payload.message;
+
         break;
 
       case REQUEST_ADD_OFFICE_LOCATION:
@@ -53,16 +54,20 @@ const onBoardingReducer = (state = initialState, action) =>
         break;
       case SUCCESS_ADD_OFFICE_LOCATION:
         draft.addOfficeLocation.loading = false;
-        draft.addOfficeLocation = action.payload;
-        draft.addOfficeLocation.error = '';
+        draft.addOfficeLocation.message = action.payload.message;
+        draft.addOfficeLocation.success = action.payload.success;
+
         break;
       case FAILED_ADD_OFFICE_LOCATION:
         draft.addOfficeLocation.loading = false;
-        draft.addOfficeLocation.error = action.payload;
+        draft.addOfficeLocation.message = action.payload.message;
+        draft.addOfficeLocation.success = action.payload.success;
         break;
       case CLEAR_BOARD_DATA:
-        draft.addOfficeLocation = {};
-        draft.getOfficeLocation = {};
+        draft.addOfficeLocation.message = '';
+        draft.addOfficeLocation.success = false;
+        draft.getOfficeLocation.success = false;
+        draft.getOfficeLocation.message = '';
     }
   });
 

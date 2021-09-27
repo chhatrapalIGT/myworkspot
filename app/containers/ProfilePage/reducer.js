@@ -114,8 +114,8 @@ const profilePageReducer = (state = initialState, action) =>
         break;
       case CLEAR_DATA:
         draft.apiMessage = '';
-        draft.delegateList = [];
-        draft.badgeUpdate = [];
+        draft.delegateList = {};
+        draft.badgeUpdate = {};
         break;
 
       case REQUEST_BADGE_DATA:

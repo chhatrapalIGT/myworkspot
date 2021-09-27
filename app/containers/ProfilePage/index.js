@@ -38,7 +38,7 @@ class ProfilePage extends Component {
       finalData: [],
       finalLocationDay: [],
       selectedDay: '',
-      selectedNames: 'Washington , DC',
+      selectedNames: 'Washington, DC',
       checked: false,
       data: true,
       timings: [
@@ -77,7 +77,7 @@ class ProfilePage extends Component {
   }
 
   componentDidMount() {
-    this.props.requestDelegateData();
+    // this.props.requestDelegateData();
     this.props.requestUserlistData();
     this.props.requestGetProfileOfficeData({});
     this.props.requestGetOfficeLocation({});
@@ -290,14 +290,10 @@ class ProfilePage extends Component {
 
 const mapStateToProps = state => {
   const { profile, locationData } = state;
-  console.log('state', state);
   return {
     getProfileLocation: profile && profile.getOffice,
-    userData:
-      profile &&
-      profile.userList &&
-      profile.userList.user &&
-      profile.userList.user[0],
+    userData: profile && profile.userList && profile.userList.user,
+
     delegateList:
       profile && profile.delegateList && profile.delegateList.delegate,
     delegateSuccess:
