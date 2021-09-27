@@ -43,6 +43,7 @@ const Profile = ({
   const [allUser, setAllUser] = useState([]);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
+  const [selectedValue, setSelectedValue] = useState('');
   useEffect(() => {
     if (delegateList && delegateList.length && delegateSuccess && open) {
       setAllUser(delegateList);
@@ -84,7 +85,8 @@ const Profile = ({
     setShow(false);
   };
 
-  const handleChangeDay = name => {
+  const handleChangeDay = (name, data) => {
+    setSelectedValue(data);
     setModal(true);
     handleButtonData(name);
   };
@@ -272,7 +274,7 @@ const Profile = ({
                               data-bs-target="#set_location"
                             >
                               <div
-                                onClick={() => handleChangeDay(t.day)}
+                                onClick={() => handleChangeDay(t.day, t.name)}
                                 className={`day-one-wrapper ${
                                   t.name === ''
                                     ? 'add-location'
@@ -386,7 +388,11 @@ const Profile = ({
               <div className="modal-body">
                 <form className="delegate-workspot-access" action="submit">
                   <div className="selection">
-                    <select name="location" onChange={handleUserSelectData}>
+                    <select
+                      name="location"
+                      onChange={handleUserSelectData}
+                      defaultValue={selectedValue}
+                    >
                       <optgroup label="EAB Office">
                         {finalLocation &&
                           finalLocation.map(i => (
