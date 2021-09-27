@@ -32,7 +32,7 @@ const OfficeWDC = ({
   officeLocationErrorHandle,
 }) => {
   const isDraggable = state.scale > 1;
-  const [office, setOffice] = useState('Washington , DC');
+  const [office, setOffice] = useState('Washington, DC');
   const [floor, setFloor] = useState();
   const [finalFloor, setFinalFloor] = useState('Floor 2');
   const [imgSrc, setImgSrc] = useState('');
@@ -72,7 +72,7 @@ const OfficeWDC = ({
     let imageSrc = '';
 
     switch (switchOffice) {
-      case 'Washington , DC':
+      case 'Washington, DC':
         switch (switchFinalFloor) {
           case 'Floor 2':
             imageSrc = map2;
@@ -88,7 +88,7 @@ const OfficeWDC = ({
             break;
         }
         break;
-      case 'Richmond , VA':
+      case 'Richmond, VA':
         switch (switchFinalFloor) {
           case 'Building 1':
             imageSrc = map5;
@@ -104,7 +104,7 @@ const OfficeWDC = ({
             break;
         }
         break;
-      case 'Birmigham , AL':
+      case 'Birmigham, AL':
         switch (switchFinalFloor) {
           case 'Building 1':
             imageSrc = map10;
@@ -112,7 +112,7 @@ const OfficeWDC = ({
         }
         break;
 
-      case 'Bloomington , MN':
+      case 'Bloomington, MN':
         switch (switchFinalFloor) {
           case 'Building 1':
             imageSrc = map9;
@@ -177,16 +177,16 @@ const OfficeWDC = ({
                     <label htmlFor="Building/Floor">Building/Floor</label>
                     <select
                       className={
-                        office === 'Birmigham , AL' ||
-                        office === 'Bloomington , MN'
+                        office === 'Birmigham, AL' ||
+                        office === 'Bloomington, MN'
                           ? ''
                           : 'set_drop'
                       }
                       name=""
                       id=""
                       disabled={
-                        office === 'Birmigham , AL' ||
-                        office === 'Bloomington , MN'
+                        office === 'Birmigham, AL' ||
+                        office === 'Bloomington, MN'
                       }
                       onChange={e => {
                         Icon(office, e.target.value);

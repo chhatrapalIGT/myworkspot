@@ -8,6 +8,7 @@
 
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 import { Modal } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
@@ -98,9 +99,13 @@ const Profile = ({
       ? location.filter(obj => obj && obj.locationname !== 'Remote Work')
       : '';
 
-  // const handleRemove = i => {
-  //   userListData.splice(i, 1);
-  //   setUserListData(userListData);
+  // const handleRemove = name => {
+  //   const newArr = [...userListData];
+  //   if (newArr.includes(name)) {
+  //     const idx = newArr.indexOf(name);
+  //     newArr.splice(idx, 1);
+  //   }
+  //   setUserListData(newArr);
   // };
 
   return (
@@ -124,7 +129,7 @@ const Profile = ({
               <h4 className="common-title">My Profile</h4>
 
               <div className="card my-profile-inner">
-                {!userData.firstname ? (
+                {isEmpty(userData) ? (
                   <Spinner
                     className="app-spinner profile"
                     animation="grow"
@@ -173,7 +178,12 @@ const Profile = ({
                           <span>Badge Number</span>
                           {!openBadge && (
                             <>
-                              <p>BB {userData && userData.badgeNumber}</p>
+                              <p>
+                                BB
+                                {state.badgeData
+                                  ? state.badgeData
+                                  : userData.badgeNumber}
+                              </p>
                               <a
                                 className="replace"
                                 href
@@ -328,7 +338,10 @@ const Profile = ({
                 <div className="access-to">
                   {userListData &&
                     userListData.map(i => (
-                      <div className="access-one">
+                      <div
+                        className="access-one"
+                        // onClick={() => handleRemove(i)}
+                      >
                         <img src={ProfileImg} alt="" />
                         {i}
                         <a className="close_btn" href>
