@@ -47,6 +47,7 @@ class WorkSpotPage extends Component {
       version: 0,
       d: '',
       work_place: '',
+      work_area: '',
       // work_place: [
       //   {
       //     date: '',
@@ -57,7 +58,9 @@ class WorkSpotPage extends Component {
       userList: [],
       selectedColleagues: [],
       selectedDateRange: {},
-      updatingObject: {},
+      updatingObject: {
+        work_area: '',
+      },
       editModal: false,
       errMessage: '',
       errSuccess: false,
@@ -127,12 +130,24 @@ class WorkSpotPage extends Component {
     );
 
     if (workspotSuccess && workspotMessage) {
+      this.getWorkSpots(startDispDate, endDispDate);
       setTimeout(() => {
+        // this.handleClearModal();
         this.props.resetWorkspot();
-        this.getWorkSpots(startDispDate, endDispDate);
       }, 3000);
     }
   }
+
+  handleClearModal = () => {
+    const { workspotMessage, workspotSuccess } = this.props;
+    if (workspotSuccess && workspotMessage) {
+      this.setState({
+        updatingObject: {
+          work_area: '',
+        },
+      });
+    }
+  };
 
   handleUserSelect = username => {
     const { selectedColleagues } = this.state;
@@ -196,7 +211,7 @@ class WorkSpotPage extends Component {
       data: {
         // eslint-disable-next-line radix
         locationid: parseInt(a.id),
-        weekofday: [moment(a.date).format('YYYY-MM-DD')],
+        weekofday: [moment(updatingObject.date).format('YYYY-MM-DD')],
       },
 
       employeeid: 239323,

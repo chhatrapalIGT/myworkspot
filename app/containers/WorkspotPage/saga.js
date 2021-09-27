@@ -63,7 +63,7 @@ export function* getWeeklyData() {
 }
 
 export function* updateWorkspot({ payload }) {
-  const requestURL = `${API_URL}/workspot/editWorkSpot`;
+  const requestURL = `${API_URL}/workspot/editWorkSpot?employeeid=239323`;
   try {
     const updateData = yield request({
       method: 'PUT',

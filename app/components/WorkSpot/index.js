@@ -60,6 +60,7 @@ const WorkSpot = ({
   const [visible, setVisible] = useState(false);
   const [isEmployeeModal, setEmployeeModal] = useState(false);
   const [isEmployee, setEmployee] = useState(false);
+  const [isLocUpdate, setLocUpdate] = useState(false);
   const [isdate, setDate] = useState('');
   const [locationName, setLocationName] = useState([]);
   const divRef = useRef();
@@ -120,12 +121,20 @@ const WorkSpot = ({
     handleUpdatingModalData(key, val);
   };
 
-  const handleEditModalData = (modalState, date, prevLocation, userName) => {
+  const handleEditModalData = (
+    modalState,
+    date,
+    prevLocation,
+    userName,
+    // eslint-disable-next-line camelcase
+    work_area,
+  ) => {
     handleEditModal(modalState);
     updateModalData();
     updateModalData('date', date);
     updateModalData('prevLocation', prevLocation);
     updateModalData('user', userName);
+    updateModalData('work_area', work_area);
   };
 
   const neighborhoodColor =
@@ -342,6 +351,9 @@ const WorkSpot = ({
           setDate={setDate}
           workSpotData={state.workSpotData}
           getWorkSpots={getWorkSpots}
+          state={state}
+          isLocUpdate={isLocUpdate}
+          errSuccess={errSuccess}
         />
         <Modal
           className="modal fade test_modal"
@@ -724,7 +736,7 @@ const WorkSpot = ({
                     onClick={() => handleuserLocation(isdate)}
                   >
                     <select
-                      name="work_place"
+                      name="work_area"
                       className="dropdown_opt"
                       onChange={e =>
                         updateModalData('work_area', e.target.value)
@@ -738,7 +750,7 @@ const WorkSpot = ({
                             <option
                               value={i.locationname}
                               id="location"
-                              name="work_place"
+                              name="work_area"
                               selected={
                                 state.updatingObject.prevLocation ===
                                 i.locationname
@@ -774,7 +786,7 @@ const WorkSpot = ({
                   onClick={() => {
                     onSubmit();
                     // eslint-disable-next-line no-unused-expressions
-
+                    setLocUpdate(true);
                     handleEditModal(false);
                   }}
                 >
