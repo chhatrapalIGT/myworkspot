@@ -2376,3 +2376,7 @@ select.set_drop option[id='building'],
 .work-from-home {
   background: #f5f7fa url(../images/workfromhome.png) no-repeat center bottom !important;
 }
+
+.dropdown_locat::after {
+  right: 45px;
+}

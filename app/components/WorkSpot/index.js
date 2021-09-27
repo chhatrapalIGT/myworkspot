@@ -731,7 +731,7 @@ const WorkSpot = ({
                 <form className="delegate-workspot-access" action="submit">
                   <div
                     aria-hidden="true"
-                    className="selection"
+                    className="selection  dropdown_locat"
                     style={{ padding: '1rem 1.5rem' }}
                     onClick={() => handleuserLocation(isdate)}
                   >
