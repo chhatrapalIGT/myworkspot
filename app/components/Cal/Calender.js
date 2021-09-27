@@ -409,10 +409,13 @@ const Calender = ({
                                       ? state.updatingObject.work_area
                                       : data && data.locationName}
                                   </p>
-                                  <span className="floor-location">
-                                    <img src={Vector} alt="" />
-                                    {data && data.floor} - {data && data.color}
-                                  </span>
+                                  {data && data.locationName !== 'Remote Work' && (
+                                    <span className="floor-location">
+                                      <img src={Vector} alt="" />
+                                      {data && data.floor} -{' '}
+                                      {data && data.color}
+                                    </span>
+                                  )}
                                 </div>
                               </div>
                               {/* // )} */}
@@ -600,10 +603,12 @@ const Calender = ({
                               <p className="work-station">
                                 {data && data.locationName}
                               </p>
-                              <span className="floor-location">
-                                <img src={floorLocation} alt="" />
-                                {data && data.floor} - {data && data.color}
-                              </span>
+                              {data && data.locationName !== 'Remote Work' && (
+                                <span className="floor-location">
+                                  <img src={Vector} alt="" />
+                                  {data && data.floor} - {data && data.color}
+                                </span>
+                              )}
                             </div>
                           </div>
                         );
