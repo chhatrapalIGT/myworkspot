@@ -213,7 +213,6 @@ const Profile = ({
                                 >
                                   Save
                                 </button>
-                                {console.log(`setOpenBadge(false)`)}
                                 <button
                                   type="button"
                                   style={{
