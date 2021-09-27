@@ -124,7 +124,7 @@ const Profile = ({
               <h4 className="common-title">My Profile</h4>
 
               <div className="card my-profile-inner">
-                {!userData ? (
+                {!userData.firstname ? (
                   <Spinner
                     className="app-spinner profile"
                     animation="grow"
