@@ -48,7 +48,6 @@ export function* getUserListData() {
       url: requestURL,
     });
     const { data } = usersList;
-    console.log('data userlist', data);
     if (data && data.success) {
       yield put(getUserlistSuccess(data));
     } else {
