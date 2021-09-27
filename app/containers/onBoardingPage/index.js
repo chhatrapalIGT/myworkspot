@@ -86,7 +86,7 @@ class BorardingPage extends Component {
   // eslint-disable-next-line consistent-return
   handleSubmitData = () => {
     const { timings, badge, badgedata } = this.state;
-    const { location, history, addErrorLocation } = this.props;
+    const { location } = this.props;
     const final = timings.filter(data => data.name !== '');
 
     const finalLocationDay = [];
@@ -109,14 +109,11 @@ class BorardingPage extends Component {
     };
 
     this.props.requestAddOfficeLocation(data);
-    if (addErrorLocation && addErrorLocation.success) {
-      const value = final.length >= 5 ? history.push('/') : '';
-      return value;
-    }
   };
 
   componentDidUpdate() {
-    const { addErrorLocation } = this.props;
+    const { addErrorLocation, history } = this.props;
+    const { timings } = this.state;
     if (
       (addErrorLocation && addErrorLocation.message) ||
       !addErrorLocation.success
@@ -124,6 +121,12 @@ class BorardingPage extends Component {
       setTimeout(() => {
         this.props.clearBoardData();
       }, 5000);
+    }
+    const final = timings.filter(data => data.name !== '');
+
+    if (addErrorLocation) {
+      // eslint-disable-next-line no-unused-vars
+      const value = final.length >= 5 ? history.push('/') : '';
     }
   }
 
@@ -146,7 +149,13 @@ class BorardingPage extends Component {
   }
 
   render() {
-    const { location, locationErrorHandle, addErrorLocation } = this.props;
+    const {
+      location,
+      locationErrorHandle,
+      addErrorLocation,
+      addErrorLocationMsg,
+      locationErrorHandleMsg,
+    } = this.props;
     return (
       <>
         <div id="content-wrap">
@@ -162,6 +171,8 @@ class BorardingPage extends Component {
             location={location}
             addErrorLocation={addErrorLocation}
             locationErrorHandle={locationErrorHandle}
+            addErrorLocationMsg={addErrorLocationMsg}
+            locationErrorHandleMsg={locationErrorHandleMsg}
           />
         </div>
         <Footer />
@@ -172,14 +183,27 @@ class BorardingPage extends Component {
 
 const mapStateToProps = state => {
   const { locationData } = state;
-  console.log('state lo', state);
   return {
     location:
       locationData &&
       locationData.getOfficeLocation &&
       locationData.getOfficeLocation.location,
-    locationErrorHandle: locationData && locationData.getOfficeLocation,
-    addErrorLocation: locationData && locationData.addOfficeLocation,
+    locationErrorHandle:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.success,
+    locationErrorHandleMsg:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.message,
+    addErrorLocation:
+      locationData &&
+      locationData.addOfficeLocation &&
+      locationData.addOfficeLocation.success,
+    addErrorLocationMsg:
+      locationData &&
+      locationData.addOfficeLocation &&
+      locationData.addOfficeLocation.message,
   };
 };
 
@@ -204,7 +228,9 @@ BorardingPage.propTypes = {
   history: PropTypes.object,
   locationErrorHandle: PropTypes.object,
   location: PropTypes.array,
-  addErrorLocation: PropTypes.object,
+  addErrorLocation: PropTypes.bool,
+  addErrorLocationMsg: PropTypes.string,
+  locationErrorHandleMsg: PropTypes.string,
 };
 
 export default compose(

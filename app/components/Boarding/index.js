@@ -26,6 +26,8 @@ const Boarding = ({
   locationErrorHandle,
   addErrorLocation,
   location,
+  addErrorLocationMsg,
+  locationErrorHandleMsg,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
@@ -48,7 +50,7 @@ const Boarding = ({
 
   return (
     <>
-      {(locationErrorHandle &&
+      {/* {(locationErrorHandle &&
         !locationErrorHandle.success &&
         locationErrorHandle.error) ||
         (addErrorLocation && !addErrorLocation.success && (
@@ -60,13 +62,16 @@ const Boarding = ({
                 : ''}
             </p>
           </div>
-        ))}
-      {addErrorLocation && addErrorLocation.success && (
-        <div className="alert-dismissible fade show popup_success" role="alert">
+        ))} */}
+      {(addErrorLocationMsg || locationErrorHandleMsg) && (
+        <div
+          className={`"alert-dismissible fade show ${
+            addErrorLocation ? 'popup_success' : 'popup_err'
+          } "`}
+          role="alert"
+        >
           <p className="text-center m-auto">
-            {addErrorLocation && addErrorLocation.success
-              ? addErrorLocation.message
-              : ''}
+            {addErrorLocationMsg || locationErrorHandleMsg || ''}
           </p>
         </div>
       )}
@@ -289,6 +294,8 @@ Boarding.propTypes = {
   locationErrorHandle: PropTypes.object,
   location: PropTypes.object,
   addErrorLocation: PropTypes.object,
+  addErrorLocationMsg: PropTypes.string,
+  locationErrorHandleMsg: PropTypes.string,
 };
 
 export default Boarding;
