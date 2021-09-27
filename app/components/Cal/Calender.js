@@ -8,6 +8,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { isEmpty } from 'lodash';
 import Spinner from 'react-bootstrap/Spinner';
 import Vector from '../assets/images/Vector.svg';
 import floorLocation from '../assets/images/floor-location.png';
@@ -36,6 +37,9 @@ const Calender = ({
   setEmployeeLocationDetail,
   workSpotData = [],
   getWorkSpots,
+  state,
+  isLocUpdate,
+  errSuccess,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
@@ -126,6 +130,30 @@ const Calender = ({
   const getCorrespondingData = date => {
     const a = workSpotData.find(ele =>
       moment(ele.date, 'MM/D/YYYY').isSame(moment(date, 'MM/D/YYYY'), 'day'),
+    );
+    return a;
+  };
+
+  const getLocationData = date => {
+    const a = workSpotData.filter(ele =>
+      moment(ele.date, 'MM/D/YYYY').isSame(
+        moment(state.updatingObject.date, 'MM/D/YYYY'),
+        'day',
+      ),
+    );
+    return a;
+  };
+
+  const getWorkspotData = () => {
+    const a = workSpotData.find(ele =>
+      moment(ele.date, 'MM/D/YYYY').isSame(
+        moment(days.dateToDisplay[0].date, 'MM/D/YYYY') ||
+          moment(
+            days.dateToDisplay.length[days.dateToDisplay.length - 1].date,
+            'MM/D/YYYY',
+          ),
+        'day',
+      ),
     );
     return a;
   };
@@ -307,7 +335,13 @@ const Calender = ({
                       )}
                       {setVisible && !workSpotData.length ? (
                         <Spinner
-                          className="app-spinner"
+                          className="app-spinner profile"
+                          animation="grow"
+                          variant="dark"
+                        />
+                      ) : setVisible && !getWorkspotData() ? (
+                        <Spinner
+                          className="app-spinner profile"
                           animation="grow"
                           variant="dark"
                         />
@@ -316,6 +350,8 @@ const Calender = ({
                         workSpotData.length > 0 &&
                         days.dateToDisplay.map(item => {
                           const data = getCorrespondingData(item.date);
+                          const locationData = getLocationData(item.date);
+                          // const da = getWorkspotData();
                           return (
                             <>
                               <div
@@ -337,18 +373,22 @@ const Calender = ({
 
                                 <div
                                   className={
-                                    item.disable || !isCurrentDate(item.date)
+                                    item.disable || isCurrentDate(item.date)
                                       ? 'day-one-wrapper work-from-office  border-top-blue'
+                                      : data &&
+                                        data.locationName === 'Remote Work'
+                                      ? 'day-one-wrapper work-from-home day-pointer'
                                       : 'day-one-wrapper work-from-office day-pointer border-top-blue'
                                   }
                                   onClick={() => {
                                     !item.disable &&
-                                      isCurrentDate(item.date) &&
+                                      !isCurrentDate(item.date) &&
                                       handleEditModal(
                                         true,
                                         item.date,
                                         `${data && data.locationName}`,
                                         'self',
+                                        `${state.updatingObject.work_area}`,
                                       );
                                     setDate(
                                       moment(item.date).format(
@@ -359,7 +399,15 @@ const Calender = ({
                                   aria-hidden="true"
                                 >
                                   <p className="work-station work-floor">
-                                    {data && data.locationName}
+                                    {moment(data.date, 'MM/D/YYYY').isSame(
+                                      moment(
+                                        state.updatingObject.date,
+                                        'MM/D/YYYY',
+                                      ),
+                                      'day',
+                                    ) && isLocUpdate
+                                      ? state.updatingObject.work_area
+                                      : data && data.locationName}
                                   </p>
                                   <span className="floor-location">
                                     <img src={Vector} alt="" />
@@ -367,6 +415,7 @@ const Calender = ({
                                   </span>
                                 </div>
                               </div>
+                              {/* // )} */}
                             </>
                           );
                         })
@@ -481,11 +530,20 @@ const Calender = ({
               </>
             ) : (
               <div className="card weekly-default month-view-content">
+                {/* {setVisible && !getWorkspotData() ? (
+                  <Spinner
+                    className="app-spinner profile"
+                    animation="grow"
+                    variant="dark"
+                  />
+                ) : ( */}
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
                   {days.dateToDisplay.map(items => (
                     <>
                       {items.map(item => {
                         const data = getCorrespondingData(item.date);
+
+                        // const locationData = getLocationData(item.date);
                         return (
                           <div
                             className={`${
@@ -516,17 +574,19 @@ const Calender = ({
                                   item.day === 'Sunday' ||
                                   item.weekend)
                                   ? 'day-one-wrapper'
-                                  : item.disable || !isCurrentDate(item.date)
-                                  ? 'day-one-wrapper work-from-office border-top-blue'
+                                  : item.disable || isCurrentDate(item.date)
+                                  ? 'day-one-wrapper work-from-office  border-top-blue'
+                                  : data && data.locationName === 'Remote Work'
+                                  ? 'day-one-wrapper work-from-home day-pointer'
                                   : 'day-one-wrapper work-from-office day-pointer border-top-blue'
                               }`}
                               onClick={() => {
                                 !item.disable &&
-                                  isCurrentDate(item.date) &&
+                                  !isCurrentDate(item.date) &&
                                   handleEditModal(
                                     true,
                                     item.date,
-                                    `${data.state} , ${data.city}`,
+                                    `${data && data.locationName}`,
                                     'self',
                                   );
                                 setDate(
@@ -551,6 +611,7 @@ const Calender = ({
                     </>
                   ))}
                 </div>
+                {/* )} */}
               </div>
             )}
           </div>
@@ -584,6 +645,9 @@ Calender.propTypes = {
   workSpotData: PropTypes.array,
   setDate: PropTypes.string,
   setEmployeeLocationDetail: PropTypes.bool,
+  state: PropTypes.object,
+  isLocUpdate: PropTypes.bool,
+  errSuccess: PropTypes.bool,
 };
 
 export default Calender;
