@@ -2369,11 +2369,13 @@ select.set_drop option[id='building'],
 }
 
 .work-from-office {
+  cursor: pointer;
   background: url(../images/Buildings.png) no-repeat center bottom !important;
   border-top: 8px solid;
 }
 
 .work-from-home {
+  cursor: pointer;
   background: #f5f7fa url(../images/workfromhome.png) no-repeat center bottom !important;
 }
 
