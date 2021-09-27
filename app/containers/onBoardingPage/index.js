@@ -8,7 +8,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import saga from './saga';
 import reducer from './reducer';
-import { requestGetOfficeLocation, requestAddOfficeLocation } from './actions';
+import {
+  requestGetOfficeLocation,
+  requestAddOfficeLocation,
+  clearBoardData,
+} from './actions';
 
 import Demo from '../../components/Header';
 import Boarding from '../../components/Boarding';
@@ -79,9 +83,10 @@ class BorardingPage extends Component {
     }
   };
 
+  // eslint-disable-next-line consistent-return
   handleSubmitData = () => {
     const { timings, badge, badgedata } = this.state;
-    const { location, history } = this.props;
+    const { location } = this.props;
     const final = timings.filter(data => data.name !== '');
 
     const finalLocationDay = [];
@@ -104,9 +109,26 @@ class BorardingPage extends Component {
     };
 
     this.props.requestAddOfficeLocation(data);
-    const value = final.length >= 5 ? history.push('/') : '';
-    return value;
   };
+
+  componentDidUpdate() {
+    const { addErrorLocation, history } = this.props;
+    const { timings } = this.state;
+    if (
+      (addErrorLocation && addErrorLocation.message) ||
+      !addErrorLocation.success
+    ) {
+      setTimeout(() => {
+        this.props.clearBoardData();
+      }, 5000);
+    }
+    const final = timings.filter(data => data.name !== '');
+
+    if (addErrorLocation) {
+      // eslint-disable-next-line no-unused-vars
+      const value = final.length >= 5 ? history.push('/') : '';
+    }
+  }
 
   onChange = event => {
     const { name, value } = event.target;
@@ -127,7 +149,13 @@ class BorardingPage extends Component {
   }
 
   render() {
-    const { location, locationErrorHandle } = this.props;
+    const {
+      location,
+      locationErrorHandle,
+      addErrorLocation,
+      addErrorLocationMsg,
+      locationErrorHandleMsg,
+    } = this.props;
     return (
       <>
         <div id="content-wrap">
@@ -141,7 +169,10 @@ class BorardingPage extends Component {
             handleBadgeData={this.handleBadgeData}
             state={this.state}
             location={location}
+            addErrorLocation={addErrorLocation}
             locationErrorHandle={locationErrorHandle}
+            addErrorLocationMsg={addErrorLocationMsg}
+            locationErrorHandleMsg={locationErrorHandleMsg}
           />
         </div>
         <Footer />
@@ -160,7 +191,19 @@ const mapStateToProps = state => {
     locationErrorHandle:
       locationData &&
       locationData.getOfficeLocation &&
-      locationData.getOfficeLocation,
+      locationData.getOfficeLocation.success,
+    locationErrorHandleMsg:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.message,
+    addErrorLocation:
+      locationData &&
+      locationData.addOfficeLocation &&
+      locationData.addOfficeLocation.success,
+    addErrorLocationMsg:
+      locationData &&
+      locationData.addOfficeLocation &&
+      locationData.addOfficeLocation.message,
   };
 };
 
@@ -170,6 +213,7 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestGetOfficeLocation(payload)),
     requestAddOfficeLocation: payload =>
       dispatch(requestAddOfficeLocation(payload)),
+    clearBoardData: () => dispatch(clearBoardData()),
 
     dispatch,
   };
@@ -180,9 +224,13 @@ const withSaga = injectSaga({ key: 'locationData', saga });
 BorardingPage.propTypes = {
   requestGetOfficeLocation: PropTypes.func,
   requestAddOfficeLocation: PropTypes.func,
+  clearBoardData: PropTypes.func,
   history: PropTypes.object,
-  locationErrorHandle: PropTypes.string,
+  locationErrorHandle: PropTypes.object,
   location: PropTypes.array,
+  addErrorLocation: PropTypes.bool,
+  addErrorLocationMsg: PropTypes.string,
+  locationErrorHandleMsg: PropTypes.string,
 };
 
 export default compose(

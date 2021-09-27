@@ -24,7 +24,10 @@ const Boarding = ({
   handleSubmitData,
   handleBadgeData,
   locationErrorHandle,
+  addErrorLocation,
   location,
+  addErrorLocationMsg,
+  locationErrorHandleMsg,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
@@ -47,17 +50,32 @@ const Boarding = ({
 
   return (
     <>
-      {locationErrorHandle &&
+      {/* {(locationErrorHandle &&
         !locationErrorHandle.success &&
-        locationErrorHandle.error && (
+        locationErrorHandle.error) ||
+        (addErrorLocation && !addErrorLocation.success && (
           <div className="alert-dismissible fade show popup_err" role="alert">
             <p className="text-center m-auto">
-              {locationErrorHandle && !locationErrorHandle.success
-                ? locationErrorHandle.error
+              {(locationErrorHandle && !locationErrorHandle.success) ||
+              (!addErrorLocation && addErrorLocation.success)
+                ? locationErrorHandle.message || addErrorLocation.message
                 : ''}
             </p>
           </div>
-        )}
+        ))} */}
+      {(addErrorLocationMsg || locationErrorHandleMsg) && (
+        <div
+          className={`"alert-dismissible fade show ${
+            addErrorLocation ? 'popup_success' : 'popup_err'
+          } "`}
+          role="alert"
+        >
+          <p className="text-center m-auto">
+            {addErrorLocationMsg || locationErrorHandleMsg || ''}
+          </p>
+        </div>
+      )}
+
       {location && !location.length ? (
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
@@ -273,8 +291,11 @@ Boarding.propTypes = {
   handleSubmitData: PropTypes.func,
   handleBadgeData: PropTypes.func,
   state: PropTypes.object,
-  locationErrorHandle: PropTypes.string,
+  locationErrorHandle: PropTypes.object,
   location: PropTypes.object,
+  addErrorLocation: PropTypes.object,
+  addErrorLocationMsg: PropTypes.string,
+  locationErrorHandleMsg: PropTypes.string,
 };
 
 export default Boarding;
