@@ -84,6 +84,9 @@ const WorkSpot = ({
   const [isLocUpdate, setLocUpdate] = useState(false);
   const [isdate, setDate] = useState('');
   const [locationName, setLocationName] = useState([]);
+  const [finalImg, setFinalImg] = useState('');
+  const [officeRest, setOfficeRest] = useState('');
+  const [call, setCall] = useState(true);
   const divRef = useRef();
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside, false);
@@ -141,14 +144,13 @@ const WorkSpot = ({
   const updateModalData = (key, val) => {
     handleUpdatingModalData(key, val);
   };
-  const [finalImg, setFinalImg] = useState('');
-  const [officeRest, setOfficeRest] = useState('');
-  const [call, setCall] = useState(true);
+
   useEffect(() => {
     if (call && Object.keys(neighborhoodData).length > 0) {
       imgData(
         neighborhoodData && neighborhoodData.locationName,
         neighborhoodData &&
+          neighborhoodData.building &&
           neighborhoodData.building.concat(
             neighborhoodData && neighborhoodData.floor,
           ),
@@ -182,19 +184,20 @@ const WorkSpot = ({
         break;
       case 'Richmond, VA':
         switch (neighborhoodBuild) {
-          case 'Building 1':
+          case '1':
             imageSrc = map5;
             officeRes = RB1;
             break;
-          case 'Building 2':
+          case '2':
             imageSrc = map6;
             officeRes = RB2;
             break;
-          case 'Building 3, Floor 1':
+          // building 3 , floor 1
+          case '31':
             imageSrc = map7;
             officeRes = RB3F1;
             break;
-          case 'Building 3, Floor 2':
+          case '32':
             imageSrc = map8;
             officeRes = RB3F2;
             break;
@@ -202,7 +205,7 @@ const WorkSpot = ({
         break;
       case 'Birmigham , AL':
         switch (neighborhoodBuild) {
-          case 'Building 1':
+          case '1':
             imageSrc = map10;
             officeRes = BRB1;
             break;
@@ -211,7 +214,7 @@ const WorkSpot = ({
 
       case 'Bloomington , MN':
         switch (neighborhoodBuild) {
-          case 'Building 1':
+          case '1':
             imageSrc = map9;
             officeRes = BLB1;
             break;
@@ -354,45 +357,55 @@ const WorkSpot = ({
               className="card office-structure-inner"
               style={{ height: '100%' }}
             >
-              {officeRest || ''}
-              <div className="right-map">
-                <Draggable disabled={!isDraggable} key={state.version}>
-                  <div
-                    className="drag_image"
-                    style={isDraggable ? { cursor: 'move' } : null}
-                  >
-                    <img
-                      src={finalImg}
-                      alt=""
-                      style={imgStyle}
-                      draggable="false"
-                    />
+              {Object.keys(neighborhoodData).length < 0 ? (
+                <Spinner
+                  className="app-spinner workspot_spinner"
+                  animation="grow"
+                  variant="dark"
+                />
+              ) : (
+                <>
+                  {officeRest || ''}
+                  <div className="right-map">
+                    <Draggable disabled={!isDraggable} key={state.version}>
+                      <div
+                        className="drag_image"
+                        style={isDraggable ? { cursor: 'move' } : null}
+                      >
+                        <img
+                          src={finalImg}
+                          alt=""
+                          style={imgStyle}
+                          draggable="false"
+                        />
+                      </div>
+                    </Draggable>
+                    <div className="toolbar">
+                      <button
+                        className="location"
+                        type="button"
+                        onClick={() => handleDefault()}
+                      >
+                        <img src={locationMap} alt="" />
+                      </button>
+                      <button
+                        className="zoomin"
+                        type="button"
+                        onClick={() => handleZoomIn()}
+                      >
+                        <img src={zoomin} alt="" />
+                      </button>
+                      <button
+                        className="zoomout"
+                        type="button"
+                        onClick={() => handleZoomOut()}
+                      >
+                        <img src={zoomout} alt="" />
+                      </button>
+                    </div>
                   </div>
-                </Draggable>
-                <div className="toolbar">
-                  <button
-                    className="location"
-                    type="button"
-                    onClick={() => handleDefault()}
-                  >
-                    <img src={locationMap} alt="" />
-                  </button>
-                  <button
-                    className="zoomin"
-                    type="button"
-                    onClick={() => handleZoomIn()}
-                  >
-                    <img src={zoomin} alt="" />
-                  </button>
-                  <button
-                    className="zoomout"
-                    type="button"
-                    onClick={() => handleZoomOut()}
-                  >
-                    <img src={zoomout} alt="" />
-                  </button>
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </div>
         </div>

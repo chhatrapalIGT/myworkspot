@@ -762,6 +762,9 @@ input[type='text'] {
 
       &:hover {
         background: #005aa3;
+        background-color: transparent;
+        color: #0072ce;
+        -webkit-text-stroke: 0.2px;
       }
     }
   }
@@ -1058,10 +1061,19 @@ input[type='text'] {
     background-color: #005aa3;
     margin-top: 30px;
     padding: 12px 20px;
+    border: 1px solid #005aa3;
     border: none;
     color: #fff;
     border-radius: 8px;
     font-size: 16px;
+
+    &:hover {
+      background: #005aa3;
+      background-color: transparent;
+      border: 1px solid #005aa3;
+      color: #0072ce;
+      -webkit-text-stroke: 0.2px;
+    }
   }
 }
 
