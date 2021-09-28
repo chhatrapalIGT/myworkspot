@@ -9,6 +9,7 @@ import Wellness from '../../images/officeImage/WellWdc.png';
 import Studio from '../../images/officeImage/VidWdc.png';
 import Huddle from '../../images/officeImage/HuddleWdc.png';
 import Phone from '../../images/officeImage/CallWdc.png';
+import Profile from '../../images/officeImage/Wprofile.png';
 
 function WF2() {
   return (
@@ -19,6 +20,18 @@ function WF2() {
       </div>
       <div className="office-resource">
         <p>Office Resources</p>
+        <div className="office-part-one blue">
+          <span className="informer">
+            <img src={Profile} alt="" />
+          </span>
+          <label htmlFor="my-spot">My Workspot</label>
+        </div>
+        <div className="office-part-one blue">
+          <span className="informer">
+            <img src={Profile} alt="" />
+          </span>
+          <label htmlFor="my-spot">My Workspot</label>
+        </div>
         <div className="office-part-one blue">
           <span className="informer" />
           <label htmlFor="my-spot">Blue</label>

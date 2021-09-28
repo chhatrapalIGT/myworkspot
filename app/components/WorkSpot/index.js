@@ -37,7 +37,7 @@ import BLB1 from '../Resource/BLB1';
 import BRB1 from '../Resource/BRB1';
 
 import map1 from '../../images/Map_1.svg';
-import map2 from '../../images/Map_2.svg';
+import map2 from '../../images/MapWF2.svg';
 import map3 from '../../images/Map_3.svg';
 import map4 from '../../images/Map_4.svg';
 import map5 from '../../images/Map_5.svg';
@@ -152,14 +152,33 @@ const WorkSpot = ({
 
   useEffect(() => {
     if (call && Object.keys(neighborhoodData).length > 0) {
-      imgData(
-        neighborhoodData && neighborhoodData.locationName,
+      if (
         neighborhoodData &&
-          neighborhoodData.building &&
-          neighborhoodData.building.concat(
-            neighborhoodData && neighborhoodData.floor,
-          ),
-      );
+        neighborhoodData.building !== null &&
+        (neighborhoodData && neighborhoodData.floor !== null)
+      ) {
+        imgData(
+          neighborhoodData && neighborhoodData.locationName,
+
+          neighborhoodData &&
+            neighborhoodData.building &&
+            neighborhoodData.building.concat(
+              neighborhoodData && neighborhoodData.floor,
+            ),
+        );
+      } else if (neighborhoodData && neighborhoodData.floor === null) {
+        imgData(
+          neighborhoodData && neighborhoodData.locationName,
+
+          neighborhoodData && neighborhoodData.building,
+        );
+      } else if (neighborhoodData && neighborhoodData.building === null) {
+        imgData(
+          neighborhoodData && neighborhoodData.locationName,
+
+          neighborhoodData && neighborhoodData.floor,
+        );
+      }
     }
   }, [call, neighborhoodData]);
 
@@ -378,62 +397,69 @@ const WorkSpot = ({
         {/* )} */}
 
         <div className="office-structure mt-4">
-          <div className="container" style={{ height: '100%' }}>
-            <div
-              className="card office-structure-inner"
-              style={{ height: '100%' }}
-            >
-              {Object.keys(neighborhoodData).length < 0 ? (
-                <Spinner
-                  className="app-spinner workspot_spinner"
-                  animation="grow"
-                  variant="dark"
-                />
-              ) : (
-                <>
-                  {officeRest || ''}
-                  <div className="right-map">
-                    <Draggable disabled={!isDraggable} key={state.version}>
-                      <div
-                        className="drag_image"
-                        style={isDraggable ? { cursor: 'move' } : null}
-                      >
-                        <img
-                          src={finalImg}
-                          alt=""
-                          style={imgStyle}
-                          draggable="false"
-                        />
+          {neighborhoodData.locationName !== 'Remote Work' &&
+            neighborhoodData.locationName !== 'Paid Time Off' && (
+              <div className="container" style={{ height: '100%' }}>
+                <div
+                  className="card office-structure-inner"
+                  style={{ height: '100%' }}
+                >
+                  {console.log('neighbourhoodData', neighborhoodData)}
+                  {!neighborhoodData.locationName ||
+                  neighborhoodData.locationName === 'Remote Work' ||
+                  neighborhoodData.locationName === 'Paid Time Off' ? (
+                    <Spinner
+                      className="app-spinner workspot_spinner"
+                      animation="grow"
+                      variant="dark"
+                    />
+                  ) : (
+                    <>
+                      {console.log('indsdaddadad')}
+                      {officeRest || ''}
+                      <div className="right-map">
+                        <Draggable disabled={!isDraggable} key={state.version}>
+                          <div
+                            className="drag_image"
+                            style={isDraggable ? { cursor: 'move' } : null}
+                          >
+                            <img
+                              src={finalImg}
+                              alt=""
+                              style={imgStyle}
+                              draggable="false"
+                            />
+                          </div>
+                        </Draggable>
+                        <div className="toolbar">
+                          <button
+                            className="location"
+                            type="button"
+                            onClick={() => handleDefault()}
+                          >
+                            <img src={locationMap} alt="" />
+                          </button>
+                          <button
+                            className="zoomin"
+                            type="button"
+                            onClick={() => handleZoomIn()}
+                          >
+                            <img src={zoomin} alt="" />
+                          </button>
+                          <button
+                            className="zoomout"
+                            type="button"
+                            onClick={() => handleZoomOut()}
+                          >
+                            <img src={zoomout} alt="" />
+                          </button>
+                        </div>
                       </div>
-                    </Draggable>
-                    <div className="toolbar">
-                      <button
-                        className="location"
-                        type="button"
-                        onClick={() => handleDefault()}
-                      >
-                        <img src={locationMap} alt="" />
-                      </button>
-                      <button
-                        className="zoomin"
-                        type="button"
-                        onClick={() => handleZoomIn()}
-                      >
-                        <img src={zoomin} alt="" />
-                      </button>
-                      <button
-                        className="zoomout"
-                        type="button"
-                        onClick={() => handleZoomOut()}
-                      >
-                        <img src={zoomout} alt="" />
-                      </button>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
         </div>
         <Calender
           defaultSelected={state.defaultSelected}

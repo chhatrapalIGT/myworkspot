@@ -3,6 +3,7 @@ import Lact from '../../images/officeImage/ExcludeLactWdc8.png';
 import firstAid from '../../images/officeImage/firstaid.png';
 import pantry from '../../images/officeImage/Pantry.png';
 import Printer from '../../images/officeImage/Printer.png';
+import Profile from '../../images/officeImage/Wprofile.png';
 
 function RB3F2() {
   return (
@@ -14,6 +15,12 @@ function RB3F2() {
       </div>
       <div className="office-resource">
         <p>Office Resources</p>
+        <div className="office-part-one blue">
+          <span className="informer">
+            <img src={Profile} alt="" />
+          </span>
+          <label htmlFor="my-spot">My Workspot</label>
+        </div>
         <div className="office-part-one teal">
           <span className="informer" />
           <label htmlFor="my-spot">Teal</label>

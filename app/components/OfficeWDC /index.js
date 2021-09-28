@@ -11,7 +11,7 @@ import location from '../../images/location.png';
 import Zoomin from '../../images/zoomin.png';
 import Zoomout from '../../images/zoomout.png';
 import map1 from '../../images/Map_1.svg';
-import map2 from '../../images/Map_2.svg';
+import map2 from '../../images/MapWF2.svg';
 import map3 from '../../images/Map_3.svg';
 import map4 from '../../images/Map_4.svg';
 import map5 from '../../images/Map_5.svg';
