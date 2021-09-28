@@ -41,7 +41,7 @@ export const getWorkSpotData = async (startDate, endDate) => {
     const newArr =
       weeklyData &&
       weeklyData.find(ele =>
-        moment(ele.weekofday)
+        moment(ele.date)
           .startOf('day')
           .isSame(currDate.toDate(), 'day'),
       );

@@ -1090,6 +1090,21 @@ input[type='text'] {
     }
   }
 
+  &.black {
+    background: url(../images/bloom.svg) no-repeat right center;
+    background-size: 55%;
+  }
+
+  &.grey {
+    background: url(../images/remoteWorkimg.svg) no-repeat right center;
+    background-size: 55%;
+  }
+
+  &.violate {
+    background: url(../images/paidtimeoffimg.svg) no-repeat right center;
+    background-size: 55%;
+  }
+
   & > p {
     span {
       font-weight: 600;
@@ -2408,6 +2423,23 @@ select.set_drop option[id='building'],
   background: #f5f7fa url(../images/workfromhome.png) no-repeat center bottom !important;
 }
 
+.paid-time-off {
+  background: #f4eeff url(../images/paidtimeoff.svg) no-repeat center bottom !important;
+}
+
+.eab-office {
+  background: url(../images/Buildings.png) no-repeat center bottom !important;
+  border-top: 8px solid !important;
+}
+
+.eab-home {
+  background: #f5f7fa url(../images/workfromhome.png) no-repeat center bottom !important;
+}
+
+.eab-firm-holiday {
+  background: #f4eeff !important;
+}
+
 .dropdown_locat::after {
   right: 45px;
 }
@@ -2433,4 +2465,8 @@ select.set_drop option[id='building'],
       color: black;
     }
   }
+}
+
+.day-pointer {
+  cursor: pointer;
 }
