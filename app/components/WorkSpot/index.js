@@ -306,13 +306,15 @@ const WorkSpot = ({
         <div className="container">
           <div
             className={
-              neighborhoodData &&
-              neighborhoodData.locationName ===
-                ('Washington, DC' || 'Richmond, VA')
+              (neighborhoodData &&
+                neighborhoodData.locationName === 'Richmond, VA') ||
+              (neighborhoodData &&
+                neighborhoodData.locationName === 'Washington, DC')
                 ? 'card building-block-head blue'
-                : neighborhoodData &&
-                  neighborhoodData.locationName ===
-                    ('Bloomington, MN' || 'Birmigham, AL')
+                : (neighborhoodData &&
+                    neighborhoodData.locationName === 'Bloomington, MN') ||
+                  (neighborhoodData &&
+                    neighborhoodData.locationName === 'Birmigham, AL')
                 ? 'card building-block-head black'
                 : neighborhoodData &&
                   neighborhoodData.locationName === 'Remote Work'
