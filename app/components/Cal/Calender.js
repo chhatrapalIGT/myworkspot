@@ -171,6 +171,28 @@ const Calender = ({
     return b;
   };
 
+  const locationClass = location => {
+    let className;
+    switch (location) {
+      case 'Remote Work':
+        className = 'eab-home';
+        break;
+      case 'Paid Time Off':
+        className = 'paid-time-off';
+        break;
+      case 'EAB Firm Holiday':
+        className = 'eab-firm-holiday';
+        break;
+      case location !==
+        ('Remote Work' || 'Paid Time Off' || 'EAB Firm Holiday'):
+        className = 'eab-office border-top-blue';
+        break;
+      default:
+        className = 'eab-office border-top-blue';
+    }
+    return className;
+  };
+
   return (
     <div className={!setVisible && 'myteam_wrapper'}>
       <div className="container">
@@ -352,7 +374,7 @@ const Calender = ({
                           animation="grow"
                           variant="dark"
                         />
-                      ) : !getWeekWorkspotDataLoading() ? (
+                      ) : setVisible && !getWeekWorkspotDataLoading() ? (
                         <Spinner
                           className="app-spinner profile"
                           animation="grow"
@@ -385,11 +407,12 @@ const Calender = ({
                                 <div
                                   className={
                                     item.disable || isCurrentDate(item.date)
-                                      ? 'day-one-wrapper work-from-office  border-top-blue'
-                                      : data &&
-                                        data.locationName === 'Remote Work'
-                                      ? 'day-one-wrapper work-from-home day-pointer'
-                                      : 'day-one-wrapper work-from-office day-pointer border-top-blue'
+                                      ? `{ day-one-wrapper ${locationClass(
+                                          data && data.locationName,
+                                        )} }`
+                                      : `{ day-one-wrapper ${locationClass(
+                                          data && data.locationName,
+                                        )} day-pointer }`
                                   }
                                   onClick={() => {
                                     !item.disable &&
@@ -420,16 +443,21 @@ const Calender = ({
                                       ? state.updatingObject.work_area
                                       : data && data.locationName}
                                   </p>
-                                  {data && data.locationName !== 'Remote Work' && (
-                                    <span className="floor-location">
-                                      <img src={Vector} alt="" />
-                                      {data && data.floor} -{' '}
-                                      {data && data.color}
-                                    </span>
-                                  )}
+                                  {(data &&
+                                    data.locationName !== 'Remote Work') ||
+                                    (data &&
+                                      data.locationName !== 'Paid Time Off') ||
+                                    (data &&
+                                      data.locationName !==
+                                        'EAB Firm Holiday' && (
+                                        <span className="floor-location">
+                                          <img src={Vector} alt="" />
+                                          {data && data.floor} -{' '}
+                                          {data && data.color}
+                                        </span>
+                                      ))}
                                 </div>
                               </div>
-                              {/* // )} */}
                             </>
                           );
                         })
@@ -582,19 +610,19 @@ const Calender = ({
                               </p>
 
                               <div
-                                className={`${
-                                  item.disable &&
+                                className={
+                                  item.disable ||
                                   (item.day === 'Saturday' ||
                                     item.day === 'Sunday' ||
-                                    item.weekend)
-                                    ? 'day-one-wrapper'
-                                    : item.disable || isCurrentDate(item.date)
-                                    ? 'day-one-wrapper work-from-office  border-top-blue'
-                                    : data &&
-                                      data.locationName === 'Remote Work'
-                                    ? 'day-one-wrapper work-from-home day-pointer'
-                                    : 'day-one-wrapper work-from-office day-pointer border-top-blue'
-                                }`}
+                                    item.weekend) ||
+                                  isCurrentDate(item.date)
+                                    ? `{ day-one-wrapper ${locationClass(
+                                        data && data.locationName,
+                                      )} }`
+                                    : `{ day-one-wrapper ${locationClass(
+                                        data && data.locationName,
+                                      )} day-pointer }`
+                                }
                                 onClick={() => {
                                   !item.disable &&
                                     !isCurrentDate(item.date) &&
@@ -615,12 +643,19 @@ const Calender = ({
                                 <p className="work-station">
                                   {data && data.locationName}
                                 </p>
-                                {data && data.locationName !== 'Remote Work' && (
-                                  <span className="floor-location">
-                                    <img src={Vector} alt="" />
-                                    {data && data.floor} - {data && data.color}
-                                  </span>
-                                )}
+                                {(data &&
+                                  data.locationName !== 'Remote Work') ||
+                                  (data &&
+                                    data.locationName !== 'Paid Time Off') ||
+                                  (data &&
+                                    data.locationName !==
+                                      'EAB Firm Holiday' && (
+                                      <span className="floor-location">
+                                        <img src={Vector} alt="" />
+                                        {data && data.floor} -{' '}
+                                        {data && data.color}
+                                      </span>
+                                    ))}
                               </div>
                             </div>
                           );

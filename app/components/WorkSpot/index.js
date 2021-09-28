@@ -1,4 +1,6 @@
 /* eslint-disable default-case */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-constant-condition */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable react/no-unescaped-entities */
@@ -44,6 +46,9 @@ import map7 from '../../images/Map_7.svg';
 import map8 from '../../images/Map_8.svg';
 import map9 from '../../images/Map_9.svg';
 import map10 from '../../images/Map_10.svg';
+import bloom from '../assets/images/bloom.svg';
+import paidtimeoffimg from '../assets/images/paidtimeoffimg.svg';
+import remoteWorkimg from '../assets/images/remoteWorkimg.svg';
 
 const WorkSpot = ({
   onSubmit,
@@ -274,83 +279,104 @@ const WorkSpot = ({
       )}
 
       <div className="wrapper_main">
-        {neighborhood &&
+        {/* {neighborhood &&
           neighborhood.success &&
-          !isEmpty(neighborhood.neighborhoodData) && (
-            <div className="container">
-              <div
-                className="card building-block-head blue"
-                style={{ backgroundColor: 'white' }}
-              >
-                {isEmpty(neighborhoodData) ? (
-                  <Spinner
-                    className="app-spinner workspot_spinner"
-                    animation="grow"
-                    variant="dark"
-                  />
-                ) : (
-                  <>
-                    <p className="stroke-2">
-                      Hi {neighborhoodData && neighborhoodData.username}, your{' '}
-                      <span>
-                        {' '}
-                        {neighborhoodData && neighborhoodData.locationName}{' '}
-                      </span>{' '}
-                      neighborhood today is
-                    </p>
-
-                    <div className="block-info d-flex flex-wrap">
-                      <h3 className="building-name">
-                        {neighborhoodData && neighborhoodData.building}
-                      </h3>
-                      <h3 className="floor-name">
-                        {neighborhoodData && neighborhoodData.floor}
-                      </h3>
-                      <h3 className="color-code">{neighborhoodColor}</h3>
-                    </div>
-
-                    <div className="building-location-strip d-flex flex-wrap align-items-center">
-                      <div
-                        className="location d-flex align-items-center"
-                        aria-hidden="true"
-                        target="_blank"
-                      >
-                        <a
-                          target="_blank"
-                          href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
-                        >
-                          <img src={union} alt="" />
-                        </a>
-                        {neighborhoodData && neighborhoodData.officeAddress}
-                      </div>
-                      <div
-                        className="change-workspot d-flex align-items-center"
-                        aria-hidden="true"
-                      >
-                        <img
-                          src={editPen}
-                          alt=""
-                          className="onHover"
-                          aria-hidden="true"
-                        />{' '}
-                        <a
-                          href
-                          onClick={() => {
-                            handleEditModal(true);
-                            // handleData();
-                            setDate('');
-                          }}
-                          className="change-workspot"
-                        >
-                          Change Today's Workspot
-                        </a>
-                      </div>
-                    </div>
-                  </>
-                )}
+          !isEmpty(neighborhood.neighborhoodData) && ( */}
+        <div className="container">
+          <div
+            className={
+              neighborhoodData &&
+              neighborhoodData.locationName ===
+                ('Washington, DC' && 'Richmond, VA')
+                ? 'card building-block-head blue'
+                : neighborhoodData &&
+                  neighborhoodData.locationName ===
+                    ('Bloomington, MN' && 'Birmigham, AL')
+                ? 'card building-block-head black'
+                : neighborhoodData &&
+                  neighborhoodData.locationName === 'Remote Work'
+                ? 'card building-block-head grey'
+                : neighborhoodData &&
+                  neighborhoodData.locationName === 'Paid Time Off'
+                ? 'card building-block-head violate'
+                : ''
+            }
+            style={{ backgroundColor: 'white' }}
+          >
+            {isEmpty(neighborhoodData) ? (
+              <div className="card building-block-head">
+                <Spinner
+                  className="app-spinner workspot_spinner"
+                  animation="grow"
+                  variant="dark"
+                />
               </div>
-            </div>
-          )}
+            ) : (
+              <>
+                <p className="stroke-2">
+                  Hi {neighborhoodData && neighborhoodData.username}, your{' '}
+                  <span>
+                    {' '}
+                    {neighborhoodData && neighborhoodData.locationName}{' '}
+                  </span>{' '}
+                  neighborhood today is
+                </p>
+
+                <div className="block-info d-flex flex-wrap">
+                  <h3 className="building-name">
+                    {neighborhoodData && neighborhoodData.building}
+                  </h3>
+                  <h3 className="floor-name">
+                    {neighborhoodData && neighborhoodData.floor}
+                  </h3>
+                  <h3 className="color-code">{neighborhoodColor}</h3>
+                </div>
+
+                <div className="building-location-strip d-flex flex-wrap align-items-center">
+                  <div
+                    className="location d-flex align-items-center"
+                    aria-hidden="true"
+                    target="_blank"
+                  >
+                    <a
+                      target="_blank"
+                      href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
+                    >
+                      {/* <img
+                            src={locationImage(
+                              neighborhoodData && neighborhoodData.locationName,
+                            )}
+                            alt=""
+                          /> */}
+                    </a>
+                    {neighborhoodData && neighborhoodData.officeAddress}
+                  </div>
+                  <div
+                    className="change-workspot d-flex align-items-center"
+                    onClick={() => {
+                      handleEditModal(true);
+                      // handleData();
+                      setDate('');
+                    }}
+                    aria-hidden="true"
+                  >
+                    <img
+                      src={editPen}
+                      alt=""
+                      className="onHover"
+                      aria-hidden="true"
+                    />{' '}
+                    <a href className="change-workspot">
+                      Change Today's Workspot
+                    </a>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+        {/* )} */}
+
         <div className="office-structure mt-4">
           <div className="container" style={{ height: '100%' }}>
             <div
