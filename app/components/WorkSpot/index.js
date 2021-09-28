@@ -272,7 +272,9 @@ const WorkSpot = ({
   const neighborhoodColor =
     neighborhoodData && neighborhoodData.colorcode === 'a5c3e2'
       ? 'Blue'
-      : 'Red';
+      : neighborhoodData && neighborhoodData.colorcode === 'aa2121'
+      ? 'Red'
+      : '';
 
   return (
     <>
@@ -337,39 +339,51 @@ const WorkSpot = ({
                   <span>
                     {' '}
                     {neighborhoodData && neighborhoodData.locationName}{' '}
-                  </span>{' '}
-                  neighborhood today is
+                  </span>
+                  {neighborhoodData.locationName === 'Remote Work' ||
+                  neighborhoodData.locationName === 'Paid Time Off'
+                    ? `workspot today is`
+                    : `neighborhood today is`}
                 </p>
 
                 <div className="block-info d-flex flex-wrap">
-                  <h3 className="building-name">
-                    {neighborhoodData && neighborhoodData.building}
-                  </h3>
-                  <h3 className="floor-name">
-                    {neighborhoodData && neighborhoodData.floor}
-                  </h3>
+                  {neighborhoodData && neighborhoodData.building && (
+                    <h3 className="building-name">
+                      {`Building ${neighborhoodData &&
+                        neighborhoodData.building}`}
+                    </h3>
+                  )}
+                  {neighborhoodData && neighborhoodData.floor && (
+                    <h3 className="floor-name">
+                      {`Floor ${neighborhoodData && neighborhoodData.floor}`}
+                    </h3>
+                  )}
                   <h3 className="color-code">{neighborhoodColor}</h3>
+                  {console.log('neighborhoodColor', neighborhoodColor)}
                 </div>
 
                 <div className="building-location-strip d-flex flex-wrap align-items-center">
-                  <div
-                    className="location d-flex align-items-center"
-                    aria-hidden="true"
-                    target="_blank"
-                  >
-                    <a
+                  {neighborhoodData && neighborhoodData.officeAddress && (
+                    <div
+                      className="location d-flex align-items-center"
+                      aria-hidden="true"
                       target="_blank"
-                      href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
                     >
-                      {/* <img
+                      <a
+                        target="_blank"
+                        href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
+                      >
+                        <img src={union} alt="" />
+                        {/* <img
                             src={locationImage(
                               neighborhoodData && neighborhoodData.locationName,
                             )}
                             alt=""
                           /> */}
-                    </a>
-                    {neighborhoodData && neighborhoodData.officeAddress}
-                  </div>
+                      </a>
+                      {neighborhoodData && neighborhoodData.officeAddress}
+                    </div>
+                  )}
                   <div
                     className="change-workspot d-flex align-items-center"
                     onClick={() => {
