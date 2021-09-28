@@ -227,7 +227,7 @@ const WorkSpot = ({
             break;
         }
         break;
-      case 'Birmigham , AL':
+      case 'Birmigham, AL':
         switch (neighborhoodBuild) {
           case '1':
             imageSrc = map10;
@@ -236,7 +236,7 @@ const WorkSpot = ({
         }
         break;
 
-      case 'Bloomington , MN':
+      case 'Bloomington, MN':
         switch (neighborhoodBuild) {
           case '1':
             imageSrc = map9;
@@ -306,11 +306,11 @@ const WorkSpot = ({
             className={
               neighborhoodData &&
               neighborhoodData.locationName ===
-                ('Washington, DC' && 'Richmond, VA')
+                ('Washington, DC' || 'Richmond, VA')
                 ? 'card building-block-head blue'
                 : neighborhoodData &&
                   neighborhoodData.locationName ===
-                    ('Bloomington, MN' && 'Birmigham, AL')
+                    ('Bloomington, MN' || 'Birmigham, AL')
                 ? 'card building-block-head black'
                 : neighborhoodData &&
                   neighborhoodData.locationName === 'Remote Work'

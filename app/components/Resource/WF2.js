@@ -27,12 +27,6 @@ function WF2() {
           <label htmlFor="my-spot">My Workspot</label>
         </div>
         <div className="office-part-one blue">
-          <span className="informer">
-            <img src={Profile} alt="" />
-          </span>
-          <label htmlFor="my-spot">My Workspot</label>
-        </div>
-        <div className="office-part-one blue">
           <span className="informer" />
           <label htmlFor="my-spot">Blue</label>
         </div>
