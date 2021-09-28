@@ -67,7 +67,7 @@ const Header = props => {
                       </a>
                     </Link>
                   </li> */}
-                  {/* <li>
+                  <li>
                     <Link to="/office" activeClassName="active">
                       <a
                         className={pathName === '/office' && 'active'}
@@ -76,7 +76,7 @@ const Header = props => {
                         Office Maps
                       </a>
                     </Link>
-                  </li> */}
+                  </li>
                   <li>
                     <Link to="/board">
                       <a

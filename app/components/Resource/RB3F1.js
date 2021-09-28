@@ -1,0 +1,63 @@
+/* eslint-disable react/no-unescaped-entities */
+import React from 'react';
+import womenImage from '../../images/officeImage/Wrest.png';
+import firstAid from '../../images/officeImage/firstaid.png';
+import pantry from '../../images/officeImage/Pantry.png';
+import Printer from '../../images/officeImage/Printer.png';
+
+function RB3F1() {
+  return (
+    <div className="left-panel" style={{ height: ' 60vh' }}>
+      <div className="office-info">
+        <p className="name">Richmond, VA</p>
+        <span className="floor mr-2">Building 3</span>
+        <span className="floor">Floor 1</span>
+      </div>
+      <div className="office-resource">
+        <p>Office Resources</p>
+        <div className="office-part-one blue">
+          <span className="informer" />
+          <label htmlFor="my-spot">Blue</label>
+        </div>
+        <div className="office-part-one teal">
+          <span className="informer" />
+          <label htmlFor="my-spot">Teal</label>
+        </div>
+        <div className="office-part-one orange">
+          <span className="informer" />
+          <label htmlFor="my-spot">Orange</label>
+        </div>
+        <div className="office-part-one blue-area">
+          <span className="informer">1</span>
+          <label htmlFor="my-spot">Hampden-Sydney</label>
+        </div>
+        <div className="office-part-one heart pink">
+          <span className="informer">
+            <img src={firstAid} alt="" />
+          </span>
+          <label htmlFor="my-spot">First Aid</label>
+        </div>
+        <div className="office-part-one heart orange">
+          <span className="informer">
+            <img src={pantry} alt="" />
+          </span>
+          <label htmlFor="my-spot">Pantry</label>
+        </div>
+        <div className="office-part-one heart green">
+          <span className="informer">
+            <img src={Printer} alt="" />
+          </span>
+          <label htmlFor="my-spot">Copy Room</label>
+        </div>
+        <div className="office-part-one heart teal">
+          <span className="informer">
+            <img src={womenImage} alt="" />
+          </span>
+          <label htmlFor="my-spot">Women's Restroom</label>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default RB3F1;
