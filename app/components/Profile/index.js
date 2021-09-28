@@ -128,15 +128,19 @@ const Profile = ({
             <div className="container">
               <h4 className="common-title">My Profile</h4>
 
-              <div className="card my-profile-inner">
-                {isEmpty(userData) ? (
+              {/* <div className="card my-profile-inner"> */}
+              {isEmpty(userData) ? (
+                <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
                   <Spinner
                     className="app-spinner profile"
                     animation="grow"
                     variant="dark"
+                    // style={{ width: '0%' }}
                   />
-                ) : (
-                  <>
+                </div>
+              ) : (
+                <>
+                  <div className="card my-profile-inner">
                     <div className="left-aside d-flex align-items-center justify-content-center">
                       <div className="wrapper">
                         <div className="profile-picture">
@@ -201,13 +205,14 @@ const Profile = ({
                                   type="text"
                                   disabled
                                   value="BB"
-                                  style={{ width: '40px', color: 'black' }}
+                                  className="badge_input"
                                 />
                                 <input
                                   name="badgeData"
                                   type="text"
                                   placeholder="233321"
                                   maxLength="6"
+                                  className="badge_val"
                                   onChange={handleBadgeData}
                                 />
                               </div>
@@ -249,9 +254,9 @@ const Profile = ({
                         </div>
                       </div>
                     </div>
-                  </>
-                )}
-              </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <div className="weekly-default onboarding-main mt-40">

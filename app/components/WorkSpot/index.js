@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable react/no-unescaped-entities */
@@ -13,7 +14,6 @@ import Spinner from 'react-bootstrap/Spinner';
 import { Datepicker } from '@mobiscroll/react';
 import Axios from 'axios';
 import { isEmpty } from 'lodash';
-import Floormap from '../../images/Map_2.svg';
 import locationMap from '../../images/location.png';
 import zoomin from '../../images/zoomin.png';
 import zoomout from '../../images/zoomout.png';
@@ -23,6 +23,27 @@ import ProfileImg from '../assets/images/myprofile.png';
 import profile from '../assets/images/profileof.png';
 import '../../../src/lib/mobiscroll/css/mobiscroll.react.scss';
 import Calender from '../Cal/Calender';
+import WF2 from '../Resource/WF2';
+import WF3 from '../Resource/WF3';
+import WF4 from '../Resource/WF4';
+import WF8 from '../Resource/WF8';
+import RB1 from '../Resource/RB1';
+import RB2 from '../Resource/RB2';
+import RB3F1 from '../Resource/RB3F1';
+import RB3F2 from '../Resource/RB3F2';
+import BLB1 from '../Resource/BLB1';
+import BRB1 from '../Resource/BRB1';
+
+import map1 from '../../images/Map_1.svg';
+import map2 from '../../images/Map_2.svg';
+import map3 from '../../images/Map_3.svg';
+import map4 from '../../images/Map_4.svg';
+import map5 from '../../images/Map_5.svg';
+import map6 from '../../images/Map_6.svg';
+import map7 from '../../images/Map_7.svg';
+import map8 from '../../images/Map_8.svg';
+import map9 from '../../images/Map_9.svg';
+import map10 from '../../images/Map_10.svg';
 
 const WorkSpot = ({
   onSubmit,
@@ -120,6 +141,90 @@ const WorkSpot = ({
   const updateModalData = (key, val) => {
     handleUpdatingModalData(key, val);
   };
+  const [finalImg, setFinalImg] = useState('');
+  const [officeRest, setOfficeRest] = useState('');
+  const [call, setCall] = useState(true);
+  useEffect(() => {
+    if (call && Object.keys(neighborhoodData).length > 0) {
+      imgData(
+        neighborhoodData && neighborhoodData.locationName,
+        neighborhoodData &&
+          neighborhoodData.building.concat(
+            neighborhoodData && neighborhoodData.floor,
+          ),
+      );
+    }
+  }, [call, neighborhoodData]);
+
+  const imgData = async (neighborhoodImg, neighborhoodBuild) => {
+    let imageSrc = '';
+    let officeRes = '';
+    switch (neighborhoodImg) {
+      case 'Washington, DC':
+        switch (neighborhoodBuild) {
+          case '2':
+            imageSrc = map2;
+            officeRes = WF2;
+            break;
+          case '3':
+            imageSrc = map1;
+            officeRes = WF3;
+            break;
+          case '4':
+            imageSrc = map3;
+            officeRes = WF4;
+            break;
+          case '8':
+            imageSrc = map4;
+            officeRes = WF8;
+            break;
+        }
+        break;
+      case 'Richmond, VA':
+        switch (neighborhoodBuild) {
+          case 'Building 1':
+            imageSrc = map5;
+            officeRes = RB1;
+            break;
+          case 'Building 2':
+            imageSrc = map6;
+            officeRes = RB2;
+            break;
+          case 'Building 3, Floor 1':
+            imageSrc = map7;
+            officeRes = RB3F1;
+            break;
+          case 'Building 3, Floor 2':
+            imageSrc = map8;
+            officeRes = RB3F2;
+            break;
+        }
+        break;
+      case 'Birmigham , AL':
+        switch (neighborhoodBuild) {
+          case 'Building 1':
+            imageSrc = map10;
+            officeRes = BRB1;
+            break;
+        }
+        break;
+
+      case 'Bloomington , MN':
+        switch (neighborhoodBuild) {
+          case 'Building 1':
+            imageSrc = map9;
+            officeRes = BLB1;
+            break;
+        }
+        break;
+
+      default:
+    }
+
+    setFinalImg(imageSrc);
+    setOfficeRest(officeRes);
+    setCall(false);
+  };
 
   const handleEditModalData = (
     modalState,
@@ -142,9 +247,6 @@ const WorkSpot = ({
       ? 'Blue'
       : 'Red';
 
-  // const neighborhoodloc =
-  //   neighborhoodData && neighborhoodData.locationName.split(',');
-  // console.log(`neighborhoodloc`, neighborhoodloc);
   return (
     <>
       {(apiMessage ||
@@ -220,11 +322,6 @@ const WorkSpot = ({
                       </div>
                       <div
                         className="change-workspot d-flex align-items-center"
-                        onClick={() => {
-                          handleEditModal(true);
-                          // handleData();
-                          setDate('');
-                        }}
                         aria-hidden="true"
                       >
                         <img
@@ -233,7 +330,15 @@ const WorkSpot = ({
                           className="onHover"
                           aria-hidden="true"
                         />{' '}
-                        <a href className="change-workspot">
+                        <a
+                          href
+                          onClick={() => {
+                            handleEditModal(true);
+                            // handleData();
+                            setDate('');
+                          }}
+                          className="change-workspot"
+                        >
                           Change Today's Workspot
                         </a>
                       </div>
@@ -243,61 +348,13 @@ const WorkSpot = ({
               </div>
             </div>
           )}
-
         <div className="office-structure mt-4">
           <div className="container" style={{ height: '100%' }}>
             <div
               className="card office-structure-inner"
               style={{ height: '100%' }}
             >
-              <div className="left-panel" style={{ overflow: 'auto' }}>
-                <div className="office-info">
-                  <p className="name">Washington, DC</p>
-                  <span className="floor">Floor 3</span>
-                  {/* <span className="floor">Floor 4</span> */}
-                </div>
-                <div className="office-resource">
-                  <p>Office Resources</p>
-                  <div className="office-part-one yellow">
-                    <span className="informer" />
-                    <label htmlFor="my-spot">Yellow</label>
-                  </div>
-                  <div className="office-part-one teal">
-                    <span className="informer" />
-                    <label htmlFor="my-spot">Teal</label>
-                  </div>
-                  <div className="office-part-one orange">
-                    <span className="informer" />
-                    <label htmlFor="my-spot">Orange</label>
-                  </div>
-                  <div className="office-part-one blue">
-                    <span className="informer" />
-                    <label htmlFor="my-spot">Blue</label>
-                  </div>
-                  <div className="office-part-one teal">
-                    <span className="informer">315</span>
-                    <label htmlFor="my-spot">Bel-Air</label>
-                  </div>
-                  <div className="office-part-one teal">
-                    <span className="informer">332</span>
-                    <label htmlFor="my-spot">Walkerville</label>
-                  </div>
-                  <div className="office-part-one white">
-                    <span className="informer">334</span>
-                    <label htmlFor="my-spot">Common Room</label>
-                  </div>
-                  <div className="office-part-one black">
-                    <span className="informer">359</span>
-                    <label htmlFor="my-spot">The Post</label>
-                  </div>
-                  <div className="office-part-one heart pink">
-                    <span className="informer">
-                      <img src="./images/heart.png" alt="" />
-                    </span>
-                    <label htmlFor="my-spot">AED</label>
-                  </div>
-                </div>
-              </div>
+              {officeRest || ''}
               <div className="right-map">
                 <Draggable disabled={!isDraggable} key={state.version}>
                   <div
@@ -305,7 +362,7 @@ const WorkSpot = ({
                     style={isDraggable ? { cursor: 'move' } : null}
                   >
                     <img
-                      src={Floormap}
+                      src={finalImg}
                       alt=""
                       style={imgStyle}
                       draggable="false"
@@ -663,7 +720,7 @@ const WorkSpot = ({
                             style={isDraggable ? { cursor: 'move' } : null}
                           >
                             <img
-                              src={Floormap}
+                              src={map2}
                               alt=""
                               style={imgStyle}
                               draggable="false"
