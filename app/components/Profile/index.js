@@ -14,6 +14,7 @@ import { Modal } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import ProfileImg from '../assets/images/myprofile.png';
 import Edit from '../assets/images/edit.svg';
+import Add from '../../images/Vectorplus.png';
 
 import Close from '../assets/images/close.svg';
 
@@ -182,20 +183,33 @@ const Profile = ({
                           <span>Badge Number</span>
                           {!openBadge && (
                             <>
-                              <p>
-                                BB
-                                {state.badgeData
-                                  ? state.badgeData
-                                  : userData.badgeNumber}
-                              </p>
-                              <a
-                                className="replace"
-                                href
-                                onClick={() => setOpenBadge(true)}
-                              >
-                                <img src={Edit} alt="" />
-                                Replace My Badge
-                              </a>
+                              {userData.badgeNumber ? (
+                                <>
+                                  <p>
+                                    BB
+                                    {state.badgeData
+                                      ? state.badgeData
+                                      : userData.badgeNumber}
+                                  </p>
+                                  <a
+                                    className="replace"
+                                    href
+                                    onClick={() => setOpenBadge(true)}
+                                  >
+                                    <img src={Edit} alt="" />
+                                    Replace My Badge
+                                  </a>
+                                </>
+                              ) : (
+                                <a
+                                  className="replace"
+                                  href
+                                  onClick={() => setOpenBadge(true)}
+                                >
+                                  <img src={Add} alt="" />
+                                  Add My Badge
+                                </a>
+                              )}
                             </>
                           )}
                           {openBadge && (
