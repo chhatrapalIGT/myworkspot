@@ -19,9 +19,12 @@ export const getWorkSpotData = async (startDate, endDate) => {
     .startOf('day');
 
   const url = `${API_URL}/workspot/getworkspotdata?startdate=${sDate}&enddate=${eDate}&employeeid=239323`;
-  await Axios.get(url, {
-    withCredentials: true,
-  })
+  await Axios.get(
+    url,
+    //    {
+    //   withCredentials: true,
+    // }
+  )
     .then(res => {
       isLoading = false;
       weeklyData = res.data.data;
