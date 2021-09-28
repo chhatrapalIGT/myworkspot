@@ -7,7 +7,6 @@ import Spinner from 'react-bootstrap/Spinner';
 // import Office from '../../images/off.svg';
 // import Swiggy from '../../images/swiggy.png';
 // import Talabat from '../../images/talabat.png';
-import heartImage from '../../images/heart.png';
 import location from '../../images/location.png';
 import Zoomin from '../../images/zoomin.png';
 import Zoomout from '../../images/zoomout.png';
@@ -21,7 +20,16 @@ import map7 from '../../images/Map_7.svg';
 import map8 from '../../images/Map_8.svg';
 import map9 from '../../images/Map_9.svg';
 import map10 from '../../images/Map_10.svg';
-
+import WF2 from '../Resource/WF2';
+import WF3 from '../Resource/WF3';
+import WF4 from '../Resource/WF4';
+import WF8 from '../Resource/WF8';
+import RB1 from '../Resource/RB1';
+import RB2 from '../Resource/RB2';
+import RB3F1 from '../Resource/RB3F1';
+import RB3F2 from '../Resource/RB3F2';
+import BRB1 from '../Resource/BRB1';
+import BLB1 from '../Resource/BLB1';
 const OfficeWDC = ({
   handleZoomIn,
   handleZoomOut,
@@ -36,6 +44,7 @@ const OfficeWDC = ({
   const [floor, setFloor] = useState();
   const [finalFloor, setFinalFloor] = useState('Floor 2');
   const [imgSrc, setImgSrc] = useState('');
+  const [imgResource, setImgResource] = useState('');
 
   const finalFloorData =
     officeLocation &&
@@ -70,21 +79,26 @@ const OfficeWDC = ({
     const switchOffice = valOffice || office;
     const switchFinalFloor = valFinalFloor || finalFloor;
     let imageSrc = '';
+    let imageDataResource = '';
 
     switch (switchOffice) {
       case 'Washington, DC':
         switch (switchFinalFloor) {
           case 'Floor 2':
             imageSrc = map2;
+            imageDataResource = WF2;
             break;
           case 'Floor 3':
             imageSrc = map1;
+            imageDataResource = WF3;
             break;
           case 'Floor 4':
             imageSrc = map3;
+            imageDataResource = WF4;
             break;
           case 'Floor 8':
             imageSrc = map4;
+            imageDataResource = WF8;
             break;
         }
         break;
@@ -92,15 +106,19 @@ const OfficeWDC = ({
         switch (switchFinalFloor) {
           case 'Building 1':
             imageSrc = map5;
+            imageDataResource = RB1;
             break;
           case 'Building 2':
             imageSrc = map6;
+            imageDataResource = RB2;
             break;
           case 'Building 3, Floor 1':
             imageSrc = map7;
+            imageDataResource = RB3F1;
             break;
           case 'Building 3, Floor 2':
             imageSrc = map8;
+            imageDataResource = RB3F2;
             break;
         }
         break;
@@ -108,6 +126,7 @@ const OfficeWDC = ({
         switch (switchFinalFloor) {
           case 'Building 1':
             imageSrc = map10;
+            imageDataResource = BRB1;
             break;
         }
         break;
@@ -116,6 +135,7 @@ const OfficeWDC = ({
         switch (switchFinalFloor) {
           case 'Building 1':
             imageSrc = map9;
+            imageDataResource = BLB1;
             break;
         }
         break;
@@ -123,6 +143,7 @@ const OfficeWDC = ({
       default:
     }
     setImgSrc(imageSrc);
+    setImgResource(imageDataResource);
   };
 
   return (
@@ -217,55 +238,7 @@ const OfficeWDC = ({
           <div className="office-structure mt-4">
             <div className="container">
               <div className="card office-structure-inner">
-                <div className="left-panel">
-                  <div className="office-info">
-                    <p className="name"> {office}</p>
-                    <span className="floor">
-                      {finalFloor || (finalFloorData && finalFloorData[0])}
-                    </span>
-                  </div>
-                  <div className="office-resource">
-                    <p>Office Resources</p>
-                    <div className="office-part-one yellow">
-                      <span className="informer" />
-                      <label htmlFor="my-spot">Yellow</label>
-                    </div>
-                    <div className="office-part-one teal">
-                      <span className="informer" />
-                      <label htmlFor="my-spot">Teal</label>
-                    </div>
-                    <div className="office-part-one orange">
-                      <span className="informer" />
-                      <label htmlFor="my-spot">Orange</label>
-                    </div>
-                    <div className="office-part-one blue">
-                      <span className="informer" />
-                      <label htmlFor="my-spot">Blue</label>
-                    </div>
-                    <div className="office-part-one teal">
-                      <span className="informer">315</span>
-                      <label htmlFor="my-spot">Bel-Air</label>
-                    </div>
-                    <div className="office-part-one teal">
-                      <span className="informer">332</span>
-                      <label htmlFor="my-spot">Walkerville</label>
-                    </div>
-                    <div className="office-part-one white">
-                      <span className="informer">334</span>
-                      <label htmlFor="my-spot">Common Room</label>
-                    </div>
-                    <div className="office-part-one black">
-                      <span className="informer">359</span>
-                      <label htmlFor="my-spot">The Post</label>
-                    </div>
-                    <div className="office-part-one heart pink">
-                      <span className="informer">
-                        <img src={heartImage} alt="" />
-                      </span>
-                      <label htmlFor="my-spot">AED</label>
-                    </div>
-                  </div>
-                </div>
+                {imgResource || ''}
                 <div className="right-map">
                   <Draggable disabled={!isDraggable} key={state.version}>
                     <div

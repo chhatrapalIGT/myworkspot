@@ -1,35 +1,61 @@
-// /**
-//  * Gets the repositories of the user from Github
-//  */
+/**
+ * Gets the repositories of the user from Github
+ */
 
-// import { put, takeLatest } from 'redux-saga/effects';
-// import request from 'utils/request';
+import { put, takeLatest } from 'redux-saga/effects';
+import request from 'utils/request';
 
-// import { REQUEST_GET_LOCATION } from './constants';
+import { REQUEST_GET_TEAM_MEMBER, REQUEST_ADD_TEAM_MEMBER } from './constants';
 
-// import { getLocationSuccess, getLocationFailed } from './actions';
-// import { CONSTANT } from '../../enum';
+import {
+  getTeamMemberSuccess,
+  getTeamMemberFailed,
+  addTeamMemberSuccess,
+  addTeamMemberFailed,
+} from './actions';
+import { CONSTANT } from '../../enum';
 
-// const { API_URL } = CONSTANT;
+const { API_URL } = CONSTANT;
 
-// export function* getLocation() {
-//   const requestURL = `${API_URL}/location/GetData`;
-//   try {
-//     const locationList = yield request({
-//       method: 'GET',
-//       url: requestURL,
-//     });
-//     const { data } = locationList;
-//     if (data && data.success) {
-//       yield put(getLocationSuccess(data.data));
-//     } else {
-//       yield put(getLocationFailed(data));
-//     }
-//   } catch (err) {
-//     yield put(getLocationFailed(err));
-//   }
-// }
+export function* getTeamMember() {
+  const requestURL = `${API_URL}/location/GetData`;
+  try {
+    const locationList = yield request({
+      method: 'GET',
+      url: requestURL,
+    });
+    const { data } = locationList;
+    if (data && data.success) {
+      yield put(getTeamMemberSuccess(data.data));
+    } else {
+      yield put(getTeamMemberFailed(data));
+    }
+  } catch (err) {
+    yield put(getTeamMemberFailed(err));
+  }
+}
 
-// export default function* reportSaga() {
-//   yield takeLatest(REQUEST_GET_LOCATION, getLocation);
-// }
+export function* updateTeamMember({ payload }) {
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/Badges/editBadge`;
+  try {
+    const badgeList = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+    });
+    const { data } = badgeList;
+    if (data && data.success) {
+      yield put(addTeamMemberSuccess(data));
+    } else {
+      yield put(addTeamMemberFailed(data));
+    }
+  } catch (err) {
+    yield put(addTeamMemberFailed(err));
+  }
+}
+
+export default function* reportSaga() {
+  yield takeLatest(REQUEST_GET_TEAM_MEMBER, getTeamMember);
+  yield takeLatest(REQUEST_ADD_TEAM_MEMBER, updateTeamMember);
+}

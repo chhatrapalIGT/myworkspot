@@ -1631,6 +1631,22 @@ input[type='text'] {
               border: 1px solid #002d50;
             }
           }
+          &.purple {
+            .informer {
+              background: #d8ceeb;
+            }
+          }
+          &.green {
+            .informer {
+              background: #c7eecb;
+            }
+          }
+          &.blue-area {
+            .informer {
+              background: #00355f;
+              color: #fff;
+            }
+          }
 
           .informer {
             display: flex;

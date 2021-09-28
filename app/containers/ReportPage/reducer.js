@@ -1,38 +1,75 @@
-// /* eslint-disable no-param-reassign */
-// import produce from 'immer';
-// import {
-//   REQUEST_GET_LOCATION,
-//   SUCCESS_GET_LOCATION,
-//   FAILED_GET_LOCATION,
-// } from './constants';
+/* eslint-disable no-param-reassign */
+import produce from 'immer';
+import {
+  REQUEST_GET_TEAM_MEMBER,
+  SUCCESS_GET_TEAM_MEMBER,
+  FAILED_GET_TEAM_MEMBER,
+  REQUEST_ADD_TEAM_MEMBER,
+  SUCCESS_ADD_TEAM_MEMBER,
+  FAILED_ADD_TEAM_MEMBER,
+} from './constants';
 
-// const initialState = {
-//   getLocationData: {
-//     success: false,
-//     message: '',
-//     locationList: {},
-//   },
-// };
+const initialState = {
+  allTeamMemberList: {
+    error: '',
+    success: false,
+    loading: false,
+    message: '',
+    member: [],
+  },
+  updateMember: {
+    error: '',
+    success: false,
+    loading: false,
+    message: '',
+  },
+  reportApiSuccess: false,
+  reportApipiMessage: '',
+};
 
-// const reportReducer = (state = initialState, action) =>
-//   produce(state, draft => {
-//     // eslint-disable-next-line default-case
-//     switch (action.type) {
-//       case REQUEST_GET_LOCATION:
-//         draft.getLocationData.success = false;
-//         draft.getLocationData.message = '';
-//         draft.getLocationData.locationList = {};
-//         break;
-//       case SUCCESS_GET_LOCATION:
-//         draft.getLocationData.success = true;
-//         draft.getLocationData.message = action.payload.message;
-//         draft.getLocationData.locationList = action.payload;
-//         break;
-//       case FAILED_GET_LOCATION:
-//         draft.getLocationData.success = false;
-//         draft.getLocationData.message = action.payload.message;
-//         draft.getLocationData.locationList = action.payload;
-//         break;
-//     }
-//   });
-// export default reportReducer;
+const reportReducer = (state = initialState, action) =>
+  produce(state, draft => {
+    // eslint-disable-next-line default-case
+    switch (action.type) {
+      case REQUEST_GET_TEAM_MEMBER:
+        draft.allTeamMemberList.loading = true;
+        draft.allTeamMemberList.error = '';
+        break;
+      case SUCCESS_GET_TEAM_MEMBER:
+        draft.allTeamMemberList.loading = false;
+        draft.allTeamMemberList.success = true;
+        draft.allTeamMemberList.member = action.payload;
+        draft.allTeamMemberList.error = '';
+        draft.reportApiSuccess = action.payload.message;
+        draft.reportApiSuccess = action.payload.success;
+        break;
+      case FAILED_GET_TEAM_MEMBER:
+        draft.allTeamMemberList.loading = false;
+        draft.allTeamMemberList.success = false;
+        draft.allTeamMemberList.member = [];
+        draft.allTeamMemberList.error = action.payload;
+        draft.reportApiSuccess = action.payload.message;
+        draft.reportApiSuccess = action.payload.success;
+        break;
+
+      case REQUEST_ADD_TEAM_MEMBER:
+        draft.updateMember.loading = true;
+        draft.updateMember.error = '';
+        break;
+      case SUCCESS_ADD_TEAM_MEMBER:
+        draft.updateMember.loading = false;
+        draft.updateMember.success = action.payload.success;
+        draft.updateMember.message = action.payload.message;
+        draft.reportApiSuccess = action.payload.message;
+        draft.reportApiSuccess = action.payload.success;
+        break;
+      case FAILED_ADD_TEAM_MEMBER:
+        draft.updateMember.loading = false;
+        draft.updateMember.success = action.payload.success;
+        draft.updateMember.message = action.payload.message;
+        draft.reportApiSuccess = action.payload.message;
+        draft.reportApiSuccess = action.payload.success;
+        break;
+    }
+  });
+export default reportReducer;
