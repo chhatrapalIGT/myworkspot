@@ -107,7 +107,7 @@ class BorardingPage extends Component {
       employeeid: '239323',
       badgenumber: badge && badgedata ? badge.concat(badgedata) : '',
     };
-
+    console.log('data', data);
     this.props.requestAddOfficeLocation(data);
   };
 
@@ -155,6 +155,7 @@ class BorardingPage extends Component {
       addErrorLocation,
       addErrorLocationMsg,
       locationErrorHandleMsg,
+      isLoading,
     } = this.props;
     return (
       <>
@@ -173,6 +174,7 @@ class BorardingPage extends Component {
             locationErrorHandle={locationErrorHandle}
             addErrorLocationMsg={addErrorLocationMsg}
             locationErrorHandleMsg={locationErrorHandleMsg}
+            isLoading={isLoading}
           />
         </div>
         <Footer />
@@ -183,6 +185,7 @@ class BorardingPage extends Component {
 
 const mapStateToProps = state => {
   const { locationData } = state;
+  console.log('locationData', locationData);
   return {
     location:
       locationData &&
@@ -204,6 +207,10 @@ const mapStateToProps = state => {
       locationData &&
       locationData.addOfficeLocation &&
       locationData.addOfficeLocation.message,
+    isLoading:
+      locationData &&
+      locationData.addOfficeLocation &&
+      locationData.addOfficeLocation.loading,
   };
 };
 
@@ -231,6 +238,7 @@ BorardingPage.propTypes = {
   addErrorLocation: PropTypes.bool,
   addErrorLocationMsg: PropTypes.string,
   locationErrorHandleMsg: PropTypes.string,
+  isLoading: PropTypes.bool,
 };
 
 export default compose(

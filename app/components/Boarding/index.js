@@ -28,6 +28,7 @@ const Boarding = ({
   location,
   addErrorLocationMsg,
   locationErrorHandleMsg,
+  isLoading,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
@@ -180,15 +181,25 @@ const Boarding = ({
               </div>
 
               <div className="container">
-                <button
-                  type="button"
-                  className={final.length >= 5 ? 'change_btn' : 'action-btn'}
-                  onClick={() => {
-                    handleSubmitData();
-                  }}
-                >
-                  Confirm
-                </button>
+                {!isLoading ? (
+                  <button
+                    type="button"
+                    className={final.length >= 5 ? 'change_btn' : 'action-btn'}
+                    onClick={() => {
+                      handleSubmitData();
+                    }}
+                  >
+                    Confirm
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className={final.length >= 5 ? 'change_btn' : 'action-btn'}
+                  >
+                    <div className="spinner-border" />
+                    Confirm
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -296,6 +307,7 @@ Boarding.propTypes = {
   addErrorLocation: PropTypes.object,
   addErrorLocationMsg: PropTypes.string,
   locationErrorHandleMsg: PropTypes.string,
+  isLoading: PropTypes.bool,
 };
 
 export default Boarding;
