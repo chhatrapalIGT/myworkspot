@@ -2451,6 +2451,12 @@ select.set_drop option[id='building'],
 .badge-number {
   .badge {
     width: 60%;
+    > div {
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 0px 8px 8px 0px;
+      border-left: 0px;
+    }
     .badge_input[type='text'] {
       max-width: 25%;
       color: black;
@@ -2458,11 +2464,14 @@ select.set_drop option[id='building'],
       border-radius: 8px 0px 0px 8px;
     }
     .badge_val[type='text'] {
+      border: none;
       width: 75%;
       border-left: 0px;
       border-radius: 0px 8px 8px 0px;
+      margin: 0px 2px;
       font-size: 23px;
       color: black;
+      height: 45px;
     }
   }
 }

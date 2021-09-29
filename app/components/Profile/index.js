@@ -38,6 +38,7 @@ const Profile = ({
   badgeUpdateData,
 }) => {
   const [open, setOpen] = useState(true);
+  const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
   const [modal, setModal] = useState(false);
@@ -53,6 +54,18 @@ const Profile = ({
       setOpen(false);
     }
   }, [delegateList]);
+
+  useEffect(() => {
+    if (
+      badgeUpdateData &&
+      badgeUpdateData.success &&
+      badgeUpdateData.message &&
+      openbadgeData
+    ) {
+      setOpenBadge(false);
+      setOpenBadgeData(false);
+    }
+  }, [badgeUpdateData]);
 
   const handleChange = event => {
     let newList = [];
@@ -188,7 +201,7 @@ const Profile = ({
                                   <p>
                                     BB
                                     {state.badgeData
-                                      ? state.badgeData
+                                      ? state.badge.concat(state.badgeData)
                                       : userData.badgeNumber}
                                   </p>
                                   <a
@@ -221,14 +234,27 @@ const Profile = ({
                                   value="BB"
                                   className="badge_input"
                                 />
-                                <input
-                                  name="badgeData"
-                                  type="text"
-                                  placeholder="233321"
-                                  maxLength="6"
-                                  className="badge_val"
-                                  onChange={handleBadgeData}
-                                />
+                                <div className="d-flex">
+                                  <input
+                                    id="badgeNumber"
+                                    name="badge"
+                                    type="text"
+                                    placeholder="233"
+                                    maxLength="3"
+                                    className="badge_val"
+                                    onChange={handleBadgeData}
+                                  />
+                                  <span>−</span>
+                                  <input
+                                    id="badgeValue"
+                                    name="badgeData"
+                                    type="text"
+                                    placeholder="321"
+                                    maxLength="3"
+                                    className="badge_val"
+                                    onChange={handleBadgeData}
+                                  />
+                                </div>
                               </div>
                               <div className="badge d-flex onboarding-main">
                                 <button
@@ -237,7 +263,6 @@ const Profile = ({
                                   primary
                                   onClick={() => {
                                     handleBadgeSubmit();
-                                    setOpenBadge(false);
                                   }}
                                 >
                                   Save

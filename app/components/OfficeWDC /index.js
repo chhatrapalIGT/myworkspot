@@ -122,7 +122,7 @@ const OfficeWDC = ({
             break;
         }
         break;
-      case 'Birmigham, AL':
+      case 'Birmingham, AL':
         switch (switchFinalFloor) {
           case 'Building 1':
             imageSrc = map10;
@@ -198,7 +198,7 @@ const OfficeWDC = ({
                     <label htmlFor="Building/Floor">Building/Floor</label>
                     <select
                       className={
-                        office === 'Birmigham, AL' ||
+                        office === 'Birmingham, AL' ||
                         office === 'Bloomington, MN'
                           ? ''
                           : 'set_drop'
@@ -206,7 +206,7 @@ const OfficeWDC = ({
                       name=""
                       id=""
                       disabled={
-                        office === 'Birmigham, AL' ||
+                        office === 'Birmingham, AL' ||
                         office === 'Bloomington, MN'
                       }
                       onChange={e => {

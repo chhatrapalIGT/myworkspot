@@ -227,7 +227,7 @@ const WorkSpot = ({
             break;
         }
         break;
-      case 'Birmigham, AL':
+      case 'Birmingham, AL':
         switch (neighborhoodBuild) {
           case '1':
             imageSrc = map10;
@@ -314,7 +314,7 @@ const WorkSpot = ({
                 : (neighborhoodData &&
                     neighborhoodData.locationName === 'Bloomington, MN') ||
                   (neighborhoodData &&
-                    neighborhoodData.locationName === 'Birmigham, AL')
+                    neighborhoodData.locationName === 'Birmingham, AL')
                 ? 'card building-block-head black'
                 : neighborhoodData &&
                   neighborhoodData.locationName === 'Remote Work'

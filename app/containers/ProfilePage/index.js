@@ -122,6 +122,15 @@ class ProfilePage extends Component {
   handleBadgeData = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+    const finalValue1 = document.getElementById('badgeNumber');
+    const finalValue2 = document.getElementById('badgeValue');
+    // eslint-disable-next-line func-names
+    finalValue1.onkeyup = function() {
+      // eslint-disable-next-line radix
+      if (this.value.length === parseInt(this.attributes.maxlength.value)) {
+        finalValue2.focus();
+      }
+    };
   };
 
   handleButtonData = selectedDay => {
@@ -209,10 +218,10 @@ class ProfilePage extends Component {
   };
 
   handleBadgeSubmit = () => {
-    const { badgeData } = this.state;
+    const { badgeData, badge } = this.state;
     const data = {
       employeeid: '239323',
-      badgeid: badgeData,
+      badgeid: badge.concat(badgeData),
     };
 
     this.props.requestBadgeData(data);
