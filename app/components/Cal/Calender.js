@@ -40,6 +40,7 @@ const Calender = ({
   state,
   isLocUpdate,
   errSuccess,
+  setCalData,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
@@ -385,6 +386,8 @@ const Calender = ({
                         workSpotData.length > 0 &&
                         days.dateToDisplay.map(item => {
                           const data = getCorrespondingData(item.date);
+                          setCalData(workSpotData);
+
                           return (
                             <>
                               <div
@@ -422,7 +425,7 @@ const Calender = ({
                                         item.date,
                                         `${data && data.locationName}`,
                                         'self',
-                                        `${state.updatingObject.work_area}`,
+                                        `${data && data.locationName}`,
                                       );
                                     setDate(
                                       moment(item.date).format(
@@ -631,6 +634,7 @@ const Calender = ({
                                       item.date,
                                       `${data && data.locationName}`,
                                       'self',
+                                      `${data && data.locationName}`,
                                     );
                                   setDate(
                                     moment(item.date).format(
@@ -641,7 +645,16 @@ const Calender = ({
                                 aria-hidden="true"
                               >
                                 <p className="work-station">
-                                  {data && data.locationName}
+                                  {moment(data.date, 'MM/D/YYYY').isSame(
+                                    moment(
+                                      state.updatingObject.date,
+                                      'MM/D/YYYY',
+                                    ),
+                                    'day',
+                                  ) && isLocUpdate
+                                    ? state.updatingObject.work_area
+                                    : data && data.locationName}
+                                  {/* {data && data.locationName} */}
                                 </p>
                                 {(data &&
                                   data.locationName !== 'Remote Work') ||
@@ -700,6 +713,7 @@ Calender.propTypes = {
   state: PropTypes.object,
   isLocUpdate: PropTypes.bool,
   errSuccess: PropTypes.bool,
+  setCalData: PropTypes.object,
 };
 
 export default Calender;

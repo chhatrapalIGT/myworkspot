@@ -57,13 +57,11 @@ const WorkSpot = ({
   onDateChange,
   handleUserSelect,
   handleChange,
-  handleClose,
   handleRemove,
   handleZoomIn,
   handleZoomOut,
   handleDefault,
   imgStyle,
-  handleChangeWorkPlace,
   handleuserLocation,
   locationData,
   getWorkSpots,
@@ -71,8 +69,6 @@ const WorkSpot = ({
   handleEditModal,
   handleUpdatingModalData,
   onUpdateWorkspot,
-  workspotMessage,
-  workspotSuccess,
   apiMessage,
   apiSuccess,
   neighborhoodData,
@@ -80,6 +76,7 @@ const WorkSpot = ({
   errSuccess,
   location,
   neighborhood,
+  workspotSuccess,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
@@ -89,7 +86,9 @@ const WorkSpot = ({
   const [isLocUpdate, setLocUpdate] = useState(false);
   const [isdate, setDate] = useState('');
   const [locationName, setLocationName] = useState([]);
+  const [calData, setCalData] = useState([]);
   const [finalImg, setFinalImg] = useState('');
+  const [data, setData] = useState({});
   const [officeRest, setOfficeRest] = useState('');
   const [call, setCall] = useState(true);
   const divRef = useRef();
@@ -101,7 +100,6 @@ const WorkSpot = ({
       document.removeEventListener('mousedown', handleClickOutside, false);
     };
   });
-
   const newArr = useMemo(() => {
     const d =
       locationData &&
@@ -151,6 +149,7 @@ const WorkSpot = ({
   };
 
   useEffect(() => {
+    calData.map(obj => setData(obj));
     if (call && Object.keys(neighborhoodData).length > 0) {
       if (
         neighborhoodData &&
@@ -276,6 +275,11 @@ const WorkSpot = ({
       ? 'Red'
       : '';
 
+  const neighborhoodLoc =
+    neighborhoodData &&
+    neighborhoodData.locationName &&
+    neighborhoodData.locationName.split(',');
+
   return (
     <>
       {(apiMessage ||
@@ -336,75 +340,115 @@ const WorkSpot = ({
               </div>
             ) : (
               <>
-                <p className="stroke-2">
-                  Hi {neighborhoodData && neighborhoodData.username}, your{' '}
-                  <span>
-                    {' '}
-                    {neighborhoodData && neighborhoodData.locationName}{' '}
-                  </span>
-                  {neighborhoodData.locationName === 'Remote Work' ||
-                  neighborhoodData.locationName === 'Paid Time Off'
-                    ? `workspot today is`
-                    : `neighborhood today is`}
-                </p>
+                {neighborhoodData.locationName === 'Remote Work' ||
+                neighborhoodData.locationName === 'Paid Time Off' ||
+                neighborhoodData.locationName === 'Bloomington, MN' ||
+                neighborhoodData.locationName === 'Birmingham, AL' ? (
+                  <>
+                    <p className="stroke-2">
+                      Hi {neighborhoodData && neighborhoodData.username}, your{' '}
+                      workspot today is
+                    </p>
 
-                <div className="block-info d-flex flex-wrap">
-                  {neighborhoodData && neighborhoodData.building && (
-                    <h3 className="building-name">
-                      {`Building ${neighborhoodData &&
-                        neighborhoodData.building}`}
-                    </h3>
-                  )}
-                  {neighborhoodData && neighborhoodData.floor && (
-                    <h3 className="floor-name">
-                      {`Floor ${neighborhoodData && neighborhoodData.floor}`}
-                    </h3>
-                  )}
-                  <h3 className="color-code">{neighborhoodColor}</h3>
-                  {console.log('neighborhoodColor', neighborhoodColor)}
-                </div>
+                    <div className="block-info d-flex flex-wrap">
+                      <h3 className="building-name">
+                        {neighborhoodData && neighborhoodData.locationName}
+                      </h3>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {(state.updatingObject.work_area === 'Richmond, VA' ||
+                      state.updatingObject.work_area === 'Washington, DC') &&
+                    isLocUpdate ? (
+                      <>
+                        <p className="stroke-2">
+                          Hi {neighborhoodData && neighborhoodData.username},
+                          your{' '}
+                          <span> {neighborhoodLoc && neighborhoodLoc[1]} </span>
+                          neighborhood assignment will be ready shortly!
+                        </p>
+                        <h3 className="building-name neighborhood-font">
+                          Please check back in a few minutes
+                        </h3>
+                      </>
+                    ) : (
+                      <>
+                        <p className="stroke-2">
+                          Hi {neighborhoodData && neighborhoodData.username},
+                          your{' '}
+                          <span> {neighborhoodLoc && neighborhoodLoc[1]} </span>
+                          neighborhood today isLocUpdate
+                        </p>
+                        <div className="block-info d-flex flex-wrap">
+                          {neighborhoodData && neighborhoodData.building && (
+                            <h3 className="building-name">
+                              {`Building ${neighborhoodData &&
+                                neighborhoodData.building}`}
+                            </h3>
+                          )}
+                          {neighborhoodData && neighborhoodData.floor && (
+                            <h3 className="floor-name">
+                              {`Floor ${neighborhoodData &&
+                                neighborhoodData.floor}`}
+                            </h3>
+                          )}
+                          <h3 className="color-code">{neighborhoodColor}</h3>
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
 
                 <div className="building-location-strip d-flex flex-wrap align-items-center">
-                  {neighborhoodData && neighborhoodData.officeAddress && (
-                    <div
-                      className="location d-flex align-items-center"
-                      aria-hidden="true"
-                      target="_blank"
-                    >
-                      <a
-                        target="_blank"
-                        href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
-                      >
-                        <img src={union} alt="" />
-                        {/* <img
+                  {neighborhoodData.locationName !== 'Paid Time Off' && (
+                    <>
+                      {(state.updatingObject.work_area !== 'Richmond, VA' ||
+                        state.updatingObject.work_area !== 'Washington, DC' ||
+                        neighborhoodData.locationName !== 'Remote Work') &&
+                        neighborhoodData &&
+                        neighborhoodData.officeAddress && (
+                          <div
+                            className="location d-flex align-items-center"
+                            aria-hidden="true"
+                            target="_blank"
+                          >
+                            <a
+                              target="_blank"
+                              href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
+                            >
+                              <img src={union} alt="" />
+                              {/* <img
                             src={locationImage(
                               neighborhoodData && neighborhoodData.locationName,
                             )}
                             alt=""
                           /> */}
-                      </a>
-                      {neighborhoodData && neighborhoodData.officeAddress}
-                    </div>
+                            </a>
+                            {neighborhoodData && neighborhoodData.officeAddress}
+                          </div>
+                        )}
+                      <div
+                        className="change-workspot d-flex align-items-center"
+                        onClick={() => {
+                          handleEditModal(true);
+                          // handleData();
+                          setDate('');
+                        }}
+                        aria-hidden="true"
+                      >
+                        <img
+                          src={editPen}
+                          alt=""
+                          className="onHover"
+                          aria-hidden="true"
+                        />{' '}
+                        <a href className="change-workspot">
+                          Change Today's Workspot
+                        </a>
+                      </div>
+                    </>
                   )}
-                  <div
-                    className="change-workspot d-flex align-items-center"
-                    onClick={() => {
-                      handleEditModal(true);
-                      // handleData();
-                      setDate('');
-                    }}
-                    aria-hidden="true"
-                  >
-                    <img
-                      src={editPen}
-                      alt=""
-                      className="onHover"
-                      aria-hidden="true"
-                    />{' '}
-                    <a href className="change-workspot">
-                      Change Today's Workspot
-                    </a>
-                  </div>
                 </div>
               </>
             )}
@@ -420,7 +464,6 @@ const WorkSpot = ({
                   className="card office-structure-inner"
                   style={{ height: '100%' }}
                 >
-                  {console.log('neighbourhoodData', neighborhoodData)}
                   {!neighborhoodData.locationName ||
                   neighborhoodData.locationName === 'Remote Work' ||
                   neighborhoodData.locationName === 'Paid Time Off' ? (
@@ -431,7 +474,6 @@ const WorkSpot = ({
                     />
                   ) : (
                     <>
-                      {console.log('indsdaddadad')}
                       {officeRest || ''}
                       <div className="right-map">
                         <Draggable disabled={!isDraggable} key={state.version}>
@@ -492,6 +534,7 @@ const WorkSpot = ({
           state={state}
           isLocUpdate={isLocUpdate}
           errSuccess={errSuccess}
+          setCalData={setCalData}
         />
         <Modal
           className="modal fade test_modal"
@@ -569,25 +612,9 @@ const WorkSpot = ({
                       // ]}
                       marked={[
                         {
-                          date: new Date(2021, 8, 27),
+                          date: data.date,
                           color: '#46c4f3',
                           markCssClass: 'mbsc-calendar-marks1',
-                        },
-                        {
-                          date: new Date(2021, 8, 28),
-                          markCssClass: 'mbsc-calendar-marks1',
-                        },
-                        {
-                          date: new Date(2021, 8, 29),
-                          markCssClass: 'mbsc-calendar-marks1',
-                        },
-                        {
-                          date: new Date(2021, 8, 29),
-                          markCssClass: 'mbsc-calendar-marks3',
-                        },
-                        {
-                          date: new Date(2021, 8, 30),
-                          markCssClass: 'mbsc-calendar-marks3',
                         },
                       ]}
                     />
@@ -619,7 +646,6 @@ const WorkSpot = ({
                   onClick={() => {
                     // handleDataUpdate();
                     onUpdateWorkspot();
-                    // if (workspotMessage)
                     setModal(false);
                     // eslint-disable-next-line no-unused-expressions
                   }}
@@ -905,7 +931,7 @@ const WorkSpot = ({
                     </select>
                   </div>
 
-                  <hr />
+                  {/* <hr /> */}
                   <p className="notice" style={{ padding: '0 1.5rem' }}>
                     If you would like to update your weekly default, you can
                     update this under {'   '}
@@ -954,13 +980,11 @@ WorkSpot.propTypes = {
   onDateChange: PropTypes.func,
   handleUserSelect: PropTypes.func,
   handleChange: PropTypes.func,
-  handleClose: PropTypes.func,
   imgStyle: PropTypes.object,
   handleRemove: PropTypes.func,
   handleZoomOut: PropTypes.func,
   handleZoomIn: PropTypes.func,
   handleDefault: PropTypes.func,
-  handleChangeWorkPlace: PropTypes.func,
   handleuserLocation: PropTypes.func,
   getWorkSpots: PropTypes.func,
   handleColleageUpdate: PropTypes.func,
@@ -968,14 +992,13 @@ WorkSpot.propTypes = {
   handleUpdatingModalData: PropTypes.func,
   locationData: PropTypes.object,
   onUpdateWorkspot: PropTypes.func,
-  workspotSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
-  workspotMessage: PropTypes.string,
   neighborhoodData: PropTypes.object,
   errMessage: PropTypes.string,
   errSuccess: PropTypes.bool,
   location: PropTypes.object,
   neighborhood: PropTypes.object,
+  workspotSuccess: PropTypes.bool,
 };
 export default WorkSpot;

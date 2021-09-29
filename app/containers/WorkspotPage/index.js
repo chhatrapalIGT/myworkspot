@@ -117,22 +117,16 @@ class WorkSpotPage extends Component {
   }
 
   componentDidUpdate() {
-    const { defaultSelected } = this.state;
+    const { selectedDateRange } = this.state;
     const { workspotSuccess, workspotMessage } = this.props;
 
-    const { dateToDisplay } =
-      defaultSelected === 'week'
-        ? getWeekStartEndDate(new Date())
-        : getMonthStartEndDate(new Date());
-    const { startDispDate, endDispDate } = getStartEndDate(
-      dateToDisplay,
-      defaultSelected,
-    );
-
     if (workspotSuccess && workspotMessage) {
-      this.getWorkSpots(startDispDate, endDispDate);
+      this.getWorkSpots(
+        selectedDateRange && selectedDateRange.startDate,
+        selectedDateRange && selectedDateRange.endDate,
+      );
       setTimeout(() => {
-        // this.handleClearModal();
+        this.handleClearModal();
         this.props.resetWorkspot();
       }, 3000);
     }
@@ -141,11 +135,12 @@ class WorkSpotPage extends Component {
   handleClearModal = () => {
     const { workspotMessage, workspotSuccess } = this.props;
     if (workspotSuccess && workspotMessage) {
-      this.setState({
-        updatingObject: {
-          work_area: '',
-        },
-      });
+      // this.setState({
+      //   updatingObject: {
+      //     work_area: '',
+      //   },
+      // });
+      this.setState({ updatingObject: {} });
     }
   };
 
@@ -173,17 +168,6 @@ class WorkSpotPage extends Component {
 
   handleChange = event => {
     this.setState({ searchValue: event.target.value });
-  };
-
-  handleChangeWorkPlace = (value, idx, name) => {
-    // eslint-disable-next-line camelcase
-    const { work_place } = this.state;
-    const newplatformdata = work_place.map((pdata, sidx) => {
-      // pdata.date = this.state.d;
-      if (idx !== sidx) return pdata;
-      return { ...pdata, [name]: value };
-    });
-    this.setState({ work_place: newplatformdata }, () => {});
   };
 
   handleuserLocation = d => {
@@ -237,8 +221,6 @@ class WorkSpotPage extends Component {
     this.props.requestUpdateWorkspot(payload);
   };
 
-  handleClose = () => {};
-
   handleColleageUpdate = () => {
     const {
       selectedColleagues,
@@ -290,13 +272,12 @@ class WorkSpotPage extends Component {
     };
     const {
       locationData,
-      workspotSuccess,
-      workspotMessage,
       apiMessage,
       apiSuccess,
       neighborhoodData,
       location,
       neighborhood,
+      workspotSuccess,
     } = this.props;
     const { errMessage, errSuccess } = this.state;
     return (
@@ -308,7 +289,6 @@ class WorkSpotPage extends Component {
             handleUserSelect={this.handleUserSelect}
             handleChange={this.handleChange}
             handleColleageUpdate={this.handleColleageUpdate}
-            handleClose={this.handleClose}
             state={this.state}
             onChange={this.onChange}
             onDateChange={this.onDateChange}
@@ -317,15 +297,12 @@ class WorkSpotPage extends Component {
             handleZoomIn={this.handleZoomIn}
             handleZoomOut={this.handleZoomOut}
             handleDefault={this.handleDefault}
-            handleChangeWorkPlace={this.handleChangeWorkPlace}
             handleuserLocation={this.handleuserLocation}
             locationData={locationData}
             getWorkSpots={this.getWorkSpots}
             handleEditModal={this.handleEditModal}
             handleUpdatingModalData={this.handleUpdatingModalData}
             onUpdateWorkspot={this.onUpdateWorkspot}
-            workspotSuccess={workspotSuccess}
-            workspotMessage={workspotMessage}
             apiMessage={apiMessage}
             apiSuccess={apiSuccess}
             neighborhoodData={neighborhoodData}
@@ -333,6 +310,7 @@ class WorkSpotPage extends Component {
             errSuccess={errSuccess}
             location={location}
             neighborhood={neighborhood}
+            workspotSuccess={workspotSuccess}
           />
         </div>
         <Footer />
