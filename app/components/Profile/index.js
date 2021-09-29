@@ -158,7 +158,10 @@ const Profile = ({
                     <div className="left-aside d-flex align-items-center justify-content-center">
                       <div className="wrapper">
                         <div className="profile-picture">
-                          <img src={ProfileImg} alt="" />
+                          <img
+                            src={(userData && userData.photo) || ProfileImg}
+                            alt=""
+                          />
                         </div>
                         <h3 className="profile-username">
                           {' '}

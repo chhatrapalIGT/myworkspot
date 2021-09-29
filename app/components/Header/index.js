@@ -8,7 +8,7 @@ import injectReducer from 'utils/injectReducer';
 import { Link, useLocation } from 'react-router-dom';
 import Headerlogo from '../assets/images/logo_mains.svg';
 import Profile from '../assets/images/profileof.png';
-import reducer from '../../containers/WorkspotPage/reducer';
+import reducer from '../../containers/ProfilePage/reducer';
 
 const Header = props => {
   const [sidebar, setSidebar] = useState(false);
@@ -111,10 +111,12 @@ const Header = props => {
                     : `username has-dropdown ${editProfile && 'toggled'}`
                 }
               >
-                <span>
-                  {props.neighborhoodData && props.neighborhoodData.username}
-                </span>{' '}
-                <img src={Profile} className="user-img" alt="" />
+                <span>{props.profileUser && props.profileUser.firstname}</span>{' '}
+                <img
+                  src={props.profileUser.photo || Profile}
+                  className="user-img"
+                  alt=""
+                />
               </div>
               {pathName !== '/board' && (
                 <div className={`profile-inner ${editProfile && 'opened'}`}>
@@ -158,21 +160,18 @@ const Header = props => {
 };
 
 const mapStateToProps = state => {
-  const { workspot } = state;
+  const { profile } = state;
   return {
-    workspot,
+    profile,
 
-    neighborhoodData:
-      workspot &&
-      workspot.neighborhood &&
-      workspot.neighborhood.neighborhoodData,
+    profileUser: profile && profile.userList && profile.userList.user,
   };
 };
 
-const withReducer = injectReducer({ key: 'workspot', reducer });
+const withReducer = injectReducer({ key: 'profile', reducer });
 
 Header.propTypes = {
-  neighborhoodData: PropTypes.object,
+  profileUser: PropTypes.object,
 };
 
 export default compose(
