@@ -378,7 +378,7 @@ const WorkSpot = ({
                           Hi {neighborhoodData && neighborhoodData.username},
                           your{' '}
                           <span> {neighborhoodLoc && neighborhoodLoc[1]} </span>
-                          neighborhood today isLocUpdate
+                          neighborhood today is
                         </p>
                         <div className="block-info d-flex flex-wrap">
                           {neighborhoodData && neighborhoodData.building && (
