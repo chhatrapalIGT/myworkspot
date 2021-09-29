@@ -157,7 +157,7 @@ const WorkSpot = ({
         (neighborhoodData && neighborhoodData.floor !== null)
       ) {
         imgData(
-          neighborhoodData && neighborhoodData.locationName,
+          neighborhoodData && neighborhoodData.locationCode,
 
           neighborhoodData &&
             neighborhoodData.building &&
@@ -167,13 +167,13 @@ const WorkSpot = ({
         );
       } else if (neighborhoodData && neighborhoodData.floor === null) {
         imgData(
-          neighborhoodData && neighborhoodData.locationName,
+          neighborhoodData && neighborhoodData.locationCode,
 
           neighborhoodData && neighborhoodData.building,
         );
       } else if (neighborhoodData && neighborhoodData.building === null) {
         imgData(
-          neighborhoodData && neighborhoodData.locationName,
+          neighborhoodData && neighborhoodData.locationCode,
 
           neighborhoodData && neighborhoodData.floor,
         );
@@ -185,7 +185,7 @@ const WorkSpot = ({
     let imageSrc = '';
     let officeRes = '';
     switch (neighborhoodImg) {
-      case 'Washington, DC':
+      case 'DC':
         switch (neighborhoodBuild) {
           case '2':
             imageSrc = map2;
@@ -205,7 +205,7 @@ const WorkSpot = ({
             break;
         }
         break;
-      case 'Richmond, VA':
+      case 'VA':
         switch (neighborhoodBuild) {
           case '1':
             imageSrc = map5;
@@ -226,7 +226,7 @@ const WorkSpot = ({
             break;
         }
         break;
-      case 'Birmingham, AL':
+      case 'AL':
         switch (neighborhoodBuild) {
           case '1':
             imageSrc = map10;
@@ -235,7 +235,7 @@ const WorkSpot = ({
         }
         break;
 
-      case 'Bloomington, MN':
+      case 'MN':
         switch (neighborhoodBuild) {
           case '1':
             imageSrc = map9;
@@ -275,11 +275,6 @@ const WorkSpot = ({
       ? 'Red'
       : '';
 
-  const neighborhoodLoc =
-    neighborhoodData &&
-    neighborhoodData.locationName &&
-    neighborhoodData.locationName.split(',');
-
   return (
     <>
       {(apiMessage ||
@@ -310,21 +305,16 @@ const WorkSpot = ({
         <div className="container">
           <div
             className={
-              (neighborhoodData &&
-                neighborhoodData.locationName === 'Richmond, VA') ||
-              (neighborhoodData &&
-                neighborhoodData.locationName === 'Washington, DC')
+              (neighborhoodData && neighborhoodData.locationCode === 'VA') ||
+              (neighborhoodData && neighborhoodData.locationCode === 'DC')
                 ? 'card building-block-head blue'
                 : (neighborhoodData &&
-                    neighborhoodData.locationName === 'Bloomington, MN') ||
-                  (neighborhoodData &&
-                    neighborhoodData.locationName === 'Birmingham, AL')
+                    neighborhoodData.locationCode === 'MN') ||
+                  (neighborhoodData && neighborhoodData.locationCode === 'AL')
                 ? 'card building-block-head black'
-                : neighborhoodData &&
-                  neighborhoodData.locationName === 'Remote Work'
+                : neighborhoodData && neighborhoodData.locationCode === 'RW'
                 ? 'card building-block-head grey'
-                : neighborhoodData &&
-                  neighborhoodData.locationName === 'Paid Time Off'
+                : neighborhoodData && neighborhoodData.locationCode === 'PTO'
                 ? 'card building-block-head violate'
                 : ''
             }
@@ -340,10 +330,10 @@ const WorkSpot = ({
               </div>
             ) : (
               <>
-                {neighborhoodData.locationName === 'Remote Work' ||
-                neighborhoodData.locationName === 'Paid Time Off' ||
-                neighborhoodData.locationName === 'Bloomington, MN' ||
-                neighborhoodData.locationName === 'Birmingham, AL' ? (
+                {neighborhoodData.locationCode === 'RW' ||
+                neighborhoodData.locationCode === 'PTO' ||
+                neighborhoodData.locationCode === 'MN' ||
+                neighborhoodData.locationCode === 'AL' ? (
                   <>
                     <p className="stroke-2">
                       Hi {neighborhoodData && neighborhoodData.username}, your{' '}
@@ -358,14 +348,18 @@ const WorkSpot = ({
                   </>
                 ) : (
                   <>
-                    {(state.updatingObject.work_area === 'Richmond, VA' ||
-                      state.updatingObject.work_area === 'Washington, DC') &&
+                    {(state.updatingObject.work_area === 'VA' ||
+                      state.updatingObject.work_area === 'DC') &&
                     isLocUpdate ? (
                       <>
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
                           your{' '}
-                          <span> {neighborhoodLoc && neighborhoodLoc[1]} </span>
+                          <span>
+                            {' '}
+                            {neighborhoodData &&
+                              neighborhoodData.locationCode}{' '}
+                          </span>
                           neighborhood assignment will be ready shortly!
                         </p>
                         <h3 className="building-name neighborhood-font">
@@ -377,7 +371,11 @@ const WorkSpot = ({
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
                           your{' '}
-                          <span> {neighborhoodLoc && neighborhoodLoc[1]} </span>
+                          <span>
+                            {' '}
+                            {neighborhoodData &&
+                              neighborhoodData.locationCode}{' '}
+                          </span>
                           neighborhood today is
                         </p>
                         <div className="block-info d-flex flex-wrap">
@@ -401,11 +399,11 @@ const WorkSpot = ({
                 )}
 
                 <div className="building-location-strip d-flex flex-wrap align-items-center">
-                  {neighborhoodData.locationName !== 'Paid Time Off' && (
+                  {neighborhoodData.locationCode !== 'PTO' && (
                     <>
-                      {(state.updatingObject.work_area !== 'Richmond, VA' ||
-                        state.updatingObject.work_area !== 'Washington, DC' ||
-                        neighborhoodData.locationName !== 'Remote Work') &&
+                      {(state.updatingObject.work_area !== 'VA' ||
+                        state.updatingObject.work_area !== 'DC' ||
+                        neighborhoodData.locationCode !== 'RW') &&
                         neighborhoodData &&
                         neighborhoodData.officeAddress && (
                           <div
@@ -457,16 +455,16 @@ const WorkSpot = ({
         {/* )} */}
 
         <div className="office-structure mt-4">
-          {neighborhoodData.locationName !== 'Remote Work' &&
-            neighborhoodData.locationName !== 'Paid Time Off' && (
+          {neighborhoodData.locationCode !== 'RW' &&
+            neighborhoodData.locationCode !== 'PTO' && (
               <div className="container" style={{ height: '100%' }}>
                 <div
                   className="card office-structure-inner"
                   style={{ height: '100%' }}
                 >
-                  {!neighborhoodData.locationName ||
-                  neighborhoodData.locationName === 'Remote Work' ||
-                  neighborhoodData.locationName === 'Paid Time Off' ? (
+                  {!neighborhoodData.locationCode ||
+                  neighborhoodData.locationCode === 'RW' ||
+                  neighborhoodData.locationCode === 'PTO' ? (
                     <Spinner
                       className="app-spinner workspot_spinner"
                       animation="grow"

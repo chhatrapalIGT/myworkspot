@@ -27,7 +27,7 @@ import { CONSTANT } from '../../enum';
 const { API_URL } = CONSTANT;
 
 export function* getLocation() {
-  const requestURL = `${API_URL}/location/GetData?fromWorkspot=true`;
+  const requestURL = `${API_URL}/location/GetData`;
   try {
     const locationList = yield request({
       method: 'GET',

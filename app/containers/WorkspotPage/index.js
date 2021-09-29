@@ -59,7 +59,7 @@ class WorkSpotPage extends Component {
       selectedColleagues: [],
       selectedDateRange: {},
       updatingObject: {
-        work_area: '',
+        work_area: 'Washington, DC',
       },
       editModal: false,
       errMessage: '',

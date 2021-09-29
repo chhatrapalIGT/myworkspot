@@ -175,17 +175,16 @@ const Calender = ({
   const locationClass = location => {
     let className;
     switch (location) {
-      case 'Remote Work':
+      case 'RW':
         className = 'eab-home';
         break;
-      case 'Paid Time Off':
+      case 'PTO':
         className = 'paid-time-off';
         break;
-      case 'EAB Firm Holiday':
+      case 'EAB':
         className = 'eab-firm-holiday';
         break;
-      case location !==
-        ('Remote Work' || 'Paid Time Off' || 'EAB Firm Holiday'):
+      case location !== ('RW' || 'PTO' || 'EAB'):
         className = 'eab-office border-top-blue';
         break;
       default:
@@ -411,10 +410,10 @@ const Calender = ({
                                   className={
                                     item.disable || isCurrentDate(item.date)
                                       ? `{ day-one-wrapper ${locationClass(
-                                          data && data.locationName,
+                                          data && data.locationCode,
                                         )} }`
                                       : `{ day-one-wrapper ${locationClass(
-                                          data && data.locationName,
+                                          data && data.locationCode,
                                         )} day-pointer }`
                                   }
                                   onClick={() => {
@@ -423,9 +422,9 @@ const Calender = ({
                                       handleEditModal(
                                         true,
                                         item.date,
-                                        `${data && data.locationName}`,
+                                        `${data && data.locationCode}`,
                                         'self',
-                                        `${data && data.locationName}`,
+                                        `${data && data.locationCode}`,
                                       );
                                     setDate(
                                       moment(item.date).format(
@@ -446,19 +445,15 @@ const Calender = ({
                                       ? state.updatingObject.work_area
                                       : data && data.locationName}
                                   </p>
-                                  {(data &&
-                                    data.locationName !== 'Remote Work') ||
-                                    (data &&
-                                      data.locationName !== 'Paid Time Off') ||
-                                    (data &&
-                                      data.locationName !==
-                                        'EAB Firm Holiday' && (
-                                        <span className="floor-location">
-                                          <img src={Vector} alt="" />
-                                          {data && data.floor} -{' '}
-                                          {data && data.color}
-                                        </span>
-                                      ))}
+                                  {(data && data.locationName !== 'RW') ||
+                                    (data && data.locationName !== 'PTO') ||
+                                    (data && data.locationName !== 'EAB' && (
+                                      <span className="floor-location">
+                                        <img src={Vector} alt="" />
+                                        {data && data.floor} -{' '}
+                                        {data && data.color}
+                                      </span>
+                                    ))}
                                 </div>
                               </div>
                             </>
@@ -656,19 +651,15 @@ const Calender = ({
                                     : data && data.locationName}
                                   {/* {data && data.locationName} */}
                                 </p>
-                                {(data &&
-                                  data.locationName !== 'Remote Work') ||
-                                  (data &&
-                                    data.locationName !== 'Paid Time Off') ||
-                                  (data &&
-                                    data.locationName !==
-                                      'EAB Firm Holiday' && (
-                                      <span className="floor-location">
-                                        <img src={Vector} alt="" />
-                                        {data && data.floor} -{' '}
-                                        {data && data.color}
-                                      </span>
-                                    ))}
+                                {(data && data.locationName !== 'RW') ||
+                                  (data && data.locationName !== 'PTO') ||
+                                  (data && data.locationName !== 'EAB' && (
+                                    <span className="floor-location">
+                                      <img src={Vector} alt="" />
+                                      {data && data.floor} -{' '}
+                                      {data && data.color}
+                                    </span>
+                                  ))}
                               </div>
                             </div>
                           );
