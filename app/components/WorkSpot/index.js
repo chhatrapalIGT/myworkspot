@@ -612,9 +612,20 @@ const WorkSpot = ({
                       // ]}
                       marked={[
                         {
-                          date: data.date,
-                          color: '#46c4f3',
+                          date: new Date(2021, 8, 28),
                           markCssClass: 'mbsc-calendar-marks1',
+                        },
+                        {
+                          date: new Date(2021, 8, 29),
+                          markCssClass: 'mbsc-calendar-marks1',
+                        },
+                        {
+                          date: new Date(2021, 8, 29),
+                          markCssClass: 'mbsc-calendar-marks3',
+                        },
+                        {
+                          date: new Date(2021, 8, 30),
+                          markCssClass: 'mbsc-calendar-marks3',
                         },
                       ]}
                     />
