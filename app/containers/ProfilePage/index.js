@@ -221,7 +221,7 @@ class ProfilePage extends Component {
     const { badgeData, badge } = this.state;
     const data = {
       employeeid: '239323',
-      badgeid: badge.concat(badgeData),
+      badgeid: badge && badgeData ? `BB${badge.concat(badgeData)}` : '',
     };
 
     this.props.requestBadgeData(data);

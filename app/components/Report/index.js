@@ -19,33 +19,6 @@ import zoomout from '../../images/zoomout.png';
 
 import '../FAQ/styles.scss';
 
-const options = [
-  {
-    value: 'All Team Members',
-    label: 'All Team Members',
-    flag:
-      'https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=50&ext=jpg',
-  },
-  {
-    value: 'jane cooper',
-    label: 'jane cooper',
-    flag:
-      'https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=50&ext=jpg',
-  },
-  {
-    value: 'Wade warren',
-    label: 'Wade warren',
-    flag:
-      'https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=50&ext=jpg',
-  },
-  {
-    value: 'cameron williamson',
-    label: 'cameron williamson',
-    flag:
-      'https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=50&ext=jpg',
-  },
-];
-
 const Report = ({
   handleChange,
   state,
@@ -58,6 +31,10 @@ const Report = ({
   location,
   locationErrorHandle,
   getWorkSpots,
+  memberData,
+  handleModalClose,
+  handleTextData,
+  dataList,
 }) => {
   const data = location && location.length && location[location.length - 1];
 
@@ -77,15 +54,6 @@ const Report = ({
     setShow(false);
   };
 
-  const handleModalClose = () => {
-    if (
-      state.date.length &&
-      state.selectedNames.length &&
-      state.selectedOption.length
-    ) {
-      setShow(false);
-    }
-  };
   useEffect(() => {
     const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
     Axios.get(url).then(res => {
@@ -93,20 +61,14 @@ const Report = ({
     });
   }, []);
 
-  // useEffect(() => {
-  //   const url = `https://mocki.io/v1/947b4269-a50f-4e16-8157-30d04fb8879a`;
-  //   Axios.get(url, {}).then(res => {
-  //     setSearchName(res.data);
-  //   });
-  // }, []);
-
-  const updatedEmpData = options.map(item => {
+  const updatedEmpData = dataList.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_update">
           <img src={item.flag} alt="flag" />
-          {item.value}
+          {item.value} {''}
+          {item.labelData}
         </div>
       </>
     );
@@ -169,6 +131,9 @@ const Report = ({
                     value={state.selectedOption}
                     onChange={handleChange}
                     options={updatedEmpData}
+                    closeMenuOnSelect={false}
+                    hideSelectedOptions={false}
+                    onMenuClose={false}
                     className="mb-3 "
                     name="employee"
                     placeholder="Select Team Member(s)"
@@ -237,7 +202,8 @@ const Report = ({
                   </div>
                   <div className="description mt-3">
                     <textarea
-                      name=""
+                      name="textValue"
+                      onChange={handleTextData}
                       id=""
                       placeholder="Add a Message"
                       cols="30"
@@ -253,7 +219,10 @@ const Report = ({
                   <button
                     type="button"
                     className="btn save-data"
-                    onClick={handleModalClose}
+                    onClick={() => {
+                      handleModalClose();
+                      setShow(false);
+                    }}
                   >
                     Invite
                   </button>
@@ -418,6 +387,10 @@ Report.propTypes = {
   locationErrorHandle: PropTypes.string,
   location: PropTypes.object,
   getWorkSpots: PropTypes.func,
+  handleModalClose: PropTypes.func,
+  handleTextData: PropTypes.func,
+  memberData: PropTypes.object,
+  dataList: PropTypes.object,
 };
 
 export default Report;
