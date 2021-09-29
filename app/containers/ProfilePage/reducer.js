@@ -127,15 +127,13 @@ const profilePageReducer = (state = initialState, action) =>
         draft.badgeUpdate.loading = false;
         draft.badgeUpdate.success = action.payload.success;
         draft.badgeUpdate.message = action.payload.message;
-        draft.apiMessage = action.payload.message;
-        draft.apiSuccess = action.payload.success;
+
         break;
       case FAILED_BADGE_DATA:
         draft.badgeUpdate.loading = false;
         draft.badgeUpdate.success = action.payload.success;
         draft.badgeUpdate.message = action.payload.message;
-        draft.apiMessage = action.payload.message;
-        draft.apiSuccess = action.payload.success;
+
         break;
     }
   });

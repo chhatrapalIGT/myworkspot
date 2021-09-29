@@ -4,15 +4,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-// import injectReducer from 'utils/injectReducer';
-// import injectSaga from 'utils/injectSaga';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
+import moment from 'moment';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Report from '../../components/Report';
-// import reducer from './reducer';
-// import { requestGetLocation } from './actions';
+import reducer from './reducer';
+import saga from './saga';
+import { requestGetTeamMember, requestAddTeamMember } from './actions';
 import { getWorkSpotData } from '../WorkspotPage/helpers';
 import { requestGetOfficeLocation } from '../onBoardingPage/actions';
 import {
@@ -35,7 +37,7 @@ class ReportPage extends Component {
       rotate: defaultRotate,
       version: 0,
       selectedNames: '',
-      date: [],
+      date: '',
       allUser: [],
     };
   }
@@ -44,6 +46,38 @@ class ReportPage extends Component {
     this.setState(() => ({
       selectedOption: option,
     }));
+  };
+
+  handleModalClose = () => {
+    const { date, selectedNames, selectedOption, textValue } = this.state;
+    const { location } = this.props;
+    const optionData = selectedOption.map(data => data.id);
+
+    const optionAllValue = selectedOption.find(
+      data => data.value === 'All Team Member(s)',
+    );
+
+    const data = location.find(e =>
+      e.locationname === selectedNames ? e.id : '',
+    );
+    const locDate = date.split(', ');
+    const finalValue =
+      locDate && locDate.map(obj => moment(obj).format('YYYY-MM-DD'));
+
+    const finalPayload = {
+      inviteid:
+        optionData.length > 0
+          ? optionData
+          : optionAllValue && optionAllValue.value,
+      employeeid: 239223,
+      invitedate: finalValue,
+      invitelocation: data.id,
+      message: textValue,
+    };
+
+    this.props.requestAddTeamMember(finalPayload);
+
+    console.log(`finalPayload`, finalPayload);
   };
 
   handleUserSelect = event => {
@@ -83,6 +117,7 @@ class ReportPage extends Component {
 
   componentDidMount() {
     this.props.requestGetOfficeLocation();
+    this.props.requestGetTeamMember();
     const { dateToDisplay } = getWeekStartEndDate(new Date());
     const { startDispDate, endDispDate } = getStartEndDate(
       dateToDisplay,
@@ -103,8 +138,27 @@ class ReportPage extends Component {
     this.setState({ allUser: newArr });
   };
 
+  getPlatformList = () => {
+    const { memberData } = this.props;
+    return (
+      memberData &&
+      memberData.map(obj => ({
+        id: obj.employeeid,
+        value: obj.firstname,
+        label: obj.firstname,
+        labelData: obj.lastname,
+        flag: obj.photo,
+      }))
+    );
+  };
+
+  handleTextData = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
   render() {
-    const { locationErrorHandle, location } = this.props;
+    const { locationErrorHandle, location, memberData } = this.props;
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
@@ -125,6 +179,10 @@ class ReportPage extends Component {
             location={location}
             locationErrorHandle={locationErrorHandle}
             getWorkSpots={this.getUserData}
+            memberData={memberData}
+            dataList={this.getPlatformList()}
+            handleModalClose={this.handleModalClose}
+            handleTextData={this.handleTextData}
           />{' '}
         </div>
         <Footer />
@@ -133,7 +191,8 @@ class ReportPage extends Component {
   }
 }
 const mapStateToProps = state => {
-  const { locationData } = state;
+  const { locationData, myTeam } = state;
+  console.log(`state`, state);
   return {
     location:
       locationData &&
@@ -143,6 +202,8 @@ const mapStateToProps = state => {
       locationData &&
       locationData.getOfficeLocation &&
       locationData.getOfficeLocation,
+    memberData:
+      myTeam && myTeam.allTeamMemberList && myTeam.allTeamMemberList.member,
   };
 };
 
@@ -150,22 +211,27 @@ export function mapDispatchToProps(dispatch) {
   return {
     requestGetOfficeLocation: payload =>
       dispatch(requestGetOfficeLocation(payload)),
+    requestGetTeamMember: payload => dispatch(requestGetTeamMember(payload)),
+    requestAddTeamMember: payload => dispatch(requestAddTeamMember(payload)),
     dispatch,
   };
 }
 
-// const withReducer = injectReducer({ key: 'myTeam', reducer });
-// const withSaga = injectSaga({ key: 'myTeam', saga });
+const withReducer = injectReducer({ key: 'myTeam', reducer });
+const withSaga = injectSaga({ key: 'myTeam', saga });
 
 ReportPage.propTypes = {
   requestGetOfficeLocation: PropTypes.func,
+  requestGetTeamMember: PropTypes.func,
+  requestAddTeamMember: PropTypes.func,
   locationErrorHandle: PropTypes.string,
   location: PropTypes.object,
+  memberData: PropTypes.object,
 };
 
 export default compose(
-  // withReducer,
-  // withSaga,
+  withReducer,
+  withSaga,
   connect(
     mapStateToProps,
     mapDispatchToProps,

@@ -18,7 +18,7 @@ import { CONSTANT } from '../../enum';
 const { API_URL } = CONSTANT;
 
 export function* getTeamMember() {
-  const requestURL = `${API_URL}/location/GetData`;
+  const requestURL = `${API_URL}/invite/getinvitemember`;
   try {
     const locationList = yield request({
       method: 'GET',
@@ -37,7 +37,7 @@ export function* getTeamMember() {
 
 export function* updateTeamMember({ payload }) {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Badges/editBadge`;
+  const requestURL = `${API_URL}/invite/saveInviteData`;
   try {
     const badgeList = yield request({
       method: 'POST',
