@@ -897,7 +897,10 @@ const WorkSpot = ({
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                  onClick={() => handleEditModal(false)}
+                  onClick={() => {
+                    handleEditModal(false);
+                    setLocUpdate(false);
+                  }}
                 />
               </div>
               <div className="modal-body">
