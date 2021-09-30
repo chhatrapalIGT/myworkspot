@@ -18,7 +18,7 @@ import { CONSTANT } from '../../enum';
 const { API_URL } = CONSTANT;
 
 export function* getTeamMember() {
-  const requestURL = `${API_URL}/invite/getinvitemember`;
+  const requestURL = `${API_URL}/invite/getinvitemember?employeeid=239323`;
   try {
     const locationList = yield request({
       method: 'GET',

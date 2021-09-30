@@ -38,7 +38,8 @@ class ProfilePage extends Component {
       finalData: [],
       finalLocationDay: [],
       selectedDay: '',
-      selectedNames: 'Washington, DC',
+      selectedNames: '',
+      finalval: '',
       checked: false,
       data: true,
       timings: [
@@ -133,8 +134,9 @@ class ProfilePage extends Component {
     };
   };
 
-  handleButtonData = selectedDay => {
+  handleButtonData = (selectedDay, finalval) => {
     this.setState({ selectedDay });
+    this.setState({ finalval });
   };
 
   handleData = () => {
@@ -150,13 +152,18 @@ class ProfilePage extends Component {
             finalLocationDay.push({
               day: obj.dayofweek,
               name: obj.locationName,
-              id: obj.id,
+              id: obj.locationCode,
             });
           }
         });
       });
     }
+    console.log(`finalLocationDay data`, finalLocationDay);
     return finalLocationDay;
+  };
+
+  handleSelectedNamesChange = name => {
+    this.setState({ selectedNames: name });
   };
 
   handleSubmit = () => {
@@ -177,6 +184,7 @@ class ProfilePage extends Component {
         }
         return obj;
       });
+
       this.setState({ finalLocationDay: dataValue });
     } else {
       const dataValue = finalLocationDay.map(obj => {
@@ -184,8 +192,10 @@ class ProfilePage extends Component {
         obj.name = selectedNames;
         return obj;
       });
-
-      this.setState({ finalLocationDay: dataValue, checked: false });
+      this.setState({
+        finalLocationDay: dataValue,
+        checked: false,
+      });
     }
 
     const finalLocatiopnUpdate = [];
@@ -285,6 +295,7 @@ class ProfilePage extends Component {
             apiMessage={apiMessage}
             handleBadgeData={this.handleBadgeData}
             handleBadgeSubmit={this.handleBadgeSubmit}
+            handleSelectedNamesChange={this.handleSelectedNamesChange}
             apiSuccess={apiSuccess}
             locationSuccess={locationSuccess}
             locationMessage={locationMessage}

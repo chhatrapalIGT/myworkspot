@@ -35,8 +35,20 @@ const Report = ({
   handleModalClose,
   handleTextData,
   dataList,
+  reportApiSuccess,
+  reportApiMessage,
 }) => {
   const data = location && location.length && location[location.length - 1];
+
+  // const colourStyles = {
+  //   control: styles => ({ ...styles, backgroundColor: 'white' }),
+  //   option: (styles, { isDisabled, isFocused, isSelected }) => ({
+  //     ...styles,
+  //     backgroundColor: isSelected ? '#f8f8f8' : 'white',
+  //     // backgroundColor: isFocused ? '#ccc' : 'white',
+  //     color: '#000',
+  //   }),
+  // };
 
   const finalLocation =
     location && location.length
@@ -88,6 +100,18 @@ const Report = ({
             </p>
           </div>
         )}
+
+      {reportApiMessage && (
+        <div
+          className={`"alert-dismissible fade show ${
+            reportApiSuccess ? 'popup_success' : 'popup_err'
+          } "`}
+          role="alert"
+        >
+          <p className="text-center m-auto">{reportApiMessage}</p>
+        </div>
+      )}
+
       <div className="wrapper_main">
         <div className="container">
           <h4 className="common-title" style={{ marginLeft: '20px' }}>
@@ -137,6 +161,14 @@ const Report = ({
                     className="mb-3 "
                     name="employee"
                     placeholder="Select Team Member(s)"
+                    // styles={colourStyles}
+                    // theme={theme => ({
+                    //   ...theme,
+                    //   colors: {
+                    //     ...theme.colors,
+                    //     primary25: '#blue',
+                    //   },
+                    // })}
                   />
                   <div className="selection">
                     <select name="location" onChange={handleUserSelect}>
@@ -391,6 +423,8 @@ Report.propTypes = {
   handleTextData: PropTypes.func,
   memberData: PropTypes.object,
   dataList: PropTypes.object,
+  reportApiSuccess: PropTypes.bool,
+  reportApiMessage: PropTypes.string,
 };
 
 export default Report;

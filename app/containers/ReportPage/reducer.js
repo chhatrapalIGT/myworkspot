@@ -7,6 +7,7 @@ import {
   REQUEST_ADD_TEAM_MEMBER,
   SUCCESS_ADD_TEAM_MEMBER,
   FAILED_ADD_TEAM_MEMBER,
+  CLEAR_ADD_TEAM_DATA,
 } from './constants';
 
 const initialState = {
@@ -24,7 +25,7 @@ const initialState = {
     message: '',
   },
   reportApiSuccess: false,
-  reportApipiMessage: '',
+  reportApiMessage: '',
 };
 
 const reportReducer = (state = initialState, action) =>
@@ -40,15 +41,13 @@ const reportReducer = (state = initialState, action) =>
         draft.allTeamMemberList.success = true;
         draft.allTeamMemberList.member = action.payload;
         draft.allTeamMemberList.error = '';
-        draft.reportApiSuccess = action.payload.message;
-        draft.reportApiSuccess = action.payload.success;
         break;
       case FAILED_GET_TEAM_MEMBER:
         draft.allTeamMemberList.loading = false;
         draft.allTeamMemberList.success = false;
         draft.allTeamMemberList.member = [];
         draft.allTeamMemberList.error = action.payload;
-        draft.reportApiSuccess = action.payload.message;
+        draft.reportApiMessage = action.payload.message;
         draft.reportApiSuccess = action.payload.success;
         break;
 
@@ -60,15 +59,19 @@ const reportReducer = (state = initialState, action) =>
         draft.updateMember.loading = false;
         draft.updateMember.success = action.payload.success;
         draft.updateMember.message = action.payload.message;
-        draft.reportApiSuccess = action.payload.message;
+        draft.reportApiMessage = action.payload.message;
         draft.reportApiSuccess = action.payload.success;
         break;
       case FAILED_ADD_TEAM_MEMBER:
         draft.updateMember.loading = false;
         draft.updateMember.success = action.payload.success;
         draft.updateMember.message = action.payload.message;
-        draft.reportApiSuccess = action.payload.message;
+        draft.reportApiMessage = action.payload.message;
         draft.reportApiSuccess = action.payload.success;
+        break;
+      case CLEAR_ADD_TEAM_DATA:
+        draft.reportApiMessage = '';
+        draft.reportApiSuccess = false;
         break;
     }
   });
