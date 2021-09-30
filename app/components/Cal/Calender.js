@@ -445,9 +445,9 @@ const Calender = ({
                                       ? state.updatingObject.work_area
                                       : data && data.locationName}
                                   </p>
-                                  {(data && data.locationName !== 'RW') ||
-                                    (data && data.locationName !== 'PTO') ||
-                                    (data && data.locationName !== 'EAB' && (
+                                  {(data && data.locationCode !== 'RW') ||
+                                    (data && data.locationCode !== 'PTO') ||
+                                    (data && data.locationCode !== 'EAB' && (
                                       <span className="floor-location">
                                         <img src={Vector} alt="" />
                                         {data && data.floor} -{' '}
@@ -615,10 +615,10 @@ const Calender = ({
                                     item.weekend) ||
                                   isCurrentDate(item.date)
                                     ? `{ day-one-wrapper ${locationClass(
-                                        data && data.locationName,
+                                        data && data.locationCode,
                                       )} }`
                                     : `{ day-one-wrapper ${locationClass(
-                                        data && data.locationName,
+                                        data && data.locationCode,
                                       )} day-pointer }`
                                 }
                                 onClick={() => {
@@ -627,9 +627,9 @@ const Calender = ({
                                     handleEditModal(
                                       true,
                                       item.date,
-                                      `${data && data.locationName}`,
+                                      `${data && data.locationCode}`,
                                       'self',
-                                      `${data && data.locationName}`,
+                                      `${data && data.locationCode}`,
                                     );
                                   setDate(
                                     moment(item.date).format(
@@ -651,15 +651,20 @@ const Calender = ({
                                     : data && data.locationName}
                                   {/* {data && data.locationName} */}
                                 </p>
-                                {(data && data.locationName !== 'RW') ||
-                                  (data && data.locationName !== 'PTO') ||
-                                  (data && data.locationName !== 'EAB' && (
-                                    <span className="floor-location">
-                                      <img src={Vector} alt="" />
-                                      {data && data.floor} -{' '}
-                                      {data && data.color}
-                                    </span>
-                                  ))}
+                                {(data && data.locationCode !== 'RW') ||
+                                  (data && data.locationCode !== 'PTO') ||
+                                  ((data && data.locationCode !== 'EAB') ||
+                                    (((data && data.locationCode === 'DC') ||
+                                      (data &&
+                                        data.locationCode === 'VA' &&
+                                        item.disable &&
+                                        isCurrentDate(item.date))) && (
+                                      <span className="floor-location">
+                                        <img src={Vector} alt="" />
+                                        {data && data.floor} -{' '}
+                                        {data && data.color}
+                                      </span>
+                                    )))}
                               </div>
                             </div>
                           );
