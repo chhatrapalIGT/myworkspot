@@ -926,7 +926,7 @@ const WorkSpot = ({
                               name="work_area"
                               selected={
                                 state.updatingObject.prevLocation ===
-                                i.locationname
+                                i.locationCode
                               }
                             >
                               {i && i.locationname}
@@ -969,7 +969,10 @@ const WorkSpot = ({
                   type="button"
                   className="btn dismiss"
                   data-bs-dismiss="modal"
-                  onClick={() => handleEditModal(false)}
+                  onClick={() => {
+                    handleEditModal(false);
+                    setLocUpdate(false);
+                  }}
                 >
                   Cancel
                 </button>

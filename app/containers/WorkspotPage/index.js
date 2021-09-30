@@ -121,13 +121,13 @@ class WorkSpotPage extends Component {
     const { workspotSuccess, workspotMessage } = this.props;
 
     if (workspotSuccess && workspotMessage) {
+      this.props.resetWorkspot();
       this.getWorkSpots(
         selectedDateRange && selectedDateRange.startDate,
         selectedDateRange && selectedDateRange.endDate,
       );
       setTimeout(() => {
         this.handleClearModal();
-        this.props.resetWorkspot();
       }, 3000);
     }
   }
@@ -135,11 +135,9 @@ class WorkSpotPage extends Component {
   handleClearModal = () => {
     const { workspotMessage, workspotSuccess } = this.props;
     if (workspotSuccess && workspotMessage) {
-      // this.setState({
-      //   updatingObject: {
-      //     work_area: '',
-      //   },
-      // });
+      this.setState({
+        updatingObject: {},
+      });
       this.setState({ updatingObject: {} });
     }
   };
