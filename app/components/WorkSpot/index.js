@@ -77,6 +77,11 @@ const WorkSpot = ({
   location,
   neighborhood,
   workspotSuccess,
+  locationSuccess,
+  locationMsg,
+  neighborhoodSuccess,
+  neighborhoodMsg,
+  workspotMessage,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
@@ -277,23 +282,20 @@ const WorkSpot = ({
 
   return (
     <>
-      {(apiMessage ||
-        errMessage ||
-        location.message ||
-        (neighborhood && neighborhood.message)) && (
+      {(errMessage || locationMsg || workspotMessage || neighborhoodMsg) && (
         <div
           className={`alert-dismissible fade show ${
-            apiSuccess || errSuccess || location.success || neighborhood.success
+            errSuccess ||
+            locationSuccess ||
+            neighborhoodSuccess ||
+            workspotSuccess
               ? 'popup_success'
               : 'popup_err'
           } `}
           role="alert"
         >
           <p className="text-center m-auto">
-            {apiMessage ||
-              errMessage ||
-              location.message ||
-              neighborhood.message}
+            {errMessage || locationMsg || workspotMessage || neighborhoodMsg}
           </p>
         </div>
       )}
@@ -307,7 +309,7 @@ const WorkSpot = ({
             className={
               (neighborhoodData && neighborhoodData.locationCode === 'VA') ||
               (neighborhoodData && neighborhoodData.locationCode === 'DC')
-                ? 'card building-block-head blue'
+                ? 'card building-block-head'
                 : (neighborhoodData &&
                     neighborhoodData.locationCode === 'MN') ||
                   (neighborhoodData && neighborhoodData.locationCode === 'AL')
@@ -316,7 +318,7 @@ const WorkSpot = ({
                 ? 'card building-block-head grey'
                 : neighborhoodData && neighborhoodData.locationCode === 'PTO'
                 ? 'card building-block-head violate'
-                : ''
+                : 'card building-block-head'
             }
             style={{ backgroundColor: 'white' }}
           >
@@ -456,7 +458,11 @@ const WorkSpot = ({
 
         <div className="office-structure mt-4">
           {neighborhoodData.locationCode !== 'RW' &&
-            neighborhoodData.locationCode !== 'PTO' && (
+            neighborhoodData.locationCode !== 'PTO' &&
+            (neighborhoodData.building !== null ||
+              neighborhoodData.building !== undefined) &&
+            (neighborhoodData.floor !== null ||
+              neighborhoodData.floor !== undefined) && (
               <div className="container" style={{ height: '100%' }}>
                 <div
                   className="card office-structure-inner"
@@ -1015,5 +1021,10 @@ WorkSpot.propTypes = {
   location: PropTypes.object,
   neighborhood: PropTypes.object,
   workspotSuccess: PropTypes.bool,
+  locationSuccess: PropTypes.bool,
+  locationMsg: PropTypes.string,
+  neighborhoodSuccess: PropTypes.bool,
+  neighborhoodMsg: PropTypes.string,
+  workspotMessage: PropTypes.string,
 };
 export default WorkSpot;
