@@ -36,6 +36,7 @@ const Profile = ({
   handleBadgeData,
   handleBadgeSubmit,
   badgeUpdateData,
+  handleSelectedNamesChange,
 }) => {
   const [open, setOpen] = useState(true);
   const [openbadgeData, setOpenBadgeData] = useState(true);
@@ -113,7 +114,8 @@ const Profile = ({
   const handleChangeDay = (name, data) => {
     setSelectedValue(data);
     setModal(true);
-    handleButtonData(name);
+    handleButtonData(name, data);
+    handleSelectedNamesChange(data);
   };
 
   const data = location && location.length && location[location.length - 1];

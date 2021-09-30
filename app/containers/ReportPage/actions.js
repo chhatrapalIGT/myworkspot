@@ -5,6 +5,7 @@ import {
   REQUEST_ADD_TEAM_MEMBER,
   SUCCESS_ADD_TEAM_MEMBER,
   FAILED_ADD_TEAM_MEMBER,
+  CLEAR_ADD_TEAM_DATA,
 } from './constants';
 
 export const requestGetTeamMember = payload => ({
@@ -35,4 +36,8 @@ export const addTeamMemberSuccess = payload => ({
 export const addTeamMemberFailed = error => ({
   type: FAILED_ADD_TEAM_MEMBER,
   payload: error,
+});
+
+export const clearAddTeamData = () => ({
+  type: CLEAR_ADD_TEAM_DATA,
 });

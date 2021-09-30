@@ -9,12 +9,17 @@ import injectSaga from 'utils/injectSaga';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 import moment from 'moment';
+import profile from '../../images/profileof.png';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Report from '../../components/Report';
 import reducer from './reducer';
 import saga from './saga';
-import { requestGetTeamMember, requestAddTeamMember } from './actions';
+import {
+  requestGetTeamMember,
+  requestAddTeamMember,
+  clearAddTeamData,
+} from './actions';
 import { getWorkSpotData } from '../WorkspotPage/helpers';
 import { requestGetOfficeLocation } from '../onBoardingPage/actions';
 import {
@@ -36,7 +41,11 @@ class ReportPage extends Component {
       scale: defaultScale,
       rotate: defaultRotate,
       version: 0,
-      selectedNames: '',
+      selectedNames: this.props.location.length
+        ? this.props.location &&
+          this.props.location[0] &&
+          this.props.location[0].locationname
+        : 'Washington, DC',
       date: '',
       allUser: [],
     };
@@ -52,8 +61,8 @@ class ReportPage extends Component {
     const { date, selectedNames, selectedOption, textValue } = this.state;
     const { location } = this.props;
     const optionData = selectedOption.map(data => data.id);
-
-    const optionAllValue = selectedOption.find(
+    let optionAllValue = '';
+    optionAllValue = selectedOption.find(
       data => data.value === 'All Team Member(s)',
     );
 
@@ -65,19 +74,15 @@ class ReportPage extends Component {
       locDate && locDate.map(obj => moment(obj).format('YYYY-MM-DD'));
 
     const finalPayload = {
-      inviteid:
-        optionData.length > 0
-          ? optionData
-          : optionAllValue && optionAllValue.value,
-      employeeid: 239223,
+      inviteid: optionAllValue ? optionAllValue.value : optionData,
+
+      employeeid: 239323,
       invitedate: finalValue,
       invitelocation: data.id,
-      message: textValue,
+      message: textValue || '',
     };
 
     this.props.requestAddTeamMember(finalPayload);
-
-    console.log(`finalPayload`, finalPayload);
   };
 
   handleUserSelect = event => {
@@ -147,7 +152,7 @@ class ReportPage extends Component {
         value: obj.firstname,
         label: obj.firstname,
         labelData: obj.lastname,
-        flag: obj.photo,
+        flag: obj.photo || profile,
       }))
     );
   };
@@ -157,8 +162,23 @@ class ReportPage extends Component {
     this.setState({ [name]: value });
   };
 
+  componentDidUpdate() {
+    const { reportApiMessage } = this.props;
+    if (reportApiMessage) {
+      setTimeout(() => {
+        this.props.clearAddTeamData();
+      }, 5000);
+    }
+  }
+
   render() {
-    const { locationErrorHandle, location, memberData } = this.props;
+    const {
+      locationErrorHandle,
+      location,
+      memberData,
+      reportApiMessage,
+      reportApiSuccess,
+    } = this.props;
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
@@ -183,6 +203,8 @@ class ReportPage extends Component {
             dataList={this.getPlatformList()}
             handleModalClose={this.handleModalClose}
             handleTextData={this.handleTextData}
+            reportApiSuccess={reportApiSuccess}
+            reportApiMessage={reportApiMessage}
           />{' '}
         </div>
         <Footer />
@@ -204,6 +226,8 @@ const mapStateToProps = state => {
       locationData.getOfficeLocation,
     memberData:
       myTeam && myTeam.allTeamMemberList && myTeam.allTeamMemberList.member,
+    reportApiMessage: myTeam && myTeam.reportApiMessage,
+    reportApiSuccess: myTeam && myTeam.reportApiSuccess,
   };
 };
 
@@ -213,6 +237,7 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestGetOfficeLocation(payload)),
     requestGetTeamMember: payload => dispatch(requestGetTeamMember(payload)),
     requestAddTeamMember: payload => dispatch(requestAddTeamMember(payload)),
+    clearAddTeamData: () => dispatch(clearAddTeamData()),
     dispatch,
   };
 }
@@ -224,6 +249,9 @@ ReportPage.propTypes = {
   requestGetOfficeLocation: PropTypes.func,
   requestGetTeamMember: PropTypes.func,
   requestAddTeamMember: PropTypes.func,
+  reportApiSuccess: PropTypes.bool,
+  reportApiMessage: PropTypes.string,
+  clearAddTeamData: PropTypes.func,
   locationErrorHandle: PropTypes.string,
   location: PropTypes.object,
   memberData: PropTypes.object,
