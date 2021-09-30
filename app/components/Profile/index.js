@@ -47,6 +47,16 @@ const Profile = ({
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
+
+  const badgeValues = userData && userData.badgeNumber;
+  const value =
+    badgeValues &&
+    badgeValues.slice(0, 2) +
+      badgeValues.slice(3, 7) +
+      badgeValues.slice(7, 10);
+
+  const finalBadges =
+    value && `${value.substring(0, 2)} ${value.substring(2, value.length)}`;
   useEffect(() => {
     if (delegateList && delegateList.length && delegateSuccess && open) {
       setAllUser(delegateList);
@@ -202,10 +212,11 @@ const Profile = ({
                               {userData.badgeNumber ? (
                                 <>
                                   <p>
-                                    BB
                                     {state.badgeData
-                                      ? state.badge.concat(state.badgeData)
-                                      : userData.badgeNumber}
+                                      ? `BB ${state.badge.concat(
+                                          state.badgeData,
+                                        )}`
+                                      : finalBadges}
                                   </p>
                                   <a
                                     className="replace"
@@ -242,7 +253,7 @@ const Profile = ({
                                     id="badgeNumber"
                                     name="badge"
                                     type="text"
-                                    placeholder="233"
+                                    placeholder="XXX"
                                     maxLength="3"
                                     className="badge_val"
                                     onChange={handleBadgeData}
@@ -252,7 +263,7 @@ const Profile = ({
                                     id="badgeValue"
                                     name="badgeData"
                                     type="text"
-                                    placeholder="321"
+                                    placeholder="XXX"
                                     maxLength="3"
                                     className="badge_val"
                                     onChange={handleBadgeData}
@@ -306,8 +317,8 @@ const Profile = ({
               <h4 className="common-title">Weekly Default</h4>
               <p className="stroke-2 mt-3 profile_desc">
                 Your weekly default will pre-populate for each week unless you
-                update <i>my</i>Workspot for a specific day. You can update My
-                Workspot for a particular day on the homepage.
+                update <i>my</i>Workspot for a specific day. You can update{' '}
+                <i>my</i>Workspot for a particular day on the homepage.
               </p>
               <div className="on-boarding-inner p-0">
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">

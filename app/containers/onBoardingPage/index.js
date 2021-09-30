@@ -23,7 +23,11 @@ class BorardingPage extends Component {
     super(props);
     this.state = {
       selectedDay: '',
-      selectedNames: 'Washington, DC',
+      selectedNames: this.props.location.length
+        ? this.props.location &&
+          this.props.location[0] &&
+          this.props.location[0].locationname
+        : 'Washington, DC',
       checked: false,
       timings: [
         {
@@ -61,6 +65,7 @@ class BorardingPage extends Component {
 
   handleSubmit = () => {
     const { timings, selectedNames, selectedDay, checked } = this.state;
+    const { location } = this.props;
     if (!checked) {
       const data = timings.map(obj => {
         if (obj.day === selectedDay) {
@@ -70,6 +75,9 @@ class BorardingPage extends Component {
         }
         return obj;
       });
+      this.setState({
+        selectedNames: location && location[0] && location[0].locationname,
+      });
 
       this.setState({ timings: data });
     } else {
@@ -77,6 +85,9 @@ class BorardingPage extends Component {
         // eslint-disable-next-line no-param-reassign
         obj.name = selectedNames;
         return obj;
+      });
+      this.setState({
+        selectedNames: location && location[0] && location[0].locationname,
       });
 
       this.setState({ timings: data, checked: false });

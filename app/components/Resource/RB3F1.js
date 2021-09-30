@@ -56,7 +56,7 @@ function RB3F1() {
           </span>
           <label htmlFor="my-spot">Copy Room</label>
         </div>
-        <div className="office-part-one heart teal">
+        <div className="office-part-one teal_border">
           <span className="informer">
             <img src={womenImage} alt="" />
           </span>

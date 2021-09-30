@@ -80,14 +80,14 @@ function WF4() {
           </span>
           <label htmlFor="my-spot">AED</label>
         </div>
-        <div className="office-part-one heart blue">
+        <div className="office-part-one teal_border">
           <span className="informer">
             <img src={womenImage} alt="" />
           </span>
           <label htmlFor="my-spot">Women's Restroom</label>
         </div>
 
-        <div className="office-part-one heart blue">
+        <div className="office-part-one teal_border">
           <span className="informer">
             <img src={maleImage} alt="" />
           </span>

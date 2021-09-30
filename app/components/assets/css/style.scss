@@ -761,7 +761,7 @@ input[type='text'] {
       font-weight: 600;
 
       &:hover {
-        background: #005aa3;
+        background: #0072ce;
         background-color: transparent;
         color: #0072ce;
         -webkit-text-stroke: 0.2px;
@@ -1058,18 +1058,18 @@ input[type='text'] {
     }
   }
   .change_btn {
-    background-color: #005aa3;
+    background-color: #0072ce;
     margin-top: 30px;
     padding: 12px 20px;
-    border: 1px solid #005aa3;
+    border: 1px solid #0072ce;
     color: #fff;
     border-radius: 8px;
     font-size: 16px;
 
     &:hover {
-      background: #005aa3;
+      background: #0072ce;
       background-color: transparent;
-      border: 1px solid #005aa3;
+      border: 1px solid #0072ce;
       color: #0072ce;
       -webkit-text-stroke: 0.2px;
     }
@@ -1624,6 +1624,11 @@ input[type='text'] {
             .informer {
               background: #e0f1f1;
               border: 1px solid #75f3f3;
+            }
+          }
+          &.teal_border {
+            .informer {
+              background: #e0f1f1;
             }
           }
           &.orange {
