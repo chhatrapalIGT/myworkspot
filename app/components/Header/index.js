@@ -118,30 +118,36 @@ const Header = props => {
                   alt=""
                 />
               </div>
-              {pathName !== '/board' && (
-                <div className={`profile-inner ${editProfile && 'opened'}`}>
-                  <ul className="profile-menus">
-                    <li>
-                      <Link
-                        className={pathName === '/profile' && 'active'}
-                        to="/profile"
-                        activeClassName="active"
-                      >
-                        Profile
-                      </Link>
-                    </li>
-                    {/* <li>
-                      <a href="true">Options</a>
-                    </li>
-                    <li>
-                      <a href="true">Change password</a>
-                    </li>
-                    <li>
-                      <a href="true">Logout</a>
-                    </li> */}
-                  </ul>
+              <div className={`profile-inner ${editProfile && 'opened'}`}>
+                <div className="head">
+                  <span>This is your account</span>
                 </div>
-              )}
+                <div className="profile-popup-main">
+                  <img src={Profile} alt="" />
+                  <h3>Alexander Doe</h3>
+                  <p>alexander.doe@example.com</p>
+                  <Link
+                    className={pathName === '/profile' && 'active'}
+                    to="/profile"
+                    activeClassName="active"
+                  >
+                    <button type="button" className="w-100 blue-color-btn">
+                      View My Profile
+                    </button>
+                  </Link>
+                </div>
+                <div className="popup-secondary-profile">
+                  <img src="./images/profileof.png" alt="" />
+                  <div className="sec-profile-info">
+                    <h4>Jane Cooper</h4>
+                    <span>janeсooper@example.com</span>
+                  </div>
+                </div>
+                <a href className="logout">
+                  Log out
+                </a>
+              </div>
+
               <button
                 type="button"
                 onClick={() => setSidebar(!sidebar)}
