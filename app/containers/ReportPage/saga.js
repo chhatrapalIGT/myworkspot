@@ -26,7 +26,7 @@ export function* getTeamMember() {
     });
     const { data } = locationList;
     if (data && data.success) {
-      yield put(getTeamMemberSuccess(data.data));
+      yield put(getTeamMemberSuccess(data.response));
     } else {
       yield put(getTeamMemberFailed(data));
     }

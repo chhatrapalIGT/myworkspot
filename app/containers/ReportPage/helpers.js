@@ -31,7 +31,7 @@ export const getMyTeamData = async (startDate, endDate) => {
   )
     .then(res => {
       // isLoading = false;
-      weeklyData = res.data.data;
+      weeklyData = res.data.response;
       success = true;
     })
     .catch(err => {

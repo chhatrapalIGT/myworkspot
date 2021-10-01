@@ -57,7 +57,7 @@ export function* addOffice({ payload }) {
   }
 }
 export function* verifyBadge({ payload }) {
-  const requestURL = `${API_URL}/Badges/ValidBadgeNumber`;
+  const requestURL = `${API_URL}/Badges/GetValidBadgeNumber`;
   try {
     const verifyBadgeData = yield request({
       method: 'POST',
