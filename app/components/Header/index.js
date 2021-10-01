@@ -111,10 +111,7 @@ const Header = props => {
                     : `username has-dropdown ${editProfile && 'toggled'}`
                 }
               >
-                <span>
-                  {(props.profileUser && props.profileUser.firstname) ||
-                    'Alexander'}
-                </span>{' '}
+                <span>{props.profileUser && props.profileUser.firstname}</span>{' '}
                 <img
                   src={props.profileUser.photo || Profile}
                   className="user-img"
@@ -127,11 +124,7 @@ const Header = props => {
                 </div>
                 <div className="profile-popup-main">
                   <img src={Profile} alt="" />
-                  <h3>
-                    {(props.profileUser && props.profileUser.firstname) ||
-                      'Alexander'}{' '}
-                    {(props.profileUser && props.profileUser.lastname) || 'Doe'}
-                  </h3>
+                  <h3>Alexander Doe</h3>
                   <p>alexander.doe@eab.com</p>
                   <Link
                     className={pathName === '/profile' && 'active'}
