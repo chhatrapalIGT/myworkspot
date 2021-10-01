@@ -14,6 +14,7 @@ import profile from '../../images/profileof.png';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Report from '../../components/Report';
+import allImage from '../../images/Vectoruser.png';
 import reducer from './reducer';
 import saga from './saga';
 import {
@@ -45,8 +46,8 @@ class ReportPage extends Component {
       selectedNames: this.props.location.length
         ? this.props.location &&
           this.props.location[0] &&
-          this.props.location[0].locationname
-        : 'Washington, DC',
+          this.props.location[0].locationCode
+        : 'DC',
       date: '',
       allUser: [],
       weekVal: true,
@@ -69,7 +70,7 @@ class ReportPage extends Component {
     );
 
     const data = location.find(e =>
-      e.locationname === selectedNames ? e.id : '',
+      e.locationCode === selectedNames ? e.id : '',
     );
     const locDate = date.split(', ');
     const finalValue =
@@ -77,14 +78,14 @@ class ReportPage extends Component {
 
     const finalPayload = {
       inviteid: optionAllValue ? optionAllValue.value : optionData,
-
       employeeid: 239323,
       invitedate: finalValue,
       invitelocation: data.id,
       message: textValue || '',
     };
-
-    this.props.requestAddTeamMember(finalPayload);
+    if (selectedNames && selectedOption.length > 0 && date) {
+      this.props.requestAddTeamMember(finalPayload);
+    }
   };
 
   handleUserSelect = event => {
@@ -162,7 +163,7 @@ class ReportPage extends Component {
         value: obj.firstname,
         label: obj.firstname,
         labelData: obj.lastname,
-        flag: obj.photo || profile,
+        flag: obj.photo ? allImage : profile,
       }))
     );
   };
@@ -170,6 +171,16 @@ class ReportPage extends Component {
   handleTextData = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+  };
+
+  handleClearData = () => {
+    const { location } = this.props;
+    this.setState({
+      date: '',
+      selectedNames: location && location[0] && location[0].locationCode,
+      selectedOption: [],
+      textValue: '',
+    });
   };
 
   componentDidUpdate() {
@@ -188,6 +199,8 @@ class ReportPage extends Component {
       memberData,
       reportApiMessage,
       reportApiSuccess,
+      isLoading,
+      myTeamSuccess,
     } = this.props;
 
     const imgStyle = {
@@ -215,6 +228,9 @@ class ReportPage extends Component {
             handleTextData={this.handleTextData}
             reportApiSuccess={reportApiSuccess}
             reportApiMessage={reportApiMessage}
+            isLoading={isLoading}
+            handleClearData={this.handleClearData}
+            myTeamSuccess={myTeamSuccess}
           />{' '}
         </div>
         <Footer />
@@ -237,6 +253,8 @@ const mapStateToProps = state => {
       myTeam && myTeam.allTeamMemberList && myTeam.allTeamMemberList.member,
     reportApiMessage: myTeam && myTeam.reportApiMessage,
     reportApiSuccess: myTeam && myTeam.reportApiSuccess,
+    isLoading: myTeam && myTeam.updateMember && myTeam.updateMember.loading,
+    myTeamSuccess: myTeam && myTeam.updateMember && myTeam.updateMember,
   };
 };
 
@@ -264,6 +282,8 @@ ReportPage.propTypes = {
   locationErrorHandle: PropTypes.string,
   location: PropTypes.object,
   memberData: PropTypes.object,
+  myTeamSuccess: PropTypes.object,
+  isLoading: PropTypes.bool,
 };
 
 export default compose(

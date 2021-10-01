@@ -39,6 +39,7 @@ const Profile = ({
   handleSelectedNamesChange,
   verifyBadgeSuccess,
   verifyBadgeMsg,
+  handleCloseBtn,
 }) => {
   const [open, setOpen] = useState(true);
   const [openbadgeData, setOpenBadgeData] = useState(true);
@@ -60,6 +61,11 @@ const Profile = ({
 
   const finalBadges =
     value && `${value.substring(0, 2)} ${value.substring(2, value.length)}`;
+
+  const inputval =
+    userData && userData.badgeNumber && userData.badgeNumber.slice(3, 6);
+  const inputval2 =
+    userData && userData.badgeNumber && userData.badgeNumber.slice(7, 11);
   useEffect(() => {
     if (delegateList && delegateList.length && delegateSuccess && open) {
       setAllUser(delegateList);
@@ -214,19 +220,35 @@ const Profile = ({
                           <span>Badge Number</span>
                           {!openBadge && (
                             <>
-                              <p>
-                                {state.badgedata
-                                  ? `BB ${state.badge.concat(state.badgedata)}`
-                                  : finalBadges}
-                              </p>
-                              <a
-                                className="replace"
-                                href
-                                onClick={() => setOpenBadge(true)}
-                              >
-                                <img src={Edit} alt="" />
-                                Replace My Badge
-                              </a>
+                              {userData.badgeNumber ? (
+                                <>
+                                  <p>
+                                    {/* {state.badgedata
+                                      ? `BB ${state.badge.concat(
+                                          state.badgedata,
+                                        )}`
+                                      : finalBadges} */}
+                                    {userData.badgeNumber}
+                                  </p>
+                                  <a
+                                    className="replace"
+                                    href
+                                    onClick={() => setOpenBadge(true)}
+                                  >
+                                    <img src={Edit} alt="" />
+                                    Replace My Badge
+                                  </a>
+                                </>
+                              ) : (
+                                <a
+                                  className="replace"
+                                  href
+                                  onClick={() => setOpenBadge(true)}
+                                >
+                                  <img src={Add} alt="" />
+                                  Add My Badge
+                                </a>
+                              )}
                             </>
                           )}
                           {openBadge && (
@@ -250,9 +272,8 @@ const Profile = ({
                                     name="badge"
                                     type="text"
                                     className="put-value badge_val"
-                                    placeholder="XXX"
+                                    placeholder={inputval || 'XXX'}
                                     maxLength="3"
-                                    // className="badge_val"
                                     onChange={handleBadgeData}
                                   />
                                   <span>−</span>
@@ -261,9 +282,8 @@ const Profile = ({
                                     className="put-value badge_val"
                                     name="badgedata"
                                     type="text"
-                                    placeholder="XXX"
+                                    placeholder={inputval2 || 'XXX'}
                                     maxLength="3"
-                                    // className="badge_val"
                                     onChange={handleBadgeData}
                                   />
                                 </div>
@@ -283,7 +303,10 @@ const Profile = ({
                                 <button
                                   type="button"
                                   href
-                                  onClick={() => setOpenBadge(false)}
+                                  onClick={() => {
+                                    setOpenBadge(false);
+                                    handleCloseBtn();
+                                  }}
                                   className="cancel"
                                 >
                                   Cancel
@@ -622,5 +645,6 @@ Profile.propTypes = {
   verifyBadgeSuccess: PropTypes.bool,
   verifyBadgeMsg: PropTypes.string,
   handleSelectedNamesChange: PropTypes.object,
+  handleCloseBtn: PropTypes.func,
 };
 export default Profile;

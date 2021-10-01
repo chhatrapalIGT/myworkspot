@@ -83,6 +83,7 @@ const WorkSpot = ({
   neighborhoodSuccess,
   neighborhoodMsg,
   workspotMessage,
+  neighborhoodLoad,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
@@ -303,10 +304,19 @@ const WorkSpot = ({
       )}
 
       <div className="wrapper_main">
-        {neighborhood &&
-          neighborhood.success &&
-          !isEmpty(neighborhood.neighborhoodData) && (
-            <div className="container">
+        <div className="container">
+          {neighborhoodLoad ? (
+            <div className="card building-block-head">
+              <Spinner
+                className="app-spinner workspot_spinner"
+                animation="grow"
+                variant="dark"
+              />
+            </div>
+          ) : (
+            neighborhood &&
+            neighborhood.success &&
+            !isEmpty(neighborhood.neighborhoodData) && (
               <div
                 className={
                   (neighborhoodData &&
@@ -327,93 +337,83 @@ const WorkSpot = ({
                 }
                 style={{ backgroundColor: 'white' }}
               >
-                {isEmpty(neighborhoodData) ? (
-                  <div className="card building-block-head">
-                    <Spinner
-                      className="app-spinner workspot_spinner"
-                      animation="grow"
-                      variant="dark"
-                    />
-                  </div>
-                ) : (
-                  <>
-                    {neighborhoodData.locationCode === 'RW' ||
-                    neighborhoodData.locationCode === 'PTO' ||
-                    neighborhoodData.locationCode === 'MN' ||
-                    neighborhoodData.locationCode === 'AL' ? (
-                      <>
-                        <p className="stroke-2">
-                          Hi {neighborhoodData && neighborhoodData.username},
-                          your workspot today is
-                        </p>
+                <>
+                  {neighborhoodData.locationCode === 'RW' ||
+                  neighborhoodData.locationCode === 'PTO' ||
+                  neighborhoodData.locationCode === 'MN' ||
+                  neighborhoodData.locationCode === 'AL' ? (
+                    <>
+                      <p className="stroke-2">
+                        Hi {neighborhoodData && neighborhoodData.username}, your
+                        workspot today is
+                      </p>
 
-                        <div className="block-info d-flex flex-wrap">
-                          <h3 className="building-name">
-                            {neighborhoodData && neighborhoodData.locationName}
-                          </h3>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        {(state.updatingObject.work_area === 'VA' ||
-                          state.updatingObject.work_area === 'DC') &&
-                        isLocUpdate ? (
-                          <>
-                            <p className="stroke-2">
-                              Hi {neighborhoodData && neighborhoodData.username}
-                              , your{' '}
-                              <span>
-                                {' '}
-                                {neighborhoodData &&
-                                  neighborhoodData.locationCode}{' '}
-                              </span>
-                              neighborhood assignment will be ready shortly!
-                            </p>
-                            <h3 className="building-name neighborhood-font">
-                              Please check back in a few minutes
-                            </h3>
-                          </>
-                        ) : (
-                          <>
-                            <p className="stroke-2">
-                              Hi {neighborhoodData && neighborhoodData.username}
-                              , your{' '}
-                              <span>
-                                {' '}
-                                {neighborhoodData &&
-                                  neighborhoodData.locationCode}{' '}
-                              </span>
-                              neighborhood today is
-                            </p>
-                            <div className="block-info d-flex flex-wrap">
+                      <div className="block-info d-flex flex-wrap">
+                        <h3 className="building-name">
+                          {neighborhoodData && neighborhoodData.locationName}
+                        </h3>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {(state.updatingObject.work_area === 'VA' ||
+                        state.updatingObject.work_area === 'DC') &&
+                      isLocUpdate ? (
+                        <>
+                          <p className="stroke-2">
+                            Hi {neighborhoodData && neighborhoodData.username},
+                            your{' '}
+                            <span>
+                              {' '}
                               {neighborhoodData &&
-                                neighborhoodData.building && (
-                                  <h3 className="building-name">
-                                    {`Building ${neighborhoodData &&
-                                      neighborhoodData.building}`}
-                                  </h3>
-                                )}
-                              {neighborhoodData && neighborhoodData.floor && (
-                                <h3 className="floor-name">
-                                  {`Floor ${neighborhoodData &&
-                                    neighborhoodData.floor}`}
-                                </h3>
-                              )}
-                              <h3 className="color-code">
-                                {neighborhoodColor}
+                                neighborhoodData.locationCode}{' '}
+                            </span>
+                            neighborhood assignment will be ready shortly!
+                          </p>
+                          <h3 className="building-name neighborhood-font">
+                            Please check back in a few minutes
+                          </h3>
+                        </>
+                      ) : (
+                        <>
+                          <p className="stroke-2">
+                            Hi {neighborhoodData && neighborhoodData.username},
+                            your{' '}
+                            <span>
+                              {' '}
+                              {neighborhoodData &&
+                                neighborhoodData.locationCode}{' '}
+                            </span>
+                            neighborhood today is
+                          </p>
+                          <div className="block-info d-flex flex-wrap">
+                            {neighborhoodData && neighborhoodData.building && (
+                              <h3 className="building-name">
+                                {`Building ${neighborhoodData &&
+                                  neighborhoodData.building}`}
                               </h3>
-                            </div>
-                          </>
-                        )}
-                      </>
-                    )}
+                            )}
+                            {neighborhoodData && neighborhoodData.floor && (
+                              <h3 className="floor-name">
+                                {`Floor ${neighborhoodData &&
+                                  neighborhoodData.floor}`}
+                              </h3>
+                            )}
+                            <h3 className="color-code">{neighborhoodColor}</h3>
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
 
-                    <div className="building-location-strip d-flex flex-wrap align-items-center">
-                      {neighborhoodData.locationCode !== 'PTO' && (
+                  <div className="building-location-strip d-flex flex-wrap align-items-center">
+                    {neighborhoodData &&
+                      neighborhoodData.locationCode !== 'PTO' && (
                         <>
                           {(state.updatingObject.work_area !== 'VA' ||
                             state.updatingObject.work_area !== 'DC' ||
-                            neighborhoodData.locationCode !== 'RW') &&
+                            (neighborhoodData &&
+                              neighborhoodData.locationCode !== 'RW')) &&
                             neighborhoodData &&
                             neighborhoodData.officeAddress && (
                               <div
@@ -458,77 +458,96 @@ const WorkSpot = ({
                           </div>
                         </>
                       )}
-                    </div>
-                  </>
-                )}
+                  </div>
+                </>
               </div>
-            </div>
+            )
           )}
+        </div>
 
         <div className="office-structure mt-4">
-          {neighborhoodData.locationCode !== 'RW' &&
+          {neighborhoodData &&
+            neighborhoodData.locationCode !== 'RW' &&
+            neighborhoodData &&
             neighborhoodData.locationCode !== 'PTO' &&
             (neighborhoodData.building !== null ||
               neighborhoodData.building !== undefined) &&
             (neighborhoodData.floor !== null ||
               neighborhoodData.floor !== undefined) && (
               <div className="container" style={{ height: '100%' }}>
-                <div
-                  className="card office-structure-inner"
-                  style={{ height: '100%' }}
-                >
-                  {!neighborhoodData.locationCode ||
-                  neighborhoodData.locationCode === 'RW' ||
-                  neighborhoodData.locationCode === 'PTO' ? (
+                {neighborhoodLoad ? (
+                  <div className="card building-block-head">
                     <Spinner
                       className="app-spinner workspot_spinner"
                       animation="grow"
                       variant="dark"
                     />
-                  ) : (
-                    <>
-                      {officeRest || ''}
-                      <div className="right-map">
-                        <Draggable disabled={!isDraggable} key={state.version}>
-                          <div
-                            className="drag_image"
-                            style={isDraggable ? { cursor: 'move' } : null}
-                          >
-                            <img
-                              src={finalImg}
-                              alt=""
-                              style={imgStyle}
-                              draggable="false"
-                            />
+                  </div>
+                ) : (
+                  neighborhood &&
+                  neighborhood.success &&
+                  !isEmpty(neighborhood.neighborhoodData) && (
+                    <div
+                      className="card office-structure-inner"
+                      style={{ height: '100%' }}
+                    >
+                      {!neighborhoodData.locationCode ||
+                      neighborhoodData.locationCode === 'RW' ||
+                      neighborhoodData.locationCode === 'PTO' ? (
+                        <Spinner
+                          className="app-spinner workspot_spinner"
+                          animation="grow"
+                          variant="dark"
+                        />
+                      ) : (
+                        <>
+                          {officeRest || ''}
+                          <div className="right-map">
+                            <Draggable
+                              disabled={!isDraggable}
+                              key={state.version}
+                            >
+                              <div
+                                className="drag_image"
+                                style={isDraggable ? { cursor: 'move' } : null}
+                              >
+                                <img
+                                  src={finalImg}
+                                  alt=""
+                                  style={imgStyle}
+                                  draggable="false"
+                                />
+                              </div>
+                            </Draggable>
+                            <div className="toolbar">
+                              <button
+                                className="location"
+                                type="button"
+                                onClick={() => handleDefault()}
+                              >
+                                <img src={locationMap} alt="" />
+                              </button>
+                              <button
+                                className="zoomin"
+                                type="button"
+                                onClick={() => handleZoomIn()}
+                              >
+                                <img src={zoomin} alt="" />
+                              </button>
+                              <button
+                                className="zoomout"
+                                type="button"
+                                onClick={() => handleZoomOut()}
+                              >
+                                <img src={zoomout} alt="" />
+                              </button>
+                            </div>
                           </div>
-                        </Draggable>
-                        <div className="toolbar">
-                          <button
-                            className="location"
-                            type="button"
-                            onClick={() => handleDefault()}
-                          >
-                            <img src={locationMap} alt="" />
-                          </button>
-                          <button
-                            className="zoomin"
-                            type="button"
-                            onClick={() => handleZoomIn()}
-                          >
-                            <img src={zoomin} alt="" />
-                          </button>
-                          <button
-                            className="zoomout"
-                            type="button"
-                            onClick={() => handleZoomOut()}
-                          >
-                            <img src={zoomout} alt="" />
-                          </button>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
+                        </>
+                      )}
+                    </div>
+                  )
+                )}
               </div>
             )}
         </div>
@@ -1039,5 +1058,6 @@ WorkSpot.propTypes = {
   neighborhoodSuccess: PropTypes.bool,
   neighborhoodMsg: PropTypes.string,
   workspotMessage: PropTypes.string,
+  neighborhoodLoad: PropTypes.bool,
 };
 export default WorkSpot;

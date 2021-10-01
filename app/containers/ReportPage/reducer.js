@@ -54,6 +54,7 @@ const reportReducer = (state = initialState, action) =>
       case REQUEST_ADD_TEAM_MEMBER:
         draft.updateMember.loading = true;
         draft.updateMember.error = '';
+        draft.updateMember.success = false;
         break;
       case SUCCESS_ADD_TEAM_MEMBER:
         draft.updateMember.loading = false;
@@ -72,6 +73,7 @@ const reportReducer = (state = initialState, action) =>
       case CLEAR_ADD_TEAM_DATA:
         draft.reportApiMessage = '';
         draft.reportApiSuccess = false;
+        draft.updateMember.success = false;
         break;
     }
   });

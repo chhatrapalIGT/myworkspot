@@ -187,7 +187,9 @@ class WorkSpotPage extends Component {
     const { locationData } = this.props;
     const a =
       locationData &&
-      locationData.find(obj => obj.locationCode === updatingObject.work_area);
+      locationData.find(
+        obj => obj.locationname === updatingObject.work_area_name,
+      );
     const payload = {
       data: {
         // eslint-disable-next-line radix
@@ -272,12 +274,11 @@ class WorkSpotPage extends Component {
       neighborhoodData,
       location,
       neighborhood,
-      workspotSuccess,
-      workspotMessage,
-      locationSuccess,
-      locationMsg,
-      neighborhoodSuccess,
-      neighborhoodMsg,
+      // workspotSuccess,
+
+      apiMessage,
+
+      apiSuccess,
     } = this.props;
     const { errMessage, errSuccess } = this.state;
     return (
@@ -303,17 +304,20 @@ class WorkSpotPage extends Component {
             handleEditModal={this.handleEditModal}
             handleUpdatingModalData={this.handleUpdatingModalData}
             onUpdateWorkspot={this.onUpdateWorkspot}
-            workspotSuccess={workspotSuccess}
-            workspotMessage={workspotMessage}
+            // workspotSuccess={workspotSuccess}
+            apiMessage={apiMessage}
+            apiSuccess={apiSuccess}
+            // workspotMessage={workspotMessage}
             neighborhoodData={neighborhoodData}
             errMessage={errMessage}
             errSuccess={errSuccess}
             location={location}
             neighborhood={neighborhood}
-            locationSuccess={locationSuccess}
-            locationMsg={locationMsg}
-            neighborhoodSuccess={neighborhoodSuccess}
-            neighborhoodMsg={neighborhoodMsg}
+            // locationSuccess={locationSuccess}
+            // locationMsg={locationMsg}
+            // neighborhoodSuccess={neighborhoodSuccess}
+            // neighborhoodMsg={neighborhoodMsg}
+            // neighborhoodLoad={neighborhoodLoad}
           />
         </div>
         <Footer />
@@ -334,7 +338,9 @@ const mapStateToProps = state => {
       workspot && workspot.getLocationData && workspot.getLocationData.success,
     locationMsg:
       workspot && workspot.getLocationData && workspot.getLocationData.message,
+    apiMessage: workspot && workspot.apiMessage,
 
+    apiSuccess: workspot && workspot.apiSuccess,
     workspotSuccess:
       workspot && workspot.updateWorkspot && workspot.updateWorkspot.success,
     workspotMessage:
@@ -347,7 +353,8 @@ const mapStateToProps = state => {
       workspot && workspot.neighborhood && workspot.neighborhood.success,
     neighborhoodMsg:
       workspot && workspot.neighborhood && workspot.neighborhood.message,
-
+    neighborhoodLoad:
+      workspot && workspot.neighborhood && workspot.neighborhood.isloading,
     location: workspot && workspot.getLocationData,
     neighborhood: workspot && workspot.neighborhood,
   };
@@ -380,10 +387,14 @@ WorkSpotPage.propTypes = {
   neighborhoodData: PropTypes.object,
   location: PropTypes.object,
   neighborhood: PropTypes.object,
-  locationSuccess: PropTypes.bool,
-  locationMsg: PropTypes.string,
-  neighborhoodSuccess: PropTypes.bool,
-  neighborhoodMsg: PropTypes.string,
+  apiMessage: PropTypes.string,
+
+  apiSuccess: PropTypes.bool,
+  // locationSuccess: PropTypes.bool,
+  // locationMsg: PropTypes.string,
+  // neighborhoodSuccess: PropTypes.bool,
+  // neighborhoodMsg: PropTypes.string,
+  // neighborhoodLoad: PropTypes.bool,
 };
 
 export default compose(

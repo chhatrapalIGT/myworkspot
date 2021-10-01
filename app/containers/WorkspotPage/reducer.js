@@ -32,6 +32,7 @@ const initialState = {
     message: '',
     success: false,
     isLoading: false,
+    updateData: [],
   },
 
   neighborhood: {
@@ -40,6 +41,9 @@ const initialState = {
     neighborhoodData: [],
     isloading: false,
   },
+  apiSuccess: false,
+
+  apiMessage: '',
 };
 
 const workspotReducer = (state = initialState, action) =>
@@ -52,14 +56,20 @@ const workspotReducer = (state = initialState, action) =>
         draft.getLocationData.locationList = {};
         break;
       case SUCCESS_GET_LOCATION:
-        draft.getLocationData.success = action.payload.success;
+        draft.getLocationData.success = true;
         draft.getLocationData.message = action.payload.message;
         draft.getLocationData.locationList = action.payload.data;
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
         break;
       case FAILED_GET_LOCATION:
-        draft.getLocationData.success = action.payload.success;
+        draft.getLocationData.success = false;
         draft.getLocationData.message = action.payload.message;
         draft.getLocationData.locationList = {};
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
         break;
       case REQUEST_GET_WEEKLY_DEFAULT:
         draft.getWeeklyDefaultData.success = false;
@@ -83,41 +93,55 @@ const workspotReducer = (state = initialState, action) =>
         draft.updateWorkspot.updateData = {};
         break;
       case SUCCESS_UPDATE_WORKSPOT:
-        draft.updateWorkspot.success = action.payload.success;
+        draft.updateWorkspot.success = true;
         draft.updateWorkspot.isLoading = false;
         draft.updateWorkspot.message = action.payload.message;
         draft.updateWorkspot.updateData = action.payload.deptData;
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
         break;
       case FAILED_UPDATE_WORKSPOT:
-        draft.updateWorkspot.success = action.payload.success;
+        draft.updateWorkspot.success = false;
         draft.updateWorkspot.isLoading = false;
         draft.updateWorkspot.message = action.payload.message;
         draft.updateWorkspot.updateData = {};
         break;
       case RESET_WORKSPOT:
+        draft.updateWorkspot.updateData = {};
+
+        draft.apiSuccess = false;
+
+        draft.apiMessage = '';
         draft.updateWorkspot.success = false;
         draft.updateWorkspot.isLoading = false;
         draft.updateWorkspot.message = '';
-        draft.locationdata.success = false;
-        draft.locationdata.message = '';
-        draft.neighborhood.success = false;
-        draft.neighborhood.message = '';
+
         break;
 
       case REQUEST_GET_NEIGHBORHOOD:
         draft.neighborhood.success = false;
+        draft.neighborhood.isloading = true;
         draft.neighborhood.message = '';
         draft.neighborhood.neighborhoodData = {};
         break;
       case SUCCESS_GET_NEIGHBORHOOD:
+        draft.neighborhood.isloading = false;
         draft.neighborhood.success = true;
         draft.neighborhood.message = action.payload.message;
         draft.neighborhood.neighborhoodData = action.payload.locationdata;
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
         break;
       case FAILED_GET_NEIGHBORHOOD:
+        draft.neighborhood.isloading = false;
         draft.neighborhood.success = false;
         draft.neighborhood.message = action.payload.message;
         draft.neighborhood.neighborhoodData = {};
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
         break;
     }
   });
