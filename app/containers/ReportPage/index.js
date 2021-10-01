@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable array-callback-return */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
@@ -7,7 +9,6 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import PropTypes from 'prop-types';
-import Axios from 'axios';
 import moment from 'moment';
 import profile from '../../images/profileof.png';
 import Header from '../../components/Header';
@@ -20,7 +21,7 @@ import {
   requestAddTeamMember,
   clearAddTeamData,
 } from './actions';
-import { getWorkSpotData } from '../WorkspotPage/helpers';
+import { getMyTeamData } from './helpers';
 import { requestGetOfficeLocation } from '../onBoardingPage/actions';
 import {
   getStartEndDate,
@@ -48,6 +49,7 @@ class ReportPage extends Component {
         : 'Washington, DC',
       date: '',
       allUser: [],
+      weekVal: true,
     };
   }
 
@@ -132,14 +134,22 @@ class ReportPage extends Component {
   }
 
   getUserData = async (startDispDate, endDispDate) => {
-    const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
-    const res = await Axios.get(url);
     const newArr = [];
-    for (let i = 0; i < res.data.length; i += 1) {
-      const name = res.data[i].userName;
-      const data = getWorkSpotData(startDispDate, endDispDate);
-      newArr.push({ workspot: data, userName: name });
+
+    const datas = await getMyTeamData(startDispDate, endDispDate);
+    if (datas) {
+      this.setState({ weekVal: false });
     }
+
+    datas.data.map(obj => {
+      const one = [];
+      obj.data.map(arr => {
+        one.push(arr);
+      });
+      obj = { ...obj, workspot: one };
+      newArr.push(obj);
+    });
+    // }
     this.setState({ allUser: newArr });
   };
 
@@ -179,10 +189,10 @@ class ReportPage extends Component {
       reportApiMessage,
       reportApiSuccess,
     } = this.props;
+
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
-
     return (
       <>
         <div id="content-wrap">
@@ -214,7 +224,6 @@ class ReportPage extends Component {
 }
 const mapStateToProps = state => {
   const { locationData, myTeam } = state;
-  console.log(`state`, state);
   return {
     location:
       locationData &&

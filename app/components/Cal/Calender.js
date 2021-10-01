@@ -41,9 +41,11 @@ const Calender = ({
   isLocUpdate,
   errSuccess,
   setCalData,
+  weekVal,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
+  const [teamDate, setTeamDate] = useState(false);
   const [days, setDays] = useState(() =>
     defaultSelected === 'week'
       ? getWeekStartEndDate(new Date())
@@ -135,6 +137,16 @@ const Calender = ({
     return a;
   };
 
+  const getCorrespondingMyTeamData = (dateValue, employeeId) => {
+    const user = allUser.find(
+      ({ employeeid }) => employeeid.toString() === employeeId.toString(),
+    );
+    return user.data.find(
+      ({ date }) =>
+        moment(date).format('DD') === moment(dateValue).format('DD'),
+    );
+  };
+
   const getWeekWorkspotDataLoading = () => {
     const a = workSpotData.find(ele =>
       moment(ele.date, 'MM/D/YYYY').isSame(
@@ -199,7 +211,10 @@ const Calender = ({
         <div className={setVisible && 'update-office-workspot mt-40'}>
           {setVisible && <p className="week-range">{title}</p>}
 
-          <div className="input-button-strip w-100 d-flex align-items-center">
+          <div
+            className="input-button-strip w-100 mt-4 d-flex align-items-center"
+            style={{ marginTop: '25px' }}
+          >
             <div className="change-log  me-4">
               <button
                 type="submit"
@@ -300,74 +315,87 @@ const Calender = ({
                     }
                   >
                     <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
-                      {!setVisible && (
-                        <>
-                          {allUser &&
-                            allUser.map((user, userIdx) => (
-                              <>
-                                <div className="my_team_member">
-                                  <div className="d-flex align-items-center mb-1">
-                                    <img src={ProfileImg} alt="" />
-                                    <span className="member-name">
-                                      {user.userName || 'My Workspace'}
+                      {!setVisible && weekVal ? (
+                        <Spinner
+                          className="app-spinner profile"
+                          animation="grow"
+                          variant="dark"
+                        />
+                      ) : (
+                        !setVisible && (
+                          <>
+                            {allUser &&
+                              allUser.map((user, userIdx) => (
+                                <>
+                                  <div className="my_team_member">
+                                    <div className="d-flex align-items-center mb-1">
+                                      <img src={ProfileImg} alt="" />
+                                      <span className="member-name">
+                                        {user.username || 'My Workspace'}
+                                      </span>
+                                    </div>
+                                    <span className="designation">
+                                      {/* UX/UI Designer */}
+                                      {user && user.userRole}
                                     </span>
                                   </div>
-                                  <span className="designation">
-                                    UX/UI Designer
-                                  </span>
-                                </div>
-                                {days.dateToDisplay.map((item, itemIdx) => {
-                                  const data =
-                                    allUser[userIdx].workspot[itemIdx];
-                                  return (
-                                    <>
-                                      <div
-                                        className={
-                                          item.disable
-                                            ? 'day_one disabled'
-                                            : 'day_one'
-                                        }
-                                        onClick={() => {
-                                          if (isCurrentDate(item.date)) {
-                                            setEmployeeLocationDetail(true);
-                                            handleEditModal({
-                                              ...data,
-                                              user: user.userName,
-                                            });
+                                  {days.dateToDisplay.map((item, itemIdx) => {
+                                    const data = getCorrespondingMyTeamData(
+                                      item.date,
+                                      user.employeeid,
+                                    );
+                                    return (
+                                      <>
+                                        <div
+                                          className={
+                                            item.disable
+                                              ? 'day_one disabled'
+                                              : 'day_one'
                                           }
-                                        }}
-                                        aria-hidden="true"
-                                        key={`${item.value}`}
-                                      >
-                                        <p className="day-name">{item.day}</p>
-                                        <p
-                                          className="date"
-                                          style={{
-                                            background: isDateSelected(
-                                              item.date,
-                                            ),
+                                          onClick={() => {
+                                            if (isCurrentDate(item.date)) {
+                                              // setEmployeeLocationDetail(true);
+                                              handleEditModal({
+                                                ...data,
+                                                user: user.userName,
+                                              });
+                                            }
                                           }}
+                                          aria-hidden="true"
+                                          key={`${item.value}`}
                                         >
-                                          {item.value}
-                                        </p>
-                                        <div className="day-one-wrapper work-from-office border-top-blue">
-                                          <p className="work-station work-floor">
-                                            {data && data.locationName}
+                                          <p className="day-name">{item.day}</p>
+                                          <p
+                                            className="date"
+                                            style={{
+                                              background: isDateSelected(
+                                                item.date,
+                                              ),
+                                            }}
+                                          >
+                                            {item.value}
                                           </p>
-                                          <span className="floor-location">
-                                            <img src={Vector} alt="" />
-                                            {data && data.floor} -{' '}
-                                            {data && data.color}
-                                          </span>
+
+                                          <div className="day-one-wrapper work-from-office border-top-blue">
+                                            <p className="work-station work-floor">
+                                              {data && data.locationName}
+                                            </p>
+                                            <span className="floor-location">
+                                              <img src={Vector} alt="" />
+                                              {data && data.floor} -{' '}
+                                              {data && data.color}
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </>
-                                  );
-                                })}
-                              </>
-                            ))}
-                        </>
+                                      </>
+                                    );
+                                  })}
+                                </>
+                              ))}
+                          </>
+                        )
                       )}
+
                       {setVisible && !workSpotData.length ? (
                         <Spinner
                           className="app-spinner profile"
@@ -405,7 +433,6 @@ const Calender = ({
                                   {' '}
                                   {item.value}
                                 </p>
-
                                 <div
                                   className={
                                     item.disable || isCurrentDate(item.date)
@@ -712,6 +739,7 @@ Calender.propTypes = {
   isLocUpdate: PropTypes.bool,
   errSuccess: PropTypes.bool,
   setCalData: PropTypes.object,
+  weekVal: PropTypes.bool,
 };
 
 export default Calender;

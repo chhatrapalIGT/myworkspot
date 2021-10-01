@@ -124,6 +124,7 @@ const Report = ({
             setEmployeeLocationDetail={setEmployeeLocationDetail}
             getWorkSpots={getWorkSpots}
             handleEditModal={datas => setModalData(datas)}
+            weekVal={state.weekVal}
           />
 
           <Modal
