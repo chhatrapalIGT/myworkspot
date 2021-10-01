@@ -152,7 +152,7 @@ class ProfilePage extends Component {
   };
 
   handleCloseBtn = () => {
-    this.props.clearData();
+    this.props.clearBoardData();
   };
 
   handleButtonData = (selectedDay, finalval) => {

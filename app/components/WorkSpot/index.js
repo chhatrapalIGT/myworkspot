@@ -464,7 +464,17 @@ const WorkSpot = ({
             )
           )}
         </div>
-
+        {/* {console.log(
+          'neighborhoodData &&',
+          neighborhoodData &&
+            neighborhoodData.locationCode !== 'RW' &&
+            neighborhoodData &&
+            neighborhoodData.locationCode !== 'PTO' &&
+            (neighborhoodData.building !== null ||
+              neighborhoodData.building !== undefined) &&
+            (neighborhoodData.floor !== null ||
+              neighborhoodData.floor !== undefined),
+        )} */}
         <div className="office-structure mt-4">
           {neighborhoodData &&
             neighborhoodData.locationCode !== 'RW' &&
