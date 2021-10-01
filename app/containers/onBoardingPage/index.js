@@ -115,7 +115,7 @@ class BorardingPage extends Component {
 
     const data = {
       data: finalLocationDay,
-      employeeid: '239223',
+      employeeid: '239323',
       badgenumber: badge && badgedata ? `BB${badge.concat(badgedata)}` : '',
     };
     if (this.props.verifyBadgeSuccess) {

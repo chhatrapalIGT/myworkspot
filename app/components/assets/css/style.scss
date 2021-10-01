@@ -84,6 +84,12 @@
   -webkit-transition: 0.25s all ease-in-out;
   transition: 0.25s all ease-in-out;
 }
+button {
+  outline: none;
+}
+textarea {
+  outline: none;
+}
 
 body {
   font-family: 'Museo Sans Regular';
@@ -1723,7 +1729,7 @@ input[type='text'] {
           }
           &.teal_border {
             .informer {
-              background: #e0f1f1;
+              background: #ebf6ff;
             }
           }
           &.orange {
@@ -2689,4 +2695,7 @@ select.set_drop option[id='building'],
 .badge_err_profile {
   border: 1px solid red;
   border-radius: 8px;
+}
+.css-tlfecz-indicatorContainer {
+  margin-right: 11px;
 }

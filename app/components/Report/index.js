@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 /* eslint-disable jsx-a11y/alt-text */
@@ -37,22 +38,49 @@ const Report = ({
   dataList,
   reportApiSuccess,
   reportApiMessage,
+  isLoading,
+  handleClearData,
+  myTeamSuccess,
 }) => {
   const data = location && location.length && location[location.length - 1];
 
-  // const colourStyles = {
-  //   control: styles => ({ ...styles, backgroundColor: 'white' }),
-  //   option: (styles, { isDisabled, isFocused, isSelected }) => ({
-  //     ...styles,
-  //     backgroundColor: isSelected ? '#f8f8f8' : 'white',
-  //     // backgroundColor: isFocused ? '#ccc' : 'white',
-  //     color: '#000',
-  //   }),
-  // };
+  const colourStyles = {
+    control: styles => ({
+      ...styles,
+      backgroundColor: 'white',
+      borderRadius: '8px',
+    }),
+    option: (styles, { isFocused, isSelected, isVisited }) => ({
+      ...styles,
+
+      backgroundColor: isSelected
+        ? '#f8f8f8'
+        : '' || isFocused
+        ? '#EbEEF1'
+        : '' || isVisited
+        ? '#f8f8f8'
+        : '',
+
+      color: '#000',
+    }),
+  };
+
+  const [now, setNow] = React.useState();
+  const nowButtons = React.useMemo(
+    () => [
+      {
+        text: 'Done',
+        handler: () => {
+          now.close();
+        },
+      },
+    ],
+    [now],
+  );
 
   const finalLocation =
     location && location.length
-      ? location.filter(obj => obj && obj.locationname !== 'Remote Work')
+      ? location.filter(obj => obj && obj.locationCode !== 'RW')
       : '';
 
   const [show, setShow] = useState(false);
@@ -65,20 +93,28 @@ const Report = ({
   const handleClose = () => {
     setShow(false);
   };
+  const handleCloseData = () => {
+    if (state.selectedNames && state.selectedOption.length > 0 && state.date) {
+      setShow(false);
+    }
+  };
 
   useEffect(() => {
     const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
     Axios.get(url).then(res => {
       setAllUser(res.data);
     });
-  }, []);
+    if (myTeamSuccess && myTeamSuccess.success) {
+      handleClearData();
+    }
+  }, [myTeamSuccess.success]);
 
   const updatedEmpData = dataList.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_update">
-          <img src={item.flag} alt="flag" />
+          <img src={item.flag} alt="flag" style={{ height: '22px' }} />
           {item.value} {''}
           {item.labelData}
         </div>
@@ -114,7 +150,10 @@ const Report = ({
 
       <div className="wrapper_main">
         <div className="container">
-          <h4 className="common-title" style={{ marginLeft: '20px' }}>
+          <h4
+            className="common-title"
+            style={{ marginLeft: '20px', marginBottom: ' 38px' }}
+          >
             My Team
           </h4>
           <Calender
@@ -141,7 +180,7 @@ const Report = ({
                   </h5>
                   <button
                     type="button"
-                    className="btn-close"
+                    className="btn-close "
                     data-bs-dismiss="modal"
                     aria-label="Close"
                     onClick={() => {
@@ -161,7 +200,7 @@ const Report = ({
                     className="mb-3 "
                     name="employee"
                     placeholder="Select Team Member(s)"
-                    // styles={colourStyles}
+                    styles={colourStyles}
                     // theme={theme => ({
                     //   ...theme,
                     //   colors: {
@@ -177,7 +216,7 @@ const Report = ({
                           finalLocation.map(i => (
                             <option
                               htmlFor="jane"
-                              value={i.name}
+                              value={i.locationCode}
                               id="location"
                               style={{ padding: '50px' }}
                             >
@@ -186,7 +225,7 @@ const Report = ({
                           ))}
                       </optgroup>
                       <hr />
-                      <option value={data && data.locationname}>
+                      <option value={data && data.locationCode}>
                         {data && data.locationname}
                       </option>
                     </select>
@@ -204,6 +243,8 @@ const Report = ({
                       dateFormat="MMM DD,YYYY"
                       className="dataaaa"
                       selectCounter
+                      buttons={nowButtons}
+                      ref={setNow}
                       onChange={onDateChange}
                       inputProps={{
                         placeholder: 'Select Date(s)',
@@ -248,16 +289,27 @@ const Report = ({
                   </p>
                 </div>
                 <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn save-data"
-                    onClick={() => {
-                      handleModalClose();
-                      setShow(false);
-                    }}
-                  >
-                    Invite
-                  </button>
+                  {!isLoading ? (
+                    <button
+                      type="button"
+                      className="btn save-data"
+                      onClick={() => {
+                        handleModalClose();
+                        handleCloseData();
+                      }}
+                    >
+                      Invite
+                    </button>
+                  ) : (
+                    <button type="button" className="btn save-data">
+                      <div
+                        className="spinner-border"
+                        style={{ marginRight: '2px' }}
+                      />
+                      Invite
+                    </button>
+                  )}
+
                   <button
                     type="button"
                     onClick={() => setShow(false)}
@@ -425,6 +477,9 @@ Report.propTypes = {
   dataList: PropTypes.object,
   reportApiSuccess: PropTypes.bool,
   reportApiMessage: PropTypes.string,
+  isLoading: PropTypes.bool,
+  handleClearData: PropTypes.func,
+  myTeamSuccess: PropTypes.object,
 };
 
 export default Report;
