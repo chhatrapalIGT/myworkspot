@@ -425,6 +425,7 @@ const Calender = ({
                                         `${data && data.locationCode}`,
                                         'self',
                                         `${data && data.locationCode}`,
+                                        `${data && data.locationName}`,
                                       );
                                     setDate(
                                       moment(item.date).format(
@@ -442,7 +443,7 @@ const Calender = ({
                                       ),
                                       'day',
                                     ) && isLocUpdate
-                                      ? state.updatingObject.work_area
+                                      ? state.updatingObject.work_area_name
                                       : data && data.locationName}
                                   </p>
                                   {(data && data.locationCode !== 'RW') ||
@@ -630,6 +631,7 @@ const Calender = ({
                                       `${data && data.locationCode}`,
                                       'self',
                                       `${data && data.locationCode}`,
+                                      `${data && data.locationName}`,
                                     );
                                   setDate(
                                     moment(item.date).format(
@@ -647,7 +649,7 @@ const Calender = ({
                                     ),
                                     'day',
                                   ) && isLocUpdate
-                                    ? state.updatingObject.work_area
+                                    ? state.updatingObject.work_area_name
                                     : data && data.locationName}
                                   {/* {data && data.locationName} */}
                                 </p>

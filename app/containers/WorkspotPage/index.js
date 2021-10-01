@@ -187,8 +187,7 @@ class WorkSpotPage extends Component {
     const { locationData } = this.props;
     const a =
       locationData &&
-      locationData.find(obj => obj.locationname === updatingObject.work_area);
-
+      locationData.find(obj => obj.locationCode === updatingObject.work_area);
     const payload = {
       data: {
         // eslint-disable-next-line radix

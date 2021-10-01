@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable default-case */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-constant-condition */
@@ -262,8 +263,8 @@ const WorkSpot = ({
     date,
     prevLocation,
     userName,
-    // eslint-disable-next-line camelcase
     work_area,
+    work_area_name,
   ) => {
     handleEditModal(modalState);
     updateModalData();
@@ -271,6 +272,7 @@ const WorkSpot = ({
     updateModalData('prevLocation', prevLocation);
     updateModalData('user', userName);
     updateModalData('work_area', work_area);
+    updateModalData('work_area_name', work_area_name);
   };
 
   const neighborhoodColor =
@@ -301,160 +303,167 @@ const WorkSpot = ({
       )}
 
       <div className="wrapper_main">
-        {/* {neighborhood &&
+        {neighborhood &&
           neighborhood.success &&
-          !isEmpty(neighborhood.neighborhoodData) && ( */}
-        <div className="container">
-          <div
-            className={
-              (neighborhoodData && neighborhoodData.locationCode === 'VA') ||
-              (neighborhoodData && neighborhoodData.locationCode === 'DC')
-                ? 'card building-block-head'
-                : (neighborhoodData &&
-                    neighborhoodData.locationCode === 'MN') ||
-                  (neighborhoodData && neighborhoodData.locationCode === 'AL')
-                ? 'card building-block-head black'
-                : neighborhoodData && neighborhoodData.locationCode === 'RW'
-                ? 'card building-block-head grey'
-                : neighborhoodData && neighborhoodData.locationCode === 'PTO'
-                ? 'card building-block-head violate'
-                : 'card building-block-head'
-            }
-            style={{ backgroundColor: 'white' }}
-          >
-            {isEmpty(neighborhoodData) ? (
-              <div className="card building-block-head">
-                <Spinner
-                  className="app-spinner workspot_spinner"
-                  animation="grow"
-                  variant="dark"
-                />
-              </div>
-            ) : (
-              <>
-                {neighborhoodData.locationCode === 'RW' ||
-                neighborhoodData.locationCode === 'PTO' ||
-                neighborhoodData.locationCode === 'MN' ||
-                neighborhoodData.locationCode === 'AL' ? (
-                  <>
-                    <p className="stroke-2">
-                      Hi {neighborhoodData && neighborhoodData.username}, your{' '}
-                      workspot today is
-                    </p>
-
-                    <div className="block-info d-flex flex-wrap">
-                      <h3 className="building-name">
-                        {neighborhoodData && neighborhoodData.locationName}
-                      </h3>
-                    </div>
-                  </>
+          !isEmpty(neighborhood.neighborhoodData) && (
+            <div className="container">
+              <div
+                className={
+                  (neighborhoodData &&
+                    neighborhoodData.locationCode === 'VA') ||
+                  (neighborhoodData && neighborhoodData.locationCode === 'DC')
+                    ? 'card building-block-head blue'
+                    : (neighborhoodData &&
+                        neighborhoodData.locationCode === 'MN') ||
+                      (neighborhoodData &&
+                        neighborhoodData.locationCode === 'AL')
+                    ? 'card building-block-head black'
+                    : neighborhoodData && neighborhoodData.locationCode === 'RW'
+                    ? 'card building-block-head grey'
+                    : neighborhoodData &&
+                      neighborhoodData.locationCode === 'PTO'
+                    ? 'card building-block-head violate'
+                    : 'card building-block-head'
+                }
+                style={{ backgroundColor: 'white' }}
+              >
+                {isEmpty(neighborhoodData) ? (
+                  <div className="card building-block-head">
+                    <Spinner
+                      className="app-spinner workspot_spinner"
+                      animation="grow"
+                      variant="dark"
+                    />
+                  </div>
                 ) : (
                   <>
-                    {(state.updatingObject.work_area === 'VA' ||
-                      state.updatingObject.work_area === 'DC') &&
-                    isLocUpdate ? (
+                    {neighborhoodData.locationCode === 'RW' ||
+                    neighborhoodData.locationCode === 'PTO' ||
+                    neighborhoodData.locationCode === 'MN' ||
+                    neighborhoodData.locationCode === 'AL' ? (
                       <>
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
-                          your{' '}
-                          <span>
-                            {' '}
-                            {neighborhoodData &&
-                              neighborhoodData.locationCode}{' '}
-                          </span>
-                          neighborhood assignment will be ready shortly!
+                          your workspot today is
                         </p>
-                        <h3 className="building-name neighborhood-font">
-                          Please check back in a few minutes
-                        </h3>
+
+                        <div className="block-info d-flex flex-wrap">
+                          <h3 className="building-name">
+                            {neighborhoodData && neighborhoodData.locationName}
+                          </h3>
+                        </div>
                       </>
                     ) : (
                       <>
-                        <p className="stroke-2">
-                          Hi {neighborhoodData && neighborhoodData.username},
-                          your{' '}
-                          <span>
-                            {' '}
-                            {neighborhoodData &&
-                              neighborhoodData.locationCode}{' '}
-                          </span>
-                          neighborhood today is
-                        </p>
-                        <div className="block-info d-flex flex-wrap">
-                          {neighborhoodData && neighborhoodData.building && (
-                            <h3 className="building-name">
-                              {`Building ${neighborhoodData &&
-                                neighborhoodData.building}`}
+                        {(state.updatingObject.work_area === 'VA' ||
+                          state.updatingObject.work_area === 'DC') &&
+                        isLocUpdate ? (
+                          <>
+                            <p className="stroke-2">
+                              Hi {neighborhoodData && neighborhoodData.username}
+                              , your{' '}
+                              <span>
+                                {' '}
+                                {neighborhoodData &&
+                                  neighborhoodData.locationCode}{' '}
+                              </span>
+                              neighborhood assignment will be ready shortly!
+                            </p>
+                            <h3 className="building-name neighborhood-font">
+                              Please check back in a few minutes
                             </h3>
-                          )}
-                          {neighborhoodData && neighborhoodData.floor && (
-                            <h3 className="floor-name">
-                              {`Floor ${neighborhoodData &&
-                                neighborhoodData.floor}`}
-                            </h3>
-                          )}
-                          <h3 className="color-code">{neighborhoodColor}</h3>
-                        </div>
+                          </>
+                        ) : (
+                          <>
+                            <p className="stroke-2">
+                              Hi {neighborhoodData && neighborhoodData.username}
+                              , your{' '}
+                              <span>
+                                {' '}
+                                {neighborhoodData &&
+                                  neighborhoodData.locationCode}{' '}
+                              </span>
+                              neighborhood today is
+                            </p>
+                            <div className="block-info d-flex flex-wrap">
+                              {neighborhoodData &&
+                                neighborhoodData.building && (
+                                  <h3 className="building-name">
+                                    {`Building ${neighborhoodData &&
+                                      neighborhoodData.building}`}
+                                  </h3>
+                                )}
+                              {neighborhoodData && neighborhoodData.floor && (
+                                <h3 className="floor-name">
+                                  {`Floor ${neighborhoodData &&
+                                    neighborhoodData.floor}`}
+                                </h3>
+                              )}
+                              <h3 className="color-code">
+                                {neighborhoodColor}
+                              </h3>
+                            </div>
+                          </>
+                        )}
                       </>
                     )}
-                  </>
-                )}
 
-                <div className="building-location-strip d-flex flex-wrap align-items-center">
-                  {neighborhoodData.locationCode !== 'PTO' && (
-                    <>
-                      {(state.updatingObject.work_area !== 'VA' ||
-                        state.updatingObject.work_area !== 'DC' ||
-                        neighborhoodData.locationCode !== 'RW') &&
-                        neighborhoodData &&
-                        neighborhoodData.officeAddress && (
-                          <div
-                            className="location d-flex align-items-center"
-                            aria-hidden="true"
-                            target="_blank"
-                          >
-                            <a
-                              target="_blank"
-                              href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
-                            >
-                              <img src={union} alt="" />
-                              {/* <img
+                    <div className="building-location-strip d-flex flex-wrap align-items-center">
+                      {neighborhoodData.locationCode !== 'PTO' && (
+                        <>
+                          {(state.updatingObject.work_area !== 'VA' ||
+                            state.updatingObject.work_area !== 'DC' ||
+                            neighborhoodData.locationCode !== 'RW') &&
+                            neighborhoodData &&
+                            neighborhoodData.officeAddress && (
+                              <div
+                                className="location d-flex align-items-center"
+                                aria-hidden="true"
+                                target="_blank"
+                              >
+                                <a
+                                  target="_blank"
+                                  href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
+                                >
+                                  <img src={union} alt="" />
+                                  {/* <img
                             src={locationImage(
                               neighborhoodData && neighborhoodData.locationName,
                             )}
                             alt=""
                           /> */}
+                                </a>
+                                {neighborhoodData &&
+                                  neighborhoodData.officeAddress}
+                              </div>
+                            )}
+                          <div
+                            className="change-workspot d-flex align-items-center"
+                            onClick={() => {
+                              handleEditModal(true);
+                              // handleData();
+                              setDate('');
+                            }}
+                            aria-hidden="true"
+                          >
+                            <img
+                              src={editPen}
+                              alt=""
+                              className="onHover"
+                              aria-hidden="true"
+                            />{' '}
+                            <a href className="change-workspot">
+                              Change Today's Workspot
                             </a>
-                            {neighborhoodData && neighborhoodData.officeAddress}
                           </div>
-                        )}
-                      <div
-                        className="change-workspot d-flex align-items-center"
-                        onClick={() => {
-                          handleEditModal(true);
-                          // handleData();
-                          setDate('');
-                        }}
-                        aria-hidden="true"
-                      >
-                        <img
-                          src={editPen}
-                          alt=""
-                          className="onHover"
-                          aria-hidden="true"
-                        />{' '}
-                        <a href className="change-workspot">
-                          Change Today's Workspot
-                        </a>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-        {/* )} */}
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
 
         <div className="office-structure mt-4">
           {neighborhoodData.locationCode !== 'RW' &&
@@ -580,7 +589,7 @@ const WorkSpot = ({
                               name="work_place"
                               selected={
                                 state.updatingObject.prevLocation ===
-                                i.locationname
+                                i.locationCode
                               }
                             >
                               {i && i.locationname}
@@ -921,12 +930,10 @@ const WorkSpot = ({
                       name="work_area"
                       className="dropdown_opt"
                       onChange={e =>
-                        updateModalData('work_area', e.target.value)
+                        updateModalData('work_area_name', e.target.value)
                       }
                     >
                       <optgroup label="EAB office">
-                        {/* {locationName &&
-                        locationName.map(i => ( */}
                         {newArr &&
                           newArr.map(i => (
                             <option
@@ -943,7 +950,13 @@ const WorkSpot = ({
                           ))}
                       </optgroup>
                       <hr />
-                      <option value={arr && arr.locationname}>
+                      <option
+                        value={arr && arr.locationname}
+                        name="work_area"
+                        selected={
+                          state.updatingObject.prevLocation === arr.locationCode
+                        }
+                      >
                         {arr && arr.locationname}
                       </option>
                     </select>
