@@ -7,6 +7,9 @@ import {
   SUCCESS_ADD_OFFICE_LOCATION,
   FAILED_ADD_OFFICE_LOCATION,
   CLEAR_BOARD_DATA,
+  REQUEST_VERIFY_BADGE,
+  SUCCESS_VERIFY_BADGE,
+  FAILED_VERIFY_BADGE,
 } from './constants';
 
 // The initial state of the App
@@ -23,6 +26,12 @@ const initialState = {
     success: false,
     message: '',
     loading: false,
+  },
+  verifyBadge: {
+    err: '',
+    success: '',
+    message: '',
+    loading: '',
   },
 };
 
@@ -68,6 +77,24 @@ const onBoardingReducer = (state = initialState, action) =>
         draft.addOfficeLocation.success = false;
         draft.getOfficeLocation.success = false;
         draft.getOfficeLocation.message = '';
+        // draft.verifyBadge.message = '';
+        // draft.verifyBadge.success = '';
+        break;
+      case REQUEST_VERIFY_BADGE:
+        draft.verifyBadge.loading = true;
+        draft.verifyBadge.error = '';
+        break;
+      case SUCCESS_VERIFY_BADGE:
+        draft.verifyBadge.loading = false;
+        draft.verifyBadge.message = action.payload.message;
+        draft.verifyBadge.success = action.payload.success;
+
+        break;
+      case FAILED_VERIFY_BADGE:
+        draft.verifyBadge.loading = false;
+        draft.verifyBadge.message = action.payload.message;
+        draft.verifyBadge.success = action.payload.success;
+        break;
     }
   });
 

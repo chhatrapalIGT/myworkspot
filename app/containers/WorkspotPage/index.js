@@ -269,12 +269,15 @@ class WorkSpotPage extends Component {
     };
     const {
       locationData,
-      apiMessage,
-      apiSuccess,
       neighborhoodData,
       location,
       neighborhood,
       workspotSuccess,
+      workspotMessage,
+      locationSuccess,
+      locationMsg,
+      neighborhoodSuccess,
+      neighborhoodMsg,
     } = this.props;
     const { errMessage, errSuccess } = this.state;
     return (
@@ -300,14 +303,17 @@ class WorkSpotPage extends Component {
             handleEditModal={this.handleEditModal}
             handleUpdatingModalData={this.handleUpdatingModalData}
             onUpdateWorkspot={this.onUpdateWorkspot}
-            apiMessage={apiMessage}
-            apiSuccess={apiSuccess}
+            workspotSuccess={workspotSuccess}
+            workspotMessage={workspotMessage}
             neighborhoodData={neighborhoodData}
             errMessage={errMessage}
             errSuccess={errSuccess}
             location={location}
             neighborhood={neighborhood}
-            workspotSuccess={workspotSuccess}
+            locationSuccess={locationSuccess}
+            locationMsg={locationMsg}
+            neighborhoodSuccess={neighborhoodSuccess}
+            neighborhoodMsg={neighborhoodMsg}
           />
         </div>
         <Footer />
@@ -318,21 +324,30 @@ class WorkSpotPage extends Component {
 
 const mapStateToProps = state => {
   const { workspot } = state;
+  console.log('state', state);
   return {
     locationData:
       workspot &&
       workspot.getLocationData &&
       workspot.getLocationData.locationList,
+    locationSuccess:
+      workspot && workspot.getLocationData && workspot.getLocationData.success,
+    locationMsg:
+      workspot && workspot.getLocationData && workspot.getLocationData.message,
+
     workspotSuccess:
       workspot && workspot.updateWorkspot && workspot.updateWorkspot.success,
     workspotMessage:
       workspot && workspot.updateWorkspot && workspot.updateWorkspot.message,
-    apiMessage: workspot && workspot.apiMessage,
-    apiSuccess: workspot && workspot.apiSuccess,
     neighborhoodData:
       workspot &&
       workspot.neighborhood &&
       workspot.neighborhood.neighborhoodData,
+    neighborhoodSuccess:
+      workspot && workspot.neighborhood && workspot.neighborhood.success,
+    neighborhoodMsg:
+      workspot && workspot.neighborhood && workspot.neighborhood.message,
+
     location: workspot && workspot.getLocationData,
     neighborhood: workspot && workspot.neighborhood,
   };
@@ -359,14 +374,16 @@ WorkSpotPage.propTypes = {
   locationData: PropTypes.object,
   workspotSuccess: PropTypes.bool,
   workspotMessage: PropTypes.string,
-  apiMessage: PropTypes.string,
-  apiSuccess: PropTypes.bool,
   // requestGetWeeklyDefault: PropTypes.func,
   resetWorkspot: PropTypes.func,
   requestGetNeighborhood: PropTypes.func,
   neighborhoodData: PropTypes.object,
   location: PropTypes.object,
   neighborhood: PropTypes.object,
+  locationSuccess: PropTypes.bool,
+  locationMsg: PropTypes.string,
+  neighborhoodSuccess: PropTypes.bool,
+  neighborhoodMsg: PropTypes.string,
 };
 
 export default compose(

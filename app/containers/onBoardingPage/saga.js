@@ -3,12 +3,15 @@ import request from 'utils/request';
 import {
   REQUEST_GET_OFFICE_LOCATION,
   REQUEST_ADD_OFFICE_LOCATION,
+  REQUEST_VERIFY_BADGE,
 } from './constants';
 import {
   getOfficeLocationSuccess,
   getOfficeLocationFailed,
   addOfficeLocationFailed,
   addOfficeLocationSuccess,
+  verifyBadgeFailed,
+  verifyBadgeSuccess,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -53,8 +56,28 @@ export function* addOffice({ payload }) {
     yield put(addOfficeLocationFailed(error));
   }
 }
+export function* verifyBadge({ payload }) {
+  const requestURL = `${API_URL}/Badges/ValidBadgeNumber`;
+  try {
+    const verifyBadgeData = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+    });
+    const { data } = verifyBadgeData;
+    console.log('verifyBadgeData', data);
+    if (data && data.success) {
+      yield put(verifyBadgeSuccess(data));
+    } else {
+      yield put(verifyBadgeFailed(data));
+    }
+  } catch (error) {
+    yield put(verifyBadgeFailed(error));
+  }
+}
 
 export default function* locationData() {
   yield takeLatest(REQUEST_GET_OFFICE_LOCATION, getLocationData);
   yield takeLatest(REQUEST_ADD_OFFICE_LOCATION, addOffice);
+  yield takeLatest(REQUEST_VERIFY_BADGE, verifyBadge);
 }

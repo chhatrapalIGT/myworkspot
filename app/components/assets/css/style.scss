@@ -441,7 +441,11 @@ input[type='text'] {
             font-weight: 600;
             margin-top: 5px;
             display: inline-block;
+            &.closed {
+              display: none;
+            }
           }
+
           span {
             font-size: 12px;
             color: #526e88;
@@ -457,7 +461,9 @@ input[type='text'] {
             font-weight: 600;
             line-height: 1;
             cursor: pointer;
-
+            &.closed {
+              display: none;
+            }
             img {
               margin-right: 8px;
               vertical-align: text-top;
@@ -976,7 +982,9 @@ input[type='text'] {
       .badge-number-inner {
         display: flex;
         align-items: center;
-
+        .badge_err {
+          border: 1px solid red;
+        }
         input {
           padding: 3px 5px;
           border: 1px solid #d1dce7;
@@ -1077,7 +1085,6 @@ input[type='text'] {
 }
 
 // Second design css
-
 .building-block-head {
   padding: 30px 40px;
 
@@ -2499,4 +2506,96 @@ select.set_drop option[id='building'],
 .spinner-border {
   width: 1rem;
   height: 1rem;
+}
+
+/******************** 3rd design **********/
+.edit-badge-number {
+  align-items: center;
+  margin-top: 5px;
+  display: none;
+
+  &.opened {
+    display: flex;
+  }
+
+  .input-taker {
+    display: flex;
+    > div {
+      align-items: center;
+      border: 1px solid #d1dce7;
+      border-radius: 0px 8px 8px 0px;
+    }
+    input {
+      height: 40px;
+      border: none;
+      &:disabled {
+        width: 50px;
+        text-align: center;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        padding: 0;
+        font-size: 18px;
+        font-family: 'Museo Sans Medium';
+      }
+      &.put-value {
+        width: 45px;
+        // border: 1px solid #D1DCE7;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border-left: none;
+        padding: 5px !important;
+        text-align: center;
+        font-size: 18px;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+        }
+      }
+    }
+  }
+  .action-buttons {
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+
+    .save {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 5px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #fff;
+      background: #005aa3;
+      border: 1px solid #005aa3;
+
+      &:hover {
+        color: #005aa3;
+        background: transparent;
+      }
+    }
+    .cancel {
+      margin-left: 8px;
+      border-radius: 8px;
+      height: 40px;
+      background: transparent;
+      border: 1px solid #1f1f25;
+      color: #1f1f25;
+      display: flex;
+      align-items: center;
+      padding: 6px 12px;
+      font-size: 16px;
+
+      &:hover {
+        color: #fff;
+        background: #1f1f25;
+      }
+    }
+  }
+}
+
+.badge_err_profile {
+  border: 1px solid red;
+  border-radius: 8px;
 }

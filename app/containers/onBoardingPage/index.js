@@ -12,8 +12,8 @@ import {
   requestGetOfficeLocation,
   requestAddOfficeLocation,
   clearBoardData,
+  requestVerifyBadge,
 } from './actions';
-
 import Demo from '../../components/Header';
 import Boarding from '../../components/Boarding';
 import Footer from '../../components/Footer';
@@ -118,7 +118,9 @@ class BorardingPage extends Component {
       employeeid: '239223',
       badgenumber: badge && badgedata ? `BB${badge.concat(badgedata)}` : '',
     };
-    this.props.requestAddOfficeLocation(data);
+    if (this.props.verifyBadgeSuccess) {
+      this.props.requestAddOfficeLocation(data);
+    }
   };
 
   componentDidUpdate() {
@@ -136,8 +138,15 @@ class BorardingPage extends Component {
 
     if (addErrorLocation) {
       // eslint-disable-next-line no-unused-vars
-      const value = final.length >= 5 ? history.push('/') : '';
+      const value =
+        final.length >= 5 && this.props.verifyBadgeSuccess
+          ? history.push('/')
+          : '';
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clearBoardData();
   }
 
   onChange = event => {
@@ -151,7 +160,19 @@ class BorardingPage extends Component {
 
   handleBadgeData = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value }, () => {
+      const { badge, badgedata } = this.state;
+      const badgeLan1 = badge !== undefined ? badge : '';
+      const badgeLan2 = badgedata !== undefined ? badgedata : '';
+
+      const data = {
+        employeeid: '239321',
+        badgeid: badge ? `BB${badgeLan1 + badgeLan2}` : '',
+      };
+      if (data.badgeid.length >= 8) {
+        this.props.requestVerifyBadge(data);
+      }
+    });
   };
 
   componentDidMount() {
@@ -166,6 +187,11 @@ class BorardingPage extends Component {
       addErrorLocationMsg,
       locationErrorHandleMsg,
       isLoading,
+      badgeUpdateData,
+      badgeUpdateSuccess,
+      badgeUpdateMsg,
+      verifyBadgeSuccess,
+      verifyBadgeMsg,
     } = this.props;
     return (
       <>
@@ -185,6 +211,11 @@ class BorardingPage extends Component {
             addErrorLocationMsg={addErrorLocationMsg}
             locationErrorHandleMsg={locationErrorHandleMsg}
             isLoading={isLoading}
+            badgeUpdateData={badgeUpdateData}
+            badgeUpdateSuccess={badgeUpdateSuccess}
+            badgeUpdateMsg={badgeUpdateMsg}
+            verifyBadgeSuccess={verifyBadgeSuccess}
+            verifyBadgeMsg={verifyBadgeMsg}
           />
         </div>
         <Footer />
@@ -195,7 +226,7 @@ class BorardingPage extends Component {
 
 const mapStateToProps = state => {
   const { locationData } = state;
-  console.log('locationData', locationData);
+  console.log('locationData', state);
   return {
     location:
       locationData &&
@@ -221,6 +252,14 @@ const mapStateToProps = state => {
       locationData &&
       locationData.addOfficeLocation &&
       locationData.addOfficeLocation.loading,
+    verifyBadgeSuccess:
+      locationData &&
+      locationData.verifyBadge &&
+      locationData.verifyBadge.success,
+    verifyBadgeMsg:
+      locationData &&
+      locationData.verifyBadge &&
+      locationData.verifyBadge.message,
   };
 };
 
@@ -231,7 +270,8 @@ export function mapDispatchToProps(dispatch) {
     requestAddOfficeLocation: payload =>
       dispatch(requestAddOfficeLocation(payload)),
     clearBoardData: () => dispatch(clearBoardData()),
-
+    // requestBadgeData: payload => dispatch(requestBadgeData(payload)),
+    requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
     dispatch,
   };
 }
@@ -249,6 +289,12 @@ BorardingPage.propTypes = {
   addErrorLocationMsg: PropTypes.string,
   locationErrorHandleMsg: PropTypes.string,
   isLoading: PropTypes.bool,
+  badgeUpdateData: PropTypes.object,
+  badgeUpdateSuccess: PropTypes.bool,
+  badgeUpdateMsg: PropTypes.string,
+  requestVerifyBadge: PropTypes.object,
+  verifyBadgeSuccess: PropTypes.bool,
+  verifyBadgeMsg: PropTypes.string,
 };
 
 export default compose(
