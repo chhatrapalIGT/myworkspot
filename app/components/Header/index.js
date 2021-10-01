@@ -124,8 +124,11 @@ const Header = props => {
                 </div>
                 <div className="profile-popup-main">
                   <img src={Profile} alt="" />
-                  <h3>Alexander Doe</h3>
-                  <p>alexander.doe@example.com</p>
+                  <h3>
+                    {props.profileUser && props.profileUser.firstname}{' '}
+                    {props.profileUser && props.profileUser.lastname}
+                  </h3>
+                  <p>{props.profileUser && props.profileUser.email}</p>
                   <Link
                     className={pathName === '/profile' && 'active'}
                     to="/profile"
@@ -137,10 +140,10 @@ const Header = props => {
                   </Link>
                 </div>
                 <div className="popup-secondary-profile">
-                  <img src="./images/profileof.png" alt="" />
+                  <img src={Profile} alt="" />
                   <div className="sec-profile-info">
                     <h4>Jane Cooper</h4>
-                    <span>janeсooper@example.com</span>
+                    <span>janeсooper@eab.com</span>
                   </div>
                 </div>
                 <a href className="logout">
