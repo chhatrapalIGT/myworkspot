@@ -440,6 +440,7 @@ input[type='text'] {
             color: #002d50;
             font-weight: 600;
             margin-top: 5px;
+            margin-right: 15px;
             display: inline-block;
             &.closed {
               display: none;
@@ -457,7 +458,7 @@ input[type='text'] {
           .replace {
             color: #0072ce;
             font-size: 14px;
-            margin-left: 15px;
+            // margin-left: 15px;
             font-weight: 600;
             line-height: 1;
             cursor: pointer;
@@ -2567,13 +2568,16 @@ select.set_drop option[id='building'],
       border-radius: 8px;
       font-size: 16px;
       color: #fff;
-      background: #005aa3;
-      border: 1px solid #005aa3;
+      background: #0072ce;
+      border: 1px solid #0072ce;
 
       &:hover {
-        color: #005aa3;
+        color: #0072ce;
         background: transparent;
       }
+    }
+    .closed {
+      display: none;
     }
     .cancel {
       margin-left: 8px;

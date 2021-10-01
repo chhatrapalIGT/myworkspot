@@ -142,13 +142,17 @@ class ProfilePage extends Component {
       const badgeLan2 = badgedata !== undefined ? badgedata : '';
 
       const data = {
-        employeeid: '239321',
+        employeeid: '239323',
         badgeid: badge ? `BB${badgeLan1 + badgeLan2}` : '',
       };
       if (data.badgeid.length >= 8) {
         this.props.requestVerifyBadge(data);
       }
     });
+  };
+
+  handleCloseBtn = () => {
+    this.props.clearData();
   };
 
   handleButtonData = (selectedDay, finalval) => {
@@ -250,8 +254,9 @@ class ProfilePage extends Component {
       employeeid: '239323',
       badgeid: badge && badgedata ? `BB${badge.concat(badgedata)}` : '',
     };
-
-    this.props.requestBadgeData(data);
+    if (this.props.verifyBadgeSuccess) {
+      this.props.requestBadgeData(data);
+    }
   };
 
   // allTabColor = type => {
@@ -321,6 +326,7 @@ class ProfilePage extends Component {
             badgeUpdateData={badgeUpdateData}
             verifyBadgeSuccess={verifyBadgeSuccess}
             verifyBadgeMsg={verifyBadgeMsg}
+            handleCloseBtn={this.handleCloseBtn}
           />
         </div>
         <Footer />

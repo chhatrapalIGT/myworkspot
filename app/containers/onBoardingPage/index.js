@@ -166,7 +166,7 @@ class BorardingPage extends Component {
       const badgeLan2 = badgedata !== undefined ? badgedata : '';
 
       const data = {
-        employeeid: '239321',
+        employeeid: '239323',
         badgeid: badge ? `BB${badgeLan1 + badgeLan2}` : '',
       };
       if (data.badgeid.length >= 8) {
