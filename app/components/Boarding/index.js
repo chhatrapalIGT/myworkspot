@@ -14,7 +14,7 @@ import '../FAQ/styles.scss';
 import Axios from 'axios';
 import logo from '../../images/Illustration.svg';
 import plus from '../../images/plus.svg';
-
+import Warnning from '../../images/officeImage/Warnning.png';
 const Boarding = ({
   handleButtonData,
   state,
@@ -29,6 +29,11 @@ const Boarding = ({
   addErrorLocationMsg,
   locationErrorHandleMsg,
   isLoading,
+  badgeUpdateData,
+  badgeUpdateSuccess,
+  badgeUpdateMsg,
+  verifyBadgeSuccess,
+  verifyBadgeMsg,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
@@ -152,7 +157,6 @@ const Boarding = ({
                         </div>
                       ))}
                     </div>
-
                     <div className="badge-number">
                       <p className="title">
                         Badge Number <span>(Optional)</span>
@@ -163,8 +167,13 @@ const Boarding = ({
                           name="badge"
                           type="text"
                           placeholder="XXX"
-                          onChange={handleBadgeData}
+                          onKeyUp={handleBadgeData}
                           maxLength="3"
+                          className={
+                            !verifyBadgeSuccess &&
+                            verifyBadgeSuccess !== '' &&
+                            'badge_err'
+                          }
                         />
                         <span>−</span>
                         <input
@@ -172,10 +181,25 @@ const Boarding = ({
                           type="text"
                           placeholder="XXX"
                           maxLength="3"
-                          onChange={handleBadgeData}
+                          className={
+                            !verifyBadgeSuccess &&
+                            verifyBadgeSuccess !== '' &&
+                            'badge_err'
+                          }
+                          onKeyUp={handleBadgeData}
                         />
                       </div>
                     </div>
+                    {verifyBadgeMsg && !verifyBadgeSuccess && (
+                      <div className="d-flex" style={{ marginTop: '10px' }}>
+                        <img
+                          src={Warnning}
+                          alt="warn"
+                          style={{ margin: 'auto 5px' }}
+                        />
+                        <div style={{ color: 'red' }}>{verifyBadgeMsg}</div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -308,6 +332,11 @@ Boarding.propTypes = {
   addErrorLocationMsg: PropTypes.string,
   locationErrorHandleMsg: PropTypes.string,
   isLoading: PropTypes.bool,
+  badgeUpdateData: PropTypes.object,
+  badgeUpdateSuccess: PropTypes.bool,
+  badgeUpdateMsg: PropTypes.string,
+  verifyBadgeSuccess: PropTypes.bool,
+  verifyBadgeMsg: PropTypes.string,
 };
 
 export default Boarding;

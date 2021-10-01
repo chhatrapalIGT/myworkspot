@@ -15,7 +15,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import ProfileImg from '../assets/images/myprofile.png';
 import Edit from '../assets/images/edit.svg';
 import Add from '../../images/Vectorplus.png';
-
+import Warnning from '../../images/officeImage/Warnning.png';
 import Close from '../assets/images/close.svg';
 
 const Profile = ({
@@ -37,6 +37,8 @@ const Profile = ({
   handleBadgeSubmit,
   badgeUpdateData,
   handleSelectedNamesChange,
+  verifyBadgeSuccess,
+  verifyBadgeMsg,
 }) => {
   const [open, setOpen] = useState(true);
   const [openbadgeData, setOpenBadgeData] = useState(true);
@@ -73,6 +75,7 @@ const Profile = ({
       badgeUpdateData.message &&
       openbadgeData
     ) {
+      console.log('in if');
       setOpenBadge(false);
       setOpenBadgeData(false);
     }
@@ -211,72 +214,66 @@ const Profile = ({
                           <span>Badge Number</span>
                           {!openBadge && (
                             <>
-                              {userData.badgeNumber ? (
-                                <>
-                                  <p>
-                                    {state.badgeData
-                                      ? `BB ${state.badge.concat(
-                                          state.badgeData,
-                                        )}`
-                                      : finalBadges}
-                                  </p>
-                                  <a
-                                    className="replace"
-                                    href
-                                    onClick={() => setOpenBadge(true)}
-                                  >
-                                    <img src={Edit} alt="" />
-                                    Replace My Badge
-                                  </a>
-                                </>
-                              ) : (
-                                <a
-                                  className="replace"
-                                  href
-                                  onClick={() => setOpenBadge(true)}
-                                >
-                                  <img src={Add} alt="" />
-                                  Add My Badge
-                                </a>
-                              )}
+                              <p>
+                                {state.badgedata
+                                  ? `BB ${state.badge.concat(state.badgedata)}`
+                                  : finalBadges}
+                              </p>
+                              <a
+                                className="replace"
+                                href
+                                onClick={() => setOpenBadge(true)}
+                              >
+                                <img src={Edit} alt="" />
+                                Replace My Badge
+                              </a>
                             </>
                           )}
                           {openBadge && (
-                            <div className="badge-number d-flex">
-                              <div className="badge d-flex">
+                            <div className="edit-badge-number opened">
+                              <div
+                                className={`input-taker
+                            ${!verifyBadgeSuccess &&
+                              verifyBadgeSuccess !== '' &&
+                              'badge_err_profile'}
+                          `}
+                              >
                                 <input
                                   type="text"
                                   disabled
                                   value="BB"
-                                  className="badge_input"
+                                  style={{ height: '42px' }}
                                 />
                                 <div className="d-flex">
                                   <input
                                     id="badgeNumber"
                                     name="badge"
                                     type="text"
+                                    className="put-value badge_val"
                                     placeholder="XXX"
                                     maxLength="3"
-                                    className="badge_val"
+                                    // className="badge_val"
                                     onChange={handleBadgeData}
                                   />
                                   <span>−</span>
                                   <input
                                     id="badgeValue"
-                                    name="badgeData"
+                                    className="put-value badge_val"
+                                    name="badgedata"
                                     type="text"
                                     placeholder="XXX"
                                     maxLength="3"
-                                    className="badge_val"
+                                    // className="badge_val"
                                     onChange={handleBadgeData}
                                   />
                                 </div>
                               </div>
-                              <div className="badge d-flex onboarding-main">
+
+                              <div className="action-buttons">
                                 <button
                                   type="button"
-                                  className="btn save-data mt-0 change_btn"
-                                  primary
+                                  href
+                                  className="save"
                                   onClick={() => {
                                     handleBadgeSubmit();
                                   }}
@@ -285,14 +282,9 @@ const Profile = ({
                                 </button>
                                 <button
                                   type="button"
-                                  style={{
-                                    border: '1px solid',
-                                    borderRadius: '10px',
-                                    marginLeft: '10px',
-                                  }}
+                                  href
                                   onClick={() => setOpenBadge(false)}
-                                  className="btn dismiss"
-                                  data-bs-dismiss="modal"
+                                  className="cancel"
                                 >
                                   Cancel
                                 </button>
@@ -306,6 +298,24 @@ const Profile = ({
                                 {`! ${badgeUpdateData.message}`}
                               </p>
                             )}
+                          {verifyBadgeMsg && !verifyBadgeSuccess && (
+                            <div
+                              className="d-flex"
+                              style={{ marginTop: '10px' }}
+                            >
+                              <img
+                                src={Warnning}
+                                alt="warn"
+                                style={{
+                                  margin: '4px 5px 0px 0px',
+                                  height: '14px',
+                                }}
+                              />
+                              <div style={{ color: 'red' }}>
+                                {verifyBadgeMsg}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -609,5 +619,8 @@ Profile.propTypes = {
   handleBadgeData: PropTypes.func,
   handleBadgeSubmit: PropTypes.func,
   badgeUpdateData: PropTypes.object,
+  verifyBadgeSuccess: PropTypes.bool,
+  verifyBadgeMsg: PropTypes.string,
+  handleSelectedNamesChange: PropTypes.object,
 };
 export default Profile;

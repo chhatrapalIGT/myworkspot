@@ -6,3 +6,6 @@ export const REQUEST_ADD_OFFICE_LOCATION = 'requestAddOfficeLocation';
 export const SUCCESS_ADD_OFFICE_LOCATION = 'addOfficeLocationSuccess';
 export const FAILED_ADD_OFFICE_LOCATION = 'addOfficeLocationFailed';
 export const CLEAR_BOARD_DATA = 'clearBoardData';
+export const REQUEST_VERIFY_BADGE = 'requestVerifyBadge';
+export const SUCCESS_VERIFY_BADGE = 'verifyBadgeSuccess';
+export const FAILED_VERIFY_BADGE = 'verifyBadgeFailed';

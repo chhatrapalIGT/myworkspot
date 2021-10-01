@@ -10,6 +10,7 @@ import reducer from './reducer';
 import {
   requestGetOfficeLocation,
   requestAddOfficeLocation,
+  requestVerifyBadge,
   clearBoardData,
 } from '../onBoardingPage/actions';
 
@@ -120,18 +121,34 @@ class ProfilePage extends Component {
     this.setState({ show: true });
   };
 
+  componentWillUnmount() {
+    this.props.clearBoardData();
+  }
+
   handleBadgeData = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
-    const finalValue1 = document.getElementById('badgeNumber');
-    const finalValue2 = document.getElementById('badgeValue');
-    // eslint-disable-next-line func-names
-    finalValue1.onkeyup = function() {
-      // eslint-disable-next-line radix
-      if (this.value.length === parseInt(this.attributes.maxlength.value)) {
-        finalValue2.focus();
+    this.setState({ [name]: value }, () => {
+      const finalValue1 = document.getElementById('badgeNumber');
+      const finalValue2 = document.getElementById('badgeValue');
+      // eslint-disable-next-line func-names
+      finalValue1.onkeyup = function() {
+        // eslint-disable-next-line radix
+        if (this.value.length === parseInt(this.attributes.maxlength.value)) {
+          finalValue2.focus();
+        }
+      };
+      const { badge, badgedata } = this.state;
+      const badgeLan1 = badge !== undefined ? badge : '';
+      const badgeLan2 = badgedata !== undefined ? badgedata : '';
+
+      const data = {
+        employeeid: '239321',
+        badgeid: badge ? `BB${badgeLan1 + badgeLan2}` : '',
+      };
+      if (data.badgeid.length >= 8) {
+        this.props.requestVerifyBadge(data);
       }
-    };
+    });
   };
 
   handleButtonData = (selectedDay, finalval) => {
@@ -228,10 +245,10 @@ class ProfilePage extends Component {
   };
 
   handleBadgeSubmit = () => {
-    const { badgeData, badge } = this.state;
+    const { badgedata, badge } = this.state;
     const data = {
       employeeid: '239323',
-      badgeid: badge && badgeData ? `BB${badge.concat(badgeData)}` : '',
+      badgeid: badge && badgedata ? `BB${badge.concat(badgedata)}` : '',
     };
 
     this.props.requestBadgeData(data);
@@ -271,6 +288,8 @@ class ProfilePage extends Component {
       locationSuccess,
       locationMessage,
       badgeUpdateData,
+      verifyBadgeSuccess,
+      verifyBadgeMsg,
     } = this.props;
     return (
       <>
@@ -300,6 +319,8 @@ class ProfilePage extends Component {
             locationSuccess={locationSuccess}
             locationMessage={locationMessage}
             badgeUpdateData={badgeUpdateData}
+            verifyBadgeSuccess={verifyBadgeSuccess}
+            verifyBadgeMsg={verifyBadgeMsg}
           />
         </div>
         <Footer />
@@ -310,6 +331,7 @@ class ProfilePage extends Component {
 
 const mapStateToProps = state => {
   const { profile, locationData } = state;
+  console.log('state profile', state);
   return {
     getProfileLocation: profile && profile.getOffice,
     userData: profile && profile.userList && profile.userList.user,
@@ -329,6 +351,15 @@ const mapStateToProps = state => {
     apiSuccess: profile && profile.apiSuccess,
     apiMessage: profile && profile.apiMessage,
     badgeUpdateData: profile && profile.badgeUpdate,
+
+    verifyBadgeSuccess:
+      locationData &&
+      locationData.verifyBadge &&
+      locationData.verifyBadge.success,
+    verifyBadgeMsg:
+      locationData &&
+      locationData.verifyBadge &&
+      locationData.verifyBadge.message,
   };
 };
 export function mapDispatchToProps(dispatch) {
@@ -344,7 +375,7 @@ export function mapDispatchToProps(dispatch) {
     clearData: () => dispatch(clearData()),
     clearBoardData: () => dispatch(clearBoardData()),
     requestBadgeData: payload => dispatch(requestBadgeData(payload)),
-
+    requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
     dispatch,
   };
 }
@@ -360,7 +391,7 @@ ProfilePage.propTypes = {
   getProfileLocation: PropTypes.object,
   requestUserlistData: PropTypes.func,
   userData: PropTypes.object,
-  requestDelegateData: PropTypes.object,
+  // requestDelegateData: PropTypes.object,
   delegateList: PropTypes.object,
   getProfileLocationSuccess: PropTypes.bool,
   delegateSuccess: PropTypes.bool,
@@ -371,6 +402,9 @@ ProfilePage.propTypes = {
   clearData: PropTypes.object,
   clearBoardData: PropTypes.object,
   badgeUpdateData: PropTypes.object,
+  requestVerifyBadge: PropTypes.object,
+  verifyBadgeSuccess: PropTypes.bool,
+  verifyBadgeMsg: PropTypes.string,
 };
 
 export default compose(
