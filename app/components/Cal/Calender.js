@@ -316,11 +316,13 @@ const Calender = ({
                   >
                     <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
                       {!setVisible && weekVal ? (
-                        <Spinner
-                          className="app-spinner profile"
-                          animation="grow"
-                          variant="dark"
-                        />
+                        <div style={{ margin: 'auto' }}>
+                          <Spinner
+                            className="app-spinner profile"
+                            animation="grow"
+                            variant="dark"
+                          />
+                        </div>
                       ) : (
                         !setVisible && (
                           <>
