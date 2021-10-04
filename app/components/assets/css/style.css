@@ -73,6 +73,7 @@
   .myteam_wrapper .weekly-default .weekly-default-inner:not(:first-child) .day_one .day-name{display: block;}
   .myteam_wrapper .weekly-default .weekly-default-inner:not(:first-child) .day_one .date{display: flex;}
   .edit-badge-number .input-taker, .edit-badge-number .action-buttons{justify-content: center;}
+  .edit-badge-number .input-taker, .edit-badge-number {justify-content: center;margin: auto;}
 }
 
 @media (max-width: 767px){
@@ -84,9 +85,9 @@
   .workspot-access .work-access-inner > div:first-child{display: block !important;}
   .workspot-access .work-access-inner > div button{margin-top: 10px; padding: 8px 14px;}
   .workspot-access .work-access-inner .access-to .access-one:not(:last-child){margin-right: 10px;}
-  .wrapper_main{padding: 30px 0;}
+  .wrapper_main{padding: 50px 0;}
   .site-header{padding: 12px 0;}
-  .site-header + *{margin-top: 72px;}
+  /* .site-header + *{margin-top: 72px;} */
   .modal .modal-header .btn-close{right: 12px; top: 12px;}
   .weekly-default .weekly-default-inner .day_one{margin: 6px 0;}
   #delegate_workspot .delegate-workspot-access .form-group{padding: 0.85rem 2rem 0.85rem 1rem;}
