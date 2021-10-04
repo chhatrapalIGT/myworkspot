@@ -79,7 +79,7 @@ export function* getDelegateListData() {
 
 export function* updateBadgeData({ payload }) {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Badges/editBadge`;
+  const requestURL = `${API_URL}/badgeMaster/editBadge`;
   try {
     const badgeList = yield request({
       method: 'PUT',

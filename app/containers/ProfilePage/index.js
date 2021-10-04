@@ -80,7 +80,6 @@ class ProfilePage extends Component {
 
   componentDidMount() {
     // this.props.requestDelegateData();
-    this.props.requestUserlistData();
     this.props.requestGetProfileOfficeData({});
     this.props.requestGetOfficeLocation({});
   }

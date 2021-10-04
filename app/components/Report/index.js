@@ -293,7 +293,13 @@ const Report = ({
                   {!isLoading ? (
                     <button
                       type="button"
-                      className="btn save-data"
+                      className={
+                        state.selectedNames &&
+                        state.selectedOption.length > 0 &&
+                        state.date
+                          ? 'btn save-data'
+                          : 'btn disable-data'
+                      }
                       onClick={() => {
                         handleModalClose();
                         handleCloseData();
@@ -313,7 +319,7 @@ const Report = ({
 
                   <button
                     type="button"
-                    onClick={() => setShow(false)}
+                    onClick={() => handleCloseData()}
                     className="btn dismiss"
                     data-bs-dismiss="modal"
                   >

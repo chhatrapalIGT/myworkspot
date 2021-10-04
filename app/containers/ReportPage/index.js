@@ -70,9 +70,8 @@ class ReportPage extends Component {
     );
 
     const data = location.find(e =>
-      e.locationCode === selectedNames ? e.id : '1',
+      e.locationCode === selectedNames ? e.id : '',
     );
-    console.log('data', data);
     const locDate = date.split(', ');
     const finalValue =
       locDate && locDate.map(obj => moment(obj).format('YYYY-MM-DD'));
@@ -84,10 +83,7 @@ class ReportPage extends Component {
       invitelocation: data.id,
       message: textValue || '',
     };
-    console.log(
-      'selectedNames && selectedOption.length > 0 && date',
-      selectedNames && selectedOption && date,
-    );
+
     if (selectedNames && selectedOption.length > 0 && date) {
       this.props.requestAddTeamMember(finalPayload);
     }

@@ -643,6 +643,10 @@ input[type='text'] {
     color: #fff;
   }
 }
+.profile-btn {
+  padding: 8px 9px !important;
+}
+
 .workspot-access {
   .work-access-inner {
     padding: 20px 25px;
@@ -866,6 +870,20 @@ input[type='text'] {
         color: #0072ce;
         -webkit-text-stroke: 0.2px;
       }
+    }
+    .disable-data {
+      border: none;
+      background: #d1dce7;
+      border-radius: 8px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 25px;
+      font-size: 16px;
+      color: #fff;
+      outline: 0;
+      font-weight: 600;
     }
   }
 }
@@ -2669,6 +2687,19 @@ select.set_drop option[id='building'],
         background: transparent;
       }
     }
+
+    // .badge_update {
+    //   height: 40px;
+    //   display: flex;
+    //   align-items: center;
+    //   padding: 5px 20px;
+    //   border-radius: 8px;
+    //   font-size: 16px;
+    //   outline: 0;
+    //   color: #fff;
+    //   background: #d1dce7;
+    //   border: none;
+    // }
     .closed {
       display: none;
     }
@@ -2686,7 +2717,8 @@ select.set_drop option[id='building'],
 
       &:hover {
         color: #fff;
-        background: #1f1f25;
+        background: #526e88;
+        border: none;
       }
     }
   }

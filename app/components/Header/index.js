@@ -4,19 +4,23 @@ import '../assets/css/style.css';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import injectReducer from 'utils/injectReducer';
 import { Link, useLocation } from 'react-router-dom';
 import Headerlogo from '../assets/images/logo_mains.svg';
 import Profile from '../assets/images/profileof.png';
-import reducer from '../../containers/ProfilePage/reducer';
+import { requestUserlistData } from '../../containers/ProfilePage/actions';
 
 const Header = props => {
   const [sidebar, setSidebar] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
+  const [visible, setVisible] = useState(true);
   const divRef = useRef();
   const location = useLocation();
   const pathName = location.pathname;
   useEffect(() => {
+    if (visible) {
+      props.requestUserlistData();
+      setVisible(false);
+    }
     document.addEventListener('mousedown', handleClickOutside, false);
     document.addEventListener('mousedown', handleClickOutside, false);
     return () => {
@@ -29,6 +33,7 @@ const Header = props => {
       setEditProfile(false);
     }
   };
+
   return (
     <div>
       <header className="site-header">
@@ -100,6 +105,7 @@ const Header = props => {
                 </ul>
               </div>
             )}
+
             <div className="right-menus" ref={divRef}>
               <div
                 aria-hidden="true"
@@ -118,36 +124,43 @@ const Header = props => {
                   alt=""
                 />
               </div>
-              <div className={`profile-inner ${editProfile && 'opened'}`}>
-                <div className="head">
-                  <span>This is your account</span>
-                </div>
-                <div className="profile-popup-main">
-                  <img src={Profile} alt="" />
-                  <h3>Alexander Doe</h3>
-                  <p>alexander.doe@eab.com</p>
-                  <Link
-                    className={pathName === '/profile' && 'active'}
-                    to="/profile"
-                    activeClassName="active"
-                  >
-                    <button type="button" className="w-100 blue-color-btn">
-                      View My Profile
-                    </button>
-                  </Link>
-                </div>
-                <div className="popup-secondary-profile">
-                  <img src={Profile} alt="" />
-                  <div className="sec-profile-info">
-                    <h4>Jane Cooper</h4>
-                    <span>janeсooper@eab.com</span>
+              {pathName !== '/board' && (
+                <div className={`profile-inner ${editProfile && 'opened'}`}>
+                  <div className="head">
+                    <span>This is your account</span>
                   </div>
+                  <div className="profile-popup-main">
+                    <img src={Profile} alt="" />
+                    <h3>
+                      {' '}
+                      {props.profileUser.firstname} {props.profileUser.lastname}
+                    </h3>
+                    <p>{props.profileUser.email}</p>
+                    <Link
+                      className={pathName === '/profile' && 'active'}
+                      to="/profile"
+                      activeClassName="active"
+                    >
+                      <button
+                        type="button"
+                        className="w-100 blue-color-btn profile-btn"
+                      >
+                        View My Profile
+                      </button>
+                    </Link>
+                  </div>
+                  <div className="popup-secondary-profile">
+                    <img src={Profile} alt="" />
+                    <div className="sec-profile-info">
+                      <h4>Jane Cooper</h4>
+                      <span>janeсooper@eab.com</span>
+                    </div>
+                  </div>
+                  <a href className="logout">
+                    Log Out
+                  </a>
                 </div>
-                <a href className="logout">
-                  Log out
-                </a>
-              </div>
-
+              )}
               <button
                 type="button"
                 onClick={() => setSidebar(!sidebar)}
@@ -169,22 +182,25 @@ const mapStateToProps = state => {
   const { profile } = state;
   return {
     profile,
-
     profileUser: profile && profile.userList && profile.userList.user,
   };
 };
 
-const withReducer = injectReducer({ key: 'profile', reducer });
+export function mapDispatchToProps(dispatch) {
+  return {
+    requestUserlistData: payload => dispatch(requestUserlistData(payload)),
+    dispatch,
+  };
+}
 
 Header.propTypes = {
   profileUser: PropTypes.object,
+  requestUserlistData: PropTypes.func,
 };
 
 export default compose(
-  withReducer,
-  //   withSaga,
   connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
   ),
 )(Header);
