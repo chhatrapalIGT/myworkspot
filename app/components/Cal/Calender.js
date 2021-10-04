@@ -329,7 +329,7 @@ const Calender = ({
                         : 'card weekly-default mt-4 month-view-content'
                     }
                   >
-                    <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
+                    <div>
                       {!setVisible && !getMyTeamDataLoading() ? (
                         <div style={{ margin: 'auto' }}>
                           <Spinner
@@ -344,96 +344,106 @@ const Calender = ({
                             {allUser &&
                               allUser.map((user, userIdx) => (
                                 <>
-                                  <div className="my_team_member">
-                                    <div className="d-flex align-items-center mb-1">
-                                      <img src={ProfileImg} alt="" />
-                                      <span className="member-name">
-                                        {user.username || 'My Workspace'}
+                                  <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
+                                    <div className="my_team_member">
+                                      <div className="d-flex align-items-center mb-1">
+                                        <img src={ProfileImg} alt="" />
+                                        <span className="member-name">
+                                          {user.username || 'My Workspace'}
+                                        </span>
+                                      </div>
+                                      <span className="designation">
+                                        {/* UX/UI Designer */}
+                                        {user && user.userRole}
                                       </span>
                                     </div>
-                                    <span className="designation">
-                                      {/* UX/UI Designer */}
-                                      {user && user.userRole}
-                                    </span>
-                                  </div>
-                                  {days.dateToDisplay.map((item, itemIdx) => {
-                                    const data = getCorrespondingMyTeamData(
-                                      item.date,
-                                      user.employeeid,
-                                    );
-                                    return (
-                                      <>
-                                        <div
-                                          className={
-                                            item.disable
-                                              ? 'day_one disabled'
-                                              : 'day_one'
-                                          }
-                                          onClick={() => {
-                                            if (isCurrentDate(item.date)) {
-                                              // setEmployeeLocationDetail(true);
-                                              handleEditModal({
-                                                ...data,
-                                                user: user.username,
-                                              });
-                                            }
-                                          }}
-                                          aria-hidden="true"
-                                          key={`${item.value}`}
-                                        >
-                                          <p className="day-name">{item.day}</p>
-                                          <p
-                                            className="date"
-                                            style={{
-                                              background: isDateSelected(
-                                                item.date,
-                                              ),
-                                            }}
-                                          >
-                                            {item.value}
-                                          </p>
-
+                                    {days.dateToDisplay.map((item, itemIdx) => {
+                                      const data = getCorrespondingMyTeamData(
+                                        item.date,
+                                        user.employeeid,
+                                      );
+                                      return (
+                                        <>
                                           <div
                                             className={
-                                              item.disable ||
-                                              isCurrentDate(item.date)
-                                                ? `{ day-one-wrapper ${locationClass(
-                                                    data && data.locationCode,
-                                                  )} day-pointer }`
-                                                : `{ day-one-wrapper ${locationClass(
-                                                    data && data.locationCode,
-                                                  )}  }`
+                                              item.disable
+                                                ? 'day_one disabled'
+                                                : 'day_one'
                                             }
+                                            onClick={() => {
+                                              if (isCurrentDate(item.date)) {
+                                                // setEmployeeLocationDetail(true);
+                                                handleEditModal({
+                                                  ...data,
+                                                  user: user.username,
+                                                });
+                                              }
+                                            }}
+                                            aria-hidden="true"
+                                            key={`${item.value}`}
                                           >
-                                            <p className="work-station work-floor">
-                                              {data && data.locationName}
+                                            <p className="day-name">
+                                              {item.day}
                                             </p>
-                                            {(data &&
-                                              data.locationCode !== 'RW') ||
-                                              (data &&
-                                                data.locationCode !== 'PTO') ||
-                                              ((data &&
-                                                data.locationCode !== 'EAB') ||
-                                                (((data &&
-                                                  data.locationCode === 'DC') ||
-                                                  (data &&
+                                            <p
+                                              className="date"
+                                              style={{
+                                                background: isDateSelected(
+                                                  item.date,
+                                                ),
+                                              }}
+                                            >
+                                              {item.value}
+                                            </p>
+
+                                            <div
+                                              className={
+                                                item.disable ||
+                                                isCurrentDate(item.date)
+                                                  ? `{ day-one-wrapper ${locationClass(
+                                                      data && data.locationCode,
+                                                    )} day-pointer }`
+                                                  : `{ day-one-wrapper ${locationClass(
+                                                      data && data.locationCode,
+                                                    )}  }`
+                                              }
+                                            >
+                                              <p className="work-station work-floor">
+                                                {data && data.locationName}
+                                              </p>
+                                              {(data &&
+                                                data.locationCode !== 'RW') ||
+                                                (data &&
+                                                  data.locationCode !==
+                                                    'PTO') ||
+                                                ((data &&
+                                                  data.locationCode !==
+                                                    'EAB') ||
+                                                  (((data &&
                                                     data.locationCode ===
-                                                      'VA' &&
-                                                    item.disable &&
-                                                    isCurrentDate(
-                                                      item.date,
-                                                    ))) && (
-                                                  <span className="floor-location">
-                                                    <img src={Vector} alt="" />
-                                                    {data && data.floor} -{' '}
-                                                    {data && data.color}
-                                                  </span>
-                                                )))}
+                                                      'DC') ||
+                                                    (data &&
+                                                      data.locationCode ===
+                                                        'VA' &&
+                                                      item.disable &&
+                                                      isCurrentDate(
+                                                        item.date,
+                                                      ))) && (
+                                                    <span className="floor-location">
+                                                      <img
+                                                        src={Vector}
+                                                        alt=""
+                                                      />
+                                                      {data && data.floor} -{' '}
+                                                      {data && data.color}
+                                                    </span>
+                                                  )))}
+                                            </div>
                                           </div>
-                                        </div>
-                                      </>
-                                    );
-                                  })}
+                                        </>
+                                      );
+                                    })}
+                                  </div>
                                 </>
                               ))}
                           </>

@@ -193,7 +193,22 @@ input[type='text'] {
   padding: 5px 12px;
   height: 48px;
 }
-
+.badge_check {
+  text-align: center;
+  padding: 10px;
+  background-color: #f6cb15;
+  font-weight: bold;
+  color: black;
+}
+.btn_badge {
+  background: transparent;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 3px 30px;
+  margin: 0 2%;
+  font-weight: bold;
+  color: black;
+}
 .site-header {
   background: #002d50;
   padding: 15px 0;
@@ -204,9 +219,9 @@ input[type='text'] {
   z-index: 999;
   -webkit-transition: none !important;
 
-  & + * {
-    margin-top: 78px;
-  }
+  // & + * {
+  //   margin-top: 78px;
+  // }
 
   .header_wrapper {
     .main-menu {
@@ -578,7 +593,7 @@ input[type='text'] {
 
 .weekly-default {
   .weekly-default-inner {
-    padding: 20px 25px 25px;
+    padding: 20px 25px 0px;
     .day_one {
       width: calc(20% - 10px);
       margin-right: 10px;
@@ -2727,6 +2742,7 @@ select.set_drop option[id='building'],
 .badge_err_profile {
   border: 1px solid red;
   border-radius: 8px;
+  width: 152px;
 }
 .css-tlfecz-indicatorContainer {
   margin-right: 11px;
