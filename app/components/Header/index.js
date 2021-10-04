@@ -21,7 +21,6 @@ const Header = props => {
   const [visible, setVisible] = useState(true);
   const [badgeCheck, setBadgeCheck] = useState();
   const [setBadgeErr] = useState();
-  const [visible, setVisible] = useState(true);
   const divRef = useRef();
   const location = useLocation();
   const pathName = location.pathname;
