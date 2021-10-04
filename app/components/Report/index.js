@@ -354,7 +354,9 @@ const Report = ({
                   <div className="myteam-user">
                     {' '}
                     <img src={profile} alt="" />
-                    <label htmlFor="my-spot">Jane Cooper</label>
+                    <label htmlFor="my-spot">
+                      {modalData && modalData.user}
+                    </label>
                   </div>
                   <button
                     type="button"
@@ -370,8 +372,10 @@ const Report = ({
                       <div className="card office-structure-inner">
                         <div className="left-panel">
                           <div className="office-info">
-                            <p className="name">Washington, DC</p>
-                            <span className="floor">Floor 3</span>
+                            <p className="name">{modalData.locationName}</p>
+                            <span className="floor">
+                              {modalData.building} {modalData.floor}
+                            </span>
                           </div>
                           <div className="office-resource myteam_res">
                             <p>Office Resources</p>

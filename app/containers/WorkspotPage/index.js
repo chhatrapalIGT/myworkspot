@@ -46,7 +46,7 @@ class WorkSpotPage extends Component {
       rotate: defaultRotate,
       version: 0,
       d: '',
-      work_place: '',
+      work_place: 'Washington, DC',
       work_area: '',
       // work_place: [
       //   {

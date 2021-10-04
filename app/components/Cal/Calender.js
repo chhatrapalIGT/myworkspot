@@ -147,6 +147,21 @@ const Calender = ({
     );
   };
 
+  const getMyTeamDataLoading = () => {
+    const a =
+      allUser &&
+      allUser[0] &&
+      allUser[0].data.find(
+        ele =>
+          moment(ele.date).format('DD') ===
+          moment(days.dateToDisplay[days.dateToDisplay.length - 1].date).format(
+            'DD',
+          ),
+      );
+
+    return a;
+  };
+
   const getWeekWorkspotDataLoading = () => {
     const a = workSpotData.find(ele =>
       moment(ele.date, 'MM/D/YYYY').isSame(
@@ -315,7 +330,7 @@ const Calender = ({
                     }
                   >
                     <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
-                      {!setVisible && weekVal ? (
+                      {!setVisible && !getMyTeamDataLoading() ? (
                         <div style={{ margin: 'auto' }}>
                           <Spinner
                             className="app-spinner profile"
@@ -359,7 +374,7 @@ const Calender = ({
                                               // setEmployeeLocationDetail(true);
                                               handleEditModal({
                                                 ...data,
-                                                user: user.userName,
+                                                user: user.username,
                                               });
                                             }
                                           }}
@@ -378,15 +393,42 @@ const Calender = ({
                                             {item.value}
                                           </p>
 
-                                          <div className="day-one-wrapper work-from-office border-top-blue">
+                                          <div
+                                            className={
+                                              item.disable ||
+                                              isCurrentDate(item.date)
+                                                ? `{ day-one-wrapper ${locationClass(
+                                                    data && data.locationCode,
+                                                  )} day-pointer }`
+                                                : `{ day-one-wrapper ${locationClass(
+                                                    data && data.locationCode,
+                                                  )}  }`
+                                            }
+                                          >
                                             <p className="work-station work-floor">
                                               {data && data.locationName}
                                             </p>
-                                            <span className="floor-location">
-                                              <img src={Vector} alt="" />
-                                              {data && data.floor} -{' '}
-                                              {data && data.color}
-                                            </span>
+                                            {(data &&
+                                              data.locationCode !== 'RW') ||
+                                              (data &&
+                                                data.locationCode !== 'PTO') ||
+                                              ((data &&
+                                                data.locationCode !== 'EAB') ||
+                                                (((data &&
+                                                  data.locationCode === 'DC') ||
+                                                  (data &&
+                                                    data.locationCode ===
+                                                      'VA' &&
+                                                    item.disable &&
+                                                    isCurrentDate(
+                                                      item.date,
+                                                    ))) && (
+                                                  <span className="floor-location">
+                                                    <img src={Vector} alt="" />
+                                                    {data && data.floor} -{' '}
+                                                    {data && data.color}
+                                                  </span>
+                                                )))}
                                           </div>
                                         </div>
                                       </>

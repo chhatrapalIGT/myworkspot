@@ -141,6 +141,8 @@ class ReportPage extends Component {
     const datas = await getMyTeamData(startDispDate, endDispDate);
     if (datas) {
       this.setState({ weekVal: false });
+    } else {
+      this.setState({ weekVal: true });
     }
 
     datas.data.map(obj => {
