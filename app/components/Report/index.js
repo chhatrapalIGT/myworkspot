@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 /* eslint-disable indent */
@@ -10,13 +11,35 @@ import { Datepicker } from '@mobiscroll/react';
 import '../../../src/lib/mobiscroll/css/mobiscroll.react.scss';
 import Axios from 'axios';
 import Select from 'react-select';
+import Spinner from 'react-bootstrap/Spinner';
 import Draggable from 'react-draggable';
 import Calender from '../Cal/Calender';
+import locationMap from '../../images/location.png';
 import profile from '../assets/images/profileof.png';
 import Floormap from '../../images/Map_2.svg';
-import locationImg from '../../images/location.png';
 import zoomin from '../../images/zoomin.png';
 import zoomout from '../../images/zoomout.png';
+import WF2 from '../Resource/WF2';
+import WF3 from '../Resource/WF3';
+import WF4 from '../Resource/WF4';
+import WF8 from '../Resource/WF8';
+import RB1 from '../Resource/RB1';
+import RB2 from '../Resource/RB2';
+import RB3F1 from '../Resource/RB3F1';
+import RB3F2 from '../Resource/RB3F2';
+import BLB1 from '../Resource/BLB1';
+import BRB1 from '../Resource/BRB1';
+
+import map1 from '../../images/Map_1.svg';
+import map2 from '../../images/MapWF2.svg';
+import map3 from '../../images/Map_3.svg';
+import map4 from '../../images/Map_4.svg';
+import map5 from '../../images/Map_5.svg';
+import map6 from '../../images/Map_6.svg';
+import map7 from '../../images/Map_7.svg';
+import map8 from '../../images/Map_8.svg';
+import map9 from '../../images/Map_9.svg';
+import map10 from '../../images/Map_10.svg';
 
 import '../FAQ/styles.scss';
 
@@ -42,6 +65,10 @@ const Report = ({
   handleClearData,
   myTeamSuccess,
 }) => {
+  const [finalImg, setFinalImg] = useState('');
+  const [officeRest, setOfficeRest] = useState('');
+  const [call, setCall] = useState(true);
+  const [isdata, setData] = useState({});
   const data = location && location.length && location[location.length - 1];
 
   const colourStyles = {
@@ -122,6 +149,108 @@ const Report = ({
     );
     return item;
   });
+
+  useEffect(() => {
+    // calData.map(obj => setData(obj));
+    if (call && Object.keys(modalData).length > 0) {
+      if (
+        modalData &&
+        modalData.building !== null &&
+        (modalData && modalData.floor !== null)
+      ) {
+        imgData(
+          modalData && modalData.locationCode,
+
+          modalData &&
+            modalData.building &&
+            modalData.building.concat(modalData && modalData.floor),
+        );
+      } else if (modalData && modalData.floor === null) {
+        imgData(
+          modalData && modalData.locationCode,
+
+          modalData && modalData.building,
+        );
+      } else if (modalData && modalData.building === null) {
+        imgData(
+          modalData && modalData.locationCode,
+
+          modalData && modalData.floor,
+        );
+      }
+    }
+  }, [call, modalData]);
+
+  const imgData = async (neighborhoodImg, neighborhoodBuild) => {
+    let imageSrc = '';
+    let officeRes = '';
+    switch (neighborhoodImg) {
+      case 'DC':
+        switch (neighborhoodBuild) {
+          case '2':
+            imageSrc = map2;
+            officeRes = WF2;
+            break;
+          case '3':
+            imageSrc = map1;
+            officeRes = WF3;
+            break;
+          case '4':
+            imageSrc = map3;
+            officeRes = WF4;
+            break;
+          case '8':
+            imageSrc = map4;
+            officeRes = WF8;
+            break;
+        }
+        break;
+      case 'VA':
+        switch (neighborhoodBuild) {
+          case '1':
+            imageSrc = map5;
+            officeRes = RB1;
+            break;
+          case '2':
+            imageSrc = map6;
+            officeRes = RB2;
+            break;
+          // building 3 , floor 1
+          case '31':
+            imageSrc = map7;
+            officeRes = RB3F1;
+            break;
+          case '32':
+            imageSrc = map8;
+            officeRes = RB3F2;
+            break;
+        }
+        break;
+      case 'AL':
+        switch (neighborhoodBuild) {
+          case '1':
+            imageSrc = map10;
+            officeRes = BRB1;
+            break;
+        }
+        break;
+
+      case 'MN':
+        switch (neighborhoodBuild) {
+          case '1':
+            imageSrc = map9;
+            officeRes = BLB1;
+            break;
+        }
+        break;
+
+      default:
+    }
+    setFinalImg(imageSrc);
+
+    setOfficeRest(officeRes);
+    setCall(false);
+  };
 
   return (
     <>
@@ -368,99 +497,59 @@ const Report = ({
                 </div>
                 <div className="modal-body">
                   <div className="office-structure office-structure-modal">
-                    <div className="container p-0">
-                      <div className="card office-structure-inner">
-                        <div className="left-panel">
-                          <div className="office-info">
-                            <p className="name">{modalData.locationName}</p>
-                            <span className="floor">
-                              {modalData.building} {modalData.floor}
-                            </span>
-                          </div>
-                          <div className="office-resource myteam_res">
-                            <p>Office Resources</p>
-                            <div className="office-part-one yellow">
-                              <span className="informer" />
-                              <label htmlFor="my-spot">Yellow</label>
-                            </div>
-                            <div className="office-part-one teal">
-                              <span className="informer" />
-                              <label htmlFor="my-spot">Teal</label>
-                            </div>
-                            <div className="office-part-one orange">
-                              <span className="informer" />
-                              <label htmlFor="my-spot">Orange</label>
-                            </div>
-                            <div className="office-part-one blue">
-                              <span className="informer" />
-                              <label htmlFor="my-spot">Blue</label>
-                            </div>
-                            <div className="office-part-one teal">
-                              <span className="informer">315</span>
-                              <label htmlFor="my-spot">Bel-Air</label>
-                            </div>
-                            <div className="office-part-one teal">
-                              <span className="informer">332</span>
-                              <label htmlFor="my-spot">Walkerville</label>
-                            </div>
-                            <div className="office-part-one white">
-                              <span className="informer">334</span>
-                              <label htmlFor="my-spot">Common Room</label>
-                            </div>
-                            <div className="office-part-one black">
-                              <span className="informer">359</span>
-                              <label htmlFor="my-spot">The Post</label>
-                            </div>
-                            <div className="office-part-one heart pink">
-                              <span className="informer">
-                                <img src="./images/heart.png" alt="" />
-                              </span>
-                              <label htmlFor="my-spot">AED</label>
+                    <div className="container" style={{ height: '100%' }}>
+                      <>
+                        <div
+                          className="card office-structure-inner"
+                          style={{ height: '100%' }}
+                        >
+                          {officeRest || ''}
+                          <div className="right-map">
+                            <Draggable
+                              disabled={!isDraggable}
+                              key={state.version}
+                            >
+                              <div
+                                className="drag_image"
+                                style={isDraggable ? { cursor: 'move' } : null}
+                              >
+                                <img
+                                  src={finalImg}
+                                  alt=""
+                                  style={imgStyle}
+                                  draggable="false"
+                                />
+                              </div>
+                            </Draggable>
+                            <div className="toolbar">
+                              <button
+                                className="location"
+                                type="button"
+                                onClick={() => handleDefault()}
+                              >
+                                <img src={locationMap} alt="" />
+                              </button>
+                              <button
+                                className="zoomin"
+                                type="button"
+                                onClick={() => handleZoomIn()}
+                              >
+                                <img src={zoomin} alt="" />
+                              </button>
+                              <button
+                                className="zoomout"
+                                type="button"
+                                onClick={() => handleZoomOut()}
+                              >
+                                <img src={zoomout} alt="" />
+                              </button>
                             </div>
                           </div>
                         </div>
-                        <div className="right-map">
-                          <Draggable
-                            disabled={!isDraggable}
-                            key={state.version}
-                          >
-                            <div
-                              className="drag_image"
-                              style={isDraggable ? { cursor: 'move' } : null}
-                            >
-                              <img
-                                src={Floormap}
-                                alt=""
-                                style={imgStyle}
-                                draggable="false"
-                              />
-                            </div>
-                          </Draggable>
-                          <div className="toolbar">
-                            <button
-                              className="location"
-                              type="button"
-                              onClick={() => handleDefault()}
-                            >
-                              <img src={locationImg} alt="" />
-                            </button>
-                            <button
-                              className="zoomin"
-                              type="button"
-                              onClick={() => handleZoomIn()}
-                            >
-                              <img src={zoomin} alt="" />
-                            </button>
-                            <button
-                              className="zoomout"
-                              type="button"
-                              onClick={() => handleZoomOut()}
-                            >
-                              <img src={zoomout} alt="" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                      </>
+                    </div>
+                    <div className="container" style={{ height: '100%' }}>
+                      <div className="right-map" />
                     </div>
                   </div>
                 </div>

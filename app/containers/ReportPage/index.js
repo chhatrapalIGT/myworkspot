@@ -136,25 +136,9 @@ class ReportPage extends Component {
   }
 
   getUserData = async (startDispDate, endDispDate) => {
-    const newArr = [];
+    const data = await getMyTeamData(startDispDate, endDispDate);
 
-    const datas = await getMyTeamData(startDispDate, endDispDate);
-    if (datas) {
-      this.setState({ weekVal: false });
-    } else {
-      this.setState({ weekVal: true });
-    }
-
-    datas.data.map(obj => {
-      const one = [];
-      obj.data.map(arr => {
-        one.push(arr);
-      });
-      obj = { ...obj, workspot: one };
-      newArr.push(obj);
-    });
-    // }
-    this.setState({ allUser: newArr });
+    this.setState({ allUser: data.data });
   };
 
   getPlatformList = () => {
@@ -205,7 +189,6 @@ class ReportPage extends Component {
       isLoading,
       myTeamSuccess,
     } = this.props;
-
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };

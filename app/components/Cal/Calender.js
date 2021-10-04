@@ -370,12 +370,26 @@ const Calender = ({
                                               : 'day_one'
                                           }
                                           onClick={() => {
-                                            if (isCurrentDate(item.date)) {
-                                              // setEmployeeLocationDetail(true);
+                                            if (
+                                              isCurrentDate(item.date) &&
+                                              ((data &&
+                                                data.locationCode === 'VA') ||
+                                                (data &&
+                                                  data.locationCode === 'DC'))
+                                            ) {
+                                              setEmployeeLocationDetail(true);
                                               handleEditModal({
                                                 ...data,
                                                 user: user.username,
                                               });
+                                            } else if (
+                                              isCurrentDate(item.date) &&
+                                              ((data &&
+                                                data.locationCode !== 'VA') ||
+                                                (data &&
+                                                  data.locationCode !== 'DC'))
+                                            ) {
+                                              setShow(true);
                                             }
                                           }}
                                           aria-hidden="true"
