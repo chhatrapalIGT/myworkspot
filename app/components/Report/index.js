@@ -319,7 +319,10 @@ const Report = ({
 
                   <button
                     type="button"
-                    onClick={() => handleCloseData()}
+                    onClick={() => {
+                      handleClearData();
+                      setShow(false);
+                    }}
                     className="btn dismiss"
                     data-bs-dismiss="modal"
                   >
