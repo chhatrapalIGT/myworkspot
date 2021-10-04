@@ -21,6 +21,7 @@ const Header = props => {
   const [visible, setVisible] = useState(true);
   const [badgeCheck, setBadgeCheck] = useState();
   const [setBadgeErr] = useState();
+  const [visible, setVisible] = useState(true);
   const divRef = useRef();
   const location = useLocation();
   const pathName = location.pathname;
@@ -30,6 +31,10 @@ const Header = props => {
       setVisible(false);
     }
     badgeChk();
+    if (visible) {
+      props.requestUserlistData();
+      setVisible(false);
+    }
     document.addEventListener('mousedown', handleClickOutside, false);
     document.addEventListener('mousedown', handleClickOutside, false);
     return () => {
@@ -55,6 +60,7 @@ const Header = props => {
         setBadgeErr(err.response.data.message);
       });
   };
+
   return (
     <div>
       <header className="site-header">
