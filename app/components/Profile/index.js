@@ -42,6 +42,7 @@ const Profile = ({
   handleCloseBtn,
   requestAddDelegateList,
   requestRemoveDelegateList,
+  delegrateUsersList,
 }) => {
   const [open, setOpen] = useState(true);
   const [openbadgeData, setOpenBadgeData] = useState(true);
@@ -53,6 +54,7 @@ const Profile = ({
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
   const [idData, setIdData] = useState([]);
+  const [selectData, setselectData] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
 
   const badgeValues = userData && userData.badgeNumber;
@@ -84,11 +86,14 @@ const Profile = ({
       badgeUpdateData.message &&
       openbadgeData
     ) {
-      console.log('in if');
       setOpenBadge(false);
       setOpenBadgeData(false);
     }
-  }, [badgeUpdateData]);
+
+    if (delegrateUsersList && delegrateUsersList.length > 0) {
+      setUserListData(delegrateUsersList);
+    }
+  }, [badgeUpdateData, delegrateUsersList]);
 
   const handleChange = event => {
     let newList = [];
@@ -105,29 +110,28 @@ const Profile = ({
     }
     setSearchName(newList);
   };
-
-  const selectData = [];
-  let finalData = [];
   const idDataValue = [];
-  const handleUserSelect = (firstname, id) => {
-    if (selectData.includes(firstname)) {
-      const index = selectData.indexOf(firstname);
-      selectData.splice(index, 1);
+  let dataName = [];
+  const handleUserSelect = firstname => {
+    dataName = [...selectData];
+    if (dataName.includes(firstname)) {
+      const index = dataName.indexOf(firstname);
+      dataName.splice(index, 1);
     } else {
-      selectData.push(firstname);
+      dataName.push(firstname);
     }
-    idDataValue.push(id);
-    finalData = selectData;
+    setselectData(dataName);
+    idDataValue.push(selectData);
   };
 
   const handleClose = () => {
-    setUserListData(idDataValue);
-
+    const data = [...delegrateUsersList, ...selectData];
+    setUserListData(data);
     setShow(false);
   };
 
   const addDelegateList = () => {
-    const finalValue = idDataValue.map(data => data.employeeid);
+    const finalValue = selectData.map(data => data.employeeid);
     const finalDataPayload = {
       employeeid: 239330,
       delegateid: finalValue,
@@ -574,7 +578,9 @@ const Profile = ({
         <Modal
           className="modal fade test_modal"
           show={show}
-          onHide={() => handleClose()}
+          onHide={() => {
+            setShow(false);
+          }}
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
           id="set_location"
@@ -608,10 +614,15 @@ const Profile = ({
                       <div
                         aria-hidden="true"
                         className="form-group"
-                        onClick={() => handleUserSelect(i.firstname, i)}
+                        onClick={() => handleUserSelect(i)}
                       >
                         <img src={ProfileImg} alt="" />
-                        <input id="jane" type="radio" className="checkbox" />
+                        <input
+                          id="jane"
+                          type="radio"
+                          className="checkbox"
+                          checked={selectData.includes(i)}
+                        />
                         <label htmlFor="jane">{i.firstname}</label>
                       </div>
                     ))}
@@ -669,5 +680,6 @@ Profile.propTypes = {
   handleCloseBtn: PropTypes.func,
   requestRemoveDelegateList: PropTypes.func,
   requestAddDelegateList: PropTypes.func,
+  delegrateUsersList: PropTypes.object,
 };
 export default Profile;

@@ -81,7 +81,7 @@ export function* getDelegateListData() {
     });
     const { data } = delegateList;
     if (data && data.success) {
-      yield put(getDelegateSuccess(data));
+      yield put(getDelegateSuccess(data.data));
     } else {
       yield put(getDelegateFailed(data));
     }
@@ -153,9 +153,9 @@ export function* addDelegateMember({ payload }) {
 
 export function* removeDelegateMember({ payload }) {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Delegate/removeDelegateUser?employeeid=${
+  const requestURL = `${API_URL}/Delegate/removeDelegateUser?employeeid=239330&delegateid=${
     payload.id
-  }&delegateid=239323`;
+  }`;
   try {
     const delegateList = yield request({
       method: 'DELETE',

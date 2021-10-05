@@ -179,7 +179,6 @@ class ProfilePage extends Component {
         });
       });
     }
-    console.log(`finalLocationDay data`, finalLocationDay);
     return finalLocationDay;
   };
 
@@ -295,6 +294,7 @@ class ProfilePage extends Component {
       badgeUpdateData,
       verifyBadgeSuccess,
       verifyBadgeMsg,
+      delegrateUsersList,
     } = this.props;
     return (
       <>
@@ -328,6 +328,7 @@ class ProfilePage extends Component {
             handleCloseBtn={this.handleCloseBtn}
             requestAddDelegateList={this.props.requestAddDelegateList}
             requestRemoveDelegateList={this.props.requestRemoveDelegateList}
+            delegrateUsersList={delegrateUsersList}
           />
         </div>
       </>
@@ -356,6 +357,10 @@ const mapStateToProps = state => {
     apiSuccess: profile && profile.apiSuccess,
     apiMessage: profile && profile.apiMessage,
     badgeUpdateData: profile && profile.badgeUpdate,
+    delegrateUsersList:
+      profile &&
+      profile.getUpdatedelegateListData &&
+      profile.getUpdatedelegateListData.delegateUpdate,
 
     verifyBadgeSuccess:
       locationData &&
@@ -419,6 +424,7 @@ ProfilePage.propTypes = {
   requestAddDelegateList: PropTypes.func,
   requestRemoveDelegateList: PropTypes.func,
   requestGetDelegateList: PropTypes.func,
+  delegrateUsersList: PropTypes.object,
 };
 
 export default compose(
