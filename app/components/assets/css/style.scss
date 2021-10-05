@@ -2520,6 +2520,9 @@ select.set_drop option[id='building'],
 .css-1okebmr-indicatorSeparator {
   display: none;
 }
+.css-tlfecz-indicatorContainer {
+  display: none;
+}
 
 .mbsc-ios.mbsc-form-control-wrapper {
   cursor: pointer;
@@ -2527,6 +2530,7 @@ select.set_drop option[id='building'],
 .invite-team-wrapp.choose-date {
   cursor: pointer;
 }
+
 
 .popup {
   &_err {

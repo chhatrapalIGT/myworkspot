@@ -19,6 +19,7 @@ import profile from '../assets/images/profileof.png';
 import Floormap from '../../images/Map_2.svg';
 import zoomin from '../../images/zoomin.png';
 import zoomout from '../../images/zoomout.png';
+import success from '../../images/Message.png';
 import WF2 from '../Resource/WF2';
 import WF3 from '../Resource/WF3';
 import WF4 from '../Resource/WF4';
@@ -68,7 +69,7 @@ const Report = ({
   const [finalImg, setFinalImg] = useState('');
   const [officeRest, setOfficeRest] = useState('');
   const [call, setCall] = useState(true);
-  const [isdata, setData] = useState({});
+  const [isdata, setData] = useState(false);
   const data = location && location.length && location[location.length - 1];
 
   const colourStyles = {
@@ -133,6 +134,10 @@ const Report = ({
     });
     if (myTeamSuccess && myTeamSuccess.success) {
       handleClearData();
+      setData(true);
+      setTimeout(() => {
+        setData(false);
+      }, 3000);
     }
   }, [myTeamSuccess.success]);
 
@@ -368,9 +373,9 @@ const Report = ({
                     </div>
                     <Datepicker
                       controls={['calendar']}
+                      dateFormat="DD MMM,YYYY"
                       selectMultiple
                       min={moment().toDate()}
-                      dateFormat="MMM DD,YYYY"
                       className="dataaaa"
                       selectCounter
                       buttons={nowButtons}
@@ -553,6 +558,26 @@ const Report = ({
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </Modal>
+
+          <Modal
+            className="modal fade test_modal"
+            show={isdata}
+            onHide={() => setData(false)}
+            aria-labelledby="exampleModalLabel"
+            style={{ maxWidth: 'calc(100% - 0rem)' }}
+            aria-hidden="true"
+            centered
+          >
+            <div className=" modal-dialog-centered">
+              <div className="modal-content">
+                <img
+                  src={success}
+                  alt="Success"
+                  style={{ width: '165px', margin: '70px auto' }}
+                />
               </div>
             </div>
           </Modal>
