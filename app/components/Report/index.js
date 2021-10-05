@@ -319,6 +319,7 @@ const Report = ({
                     data-bs-dismiss="modal"
                     aria-label="Close"
                     onClick={() => {
+                      handleClearData();
                       setShow(false);
                     }}
                   />

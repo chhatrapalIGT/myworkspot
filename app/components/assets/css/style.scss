@@ -1270,7 +1270,7 @@ input[type='text'] {
     cursor: pointer;
 
     & > div {
-      font-size: 12px;
+      font-size: 14px;
 
       img {
         margin-right: 10px;
@@ -1280,6 +1280,12 @@ input[type='text'] {
       padding-right: 20px;
       margin-right: 20px;
       border-right: 1px solid #d1dce7;
+      .address_url {
+        color: #526e88;
+      }
+      &:hover {
+        color: #0072ce;
+      }
     }
     .change-workspot {
       .change-workspot {
@@ -2394,6 +2400,11 @@ li.highlightOption:hover {
 //   opacity: 1 !important;
 // }
 
+.mbsc-calendar-title-wrapper {
+  button.mbsc-ltr {
+    direction: rtl !important;
+  }
+}
 .work-floor {
   margin-bottom: 0px;
 }

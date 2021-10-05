@@ -376,16 +376,26 @@ const WorkSpot = ({
                         </>
                       ) : (
                         <>
-                          <p className="stroke-2">
-                            Hi {neighborhoodData && neighborhoodData.username},
-                            your{' '}
-                            <span>
-                              {' '}
-                              {neighborhoodData &&
-                                neighborhoodData.locationCode}{' '}
-                            </span>
-                            neighborhood today is
-                          </p>
+                          {neighborhoodData &&
+                          neighborhoodData.locationCode === 'VA' ? (
+                            <p className="stroke-2">
+                              Hi {neighborhoodData && neighborhoodData.username}
+                              , your <span>Richmond </span>
+                              neighborhood today is
+                            </p>
+                          ) : (
+                            <p className="stroke-2">
+                              Hi {neighborhoodData && neighborhoodData.username}
+                              , your{' '}
+                              <span>
+                                {' '}
+                                {neighborhoodData &&
+                                  neighborhoodData.locationCode}{' '}
+                              </span>
+                              neighborhood today is
+                            </p>
+                          )}
+
                           <div className="block-info d-flex flex-wrap">
                             {neighborhoodData && neighborhoodData.building && (
                               <h3 className="building-name">
@@ -422,6 +432,7 @@ const WorkSpot = ({
                                 target="_blank"
                               >
                                 <a
+                                  className="address_url"
                                   target="_blank"
                                   href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
                                 >
@@ -432,9 +443,9 @@ const WorkSpot = ({
                             )}
                             alt=""
                           /> */}
+                                  {neighborhoodData &&
+                                    neighborhoodData.officeAddress}
                                 </a>
-                                {neighborhoodData &&
-                                  neighborhoodData.officeAddress}
                               </div>
                             )}
                           <div
@@ -594,7 +605,7 @@ const WorkSpot = ({
                       className="dropdown_opt"
                       onChange={onChange}
                     >
-                      <optgroup label="EAB office">
+                      <optgroup label="EAB Office">
                         {/* {locationName &&
                         locationName.map(i => ( */}
                         {newArr &&
@@ -949,7 +960,7 @@ const WorkSpot = ({
                         updateModalData('work_area_name', e.target.value)
                       }
                     >
-                      <optgroup label="EAB office">
+                      <optgroup label="EAB Office">
                         {newArr &&
                           newArr.map(i => (
                             <option
