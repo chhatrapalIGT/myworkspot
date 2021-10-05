@@ -1282,9 +1282,12 @@ input[type='text'] {
       border-right: 1px solid #d1dce7;
       .address_url {
         color: #526e88;
-      }
-      &:hover {
-        color: #0072ce;
+        > img {
+          margin-bottom: 5px;
+        }
+        &:hover {
+          color: #0072ce;
+        }
       }
     }
     .change-workspot {
@@ -2404,6 +2407,11 @@ li.highlightOption:hover {
   button.mbsc-ltr {
     direction: rtl !important;
   }
+}
+.mbsc-textfield.mbsc-textfield-hidden.mbsc-textarea {
+  opacity: 1 !important;
+  font-size: 13px;
+  margin-left: 10px;
 }
 .work-floor {
   margin-bottom: 0px;

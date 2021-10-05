@@ -375,6 +375,7 @@ const Report = ({
                     <Datepicker
                       controls={['calendar']}
                       dateFormat="MMM DD,YYYY"
+                      placeholder="Select Date(s)"
                       selectMultiple
                       min={moment().toDate()}
                       className="dataaaa"
@@ -382,9 +383,6 @@ const Report = ({
                       buttons={nowButtons}
                       ref={setNow}
                       onChange={onDateChange}
-                      inputProps={{
-                        placeholder: 'Select Date(s)',
-                      }}
                       marked={[
                         {
                           date: new Date(2021, 8, 2),

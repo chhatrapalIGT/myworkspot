@@ -305,7 +305,19 @@ const WorkSpot = ({
 
       <div className="wrapper_main">
         <div className="container">
-          {neighborhoodLoad ? (
+          {moment().format('ddd') === 'Sat' ||
+          moment().format('ddd') === 'Sun' ? (
+            <div className="card building-block-head black">
+              <p className="stroke-2">
+                Hi {neighborhoodData && neighborhoodData.username},
+              </p>
+
+              <div className="block-info d-flex flex-wrap">
+                <h3 className="building-name">Enjoy the weekend!</h3>
+              </div>
+              <div className="building-location-strip d-flex flex-wrap align-items-center" />
+            </div>
+          ) : neighborhoodLoad ? (
             <div className="card building-block-head">
               <Spinner
                 className="app-spinner workspot_spinner"
