@@ -21,6 +21,9 @@ import {
   requestGetProfileOfficeData,
   clearData,
   requestBadgeData,
+  requestAddDelegateList,
+  requestRemoveDelegateList,
+  requestGetDelegateList,
 } from './actions';
 
 class ProfilePage extends Component {
@@ -323,6 +326,8 @@ class ProfilePage extends Component {
             verifyBadgeSuccess={verifyBadgeSuccess}
             verifyBadgeMsg={verifyBadgeMsg}
             handleCloseBtn={this.handleCloseBtn}
+            requestAddDelegateList={this.props.requestAddDelegateList}
+            requestRemoveDelegateList={this.props.requestRemoveDelegateList}
           />
         </div>
       </>
@@ -376,6 +381,12 @@ export function mapDispatchToProps(dispatch) {
     clearBoardData: () => dispatch(clearBoardData()),
     requestBadgeData: payload => dispatch(requestBadgeData(payload)),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
+    requestAddDelegateList: payload =>
+      dispatch(requestAddDelegateList(payload)),
+    requestRemoveDelegateList: payload =>
+      dispatch(requestRemoveDelegateList(payload)),
+    requestGetDelegateList: payload =>
+      dispatch(requestGetDelegateList(payload)),
     dispatch,
   };
 }
@@ -391,7 +402,7 @@ ProfilePage.propTypes = {
   getProfileLocation: PropTypes.object,
   requestUserlistData: PropTypes.func,
   userData: PropTypes.object,
-  // requestDelegateData: PropTypes.object,
+  requestDelegateData: PropTypes.object,
   delegateList: PropTypes.object,
   getProfileLocationSuccess: PropTypes.bool,
   delegateSuccess: PropTypes.bool,
@@ -405,6 +416,9 @@ ProfilePage.propTypes = {
   requestVerifyBadge: PropTypes.object,
   verifyBadgeSuccess: PropTypes.bool,
   verifyBadgeMsg: PropTypes.string,
+  requestAddDelegateList: PropTypes.func,
+  requestRemoveDelegateList: PropTypes.func,
+  requestGetDelegateList: PropTypes.func,
 };
 
 export default compose(

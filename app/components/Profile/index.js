@@ -40,6 +40,8 @@ const Profile = ({
   verifyBadgeSuccess,
   verifyBadgeMsg,
   handleCloseBtn,
+  requestAddDelegateList,
+  requestRemoveDelegateList,
 }) => {
   const [open, setOpen] = useState(true);
   const [openbadgeData, setOpenBadgeData] = useState(true);
@@ -50,6 +52,7 @@ const Profile = ({
   const [allUser, setAllUser] = useState([]);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
+  const [idData, setIdData] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
 
   const badgeValues = userData && userData.badgeNumber;
@@ -105,19 +108,31 @@ const Profile = ({
 
   const selectData = [];
   let finalData = [];
-  const handleUserSelect = firstname => {
+  const idDataValue = [];
+  const handleUserSelect = (firstname, id) => {
     if (selectData.includes(firstname)) {
       const index = selectData.indexOf(firstname);
       selectData.splice(index, 1);
     } else {
       selectData.push(firstname);
     }
+    idDataValue.push(id);
     finalData = selectData;
   };
 
   const handleClose = () => {
-    setUserListData(finalData);
+    setUserListData(idDataValue);
+
     setShow(false);
+  };
+
+  const addDelegateList = () => {
+    const finalValue = idDataValue.map(data => data.employeeid);
+    const finalDataPayload = {
+      employeeid: 239330,
+      delegateid: finalValue,
+    };
+    requestAddDelegateList(finalDataPayload);
   };
 
   const handleChangeDay = (name, data) => {
@@ -134,14 +149,17 @@ const Profile = ({
       ? location.filter(obj => obj && obj.locationname !== 'Remote Work')
       : '';
 
-  // const handleRemove = name => {
-  //   const newArr = [...userListData];
-  //   if (newArr.includes(name)) {
-  //     const idx = newArr.indexOf(name);
-  //     newArr.splice(idx, 1);
-  //   }
-  //   setUserListData(newArr);
-  // };
+  const handleRemove = name => {
+    const newArr = [...userListData];
+    const dataVal = newArr.filter(datas => datas.employeeid === name);
+    if (dataVal[0].employeeid) {
+      const idx = newArr.indexOf(name);
+      newArr.splice(idx, 1);
+    }
+
+    setUserListData(newArr);
+    requestRemoveDelegateList({ id: dataVal[0].employeeid });
+  };
 
   return (
     <Fragment>
@@ -420,23 +438,23 @@ const Profile = ({
                   <h5>
                     Delegate <i>my</i>Workspot Access to
                   </h5>
-                  {/* <button
+                  <button
                     type="button"
                     onClick={() => setShow(true)}
                     className="btn blue-color-btn"
                   >
                     Delegate <i>my</i>Workspot Access
-                  </button> */}
+                  </button>
                 </div>
                 <div className="access-to">
                   {userListData &&
                     userListData.map(i => (
                       <div
                         className="access-one"
-                        // onClick={() => handleRemove(i)}
+                        onClick={() => handleRemove(i.employeeid)}
                       >
                         <img src={ProfileImg} alt="" />
-                        {i}
+                        {i.firstname}
                         <a className="close_btn" href>
                           <img src={Close} alt="" />
                         </a>
@@ -590,7 +608,7 @@ const Profile = ({
                       <div
                         aria-hidden="true"
                         className="form-group"
-                        onClick={() => handleUserSelect(i.firstname)}
+                        onClick={() => handleUserSelect(i.firstname, i)}
                       >
                         <img src={ProfileImg} alt="" />
                         <input id="jane" type="radio" className="checkbox" />
@@ -602,7 +620,10 @@ const Profile = ({
               <div className="modal-footer">
                 <button
                   type="button"
-                  onClick={handleClose}
+                  onClick={() => {
+                    addDelegateList();
+                    handleClose();
+                  }}
                   className="btn save-data"
                 >
                   Save
@@ -646,5 +667,7 @@ Profile.propTypes = {
   verifyBadgeMsg: PropTypes.string,
   handleSelectedNamesChange: PropTypes.object,
   handleCloseBtn: PropTypes.func,
+  requestRemoveDelegateList: PropTypes.func,
+  requestAddDelegateList: PropTypes.func,
 };
 export default Profile;

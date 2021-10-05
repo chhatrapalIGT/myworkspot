@@ -16,6 +16,15 @@ import {
   REQUEST_DELEGATE_PROFILE,
   SUCCESS_DELEGATE_PROFILE,
   FAILED_DELEGATE_PROFILE,
+  REQUEST_ADD_DELEGATE_LIST,
+  SUCCESS_ADD_DELEGATE_LIST,
+  FAILED_ADD_DELEGATE_LIST,
+  REQUEST_REMOVE_DELEGATE_LIST,
+  SUCCESS_REMOVE_DELEGATE_LIST,
+  FAILED_REMOVE_DELEGATE_LIST,
+  REQUEST_GET_DELEGATE_LIST,
+  SUCCESS_GET_DELEGATE_LIST,
+  FAILED_GET_DELEGATE_LIST,
 } from './constants';
 
 // The initial state of the App
@@ -41,7 +50,20 @@ const initialState = {
     message: '',
     delegate: [],
   },
+  getUpdatedelegateListData: {
+    error: '',
+    success: false,
+    loading: false,
+    message: '',
+    delegateUpdate: [],
+  },
   badgeUpdate: {
+    error: '',
+    success: false,
+    loading: false,
+    message: '',
+  },
+  delegateAddMember: {
     error: '',
     success: false,
     loading: false,
@@ -53,6 +75,13 @@ const initialState = {
     loading: true,
     message: '',
     delegateProfileList: [],
+  },
+
+  removeDelegateMember: {
+    error: '',
+    success: false,
+    loading: false,
+    message: '',
   },
   apiSuccess: false,
   apiMessage: '',
@@ -165,6 +194,67 @@ const profilePageReducer = (state = initialState, action) =>
         draft.delegateProfile.success = false;
         draft.delegateProfile.delegateProfileList = [];
         draft.delegateProfile.error = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+
+      case REQUEST_ADD_DELEGATE_LIST:
+        draft.delegateAddMember.loading = true;
+        draft.delegateAddMember.error = '';
+        draft.delegateAddMember.success = false;
+        break;
+      case SUCCESS_ADD_DELEGATE_LIST:
+        draft.delegateAddMember.loading = false;
+        draft.delegateAddMember.success = action.payload.success;
+        draft.delegateAddMember.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case FAILED_ADD_DELEGATE_LIST:
+        draft.delegateAddMember.loading = false;
+        draft.delegateAddMember.success = action.payload.success;
+        draft.delegateAddMember.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+
+      case REQUEST_REMOVE_DELEGATE_LIST:
+        draft.removeDelegateMember.loading = true;
+        draft.removeDelegateMember.error = '';
+        draft.removeDelegateMember.success = false;
+        break;
+      case SUCCESS_REMOVE_DELEGATE_LIST:
+        draft.removeDelegateMember.loading = false;
+        draft.removeDelegateMember.success = action.payload.success;
+        draft.removeDelegateMember.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case FAILED_REMOVE_DELEGATE_LIST:
+        draft.removeDelegateMember.loading = false;
+        draft.removeDelegateMember.success = action.payload.success;
+        draft.removeDelegateMember.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+
+      case REQUEST_GET_DELEGATE_LIST:
+        draft.getUpdatedelegateListData.loading = true;
+        draft.getUpdatedelegateListData.error = '';
+        break;
+      case SUCCESS_GET_DELEGATE_LIST:
+        draft.getUpdatedelegateListData.loading = false;
+        draft.getUpdatedelegateListData.success = true;
+        draft.getUpdatedelegateListData.delegateUpdate = action.payload;
+        draft.getUpdatedelegateListData.error = '';
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case FAILED_GET_DELEGATE_LIST:
+        draft.getUpdatedelegateListData.loading = false;
+        draft.getUpdatedelegateListData.success = false;
+        draft.getUpdatedelegateListData.delegateUpdate = [];
+        draft.getUpdatedelegateListData.error = action.payload;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;

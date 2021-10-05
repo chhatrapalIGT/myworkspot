@@ -15,6 +15,15 @@ import {
   SUCCESS_DELEGATE_PROFILE,
   REQUEST_DELEGATE_PROFILE,
   FAILED_DELEGATE_PROFILE,
+  REQUEST_ADD_DELEGATE_LIST,
+  SUCCESS_ADD_DELEGATE_LIST,
+  FAILED_ADD_DELEGATE_LIST,
+  REQUEST_REMOVE_DELEGATE_LIST,
+  SUCCESS_REMOVE_DELEGATE_LIST,
+  FAILED_REMOVE_DELEGATE_LIST,
+  REQUEST_GET_DELEGATE_LIST,
+  SUCCESS_GET_DELEGATE_LIST,
+  FAILED_GET_DELEGATE_LIST,
 } from './constants';
 
 export const requestGetProfileOfficeData = payload => ({
@@ -91,5 +100,50 @@ export const delegateProfileSuccess = payload => ({
 
 export const delegateProfileFailed = error => ({
   type: FAILED_DELEGATE_PROFILE,
+  payload: error,
+});
+
+export const requestAddDelegateList = payload => ({
+  type: REQUEST_ADD_DELEGATE_LIST,
+  payload,
+});
+
+export const addDelegateListSuccess = payload => ({
+  type: SUCCESS_ADD_DELEGATE_LIST,
+  payload,
+});
+
+export const addDelegateListFailed = error => ({
+  type: FAILED_ADD_DELEGATE_LIST,
+  payload: error,
+});
+
+export const requestRemoveDelegateList = payload => ({
+  type: REQUEST_REMOVE_DELEGATE_LIST,
+  payload,
+});
+
+export const removeDelegateListSuccess = payload => ({
+  type: SUCCESS_REMOVE_DELEGATE_LIST,
+  payload,
+});
+
+export const removeDelegateListFailed = error => ({
+  type: FAILED_REMOVE_DELEGATE_LIST,
+  payload: error,
+});
+
+export const requestGetDelegateList = payload => ({
+  type: REQUEST_GET_DELEGATE_LIST,
+  payload,
+});
+
+export const getDelegateListSuccess = payload => ({
+  type: SUCCESS_GET_DELEGATE_LIST,
+  payload,
+});
+
+export const getDelegateListFailed = error => ({
+  type: FAILED_GET_DELEGATE_LIST,
   payload: error,
 });
