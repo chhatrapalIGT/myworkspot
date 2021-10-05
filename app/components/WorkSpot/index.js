@@ -469,10 +469,8 @@ const WorkSpot = ({
             neighborhoodData.locationCode !== 'RW' &&
             neighborhoodData &&
             neighborhoodData.locationCode !== 'PTO' &&
-            neighborhoodData.building === null &&
-            neighborhoodData.building === undefined &&
-            neighborhoodData.floor === null &&
-            neighborhoodData.floor === undefined && (
+            ((neighborhoodData && neighborhoodData.building !== null) ||
+              (neighborhoodData && neighborhoodData.floor !== null)) && (
               <div className="container" style={{ height: '100%' }}>
                 {neighborhoodLoad ? (
                   <div className="card building-block-head">
