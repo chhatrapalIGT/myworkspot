@@ -12,6 +12,9 @@ import {
   REQUEST_GET_NEIGHBORHOOD,
   SUCCESS_GET_NEIGHBORHOOD,
   FAILED_GET_NEIGHBORHOOD,
+  REQUEST_GET_COLLEAGUE,
+  SUCCESS_GET_COLLEAGUE,
+  FAILED_GET_COLLEAGUE,
 } from './constants';
 
 export const requestGetLocation = payload => ({
@@ -75,5 +78,20 @@ export const getNeighborhoodSuccess = payload => ({
 
 export const getNeighborhoodFailed = error => ({
   type: FAILED_GET_NEIGHBORHOOD,
+  payload: error,
+});
+
+export const requestGetColleague = payload => ({
+  type: REQUEST_GET_COLLEAGUE,
+  payload,
+});
+
+export const getColleagueSuccess = payload => ({
+  type: SUCCESS_GET_COLLEAGUE,
+  payload,
+});
+
+export const getColleagueFailed = error => ({
+  type: FAILED_GET_COLLEAGUE,
   payload: error,
 });

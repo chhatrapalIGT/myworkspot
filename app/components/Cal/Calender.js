@@ -42,6 +42,7 @@ const Calender = ({
   errSuccess,
   setCalData,
   weekVal,
+  setChange,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
@@ -382,14 +383,6 @@ const Calender = ({
                                                 ...data,
                                                 user: user.username,
                                               });
-                                            } else if (
-                                              isCurrentDate(item.date) &&
-                                              ((data &&
-                                                data.locationCode !== 'VA') ||
-                                                (data &&
-                                                  data.locationCode !== 'DC'))
-                                            ) {
-                                              setShow(true);
                                             }
                                           }}
                                           aria-hidden="true"
@@ -409,8 +402,11 @@ const Calender = ({
 
                                           <div
                                             className={
-                                              item.disable ||
-                                              isCurrentDate(item.date)
+                                              isCurrentDate(item.date) &&
+                                              ((data &&
+                                                data.locationCode === 'VA') ||
+                                                (data &&
+                                                  data.locationCode === 'DC'))
                                                 ? `{ day-one-wrapper ${locationClass(
                                                     data && data.locationCode,
                                                   )} day-pointer }`
@@ -491,6 +487,7 @@ const Calender = ({
                                   {' '}
                                   {item.value}
                                 </p>
+
                                 <div
                                   className={
                                     item.disable || isCurrentDate(item.date)
@@ -517,6 +514,7 @@ const Calender = ({
                                         'dddd, MMMM DD, YYYY',
                                       ),
                                     );
+                                    setChange(false);
                                   }}
                                   aria-hidden="true"
                                 >
@@ -663,7 +661,7 @@ const Calender = ({
                     variant="dark"
                   />
                 ) : (
-                  <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
+                  <div className="mt-4 weekly-default-inner d-flex flex-wrap">
                     {days.dateToDisplay.map(items => (
                       <>
                         {items.map(item => {
@@ -798,6 +796,7 @@ Calender.propTypes = {
   errSuccess: PropTypes.bool,
   setCalData: PropTypes.object,
   weekVal: PropTypes.bool,
+  setChange: PropTypes.bool,
 };
 
 export default Calender;

@@ -15,3 +15,7 @@ export const RESET_WORKSPOT = 'resetWorkspot';
 export const REQUEST_GET_NEIGHBORHOOD = 'requestGetNeighborhood';
 export const SUCCESS_GET_NEIGHBORHOOD = 'getNeighborhoodSuccess';
 export const FAILED_GET_NEIGHBORHOOD = 'getNeighborhoodFailed';
+
+export const REQUEST_GET_COLLEAGUE = 'requestGetColleague';
+export const SUCCESS_GET_COLLEAGUE = 'getColleagueSuccess';
+export const FAILED_GET_COLLEAGUE = 'getColleagueFailed';

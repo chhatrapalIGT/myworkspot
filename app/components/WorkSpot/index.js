@@ -84,6 +84,7 @@ const WorkSpot = ({
   neighborhoodMsg,
   workspotMessage,
   neighborhoodLoad,
+  colleaguesData,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
@@ -98,6 +99,7 @@ const WorkSpot = ({
   const [data, setData] = useState({});
   const [officeRest, setOfficeRest] = useState('');
   const [call, setCall] = useState(true);
+  const [isChange, setChange] = useState(false);
   const divRef = useRef();
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside, false);
@@ -145,11 +147,11 @@ const WorkSpot = ({
     locationData.find(obj => obj.locationname.includes('Remote Work'));
 
   const filteredData = useMemo(() => {
-    if (!state.searchValue) return state.userList;
-    return state.userList.filter(ele =>
-      ele.userName.toLowerCase().includes(state.searchValue.toLowerCase()),
+    if (!state.searchValue) return colleaguesData;
+    return colleaguesData.filter(ele =>
+      ele.firstname.toLowerCase().includes(state.searchValue.toLowerCase()),
     );
-  }, [state.userList, state.searchValue]);
+  }, [colleaguesData, state.searchValue]);
 
   const updateModalData = (key, val) => {
     handleUpdatingModalData(key, val);
@@ -368,8 +370,15 @@ const WorkSpot = ({
                     </>
                   ) : (
                     <>
-                      {(state.updatingObject.work_area === 'VA' ||
-                        state.updatingObject.work_area === 'DC') &&
+                      {((state.updatingObject &&
+                        state.updatingObject.work_area_name &&
+                        state.updatingObject.work_area_name.includes('VA')) ||
+                        (state.updatingObject &&
+                          state.updatingObject.work_area_name &&
+                          state.updatingObject.work_area_name.includes(
+                            'DC',
+                          ))) &&
+                      isChange &&
                       isLocUpdate ? (
                         <>
                           <p className="stroke-2">
@@ -432,39 +441,46 @@ const WorkSpot = ({
                     {neighborhoodData &&
                       neighborhoodData.locationCode !== 'PTO' && (
                         <>
-                          {(state.updatingObject.work_area !== 'VA' ||
-                            state.updatingObject.work_area !== 'DC' ||
+                          {(state.updatingObject &&
+                            state.updatingObject.work_area_name &&
+                            state.updatingObject.work_area_name.includes(
+                              'VA',
+                            )) ||
+                            (state.updatingObject &&
+                              state.updatingObject.work_area_name &&
+                              state.updatingObject.work_area_name.includes(
+                                'DC',
+                              )) ||
                             (neighborhoodData &&
-                              neighborhoodData.locationCode !== 'RW')) &&
-                            neighborhoodData &&
-                            neighborhoodData.officeAddress && (
-                              <div
-                                className="location d-flex align-items-center"
-                                aria-hidden="true"
-                                target="_blank"
-                              >
-                                <a
-                                  className="address_url"
+                              neighborhoodData.locationCode !== 'RW' && (
+                                <div
+                                  className="location d-flex align-items-center"
+                                  aria-hidden="true"
                                   target="_blank"
-                                  href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
                                 >
-                                  <img src={union} alt="" />
-                                  {/* <img
+                                  <a
+                                    className="address_url"
+                                    target="_blank"
+                                    href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
+                                  >
+                                    <img src={union} alt="" />
+                                    {/* <img
                             src={locationImage(
                               neighborhoodData && neighborhoodData.locationName,
                             )}
                             alt=""
                           /> */}
-                                  {neighborhoodData &&
-                                    neighborhoodData.officeAddress}
-                                </a>
-                              </div>
-                            )}
+                                    {neighborhoodData &&
+                                      neighborhoodData.officeAddress}
+                                  </a>
+                                </div>
+                              ))}
                           <div
                             className="change-workspot d-flex align-items-center"
                             onClick={() => {
                               handleEditModal(true);
                               // handleData();
+                              setChange(true);
                               setDate('');
                             }}
                             aria-hidden="true"
@@ -587,6 +603,7 @@ const WorkSpot = ({
           isLocUpdate={isLocUpdate}
           errSuccess={errSuccess}
           setCalData={setCalData}
+          setChange={setChange}
         />
         <Modal
           className="modal fade test_modal"
@@ -626,10 +643,7 @@ const WorkSpot = ({
                               value={i.locationname}
                               id="location"
                               name="work_place"
-                              selected={
-                                state.updatingObject.prevLocation ===
-                                i.locationCode
-                              }
+                              selected={state.work_place === i.locationCode}
                             >
                               {i && i.locationname}
                             </option>
@@ -645,7 +659,7 @@ const WorkSpot = ({
                     <Datepicker
                       controls={['calendar']}
                       display="inline"
-                      returnFormat="moment"
+                      // returnFormat="moment"
                       min={moment().toDate()}
                       // max={moment().endOf('month')}
                       name="date"
@@ -758,22 +772,29 @@ const WorkSpot = ({
                     className="searchbox"
                     onChange={handleChange}
                   />
-                  {filteredData.map(i => (
-                    <div
-                      aria-hidden="true"
-                      className="form-group"
-                      onClick={() => handleUserSelect(i.userName)}
-                    >
-                      <img src={ProfileImg} alt="" />
-                      <input
-                        id="jane"
-                        type="radio"
-                        className="checkbox"
-                        checked={state.selectedColleagues.includes(i.userName)}
-                      />
-                      <label htmlFor="jane">{i.userName}</label>
-                    </div>
-                  ))}
+                  {colleaguesData.length > 0 &&
+                    filteredData.map(i => (
+                      <div
+                        aria-hidden="true"
+                        className="form-group"
+                        onClick={() =>
+                          handleUserSelect(i.firstname, i.employeeid)
+                        }
+                      >
+                        <img src={ProfileImg} alt="" />
+                        <input
+                          id="jane"
+                          type="radio"
+                          className="checkbox"
+                          checked={state.selectedColleagues.includes(
+                            i.firstname,
+                          )}
+                        />
+                        <label htmlFor="jane">
+                          {i.firstname} {i.lastname}
+                        </label>
+                      </div>
+                    ))}
                 </form>
               </div>
               <div className="modal-footer">
@@ -966,7 +987,7 @@ const WorkSpot = ({
                     onClick={() => handleuserLocation(isdate)}
                   >
                     <select
-                      name="work_area"
+                      name="work_area_name"
                       className="dropdown_opt"
                       onChange={e =>
                         updateModalData('work_area_name', e.target.value)
@@ -1079,5 +1100,6 @@ WorkSpot.propTypes = {
   neighborhoodMsg: PropTypes.string,
   workspotMessage: PropTypes.string,
   neighborhoodLoad: PropTypes.bool,
+  colleaguesData: PropTypes.object,
 };
 export default WorkSpot;

@@ -19,6 +19,7 @@ import {
   // requestGetWeeklyDefault,
   resetWorkspot,
   requestGetNeighborhood,
+  requestGetColleague,
 } from './actions';
 import { getWorkSpotData } from './helpers';
 import {
@@ -57,6 +58,7 @@ class WorkSpotPage extends Component {
       workSpotData: [],
       userList: [],
       selectedColleagues: [],
+      selectedColleaguesId: [],
       selectedDateRange: {},
       updatingObject: {
         work_area: 'Washington, DC',
@@ -64,6 +66,7 @@ class WorkSpotPage extends Component {
       editModal: false,
       errMessage: '',
       errSuccess: false,
+      updateVal: true,
     };
   }
 
@@ -97,6 +100,7 @@ class WorkSpotPage extends Component {
     const { defaultSelected } = this.state;
     this.props.requestGetLocation();
     this.props.requestGetNeighborhood();
+    this.props.requestGetColleague();
     const { dateToDisplay } =
       defaultSelected === 'week'
         ? getWeekStartEndDate(new Date())
@@ -122,15 +126,23 @@ class WorkSpotPage extends Component {
 
     if (workspotSuccess && workspotMessage) {
       this.props.resetWorkspot();
+      // if (updateVal) {
       this.getWorkSpots(
         selectedDateRange && selectedDateRange.startDate,
         selectedDateRange && selectedDateRange.endDate,
       );
+      //   this.handledata();
+      // }
+
       setTimeout(() => {
         this.handleClearModal();
       }, 3000);
     }
   }
+
+  handledata = () => {
+    this.setState({ updateVal: false });
+  };
 
   handleClearModal = () => {
     const { workspotMessage, workspotSuccess } = this.props;
@@ -138,19 +150,23 @@ class WorkSpotPage extends Component {
       this.setState({
         updatingObject: {},
       });
-      this.setState({ updatingObject: {} });
     }
+    this.setState({ work_place: '' });
   };
 
-  handleUserSelect = username => {
+  handleUserSelect = (username, id) => {
     const { selectedColleagues } = this.state;
     const newArr = [...selectedColleagues];
+    const newId = [];
     if (newArr.includes(username)) {
       const index = newArr.indexOf(username);
       newArr.splice(index, 1);
     } else {
       newArr.push(username);
     }
+    newId.push(id);
+
+    this.setState({ selectedColleaguesId: newId });
     this.setState({ selectedColleagues: newArr });
   };
 
@@ -193,7 +209,7 @@ class WorkSpotPage extends Component {
     const payload = {
       data: {
         // eslint-disable-next-line radix
-        locationid: parseInt(a.id),
+        locationid: a ? parseInt(a.id) : 1,
         weekofday: [moment(updatingObject.date).format('YYYY-MM-DD')],
       },
 
@@ -212,7 +228,7 @@ class WorkSpotPage extends Component {
     const payload = {
       data: {
         // eslint-disable-next-line radix
-        locationid: parseInt(a.id),
+        locationid: a ? parseInt(a.id) : 1,
         weekofday: locDate,
       },
       employeeid: 239323,
@@ -224,7 +240,10 @@ class WorkSpotPage extends Component {
     const {
       selectedColleagues,
       selectedDateRange: { startDate, endDate },
+      // selectedColleaguesId,
     } = this.state;
+    // const newArrId = [...selectedColleaguesId];
+
     const newArr = [];
     for (let i = 0; i < selectedColleagues.length; i += 1) {
       const name = selectedColleagues[i];
@@ -277,7 +296,7 @@ class WorkSpotPage extends Component {
       // workspotSuccess,
 
       apiMessage,
-
+      colleaguesData,
       apiSuccess,
     } = this.props;
     const { errMessage, errSuccess } = this.state;
@@ -313,6 +332,7 @@ class WorkSpotPage extends Component {
             errSuccess={errSuccess}
             location={location}
             neighborhood={neighborhood}
+            colleaguesData={colleaguesData}
             // locationSuccess={locationSuccess}
             // locationMsg={locationMsg}
             // neighborhoodSuccess={neighborhoodSuccess}
@@ -328,7 +348,6 @@ class WorkSpotPage extends Component {
 
 const mapStateToProps = state => {
   const { workspot } = state;
-  console.log('state', state);
   return {
     locationData:
       workspot &&
@@ -357,6 +376,10 @@ const mapStateToProps = state => {
       workspot && workspot.neighborhood && workspot.neighborhood.isloading,
     location: workspot && workspot.getLocationData,
     neighborhood: workspot && workspot.neighborhood,
+    colleaguesData:
+      workspot &&
+      workspot.colleagueData &&
+      workspot.colleagueData.colleagueList,
   };
 };
 
@@ -369,6 +392,7 @@ export function mapDispatchToProps(dispatch) {
     resetWorkspot: () => dispatch(resetWorkspot()),
     requestGetNeighborhood: payload =>
       dispatch(requestGetNeighborhood(payload)),
+    requestGetColleague: payload => dispatch(requestGetColleague(payload)),
     dispatch,
   };
 }
@@ -390,6 +414,8 @@ WorkSpotPage.propTypes = {
   apiMessage: PropTypes.string,
 
   apiSuccess: PropTypes.bool,
+  requestGetColleague: PropTypes.func,
+  colleaguesData: PropTypes.object,
   // locationSuccess: PropTypes.bool,
   // locationMsg: PropTypes.string,
   // neighborhoodSuccess: PropTypes.bool,

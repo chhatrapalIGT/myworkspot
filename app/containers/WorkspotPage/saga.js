@@ -10,6 +10,7 @@ import {
   REQUEST_GET_WEEKLY_DEFAULT,
   REQUEST_UPDATE_WORKSPOT,
   REQUEST_GET_NEIGHBORHOOD,
+  REQUEST_GET_COLLEAGUE,
 } from './constants';
 
 import {
@@ -21,6 +22,8 @@ import {
   updateWorkspotFailed,
   getNeighborhoodSuccess,
   getNeighborhoodFailed,
+  getColleagueSuccess,
+  getColleagueFailed,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -99,9 +102,28 @@ export function* getNeighborhood() {
   }
 }
 
+export function* getColleague() {
+  const requestURL = `${API_URL}/Delegate/getUsersForDelegate?employeeid=239323`;
+  try {
+    const colleagues = yield request({
+      method: 'GET',
+      url: requestURL,
+    });
+    const { data } = colleagues;
+    if (data && data.success) {
+      yield put(getColleagueSuccess(data));
+    } else {
+      yield put(getColleagueFailed(data));
+    }
+  } catch (err) {
+    yield put(getColleagueFailed(err));
+  }
+}
+
 export default function* workSpotSaga() {
   yield takeLatest(REQUEST_GET_LOCATION, getLocation);
   yield takeLatest(REQUEST_UPDATE_WORKSPOT, updateWorkspot);
   yield takeLatest(REQUEST_GET_WEEKLY_DEFAULT, getWeeklyData);
   yield takeLatest(REQUEST_GET_NEIGHBORHOOD, getNeighborhood);
+  yield takeLatest(REQUEST_GET_COLLEAGUE, getColleague);
 }

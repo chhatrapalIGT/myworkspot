@@ -481,7 +481,7 @@ const Report = ({
                 <div className="modal-header myteam_header">
                   <div className="left-panel myteam_card">
                     <h5 className="modal-title" id="exampleModalLabel">
-                      {moment().format('dddd MMMM Do YYYY')}
+                      {moment().format('dddd, MMMM DD YYYY')}
                     </h5>
                   </div>
                   <div className="myteam-user">

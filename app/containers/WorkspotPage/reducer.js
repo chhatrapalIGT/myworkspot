@@ -14,6 +14,9 @@ import {
   REQUEST_GET_NEIGHBORHOOD,
   SUCCESS_GET_NEIGHBORHOOD,
   FAILED_GET_NEIGHBORHOOD,
+  REQUEST_GET_COLLEAGUE,
+  SUCCESS_GET_COLLEAGUE,
+  FAILED_GET_COLLEAGUE,
 } from './constants';
 
 const initialState = {
@@ -39,6 +42,13 @@ const initialState = {
     message: '',
     success: false,
     neighborhoodData: [],
+    isloading: false,
+  },
+
+  colleagueData: {
+    message: '',
+    success: false,
+    colleagueList: [],
     isloading: false,
   },
   apiSuccess: false,
@@ -139,6 +149,31 @@ const workspotReducer = (state = initialState, action) =>
         draft.neighborhood.success = false;
         draft.neighborhood.message = action.payload.message;
         draft.neighborhood.neighborhoodData = {};
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
+        break;
+
+      case REQUEST_GET_COLLEAGUE:
+        draft.colleagueData.success = false;
+        draft.colleagueData.isloading = true;
+        draft.colleagueData.message = '';
+        draft.colleagueData.colleagueList = {};
+        break;
+      case SUCCESS_GET_COLLEAGUE:
+        draft.colleagueData.isloading = false;
+        draft.colleagueData.success = true;
+        draft.colleagueData.message = action.payload.message;
+        draft.colleagueData.colleagueList = action.payload.data;
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
+        break;
+      case FAILED_GET_COLLEAGUE:
+        draft.colleagueData.isloading = false;
+        draft.colleagueData.success = false;
+        draft.colleagueData.message = action.payload.message;
+        draft.colleagueData.colleagueDataData = {};
         draft.apiSuccess = action.payload.success;
 
         draft.apiMessage = action.payload.message;
