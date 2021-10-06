@@ -5,22 +5,15 @@ import '../assets/css/style.css';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import Axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
 import Headerlogo from '../assets/images/logo_mains.svg';
 import Profile from '../assets/images/profileof.png';
 import { requestUserlistData } from '../../containers/ProfilePage/actions';
 
-import { CONSTANT } from '../../enum';
-
-const { API_URL } = CONSTANT;
-
 const Header = props => {
   const [sidebar, setSidebar] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [badgeCheck, setBadgeCheck] = useState();
-  const [setBadgeErr] = useState();
   const divRef = useRef();
   const location = useLocation();
   const pathName = location.pathname;
@@ -29,7 +22,6 @@ const Header = props => {
       props.requestUserlistData();
       setVisible(false);
     }
-    badgeChk();
     if (visible) {
       props.requestUserlistData();
       setVisible(false);
@@ -40,24 +32,11 @@ const Header = props => {
       document.removeEventListener('mousedown', handleClickOutside, false);
       document.removeEventListener('mousedown', handleClickOutside, false);
     };
-  }, [badgeChk]);
+  });
   const handleClickOutside = event => {
     if (divRef && divRef.current && !divRef.current.contains(event.target)) {
       setEditProfile(false);
     }
-  };
-
-  const badgeChk = () => {
-    const url = `${API_URL}/badgeMaster/isVerifyBadgeNumber?employeeid=239323`;
-    Axios.get(url, {
-      withCredentials: true,
-    })
-      .then(res => {
-        setBadgeCheck(res.data);
-      })
-      .catch(err => {
-        setBadgeErr(err.response.data.message);
-      });
   };
 
   return (
@@ -200,7 +179,7 @@ const Header = props => {
           </div>
         </div>
       </header>
-      {badgeCheck && !badgeCheck.isVerified && (
+      {props.profileUser && props.profileUser.badgeNumber === '' && (
         <div className="badge_check">
           You don't have a badge associated with your profile{' '}
           <Link to="/profile">
