@@ -80,8 +80,9 @@ export function* getDelegateListData() {
       url: requestURL,
     });
     const { data } = delegateList;
+
     if (data && data.success) {
-      yield put(getDelegateSuccess(data.data));
+      yield put(getDelegateSuccess(data.userData));
     } else {
       yield put(getDelegateFailed(data));
     }
@@ -183,7 +184,7 @@ export function* getUpdateDelegateData() {
     });
     const { data } = delegateUsersList;
     if (data && data.success) {
-      yield put(getDelegateListSuccess(data.data));
+      yield put(getDelegateListSuccess(data.delegateData));
     } else {
       yield put(getDelegateListFailed(data));
     }

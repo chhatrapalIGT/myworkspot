@@ -79,6 +79,15 @@ const Profile = ({
     }
   }, [delegateList]);
 
+  const result = delegrateUsersList.map(x => {
+    const item = searchName.find(items => items.employeeid === x.employeeid);
+    console.log(`result`, result);
+    if (item) {
+      return item;
+    }
+    return item;
+  });
+
   useEffect(() => {
     if (
       badgeUpdateData &&
@@ -92,6 +101,7 @@ const Profile = ({
 
     if (delegrateUsersList && delegrateUsersList.length > 0) {
       setUserListData(delegrateUsersList);
+      // setselectData(result);
     }
   }, [badgeUpdateData, delegrateUsersList]);
 
@@ -125,8 +135,12 @@ const Profile = ({
   };
 
   const handleClose = () => {
-    const data = [...delegrateUsersList, ...selectData];
-    setUserListData(data);
+    const data = [...selectData];
+    function unique(dataVal, key) {
+      return [...new Map(dataVal.map(x => [key(x), x])).values()];
+    }
+
+    setUserListData(unique(data, obj => obj.employeeid));
     setShow(false);
   };
 
@@ -157,11 +171,13 @@ const Profile = ({
     const newArr = [...userListData];
     const dataVal = newArr.filter(datas => datas.employeeid === name);
     if (dataVal[0].employeeid) {
-      const idx = newArr.indexOf(name);
+      const idx = newArr.findIndex(val => val.employeeid === name);
       newArr.splice(idx, 1);
+      setUserListData(newArr);
+      setselectData(newArr);
     }
 
-    setUserListData(newArr);
+    setselectData(newArr);
     requestRemoveDelegateList({ id: dataVal[0].employeeid });
   };
 
@@ -450,6 +466,13 @@ const Profile = ({
                     Delegate <i>my</i>Workspot Access
                   </button>
                 </div>
+                {/* {userListData.length <= 0 ? (
+                  <Spinner
+                    className="app-spinner profile"
+                    animation="grow"
+                    variant="dark"
+                  />
+                ) : ( */}
                 <div className="access-to">
                   {userListData &&
                     userListData.map(i => (
@@ -458,13 +481,14 @@ const Profile = ({
                         onClick={() => handleRemove(i.employeeid)}
                       >
                         <img src={ProfileImg} alt="" />
-                        {i.firstname}
+                        {i.firstname} {i.lastname}
                         <a className="close_btn" href>
                           <img src={Close} alt="" />
                         </a>
                       </div>
                     ))}
                 </div>
+                {/* )} */}
               </div>
             </div>
           </div>
@@ -601,7 +625,7 @@ const Profile = ({
                   }}
                 />
               </div>
-              <div className="modal-body">
+              <div className="modal-body modal-update">
                 <form className="delegate-workspot-access" action="submit">
                   <input
                     type="search"
@@ -613,7 +637,9 @@ const Profile = ({
                     searchName.map(i => (
                       <div
                         aria-hidden="true"
-                        className="form-group"
+                        className={`${selectData.includes(i) &&
+                          'checked_item'}  form-group`}
+                        // className="form-group"
                         onClick={() => handleUserSelect(i)}
                       >
                         <img src={ProfileImg} alt="" />
@@ -623,7 +649,9 @@ const Profile = ({
                           className="checkbox"
                           checked={selectData.includes(i)}
                         />
-                        <label htmlFor="jane">{i.firstname}</label>
+                        <label htmlFor="jane">
+                          {i.firstname} {i.lastname}
+                        </label>
                       </div>
                     ))}
                 </form>

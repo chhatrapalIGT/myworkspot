@@ -839,6 +839,9 @@ input[type='text'] {
     padding: 1rem 1.5rem;
     max-height: calc(100vh - 230px);
     overflow: auto;
+    &.modal-update {
+      max-height: calc(100vh - 343px);
+    }
 
     &_myteam {
       padding: 1rem 1.5rem !important;
@@ -991,6 +994,9 @@ input[type='text'] {
     padding: 0.85rem 3rem 0.85rem 1.5rem;
     img {
       margin-right: 10px;
+    }
+    &.checked_item {
+      background-color: #ebeef1 !important;
     }
     &.work-from-home {
       position: relative;
