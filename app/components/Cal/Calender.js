@@ -41,8 +41,9 @@ const Calender = ({
   isLocUpdate,
   errSuccess,
   setCalData,
-  weekVal,
   setChange,
+  colleagueWeeklyData,
+  colleagueDataLoader,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
@@ -161,6 +162,20 @@ const Calender = ({
       );
 
     return a;
+  };
+
+  const getCorrespondingColleagueData = (dateValue, employeeId) => {
+    const user = colleagueWeeklyData.find(
+      ({ employeeid }) => employeeid === employeeId,
+    );
+    return (
+      user &&
+      user.workspotdata.length > 0 &&
+      user.workspotdata.find(
+        ({ date }) =>
+          moment(date).format('DD') === moment(dateValue).format('DD'),
+      )
+    );
   };
 
   const getWeekWorkspotDataLoading = () => {
@@ -374,9 +389,9 @@ const Calender = ({
                                             if (
                                               isCurrentDate(item.date) &&
                                               ((data &&
-                                                data.locationCode === 'VA') ||
+                                                data.locationCode === 'RVA') ||
                                                 (data &&
-                                                  data.locationCode === 'DC'))
+                                                  data.locationCode === 'WDC'))
                                             ) {
                                               setEmployeeLocationDetail(true);
                                               handleEditModal({
@@ -404,9 +419,9 @@ const Calender = ({
                                             className={
                                               isCurrentDate(item.date) &&
                                               ((data &&
-                                                data.locationCode === 'VA') ||
+                                                data.locationCode === 'RVA') ||
                                                 (data &&
-                                                  data.locationCode === 'DC'))
+                                                  data.locationCode === 'WDC'))
                                                 ? `{ day-one-wrapper ${locationClass(
                                                     data && data.locationCode,
                                                   )} day-pointer }`
@@ -425,10 +440,11 @@ const Calender = ({
                                               ((data &&
                                                 data.locationCode !== 'EAB') ||
                                                 (((data &&
-                                                  data.locationCode === 'DC') ||
+                                                  data.locationCode ===
+                                                    'WDC') ||
                                                   (data &&
                                                     data.locationCode ===
-                                                      'VA' &&
+                                                      'RVA' &&
                                                     item.disable &&
                                                     isCurrentDate(
                                                       item.date,
@@ -547,20 +563,38 @@ const Calender = ({
                     </div>
                   </div>
                 </div>
-                {setVisible && allUser && allUser.length > 0 && (
-                  <div className="mt-4">
-                    Search results
-                    <label className="weekly-remove" style={{ float: 'right' }}>
-                      {' '}
-                      Remove All
-                    </label>
-                    <hr />
-                  </div>
-                )}
-
                 {setVisible &&
-                  allUser &&
-                  allUser.map((obj, userIdx) => (
+                  colleagueWeeklyData &&
+                  colleagueWeeklyData.length > 0 && (
+                    <div className="mt-4">
+                      Search results
+                      <label
+                        className="weekly-remove"
+                        style={{ float: 'right' }}
+                        aria-hidden="true"
+                        onClick={() => handleRemove(colleagueWeeklyData, true)}
+                      >
+                        {' '}
+                        Remove All
+                      </label>
+                      <hr />
+                    </div>
+                  )}
+
+                {setVisible && colleagueDataLoader ? (
+                  <div className=" tab-pane fade show active">
+                    <div className="card weekly-default mt-4 ">
+                      <Spinner
+                        className="app-spinner profile"
+                        animation="grow"
+                        variant="dark"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  setVisible &&
+                  colleagueWeeklyData.length > 0 &&
+                  colleagueWeeklyData.map((obj, userIdx) => (
                     <div
                       className="tab-pane fade show active"
                       id="nav-week-view"
@@ -582,13 +616,18 @@ const Calender = ({
                             />
                             {'   '}
                             <label>
-                              <b>{obj.userName}</b>
+                              <b>
+                                {obj.employeeidFirstname}{' '}
+                                {obj.employeeidLastname}
+                              </b>
                             </label>
                             <div
                               style={{ float: 'right' }}
                               className="weekly-remove"
                               aria-hidden="true"
-                              onClick={() => handleRemove(obj)}
+                              onClick={() =>
+                                handleRemove(obj.employeeid, false)
+                              }
                             >
                               {' '}
                               Remove
@@ -596,7 +635,10 @@ const Calender = ({
                           </div>
                           <div className="weekly-default-inner d-flex flex-wrap">
                             {days.dateToDisplay.map((item, itemIdx) => {
-                              const data = allUser[userIdx].workspot[itemIdx];
+                              const data = getCorrespondingColleagueData(
+                                item.date,
+                                obj.employeeid,
+                              );
                               return (
                                 <div
                                   className={
@@ -619,9 +661,13 @@ const Calender = ({
 
                                   <div
                                     className={
-                                      isCurrentDate(item.date)
-                                        ? 'day-one-wrapper work-from-office day-pointer border-top-blue'
-                                        : 'day-one-wrapper work-from-office border-top-blue'
+                                      item.disable || isCurrentDate(item.date)
+                                        ? `{ day-one-wrapper ${locationClass(
+                                            data && data.locationCode,
+                                          )} }`
+                                        : `{ day-one-wrapper ${locationClass(
+                                            data && data.locationCode,
+                                          )} day-pointer }`
                                     }
                                     onClick={() => {
                                       isCurrentDate(item.date) &&
@@ -650,7 +696,8 @@ const Calender = ({
                         </div>
                       </div>
                     </div>
-                  ))}
+                  ))
+                )}
               </>
             ) : (
               <div className="card weekly-default month-view-content month-spinner">
@@ -739,9 +786,9 @@ const Calender = ({
                                 {(data && data.locationCode !== 'RW') ||
                                   (data && data.locationCode !== 'PTO') ||
                                   ((data && data.locationCode !== 'EAB') ||
-                                    (((data && data.locationCode === 'DC') ||
+                                    (((data && data.locationCode === 'WDC') ||
                                       (data &&
-                                        data.locationCode === 'VA' &&
+                                        data.locationCode === 'RVA' &&
                                         item.disable &&
                                         isCurrentDate(item.date))) && (
                                       <span className="floor-location">
@@ -761,7 +808,7 @@ const Calender = ({
               </div>
             )}
           </div>
-          {/* {period === 'week' && setVisible && (
+          {period === 'week' && setVisible && (
             <button
               type="submit"
               className="light-blue-bg-btn mt-4"
@@ -770,7 +817,7 @@ const Calender = ({
               {' '}
               <img src={searchicon} alt="" /> Search for Colleagues
             </button>
-          )} */}
+          )}
         </div>
       </div>
     </div>
@@ -795,8 +842,9 @@ Calender.propTypes = {
   isLocUpdate: PropTypes.bool,
   errSuccess: PropTypes.bool,
   setCalData: PropTypes.object,
-  weekVal: PropTypes.bool,
   setChange: PropTypes.bool,
+  colleagueWeeklyData: PropTypes.object,
+  colleagueDataLoader: PropTypes.bool,
 };
 
 export default Calender;

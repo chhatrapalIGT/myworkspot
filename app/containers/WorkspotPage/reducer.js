@@ -17,6 +17,9 @@ import {
   REQUEST_GET_COLLEAGUE,
   SUCCESS_GET_COLLEAGUE,
   FAILED_GET_COLLEAGUE,
+  REQUEST_VIEW_COLLEAGUE_DATA,
+  SUCCESS_VIEW_COLLEAGUE_DATA,
+  FAILED_VIEW_COLLEAGUE_DATA,
 } from './constants';
 
 const initialState = {
@@ -49,6 +52,13 @@ const initialState = {
     message: '',
     success: false,
     colleagueList: [],
+    isloading: false,
+  },
+
+  getColleagueData: {
+    message: '',
+    success: false,
+    colleagueData: [],
     isloading: false,
   },
   apiSuccess: false,
@@ -164,7 +174,7 @@ const workspotReducer = (state = initialState, action) =>
         draft.colleagueData.isloading = false;
         draft.colleagueData.success = true;
         draft.colleagueData.message = action.payload.message;
-        draft.colleagueData.colleagueList = action.payload.data;
+        draft.colleagueData.colleagueList = action.payload.userData;
         draft.apiSuccess = action.payload.success;
 
         draft.apiMessage = action.payload.message;
@@ -174,6 +184,31 @@ const workspotReducer = (state = initialState, action) =>
         draft.colleagueData.success = false;
         draft.colleagueData.message = action.payload.message;
         draft.colleagueData.colleagueDataData = {};
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
+        break;
+
+      case REQUEST_VIEW_COLLEAGUE_DATA:
+        draft.getColleagueData.success = false;
+        draft.getColleagueData.isloading = true;
+        draft.getColleagueData.message = '';
+        draft.getColleagueData.colleagueData = {};
+        break;
+      case SUCCESS_VIEW_COLLEAGUE_DATA:
+        draft.getColleagueData.isloading = false;
+        draft.getColleagueData.success = true;
+        draft.getColleagueData.message = action.payload.message;
+        draft.getColleagueData.colleagueData = action.payload.returnData;
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
+        break;
+      case FAILED_VIEW_COLLEAGUE_DATA:
+        draft.getColleagueData.isloading = false;
+        draft.getColleagueData.success = false;
+        draft.getColleagueData.message = action.payload.message;
+        draft.getColleagueData.colleagueData = {};
         draft.apiSuccess = action.payload.success;
 
         draft.apiMessage = action.payload.message;

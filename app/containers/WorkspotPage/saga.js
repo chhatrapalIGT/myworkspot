@@ -11,6 +11,7 @@ import {
   REQUEST_UPDATE_WORKSPOT,
   REQUEST_GET_NEIGHBORHOOD,
   REQUEST_GET_COLLEAGUE,
+  REQUEST_VIEW_COLLEAGUE_DATA,
 } from './constants';
 
 import {
@@ -24,7 +25,10 @@ import {
   getNeighborhoodFailed,
   getColleagueSuccess,
   getColleagueFailed,
+  getColleagueDataSuccess,
+  getColleagueDataFailed,
 } from './actions';
+// eslint-disable-next-line import/named
 import { CONSTANT } from '../../enum';
 
 const { API_URL } = CONSTANT;
@@ -120,10 +124,32 @@ export function* getColleague() {
   }
 }
 
+export function* getColleagueData({ payload }) {
+  const requestURL = `${API_URL}/Colleagues/getColleaguesWorkspotdata?employeeid=239323&startdate=${
+    payload.startdate
+  }&endadate=${payload.enddate}`;
+  try {
+    const colleagueData = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+    });
+    const { data } = colleagueData;
+    if (data && data.success) {
+      yield put(getColleagueDataSuccess(data));
+    } else {
+      yield put(getColleagueDataFailed(data));
+    }
+  } catch (err) {
+    yield put(getColleagueDataFailed(err));
+  }
+}
+
 export default function* workSpotSaga() {
   yield takeLatest(REQUEST_GET_LOCATION, getLocation);
   yield takeLatest(REQUEST_UPDATE_WORKSPOT, updateWorkspot);
   yield takeLatest(REQUEST_GET_WEEKLY_DEFAULT, getWeeklyData);
   yield takeLatest(REQUEST_GET_NEIGHBORHOOD, getNeighborhood);
   yield takeLatest(REQUEST_GET_COLLEAGUE, getColleague);
+  yield takeLatest(REQUEST_VIEW_COLLEAGUE_DATA, getColleagueData);
 }

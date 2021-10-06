@@ -15,6 +15,9 @@ import {
   REQUEST_GET_COLLEAGUE,
   SUCCESS_GET_COLLEAGUE,
   FAILED_GET_COLLEAGUE,
+  REQUEST_VIEW_COLLEAGUE_DATA,
+  SUCCESS_VIEW_COLLEAGUE_DATA,
+  FAILED_VIEW_COLLEAGUE_DATA,
 } from './constants';
 
 export const requestGetLocation = payload => ({
@@ -93,5 +96,20 @@ export const getColleagueSuccess = payload => ({
 
 export const getColleagueFailed = error => ({
   type: FAILED_GET_COLLEAGUE,
+  payload: error,
+});
+
+export const requestGetColleagueData = payload => ({
+  type: REQUEST_VIEW_COLLEAGUE_DATA,
+  payload,
+});
+
+export const getColleagueDataSuccess = payload => ({
+  type: SUCCESS_VIEW_COLLEAGUE_DATA,
+  payload,
+});
+
+export const getColleagueDataFailed = error => ({
+  type: FAILED_VIEW_COLLEAGUE_DATA,
   payload: error,
 });

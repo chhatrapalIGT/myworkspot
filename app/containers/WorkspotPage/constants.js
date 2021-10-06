@@ -19,3 +19,7 @@ export const FAILED_GET_NEIGHBORHOOD = 'getNeighborhoodFailed';
 export const REQUEST_GET_COLLEAGUE = 'requestGetColleague';
 export const SUCCESS_GET_COLLEAGUE = 'getColleagueSuccess';
 export const FAILED_GET_COLLEAGUE = 'getColleagueFailed';
+
+export const REQUEST_VIEW_COLLEAGUE_DATA = 'requestGetColleagueData';
+export const SUCCESS_VIEW_COLLEAGUE_DATA = 'getColleagueDataSuccess';
+export const FAILED_VIEW_COLLEAGUE_DATA = 'getColleagueDataFailed';
