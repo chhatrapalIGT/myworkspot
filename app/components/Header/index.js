@@ -97,7 +97,7 @@ const Header = props => {
                       </a>
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link to="/faq">
                       <a
                         href="true"
@@ -106,7 +106,7 @@ const Header = props => {
                         Help
                       </a>
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             )}
