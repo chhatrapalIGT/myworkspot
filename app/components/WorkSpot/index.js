@@ -349,9 +349,9 @@ const WorkSpot = ({
                   (neighborhoodData && neighborhoodData.locationCode === 'WDC')
                     ? 'card building-block-head blue'
                     : (neighborhoodData &&
-                        neighborhoodData.locationCode === 'MN') ||
+                        neighborhoodData.locationCode === 'BMN') ||
                       (neighborhoodData &&
-                        neighborhoodData.locationCode === 'AL')
+                        neighborhoodData.locationCode === 'BAL')
                     ? 'card building-block-head black'
                     : neighborhoodData && neighborhoodData.locationCode === 'RW'
                     ? 'card building-block-head grey'
