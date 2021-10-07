@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState, useRef, useEffect } from 'react';
 import '../assets/css/style.scss';
@@ -8,7 +9,10 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import Headerlogo from '../assets/images/logo_mains.svg';
 import Profile from '../assets/images/profileof.png';
-import { requestUserlistData } from '../../containers/ProfilePage/actions';
+import {
+  requestUserlistData,
+  requestDelegateProfile,
+} from '../../containers/ProfilePage/actions';
 
 const Header = props => {
   const [sidebar, setSidebar] = useState(false);
@@ -20,10 +24,7 @@ const Header = props => {
   useEffect(() => {
     if (visible) {
       props.requestUserlistData();
-      setVisible(false);
-    }
-    if (visible) {
-      props.requestUserlistData();
+      props.requestDelegateProfile();
       setVisible(false);
     }
     document.addEventListener('mousedown', handleClickOutside, false);
@@ -154,13 +155,21 @@ const Header = props => {
                       </button>
                     </Link>
                   </div>
-                  <div className="popup-secondary-profile">
-                    <img src={Profile} alt="" />
-                    <div className="sec-profile-info">
-                      <h4>Jane Cooper</h4>
-                      <span>janeсooper@eab.com</span>
-                    </div>
-                  </div>
+                  {console.log('props.profileUser', props.profileUser)}
+                  {props.profileUser &&
+                    props.profileUser.delegateUserList &&
+                    props.profileUser.delegateUserList.map(obj => (
+                      <div className="popup-secondary-profile">
+                        <img src={obj.delegateUserPhoto || Profile} alt="" />
+                        <div className="sec-profile-info">
+                          <h4>
+                            {obj.delegateUserFistname}{' '}
+                            {obj.delegateUserLastname}{' '}
+                          </h4>
+                          <span>{obj.delegateUserEmail}</span>
+                        </div>
+                      </div>
+                    ))}
                   <a href className="logout">
                     Log Out
                   </a>
@@ -196,6 +205,7 @@ const Header = props => {
 
 const mapStateToProps = state => {
   const { profile } = state;
+  console.log('state ===> profile', state);
   return {
     profile,
     profileUser: profile && profile.userList && profile.userList.user,
@@ -205,6 +215,8 @@ const mapStateToProps = state => {
 export function mapDispatchToProps(dispatch) {
   return {
     requestUserlistData: payload => dispatch(requestUserlistData(payload)),
+    requestDelegateProfile: payload =>
+      dispatch(requestDelegateProfile(payload)),
     dispatch,
   };
 }
@@ -212,6 +224,7 @@ export function mapDispatchToProps(dispatch) {
 Header.propTypes = {
   profileUser: PropTypes.object,
   requestUserlistData: PropTypes.func,
+  requestDelegateProfile: PropTypes.object,
 };
 
 export default compose(

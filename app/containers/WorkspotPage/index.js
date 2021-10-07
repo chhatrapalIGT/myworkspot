@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import injectReducer from 'utils/injectReducer';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Axios from 'axios';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Header from '../../components/Header';
@@ -69,6 +68,7 @@ class WorkSpotPage extends Component {
       errSuccess: false,
       updateVal: true,
       onSuccess: false,
+      isChangeData: false,
     };
   }
 
@@ -116,18 +116,20 @@ class WorkSpotPage extends Component {
     this.setState({
       selectedDateRange: { startDate: startDispDate, endDate: endDispDate },
     });
-    const url = `https://mocki.io/v1/503b1d85-b034-466b-af55-fc5ae262e848`;
-    Axios.get(url).then(res => {
-      this.setState({ userList: res.data });
-    });
   }
 
+  clearState = () => {
+    this.setState({ updatingObject: { work_area: '' } });
+  };
+
   componentDidUpdate() {
-    const { selectedDateRange } = this.state;
+    const { selectedDateRange, isChangeData } = this.state;
     const { workspotSuccess, workspotMessage } = this.props;
 
     if (workspotSuccess && workspotMessage) {
       this.props.resetWorkspot();
+      this.clearState();
+      // if (updateVal) {
       this.getWorkSpots(
         selectedDateRange && selectedDateRange.startDate,
         selectedDateRange && selectedDateRange.endDate,
@@ -136,6 +138,9 @@ class WorkSpotPage extends Component {
       setTimeout(() => {
         this.handleClearModal();
       }, 6000);
+    }
+    if (isChangeData && workspotSuccess && workspotMessage) {
+      this.props.requestGetNeighborhood();
     }
   }
 
@@ -221,6 +226,7 @@ class WorkSpotPage extends Component {
     // eslint-disable-next-line no-unused-vars
     const { updatingObject } = this.state;
     const { locationData } = this.props;
+    this.setState({ isChangeData: true });
     const a =
       locationData &&
       locationData.find(

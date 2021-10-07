@@ -11,3 +11,6 @@ export const CLEAR_DATA = 'clearData';
 export const REQUEST_BADGE_DATA = 'requestBadgeData';
 export const SUCCESS_BADGE_DATA = 'getBadgeSuccess';
 export const FAILED_BADGE_DATA = 'getBadgeFailed';
+export const REQUEST_DELEGATE_PROFILE = 'requestDelegateProfile';
+export const SUCCESS_DELEGATE_PROFILE = 'delegateProfileSuccess';
+export const FAILED_DELEGATE_PROFILE = 'delegateProfileFailed';

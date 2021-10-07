@@ -12,6 +12,9 @@ import {
   REQUEST_BADGE_DATA,
   SUCCESS_BADGE_DATA,
   FAILED_BADGE_DATA,
+  SUCCESS_DELEGATE_PROFILE,
+  REQUEST_DELEGATE_PROFILE,
+  FAILED_DELEGATE_PROFILE,
 } from './constants';
 
 export const requestGetProfileOfficeData = payload => ({
@@ -74,5 +77,19 @@ export const getBadgeSuccess = payload => ({
 
 export const getBadgeFailed = error => ({
   type: FAILED_BADGE_DATA,
+  payload: error,
+});
+export const requestDelegateProfile = payload => ({
+  type: REQUEST_DELEGATE_PROFILE,
+  payload,
+});
+
+export const delegateProfileSuccess = payload => ({
+  type: SUCCESS_DELEGATE_PROFILE,
+  payload,
+});
+
+export const delegateProfileFailed = error => ({
+  type: FAILED_DELEGATE_PROFILE,
   payload: error,
 });

@@ -118,9 +118,9 @@ class BorardingPage extends Component {
       employeeid: '239323',
       badgenumber: badge && badgedata ? `BB${badge.concat(badgedata)}` : '',
     };
-    if (this.props.verifyBadgeSuccess) {
-      this.props.requestAddOfficeLocation(data);
-    }
+    // if (this.props.verifyBadgeSuccess) {
+    this.props.requestAddOfficeLocation(data);
+    // }
   };
 
   componentDidUpdate() {
