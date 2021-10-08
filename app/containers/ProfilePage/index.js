@@ -29,7 +29,7 @@ import {
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
-    let updatedlistArray = [];
+    const updatedlistArray = [];
     this.state = {
       open: false,
       trueData: true,
@@ -95,7 +95,7 @@ class ProfilePage extends Component {
   }
 
   handleScroll = e => {
-    let element = e.target;
+    const element = e.target;
     const fixedHeight = element.clientHeight - 100;
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       console.log('scroll in if ===== ');
