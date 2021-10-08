@@ -29,8 +29,10 @@ import {
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
+    let updatedlistArray = [];
     this.state = {
       open: false,
+      trueData: true,
       show: false,
       search: false,
       allUser: [],
@@ -39,8 +41,11 @@ class ProfilePage extends Component {
       selectData: [],
       finalData: [],
       finalLocationDay: [],
+      listArray: [],
+
       selectedDay: '',
       selectedNames: '',
+      activePage: 1,
       finalval: '',
       checked: false,
       data: true,
@@ -80,19 +85,71 @@ class ProfilePage extends Component {
   }
 
   componentDidMount() {
-    // this.props.requestDelegateData();
-    this.props.requestGetOfficeLocation({});
+    const doc = document.getElementById('data_update');
+    if (doc) doc.addEventListener('scroll', this.handleScroll(), true);
+
+    this.props.requestGetDelegateList();
     this.props.requestGetProfileOfficeData({});
+    this.props.requestGetOfficeLocation({});
+    this.loadCustomers();
   }
 
-  componentDidUpdate() {
+  handleScroll = e => {
+    let element = e.target;
+    const fixedHeight = element.clientHeight - 100;
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      console.log('scroll in if ===== ');
+      const { activePage } = this.state;
+      this.setState({ activePage: activePage + 1 }, () => this.loadCustomers());
+      // do something at end of scroll
+    }
+  };
+
+  loadCustomers = () => {
+    this.props.requestDelegateData({
+      page: this.state.activePage,
+    });
+  };
+
+  componentWillUnmount() {
+    this.props.clearBoardData();
+  }
+
+  componentDidUpdate(prevProps) {
     const {
       getProfileLocationSuccess,
       getProfileLocation,
       apiMessage,
       locationMessage,
       badgeUpdateData,
+      delegateListSuccess,
+      delegateList,
     } = this.props;
+    const { listArray, trueData } = this.state;
+    const { delegateList: prevdelegateList } = prevProps;
+
+    if (
+      delegateListSuccess &&
+      delegateListSuccess.success &&
+      delegateList !== prevdelegateList &&
+      !delegateListSuccess.loading
+    ) {
+      let list = [];
+      list = delegateList;
+
+      listArray.push(...prevdelegateList, ...list);
+
+      this.updatedlistArray = this.unique(listArray, obj => obj.employeeid);
+      console.log(
+        `this.state.updatedlistArray update data`,
+        this.updatedlistArray,
+      );
+
+      if (listArray.length > 0 && trueData) {
+        this.handleClearstate();
+      }
+    }
+
     if (
       getProfileLocation &&
       !getProfileLocation.loading &&
@@ -112,6 +169,14 @@ class ProfilePage extends Component {
     }
   }
 
+  unique = (dataVal, key) => [
+    ...new Map(dataVal.map(x => [key(x), x])).values(),
+  ];
+
+  handleClearstate = () => {
+    this.setState({ listArray: [], trueData: false });
+  };
+
   handleClose = () => {
     const { finalData } = this.state;
     this.setState({ userListData: finalData, show: false });
@@ -120,10 +185,6 @@ class ProfilePage extends Component {
   handleShow = () => {
     this.setState({ show: true });
   };
-
-  componentWillUnmount() {
-    this.props.clearBoardData();
-  }
 
   handleBadgeData = event => {
     const { name, value } = event.target;
@@ -258,6 +319,18 @@ class ProfilePage extends Component {
     }
   };
 
+  handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+    if (this.state.searchValue.length === 3) {
+      this.setState({ updatedlistArray: [], listArray: [] });
+      this.props.requestDelegateData({
+        page: 1,
+        searchUser: this.state.searchValue || '',
+      });
+    }
+  };
+
   // allTabColor = type => {
   //   let color;
   //   switch (type) {
@@ -312,7 +385,7 @@ class ProfilePage extends Component {
             allTabColor={this.allTabColor}
             getProfileLocation={getProfileLocation}
             userData={userData}
-            delegateList={delegateList}
+            delegateList={this.updatedlistArray}
             delegateSuccess={delegateSuccess}
             location={location}
             apiMessage={apiMessage}
@@ -329,6 +402,7 @@ class ProfilePage extends Component {
             requestAddDelegateList={this.props.requestAddDelegateList}
             requestRemoveDelegateList={this.props.requestRemoveDelegateList}
             delegrateUsersList={delegrateUsersList}
+            onScroll={this.handleScroll}
           />
         </div>
       </>
@@ -344,6 +418,8 @@ const mapStateToProps = state => {
 
     delegateList:
       profile && profile.delegateList && profile.delegateList.delegate,
+    delegateListSuccess:
+      profile && profile.delegateList && profile.delegateList,
     delegateSuccess:
       profile && profile.delegateList && profile.delegateList.success,
     getProfileLocationSuccess:

@@ -71,9 +71,12 @@ export function* getUserListData() {
   }
 }
 
-export function* getDelegateListData() {
+export function* getDelegateListData({ payload }) {
+  console.log(`payload`, payload);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Delegate/getUsersForDelegate`;
+  const requestURL = `${API_URL}/Delegate/getUsersForDelegate?page=${
+    payload.page
+  }&searchUser=${payload.searchUser || ''}`;
   try {
     const delegateList = yield request({
       method: 'GET',

@@ -43,6 +43,8 @@ const Profile = ({
   requestAddDelegateList,
   requestRemoveDelegateList,
   delegrateUsersList,
+  onScroll,
+  handleChange,
 }) => {
   const [open, setOpen] = useState(true);
   const [openbadgeData, setOpenBadgeData] = useState(true);
@@ -50,7 +52,6 @@ const Profile = ({
   const [openBadge, setOpenBadge] = useState(false);
   const [modal, setModal] = useState(false);
   const [search, setSearch] = useState(false);
-  const [allUser, setAllUser] = useState([]);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
   const [idData, setIdData] = useState([]);
@@ -72,21 +73,23 @@ const Profile = ({
   const inputval2 =
     userData && userData.badgeNumber && userData.badgeNumber.slice(7, 11);
   useEffect(() => {
-    if (delegateList && delegateList.length && delegateSuccess && open) {
-      setAllUser(delegateList);
-      setSearchName(delegateList);
-      setOpen(false);
-    }
-  }, [delegateList]);
+    console.log(`delegateList`, delegateList);
+    console.log(`in`);
 
-  const result = delegrateUsersList.map(x => {
-    const item = searchName.find(items => items.employeeid === x.employeeid);
-    console.log(`result`, result);
-    if (item) {
-      return item;
-    }
-    return item;
-  });
+    setSearchName(delegateList);
+    console.log(`searchName`, searchName);
+    setOpen(false);
+    // const result = delegrateUsersList.map(x => {
+    //   const item =
+    //     searchName &&
+    //     searchName.find(items => items.employeeid === x.employeeid);
+    //   console.log(`result`, result);
+    //   if (item) {
+    //     return item;
+    //   }
+    //   return item;
+    // });
+  }, [delegateList]);
 
   useEffect(() => {
     if (
@@ -105,21 +108,6 @@ const Profile = ({
     }
   }, [badgeUpdateData, delegrateUsersList]);
 
-  const handleChange = event => {
-    let newList = [];
-    if (event.target.value !== '') {
-      setSearch(true);
-      newList = allUser.filter(({ firstname }) => {
-        const finalDataList = firstname.toLowerCase();
-        const filter = event.target.value.toLowerCase();
-        return finalDataList.includes(filter);
-      });
-    } else {
-      setSearch(false);
-      newList = allUser;
-    }
-    setSearchName(newList);
-  };
   const idDataValue = [];
   let dataName = [];
   const handleUserSelect = firstname => {
@@ -625,15 +613,21 @@ const Profile = ({
                   }}
                 />
               </div>
-              <div className="modal-body modal-update">
+              <div
+                className="modal-body modal-update"
+                onScroll={onScroll}
+                id="data_update"
+                style={{ maxHeight: ' 600px' }}
+              >
                 <form className="delegate-workspot-access" action="submit">
                   <input
                     type="search"
                     placeholder="Search..."
                     className="searchbox"
+                    name="searchValue"
                     onChange={handleChange}
                   />
-                  {searchName.length &&
+                  {searchName &&
                     searchName.map(i => (
                       <div
                         aria-hidden="true"
