@@ -127,6 +127,8 @@ const profilePageReducer = (state = initialState, action) =>
         draft.delegateList = {};
         draft.badgeUpdate.message = '';
         draft.badgeUpdate.success = false;
+        draft.delegateProfile.success = false;
+        draft.userList.success = false;
         break;
 
       case REQUEST_BADGE_DATA:

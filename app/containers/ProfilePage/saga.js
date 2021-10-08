@@ -44,7 +44,7 @@ export function* getLocationData() {
 
 export function* getUserListData() {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/User/GetData?employeeid=239321`;
+  const requestURL = `${API_URL}/User/GetData?employeeid=239323`;
   try {
     const usersList = yield request({
       method: 'GET',
@@ -101,9 +101,11 @@ export function* updateBadgeData({ payload }) {
   }
 }
 
-export function* delegateProfile() {
+export function* delegateProfile({ payload }) {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Delegate/getDelegateUserProfile?employeeid=239323`;
+  const requestURL = `${API_URL}/Delegate/getDelegateUserProfile?employeeid=${
+    payload.empId
+  }`;
   try {
     const delegateProfileList = yield request({
       method: 'GET',

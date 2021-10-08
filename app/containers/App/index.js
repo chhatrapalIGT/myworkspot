@@ -21,6 +21,7 @@ import ProfilePage from '../ProfilePage';
 import Washington from '../OfficeMapPage';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import Faq from '../../components/FAQ';
+import delegateProfile from '../../components/Profile/delegateProfile';
 import Report from '../ReportPage';
 import Boarding from '../onBoardingPage';
 import WorkSpot from '../WorkspotPage';
@@ -52,6 +53,12 @@ const App = props => {
           <Route exact path="/faq" component={Faq} />
           <Route exact path="/report" Route props={props} component={Report} />
           <Route exact path="/board" props={props} Route component={Boarding} />
+          <Route
+            path="/profile/delegate"
+            props={props}
+            Route
+            component={delegateProfile}
+          />
           <Route
             exact
             Route

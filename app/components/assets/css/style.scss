@@ -196,18 +196,21 @@ input[type='text'] {
 .badge_check {
   text-align: center;
   padding: 10px;
-  background-color: #f6cb15;
+  background-color: #f7ca0f;
   font-weight: bold;
-  color: black;
+  color: #00355f;
+  > img {
+    margin: 0px 5px 6px;
+  }
 }
 .btn_badge {
   background: transparent;
   border: 1px solid black;
   border-radius: 5px;
   padding: 3px 30px;
-  margin: 0 2%;
+  margin: 0 1.5%;
   font-weight: bold;
-  color: black;
+  color: #00355f;
 }
 .site-header {
   background: #002d50;
@@ -395,7 +398,7 @@ input[type='text'] {
           }
         }
         .popup-secondary-profile {
-          padding: 14px 30px;
+          padding: 8px 30px;
           border-bottom: 1px solid #ebeef1;
           display: flex;
           align-items: center;
