@@ -136,7 +136,7 @@ const DelegateProfile = props => {
                                   props.delegateUserProfile.badgeNumber}
                               </p>
                               <a
-                                className="replace"
+                                className="replace delegate_profile"
                                 href
                                 // onClick={() => setOpenBadge(true)}
                               >
@@ -175,7 +175,7 @@ const DelegateProfile = props => {
                     <>
                       {props.delegateUserWeek &&
                         props.delegateUserWeek.map(t => (
-                          <div className="day_one">
+                          <div className="day_one delegate_profile">
                             <p className="day-name">{t.dayofweek}</p>
 
                             <a

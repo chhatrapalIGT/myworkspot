@@ -149,6 +149,7 @@ const Header = props => {
                   }
                 >
                   <span>
+                    On behalf of{' '}
                     {props.delegateHeaderProfile &&
                       props.delegateHeaderProfile.firstname}
                   </span>{' '}
@@ -317,6 +318,7 @@ const Header = props => {
         </div>
       </header>
       {pathName !== '/board' &&
+        !pathName.includes('/profile/delegate') &&
         (props.profileUser && props.profileUser.badgeNumber === '' && (
           <div className="badge_check">
             <img src={BadgeIcon} alt="bicon" /> You don't have a badge

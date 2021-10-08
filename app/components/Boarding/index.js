@@ -95,7 +95,9 @@ const Boarding = ({
                   </div>
                   <div className="welcome">
                     <h2>Hello, Alexander</h2>
-                    <p>Lets complete your My Workspot profile</p>
+                    <p>
+                      Lets complete your <i>my</i>Workspot profile
+                    </p>
                   </div>
                 </div>
               </div>

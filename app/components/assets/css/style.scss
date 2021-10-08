@@ -614,7 +614,7 @@ input[type='text'] {
         border-radius: 8px;
         padding: 5px 25px;
         min-height: 88px;
-
+        text-align: center;
         .work-station {
           font-weight: 600;
           color: #002d50;
@@ -630,6 +630,7 @@ input[type='text'] {
         &.work-from-home {
           background: #f5f7fa url(../images/workfromhome.png) no-repeat center
             bottom;
+          padding-top: 12px !important;
         }
       }
     }
@@ -2581,6 +2582,7 @@ select.set_drop option[id='building'],
 .work-from-home {
   cursor: pointer;
   background: #f5f7fa url(../images/workfromhome.png) no-repeat center bottom !important;
+  padding-top: 12px !important;
 }
 
 .paid-time-off {
@@ -2765,4 +2767,7 @@ select.set_drop option[id='building'],
 }
 .css-tlfecz-indicatorContainer {
   margin-right: 11px;
+}
+.delegate_profile {
+  pointer-events: none;
 }
