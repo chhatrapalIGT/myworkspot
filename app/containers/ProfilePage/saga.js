@@ -5,6 +5,7 @@ import {
   REQUEST_USERLIST_DATA,
   REQUEST_DELEGATE_DATA,
   REQUEST_BADGE_DATA,
+  REQUEST_DELEGATE_PROFILE,
 } from './constants';
 import {
   getProfileOfficeDataSuccess,
@@ -15,6 +16,8 @@ import {
   getDelegateSuccess,
   getBadgeSuccess,
   getBadgeFailed,
+  delegateProfileSuccess,
+  delegateProfileFailed,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -48,6 +51,7 @@ export function* getUserListData() {
       url: requestURL,
     });
     const { data } = usersList;
+    console.log('data==>>>> userprofile', data);
     if (data && data.success) {
       yield put(getUserlistSuccess(data));
     } else {
@@ -97,9 +101,31 @@ export function* updateBadgeData({ payload }) {
   }
 }
 
+export function* delegateProfile({ payload }) {
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/Delegate/getDelegateUserProfile?employeeid=${
+    payload.empId
+  }`;
+  try {
+    const delegateProfileList = yield request({
+      method: 'GET',
+      url: requestURL,
+    });
+    const { data } = delegateProfileList;
+    console.log('data ===> delegarte profile', data);
+    if (data && data.success) {
+      yield put(delegateProfileSuccess(data.response));
+    } else {
+      yield put(delegateProfileFailed(data));
+    }
+  } catch (err) {
+    yield put(delegateProfileFailed(err.message));
+  }
+}
 export default function* profileData() {
   yield takeLatest(REQUEST_GET_PROFILE_OFFICE_DATA, getLocationData);
   yield takeLatest(REQUEST_USERLIST_DATA, getUserListData);
   yield takeLatest(REQUEST_DELEGATE_DATA, getDelegateListData);
   yield takeLatest(REQUEST_BADGE_DATA, updateBadgeData);
+  yield takeLatest(REQUEST_DELEGATE_PROFILE, delegateProfile);
 }

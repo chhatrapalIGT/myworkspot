@@ -788,7 +788,7 @@ const WorkSpot = ({
                     className="searchbox"
                     onChange={handleChange}
                   />
-                  {colleaguesData.length > 0 &&
+                  {/* {colleaguesData.length > 0 &&
                     filteredData.map(i => (
                       <div
                         aria-hidden="true"
@@ -810,7 +810,7 @@ const WorkSpot = ({
                           {i.firstname} {i.lastname}
                         </label>
                       </div>
-                    ))}
+                    ))} */}
                 </form>
               </div>
               <div className="modal-footer">
@@ -1037,8 +1037,6 @@ const WorkSpot = ({
                       </option>
                     </select>
                   </div>
-
-                  {/* <hr /> */}
                   <p className="notice" style={{ padding: '0 1.5rem' }}>
                     If you would like to update your weekly default, you can
                     update this under {'   '}

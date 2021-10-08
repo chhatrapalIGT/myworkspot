@@ -13,6 +13,9 @@ import {
   REQUEST_BADGE_DATA,
   SUCCESS_BADGE_DATA,
   FAILED_BADGE_DATA,
+  REQUEST_DELEGATE_PROFILE,
+  SUCCESS_DELEGATE_PROFILE,
+  FAILED_DELEGATE_PROFILE,
 } from './constants';
 
 // The initial state of the App
@@ -43,6 +46,13 @@ const initialState = {
     success: false,
     loading: false,
     message: '',
+  },
+  delegateProfile: {
+    error: '',
+    success: false,
+    loading: false,
+    message: '',
+    delegateProfileList: [],
   },
   apiSuccess: false,
   apiMessage: '',
@@ -117,6 +127,8 @@ const profilePageReducer = (state = initialState, action) =>
         draft.delegateList = {};
         draft.badgeUpdate.message = '';
         draft.badgeUpdate.success = false;
+        draft.delegateProfile.success = false;
+        draft.userList.success = false;
         break;
 
       case REQUEST_BADGE_DATA:
@@ -133,7 +145,27 @@ const profilePageReducer = (state = initialState, action) =>
         draft.badgeUpdate.loading = false;
         draft.badgeUpdate.success = action.payload.success;
         draft.badgeUpdate.message = action.payload.message;
+        break;
 
+      case REQUEST_DELEGATE_PROFILE:
+        draft.delegateProfile.loading = true;
+        draft.delegateProfile.error = '';
+        break;
+      case SUCCESS_DELEGATE_PROFILE:
+        draft.delegateProfile.loading = false;
+        draft.delegateProfile.success = true;
+        draft.delegateProfile.delegateProfileList = action.payload;
+        draft.delegateProfile.error = '';
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case FAILED_DELEGATE_PROFILE:
+        draft.delegateProfile.loading = false;
+        draft.delegateProfile.success = false;
+        draft.delegateProfile.delegateProfileList = [];
+        draft.delegateProfile.error = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
     }
   });
