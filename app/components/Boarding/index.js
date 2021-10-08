@@ -104,10 +104,11 @@ const Boarding = ({
                 <div className="container">
                   <div className="card on-boarding-inner">
                     <h4 className="common-title">Weekly Default</h4>
-                    <p className="desc stroke-2 mt-3">
+                    <p className="stroke-2 mt-3 profile_desc">
                       Your weekly default will pre-populate for each week unless
-                      you update My Workspot for a specific day. You can update
-                      My Workspot for a particular day on the homepage.
+                      you update <i>my</i>Workspot for a specific day. You can
+                      update <i>my</i>Workspot for a particular day on the
+                      homepage.
                     </p>
                     <div className="mt-4 weekly-default-inner px-0 d-flex flex-wrap">
                       {state.timings.map(t => (

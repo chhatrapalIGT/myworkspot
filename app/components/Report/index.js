@@ -77,9 +77,11 @@ const Report = ({
       ...styles,
       backgroundColor: 'white',
       borderRadius: '8px',
+      cursor: 'pointer',
     }),
     option: (styles, { isFocused, isSelected, isVisited }) => ({
       ...styles,
+      cursor: isFocused ? 'pointer' : '',
 
       backgroundColor: isSelected
         ? '#f8f8f8'
@@ -283,305 +285,318 @@ const Report = ({
       )}
 
       <div className="wrapper_main">
-        <div className="container">
-          <h4
-            className="common-title"
-            style={{ marginLeft: '20px', marginBottom: ' 38px' }}
-          >
-            My Team
-          </h4>
-          <Calender
-            defaultSelected="week"
-            setShow={setShow}
-            allUser={state.allUser}
-            setEmployeeLocationDetail={setEmployeeLocationDetail}
-            getWorkSpots={getWorkSpots}
-            handleEditModal={datas => setModalData(datas)}
-            weekVal={state.weekVal}
-          />
+        {myTeamSuccess && myTeamSuccess.loading && !isdata ? (
+          <div className="mt-4 weekly-default-inner d-flex flex-wrap">
+            <Spinner
+              className="app-spinner"
+              animation="grow"
+              variant="dark"
+              // style={{ width: '0%' }}
+            />
+          </div>
+        ) : (
+          <div className="container">
+            <h4
+              className="common-title"
+              style={{ marginLeft: '20px', marginBottom: ' 38px' }}
+            >
+              My Team
+            </h4>
+            <Calender
+              defaultSelected="week"
+              setShow={setShow}
+              allUser={state.allUser}
+              setEmployeeLocationDetail={setEmployeeLocationDetail}
+              getWorkSpots={getWorkSpots}
+              handleEditModal={datas => setModalData(datas)}
+              weekVal={state.weekVal}
+            />
 
-          <Modal
-            className="modal fade test_modal"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-            show={show}
-            onHide={handleClose}
-          >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel">
-                    Invite Team to the Office
-                  </h5>
-                  <button
-                    type="button"
-                    className="btn-close "
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                    onClick={() => {
-                      handleClearData();
-                      setShow(false);
-                    }}
-                  />
-                </div>
-                <div className="modal-body modal-body_myteam">
-                  <Select
-                    isMulti
-                    value={state.selectedOption}
-                    onChange={handleChange}
-                    options={updatedEmpData}
-                    closeMenuOnSelect={false}
-                    hideSelectedOptions={false}
-                    onMenuClose={false}
-                    className="mb-3 "
-                    name="employee"
-                    placeholder="Select Team Member(s)"
-                    styles={colourStyles}
-                    // theme={theme => ({
-                    //   ...theme,
-                    //   colors: {
-                    //     ...theme.colors,
-                    //     primary25: '#blue',
-                    //   },
-                    // })}
-                  />
-                  <div className="selection">
-                    <select name="location" onChange={handleUserSelect}>
-                      <optgroup label="EAB Office">
-                        {finalLocation &&
-                          finalLocation.map(i => (
-                            <option
-                              htmlFor="jane"
-                              value={i.locationCode}
-                              id="location"
-                              style={{ padding: '50px' }}
-                            >
-                              {i.locationname}
-                            </option>
-                          ))}
-                      </optgroup>
-                      <hr />
-                      <option value={data && data.locationCode}>
-                        {data && data.locationname}
-                      </option>
-                    </select>
-                  </div>
-                  <div className="invite-team-wrapp choose-date mt-3">
-                    <div className="access-to">
-                      <span className="material-icons-outlined">
-                        calendar_today
-                      </span>
-                    </div>
-                    <Datepicker
-                      controls={['calendar']}
-                      dateFormat="MMM DD,YYYY"
-                      placeholder="Select Date(s)"
-                      selectMultiple
-                      min={moment().toDate()}
-                      className="dataaaa"
-                      selectCounter
-                      buttons={nowButtons}
-                      ref={setNow}
-                      onChange={onDateChange}
-                      marked={[
-                        {
-                          date: new Date(2021, 8, 2),
-                          markCssClass: 'mbsc-calendar-marks1',
-                        },
-                        {
-                          date: new Date(2021, 8, 4),
-                          markCssClass: 'mbsc-calendar-marks1',
-                        },
-                        {
-                          date: new Date(2021, 8, 5),
-                          markCssClass: 'mbsc-calendar-marks2',
-                        },
-                        {
-                          date: new Date(2021, 8, 7),
-                          markCssClass: 'mbsc-calendar-marks3',
-                        },
-                        {
-                          date: new Date(2021, 8, 6),
-                          markCssClass: 'mbsc-calendar-marks3',
-                        },
-                      ]}
-                    />
-                  </div>
-                  <div className="description mt-3">
-                    <textarea
-                      name="textValue"
-                      onChange={handleTextData}
-                      id=""
-                      placeholder="Add a Message"
-                      cols="30"
-                      rows="10"
-                    />
-                  </div>
-                  <p className="notice mb-1 mt-2">
-                    An email invitation will be sent to the selected team
-                    member(s) once you click Invite.
-                  </p>
-                </div>
-                <div className="modal-footer">
-                  {!isLoading ? (
+            <Modal
+              className="modal fade test_modal"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+              show={show}
+              onHide={handleClose}
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">
+                      Invite Team to the Office
+                    </h5>
                     <button
                       type="button"
-                      className={
-                        state.selectedNames &&
-                        state.selectedOption.length > 0 &&
-                        state.date
-                          ? 'btn save-data'
-                          : 'btn disable-data'
-                      }
+                      className="btn-close "
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
                       onClick={() => {
-                        handleModalClose();
-                        handleCloseData();
+                        handleClearData();
+                        setShow(false);
                       }}
-                    >
-                      Invite
-                    </button>
-                  ) : (
-                    <button type="button" className="btn save-data">
-                      <div
-                        className="spinner-border"
-                        style={{ marginRight: '2px' }}
-                      />
-                      Invite
-                    </button>
-                  )}
+                    />
+                  </div>
+                  <div className="modal-body modal-body_myteam">
+                    <Select
+                      isMulti
+                      value={state.selectedOption}
+                      onChange={handleChange}
+                      options={updatedEmpData}
+                      closeMenuOnSelect={false}
+                      hideSelectedOptions={false}
+                      onMenuClose={false}
+                      className="mb-3 "
+                      name="employee"
+                      placeholder="Select Team Member(s)"
+                      styles={colourStyles}
+                      // theme={theme => ({
+                      //   ...theme,
+                      //   colors: {
+                      //     ...theme.colors,
+                      //     primary25: '#blue',
+                      //   },
+                      // })}
+                    />
+                    <div className="selection">
+                      <select name="location" onChange={handleUserSelect}>
+                        <optgroup label="EAB Office">
+                          {finalLocation &&
+                            finalLocation.map(i => (
+                              <option
+                                htmlFor="jane"
+                                value={i.locationCode}
+                                id="location"
+                                style={{ padding: '50px' }}
+                              >
+                                {i.locationname}
+                              </option>
+                            ))}
+                        </optgroup>
+                        <hr />
+                        <option value={data && data.locationCode}>
+                          {data && data.locationname}
+                        </option>
+                      </select>
+                    </div>
+                    <div className="invite-team-wrapp choose-date mt-3">
+                      <div className="access-to">
+                        <span className="material-icons-outlined">
+                          calendar_today
+                        </span>
+                      </div>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      handleClearData();
-                      setShow(false);
-                    }}
-                    className="btn dismiss"
-                    data-bs-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
+                      <Datepicker
+                        controls={['calendar']}
+                        dateFormat="DD MMM,YYYY"
+                        selectMultiple
+                        min={moment().toDate()}
+                        className="dataaaa"
+                        selectCounter
+                        buttons={nowButtons}
+                        ref={setNow}
+                        onChange={onDateChange}
+                        // marked={[
+                        //   {
+                        //     date: new Date(2021, 8, 2),
+                        //     markCssClass: 'mbsc-calendar-marks1',
+                        //   },
+                        //   {
+                        //     date: new Date(2021, 8, 4),
+                        //     markCssClass: 'mbsc-calendar-marks1',
+                        //   },
+                        //   {
+                        //     date: new Date(2021, 8, 5),
+                        //     markCssClass: 'mbsc-calendar-marks2',
+                        //   },
+                        //   {
+                        //     date: new Date(2021, 8, 7),
+                        //     markCssClass: 'mbsc-calendar-marks3',
+                        //   },
+                        //   {
+                        //     date: new Date(2021, 8, 6),
+                        //     markCssClass: 'mbsc-calendar-marks3',
+                        //   },
+                        // ]}
+                      />
+                    </div>
+
+                    <div className="description mt-3">
+                      <textarea
+                        name="textValue"
+                        onChange={handleTextData}
+                        id=""
+                        placeholder="Add a Message"
+                        cols="30"
+                        rows="10"
+                      />
+                    </div>
+                    <p className="notice mb-1 mt-2">
+                      An email invitation will be sent to the selected team
+                      member(s) once you click Invite.
+                    </p>
+                  </div>
+                  <div className="modal-footer">
+                    {!isLoading ? (
+                      <button
+                        type="button"
+                        className={
+                          state.selectedNames &&
+                          state.selectedOption.length > 0 &&
+                          state.date
+                            ? 'btn save-data'
+                            : 'btn disable-data'
+                        }
+                        onClick={() => {
+                          handleModalClose();
+                          handleCloseData();
+                        }}
+                      >
+                        Invite
+                      </button>
+                    ) : (
+                      <button type="button" className="btn save-data">
+                        <div
+                          className="spinner-border"
+                          style={{ marginRight: '2px' }}
+                        />
+                        Invite
+                      </button>
+                    )}
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleClearData();
+                        setShow(false);
+                      }}
+                      className="btn dismiss"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Modal>
+            </Modal>
 
-          <Modal
-            className="modal fade test_modal test_modal-employee"
-            show={employeeLocationDetail}
-            onHide={() => setEmployeeLocationDetail(false)}
-            aria-labelledby="exampleModalLabel"
-            style={{ maxWidth: 'calc(100% - 10rem)' }}
-            aria-hidden="true"
-            centered
-            size="lg"
-          >
-            <div className=" modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header myteam_header">
-                  <div className="left-panel myteam_card">
-                    <h5 className="modal-title" id="exampleModalLabel">
-                      {moment().format('dddd, MMMM DD YYYY')}
-                    </h5>
+            <Modal
+              className="modal fade test_modal test_modal-employee"
+              show={employeeLocationDetail}
+              onHide={() => setEmployeeLocationDetail(false)}
+              aria-labelledby="exampleModalLabel"
+              style={{ maxWidth: 'calc(100% - 10rem)' }}
+              aria-hidden="true"
+              centered
+              size="lg"
+            >
+              <div className=" modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header myteam_header">
+                    <div className="left-panel myteam_card">
+                      <h5 className="modal-title" id="exampleModalLabel">
+                        {moment().format('dddd, MMMM DD YYYY')}
+                      </h5>
+                    </div>
+                    <div className="myteam-user">
+                      {' '}
+                      <img src={profile} alt="" />
+                      <label htmlFor="my-spot">
+                        {modalData && modalData.user}
+                      </label>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      onClick={() => setEmployeeLocationDetail(false)}
+                    />
                   </div>
-                  <div className="myteam-user">
-                    {' '}
-                    <img src={profile} alt="" />
-                    <label htmlFor="my-spot">
-                      {modalData && modalData.user}
-                    </label>
-                  </div>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                    onClick={() => setEmployeeLocationDetail(false)}
-                  />
-                </div>
-                <div className="modal-body">
-                  <div className="office-structure office-structure-modal">
-                    <div className="container" style={{ height: '100%' }}>
-                      <>
-                        <div
-                          className="card office-structure-inner"
-                          style={{ height: '100%' }}
-                        >
-                          {officeRest || ''}
-                          <div className="right-map">
-                            <Draggable
-                              disabled={!isDraggable}
-                              key={state.version}
-                            >
-                              <div
-                                className="drag_image"
-                                style={isDraggable ? { cursor: 'move' } : null}
+                  <div className="modal-body">
+                    <div className="office-structure office-structure-modal">
+                      <div className="container" style={{ height: '100%' }}>
+                        <>
+                          <div
+                            className="card office-structure-inner"
+                            style={{ height: '100%' }}
+                          >
+                            {officeRest || ''}
+                            <div className="right-map">
+                              <Draggable
+                                disabled={!isDraggable}
+                                key={state.version}
                               >
-                                <img
-                                  src={finalImg}
-                                  alt=""
-                                  style={imgStyle}
-                                  draggable="false"
-                                />
+                                <div
+                                  className="drag_image"
+                                  style={
+                                    isDraggable ? { cursor: 'move' } : null
+                                  }
+                                >
+                                  <img
+                                    src={finalImg}
+                                    alt=""
+                                    style={imgStyle}
+                                    draggable="false"
+                                  />
+                                </div>
+                              </Draggable>
+                              <div className="toolbar">
+                                <button
+                                  className="location"
+                                  type="button"
+                                  onClick={() => handleDefault()}
+                                >
+                                  <img src={locationMap} alt="" />
+                                </button>
+                                <button
+                                  className="zoomin"
+                                  type="button"
+                                  onClick={() => handleZoomIn()}
+                                >
+                                  <img src={zoomin} alt="" />
+                                </button>
+                                <button
+                                  className="zoomout"
+                                  type="button"
+                                  onClick={() => handleZoomOut()}
+                                >
+                                  <img src={zoomout} alt="" />
+                                </button>
                               </div>
-                            </Draggable>
-                            <div className="toolbar">
-                              <button
-                                className="location"
-                                type="button"
-                                onClick={() => handleDefault()}
-                              >
-                                <img src={locationMap} alt="" />
-                              </button>
-                              <button
-                                className="zoomin"
-                                type="button"
-                                onClick={() => handleZoomIn()}
-                              >
-                                <img src={zoomin} alt="" />
-                              </button>
-                              <button
-                                className="zoomout"
-                                type="button"
-                                onClick={() => handleZoomOut()}
-                              >
-                                <img src={zoomout} alt="" />
-                              </button>
                             </div>
                           </div>
-                        </div>
-                      </>
-                    </div>
-                    <div className="container" style={{ height: '100%' }}>
-                      <div className="right-map" />
+                        </>
+                      </div>
+                      <div className="container" style={{ height: '100%' }}>
+                        <div className="right-map" />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Modal>
-
-          <Modal
-            className="modal fade test_modal"
-            show={isdata}
-            onHide={() => setData(false)}
-            aria-labelledby="exampleModalLabel"
-            style={{ maxWidth: 'calc(100% - 0rem)' }}
-            aria-hidden="true"
-            centered
-          >
-            <div className=" modal-dialog-centered">
-              <div className="modal-content">
-                <img
-                  src={success}
-                  alt="Success"
-                  style={{ width: '165px', margin: '70px auto' }}
-                />
-              </div>
-            </div>
-          </Modal>
-        </div>
+            </Modal>
+          </div>
+        )}
       </div>
+      <Modal
+        className="modal fade test_modal"
+        show={isdata}
+        onHide={() => setData(false)}
+        aria-labelledby="exampleModalLabel"
+        style={{ maxWidth: 'calc(100% - 0rem)' }}
+        aria-hidden="true"
+        centered
+      >
+        <div className=" modal-dialog-centered">
+          <div className="modal-content">
+            <img
+              src={success}
+              alt="Success"
+              style={{ width: '165px', margin: '70px auto' }}
+            />
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };

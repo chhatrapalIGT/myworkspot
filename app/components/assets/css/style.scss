@@ -1113,11 +1113,11 @@ input[type='text'] {
           border: 1px solid red;
         }
         input {
-          padding: 3px 5px;
+          padding: 3px 15px;
           border: 1px solid #d1dce7;
           border-radius: 8px;
           max-width: 80px;
-          text-align: center;
+          text-align: left;
           font-size: 24px;
           color: #002d50;
           margin-right: 8px;
@@ -2403,16 +2403,6 @@ li.highlightOption:hover {
 //   opacity: 1 !important;
 // }
 
-.mbsc-calendar-title-wrapper {
-  button.mbsc-ltr {
-    direction: rtl !important;
-  }
-}
-.mbsc-textfield.mbsc-textfield-hidden.mbsc-textarea {
-  opacity: 1 !important;
-  font-size: 13px;
-  margin-left: 10px;
-}
 .work-floor {
   margin-bottom: 0px;
 }
@@ -2549,7 +2539,6 @@ select.set_drop option[id='building'],
 .invite-team-wrapp.choose-date {
   cursor: pointer;
 }
-
 
 .popup {
   &_err {
@@ -2694,7 +2683,7 @@ select.set_drop option[id='building'],
         border-bottom-right-radius: 8px;
         border-left: none;
         padding: 5px !important;
-        text-align: center;
+        text-align: left;
         font-size: 18px;
 
         &::-webkit-outer-spin-button,
