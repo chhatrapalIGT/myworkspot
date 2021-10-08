@@ -616,6 +616,7 @@ input[type='text'] {
           font-weight: 600;
           color: #002d50;
           margin-bottom: 6px;
+          text-align: center;
         }
 
         &.work-from-office {
@@ -1342,7 +1343,7 @@ input[type='text'] {
         }
       }
       .day-one-wrapper {
-        padding: 3px 12px 4px;
+        padding: 3px 9px 4px;
         &.work-from-office {
           background-image: none;
           &.day-pointer {
@@ -1597,7 +1598,8 @@ input[type='text'] {
           display: none;
         }
         .floor-location {
-          display: none;
+          // display: none;
+          text-align: center;
         }
         .day-one-wrapper {
           height: 72px;

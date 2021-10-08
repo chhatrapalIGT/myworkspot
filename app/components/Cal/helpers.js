@@ -158,15 +158,13 @@ export const getWeekTitle = dateObj => {
     .subtract(2, 'days')
     .toDate();
   if (startMonth === endMonth) {
-    return `${endMonth} ${moment(dateObj.startDate).format('DD')} - ${moment(
-      endDate,
-    ).format('DD')}, ${moment(dateObj.startDate).year()}`;
-  } else {
-    return `${startMonth} ${moment(dateObj.startDate).format(
-      'DD',
-    )} - ${endMonth} ${moment(endDate).format('DD')}, ${moment(
+    return `${endMonth} ${dateObj.firstDay} - ${endDate.getDate()}, ${moment(
       dateObj.startDate,
     ).year()}`;
+  } else {
+    return `${startMonth} ${
+      dateObj.firstDay
+    } - ${endMonth} ${endDate.getDate()}, ${moment(dateObj.startDate).year()}`;
   }
 };
 

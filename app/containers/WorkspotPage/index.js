@@ -68,6 +68,7 @@ class WorkSpotPage extends Component {
       errMessage: '',
       errSuccess: false,
       updateVal: true,
+      onSuccess: false,
     };
   }
 
@@ -134,7 +135,7 @@ class WorkSpotPage extends Component {
 
       setTimeout(() => {
         this.handleClearModal();
-      }, 3000);
+      }, 6000);
     }
   }
 
@@ -143,12 +144,10 @@ class WorkSpotPage extends Component {
   };
 
   handleClearModal = () => {
-    const { workspotMessage, workspotSuccess } = this.props;
-    if (workspotSuccess && workspotMessage) {
-      this.setState({
-        updatingObject: {},
-      });
-    }
+    this.setState({
+      updatingObject: {},
+    });
+
     this.setState({ work_place: '' });
   };
 

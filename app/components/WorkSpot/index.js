@@ -263,6 +263,22 @@ const WorkSpot = ({
     setCall(false);
   };
 
+  // eslint-disable-next-line consistent-return
+  const addressLink = address => {
+    switch (address) {
+      case 'WDC':
+        return 'https://goo.gl/maps/wSt2HtVQ7J2vuoGy7';
+      case 'RVA':
+        return 'https://goo.gl/maps/sMKpVpBFJJRUqT446';
+      case 'BAL':
+        return 'https://goo.gl/maps/8zpk6ZWT49puXgp67';
+      case 'BMN':
+        return 'https://goo.gl/maps/7pjiEquchRcDLWac9';
+
+      default:
+    }
+  };
+
   const handleEditModalData = (
     modalState,
     date,
@@ -377,11 +393,7 @@ const WorkSpot = ({
                         {state.updatingObject &&
                         state.updatingObject.work_area_name &&
                         state.updatingObject.work_area_name.includes('WDC') ? (
-                          <span>
-                            {' '}
-                            {neighborhoodData &&
-                              neighborhoodData.locationCode}{' '}
-                          </span>
+                          <span> DC </span>
                         ) : (
                           <span>Richmond </span>
                         )}
@@ -404,12 +416,7 @@ const WorkSpot = ({
                         neighborhoodData.locationCode === 'WDC' ? (
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
-                          your{' '}
-                          <span>
-                            {' '}
-                            {neighborhoodData &&
-                              neighborhoodData.locationCode}{' '}
-                          </span>
+                          your <span> DC </span>
                           neighborhood today is
                         </p>
                       ) : (
@@ -470,7 +477,10 @@ const WorkSpot = ({
                                   <a
                                     className="address_url"
                                     target="_blank"
-                                    href="https://goo.gl/maps/wSt2HtVQ7J2vuoGy7"
+                                    href={addressLink(
+                                      neighborhoodData &&
+                                        neighborhoodData.locationCode,
+                                    )}
                                   >
                                     <img src={union} alt="" />
 
