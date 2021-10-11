@@ -79,6 +79,7 @@ class ProfilePage extends Component {
   componentDidMount() {
     // this.props.requestDelegateData();
     this.props.requestGetOfficeLocation({});
+    this.props.requestGetProfileOfficeData({});
   }
 
   componentDidUpdate() {
@@ -382,6 +383,7 @@ const withReducer = injectReducer({ key: 'profile', reducer });
 const withSaga = injectSaga({ key: 'profile', saga });
 
 ProfilePage.propTypes = {
+  requestGetProfileOfficeData: PropTypes.func,
   requestGetOfficeLocation: PropTypes.func,
   requestAddOfficeLocation: PropTypes.func,
   requestBadgeData: PropTypes.func,
