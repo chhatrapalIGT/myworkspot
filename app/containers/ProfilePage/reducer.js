@@ -30,7 +30,7 @@ const initialState = {
   userList: {
     error: '',
     success: false,
-    loading: false,
+    loading: true,
     message: '',
     user: [],
   },

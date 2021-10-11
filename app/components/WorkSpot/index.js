@@ -971,7 +971,7 @@ const WorkSpot = ({
           show={state.editModal}
           onHide={() => handleEditModal(false)}
           aria-labelledby="exampleModalLabel"
-          style={{ maxWidth: 'calc(100% - 20rem)' }}
+          style={{ maxWidth: 'calc(100% - 0rem)' }}
           aria-hidden="true"
           centered
           size="lg"

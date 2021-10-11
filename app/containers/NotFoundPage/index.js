@@ -8,8 +8,6 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import errorImg from '../../images/picture.svg';
 
 import '../../components/assets/css/style.scss';
@@ -17,7 +15,6 @@ import '../../components/assets/css/style.scss';
 export default function NotFound() {
   return (
     <>
-      <Header />
       <div>
         <img
           src={errorImg}
@@ -38,7 +35,6 @@ export default function NotFound() {
           </button>
         </Link>
       </div>
-      <Footer />
     </>
   );
 }

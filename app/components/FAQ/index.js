@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import Axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
-import Header from '../Header';
-import Footer from '../Footer';
 import './styles.scss';
 import { CONSTANT } from '../../enum';
 
@@ -41,7 +39,6 @@ const FAQ = () => {
   }, []);
   return (
     <>
-      <Header />
       {error && error && (
         <div
           className="popup_err alert-dismissible fade show popup_err"
@@ -104,7 +101,6 @@ const FAQ = () => {
           </div>
         </>
       )}
-      <Footer />
     </>
   );
 };

@@ -138,10 +138,7 @@ class BorardingPage extends Component {
 
     if (addErrorLocation) {
       // eslint-disable-next-line no-unused-vars
-      const value =
-        final.length >= 5 && this.props.verifyBadgeSuccess
-          ? history.push('/')
-          : '';
+      const value = final.length >= 5 ? history.push('/') : '';
     }
   }
 
