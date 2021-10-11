@@ -21,26 +21,27 @@ import BadgeIcon from '../../images/badgeIcon.png';
 const Header = props => {
   const [sidebar, setSidebar] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
-  const [visible, setVisible] = useState(true);
   const divRef = useRef();
   const location = useLocation();
   const history = useHistory();
-  const [delegate, setDelegate] = useState([]);
+  const [userList, setUserList] = useState(
+    props.profileUser.delegateUserList || [],
+  );
   const pathName = location.pathname;
   let url = pathName.split('/');
   url = url[url.length - 1];
   useEffect(() => {
-    if (visible) {
-      props.requestUserlistData();
-      setVisible(false);
-    }
+    props.requestUserlistData();
+  }, []);
+
+  useEffect(() => {
     if (props.profileSuccess) {
       const delPro =
         props.profileUser.delegateUserList &&
         props.profileUser.delegateUserList.filter(
           i => i.employeeid.toString() !== url.toString(),
         );
-      setDelegate(delPro);
+      setUserList(delPro);
       props.clearData();
     }
     document.addEventListener('mousedown', handleClickOutside, false);
@@ -57,10 +58,11 @@ const Header = props => {
   };
 
   const userProfileData = id => {
+    const delPro = props.profileUser.delegateUserList.filter(
+      i => i.employeeid.toString() !== id.toString(),
+    );
+    setUserList(delPro);
     history.push(`/profile/delegate/${id}`);
-
-    props.requestDelegateProfile({ empId: id });
-    props.requestUserlistData();
   };
 
   return (
@@ -148,10 +150,12 @@ const Header = props => {
                       : `username has-dropdown ${editProfile && 'toggled'}`
                   }
                 >
-                  <span>
+                  <span style={{ color: '#ed8b00' }}>
                     On behalf of{' '}
-                    {props.delegateHeaderProfile &&
-                      props.delegateHeaderProfile.firstname}
+                    <span>
+                      {props.delegateHeaderProfile &&
+                        props.delegateHeaderProfile.firstname}
+                    </span>
                   </span>{' '}
                   <img
                     src={props.profileUser.photo || Profile}
@@ -184,8 +188,8 @@ const Header = props => {
               {pathName !== '/board' &&
               pathName.includes('/profile/delegate') ? (
                 <div className={`profile-inner ${editProfile && 'opened'}`}>
-                  <div className="head">
-                    <span>On behalf of</span>
+                  <div className="head" style={{ color: '#dcb47d' }}>
+                    <span style={{ color: '#ed8b00' }}>On behalf of</span>
                   </div>
                   <div className="profile-popup-main">
                     <img src={Profile} alt="" />
@@ -230,24 +234,21 @@ const Header = props => {
                       You
                     </div>
                   </div>
-                  {delegate &&
-                    delegate.length > 0 &&
-                    delegate.map(obj => (
-                      <div
-                        aria-hidden="true"
-                        className="popup-secondary-profile"
-                        onClick={() => userProfileData(obj.employeeid)}
-                      >
-                        <img src={obj.delegateUserPhoto || Profile} alt="" />
-                        <div className="sec-profile-info">
-                          <h4>
-                            {obj.delegateUserFistname}{' '}
-                            {obj.delegateUserLastname}{' '}
-                          </h4>
-                          <span>{obj.delegateUserEmail}</span>
-                        </div>
+                  {userList.map(obj => (
+                    <div
+                      aria-hidden="true"
+                      className="popup-secondary-profile"
+                      onClick={() => userProfileData(obj.employeeid)}
+                    >
+                      <img src={obj.delegateUserPhoto || Profile} alt="" />
+                      <div className="sec-profile-info">
+                        <h4>
+                          {obj.delegateUserFistname} {obj.delegateUserLastname}{' '}
+                        </h4>
+                        <span>{obj.delegateUserEmail}</span>
                       </div>
-                    ))}
+                    </div>
+                  ))}
                   <a href className="logout">
                     Log Out
                   </a>
@@ -374,7 +375,6 @@ Header.propTypes = {
   delegateHeaderProfile: PropTypes.object,
   clearData: PropTypes.func,
   profileSuccess: PropTypes.bool,
-  requestDelegateProfile: PropTypes.func,
 };
 
 export default compose(

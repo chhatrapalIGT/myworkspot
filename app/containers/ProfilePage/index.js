@@ -14,8 +14,6 @@ import {
   clearBoardData,
 } from '../onBoardingPage/actions';
 
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import Profile from '../../components/Profile';
 import {
   requestUserlistData,
@@ -80,7 +78,6 @@ class ProfilePage extends Component {
 
   componentDidMount() {
     // this.props.requestDelegateData();
-    this.props.requestGetProfileOfficeData({});
     this.props.requestGetOfficeLocation({});
   }
 
@@ -298,7 +295,6 @@ class ProfilePage extends Component {
     return (
       <>
         <div id="content-wrap">
-          <Header />
           <Profile
             state={this.state}
             handleCheckbox={this.handleCheckbox}
@@ -328,7 +324,6 @@ class ProfilePage extends Component {
             handleCloseBtn={this.handleCloseBtn}
           />
         </div>
-        <Footer />
       </>
     );
   }
@@ -336,7 +331,6 @@ class ProfilePage extends Component {
 
 const mapStateToProps = state => {
   const { profile, locationData } = state;
-  console.log('state profile', state);
   return {
     getProfileLocation: profile && profile.getOffice,
     userData: profile && profile.userList && profile.userList.user,
@@ -388,7 +382,6 @@ const withReducer = injectReducer({ key: 'profile', reducer });
 const withSaga = injectSaga({ key: 'profile', saga });
 
 ProfilePage.propTypes = {
-  requestGetProfileOfficeData: PropTypes.func,
   requestGetOfficeLocation: PropTypes.func,
   requestAddOfficeLocation: PropTypes.func,
   requestBadgeData: PropTypes.func,

@@ -9,8 +9,6 @@ import PropTypes from 'prop-types';
 import saga from './saga';
 import reducer from './reducer';
 import { requestGetOfficeData } from './actions';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import Office from '../../components/OfficeWDC ';
 
 const zoomStep = 1;
@@ -68,7 +66,6 @@ class OfficeMap extends Component {
     return (
       <>
         <div id="content-wrap">
-          <Header />
           <Office
             imgStyle={imgStyle}
             state={this.state}
@@ -81,7 +78,6 @@ class OfficeMap extends Component {
             officeLocationErrorHandle={officeLocationErrorHandle}
           />{' '}
         </div>
-        <Footer />
       </>
     );
   }

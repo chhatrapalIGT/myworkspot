@@ -50,7 +50,7 @@ const initialState = {
   delegateProfile: {
     error: '',
     success: false,
-    loading: false,
+    loading: true,
     message: '',
     delegateProfileList: [],
   },
@@ -129,6 +129,7 @@ const profilePageReducer = (state = initialState, action) =>
         draft.badgeUpdate.success = false;
         draft.delegateProfile.success = false;
         draft.userList.success = false;
+        draft.delegateProfile.loading = false;
         break;
 
       case REQUEST_BADGE_DATA:

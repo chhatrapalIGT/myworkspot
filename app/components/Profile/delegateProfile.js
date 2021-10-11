@@ -27,15 +27,12 @@ const DelegateProfile = props => {
   const [deleCall, setDeleCall] = useState(true);
 
   useEffect(() => {
-    if (deleCall) {
-      props.requestDelegateProfile({ empId: url });
-      setDeleCall(false);
-    }
-  }, [deleCall]);
+    props.requestDelegateProfile({ empId: url });
+  }, [url]);
   return (
     <Fragment>
       <>
-        <Header />
+        {/* <Header /> */}
         {/* {(apiMessage || locationMessage) && (
           <div
             className={`"alert-dismissible fade show ${
@@ -54,7 +51,7 @@ const DelegateProfile = props => {
               <h4 className="common-title">My Profile</h4>
 
               {/* <div className="card my-profile-inner"> */}
-              {isEmpty(props.delegateUserProfile) ? (
+              {props.isLoading ? (
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
                   <Spinner
                     className="app-spinner profile"
@@ -165,7 +162,7 @@ const DelegateProfile = props => {
               </p>
               <div className="on-boarding-inner p-0">
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
-                  {props.delegateUserWeek && !props.delegateUserWeek.length ? (
+                  {props.isLoading ? (
                     <Spinner
                       className="app-spinner profile"
                       animation="grow"
@@ -232,12 +229,15 @@ const mapStateToProps = state => {
       profile.delegateProfile &&
       profile.delegateProfile.delegateProfileList &&
       profile.delegateProfile.delegateProfileList.weeklydefaults,
+    isLoading:
+      profile && profile.delegateProfile && profile.delegateProfile.loading,
   };
 };
 DelegateProfile.propTypes = {
   delegateUserProfile: PropTypes.object,
   delegateUserWeek: PropTypes.object,
   requestDelegateProfile: PropTypes.func,
+  isLoading: PropTypes.bool,
 };
 
 export function mapDispatchToProps(dispatch) {

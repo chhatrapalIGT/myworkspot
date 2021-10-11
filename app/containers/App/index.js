@@ -25,6 +25,8 @@ import delegateProfile from '../../components/Profile/delegateProfile';
 import Report from '../ReportPage';
 import Boarding from '../onBoardingPage';
 import WorkSpot from '../WorkspotPage';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 // import Login from '../../components/Login';
 
 const App = props => {
@@ -40,34 +42,50 @@ const App = props => {
       {pageLoading ? (
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
-        <Switch>
-          <Route exact props={props} path="/" Route component={WorkSpot} />
-          {/* <Route exact path="/login" component={Login} /> */}
-          <Route
-            exact
-            path="/profile"
-            Route
-            component={ProfilePage}
-            props={props}
-          />
-          <Route exact path="/faq" component={Faq} />
-          <Route exact path="/report" Route props={props} component={Report} />
-          <Route exact path="/board" props={props} Route component={Boarding} />
-          <Route
-            path="/profile/delegate"
-            props={props}
-            Route
-            component={delegateProfile}
-          />
-          <Route
-            exact
-            Route
-            path="/office"
-            component={Washington}
-            props={props}
-          />
-          <Route component={NotFoundPage} />
-        </Switch>
+        <>
+          <Header />
+          <Switch>
+            <Route exact props={props} path="/" Route component={WorkSpot} />
+            {/* <Route exact path="/login" component={Login} /> */}
+            <Route
+              exact
+              path="/profile"
+              Route
+              component={ProfilePage}
+              props={props}
+            />
+            <Route exact path="/faq" component={Faq} />
+            <Route
+              exact
+              path="/report"
+              Route
+              props={props}
+              component={Report}
+            />
+            <Route
+              exact
+              path="/board"
+              props={props}
+              Route
+              component={Boarding}
+            />
+            <Route
+              path="/profile/delegate"
+              props={props}
+              Route
+              component={delegateProfile}
+            />
+            <Route
+              exact
+              Route
+              path="/office"
+              component={Washington}
+              props={props}
+            />
+            <Route component={NotFoundPage} />
+          </Switch>
+          <Footer />
+        </>
       )}
     </div>
   );

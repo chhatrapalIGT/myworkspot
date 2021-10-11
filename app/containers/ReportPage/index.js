@@ -11,8 +11,6 @@ import injectSaga from 'utils/injectSaga';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import profile from '../../images/profileof.png';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import Report from '../../components/Report';
 import allImage from '../../images/Vectoruser.png';
 import reducer from './reducer';
@@ -195,7 +193,6 @@ class ReportPage extends Component {
     return (
       <>
         <div id="content-wrap">
-          <Header />
           <Report
             state={this.state}
             handleChange={this.handleChange}
@@ -219,7 +216,6 @@ class ReportPage extends Component {
             myTeamSuccess={myTeamSuccess}
           />{' '}
         </div>
-        <Footer />
       </>
     );
   }

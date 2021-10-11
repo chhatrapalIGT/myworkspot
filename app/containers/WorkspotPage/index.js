@@ -8,8 +8,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import Workspot from '../../components/WorkSpot';
 import reducer from './reducer';
 import {
@@ -332,7 +330,6 @@ class WorkSpotPage extends Component {
     return (
       <>
         <div id="content-wrap">
-          <Header />
           <Workspot
             onSubmit={this.onSubmit}
             handleUserSelect={this.handleUserSelect}
@@ -372,7 +369,6 @@ class WorkSpotPage extends Component {
             // neighborhoodLoad={neighborhoodLoad}
           />
         </div>
-        <Footer />
       </>
     );
   }
