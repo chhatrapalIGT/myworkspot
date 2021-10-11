@@ -188,7 +188,7 @@ const Header = props => {
               {pathName !== '/board' &&
               pathName.includes('/profile/delegate') ? (
                 <div className={`profile-inner ${editProfile && 'opened'}`}>
-                  <div className="head" style={{ color: '#dcb47d' }}>
+                  <div className="head del">
                     <span style={{ color: '#ed8b00' }}>On behalf of</span>
                   </div>
                   <div className="profile-popup-main">

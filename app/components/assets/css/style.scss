@@ -366,6 +366,9 @@ input[type='text'] {
             font-weight: 400;
           }
         }
+        .del {
+          background-color: #e4b878;
+        }
         .profile-popup-main {
           padding: 0 30px 20px;
           border-bottom: 1px solid #ebeef1;
@@ -586,7 +589,9 @@ input[type='text'] {
     }
   }
 }
-
+.m-40 {
+  margin: 40px;
+}
 .mt-40 {
   margin-top: 40px;
 }

@@ -8,14 +8,12 @@
 
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Link, useLocation } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import ProfileImg from '../assets/images/myprofile.png';
 import Edit from '../assets/images/edit.svg';
-import Header from '../Header';
 import { requestDelegateProfile } from '../../containers/ProfilePage/actions';
 
 const DelegateProfile = props => {
@@ -24,40 +22,33 @@ const DelegateProfile = props => {
   let url = path.split('/');
   url = url[url.length - 1];
 
-  const [deleCall, setDeleCall] = useState(true);
-
   useEffect(() => {
     props.requestDelegateProfile({ empId: url });
   }, [url]);
   return (
     <Fragment>
       <>
-        {/* <Header /> */}
-        {/* {(apiMessage || locationMessage) && (
+        {props.apiMessage && (
           <div
             className={`"alert-dismissible fade show ${
-              apiSuccess || locationSuccess ? 'popup_success' : 'popup_err'
+              props.apiSuccess ? 'popup_success' : 'popup_err'
             } "`}
             role="alert"
           >
-            <p className="text-center m-auto">
-              {apiMessage || locationMessage || ''}
-            </p>
+            <p className="text-center m-auto">{props.apiMessage || ''}</p>
           </div>
-        )} */}
+        )}
         <div className="wrapper_main">
           <div className="my-profile">
             <div className="container">
               <h4 className="common-title">My Profile</h4>
 
-              {/* <div className="card my-profile-inner"> */}
               {props.isLoading ? (
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
                   <Spinner
                     className="app-spinner profile"
                     animation="grow"
                     variant="dark"
-                    // style={{ width: '0%' }}
                   />
                 </div>
               ) : (
@@ -119,32 +110,17 @@ const DelegateProfile = props => {
                       <div className="col_one">
                         <div className="attr_one">
                           <span>Badge Number</span>
-                          {/* {!openBadge && ( */}
                           <>
-                            {/* {userData.badgeNumber ? ( */}
-                            <>
-                              <p>
-                                {/* {state.badgedata
-                                      ? `BB ${state.badge.concat(
-                                          state.badgedata,
-                                        )}`
-                                      : finalBadges} */}
-                                {props.delegateUserProfile &&
-                                  props.delegateUserProfile.badgeNumber}
-                              </p>
-                              <a
-                                className="replace delegate_profile"
-                                href
-                                // onClick={() => setOpenBadge(true)}
-                              >
-                                <img src={Edit} alt="" />
-                                Replace My Badge
-                              </a>
-                            </>
+                            <p>
+                              {props.delegateUserProfile &&
+                                props.delegateUserProfile.badgeNumber}
+                            </p>
+                            <a className="replace delegate_profile" href>
+                              <img src={Edit} alt="" />
+                              Replace My Badge
+                            </a>
                           </>
-                          {/* )} */}
                         </div>
-                        {/* )} */}
                       </div>
                     </div>
                   </div>
@@ -152,7 +128,7 @@ const DelegateProfile = props => {
               )}
             </div>
           </div>
-          <div className="weekly-default onboarding-main mt-40">
+          <div className="weekly-default onboarding-main m-40">
             <div className="container">
               <h4 className="common-title">Weekly Default</h4>
               <p className="stroke-2 mt-3 profile_desc">
@@ -192,12 +168,7 @@ const DelegateProfile = props => {
                                     : 'add-location'
                                 }`}
                               >
-                                <label
-                                  value={t.dayofweek}
-                                  onClick={() => {
-                                    //   handleButtonData(t.day);
-                                  }}
-                                >
+                                <label value={t.dayofweek}>
                                   {t.locationName}
                                 </label>
                               </div>
@@ -231,6 +202,8 @@ const mapStateToProps = state => {
       profile.delegateProfile.delegateProfileList.weeklydefaults,
     isLoading:
       profile && profile.delegateProfile && profile.delegateProfile.loading,
+    delegateSuccess: profile && profile.apiSuccess,
+    delegateMessage: profile && profile.apiMessage,
   };
 };
 DelegateProfile.propTypes = {
@@ -238,6 +211,8 @@ DelegateProfile.propTypes = {
   delegateUserWeek: PropTypes.object,
   requestDelegateProfile: PropTypes.func,
   isLoading: PropTypes.bool,
+  apiMessage: PropTypes.string,
+  apiSuccess: PropTypes.bool,
 };
 
 export function mapDispatchToProps(dispatch) {
