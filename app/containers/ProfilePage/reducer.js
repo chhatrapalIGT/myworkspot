@@ -134,11 +134,12 @@ const profilePageReducer = (state = initialState, action) =>
       case REQUEST_DELEGATE_DATA:
         draft.delegateList.loading = true;
         draft.delegateList.error = '';
+        draft.delegateList.delegate = [];
         break;
       case SUCCESS_DELEGATE_DATA:
         draft.delegateList.loading = false;
         draft.delegateList.success = true;
-        draft.delegateList.delegate = action.payload;
+        draft.delegateList.delegate = action.payload.userData;
         draft.delegateList.error = '';
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
@@ -153,7 +154,6 @@ const profilePageReducer = (state = initialState, action) =>
         break;
       case CLEAR_DATA:
         draft.apiMessage = '';
-        draft.delegateList = {};
         draft.badgeUpdate.message = '';
         draft.badgeUpdate.success = false;
         draft.delegateProfile.success = false;

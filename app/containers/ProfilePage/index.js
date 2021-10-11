@@ -29,7 +29,6 @@ import {
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
-    const updatedlistArray = [];
     this.state = {
       open: false,
       trueData: true,
@@ -41,6 +40,7 @@ class ProfilePage extends Component {
       selectData: [],
       finalData: [],
       finalLocationDay: [],
+      updatedlistArray: [],
       listArray: [],
 
       selectedDay: '',
@@ -125,7 +125,7 @@ class ProfilePage extends Component {
       delegateListSuccess,
       delegateList,
     } = this.props;
-    const { listArray, trueData } = this.state;
+    const { listArray, trueData, updatedlistArray } = this.state;
     const { delegateList: prevdelegateList } = prevProps;
 
     if (
@@ -139,15 +139,16 @@ class ProfilePage extends Component {
 
       listArray.push(...prevdelegateList, ...list);
 
-      this.updatedlistArray = this.unique(listArray, obj => obj.employeeid);
+      const newArr = this.unique(listArray, obj => obj.employeeid);
+      this.updateState(newArr);
       console.log(
         `this.state.updatedlistArray update data`,
         this.updatedlistArray,
       );
 
-      if (listArray.length > 0 && trueData) {
-        this.handleClearstate();
-      }
+      // if (listArray.length > 0 && trueData) {
+      //   this.handleClearstate();
+      // }
     }
 
     if (
@@ -168,6 +169,10 @@ class ProfilePage extends Component {
       }, 5000);
     }
   }
+
+  updateState = newArr => {
+    this.setState({ updatedlistArray: newArr });
+  };
 
   unique = (dataVal, key) => [
     ...new Map(dataVal.map(x => [key(x), x])).values(),
@@ -321,14 +326,20 @@ class ProfilePage extends Component {
 
   handleChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
-    if (this.state.searchValue.length === 3) {
-      this.setState({ updatedlistArray: [], listArray: [] });
-      this.props.requestDelegateData({
-        page: 1,
-        searchUser: this.state.searchValue || '',
-      });
-    }
+
+    this.setState({ [name]: value }, () => {
+      if (this.state.searchValue.length >= 3 || this.state.searchValue === '') {
+        // eslint-disable-next-line no-unused-expressions
+        this.state.searchValue !== ''
+          ? this.setState({ search: true })
+          : this.setState({ search: false });
+        this.setState({ updatedlistArray: [] });
+        this.props.requestDelegateData({
+          page: 1,
+          searchUser: this.state.searchValue || '',
+        });
+      }
+    });
   };
 
   // allTabColor = type => {
@@ -385,7 +396,7 @@ class ProfilePage extends Component {
             allTabColor={this.allTabColor}
             getProfileLocation={getProfileLocation}
             userData={userData}
-            delegateList={this.updatedlistArray}
+            delegateList={this.state.updatedlistArray}
             delegateSuccess={delegateSuccess}
             location={location}
             apiMessage={apiMessage}

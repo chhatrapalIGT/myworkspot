@@ -650,6 +650,7 @@ const Profile = ({
                     ))}
                 </form>
               </div>
+
               <div className="modal-footer">
                 <button
                   type="button"
@@ -702,6 +703,8 @@ Profile.propTypes = {
   handleCloseBtn: PropTypes.func,
   requestRemoveDelegateList: PropTypes.func,
   requestAddDelegateList: PropTypes.func,
+  onScroll: PropTypes.func,
+  handleChange: PropTypes.func,
   delegrateUsersList: PropTypes.object,
 };
 export default Profile;

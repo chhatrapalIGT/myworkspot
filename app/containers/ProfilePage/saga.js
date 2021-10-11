@@ -53,7 +53,7 @@ export function* getLocationData() {
 
 export function* getUserListData() {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/User/GetData?employeeid=239323`;
+  const requestURL = `${API_URL}/User/GetData?employeeid=239330`;
   try {
     const usersList = yield request({
       method: 'GET',
@@ -85,7 +85,7 @@ export function* getDelegateListData({ payload }) {
     const { data } = delegateList;
 
     if (data && data.success) {
-      yield put(getDelegateSuccess(data.userData));
+      yield put(getDelegateSuccess(data));
     } else {
       yield put(getDelegateFailed(data));
     }
