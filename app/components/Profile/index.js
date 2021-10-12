@@ -46,15 +46,12 @@ const Profile = ({
   onScroll,
   handleChange,
 }) => {
-  const [open, setOpen] = useState(true);
   const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
   const [modal, setModal] = useState(false);
-  const [search, setSearch] = useState(false);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
-  const [idData, setIdData] = useState([]);
   const [selectData, setselectData] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
 
@@ -73,20 +70,22 @@ const Profile = ({
   const inputval2 =
     userData && userData.badgeNumber && userData.badgeNumber.slice(7, 11);
 
+  // const result = [];
   useEffect(() => {
     setSearchName(delegateList);
-    setOpen(false);
 
-    const result = [];
-    delegrateUsersList.forEach(data => {
-      // eslint-disable-next-line array-callback-return
-      delegateList.map(e => {
-        if (e.employeeid === data.employeeid) {
-          result.push(e);
-        }
-      });
-    });
+    // delegrateUsersList.forEach(data => {
+    //   // eslint-disable-next-line array-callback-return
+    //   searchName.map(e => {
+    //     if (e.employeeid === data.employeeid) {
+    //       result.push(e);
+    //     }
+    //     console.log(`result`, result);
+    //   });
+    // });
+  }, [delegateList]);
 
+  useEffect(() => {
     if (
       badgeUpdateData &&
       badgeUpdateData.success &&
@@ -99,11 +98,10 @@ const Profile = ({
 
     if (delegrateUsersList && delegrateUsersList.length > 0) {
       setUserListData(delegrateUsersList);
-      setselectData(result);
+      setselectData(delegrateUsersList);
     }
-  }, [badgeUpdateData, delegrateUsersList, delegateList]);
+  }, [badgeUpdateData, delegrateUsersList]);
 
-  const idDataValue = [];
   let dataName = [];
   const handleUserSelect = firstname => {
     dataName = [...selectData];
@@ -114,7 +112,6 @@ const Profile = ({
       dataName.push(firstname);
     }
     setselectData(dataName);
-    idDataValue.push(selectData);
   };
 
   const handleClose = () => {
