@@ -53,7 +53,7 @@ export function* getLocationData() {
 
 export function* getUserListData() {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/User/GetData?employeeid=239330`;
+  const requestURL = `${API_URL}/User/GetData?employeeid=239323`;
   try {
     const usersList = yield request({
       method: 'GET',
@@ -157,7 +157,7 @@ export function* addDelegateMember({ payload }) {
 
 export function* removeDelegateMember({ payload }) {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Delegate/removeDelegateUser?employeeid=239330&delegateid=${
+  const requestURL = `${API_URL}/Delegate/removeDelegateUser?employeeid=239323&delegateid=${
     payload.id
   }`;
   try {
@@ -179,7 +179,7 @@ export function* removeDelegateMember({ payload }) {
 
 export function* getUpdateDelegateData() {
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Delegate/getdelegateData?employeeid=239330`;
+  const requestURL = `${API_URL}/Delegate/getdelegateData?employeeid=239323`;
   try {
     const delegateUsersList = yield request({
       method: 'GET',
