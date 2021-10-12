@@ -72,26 +72,21 @@ const Profile = ({
     userData && userData.badgeNumber && userData.badgeNumber.slice(3, 6);
   const inputval2 =
     userData && userData.badgeNumber && userData.badgeNumber.slice(7, 11);
-  useEffect(() => {
-    console.log(`delegateList`, delegateList);
-    console.log(`in`);
 
+  useEffect(() => {
     setSearchName(delegateList);
-    console.log(`searchName`, searchName);
     setOpen(false);
-    // const result = delegrateUsersList.map(x => {
-    //   const item =
-    //     searchName &&
-    //     searchName.find(items => items.employeeid === x.employeeid);
-    //   console.log(`result`, result);
-    //   if (item) {
-    //     return item;
-    //   }
-    //   return item;
-    // });
-  }, [delegateList]);
 
-  useEffect(() => {
+    const result = [];
+    delegrateUsersList.forEach(data => {
+      // eslint-disable-next-line array-callback-return
+      delegateList.map(e => {
+        if (e.employeeid === data.employeeid) {
+          result.push(e);
+        }
+      });
+    });
+
     if (
       badgeUpdateData &&
       badgeUpdateData.success &&
@@ -104,9 +99,9 @@ const Profile = ({
 
     if (delegrateUsersList && delegrateUsersList.length > 0) {
       setUserListData(delegrateUsersList);
-      // setselectData(result);
+      setselectData(result);
     }
-  }, [badgeUpdateData, delegrateUsersList]);
+  }, [badgeUpdateData, delegrateUsersList, delegateList]);
 
   const idDataValue = [];
   let dataName = [];

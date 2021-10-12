@@ -96,7 +96,6 @@ class ProfilePage extends Component {
 
   handleScroll = e => {
     const element = e.target;
-    const fixedHeight = element.clientHeight - 100;
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       console.log('scroll in if ===== ');
       const { activePage } = this.state;
@@ -106,9 +105,24 @@ class ProfilePage extends Component {
   };
 
   loadCustomers = () => {
-    this.props.requestDelegateData({
-      page: this.state.activePage,
-    });
+    const { activePage } = this.state;
+    const { delegateListSuccess } = this.props;
+
+    if (
+      this.state.searchValue !== '' &&
+      this.state.search &&
+      activePage <= delegateListSuccess.totalPage
+    ) {
+      this.props.requestDelegateData({
+        page: this.state.activePage,
+        searchUser: this.state.searchValue || '',
+      });
+    }
+    if (!this.state.search) {
+      this.props.requestDelegateData({
+        page: this.state.activePage,
+      });
+    }
   };
 
   componentWillUnmount() {
@@ -125,7 +139,7 @@ class ProfilePage extends Component {
       delegateListSuccess,
       delegateList,
     } = this.props;
-    const { listArray, trueData, updatedlistArray } = this.state;
+    const { listArray } = this.state;
     const { delegateList: prevdelegateList } = prevProps;
 
     if (
@@ -137,18 +151,14 @@ class ProfilePage extends Component {
       let list = [];
       list = delegateList;
 
-      listArray.push(...prevdelegateList, ...list);
+      if (this.state.search) {
+        listArray.push(...list);
+      } else {
+        listArray.push(...prevdelegateList, ...list);
+      }
 
       const newArr = this.unique(listArray, obj => obj.employeeid);
       this.updateState(newArr);
-      console.log(
-        `this.state.updatedlistArray update data`,
-        this.updatedlistArray,
-      );
-
-      // if (listArray.length > 0 && trueData) {
-      //   this.handleClearstate();
-      // }
     }
 
     if (
@@ -328,16 +338,21 @@ class ProfilePage extends Component {
     const { name, value } = event.target;
 
     this.setState({ [name]: value }, () => {
-      if (this.state.searchValue.length >= 3 || this.state.searchValue === '') {
+      if (
+        this.state.searchValue.length >= 1 ||
+        !this.state.searchValue.length >= 1
+      ) {
         // eslint-disable-next-line no-unused-expressions
         this.state.searchValue !== ''
           ? this.setState({ search: true })
           : this.setState({ search: false });
-        this.setState({ updatedlistArray: [] });
-        this.props.requestDelegateData({
-          page: 1,
-          searchUser: this.state.searchValue || '',
-        });
+        this.setState({ updatedlistArray: [], listArray: [] });
+        this.setState({ activePage: 1 }, () =>
+          this.props.requestDelegateData({
+            page: this.state.activePage,
+            searchUser: this.state.searchValue || '',
+          }),
+        );
       }
     });
   };
@@ -369,7 +384,6 @@ class ProfilePage extends Component {
       getProfileLocation,
       delegateSuccess,
       userData,
-      delegateList,
       location,
       apiMessage,
       apiSuccess,
@@ -512,6 +526,7 @@ ProfilePage.propTypes = {
   requestRemoveDelegateList: PropTypes.func,
   requestGetDelegateList: PropTypes.func,
   delegrateUsersList: PropTypes.object,
+  delegateListSuccess: PropTypes.object,
 };
 
 export default compose(

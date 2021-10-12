@@ -49,6 +49,7 @@ const initialState = {
     loading: false,
     message: '',
     delegate: [],
+    totalPage: '',
   },
   getUpdatedelegateListData: {
     error: '',
@@ -140,6 +141,7 @@ const profilePageReducer = (state = initialState, action) =>
         draft.delegateList.loading = false;
         draft.delegateList.success = true;
         draft.delegateList.delegate = action.payload.userData;
+        draft.delegateList.totalPage = action.payload.totalPages;
         draft.delegateList.error = '';
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
