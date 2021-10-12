@@ -21,6 +21,9 @@ import {
   requestGetProfileOfficeData,
   clearData,
   requestBadgeData,
+  requestAddDelegateList,
+  requestRemoveDelegateList,
+  requestGetDelegateList,
 } from './actions';
 
 class ProfilePage extends Component {
@@ -28,6 +31,7 @@ class ProfilePage extends Component {
     super(props);
     this.state = {
       open: false,
+      trueData: true,
       show: false,
       search: false,
       allUser: [],
@@ -36,8 +40,12 @@ class ProfilePage extends Component {
       selectData: [],
       finalData: [],
       finalLocationDay: [],
+      updatedlistArray: [],
+      listArray: [],
+
       selectedDay: '',
       selectedNames: '',
+      activePage: 1,
       finalval: '',
       checked: false,
       data: true,
@@ -77,19 +85,82 @@ class ProfilePage extends Component {
   }
 
   componentDidMount() {
-    // this.props.requestDelegateData();
-    this.props.requestGetOfficeLocation({});
+    const doc = document.getElementById('data_update');
+    if (doc) doc.addEventListener('scroll', this.handleScroll(), true);
+
+    this.props.requestGetDelegateList();
     this.props.requestGetProfileOfficeData({});
+    this.props.requestGetOfficeLocation({});
+    this.loadCustomers();
   }
 
-  componentDidUpdate() {
+  handleScroll = e => {
+    const element = e.target;
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      console.log('scroll in if ===== ');
+      const { activePage } = this.state;
+      this.setState({ activePage: activePage + 1 }, () => this.loadCustomers());
+      // do something at end of scroll
+    }
+  };
+
+  loadCustomers = () => {
+    const { activePage } = this.state;
+    const { delegateListSuccess } = this.props;
+
+    if (
+      this.state.searchValue !== '' &&
+      this.state.search &&
+      activePage <= delegateListSuccess.totalPage
+    ) {
+      this.props.requestDelegateData({
+        page: this.state.activePage,
+        searchUser: this.state.searchValue || '',
+      });
+    }
+    if (!this.state.search) {
+      this.props.requestDelegateData({
+        page: this.state.activePage,
+      });
+    }
+  };
+
+  componentWillUnmount() {
+    this.props.clearBoardData();
+  }
+
+  componentDidUpdate(prevProps) {
     const {
       getProfileLocationSuccess,
       getProfileLocation,
       apiMessage,
       locationMessage,
       badgeUpdateData,
+      delegateListSuccess,
+      delegateList,
     } = this.props;
+    const { listArray } = this.state;
+    const { delegateList: prevdelegateList } = prevProps;
+
+    if (
+      delegateListSuccess &&
+      delegateListSuccess.success &&
+      delegateList !== prevdelegateList &&
+      !delegateListSuccess.loading
+    ) {
+      let list = [];
+      list = delegateList;
+
+      if (this.state.search) {
+        listArray.push(...list);
+      } else {
+        listArray.push(...prevdelegateList, ...list);
+      }
+
+      const newArr = this.unique(listArray, obj => obj.employeeid);
+      this.updateState(newArr);
+    }
+
     if (
       getProfileLocation &&
       !getProfileLocation.loading &&
@@ -109,6 +180,18 @@ class ProfilePage extends Component {
     }
   }
 
+  updateState = newArr => {
+    this.setState({ updatedlistArray: newArr });
+  };
+
+  unique = (dataVal, key) => [
+    ...new Map(dataVal.map(x => [key(x), x])).values(),
+  ];
+
+  handleClearstate = () => {
+    this.setState({ listArray: [], trueData: false });
+  };
+
   handleClose = () => {
     const { finalData } = this.state;
     this.setState({ userListData: finalData, show: false });
@@ -117,10 +200,6 @@ class ProfilePage extends Component {
   handleShow = () => {
     this.setState({ show: true });
   };
-
-  componentWillUnmount() {
-    this.props.clearBoardData();
-  }
 
   handleBadgeData = event => {
     const { name, value } = event.target;
@@ -176,7 +255,6 @@ class ProfilePage extends Component {
         });
       });
     }
-    console.log(`finalLocationDay data`, finalLocationDay);
     return finalLocationDay;
   };
 
@@ -256,6 +334,29 @@ class ProfilePage extends Component {
     }
   };
 
+  handleChange = event => {
+    const { name, value } = event.target;
+
+    this.setState({ [name]: value }, () => {
+      if (
+        this.state.searchValue.length >= 1 ||
+        !this.state.searchValue.length >= 1
+      ) {
+        // eslint-disable-next-line no-unused-expressions
+        this.state.searchValue !== ''
+          ? this.setState({ search: true })
+          : this.setState({ search: false });
+        this.setState({ updatedlistArray: [], listArray: [] });
+        this.setState({ activePage: 1 }, () =>
+          this.props.requestDelegateData({
+            page: this.state.activePage,
+            searchUser: this.state.searchValue || '',
+          }),
+        );
+      }
+    });
+  };
+
   // allTabColor = type => {
   //   let color;
   //   switch (type) {
@@ -283,7 +384,6 @@ class ProfilePage extends Component {
       getProfileLocation,
       delegateSuccess,
       userData,
-      delegateList,
       location,
       apiMessage,
       apiSuccess,
@@ -292,6 +392,7 @@ class ProfilePage extends Component {
       badgeUpdateData,
       verifyBadgeSuccess,
       verifyBadgeMsg,
+      delegrateUsersList,
     } = this.props;
     return (
       <>
@@ -309,7 +410,7 @@ class ProfilePage extends Component {
             allTabColor={this.allTabColor}
             getProfileLocation={getProfileLocation}
             userData={userData}
-            delegateList={delegateList}
+            delegateList={this.state.updatedlistArray}
             delegateSuccess={delegateSuccess}
             location={location}
             apiMessage={apiMessage}
@@ -323,6 +424,10 @@ class ProfilePage extends Component {
             verifyBadgeSuccess={verifyBadgeSuccess}
             verifyBadgeMsg={verifyBadgeMsg}
             handleCloseBtn={this.handleCloseBtn}
+            requestAddDelegateList={this.props.requestAddDelegateList}
+            requestRemoveDelegateList={this.props.requestRemoveDelegateList}
+            delegrateUsersList={delegrateUsersList}
+            onScroll={this.handleScroll}
           />
         </div>
       </>
@@ -338,6 +443,8 @@ const mapStateToProps = state => {
 
     delegateList:
       profile && profile.delegateList && profile.delegateList.delegate,
+    delegateListSuccess:
+      profile && profile.delegateList && profile.delegateList,
     delegateSuccess:
       profile && profile.delegateList && profile.delegateList.success,
     getProfileLocationSuccess:
@@ -351,6 +458,10 @@ const mapStateToProps = state => {
     apiSuccess: profile && profile.apiSuccess,
     apiMessage: profile && profile.apiMessage,
     badgeUpdateData: profile && profile.badgeUpdate,
+    delegrateUsersList:
+      profile &&
+      profile.getUpdatedelegateListData &&
+      profile.getUpdatedelegateListData.delegateUpdate,
 
     verifyBadgeSuccess:
       locationData &&
@@ -376,6 +487,12 @@ export function mapDispatchToProps(dispatch) {
     clearBoardData: () => dispatch(clearBoardData()),
     requestBadgeData: payload => dispatch(requestBadgeData(payload)),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
+    requestAddDelegateList: payload =>
+      dispatch(requestAddDelegateList(payload)),
+    requestRemoveDelegateList: payload =>
+      dispatch(requestRemoveDelegateList(payload)),
+    requestGetDelegateList: payload =>
+      dispatch(requestGetDelegateList(payload)),
     dispatch,
   };
 }
@@ -391,7 +508,7 @@ ProfilePage.propTypes = {
   getProfileLocation: PropTypes.object,
   requestUserlistData: PropTypes.func,
   userData: PropTypes.object,
-  // requestDelegateData: PropTypes.object,
+  requestDelegateData: PropTypes.object,
   delegateList: PropTypes.object,
   getProfileLocationSuccess: PropTypes.bool,
   delegateSuccess: PropTypes.bool,
@@ -405,6 +522,11 @@ ProfilePage.propTypes = {
   requestVerifyBadge: PropTypes.object,
   verifyBadgeSuccess: PropTypes.bool,
   verifyBadgeMsg: PropTypes.string,
+  requestAddDelegateList: PropTypes.func,
+  requestRemoveDelegateList: PropTypes.func,
+  requestGetDelegateList: PropTypes.func,
+  delegrateUsersList: PropTypes.object,
+  delegateListSuccess: PropTypes.object,
 };
 
 export default compose(

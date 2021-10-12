@@ -6,6 +6,9 @@ import {
   REQUEST_DELEGATE_DATA,
   REQUEST_BADGE_DATA,
   REQUEST_DELEGATE_PROFILE,
+  REQUEST_ADD_DELEGATE_LIST,
+  REQUEST_REMOVE_DELEGATE_LIST,
+  REQUEST_GET_DELEGATE_LIST,
 } from './constants';
 import {
   getProfileOfficeDataSuccess,
@@ -18,6 +21,12 @@ import {
   getBadgeFailed,
   delegateProfileSuccess,
   delegateProfileFailed,
+  addDelegateListSuccess,
+  addDelegateListFailed,
+  removeDelegateListSuccess,
+  removeDelegateListFailed,
+  getDelegateListSuccess,
+  getDelegateListFailed,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -62,15 +71,19 @@ export function* getUserListData() {
   }
 }
 
-export function* getDelegateListData() {
+export function* getDelegateListData({ payload }) {
+  console.log(`payload`, payload);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Delegate/getDelegateAllUser`;
+  const requestURL = `${API_URL}/Delegate/getUsersForDelegate?page=${
+    payload.page
+  }&searchUser=${payload.searchUser || ''}`;
   try {
     const delegateList = yield request({
       method: 'GET',
       url: requestURL,
     });
     const { data } = delegateList;
+
     if (data && data.success) {
       yield put(getDelegateSuccess(data));
     } else {
@@ -122,10 +135,74 @@ export function* delegateProfile({ payload }) {
     yield put(delegateProfileFailed(err.message));
   }
 }
+export function* addDelegateMember({ payload }) {
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/Delegate/saveDelegateUsers`;
+  try {
+    const delegateList = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+    });
+    const { data } = delegateList;
+    if (data && data.success) {
+      yield put(addDelegateListSuccess(data));
+    } else {
+      yield put(addDelegateListFailed(data));
+    }
+  } catch (err) {
+    yield put(addDelegateListFailed(err));
+  }
+}
+
+export function* removeDelegateMember({ payload }) {
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/Delegate/removeDelegateUser?employeeid=239323&delegateid=${
+    payload.id
+  }`;
+  try {
+    const delegateList = yield request({
+      method: 'DELETE',
+      url: requestURL,
+      data: payload,
+    });
+    const { data } = delegateList;
+    if (data && data.success) {
+      yield put(removeDelegateListSuccess(data));
+    } else {
+      yield put(removeDelegateListFailed(data));
+    }
+  } catch (err) {
+    yield put(removeDelegateListFailed(err));
+  }
+}
+
+export function* getUpdateDelegateData() {
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/Delegate/getdelegateData?employeeid=239323`;
+  try {
+    const delegateUsersList = yield request({
+      method: 'GET',
+      url: requestURL,
+    });
+    const { data } = delegateUsersList;
+    if (data && data.success) {
+      yield put(getDelegateListSuccess(data.delegateData));
+    } else {
+      yield put(getDelegateListFailed(data));
+    }
+  } catch (err) {
+    yield put(getDelegateListFailed(err.message));
+  }
+}
+
 export default function* profileData() {
   yield takeLatest(REQUEST_GET_PROFILE_OFFICE_DATA, getLocationData);
   yield takeLatest(REQUEST_USERLIST_DATA, getUserListData);
   yield takeLatest(REQUEST_DELEGATE_DATA, getDelegateListData);
   yield takeLatest(REQUEST_BADGE_DATA, updateBadgeData);
   yield takeLatest(REQUEST_DELEGATE_PROFILE, delegateProfile);
+  yield takeLatest(REQUEST_ADD_DELEGATE_LIST, addDelegateMember);
+  yield takeLatest(REQUEST_REMOVE_DELEGATE_LIST, removeDelegateMember);
+  yield takeLatest(REQUEST_GET_DELEGATE_LIST, getUpdateDelegateData);
 }

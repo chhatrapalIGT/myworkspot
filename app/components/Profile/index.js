@@ -40,6 +40,11 @@ const Profile = ({
   verifyBadgeSuccess,
   verifyBadgeMsg,
   handleCloseBtn,
+  requestAddDelegateList,
+  requestRemoveDelegateList,
+  delegrateUsersList,
+  onScroll,
+  handleChange,
 }) => {
   const [open, setOpen] = useState(true);
   const [openbadgeData, setOpenBadgeData] = useState(true);
@@ -47,9 +52,10 @@ const Profile = ({
   const [openBadge, setOpenBadge] = useState(false);
   const [modal, setModal] = useState(false);
   const [search, setSearch] = useState(false);
-  const [allUser, setAllUser] = useState([]);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
+  const [idData, setIdData] = useState([]);
+  const [selectData, setselectData] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
 
   const badgeValues = userData && userData.badgeNumber;
@@ -66,58 +72,68 @@ const Profile = ({
     userData && userData.badgeNumber && userData.badgeNumber.slice(3, 6);
   const inputval2 =
     userData && userData.badgeNumber && userData.badgeNumber.slice(7, 11);
-  useEffect(() => {
-    if (delegateList && delegateList.length && delegateSuccess && open) {
-      setAllUser(delegateList);
-      setSearchName(delegateList);
-      setOpen(false);
-    }
-  }, [delegateList]);
 
   useEffect(() => {
+    setSearchName(delegateList);
+    setOpen(false);
+
+    const result = [];
+    delegrateUsersList.forEach(data => {
+      // eslint-disable-next-line array-callback-return
+      delegateList.map(e => {
+        if (e.employeeid === data.employeeid) {
+          result.push(e);
+        }
+      });
+    });
+
     if (
       badgeUpdateData &&
       badgeUpdateData.success &&
       badgeUpdateData.message &&
       openbadgeData
     ) {
-      console.log('in if');
       setOpenBadge(false);
       setOpenBadgeData(false);
     }
-  }, [badgeUpdateData]);
 
-  const handleChange = event => {
-    let newList = [];
-    if (event.target.value !== '') {
-      setSearch(true);
-      newList = allUser.filter(({ firstname }) => {
-        const finalDataList = firstname.toLowerCase();
-        const filter = event.target.value.toLowerCase();
-        return finalDataList.includes(filter);
-      });
-    } else {
-      setSearch(false);
-      newList = allUser;
+    if (delegrateUsersList && delegrateUsersList.length > 0) {
+      setUserListData(delegrateUsersList);
+      setselectData(result);
     }
-    setSearchName(newList);
-  };
+  }, [badgeUpdateData, delegrateUsersList, delegateList]);
 
-  const selectData = [];
-  let finalData = [];
+  const idDataValue = [];
+  let dataName = [];
   const handleUserSelect = firstname => {
-    if (selectData.includes(firstname)) {
-      const index = selectData.indexOf(firstname);
-      selectData.splice(index, 1);
+    dataName = [...selectData];
+    if (dataName.includes(firstname)) {
+      const index = dataName.indexOf(firstname);
+      dataName.splice(index, 1);
     } else {
-      selectData.push(firstname);
+      dataName.push(firstname);
     }
-    finalData = selectData;
+    setselectData(dataName);
+    idDataValue.push(selectData);
   };
 
   const handleClose = () => {
-    setUserListData(finalData);
+    const data = [...selectData];
+    function unique(dataVal, key) {
+      return [...new Map(dataVal.map(x => [key(x), x])).values()];
+    }
+
+    setUserListData(unique(data, obj => obj.employeeid));
     setShow(false);
+  };
+
+  const addDelegateList = () => {
+    const finalValue = selectData.map(data => data.employeeid);
+    const finalDataPayload = {
+      employeeid: 239323,
+      delegateid: finalValue,
+    };
+    requestAddDelegateList(finalDataPayload);
   };
 
   const handleChangeDay = (name, data) => {
@@ -134,14 +150,19 @@ const Profile = ({
       ? location.filter(obj => obj && obj.locationname !== 'Remote Work')
       : '';
 
-  // const handleRemove = name => {
-  //   const newArr = [...userListData];
-  //   if (newArr.includes(name)) {
-  //     const idx = newArr.indexOf(name);
-  //     newArr.splice(idx, 1);
-  //   }
-  //   setUserListData(newArr);
-  // };
+  const handleRemove = name => {
+    const newArr = [...userListData];
+    const dataVal = newArr.filter(datas => datas.employeeid === name);
+    if (dataVal[0].employeeid) {
+      const idx = newArr.findIndex(val => val.employeeid === name);
+      newArr.splice(idx, 1);
+      setUserListData(newArr);
+      setselectData(newArr);
+    }
+
+    setselectData(newArr);
+    requestRemoveDelegateList({ id: dataVal[0].employeeid });
+  };
 
   return (
     <Fragment>
@@ -420,29 +441,37 @@ const Profile = ({
                   <h5>
                     Delegate <i>my</i>Workspot Access to
                   </h5>
-                  {/* <button
+                  <button
                     type="button"
                     onClick={() => setShow(true)}
                     className="btn blue-color-btn"
                   >
                     Delegate <i>my</i>Workspot Access
-                  </button> */}
+                  </button>
                 </div>
+                {/* {userListData.length <= 0 ? (
+                  <Spinner
+                    className="app-spinner profile"
+                    animation="grow"
+                    variant="dark"
+                  />
+                ) : ( */}
                 <div className="access-to">
                   {userListData &&
                     userListData.map(i => (
                       <div
                         className="access-one"
-                        // onClick={() => handleRemove(i)}
+                        onClick={() => handleRemove(i.employeeid)}
                       >
                         <img src={ProfileImg} alt="" />
-                        {i}
+                        {i.firstname} {i.lastname}
                         <a className="close_btn" href>
                           <img src={Close} alt="" />
                         </a>
                       </div>
                     ))}
                 </div>
+                {/* )} */}
               </div>
             </div>
           </div>
@@ -556,7 +585,9 @@ const Profile = ({
         <Modal
           className="modal fade test_modal"
           show={show}
-          onHide={() => handleClose()}
+          onHide={() => {
+            setShow(false);
+          }}
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
           id="set_location"
@@ -577,32 +608,51 @@ const Profile = ({
                   }}
                 />
               </div>
-              <div className="modal-body">
+              <div
+                className="modal-body modal-update"
+                onScroll={onScroll}
+                id="data_update"
+                style={{ maxHeight: ' 600px' }}
+              >
                 <form className="delegate-workspot-access" action="submit">
                   <input
                     type="search"
                     placeholder="Search..."
                     className="searchbox"
+                    name="searchValue"
                     onChange={handleChange}
                   />
-                  {searchName.length &&
+                  {searchName &&
                     searchName.map(i => (
                       <div
                         aria-hidden="true"
-                        className="form-group"
-                        onClick={() => handleUserSelect(i.firstname)}
+                        className={`${selectData.includes(i) &&
+                          'checked_item'}  form-group`}
+                        // className="form-group"
+                        onClick={() => handleUserSelect(i)}
                       >
                         <img src={ProfileImg} alt="" />
-                        <input id="jane" type="radio" className="checkbox" />
-                        <label htmlFor="jane">{i.firstname}</label>
+                        <input
+                          id="jane"
+                          type="radio"
+                          className="checkbox"
+                          checked={selectData.includes(i)}
+                        />
+                        <label htmlFor="jane">
+                          {i.firstname} {i.lastname}
+                        </label>
                       </div>
                     ))}
                 </form>
               </div>
+
               <div className="modal-footer">
                 <button
                   type="button"
-                  onClick={handleClose}
+                  onClick={() => {
+                    addDelegateList();
+                    handleClose();
+                  }}
                   className="btn save-data"
                 >
                   Save
@@ -646,5 +696,10 @@ Profile.propTypes = {
   verifyBadgeMsg: PropTypes.string,
   handleSelectedNamesChange: PropTypes.object,
   handleCloseBtn: PropTypes.func,
+  requestRemoveDelegateList: PropTypes.func,
+  requestAddDelegateList: PropTypes.func,
+  onScroll: PropTypes.func,
+  handleChange: PropTypes.func,
+  delegrateUsersList: PropTypes.object,
 };
 export default Profile;
