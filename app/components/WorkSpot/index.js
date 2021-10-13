@@ -62,19 +62,15 @@ const WorkSpot = ({
   handleZoomOut,
   handleDefault,
   imgStyle,
-  handleuserLocation,
   locationData,
   getWorkSpots,
   handleColleageUpdate,
   handleEditModal,
   handleUpdatingModalData,
   onUpdateWorkspot,
-  apiMessage,
-  apiSuccess,
   neighborhoodData,
   errMessage,
   errSuccess,
-  location,
   neighborhood,
   workspotSuccess,
   locationSuccess,
@@ -87,6 +83,7 @@ const WorkSpot = ({
   colleagueWeeklyData,
   colleagueDataLoader,
   colleagueListData,
+  deleteSearchColleague,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
@@ -94,8 +91,9 @@ const WorkSpot = ({
   const [isEmployeeModal, setEmployeeModal] = useState(false);
   const [isEmployee, setEmployee] = useState(false);
   const [isLocUpdate, setLocUpdate] = useState(false);
+  const [isworkspotLoader, setWorkspotLoader] = useState(false);
   const [isdate, setDate] = useState('');
-  const [locationName, setLocationName] = useState([]);
+
   const [calData, setCalData] = useState([]);
   const [finalImg, setFinalImg] = useState('');
   const [data, setData] = useState({});
@@ -111,6 +109,7 @@ const WorkSpot = ({
       document.removeEventListener('mousedown', handleClickOutside, false);
     };
   });
+
   const newArr = useMemo(() => {
     const d =
       locationData &&
@@ -128,14 +127,6 @@ const WorkSpot = ({
       setEmployeeModal(false);
     }
   };
-
-  useEffect(() => {
-    const url = `https://mocki.io/v1/947b4269-a50f-4e16-8157-30d04fb8879a`;
-    Axios.get(url, {}).then(res => {
-      // setAllUser(res.data);
-      setLocationName(res.data);
-    });
-  }, []);
 
   // const getCurrentData = state.workSpotData.find(ele =>
   //   moment(ele.date, 'MM/D/YYYY').isSame(moment().format('MM/D/YY')),
@@ -309,14 +300,16 @@ const WorkSpot = ({
         locationMsg ||
         workspotMessage ||
         neighborhoodMsg ||
-        (colleagueListData && colleagueListData.message)) && (
+        (colleagueListData && colleagueListData.message) ||
+        (deleteSearchColleague && deleteSearchColleague.message)) && (
         <div
           className={`alert-dismissible fade show ${
             errSuccess ||
             locationSuccess ||
             neighborhoodSuccess ||
             workspotSuccess ||
-            (colleagueListData && colleagueListData.success)
+            (colleagueListData && colleagueListData.success) ||
+            (deleteSearchColleague && deleteSearchColleague.success)
               ? 'popup_success'
               : 'popup_err'
           } `}
@@ -327,7 +320,8 @@ const WorkSpot = ({
               locationMsg ||
               workspotMessage ||
               neighborhoodMsg ||
-              (colleagueListData && colleagueListData.message)}
+              (colleagueListData && colleagueListData.message) ||
+              (deleteSearchColleague && deleteSearchColleague.message)}
           </p>
         </div>
       )}
@@ -381,10 +375,10 @@ const WorkSpot = ({
                 <>
                   {((state.updatingObject &&
                     state.updatingObject.work_area_name &&
-                    state.updatingObject.work_area_name.includes('RVA')) ||
+                    state.updatingObject.work_area_name.includes('VA')) ||
                     (state.updatingObject &&
                       state.updatingObject.work_area_name &&
-                      state.updatingObject.work_area_name.includes('WDC'))) &&
+                      state.updatingObject.work_area_name.includes('DC'))) &&
                   isChange &&
                   isLocUpdate ? (
                     <>
@@ -460,12 +454,12 @@ const WorkSpot = ({
                           {(state.updatingObject &&
                             state.updatingObject.work_area_name &&
                             state.updatingObject.work_area_name.includes(
-                              'RVA',
+                              'VA',
                             )) ||
                             (state.updatingObject &&
                               state.updatingObject.work_area_name &&
                               state.updatingObject.work_area_name.includes(
-                                'WDC',
+                                'DC',
                               )) ||
                             (neighborhoodData &&
                               neighborhoodData.locationCode !== 'RW' && (
@@ -620,6 +614,9 @@ const WorkSpot = ({
           setChange={setChange}
           colleagueWeeklyData={colleagueWeeklyData}
           colleagueDataLoader={colleagueDataLoader}
+          setWorkspotLoader={setWorkspotLoader}
+          workspotLoading={state.workspotLoading}
+          calObject={state.calObject}
         />
         <Modal
           className="modal fade test_modal"
@@ -651,8 +648,6 @@ const WorkSpot = ({
                       onChange={onChange}
                     >
                       <optgroup label="EAB Office">
-                        {/* {locationName &&
-                        locationName.map(i => ( */}
                         {newArr &&
                           newArr.map(i => (
                             <option
@@ -1000,7 +995,7 @@ const WorkSpot = ({
                     aria-hidden="true"
                     className="selection  dropdown_locat"
                     style={{ padding: '1rem 1.5rem' }}
-                    onClick={() => handleuserLocation(isdate)}
+                    // onClick={() => handleuserLocation(isdate)}
                   >
                     <select
                       name="work_area_name"
@@ -1017,8 +1012,12 @@ const WorkSpot = ({
                               id="location"
                               name="work_area"
                               selected={
-                                state.updatingObject.prevLocation ===
-                                i.locationCode
+                                isChange
+                                  ? (neighborhoodData &&
+                                      neighborhoodData.locationCode) ===
+                                    i.locationCode
+                                  : state.updatingObject.prevLocation ===
+                                    i.locationCode
                               }
                             >
                               {i && i.locationname}
@@ -1055,8 +1054,10 @@ const WorkSpot = ({
                   onClick={() => {
                     onSubmit();
                     // eslint-disable-next-line no-unused-expressions
+                    setWorkspotLoader(true);
                     setLocUpdate(true);
                     handleEditModal(false);
+                    // handleUpdate();
                   }}
                 >
                   Save
@@ -1093,19 +1094,16 @@ WorkSpot.propTypes = {
   handleZoomOut: PropTypes.func,
   handleZoomIn: PropTypes.func,
   handleDefault: PropTypes.func,
-  handleuserLocation: PropTypes.func,
+  // handleuserLocation: PropTypes.func,
   getWorkSpots: PropTypes.func,
   handleColleageUpdate: PropTypes.func,
   handleEditModal: PropTypes.func,
   handleUpdatingModalData: PropTypes.func,
   locationData: PropTypes.object,
   onUpdateWorkspot: PropTypes.func,
-  apiMessage: PropTypes.string,
-  apiSuccess: PropTypes.bool,
   neighborhoodData: PropTypes.object,
   errMessage: PropTypes.string,
   errSuccess: PropTypes.bool,
-  location: PropTypes.object,
   neighborhood: PropTypes.object,
   workspotSuccess: PropTypes.bool,
   locationSuccess: PropTypes.bool,
@@ -1118,5 +1116,6 @@ WorkSpot.propTypes = {
   colleagueWeeklyData: PropTypes.object,
   colleagueDataLoader: PropTypes.bool,
   colleagueListData: PropTypes.object,
+  deleteSearchColleague: PropTypes.object,
 };
 export default WorkSpot;

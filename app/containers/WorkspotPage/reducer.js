@@ -20,6 +20,12 @@ import {
   REQUEST_VIEW_COLLEAGUE_DATA,
   SUCCESS_VIEW_COLLEAGUE_DATA,
   FAILED_VIEW_COLLEAGUE_DATA,
+  REQUEST_SEARCH_COLLEAGUE_DATA,
+  SUCCESS_SEARCH_COLLEAGUE_DATA,
+  FAILED_SEARCH_COLLEAGUE_DATA,
+  REQUEST_DELETE_COLLEAGUE_DATA,
+  SUCCESS_DELETE_COLLEAGUE_DATA,
+  FAILED_DELETE_COLLEAGUE_DATA,
 } from './constants';
 
 const initialState = {
@@ -61,6 +67,19 @@ const initialState = {
     colleagueData: [],
     isloading: false,
   },
+
+  searchColleague: {
+    message: '',
+    success: false,
+    isloading: false,
+  },
+
+  deleteSearchColleague: {
+    message: '',
+    success: false,
+    isloading: false,
+  },
+
   apiSuccess: false,
 
   apiMessage: '',
@@ -136,6 +155,10 @@ const workspotReducer = (state = initialState, action) =>
         draft.updateWorkspot.success = false;
         draft.updateWorkspot.isLoading = false;
         draft.updateWorkspot.message = '';
+        draft.searchColleague.success = false;
+        draft.searchColleague.message = '';
+        draft.deleteSearchColleague.success = false;
+        draft.deleteSearchColleague.message = '';
 
         break;
 
@@ -193,7 +216,7 @@ const workspotReducer = (state = initialState, action) =>
         draft.getColleagueData.success = false;
         draft.getColleagueData.isloading = true;
         draft.getColleagueData.message = '';
-        draft.getColleagueData.colleagueData = {};
+        // draft.getColleagueData.colleagueData = {};
         break;
       case SUCCESS_VIEW_COLLEAGUE_DATA:
         draft.getColleagueData.isloading = false;
@@ -209,6 +232,56 @@ const workspotReducer = (state = initialState, action) =>
         draft.getColleagueData.success = false;
         draft.getColleagueData.message = action.payload.message;
         draft.getColleagueData.colleagueData = {};
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
+        break;
+
+      case REQUEST_SEARCH_COLLEAGUE_DATA:
+        draft.searchColleague.success = false;
+        draft.searchColleague.isloading = true;
+        draft.searchColleague.message = '';
+        // draft.searchColleague.colleagueData = {};
+        break;
+      case SUCCESS_SEARCH_COLLEAGUE_DATA:
+        draft.searchColleague.isloading = false;
+        draft.searchColleague.success = true;
+        draft.searchColleague.message = action.payload.message;
+        // draft.searchColleague.colleagueData = action.payload.returnData;
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
+        break;
+      case FAILED_SEARCH_COLLEAGUE_DATA:
+        draft.searchColleague.isloading = false;
+        draft.searchColleague.success = false;
+        draft.searchColleague.message = action.payload.message;
+        // draft.searchColleague.colleagueData = {};
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
+        break;
+
+      case REQUEST_DELETE_COLLEAGUE_DATA:
+        draft.deleteSearchColleague.success = false;
+        draft.deleteSearchColleague.isloading = true;
+        draft.deleteSearchColleague.message = '';
+        // draft.deleteSearchColleague.colleagueData = {};
+        break;
+      case SUCCESS_DELETE_COLLEAGUE_DATA:
+        draft.deleteSearchColleague.isloading = false;
+        draft.deleteSearchColleague.success = true;
+        draft.deleteSearchColleague.message = action.payload.message;
+        // draft.deleteSearchColleague.colleagueData = action.payload.returnData;
+        draft.apiSuccess = action.payload.success;
+
+        draft.apiMessage = action.payload.message;
+        break;
+      case FAILED_DELETE_COLLEAGUE_DATA:
+        draft.deleteSearchColleague.isloading = false;
+        draft.deleteSearchColleague.success = false;
+        draft.deleteSearchColleague.message = action.payload.message;
+        // draft.deleteSearchColleague.colleagueData = {};
         draft.apiSuccess = action.payload.success;
 
         draft.apiMessage = action.payload.message;

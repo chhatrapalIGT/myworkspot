@@ -18,6 +18,12 @@ import {
   REQUEST_VIEW_COLLEAGUE_DATA,
   SUCCESS_VIEW_COLLEAGUE_DATA,
   FAILED_VIEW_COLLEAGUE_DATA,
+  REQUEST_SEARCH_COLLEAGUE_DATA,
+  SUCCESS_SEARCH_COLLEAGUE_DATA,
+  FAILED_SEARCH_COLLEAGUE_DATA,
+  REQUEST_DELETE_COLLEAGUE_DATA,
+  SUCCESS_DELETE_COLLEAGUE_DATA,
+  FAILED_DELETE_COLLEAGUE_DATA,
 } from './constants';
 
 export const requestGetLocation = payload => ({
@@ -111,5 +117,35 @@ export const getColleagueDataSuccess = payload => ({
 
 export const getColleagueDataFailed = error => ({
   type: FAILED_VIEW_COLLEAGUE_DATA,
+  payload: error,
+});
+
+export const requestSearchColleagueData = payload => ({
+  type: REQUEST_SEARCH_COLLEAGUE_DATA,
+  payload,
+});
+
+export const searchColleagueDataSuccess = payload => ({
+  type: SUCCESS_SEARCH_COLLEAGUE_DATA,
+  payload,
+});
+
+export const searchColleagueDataFailed = error => ({
+  type: FAILED_SEARCH_COLLEAGUE_DATA,
+  payload: error,
+});
+
+export const requestDeleteColleagueData = payload => ({
+  type: REQUEST_DELETE_COLLEAGUE_DATA,
+  payload,
+});
+
+export const DeleteColleagueDataSuccess = payload => ({
+  type: SUCCESS_DELETE_COLLEAGUE_DATA,
+  payload,
+});
+
+export const DeleteColleagueDataFailed = error => ({
+  type: FAILED_DELETE_COLLEAGUE_DATA,
   payload: error,
 });

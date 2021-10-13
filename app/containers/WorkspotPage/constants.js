@@ -23,3 +23,11 @@ export const FAILED_GET_COLLEAGUE = 'getColleagueFailed';
 export const REQUEST_VIEW_COLLEAGUE_DATA = 'requestGetColleagueData';
 export const SUCCESS_VIEW_COLLEAGUE_DATA = 'getColleagueDataSuccess';
 export const FAILED_VIEW_COLLEAGUE_DATA = 'getColleagueDataFailed';
+
+export const REQUEST_SEARCH_COLLEAGUE_DATA = 'requestSearchColleagueData';
+export const SUCCESS_SEARCH_COLLEAGUE_DATA = 'searchColleagueDataSuccess';
+export const FAILED_SEARCH_COLLEAGUE_DATA = 'searchColleagueDataFailed';
+
+export const REQUEST_DELETE_COLLEAGUE_DATA = 'requestDeleteColleagueData';
+export const SUCCESS_DELETE_COLLEAGUE_DATA = 'DeleteColleagueDataSuccess';
+export const FAILED_DELETE_COLLEAGUE_DATA = 'DeleteColleagueDataFailed';
