@@ -37,17 +37,12 @@ const Calender = ({
   setEmployeeLocationDetail,
   workSpotData = [],
   getWorkSpots,
-  state,
-  isLocUpdate,
-  errSuccess,
   setCalData,
   setChange,
   colleagueWeeklyData,
-  colleagueDataLoader,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
-  const [teamDate, setTeamDate] = useState(false);
   const [days, setDays] = useState(() =>
     defaultSelected === 'week'
       ? getWeekStartEndDate(new Date())
@@ -133,9 +128,11 @@ const Calender = ({
   );
 
   const getCorrespondingData = date => {
-    const a = workSpotData.find(ele =>
-      moment(ele.date, 'MM/D/YYYY').isSame(moment(date, 'MM/D/YYYY'), 'day'),
-    );
+    const a =
+      workSpotData &&
+      workSpotData.find(ele =>
+        moment(ele.date, 'MM/D/YYYY').isSame(moment(date, 'MM/D/YYYY'), 'day'),
+      );
     return a;
   };
 
@@ -169,8 +166,9 @@ const Calender = ({
       ({ employeeid }) => employeeid === employeeId,
     );
     return (
-      user &&
       user.workspotdata.length > 0 &&
+      user &&
+      user.workspotdata &&
       user.workspotdata.find(
         ({ date }) =>
           moment(date).format('DD') === moment(dateValue).format('DD'),
@@ -266,7 +264,7 @@ const Calender = ({
               </button>
             </div>
             {!setVisible && <p className="week-range mb-0">{title}</p>}
-            {setVisible && (
+            {setVisible && workSpotData.length && (
               <div
                 className="week-month-toggle nav nav-tabs"
                 id="nav-tab"
@@ -535,16 +533,9 @@ const Calender = ({
                                   aria-hidden="true"
                                 >
                                   <p className="work-station work-floor">
-                                    {moment(data.date, 'MM/D/YYYY').isSame(
-                                      moment(
-                                        state.updatingObject.date,
-                                        'MM/D/YYYY',
-                                      ),
-                                      'day',
-                                    ) && isLocUpdate
-                                      ? state.updatingObject.work_area_name
-                                      : data && data.locationName}
+                                    {data && data.locationName}
                                   </p>
+
                                   {(data && data.locationCode !== 'RW') ||
                                     (data && data.locationCode !== 'PTO') ||
                                     (data && data.locationCode !== 'EAB' && (
@@ -572,7 +563,9 @@ const Calender = ({
                         className="weekly-remove"
                         style={{ float: 'right' }}
                         aria-hidden="true"
-                        onClick={() => handleRemove(colleagueWeeklyData, true)}
+                        onClick={() =>
+                          handleRemove(colleagueWeeklyData, true, null)
+                        }
                       >
                         {' '}
                         Remove All
@@ -580,8 +573,7 @@ const Calender = ({
                       <hr />
                     </div>
                   )}
-
-                {setVisible && colleagueDataLoader ? (
+                {/* {setVisible && colleagueDataLoader ? (
                   <div className=" tab-pane fade show active">
                     <div className="card weekly-default mt-4 ">
                       <Spinner
@@ -591,8 +583,9 @@ const Calender = ({
                       />
                     </div>
                   </div>
-                ) : (
-                  setVisible &&
+                ) : ( */}
+
+                {setVisible &&
                   colleagueWeeklyData.length > 0 &&
                   colleagueWeeklyData.map((obj, userIdx) => (
                     <div
@@ -626,7 +619,7 @@ const Calender = ({
                               className="weekly-remove"
                               aria-hidden="true"
                               onClick={() =>
-                                handleRemove(obj.employeeid, false)
+                                handleRemove(obj.employeeid, false, obj)
                               }
                             >
                               {' '}
@@ -639,6 +632,7 @@ const Calender = ({
                                 item.date,
                                 obj.employeeid,
                               );
+
                               return (
                                 <div
                                   className={
@@ -696,8 +690,18 @@ const Calender = ({
                         </div>
                       </div>
                     </div>
-                  ))
-                )}
+                  ))}
+                {/* {setVisible && colleagueDataLoader && (
+                  <div className=" tab-pane fade show active">
+                    <div className=" weekly-default mt-4 ">
+                      <Spinner
+                        className="app-spinner profile"
+                        animation="grow"
+                        variant="dark"
+                      />
+                    </div>
+                  </div>
+                )} */}
               </>
             ) : (
               <div className="card weekly-default month-view-content month-spinner">
@@ -763,6 +767,7 @@ const Calender = ({
                                       `${data && data.locationCode}`,
                                       `${data && data.locationName}`,
                                     );
+
                                   setDate(
                                     moment(item.date).format(
                                       'dddd, MMMM DD, YYYY',
@@ -772,17 +777,9 @@ const Calender = ({
                                 aria-hidden="true"
                               >
                                 <p className="work-station">
-                                  {moment(data.date, 'MM/D/YYYY').isSame(
-                                    moment(
-                                      state.updatingObject.date,
-                                      'MM/D/YYYY',
-                                    ),
-                                    'day',
-                                  ) && isLocUpdate
-                                    ? state.updatingObject.work_area_name
-                                    : data && data.locationName}
-                                  {/* {data && data.locationName} */}
+                                  {data && data.locationName}
                                 </p>
+
                                 {(data && data.locationCode !== 'RW') ||
                                   (data && data.locationCode !== 'PTO') ||
                                   ((data && data.locationCode !== 'EAB') ||
@@ -808,7 +805,7 @@ const Calender = ({
               </div>
             )}
           </div>
-          {/* {period === 'week' && setVisible && (
+          {period === 'week' && setVisible && (
             <button
               type="submit"
               className="light-blue-bg-btn mt-4"
@@ -817,7 +814,7 @@ const Calender = ({
               {' '}
               <img src={searchicon} alt="" /> Search for Colleagues
             </button>
-          )} */}
+          )}
         </div>
       </div>
     </div>
@@ -838,13 +835,10 @@ Calender.propTypes = {
   workSpotData: PropTypes.array,
   setDate: PropTypes.string,
   setEmployeeLocationDetail: PropTypes.bool,
-  state: PropTypes.object,
-  isLocUpdate: PropTypes.bool,
-  errSuccess: PropTypes.bool,
   setCalData: PropTypes.object,
   setChange: PropTypes.bool,
   colleagueWeeklyData: PropTypes.object,
-  colleagueDataLoader: PropTypes.bool,
+  // colleagueDataLoader: PropTypes.bool,
 };
 
 export default Calender;

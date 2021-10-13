@@ -39,6 +39,7 @@ export const getWorkSpotData = async (startDate, endDate) => {
   if (!success) return { message, success };
   while (currDate.add(1, 'days').diff(lastDate) < 0) {
     const newArr =
+      weeklyData.length > 0 &&
       weeklyData &&
       weeklyData.find(ele =>
         moment(ele.date)

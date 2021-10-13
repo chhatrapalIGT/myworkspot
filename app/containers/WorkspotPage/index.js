@@ -18,6 +18,8 @@ import {
   requestGetNeighborhood,
   requestGetColleague,
   requestGetColleagueData,
+  requestSearchColleagueData,
+  requestDeleteColleagueData,
 } from './actions';
 import { getWorkSpotData } from './helpers';
 import {
@@ -47,12 +49,6 @@ class WorkSpotPage extends Component {
       d: '',
       work_place: 'Washington, DC',
       work_area: '',
-      // work_place: [
-      //   {
-      //     date: '',
-      //     work_area: '',
-      //   },
-      // ],
       workSpotData: [],
       userList: [],
       selectedColleagues: [],
@@ -66,7 +62,11 @@ class WorkSpotPage extends Component {
       errSuccess: false,
       updateVal: true,
       onSuccess: false,
-      isChangeData: false,
+      colleagueWeekly: [],
+      loading: true,
+      colleaguesId: [],
+      success: false,
+      workspotLoading: false,
     };
   }
 
@@ -98,6 +98,7 @@ class WorkSpotPage extends Component {
 
   componentDidMount() {
     const { defaultSelected } = this.state;
+
     this.props.requestGetLocation();
     this.props.requestGetNeighborhood();
     this.props.requestGetColleague();
@@ -109,6 +110,13 @@ class WorkSpotPage extends Component {
       dateToDisplay,
       defaultSelected,
     );
+    const sDate = moment(startDispDate).format('YYYY-MM-DD');
+    const eDate = moment(endDispDate).format('YYYY-MM-DD');
+    this.props.requestGetColleagueData({
+      employeeid: 239323,
+      startdate: sDate,
+      enddate: eDate,
+    });
 
     this.getWorkSpots(startDispDate, endDispDate);
     this.setState({
@@ -121,24 +129,40 @@ class WorkSpotPage extends Component {
   };
 
   componentDidUpdate() {
-    const { selectedDateRange, isChangeData } = this.state;
-    const { workspotSuccess, workspotMessage } = this.props;
-
+    const { selectedDateRange } = this.state;
+    const {
+      workspotSuccess,
+      workspotMessage,
+      searchColleague,
+      deleteSearchColleague,
+    } = this.props;
     if (workspotSuccess && workspotMessage) {
-      this.props.resetWorkspot();
-      this.clearState();
-      // if (updateVal) {
       this.getWorkSpots(
         selectedDateRange && selectedDateRange.startDate,
         selectedDateRange && selectedDateRange.endDate,
       );
+      // this.handleEditModal(false);
+      this.props.resetWorkspot();
 
       setTimeout(() => {
         this.handleClearModal();
       }, 6000);
     }
-    if (isChangeData && workspotSuccess && workspotMessage) {
-      this.props.requestGetNeighborhood();
+
+    const sDate = moment(selectedDateRange.startDate).format('YYYY-MM-DD');
+    const eDate = moment(selectedDateRange.endDate).format('YYYY-MM-DD');
+    if (
+      (searchColleague &&
+        searchColleague.success &&
+        (searchColleague && searchColleague.message)) ||
+      (deleteSearchColleague && deleteSearchColleague.success)
+    ) {
+      this.props.requestGetColleagueData({
+        employeeid: 239323,
+        startdate: sDate,
+        enddate: eDate,
+      });
+      this.props.resetWorkspot();
     }
   }
 
@@ -151,6 +175,8 @@ class WorkSpotPage extends Component {
       updatingObject: {},
     });
 
+    this.setState({ errSuccess: false, errMessage: '', success: false });
+
     this.setState({ work_place: '' });
   };
 
@@ -159,8 +185,6 @@ class WorkSpotPage extends Component {
     const newArr = [...selectedColleagues];
     const newId = [...selectedColleaguesId];
     if (newId.includes(id)) {
-      // const index = newArr.indexOf(username);
-      // newArr.splice(index, 1);
       const index = newId.indexOf(id);
       newId.splice(index, 1);
     } else {
@@ -172,34 +196,21 @@ class WorkSpotPage extends Component {
     this.setState({ selectedColleagues: newArr });
   };
 
-  handleRemove = (id, removeAll) => {
-    const {
-      selectedColleaguesId,
-      selectedDateRange: { startDate, endDate },
-    } = this.state;
-    const newArr = [...selectedColleaguesId];
-    if (newArr.includes(id)) {
-      const idx = newArr.indexOf(id);
+  handleRemove = (id, removeAll, data) => {
+    const { colleagueWeeklyData } = this.props;
+
+    const newArr = [...colleagueWeeklyData];
+    if (newArr.includes(data)) {
+      const idx = newArr.indexOf(data);
       newArr.splice(idx, 1);
     }
-    this.setState({ selectedColleaguesId: newArr });
-    const sDate = moment(startDate).format('YYYY-MM-DD');
-    const eDate = moment(endDate).format('YYYY-MM-DD');
-    const payload = {
-      employeeid: newArr,
-      startdate: sDate,
-      enddate: eDate,
-    };
 
-    const finalPayload = {
-      employeeid: [],
-      startdate: sDate,
-      enddate: eDate,
-    };
+    this.setState({ colleagueWeeklyData: newArr });
+
     if (removeAll) {
-      this.props.requestGetColleagueData(finalPayload);
+      this.props.requestDeleteColleagueData({ colleaguesid: 'Remove All' });
     } else {
-      this.props.requestGetColleagueData(payload);
+      this.props.requestDeleteColleagueData({ colleaguesid: id });
     }
   };
 
@@ -220,11 +231,34 @@ class WorkSpotPage extends Component {
     this.setState({ date: event.valueText });
   };
 
+  // for instant update calendar location
+  updateWorkspotData = (locationCode, date, locationName) => {
+    const { workSpotData } = this.state;
+    const index = workSpotData.findIndex(
+      obj =>
+        moment(obj.date).format('MM/DD/YYYY') ===
+        moment(date).format('MM/DD/YYYY'),
+    );
+
+    const data = workSpotData.map((obj, idx) => {
+      if (idx === index) {
+        return {
+          ...obj,
+          locationName,
+          locationCode,
+        };
+        // eslint-disable-next-line no-else-return
+      } else {
+        return obj;
+      }
+    });
+    this.setState({ workSpotData: data });
+  };
+
   onSubmit = () => {
     // eslint-disable-next-line no-unused-vars
     const { updatingObject } = this.state;
     const { locationData } = this.props;
-    this.setState({ isChangeData: true });
     const a =
       locationData &&
       locationData.find(
@@ -240,6 +274,11 @@ class WorkSpotPage extends Component {
       employeeid: 239323,
     };
     this.props.requestUpdateWorkspot(payload);
+    this.updateWorkspotData(
+      a.locationCode,
+      moment(updatingObject.date).format('YYYY-MM-DD'),
+      updatingObject.work_area_name,
+    );
   };
 
   onUpdateWorkspot = () => {
@@ -261,35 +300,33 @@ class WorkSpotPage extends Component {
   };
 
   handleColleageUpdate = () => {
-    const {
-      selectedDateRange: { startDate, endDate },
-      selectedColleaguesId,
-    } = this.state;
+    const { selectedColleaguesId } = this.state;
 
-    const sDate = moment(startDate).format('YYYY-MM-DD');
-    const eDate = moment(endDate).format('YYYY-MM-DD');
     const payload = {
-      employeeid: selectedColleaguesId,
-      startdate: sDate,
-      enddate: eDate,
+      employeeid: 239323,
+      colleaguesid: selectedColleaguesId,
     };
-    this.props.requestGetColleagueData(payload);
+    this.props.requestSearchColleagueData(payload);
   };
 
   getWorkSpots = async (startDate, endDate) => {
+    this.setState({ workspotLoading: true });
     const { success, data, message } = await getWorkSpotData(
       startDate,
       endDate,
     );
-
     if (success) {
       this.setState({
         selectedDateRange: { startDate, endDate },
         workSpotData: data,
+        // isLoading,
       });
+      this.setState({ success });
+      this.setState({ workspotLoading: false });
     } else {
       this.setState({ errMessage: message });
       this.setState({ errSuccess: success });
+      this.setState({ workspotLoading: false });
     }
   };
 
@@ -316,14 +353,15 @@ class WorkSpotPage extends Component {
       neighborhoodData,
       location,
       neighborhood,
-      // workspotSuccess,
-
+      workspotSuccess,
+      workspotMessage,
       apiMessage,
       colleaguesData,
       apiSuccess,
       colleagueWeeklyData,
       colleagueDataLoader,
       colleagueListData,
+      deleteSearchColleague,
     } = this.props;
     const { errMessage, errSuccess } = this.state;
 
@@ -349,10 +387,10 @@ class WorkSpotPage extends Component {
             handleEditModal={this.handleEditModal}
             handleUpdatingModalData={this.handleUpdatingModalData}
             onUpdateWorkspot={this.onUpdateWorkspot}
-            // workspotSuccess={workspotSuccess}
+            workspotSuccess={workspotSuccess}
             apiMessage={apiMessage}
             apiSuccess={apiSuccess}
-            // workspotMessage={workspotMessage}
+            workspotMessage={workspotMessage}
             neighborhoodData={neighborhoodData}
             errMessage={errMessage}
             errSuccess={errSuccess}
@@ -362,11 +400,7 @@ class WorkSpotPage extends Component {
             colleagueWeeklyData={colleagueWeeklyData}
             colleagueDataLoader={colleagueDataLoader}
             colleagueListData={colleagueListData}
-            // locationSuccess={locationSuccess}
-            // locationMsg={locationMsg}
-            // neighborhoodSuccess={neighborhoodSuccess}
-            // neighborhoodMsg={neighborhoodMsg}
-            // neighborhoodLoad={neighborhoodLoad}
+            deleteSearchColleague={deleteSearchColleague}
           />
         </div>
       </>
@@ -376,6 +410,7 @@ class WorkSpotPage extends Component {
 
 const mapStateToProps = state => {
   const { workspot } = state;
+  console.log(`state`, state);
   return {
     locationData:
       workspot &&
@@ -417,6 +452,8 @@ const mapStateToProps = state => {
       workspot.getColleagueData &&
       workspot.getColleagueData.isloading,
     colleagueListData: workspot && workspot.getColleagueData,
+    searchColleague: workspot && workspot.searchColleague,
+    deleteSearchColleague: workspot && workspot.deleteSearchColleague,
   };
 };
 
@@ -432,6 +469,10 @@ export function mapDispatchToProps(dispatch) {
     requestGetColleague: payload => dispatch(requestGetColleague(payload)),
     requestGetColleagueData: payload =>
       dispatch(requestGetColleagueData(payload)),
+    requestSearchColleagueData: payload =>
+      dispatch(requestSearchColleagueData(payload)),
+    requestDeleteColleagueData: payload =>
+      dispatch(requestDeleteColleagueData(payload)),
     dispatch,
   };
 }
@@ -451,7 +492,6 @@ WorkSpotPage.propTypes = {
   location: PropTypes.object,
   neighborhood: PropTypes.object,
   apiMessage: PropTypes.string,
-
   apiSuccess: PropTypes.bool,
   requestGetColleague: PropTypes.func,
   colleaguesData: PropTypes.object,
@@ -459,11 +499,10 @@ WorkSpotPage.propTypes = {
   colleagueWeeklyData: PropTypes.object,
   colleagueDataLoader: PropTypes.bool,
   colleagueListData: PropTypes.object,
-  // locationSuccess: PropTypes.bool,
-  // locationMsg: PropTypes.string,
-  // neighborhoodSuccess: PropTypes.bool,
-  // neighborhoodMsg: PropTypes.string,
-  // neighborhoodLoad: PropTypes.bool,
+  requestSearchColleagueData: PropTypes.func,
+  searchColleague: PropTypes.object,
+  requestDeleteColleagueData: PropTypes.func,
+  deleteSearchColleague: PropTypes.object,
 };
 
 export default compose(

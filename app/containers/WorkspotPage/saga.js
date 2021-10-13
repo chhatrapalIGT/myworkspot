@@ -12,6 +12,8 @@ import {
   REQUEST_GET_NEIGHBORHOOD,
   REQUEST_GET_COLLEAGUE,
   REQUEST_VIEW_COLLEAGUE_DATA,
+  REQUEST_SEARCH_COLLEAGUE_DATA,
+  REQUEST_DELETE_COLLEAGUE_DATA,
 } from './constants';
 
 import {
@@ -27,6 +29,10 @@ import {
   getColleagueFailed,
   getColleagueDataSuccess,
   getColleagueDataFailed,
+  searchColleagueDataSuccess,
+  searchColleagueDataFailed,
+  DeleteColleagueDataSuccess,
+  DeleteColleagueDataFailed,
 } from './actions';
 // eslint-disable-next-line import/named
 import { CONSTANT } from '../../enum';
@@ -127,10 +133,10 @@ export function* getColleague() {
 export function* getColleagueData({ payload }) {
   const requestURL = `${API_URL}/Colleagues/getColleaguesWorkspotdata?employeeid=239323&startdate=${
     payload.startdate
-  }&endadate=${payload.enddate}`;
+  }&enddate=${payload.enddate}`;
   try {
     const colleagueData = yield request({
-      method: 'POST',
+      method: 'GET',
       url: requestURL,
       data: payload,
     });
@@ -145,6 +151,47 @@ export function* getColleagueData({ payload }) {
   }
 }
 
+export function* searchColleagueData({ payload }) {
+  const requestURL = `${API_URL}/Colleagues/saveColleaguesdata`;
+  try {
+    const searchColleague = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+    });
+    const { data } = searchColleague;
+    if (data && data.success) {
+      yield put(searchColleagueDataSuccess(data));
+    } else {
+      yield put(searchColleagueDataFailed(data));
+    }
+  } catch (err) {
+    yield put(searchColleagueDataFailed(err));
+  }
+}
+
+export function* deleteSearchColleagueData({ payload }) {
+  console.log(`payload`, payload);
+  const requestURL = `${API_URL}/Colleagues/deleteColleaguesUser?employeeid=239323&colleaguesid=${
+    payload.colleaguesid
+  }`;
+  try {
+    const searchColleague = yield request({
+      method: 'DELETE',
+      url: requestURL,
+      data: payload,
+    });
+    const { data } = searchColleague;
+    if (data && data.success) {
+      yield put(DeleteColleagueDataSuccess(data));
+    } else {
+      yield put(DeleteColleagueDataFailed(data));
+    }
+  } catch (err) {
+    yield put(DeleteColleagueDataFailed(err));
+  }
+}
+
 export default function* workSpotSaga() {
   yield takeLatest(REQUEST_GET_LOCATION, getLocation);
   yield takeLatest(REQUEST_UPDATE_WORKSPOT, updateWorkspot);
@@ -152,4 +199,6 @@ export default function* workSpotSaga() {
   yield takeLatest(REQUEST_GET_NEIGHBORHOOD, getNeighborhood);
   yield takeLatest(REQUEST_GET_COLLEAGUE, getColleague);
   yield takeLatest(REQUEST_VIEW_COLLEAGUE_DATA, getColleagueData);
+  yield takeLatest(REQUEST_SEARCH_COLLEAGUE_DATA, searchColleagueData);
+  yield takeLatest(REQUEST_DELETE_COLLEAGUE_DATA, deleteSearchColleagueData);
 }
