@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 // import HomePage from 'containers/HomePage/Loadable';
 import Spinner from 'react-bootstrap/Spinner';
 import { createStructuredSelector } from 'reselect';
+import { useHistory } from 'react-router';
 import { makeUserSelector } from './selectors';
 import ProfilePage from '../ProfilePage';
 import Washington from '../OfficeMapPage';
@@ -28,15 +29,27 @@ import WorkSpot from '../WorkspotPage';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 // import Login from '../../components/Login';
+import CallBack from '../../components/Login/CallBack';
+import Login from '../../components/Login';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
+  const history = useHistory();
+
+  const requestLogin = async () => {
+    const session = sessionStorage.getItem('AccessToken');
+    const { hash } = history.location;
+    if (session === null && hash === '') {
+      history.push('/auth');
+    }
+  };
 
   useEffect(() => {
+    requestLogin();
     setTimeout(() => {
       setPageLoading(false);
     }, 1000);
-  });
+  }, []);
   return (
     <div>
       {pageLoading ? (
@@ -53,6 +66,7 @@ const App = props => {
               component={WorkSpot}
             />
             {/* <Route exact path="/login" component={Login} /> */}
+            <Route exact path="/auth" component={Login} />
             <Route
               exact
               path="/profile"
@@ -60,6 +74,7 @@ const App = props => {
               component={ProfilePage}
               props={props}
             />
+            <Route exact path="/callback/" component={CallBack} />
             <Route exact path="/faq" component={Faq} />
             <Route
               exact

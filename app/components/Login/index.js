@@ -1,26 +1,36 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { useIsAuthenticated, useMsal } from '@azure/msal-react';
+import React, { Fragment, useEffect, useState } from 'react';
+import axios from 'axios';
 
-const login = () => {
-  const { instance } = useMsal();
-  const isAuthenticated = useIsAuthenticated();
-  const history = useHistory();
+import { CONSTANT } from '../../enum';
 
-  const LoginHandler = () => {
-    // console.log("Trying to login via popup")
-    try {
-      const loginResponse = instance.loginRedirect().then(response => {
-        console.log(`Login Response: ${response.json()}`);
-      });
+const { API_URL } = CONSTANT;
 
-      console.log(loginResponse);
-    } catch (err) {
-      console.log(err);
+export default function Login() {
+  const [call, setCall] = useState(true);
+  useEffect(() => {
+    if (call) {
+      login();
+      setCall(false);
     }
-  };
-  return <div>{isAuthenticated ? history.push('/') : LoginHandler()}</div>;
-};
+  });
 
-export default login;
+  const login = () => {
+    const url = `${API_URL}/authenticate/login`;
+    axios
+      .get(url, {
+        headers: {
+          Authorization: '',
+        },
+      })
+      // eslint-disable-next-line consistent-return
+      .then(res => {
+        if (res.data) {
+          return window.location.replace(res.data.urls);
+        }
+      })
+      .catch(err => err);
+  };
+
+  return <Fragment />;
+}

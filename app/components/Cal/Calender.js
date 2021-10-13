@@ -805,7 +805,7 @@ const Calender = ({
               </div>
             )}
           </div>
-          {period === 'week' && setVisible && (
+          {/* {period === 'week' && setVisible && (
             <button
               type="submit"
               className="light-blue-bg-btn mt-4"
@@ -814,7 +814,7 @@ const Calender = ({
               {' '}
               <img src={searchicon} alt="" /> Search for Colleagues
             </button>
-          )}
+          )} */}
         </div>
       </div>
     </div>

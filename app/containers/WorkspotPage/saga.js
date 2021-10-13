@@ -40,11 +40,16 @@ import { CONSTANT } from '../../enum';
 const { API_URL } = CONSTANT;
 
 export function* getLocation() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/location/GetData`;
   try {
     const locationList = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = locationList;
     if (data && data.success) {
@@ -58,11 +63,16 @@ export function* getLocation() {
 }
 
 export function* getWeeklyData() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/weaklyDefault/getData?groupBy=week`;
   try {
     const weeklyList = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = weeklyList;
     if (data && data.success) {
@@ -76,12 +86,17 @@ export function* getWeeklyData() {
 }
 
 export function* updateWorkspot({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/workspot/editWorkSpot?employeeid=239323`;
   try {
     const updateData = yield request({
       method: 'PUT',
       url: requestURL,
       data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = updateData;
     if (data && data.success) {
@@ -95,11 +110,16 @@ export function* updateWorkspot({ payload }) {
 }
 
 export function* getNeighborhood() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/neighborhoods/getneighborhood?employeeid=239323`;
   try {
     const neighborhhod = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = neighborhhod;
     if (data && data.success) {
@@ -113,11 +133,16 @@ export function* getNeighborhood() {
 }
 
 export function* getColleague() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/Delegate/getUsersForDelegate?employeeid=239323`;
   try {
     const colleagues = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = colleagues;
     if (data && data.success) {
@@ -131,6 +156,8 @@ export function* getColleague() {
 }
 
 export function* getColleagueData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/Colleagues/getColleaguesWorkspotdata?employeeid=239323&startdate=${
     payload.startdate
   }&enddate=${payload.enddate}`;
@@ -139,6 +166,9 @@ export function* getColleagueData({ payload }) {
       method: 'GET',
       url: requestURL,
       data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = colleagueData;
     if (data && data.success) {
@@ -152,12 +182,17 @@ export function* getColleagueData({ payload }) {
 }
 
 export function* searchColleagueData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/Colleagues/saveColleaguesdata`;
   try {
     const searchColleague = yield request({
       method: 'POST',
       url: requestURL,
       data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = searchColleague;
     if (data && data.success) {
@@ -172,6 +207,8 @@ export function* searchColleagueData({ payload }) {
 
 export function* deleteSearchColleagueData({ payload }) {
   console.log(`payload`, payload);
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/Colleagues/deleteColleaguesUser?employeeid=239323&colleaguesid=${
     payload.colleaguesid
   }`;
@@ -180,6 +217,9 @@ export function* deleteSearchColleagueData({ payload }) {
       method: 'DELETE',
       url: requestURL,
       data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = searchColleague;
     if (data && data.success) {

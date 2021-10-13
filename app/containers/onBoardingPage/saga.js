@@ -18,12 +18,17 @@ import { CONSTANT } from '../../enum';
 const { API_URL } = CONSTANT;
 
 export function* getLocationData() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/location/GetData`;
   try {
     const usersList = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = usersList;
     console.log(`data`, data);
@@ -38,12 +43,17 @@ export function* getLocationData() {
 }
 
 export function* addOffice({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/weaklyDefault/saveData`;
   try {
     const officeList = yield request({
       method: 'POST',
       url: requestURL,
       data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = officeList;
     console.log('officeList', officeList);
@@ -57,12 +67,17 @@ export function* addOffice({ payload }) {
   }
 }
 export function* verifyBadge({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/badgeMaster/GetValidBadgeNumber`;
   try {
     const verifyBadgeData = yield request({
       method: 'POST',
       url: requestURL,
       data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = verifyBadgeData;
     console.log('verifyBadgeData', data);
