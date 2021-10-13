@@ -7,12 +7,18 @@ import { CONSTANT } from '../../enum';
 const { API_URL } = CONSTANT;
 
 export function* getData() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/building/get`;
+
   try {
     const usersList = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = usersList;
     if (data && data.success) {

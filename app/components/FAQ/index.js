@@ -14,9 +14,14 @@ const FAQ = () => {
   const handlecolor = () => {};
 
   const requestGetData = () => {
+    let token = sessionStorage.getItem('AccessToken');
+    token = JSON.parse(token);
     const url = `${API_URL}/Help/GetData`;
     Axios.get(url, {
       withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     })
       .then(res => {
         setHelpData(res.data.locationdata);
