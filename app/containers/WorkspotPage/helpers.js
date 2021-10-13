@@ -17,10 +17,16 @@ export const getWorkSpotData = async (startDate, endDate) => {
   const lastDate = moment(endDate)
     .add(1, 'day')
     .startOf('day');
-
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const url = `${API_URL}/workspot/getworkspotdata?startdate=${sDate}&enddate=${eDate}&employeeid=239323`;
   await Axios.get(
     url,
+    {
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    },
     //    {
     //   withCredentials: true,
     // }

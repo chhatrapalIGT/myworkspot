@@ -23,14 +23,13 @@ export default function Login() {
           Authorization: '',
         },
       })
+      // eslint-disable-next-line consistent-return
       .then(res => {
         if (res.data) {
           return window.location.replace(res.data.urls);
         }
       })
-      .catch(err => {
-        return err;
-      });
+      .catch(err => err);
   };
 
   return <Fragment />;

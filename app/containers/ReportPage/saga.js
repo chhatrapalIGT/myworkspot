@@ -18,11 +18,16 @@ import { CONSTANT } from '../../enum';
 const { API_URL } = CONSTANT;
 
 export function* getTeamMember() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   const requestURL = `${API_URL}/invite/getinvitemember?employeeid=239323`;
   try {
     const locationList = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = locationList;
     if (data && data.success) {
@@ -36,6 +41,8 @@ export function* getTeamMember() {
 }
 
 export function* updateTeamMember({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/invite/saveInviteData`;
   try {
@@ -43,6 +50,9 @@ export function* updateTeamMember({ payload }) {
       method: 'POST',
       url: requestURL,
       data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = badgeList;
     if (data && data.success) {

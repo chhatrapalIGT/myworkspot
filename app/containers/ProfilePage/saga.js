@@ -33,12 +33,17 @@ import { CONSTANT } from '../../enum';
 const { API_URL } = CONSTANT;
 
 export function* getLocationData() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/weaklyDefault/getweeklydefault?employeeid=239323`;
   try {
     const usersList = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = usersList;
     if (data && data.success) {
@@ -52,12 +57,17 @@ export function* getLocationData() {
 }
 
 export function* getUserListData() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/User/GetData?employeeid=239323`;
   try {
     const usersList = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = usersList;
     console.log('data==>>>> userprofile', data);
@@ -72,7 +82,8 @@ export function* getUserListData() {
 }
 
 export function* getDelegateListData({ payload }) {
-  console.log(`payload`, payload);
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/Delegate/getUsersForDelegate?page=${
     payload.page
@@ -81,6 +92,9 @@ export function* getDelegateListData({ payload }) {
     const delegateList = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = delegateList;
 
@@ -95,6 +109,8 @@ export function* getDelegateListData({ payload }) {
 }
 
 export function* updateBadgeData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/badgeMaster/editBadge`;
   try {
@@ -102,6 +118,9 @@ export function* updateBadgeData({ payload }) {
       method: 'PUT',
       url: requestURL,
       data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = badgeList;
     if (data && data.success) {
@@ -115,6 +134,8 @@ export function* updateBadgeData({ payload }) {
 }
 
 export function* delegateProfile({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/Delegate/getDelegateUserProfile?employeeid=${
     payload.empId
@@ -123,6 +144,9 @@ export function* delegateProfile({ payload }) {
     const delegateProfileList = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = delegateProfileList;
     console.log('data ===> delegarte profile', data);
@@ -136,6 +160,8 @@ export function* delegateProfile({ payload }) {
   }
 }
 export function* addDelegateMember({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/Delegate/saveDelegateUsers`;
   try {
@@ -143,6 +169,9 @@ export function* addDelegateMember({ payload }) {
       method: 'POST',
       url: requestURL,
       data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = delegateList;
     if (data && data.success) {
@@ -156,6 +185,8 @@ export function* addDelegateMember({ payload }) {
 }
 
 export function* removeDelegateMember({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/Delegate/removeDelegateUser?employeeid=239323&delegateid=${
     payload.id
@@ -165,6 +196,9 @@ export function* removeDelegateMember({ payload }) {
       method: 'DELETE',
       url: requestURL,
       data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = delegateList;
     if (data && data.success) {
@@ -178,12 +212,17 @@ export function* removeDelegateMember({ payload }) {
 }
 
 export function* getUpdateDelegateData() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/Delegate/getdelegateData?employeeid=239323`;
   try {
     const delegateUsersList = yield request({
       method: 'GET',
       url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
     });
     const { data } = delegateUsersList;
     if (data && data.success) {
