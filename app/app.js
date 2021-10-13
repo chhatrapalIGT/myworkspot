@@ -41,15 +41,12 @@ const initialState = {};
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 injectGlobalSagas(store);
-const msalInstance = new PublicClientApplication(msalConfig);
 const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <MsalProvider instance={msalInstance}>
             <App />
-          </MsalProvider>
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
