@@ -71,7 +71,7 @@ const Header = props => {
         <div className="container">
           <div className="header_wrapper d-flex align-items-center justify-content-between">
             <div className="logo_wrapper">
-              {pathName === '/board' ? (
+              {pathName === '/' ? (
                 <a href>
                   <img src={Headerlogo} alt="" />
                 </a>
@@ -83,12 +83,15 @@ const Header = props => {
                 </Link>
               )}
             </div>
-            {pathName !== '/board' && (
+            {pathName !== '/' && (
               <div className={`${sidebar && 'show'} main-menu`}>
                 <ul>
                   <li>
-                    <Link to="/" activeClassName="active">
-                      <a className={pathName === '/' && 'active'} href="true">
+                    <Link to="/workspot" activeClassName="active">
+                      <a
+                        className={pathName === '/workspot' && 'active'}
+                        href="true"
+                      >
                         Home
                       </a>
                     </Link>
@@ -114,11 +117,8 @@ const Header = props => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/board">
-                      <a
-                        className={pathName === '/board' && 'active'}
-                        href="true"
-                      >
+                    <Link to="/">
+                      <a className={pathName === '/' && 'active'} href="true">
                         OnBoarding
                       </a>
                     </Link>
@@ -138,14 +138,13 @@ const Header = props => {
             )}
 
             <div className="right-menus" ref={divRef}>
-              {pathName !== '/board' &&
-              pathName.includes('/profile/delegate') ? (
+              {pathName !== '/' && pathName.includes('/profile/delegate') ? (
                 <div
                   aria-hidden="true"
                   onClick={() => setEditProfile(!editProfile)}
                   onHide={() => setEditProfile(false)}
                   className={
-                    pathName === '/board'
+                    pathName === '/'
                       ? `username ${editProfile && 'toggled'}`
                       : `username has-dropdown ${editProfile && 'toggled'}`
                   }
@@ -169,7 +168,7 @@ const Header = props => {
                   onClick={() => setEditProfile(!editProfile)}
                   onHide={() => setEditProfile(false)}
                   className={
-                    pathName === '/board'
+                    pathName === '/'
                       ? `username ${editProfile && 'toggled'}`
                       : `username has-dropdown ${editProfile && 'toggled'}`
                   }
@@ -185,8 +184,7 @@ const Header = props => {
                 </div>
               )}
               {/* /* delegate profile */}
-              {pathName !== '/board' &&
-              pathName.includes('/profile/delegate') ? (
+              {pathName !== '/' && pathName.includes('/profile/delegate') ? (
                 <div className={`profile-inner ${editProfile && 'opened'}`}>
                   <div className="head del">
                     <span style={{ color: '#ed8b00' }}>On behalf of</span>
@@ -254,7 +252,7 @@ const Header = props => {
                   </a>
                 </div>
               ) : (
-                pathName !== '/board' && (
+                pathName !== '/' && (
                   <div className={`profile-inner ${editProfile && 'opened'}`}>
                     <div className="head">
                       <span>This is your account</span>
@@ -318,7 +316,7 @@ const Header = props => {
           </div>
         </div>
       </header>
-      {pathName !== '/board' &&
+      {pathName !== '/' &&
         !pathName.includes('/profile/delegate') &&
         (props.profileUser && props.profileUser.badgeNumber === '' && (
           <div className="badge_check">

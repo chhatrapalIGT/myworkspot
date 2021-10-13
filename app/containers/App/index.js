@@ -45,7 +45,13 @@ const App = props => {
         <>
           <Header />
           <Switch>
-            <Route exact props={props} path="/" Route component={WorkSpot} />
+            <Route
+              exact
+              props={props}
+              path="/workspot"
+              Route
+              component={WorkSpot}
+            />
             {/* <Route exact path="/login" component={Login} /> */}
             <Route
               exact
@@ -62,13 +68,7 @@ const App = props => {
               props={props}
               component={Report}
             />
-            <Route
-              exact
-              path="/board"
-              props={props}
-              Route
-              component={Boarding}
-            />
+            <Route exact path="/" props={props} Route component={Boarding} />
             <Route
               path="/profile/delegate"
               props={props}
