@@ -220,7 +220,7 @@ const Profile = ({
                         </div>
                         <div className="attr_one">
                           <span>Manager</span>
-                          <p>Cameron Williamson</p>
+                          <p />
                         </div>
                       </div>
                       <div className="col_one">
@@ -230,7 +230,7 @@ const Profile = ({
                         </div>
                         <div className="attr_one">
                           <span>Assigned Space</span>
-                          <p>1435</p>
+                          <p />
                         </div>
                       </div>
                       <div className="col_one">
@@ -481,12 +481,12 @@ const Profile = ({
                     I Can Update <i>my</i>Workspot for
                   </h5>
                 </div>
-                <div className="access-to update-workshop">
+                {/* <div className="access-to update-workshop">
                   <div className="access-one">
                     <img src={ProfileImg} alt="" />
                     Wade Warren
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
