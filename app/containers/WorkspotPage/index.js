@@ -39,7 +39,7 @@ class WorkSpotPage extends Component {
     super(props);
     this.state = {
       defaultSelected: 'week',
-      searchValue: '',
+      // searchValue: '',
       allUser: [],
       date: '',
       location: 'Washington, DC',
@@ -58,6 +58,7 @@ class WorkSpotPage extends Component {
         work_area: 'Washington, DC',
       },
       editModal: false,
+      search: false,
       errMessage: '',
       errSuccess: false,
       updateVal: true,
@@ -65,8 +66,12 @@ class WorkSpotPage extends Component {
       colleagueWeekly: [],
       loading: true,
       colleaguesId: [],
+      updatedlistArray: [],
       success: false,
       workspotLoading: false,
+      activePage: 1,
+      loc_date: '',
+      listArray: [],
     };
   }
 
@@ -97,11 +102,16 @@ class WorkSpotPage extends Component {
   };
 
   componentDidMount() {
+    const doc = document.getElementById('data_workspot');
+    if (doc) {
+      doc.addEventListener('scroll', this.handleScroll(), true);
+    }
+
     const { defaultSelected } = this.state;
 
     this.props.requestGetLocation();
     this.props.requestGetNeighborhood();
-    this.props.requestGetColleague();
+    // this.props.requestGetColleague();
     const { dateToDisplay } =
       defaultSelected === 'week'
         ? getWeekStartEndDate(new Date())
@@ -122,20 +132,52 @@ class WorkSpotPage extends Component {
     this.setState({
       selectedDateRange: { startDate: startDispDate, endDate: endDispDate },
     });
+    this.loadColleagues();
   }
 
   clearState = () => {
     this.setState({ updatingObject: { work_area: '' } });
   };
 
-  componentDidUpdate() {
+  unique = (dataVal, key) => [
+    ...new Map(dataVal.map(x => [key(x), x])).values(),
+  ];
+
+  updateState = newArr => {
+    this.setState({ updatedlistArray: newArr });
+  };
+
+  componentDidUpdate(prevProps) {
     const { selectedDateRange } = this.state;
     const {
       workspotSuccess,
       workspotMessage,
       searchColleague,
       deleteSearchColleague,
+      colleagues,
+      colleaguesData,
     } = this.props;
+    const { listArray } = this.state;
+    const { colleaguesData: prevColleagueData } = prevProps;
+
+    if (
+      colleagues &&
+      colleagues.success &&
+      colleaguesData !== prevColleagueData &&
+      !colleagues.isloading
+    ) {
+      let list = [];
+      list = colleaguesData;
+
+      if (this.state.search) {
+        listArray.push(...list);
+      } else {
+        listArray.push(...prevColleagueData, ...list);
+      }
+      const newArr = this.unique(listArray, obj => obj.employeeid);
+      this.updateState(newArr);
+    }
+
     if (workspotSuccess && workspotMessage) {
       this.getWorkSpots(
         selectedDateRange && selectedDateRange.startDate,
@@ -146,7 +188,7 @@ class WorkSpotPage extends Component {
 
       setTimeout(() => {
         this.handleClearModal();
-      }, 6000);
+      }, 5000);
     }
 
     const sDate = moment(selectedDateRange.startDate).format('YYYY-MM-DD');
@@ -166,6 +208,10 @@ class WorkSpotPage extends Component {
     }
   }
 
+  handleLocDate = date => {
+    this.setState({ loc_date: date });
+  };
+
   handledata = () => {
     this.setState({ updateVal: false });
   };
@@ -180,19 +226,16 @@ class WorkSpotPage extends Component {
     this.setState({ work_place: '' });
   };
 
-  handleUserSelect = (username, id) => {
-    const { selectedColleagues, selectedColleaguesId } = this.state;
+  handleUserSelect = data => {
+    const { selectedColleagues } = this.state;
     const newArr = [...selectedColleagues];
-    const newId = [...selectedColleaguesId];
-    if (newId.includes(id)) {
-      const index = newId.indexOf(id);
-      newId.splice(index, 1);
+    if (newArr.includes(data)) {
+      const index = newArr.indexOf(data);
+      newArr.splice(index, 1);
     } else {
-      newArr.push(username);
-      newId.push(id);
+      newArr.push(data);
     }
 
-    this.setState({ selectedColleaguesId: newId });
     this.setState({ selectedColleagues: newArr });
   };
 
@@ -215,7 +258,56 @@ class WorkSpotPage extends Component {
   };
 
   handleChange = event => {
-    this.setState({ searchValue: event.target.value });
+    const { name, value } = event.target;
+
+    this.setState({ [name]: value }, () => {
+      // eslint-disable-next-line no-unused-expressions
+      this.state.searchValue !== ''
+        ? this.setState({ search: true })
+        : this.setState({ search: false });
+      this.setState({ updatedlistArray: [], listArray: [] });
+    });
+    if (this.state.typingTimeout) {
+      clearTimeout(this.state.typingTimeout);
+    }
+
+    const timeoutId = setTimeout(() => {
+      this.setState({ activePage: 1 }, () =>
+        this.props.requestGetColleague({
+          page: this.state.activePage,
+          searchUser: this.state.searchValue || '',
+        }),
+      );
+    }, 1000);
+    this.setState({
+      typingTimeout: timeoutId,
+    });
+  };
+
+  handleScroll = e => {
+    const element = e.target;
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      const { activePage } = this.state;
+      this.setState({ activePage: activePage + 1 }, () =>
+        this.loadColleagues(),
+      );
+    }
+  };
+
+  loadColleagues = () => {
+    const { activePage, searchValue, search } = this.state;
+    const { colleagues } = this.props;
+    if (searchValue !== '' && search && activePage <= colleagues.totalPage) {
+      this.props.requestGetColleague({
+        page: activePage,
+        searchUser: searchValue,
+      });
+    }
+    if (!search) {
+      this.props.requestGetColleague({
+        page: activePage,
+      });
+    }
   };
 
   handleuserLocation = d => {
@@ -252,18 +344,20 @@ class WorkSpotPage extends Component {
         return obj;
       }
     });
+    console.log(`workSpotData`, workSpotData);
     this.setState({ workSpotData: data });
   };
 
   onSubmit = () => {
     // eslint-disable-next-line no-unused-vars
-    const { updatingObject } = this.state;
+    const { updatingObject, loc_date } = this.state;
     const { locationData } = this.props;
     const a =
       locationData &&
       locationData.find(
         obj => obj.locationname === updatingObject.work_area_name,
       );
+    console.log(`updatingObject`, updatingObject);
     const payload = {
       data: {
         // eslint-disable-next-line radix
@@ -276,7 +370,7 @@ class WorkSpotPage extends Component {
     this.props.requestUpdateWorkspot(payload);
     this.updateWorkspotData(
       a.locationCode,
-      moment(updatingObject.date).format('YYYY-MM-DD'),
+      moment(loc_date).format('YYYY-MM-DD'),
       updatingObject.work_area_name,
     );
   };
@@ -300,11 +394,14 @@ class WorkSpotPage extends Component {
   };
 
   handleColleageUpdate = () => {
-    const { selectedColleaguesId } = this.state;
-
+    const { selectedColleagues } = this.state;
+    // eslint-disable-next-line arrow-body-style
+    const data = selectedColleagues.map(({ employeeid }) => {
+      return employeeid;
+    });
     const payload = {
       employeeid: 239323,
-      colleaguesid: selectedColleaguesId,
+      colleaguesid: data,
     };
     this.props.requestSearchColleagueData(payload);
   };
@@ -362,7 +459,6 @@ class WorkSpotPage extends Component {
       workspotSuccess,
       workspotMessage,
       apiMessage,
-      colleaguesData,
       apiSuccess,
       colleagueWeeklyData,
       colleagueDataLoader,
@@ -370,7 +466,6 @@ class WorkSpotPage extends Component {
       deleteSearchColleague,
     } = this.props;
     const { errMessage, errSuccess } = this.state;
-
     return (
       <>
         <div id="content-wrap">
@@ -402,11 +497,13 @@ class WorkSpotPage extends Component {
             errSuccess={errSuccess}
             location={location}
             neighborhood={neighborhood}
-            colleaguesData={colleaguesData}
+            colleaguesData={this.state.updatedlistArray}
             colleagueWeeklyData={colleagueWeeklyData}
             colleagueDataLoader={colleagueDataLoader}
             colleagueListData={colleagueListData}
             deleteSearchColleague={deleteSearchColleague}
+            handleLocDate={this.handleLocDate}
+            onScroll={this.handleScroll}
           />
         </div>
       </>
@@ -416,7 +513,6 @@ class WorkSpotPage extends Component {
 
 const mapStateToProps = state => {
   const { workspot } = state;
-  console.log(`state`, state);
   return {
     locationData:
       workspot &&
@@ -449,6 +545,7 @@ const mapStateToProps = state => {
       workspot &&
       workspot.colleagueData &&
       workspot.colleagueData.colleagueList,
+    colleagues: workspot && workspot.colleagueData,
     colleagueWeeklyData:
       workspot &&
       workspot.getColleagueData &&
@@ -510,6 +607,7 @@ WorkSpotPage.propTypes = {
   requestDeleteColleagueData: PropTypes.func,
   deleteSearchColleague: PropTypes.object,
   history: PropTypes.object,
+  colleagues: PropTypes.object,
 };
 
 export default compose(
