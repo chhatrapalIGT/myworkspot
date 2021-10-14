@@ -306,6 +306,7 @@ const Report = ({
               getWorkSpots={getWorkSpots}
               handleEditModal={datas => setModalData(datas)}
               weekVal={state.weekVal}
+              teamLoading={state.teamLoading}
             />
 
             <Modal

@@ -134,9 +134,15 @@ class ReportPage extends Component {
   }
 
   getUserData = async (startDispDate, endDispDate) => {
-    const data = await getMyTeamData(startDispDate, endDispDate);
+    this.setState({ teamLoading: true });
+    const { data, success } = await getMyTeamData(startDispDate, endDispDate);
 
-    this.setState({ allUser: data.data });
+    this.setState({ allUser: data });
+    if (success) {
+      this.setState({ teamLoading: false });
+    } else {
+      this.setState({ teamLoading: false });
+    }
   };
 
   getPlatformList = () => {
