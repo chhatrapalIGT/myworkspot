@@ -191,7 +191,7 @@ const workspotReducer = (state = initialState, action) =>
         draft.colleagueData.success = false;
         draft.colleagueData.isloading = true;
         draft.colleagueData.message = '';
-        draft.colleagueData.colleagueList = {};
+        draft.colleagueData.colleagueList = [];
         break;
       case SUCCESS_GET_COLLEAGUE:
         draft.colleagueData.isloading = false;

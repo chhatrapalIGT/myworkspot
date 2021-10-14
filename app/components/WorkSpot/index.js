@@ -84,6 +84,7 @@ const WorkSpot = ({
   colleagueDataLoader,
   colleagueListData,
   deleteSearchColleague,
+  onScroll,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
@@ -95,6 +96,7 @@ const WorkSpot = ({
   const [isdate, setDate] = useState('');
 
   const [calData, setCalData] = useState([]);
+  const [searchName, setSearchName] = useState([]);
   const [finalImg, setFinalImg] = useState('');
   const [data, setData] = useState({});
   const [officeRest, setOfficeRest] = useState('');
@@ -119,6 +121,10 @@ const WorkSpot = ({
     return d;
   });
 
+  useEffect(() => {
+    setSearchName(colleaguesData);
+  }, [colleaguesData]);
+
   const handleClickOutside = event => {
     if (divRef && divRef.current && !divRef.current.contains(event.target)) {
       setModal(false);
@@ -138,13 +144,6 @@ const WorkSpot = ({
     locationData.length > 0 &&
     locationData &&
     locationData.find(obj => obj.locationname.includes('Remote Work'));
-
-  const filteredData = useMemo(() => {
-    if (!state.searchValue) return colleaguesData;
-    return colleaguesData.filter(ele =>
-      ele.firstname.toLowerCase().includes(state.searchValue.toLowerCase()),
-    );
-  }, [colleaguesData, state.searchValue]);
 
   const updateModalData = (key, val) => {
     handleUpdatingModalData(key, val);
@@ -288,10 +287,14 @@ const WorkSpot = ({
   };
 
   const neighborhoodColor =
-    neighborhoodData && neighborhoodData.colorcode === 'a5c3e2'
+    neighborhoodData && neighborhoodData.colorcode === '0072CE'
       ? 'Blue'
-      : neighborhoodData && neighborhoodData.colorcode === 'aa2121'
-      ? 'Red'
+      : neighborhoodData && neighborhoodData.colorcode === 'ED8B00'
+      ? 'Orange'
+      : neighborhoodData && neighborhoodData.colorcode === '00B1B0'
+      ? 'Teal'
+      : neighborhoodData && neighborhoodData.colorcode === 'F7CA0F'
+      ? 'Yellow'
       : '';
 
   return (
@@ -354,21 +357,15 @@ const WorkSpot = ({
             !isEmpty(neighborhood.neighborhoodData) && (
               <div
                 className={
-                  (neighborhoodData &&
-                    neighborhoodData.locationCode === 'RVA') ||
-                  (neighborhoodData && neighborhoodData.locationCode === 'WDC')
+                  neighborhoodColor === 'Blue'
                     ? 'card building-block-head blue'
-                    : (neighborhoodData &&
-                        neighborhoodData.locationCode === 'BMN') ||
-                      (neighborhoodData &&
-                        neighborhoodData.locationCode === 'BAL')
-                    ? 'card building-block-head black'
-                    : neighborhoodData && neighborhoodData.locationCode === 'RW'
-                    ? 'card building-block-head grey'
-                    : neighborhoodData &&
-                      neighborhoodData.locationCode === 'PTO'
-                    ? 'card building-block-head violate'
-                    : 'card building-block-head'
+                    : neighborhoodColor === 'Orange'
+                    ? 'card building-block-head orange'
+                    : neighborhoodColor === 'Teal'
+                    ? 'card building-block-head teal'
+                    : neighborhoodColor === 'Yellow'
+                    ? 'card building-block-head yellow'
+                    : 'card building-block-head default'
                 }
                 style={{ backgroundColor: 'white' }}
               >
@@ -775,37 +772,38 @@ const WorkSpot = ({
                   onClick={() => setEmployeeModal(false)}
                 />
               </div>
-              <div className="modal-body">
+              <input
+                type="search"
+                placeholder="Search..."
+                className="searchbox"
+                name="searchValue"
+                onChange={handleChange}
+              />
+              <div
+                className="modal-body modal-update"
+                onScroll={onScroll}
+                id="data_workspot"
+              >
                 <form className="delegate-workspot-access" action="submit">
-                  <input
-                    type="search"
-                    placeholder="Search..."
-                    className="searchbox"
-                    onChange={handleChange}
-                  />
-                  {/* {colleaguesData.length > 0 &&
-                    filteredData.map(i => (
+                  {searchName &&
+                    searchName.map(i => (
                       <div
                         aria-hidden="true"
                         className="form-group"
-                        onClick={() =>
-                          handleUserSelect(i.firstname, i.employeeid)
-                        }
+                        onClick={() => handleUserSelect(i)}
                       >
                         <img src={ProfileImg} alt="" />
                         <input
                           id="jane"
                           type="radio"
                           className="checkbox"
-                          checked={state.selectedColleaguesId.includes(
-                            i.employeeid,
-                          )}
+                          checked={state.selectedColleagues.includes(i)}
                         />
                         <label htmlFor="jane">
                           {i.firstname} {i.lastname}
                         </label>
                       </div>
-                    ))} */}
+                    ))}
                 </form>
               </div>
               <div className="modal-footer">
@@ -1101,6 +1099,7 @@ WorkSpot.propTypes = {
   handleUpdatingModalData: PropTypes.func,
   locationData: PropTypes.object,
   onUpdateWorkspot: PropTypes.func,
+  onScroll: PropTypes.func,
   neighborhoodData: PropTypes.object,
   errMessage: PropTypes.string,
   errSuccess: PropTypes.bool,

@@ -1,5 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import { push } from 'react-router-redux';
 import {
   REQUEST_GET_OFFICE_LOCATION,
   REQUEST_ADD_OFFICE_LOCATION,
@@ -32,7 +33,12 @@ export function* getLocationData() {
     });
     const { data } = usersList;
     console.log(`data`, data);
-    if (data && data.success) {
+    if (usersList.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getOfficeLocationSuccess(data.data));
     } else {
       yield put(getOfficeLocationFailed(data));
@@ -57,7 +63,12 @@ export function* addOffice({ payload }) {
     });
     const { data } = officeList;
     console.log('officeList', officeList);
-    if (data && data.success) {
+    if (officeList.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(addOfficeLocationSuccess(data));
     } else {
       yield put(addOfficeLocationFailed(data));
@@ -81,7 +92,12 @@ export function* verifyBadge({ payload }) {
     });
     const { data } = verifyBadgeData;
     console.log('verifyBadgeData', data);
-    if (data && data.success) {
+    if (verifyBadgeData.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(verifyBadgeSuccess(data));
     } else {
       yield put(verifyBadgeFailed(data));

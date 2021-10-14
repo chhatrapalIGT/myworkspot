@@ -1,5 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import { push } from 'react-router-redux';
 import { REQUEST_GET_OFFICE_DATA } from './constants';
 import { getOfficeDataSuccess, getOfficeDataFailed } from './actions';
 import { CONSTANT } from '../../enum';
@@ -21,7 +22,11 @@ export function* getData() {
       },
     });
     const { data } = usersList;
-    if (data && data.success) {
+    if (usersList.status === 403) {
+      sessionStorage.clear();
+
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getOfficeDataSuccess(data.response));
     } else {
       yield put(getOfficeDataFailed(data.message));

@@ -83,7 +83,7 @@ const Header = props => {
                 </Link>
               )}
             </div>
-            {pathName !== '/' && (
+            {pathName !== '/' && pathName !== '/auth' && (
               <div className={`${sidebar && 'show'} main-menu`}>
                 <ul>
                   <li>
@@ -137,135 +137,73 @@ const Header = props => {
                 </ul>
               </div>
             )}
-
-            <div className="right-menus" ref={divRef}>
-              {pathName !== '/' && pathName.includes('/profile/delegate') ? (
-                <div
-                  aria-hidden="true"
-                  onClick={() => setEditProfile(!editProfile)}
-                  onHide={() => setEditProfile(false)}
-                  className={
-                    pathName === '/'
-                      ? `username ${editProfile && 'toggled'}`
-                      : `username has-dropdown ${editProfile && 'toggled'}`
-                  }
-                >
-                  <span style={{ color: '#ed8b00' }}>
-                    On behalf of{' '}
-                    <span>
-                      {props.delegateHeaderProfile &&
-                        props.delegateHeaderProfile.firstname}
-                    </span>
-                  </span>{' '}
-                  <img
-                    src={props.profileUser.photo || Profile}
-                    className="user-img"
-                    alt=""
-                  />
-                </div>
-              ) : (
-                <div
-                  aria-hidden="true"
-                  onClick={() => setEditProfile(!editProfile)}
-                  onHide={() => setEditProfile(false)}
-                  className={
-                    pathName === '/'
-                      ? `username ${editProfile && 'toggled'}`
-                      : `username has-dropdown ${editProfile && 'toggled'}`
-                  }
-                >
-                  <span>
-                    {props.profileUser && props.profileUser.firstname}
-                  </span>{' '}
-                  <img
-                    src={props.profileUser.photo || Profile}
-                    className="user-img"
-                    alt=""
-                  />
-                </div>
-              )}
-              {/* /* delegate profile */}
-              {pathName !== '/' && pathName.includes('/profile/delegate') ? (
-                <div className={`profile-inner ${editProfile && 'opened'}`}>
-                  <div className="head del">
-                    <span style={{ color: '#ed8b00' }}>On behalf of</span>
-                  </div>
-                  <div className="profile-popup-main">
-                    <img src={Profile} alt="" />
-                    <h3>
-                      {' '}
-                      {props.delegateHeaderProfile &&
-                        props.delegateHeaderProfile.firstname}{' '}
-                      {props.delegateHeaderProfile &&
-                        props.delegateHeaderProfile.lastname}
-                      {/* {props.profileUser.firstname} {props.profileUser.lastname} */}
-                    </h3>
-                    <p>
-                      {props.delegateHeaderProfile &&
-                        props.delegateHeaderProfile.email}
-                    </p>
-                    <Link
-                      className={pathName === '/profile' && 'active'}
-                      to="/profile"
-                      activeClassName="active"
-                    >
-                      <button
-                        type="button"
-                        className="w-100 blue-color-btn profile-btn"
-                      >
-                        View My Profile
-                      </button>
-                    </Link>
-                  </div>
+            {pathName !== '/auth' && (
+              <div className="right-menus" ref={divRef}>
+                {pathName !== '/' && pathName.includes('/profile/delegate') ? (
                   <div
                     aria-hidden="true"
-                    className="popup-secondary-profile"
-                    // onClick={() => userProfileData(obj.employeeid)}
+                    onClick={() => setEditProfile(!editProfile)}
+                    onHide={() => setEditProfile(false)}
+                    className={
+                      pathName === '/'
+                        ? `username ${editProfile && 'toggled'}`
+                        : `username has-dropdown ${editProfile && 'toggled'}`
+                    }
                   >
-                    <img src={props.profileUser.photo || Profile} alt="" />
-                    <div className="sec-profile-info">
-                      <h4>
-                        {props.profileUser.firstname}{' '}
-                        {props.profileUser.lastname}{' '}
-                      </h4>
-                      <span>{props.profileUser.email}</span>
-                      <br />
-                      You
-                    </div>
+                    <span style={{ color: '#ed8b00' }}>
+                      On behalf of{' '}
+                      <span>
+                        {props.delegateHeaderProfile &&
+                          props.delegateHeaderProfile.firstname}
+                      </span>
+                    </span>{' '}
+                    <img
+                      src={props.profileUser.photo || Profile}
+                      className="user-img"
+                      alt=""
+                    />
                   </div>
-                  {userList.map(obj => (
-                    <div
-                      aria-hidden="true"
-                      className="popup-secondary-profile"
-                      onClick={() => userProfileData(obj.employeeid)}
-                    >
-                      <img src={obj.delegateUserPhoto || Profile} alt="" />
-                      <div className="sec-profile-info">
-                        <h4>
-                          {obj.delegateUserFistname} {obj.delegateUserLastname}{' '}
-                        </h4>
-                        <span>{obj.delegateUserEmail}</span>
-                      </div>
-                    </div>
-                  ))}
-                  <a href className="logout">
-                    Log Out
-                  </a>
-                </div>
-              ) : (
-                pathName !== '/' && (
+                ) : (
+                  <div
+                    aria-hidden="true"
+                    onClick={() => setEditProfile(!editProfile)}
+                    onHide={() => setEditProfile(false)}
+                    className={
+                      pathName === '/'
+                        ? `username ${editProfile && 'toggled'}`
+                        : `username has-dropdown ${editProfile && 'toggled'}`
+                    }
+                  >
+                    <span>
+                      {props.profileUser && props.profileUser.firstname}
+                    </span>{' '}
+                    <img
+                      src={props.profileUser.photo || Profile}
+                      className="user-img"
+                      alt=""
+                    />
+                  </div>
+                )}
+                {/* /* delegate profile */}
+                {pathName !== '/' && pathName.includes('/profile/delegate') ? (
                   <div className={`profile-inner ${editProfile && 'opened'}`}>
-                    <div className="head">
-                      <span>This is your account</span>
+                    <div className="head del">
+                      <span style={{ color: '#ed8b00' }}>On behalf of</span>
                     </div>
                     <div className="profile-popup-main">
                       <img src={Profile} alt="" />
                       <h3>
                         {' '}
-                        {props.profileUser.firstname}{' '}
-                        {props.profileUser.lastname}
+                        {props.delegateHeaderProfile &&
+                          props.delegateHeaderProfile.firstname}{' '}
+                        {props.delegateHeaderProfile &&
+                          props.delegateHeaderProfile.lastname}
+                        {/* {props.profileUser.firstname} {props.profileUser.lastname} */}
                       </h3>
-                      <p>{props.profileUser.email}</p>
+                      <p>
+                        {props.delegateHeaderProfile &&
+                          props.delegateHeaderProfile.email}
+                      </p>
                       <Link
                         className={pathName === '/profile' && 'active'}
                         to="/profile"
@@ -279,41 +217,108 @@ const Header = props => {
                         </button>
                       </Link>
                     </div>
-                    {props.profileUser &&
-                      props.profileUser.delegateUserList &&
-                      props.profileUser.delegateUserList.map(obj => (
-                        <div
-                          aria-hidden="true"
-                          className="popup-secondary-profile"
-                          onClick={() => userProfileData(obj.employeeid)}
-                        >
-                          <img src={obj.delegateUserPhoto || Profile} alt="" />
-                          <div className="sec-profile-info">
-                            <h4>
-                              {obj.delegateUserFistname}{' '}
-                              {obj.delegateUserLastname}{' '}
-                            </h4>
-                            <span>{obj.delegateUserEmail}</span>
-                          </div>
+                    <div
+                      aria-hidden="true"
+                      className="popup-secondary-profile"
+                      // onClick={() => userProfileData(obj.employeeid)}
+                    >
+                      <img src={props.profileUser.photo || Profile} alt="" />
+                      <div className="sec-profile-info">
+                        <h4>
+                          {props.profileUser.firstname}{' '}
+                          {props.profileUser.lastname}{' '}
+                        </h4>
+                        <span>{props.profileUser.email}</span>
+                        <br />
+                        You
+                      </div>
+                    </div>
+                    {userList.map(obj => (
+                      <div
+                        aria-hidden="true"
+                        className="popup-secondary-profile"
+                        onClick={() => userProfileData(obj.employeeid)}
+                      >
+                        <img src={obj.delegateUserPhoto || Profile} alt="" />
+                        <div className="sec-profile-info">
+                          <h4>
+                            {obj.delegateUserFistname}{' '}
+                            {obj.delegateUserLastname}{' '}
+                          </h4>
+                          <span>{obj.delegateUserEmail}</span>
                         </div>
-                      ))}
+                      </div>
+                    ))}
                     <a href className="logout">
                       Log Out
                     </a>
                   </div>
-                )
-              )}
+                ) : (
+                  pathName !== '/' && (
+                    <div className={`profile-inner ${editProfile && 'opened'}`}>
+                      <div className="head">
+                        <span>This is your account</span>
+                      </div>
+                      <div className="profile-popup-main">
+                        <img src={Profile} alt="" />
+                        <h3>
+                          {' '}
+                          {props.profileUser.firstname}{' '}
+                          {props.profileUser.lastname}
+                        </h3>
+                        <p>{props.profileUser.email}</p>
+                        <Link
+                          className={pathName === '/profile' && 'active'}
+                          to="/profile"
+                          activeClassName="active"
+                        >
+                          <button
+                            type="button"
+                            className="w-100 blue-color-btn profile-btn"
+                          >
+                            View My Profile
+                          </button>
+                        </Link>
+                      </div>
+                      {props.profileUser &&
+                        props.profileUser.delegateUserList &&
+                        props.profileUser.delegateUserList.map(obj => (
+                          <div
+                            aria-hidden="true"
+                            className="popup-secondary-profile"
+                            onClick={() => userProfileData(obj.employeeid)}
+                          >
+                            <img
+                              src={obj.delegateUserPhoto || Profile}
+                              alt=""
+                            />
+                            <div className="sec-profile-info">
+                              <h4>
+                                {obj.delegateUserFistname}{' '}
+                                {obj.delegateUserLastname}{' '}
+                              </h4>
+                              <span>{obj.delegateUserEmail}</span>
+                            </div>
+                          </div>
+                        ))}
+                      <a href className="logout">
+                        Log Out
+                      </a>
+                    </div>
+                  )
+                )}
 
-              <button
-                type="button"
-                onClick={() => setSidebar(!sidebar)}
-                className="mobile-menu-toggler"
-              >
-                <span className={`${sidebar && 'close-btn'}`} />
-                <span className={`${sidebar && 'close-btn'}`} />
-                <span className={`${sidebar && 'close-btn'}`} />
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={() => setSidebar(!sidebar)}
+                  className="mobile-menu-toggler"
+                >
+                  <span className={`${sidebar && 'close-btn'}`} />
+                  <span className={`${sidebar && 'close-btn'}`} />
+                  <span className={`${sidebar && 'close-btn'}`} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -321,8 +326,8 @@ const Header = props => {
         !pathName.includes('/profile/delegate') &&
         (props.profileUser && props.profileUser.badgeNumber === '' && (
           <div className="badge_check">
-            <img src={BadgeIcon} alt="bicon" /> You don't have a badge
-            associated with your profile{' '}
+            <img src={BadgeIcon} alt="bicon" />{' '}
+            <span>You don't have a badge associated with your profile</span>{' '}
             {pathName !== '/profile' && (
               <Link to="/profile">
                 <button type="button" className="btn_badge">

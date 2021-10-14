@@ -40,6 +40,7 @@ const Calender = ({
   setCalData,
   setChange,
   colleagueWeeklyData,
+  teamLoading,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
@@ -144,21 +145,6 @@ const Calender = ({
       ({ date }) =>
         moment(date).format('DD') === moment(dateValue).format('DD'),
     );
-  };
-
-  const getMyTeamDataLoading = () => {
-    const a =
-      allUser &&
-      allUser[0] &&
-      allUser[0].data.find(
-        ele =>
-          moment(ele.date).format('DD') ===
-          moment(days.dateToDisplay[days.dateToDisplay.length - 1].date).format(
-            'DD',
-          ),
-      );
-
-    return a;
   };
 
   const getCorrespondingColleagueData = (dateValue, employeeId) => {
@@ -344,7 +330,7 @@ const Calender = ({
                     }
                   >
                     <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
-                      {!setVisible && !getMyTeamDataLoading() ? (
+                      {!setVisible && teamLoading ? (
                         <div style={{ margin: 'auto' }}>
                           <Spinner
                             className="app-spinner profile"
@@ -805,7 +791,7 @@ const Calender = ({
               </div>
             )}
           </div>
-          {/* {period === 'week' && setVisible && (
+          {period === 'week' && setVisible && (
             <button
               type="submit"
               className="light-blue-bg-btn mt-4"
@@ -814,7 +800,7 @@ const Calender = ({
               {' '}
               <img src={searchicon} alt="" /> Search for Colleagues
             </button>
-          )} */}
+          )}
         </div>
       </div>
     </div>
@@ -835,6 +821,7 @@ Calender.propTypes = {
   workSpotData: PropTypes.array,
   setDate: PropTypes.string,
   setEmployeeLocationDetail: PropTypes.bool,
+  teamLoading: PropTypes.bool,
   setCalData: PropTypes.object,
   setChange: PropTypes.bool,
   colleagueWeeklyData: PropTypes.object,
