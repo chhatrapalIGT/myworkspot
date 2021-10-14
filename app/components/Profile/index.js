@@ -220,7 +220,7 @@ const Profile = ({
                         </div>
                         <div className="attr_one">
                           <span>Manager</span>
-                          <p />
+                          <p>{userData && userData.managerName}</p>
                         </div>
                       </div>
                       <div className="col_one">
@@ -230,7 +230,11 @@ const Profile = ({
                         </div>
                         <div className="attr_one">
                           <span>Assigned Space</span>
-                          <p />
+                          <p>
+                            {userData && userData.permanentdesk
+                              ? userData.permanentdesk
+                              : ''}
+                          </p>
                         </div>
                       </div>
                       <div className="col_one">
@@ -605,20 +609,19 @@ const Profile = ({
                   }}
                 />
               </div>
+              <input
+                type="search"
+                placeholder="Search..."
+                className="searchbox"
+                name="searchValue"
+                onChange={handleChange}
+              />
               <div
                 className="modal-body modal-update"
                 onScroll={onScroll}
                 id="data_update"
-                style={{ maxHeight: ' 600px' }}
               >
                 <form className="delegate-workspot-access" action="submit">
-                  <input
-                    type="search"
-                    placeholder="Search..."
-                    className="searchbox"
-                    name="searchValue"
-                    onChange={handleChange}
-                  />
                   {searchName &&
                     searchName.map(i => (
                       <div

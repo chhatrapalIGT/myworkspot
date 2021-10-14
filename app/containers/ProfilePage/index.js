@@ -96,7 +96,10 @@ class ProfilePage extends Component {
 
   handleScroll = e => {
     const element = e.target;
-    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+    if (
+      Math.round(element.scrollHeight - element.scrollTop) ===
+      element.clientHeight
+    ) {
       console.log('scroll in if ===== ');
       const { activePage } = this.state;
       this.setState({ activePage: activePage + 1 }, () => this.loadCustomers());
@@ -338,22 +341,26 @@ class ProfilePage extends Component {
     const { name, value } = event.target;
 
     this.setState({ [name]: value }, () => {
-      if (
-        this.state.searchValue.length >= 1 ||
-        !this.state.searchValue.length >= 1
-      ) {
-        // eslint-disable-next-line no-unused-expressions
-        this.state.searchValue !== ''
-          ? this.setState({ search: true })
-          : this.setState({ search: false });
-        this.setState({ updatedlistArray: [], listArray: [] });
-        this.setState({ activePage: 1 }, () =>
-          this.props.requestDelegateData({
-            page: this.state.activePage,
-            searchUser: this.state.searchValue || '',
-          }),
-        );
-      }
+      // eslint-disable-next-line no-unused-expressions
+      this.state.searchValue !== ''
+        ? this.setState({ search: true })
+        : this.setState({ search: false });
+      this.setState({ updatedlistArray: [], listArray: [] });
+    });
+    if (this.state.typingTimeout) {
+      clearTimeout(this.state.typingTimeout);
+    }
+
+    const timeoutId = setTimeout(() => {
+      this.setState({ activePage: 1 }, () =>
+        this.props.requestDelegateData({
+          page: this.state.activePage,
+          searchUser: this.state.searchValue || '',
+        }),
+      );
+    }, 1000);
+    this.setState({
+      typingTimeout: timeoutId,
     });
   };
 
