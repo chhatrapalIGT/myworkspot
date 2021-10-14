@@ -4,7 +4,7 @@
 
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
-
+import { push } from 'react-router-redux';
 import { REQUEST_GET_TEAM_MEMBER, REQUEST_ADD_TEAM_MEMBER } from './constants';
 
 import {
@@ -30,7 +30,12 @@ export function* getTeamMember() {
       },
     });
     const { data } = locationList;
-    if (data && data.success) {
+    if (locationList.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getTeamMemberSuccess(data.response));
     } else {
       yield put(getTeamMemberFailed(data));
@@ -55,7 +60,12 @@ export function* updateTeamMember({ payload }) {
       },
     });
     const { data } = badgeList;
-    if (data && data.success) {
+    if (badgeList.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(addTeamMemberSuccess(data));
     } else {
       yield put(addTeamMemberFailed(data));

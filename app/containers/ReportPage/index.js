@@ -134,10 +134,18 @@ class ReportPage extends Component {
   }
 
   getUserData = async (startDispDate, endDispDate) => {
+    const { history } = this.props;
     this.setState({ teamLoading: true });
-    const { data, success } = await getMyTeamData(startDispDate, endDispDate);
+    const { data, success, tokenExp } = await getMyTeamData(
+      startDispDate,
+      endDispDate,
+    );
 
     this.setState({ allUser: data });
+    if (tokenExp.status === 403) {
+      sessionStorage.clear();
+      history.push('/auth');
+    }
     if (success) {
       this.setState({ teamLoading: false });
     } else {
@@ -272,6 +280,7 @@ ReportPage.propTypes = {
   memberData: PropTypes.object,
   myTeamSuccess: PropTypes.object,
   isLoading: PropTypes.bool,
+  history: PropTypes.object,
 };
 
 export default compose(

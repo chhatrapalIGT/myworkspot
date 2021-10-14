@@ -4,7 +4,7 @@
 
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
-
+import { push } from 'react-router-redux';
 import {
   REQUEST_GET_LOCATION,
   REQUEST_GET_WEEKLY_DEFAULT,
@@ -52,7 +52,12 @@ export function* getLocation() {
       },
     });
     const { data } = locationList;
-    if (data && data.success) {
+    if (locationList.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getLocationSuccess(data));
     } else {
       yield put(getLocationFailed(data));
@@ -75,7 +80,12 @@ export function* getWeeklyData() {
       },
     });
     const { data } = weeklyList;
-    if (data && data.success) {
+    if (weeklyList.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getWeeklyDefaultSuccess(data));
     } else {
       yield put(getWeeklyDefaultFailed(data));
@@ -99,7 +109,12 @@ export function* updateWorkspot({ payload }) {
       },
     });
     const { data } = updateData;
-    if (data && data.success) {
+    if (updateData.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(updateWorkspotSuccess(data));
     } else {
       yield put(updateWorkspotFailed(data));
@@ -122,7 +137,12 @@ export function* getNeighborhood() {
       },
     });
     const { data } = neighborhhod;
-    if (data && data.success) {
+    if (neighborhhod.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getNeighborhoodSuccess(data));
     } else {
       yield put(getNeighborhoodFailed(data));
@@ -145,7 +165,12 @@ export function* getColleague() {
       },
     });
     const { data } = colleagues;
-    if (data && data.success) {
+    if (colleagues.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getColleagueSuccess(data));
     } else {
       yield put(getColleagueFailed(data));
@@ -171,7 +196,12 @@ export function* getColleagueData({ payload }) {
       },
     });
     const { data } = colleagueData;
-    if (data && data.success) {
+    if (colleagueData.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getColleagueDataSuccess(data));
     } else {
       yield put(getColleagueDataFailed(data));
@@ -195,7 +225,12 @@ export function* searchColleagueData({ payload }) {
       },
     });
     const { data } = searchColleague;
-    if (data && data.success) {
+    if (searchColleague.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(searchColleagueDataSuccess(data));
     } else {
       yield put(searchColleagueDataFailed(data));
@@ -222,7 +257,12 @@ export function* deleteSearchColleagueData({ payload }) {
       },
     });
     const { data } = searchColleague;
-    if (data && data.success) {
+    if (searchColleague.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(DeleteColleagueDataSuccess(data));
     } else {
       yield put(DeleteColleagueDataFailed(data));

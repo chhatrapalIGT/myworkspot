@@ -309,12 +309,18 @@ class WorkSpotPage extends Component {
     this.props.requestSearchColleagueData(payload);
   };
 
-  getWorkSpots = async (startDate, endDate) => {
+  getWorkSpots = async (startDate, endDate, tokenExp) => {
+    const { history } = this.props;
     this.setState({ workspotLoading: true });
     const { success, data, message } = await getWorkSpotData(
       startDate,
       endDate,
     );
+    if (tokenExp.status === 403) {
+      sessionStorage.clear();
+      history.push('./auth');
+    }
+
     if (success) {
       this.setState({
         selectedDateRange: { startDate, endDate },
@@ -503,6 +509,7 @@ WorkSpotPage.propTypes = {
   searchColleague: PropTypes.object,
   requestDeleteColleagueData: PropTypes.func,
   deleteSearchColleague: PropTypes.object,
+  history: PropTypes.object,
 };
 
 export default compose(
