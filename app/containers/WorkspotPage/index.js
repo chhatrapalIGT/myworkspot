@@ -309,17 +309,13 @@ class WorkSpotPage extends Component {
     this.props.requestSearchColleagueData(payload);
   };
 
-  getWorkSpots = async (startDate, endDate, tokenExp) => {
+  getWorkSpots = async (startDate, endDate) => {
     const { history } = this.props;
     this.setState({ workspotLoading: true });
-    const { success, data, message } = await getWorkSpotData(
+    const { success, data, message, tokenExp } = await getWorkSpotData(
       startDate,
       endDate,
     );
-    if (tokenExp.status === 403) {
-      sessionStorage.clear();
-      history.push('./auth');
-    }
 
     if (success) {
       this.setState({
@@ -333,6 +329,10 @@ class WorkSpotPage extends Component {
       this.setState({ errMessage: message });
       this.setState({ errSuccess: success });
       this.setState({ workspotLoading: false });
+      if (tokenExp.status === 403) {
+        sessionStorage.clear();
+        history.push('./auth');
+      }
     }
   };
 

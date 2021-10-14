@@ -142,14 +142,14 @@ class ReportPage extends Component {
     );
 
     this.setState({ allUser: data });
-    if (tokenExp.status === 403) {
-      sessionStorage.clear();
-      history.push('/auth');
-    }
     if (success) {
       this.setState({ teamLoading: false });
     } else {
       this.setState({ teamLoading: false });
+      if (tokenExp.status === 403) {
+        sessionStorage.clear();
+        history.push('/auth');
+      }
     }
   };
 
