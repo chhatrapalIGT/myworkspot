@@ -123,6 +123,7 @@ const Header = props => {
                       </a>
                     </Link>
                   </li>
+
                   {/* <li>
                     <Link to="/faq">
                       <a
