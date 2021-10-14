@@ -172,9 +172,6 @@ class ProfilePage extends Component {
     ) {
       this.handleData();
     }
-    if (badgeUpdateData && badgeUpdateData.success && badgeUpdateData.message) {
-      this.props.requestUserlistData();
-    }
     if (apiMessage || locationMessage || badgeUpdateData.message) {
       setTimeout(() => {
         this.props.clearData();
@@ -513,7 +510,6 @@ ProfilePage.propTypes = {
   requestBadgeData: PropTypes.func,
   location: PropTypes.array,
   getProfileLocation: PropTypes.object,
-  requestUserlistData: PropTypes.func,
   userData: PropTypes.object,
   requestDelegateData: PropTypes.object,
   delegateList: PropTypes.object,
