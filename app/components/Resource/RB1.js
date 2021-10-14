@@ -1,5 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
+import { useHistory } from 'react-router';
+
 import womenImage from '../../images/officeImage/Wrest.png';
 import maleImage from '../../images/officeImage/Mrest.png';
 import printer from '../../images/officeImage/Printer.png';
@@ -9,6 +11,7 @@ import Lact from '../../images/officeImage/ExcludeLactWdc8.png';
 import Profile from '../../images/officeImage/Wprofile.png';
 
 function RB1() {
+  const history = useHistory();
   return (
     <div className="left-panel" style={{ height: ' 60vh' }}>
       <div className="office-info">
@@ -17,12 +20,14 @@ function RB1() {
       </div>
       <div className="office-resource">
         <p>Office Resources</p>
-        <div className="office-part-one blue">
-          <span className="informer">
-            <img src={Profile} alt="" />
-          </span>
-          <label htmlFor="my-spot">My Workspot</label>
-        </div>
+        {history.location.pathname !== '/office' && (
+          <div className="office-part-one blue">
+            <span className="informer">
+              <img src={Profile} alt="" />
+            </span>
+            <label htmlFor="my-spot">My Workspot</label>
+          </div>
+        )}
         <div className="office-part-one blue">
           <span className="informer" />
           <label htmlFor="my-spot">Blue</label>

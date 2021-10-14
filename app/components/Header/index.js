@@ -116,13 +116,7 @@ const Header = props => {
                       </a>
                     </Link>
                   </li>
-                  <li>
-                    <Link to="/">
-                      <a className={pathName === '/' && 'active'} href="true">
-                        OnBoarding
-                      </a>
-                    </Link>
-                  </li>
+
                   {/* <li>
                     <Link to="/faq">
                       <a

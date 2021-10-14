@@ -84,6 +84,19 @@ const App = props => {
               component={Report}
             />
             <Route exact path="/" props={props} Route component={Boarding} />
+            {/* {props.profileUser && props.profileUser.isFirstTime === true ? (
+              <Route exact path="/" props={props} Route component={Boarding} />
+            ) : (
+              <Route exact props={props} path="/" Route component={WorkSpot} />
+            )}
+            <Route
+              exact
+              props={props}
+              path="/workspot"
+              Route
+              component={WorkSpot}
+            /> */}
+
             <Route
               path="/profile/delegate"
               props={props}
@@ -105,10 +118,20 @@ const App = props => {
     </div>
   );
 };
-
 const mapStateToProps = createStructuredSelector({
   user: makeUserSelector(),
 });
+// const mapStateToProps = state => {
+//   const { profile } = state;
+//   return {
+//     profile,
+//     profileUser: profile && profile.userList && profile.userList.user,
+//   };
+// };
+
+// App.propTypes = {
+//   profileUser: PropTypes.object,
+// };
 
 export default withRouter(
   connect(

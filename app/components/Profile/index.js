@@ -70,19 +70,8 @@ const Profile = ({
   const inputval2 =
     userData && userData.badgeNumber && userData.badgeNumber.slice(7, 11);
 
-  // const result = [];
   useEffect(() => {
     setSearchName(delegateList);
-
-    // delegrateUsersList.forEach(data => {
-    //   // eslint-disable-next-line array-callback-return
-    //   searchName.map(e => {
-    //     if (e.employeeid === data.employeeid) {
-    //       result.push(e);
-    //     }
-    //     console.log(`result`, result);
-    //   });
-    // });
   }, [delegateList]);
 
   useEffect(() => {
