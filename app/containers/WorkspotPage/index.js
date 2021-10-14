@@ -331,7 +331,7 @@ class WorkSpotPage extends Component {
       this.setState({ workspotLoading: false });
       if (tokenExp.status === 403) {
         sessionStorage.clear();
-        history.push('./auth');
+        history.push('/auth');
       }
     }
   };
