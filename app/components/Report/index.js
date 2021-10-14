@@ -130,10 +130,6 @@ const Report = ({
   };
 
   useEffect(() => {
-    const url = `https://mocki.io/v1/11523d43-5f93-4a6f-adda-327ee52a8b1f`;
-    Axios.get(url).then(res => {
-      setAllUser(res.data);
-    });
     if (myTeamSuccess && myTeamSuccess.success) {
       handleClearData();
       setData(true);

@@ -189,6 +189,7 @@ class BorardingPage extends Component {
       badgeUpdateMsg,
       verifyBadgeSuccess,
       verifyBadgeMsg,
+      userName,
     } = this.props;
     return (
       <>
@@ -213,6 +214,7 @@ class BorardingPage extends Component {
             badgeUpdateMsg={badgeUpdateMsg}
             verifyBadgeSuccess={verifyBadgeSuccess}
             verifyBadgeMsg={verifyBadgeMsg}
+            userName={userName}
           />
         </div>
         <Footer />
@@ -222,7 +224,7 @@ class BorardingPage extends Component {
 }
 
 const mapStateToProps = state => {
-  const { locationData } = state;
+  const { locationData, profile } = state;
   console.log('locationData', state);
   return {
     location:
@@ -257,6 +259,11 @@ const mapStateToProps = state => {
       locationData &&
       locationData.verifyBadge &&
       locationData.verifyBadge.message,
+    userName:
+      profile &&
+      profile.userList &&
+      profile.userList.user &&
+      profile.userList.user.firstname,
   };
 };
 
@@ -292,6 +299,7 @@ BorardingPage.propTypes = {
   requestVerifyBadge: PropTypes.object,
   verifyBadgeSuccess: PropTypes.bool,
   verifyBadgeMsg: PropTypes.string,
+  userName: PropTypes.string,
 };
 
 export default compose(

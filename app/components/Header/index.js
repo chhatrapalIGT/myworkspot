@@ -320,8 +320,8 @@ const Header = props => {
         !pathName.includes('/profile/delegate') &&
         (props.profileUser && props.profileUser.badgeNumber === '' && (
           <div className="badge_check">
-            <img src={BadgeIcon} alt="bicon" /> You don't have a badge
-            associated with your profile{' '}
+            <img src={BadgeIcon} alt="bicon" />{' '}
+            <span>You don't have a badge associated with your profile</span>{' '}
             {pathName !== '/profile' && (
               <Link to="/profile">
                 <button type="button" className="btn_badge">

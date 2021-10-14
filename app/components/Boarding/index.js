@@ -34,6 +34,7 @@ const Boarding = ({
   badgeUpdateMsg,
   verifyBadgeSuccess,
   verifyBadgeMsg,
+  userName,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
@@ -94,7 +95,7 @@ const Boarding = ({
                     <img src={logo} alt="" />
                   </div>
                   <div className="welcome">
-                    <h2>Hello, Alexander</h2>
+                    <h2>Hello, {userName} </h2>
                     <p>
                       Lets complete your <i>my</i>Workspot profile
                     </p>
@@ -340,6 +341,7 @@ Boarding.propTypes = {
   badgeUpdateMsg: PropTypes.string,
   verifyBadgeSuccess: PropTypes.bool,
   verifyBadgeMsg: PropTypes.string,
+  userName: PropTypes.string,
 };
 
 export default Boarding;
