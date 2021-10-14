@@ -84,6 +84,7 @@ const WorkSpot = ({
   colleagueDataLoader,
   colleagueListData,
   deleteSearchColleague,
+  onScroll,
 }) => {
   const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
@@ -95,6 +96,7 @@ const WorkSpot = ({
   const [isdate, setDate] = useState('');
 
   const [calData, setCalData] = useState([]);
+  const [searchName, setSearchName] = useState([]);
   const [finalImg, setFinalImg] = useState('');
   const [data, setData] = useState({});
   const [officeRest, setOfficeRest] = useState('');
@@ -119,6 +121,10 @@ const WorkSpot = ({
     return d;
   });
 
+  useEffect(() => {
+    setSearchName(colleaguesData);
+  }, [colleaguesData]);
+
   const handleClickOutside = event => {
     if (divRef && divRef.current && !divRef.current.contains(event.target)) {
       setModal(false);
@@ -138,13 +144,6 @@ const WorkSpot = ({
     locationData.length > 0 &&
     locationData &&
     locationData.find(obj => obj.locationname.includes('Remote Work'));
-
-  const filteredData = useMemo(() => {
-    if (!state.searchValue) return colleaguesData;
-    return colleaguesData.filter(ele =>
-      ele.firstname.toLowerCase().includes(state.searchValue.toLowerCase()),
-    );
-  }, [colleaguesData, state.searchValue]);
 
   const updateModalData = (key, val) => {
     handleUpdatingModalData(key, val);
@@ -775,37 +774,38 @@ const WorkSpot = ({
                   onClick={() => setEmployeeModal(false)}
                 />
               </div>
-              <div className="modal-body">
+              <input
+                type="search"
+                placeholder="Search..."
+                className="searchbox"
+                name="searchValue"
+                onChange={handleChange}
+              />
+              <div
+                className="modal-body modal-update"
+                onScroll={onScroll}
+                id="data_workspot"
+              >
                 <form className="delegate-workspot-access" action="submit">
-                  <input
-                    type="search"
-                    placeholder="Search..."
-                    className="searchbox"
-                    onChange={handleChange}
-                  />
-                  {/* {colleaguesData.length > 0 &&
-                    filteredData.map(i => (
+                  {searchName &&
+                    searchName.map(i => (
                       <div
                         aria-hidden="true"
                         className="form-group"
-                        onClick={() =>
-                          handleUserSelect(i.firstname, i.employeeid)
-                        }
+                        onClick={() => handleUserSelect(i)}
                       >
                         <img src={ProfileImg} alt="" />
                         <input
                           id="jane"
                           type="radio"
                           className="checkbox"
-                          checked={state.selectedColleaguesId.includes(
-                            i.employeeid,
-                          )}
+                          checked={state.selectedColleagues.includes(i)}
                         />
                         <label htmlFor="jane">
                           {i.firstname} {i.lastname}
                         </label>
                       </div>
-                    ))} */}
+                    ))}
                 </form>
               </div>
               <div className="modal-footer">
@@ -1101,6 +1101,7 @@ WorkSpot.propTypes = {
   handleUpdatingModalData: PropTypes.func,
   locationData: PropTypes.object,
   onUpdateWorkspot: PropTypes.func,
+  onScroll: PropTypes.func,
   neighborhoodData: PropTypes.object,
   errMessage: PropTypes.string,
   errSuccess: PropTypes.bool,
