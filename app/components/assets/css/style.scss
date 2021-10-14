@@ -1226,19 +1226,33 @@ input[type='text'] {
     }
   }
 
-  &.black {
+  &.default {
     background: url(../images/bloom.svg) no-repeat right center;
     background-size: 55%;
   }
 
-  &.grey {
-    background: url(../images/remoteWorkimg.svg) no-repeat right center;
+  &.orange {
+    background: url(../images/orange_bg.png) no-repeat right center;
     background-size: 55%;
+    .color-code {
+      color: #ed8b00;
+    }
   }
 
-  &.violate {
-    background: url(../images/paidtimeoffimg.svg) no-repeat right center;
+  &.teal {
+    background: url(../images//teal_bg.png) no-repeat right center;
     background-size: 55%;
+    .color-code {
+      color: #00b1b0;
+    }
+  }
+
+  &.yellow {
+    background: url(../images/yellow_bg.png) no-repeat right center;
+    background-size: 55%;
+    .color-code {
+      color: #f7ca0f;
+    }
   }
 
   & > p {
