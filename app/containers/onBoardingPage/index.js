@@ -190,6 +190,7 @@ class BorardingPage extends Component {
       verifyBadgeSuccess,
       verifyBadgeMsg,
       userName,
+      profileUserLoading,
     } = this.props;
     return (
       <>
@@ -215,6 +216,7 @@ class BorardingPage extends Component {
             verifyBadgeSuccess={verifyBadgeSuccess}
             verifyBadgeMsg={verifyBadgeMsg}
             userName={userName}
+            profileUserLoading={profileUserLoading}
           />
         </div>
         <Footer />
@@ -264,6 +266,7 @@ const mapStateToProps = state => {
       profile.userList &&
       profile.userList.user &&
       profile.userList.user.firstname,
+    profileUserLoading: profile && profile.userList && profile.userList.loading,
   };
 };
 
@@ -300,6 +303,7 @@ BorardingPage.propTypes = {
   verifyBadgeSuccess: PropTypes.bool,
   verifyBadgeMsg: PropTypes.string,
   userName: PropTypes.string,
+  profileUserLoading: PropTypes.bool,
 };
 
 export default compose(
