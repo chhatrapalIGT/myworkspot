@@ -1,5 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import { push } from 'react-router-redux';
 import {
   REQUEST_GET_PROFILE_OFFICE_DATA,
   REQUEST_USERLIST_DATA,
@@ -46,7 +47,10 @@ export function* getLocationData() {
       },
     });
     const { data } = usersList;
-    if (data && data.success) {
+    if (usersList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getProfileOfficeDataSuccess(data.data));
     } else {
       yield put(getProfileOfficeDataFailed(data));
@@ -70,8 +74,11 @@ export function* getUserListData() {
       },
     });
     const { data } = usersList;
-    console.log('data==>>>> userprofile', data);
-    if (data && data.success) {
+    console.log('data==>>>> userprofile', usersList);
+    if (usersList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getUserlistSuccess(data));
     } else {
       yield put(getUserlistFailed(data));
@@ -97,8 +104,10 @@ export function* getDelegateListData({ payload }) {
       },
     });
     const { data } = delegateList;
-
-    if (data && data.success) {
+    if (delegateList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getDelegateSuccess(data));
     } else {
       yield put(getDelegateFailed(data));
@@ -123,7 +132,10 @@ export function* updateBadgeData({ payload }) {
       },
     });
     const { data } = badgeList;
-    if (data && data.success) {
+    if (badgeList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getBadgeSuccess(data));
     } else {
       yield put(getBadgeFailed(data));
@@ -150,7 +162,10 @@ export function* delegateProfile({ payload }) {
     });
     const { data } = delegateProfileList;
     console.log('data ===> delegarte profile', data);
-    if (data && data.success) {
+    if (delegateProfileList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(delegateProfileSuccess(data.response));
     } else {
       yield put(delegateProfileFailed(data));
@@ -174,7 +189,10 @@ export function* addDelegateMember({ payload }) {
       },
     });
     const { data } = delegateList;
-    if (data && data.success) {
+    if (delegateList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(addDelegateListSuccess(data));
     } else {
       yield put(addDelegateListFailed(data));
@@ -201,7 +219,10 @@ export function* removeDelegateMember({ payload }) {
       },
     });
     const { data } = delegateList;
-    if (data && data.success) {
+    if (delegateList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(removeDelegateListSuccess(data));
     } else {
       yield put(removeDelegateListFailed(data));
@@ -225,7 +246,10 @@ export function* getUpdateDelegateData() {
       },
     });
     const { data } = delegateUsersList;
-    if (data && data.success) {
+    if (delegateUsersList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getDelegateListSuccess(data.delegateData));
     } else {
       yield put(getDelegateListFailed(data));

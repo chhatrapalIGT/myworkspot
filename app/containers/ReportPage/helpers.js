@@ -15,6 +15,7 @@ export const getMyTeamData = async (startDate, endDate) => {
   // let isLoading = true;
   let success = false;
   let message = '';
+  let tokenExp = '';
   const currDate = moment(startDate)
     .subtract(1, 'day')
     .startOf('day');
@@ -42,11 +43,12 @@ export const getMyTeamData = async (startDate, endDate) => {
     })
     .catch(err => {
       success = false;
+      tokenExp = err.response;
       // eslint-disable-next-line prefer-destructuring
       message = err.response.data.message;
     });
 
-  if (!success) return { message, success };
+  if (!success) return { message, success, tokenExp };
   const weekArr = [];
   weeklyData &&
     weeklyData.filter(obj => {
