@@ -287,10 +287,14 @@ const WorkSpot = ({
   };
 
   const neighborhoodColor =
-    neighborhoodData && neighborhoodData.colorcode === 'a5c3e2'
+    neighborhoodData && neighborhoodData.colorcode === '0072CE'
       ? 'Blue'
-      : neighborhoodData && neighborhoodData.colorcode === 'aa2121'
-      ? 'Red'
+      : neighborhoodData && neighborhoodData.colorcode === 'ED8B00'
+      ? 'Orange'
+      : neighborhoodData && neighborhoodData.colorcode === '00B1B0'
+      ? 'Teal'
+      : neighborhoodData && neighborhoodData.colorcode === 'F7CA0F'
+      ? 'Yellow'
       : '';
 
   return (
@@ -353,21 +357,15 @@ const WorkSpot = ({
             !isEmpty(neighborhood.neighborhoodData) && (
               <div
                 className={
-                  (neighborhoodData &&
-                    neighborhoodData.locationCode === 'RVA') ||
-                  (neighborhoodData && neighborhoodData.locationCode === 'WDC')
+                  neighborhoodColor === 'Blue'
                     ? 'card building-block-head blue'
-                    : (neighborhoodData &&
-                        neighborhoodData.locationCode === 'BMN') ||
-                      (neighborhoodData &&
-                        neighborhoodData.locationCode === 'BAL')
-                    ? 'card building-block-head black'
-                    : neighborhoodData && neighborhoodData.locationCode === 'RW'
-                    ? 'card building-block-head grey'
-                    : neighborhoodData &&
-                      neighborhoodData.locationCode === 'PTO'
-                    ? 'card building-block-head violate'
-                    : 'card building-block-head'
+                    : neighborhoodColor === 'Orange'
+                    ? 'card building-block-head orange'
+                    : neighborhoodColor === 'Teal'
+                    ? 'card building-block-head teal'
+                    : neighborhoodColor === 'Yellow'
+                    ? 'card building-block-head yellow'
+                    : 'card building-block-head default'
                 }
                 style={{ backgroundColor: 'white' }}
               >
