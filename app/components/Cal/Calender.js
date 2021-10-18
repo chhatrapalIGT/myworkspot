@@ -353,7 +353,7 @@ const Calender = ({
                                     </div>
                                     <span className="designation">
                                       {/* UX/UI Designer */}
-                                      {user && user.userRole}
+                                      {user && user.jobtitle}
                                     </span>
                                   </div>
                                   {days.dateToDisplay.map((item, itemIdx) => {
