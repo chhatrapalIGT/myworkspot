@@ -13,7 +13,6 @@ import axios from 'axios';
 import Headerlogo from '../assets/images/logo_mains.svg';
 import Profile from '../assets/images/profileof.png';
 import {
-  requestUserlistData,
   clearData,
   requestDelegateProfile,
 } from '../../containers/ProfilePage/actions';
@@ -37,9 +36,6 @@ const Header = props => {
   const pathName = location.pathname;
   let url = pathName.split('/');
   url = url[url.length - 1];
-  useEffect(() => {
-    props.requestUserlistData();
-  }, []);
 
   useEffect(() => {
     if (props.profileSuccess) {
@@ -117,13 +113,18 @@ const Header = props => {
                 </Link>
               )}
             </div>
-            {pathName !== '/' && pathName !== '/auth' && (
+            {((pathName !== '/' && pathName !== '/auth') ||
+              (props.profileUser &&
+                props.profileUser.isFirstTime === false)) && (
               <div className={`${sidebar && 'show'} main-menu`}>
                 <ul>
                   <li>
                     <Link to="/workspot" activeClassName="active">
                       <a
-                        className={pathName === '/workspot' && 'active'}
+                        className={
+                          pathName === '/workspot' ||
+                          (pathName === '/' && 'active')
+                        }
                         href="true"
                       >
                         Home
@@ -150,13 +151,6 @@ const Header = props => {
                       </a>
                     </Link>
                   </li>
-                  <li>
-                    <Link to="/">
-                      <a className={pathName === '/' && 'active'} href="true">
-                        OnBoarding
-                      </a>
-                    </Link>
-                  </li>
 
                   {/* <li>
                     <Link to="/faq">
@@ -171,6 +165,7 @@ const Header = props => {
                 </ul>
               </div>
             )}
+
             {pathName !== '/auth' && (
               <div className="right-menus" ref={divRef}>
                 {pathName !== '/' && pathName.includes('/profile/delegate') ? (
@@ -198,27 +193,34 @@ const Header = props => {
                     />
                   </div>
                 ) : (
-                  <div
-                    aria-hidden="true"
-                    onClick={() => setEditProfile(!editProfile)}
-                    onHide={() => setEditProfile(false)}
-                    className={
-                      pathName === '/'
-                        ? `username ${editProfile && 'toggled'}`
-                        : `username has-dropdown ${editProfile && 'toggled'}`
-                    }
-                  >
-                    <span>
-                      {props.profileUser && props.profileUser.firstname}
-                    </span>{' '}
-                    <img
-                      src={props.profileUser.photo || Profile}
-                      className="user-img"
-                      alt=""
-                    />
-                  </div>
+                  !props.profileUserLoading && (
+                    <div
+                      aria-hidden="true"
+                      onClick={() => setEditProfile(!editProfile)}
+                      onHide={() => setEditProfile(false)}
+                      className={
+                        // eslint-disable-next-line no-nested-ternary
+                        props.profileUser &&
+                        props.profileUser.isFirstTime === true &&
+                        pathName !== '/'
+                          ? `username has-dropdown ${editProfile && 'toggled'}`
+                          : props.profileUser &&
+                            props.profileUser.isFirstTime === true
+                          ? `username ${editProfile && 'toggled'}`
+                          : `username has-dropdown ${editProfile && 'toggled'}`
+                      }
+                    >
+                      <span>
+                        {props.profileUser && props.profileUser.firstname}
+                      </span>{' '}
+                      <img
+                        src={props.profileUser.photo || Profile}
+                        className="user-img"
+                        alt=""
+                      />
+                    </div>
+                  )
                 )}
-                {/* /* delegate profile */}
                 {pathName !== '/' && pathName.includes('/profile/delegate') ? (
                   <div className={`profile-inner ${editProfile && 'opened'}`}>
                     <div className="head del">
@@ -288,7 +290,11 @@ const Header = props => {
                     </a>
                   </div>
                 ) : (
-                  pathName !== '/' && (
+                  ((props.profileUser &&
+                    props.profileUser.isFirstTime === false) ||
+                    (props.profileUser &&
+                      props.profileUser.isFirstTime === true &&
+                      pathName !== '/')) && (
                     <div className={`profile-inner ${editProfile && 'opened'}`}>
                       <div className="head">
                         <span>This is your account</span>
@@ -381,6 +387,7 @@ const mapStateToProps = state => {
   return {
     profile,
     profileUser: profile && profile.userList && profile.userList.user,
+    profileUserLoading: profile && profile.userList && profile.userList.loading,
     profileSuccess: profile && profile.userList && profile.userList.success,
     delegateHeaderProfile:
       profile &&
@@ -399,7 +406,6 @@ const mapStateToProps = state => {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    requestUserlistData: payload => dispatch(requestUserlistData(payload)),
     requestDelegateProfile: payload =>
       dispatch(requestDelegateProfile(payload)),
     clearData: () => dispatch(clearData()),
@@ -409,7 +415,7 @@ export function mapDispatchToProps(dispatch) {
 
 Header.propTypes = {
   profileUser: PropTypes.object,
-  requestUserlistData: PropTypes.func,
+  profileUserLoading: PropTypes.bool,
   delegateHeaderProfile: PropTypes.object,
   clearData: PropTypes.func,
   profileSuccess: PropTypes.bool,

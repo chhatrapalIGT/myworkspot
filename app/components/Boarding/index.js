@@ -35,6 +35,7 @@ const Boarding = ({
   verifyBadgeSuccess,
   verifyBadgeMsg,
   userName,
+  profileUserLoading,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
@@ -83,7 +84,7 @@ const Boarding = ({
         </div>
       )}
 
-      {location && !location.length ? (
+      {location && !location.length && profileUserLoading ? (
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
         <>
@@ -342,6 +343,7 @@ Boarding.propTypes = {
   verifyBadgeSuccess: PropTypes.bool,
   verifyBadgeMsg: PropTypes.string,
   userName: PropTypes.string,
+  profileUserLoading: PropTypes.bool,
 };
 
 export default Boarding;

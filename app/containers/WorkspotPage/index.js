@@ -464,6 +464,7 @@ class WorkSpotPage extends Component {
       colleagueDataLoader,
       colleagueListData,
       deleteSearchColleague,
+      profileUserLoading,
     } = this.props;
     const { errMessage, errSuccess } = this.state;
     return (
@@ -504,6 +505,7 @@ class WorkSpotPage extends Component {
             deleteSearchColleague={deleteSearchColleague}
             handleLocDate={this.handleLocDate}
             onScroll={this.handleScroll}
+            profileUserLoading={profileUserLoading}
           />
         </div>
       </>
@@ -512,7 +514,8 @@ class WorkSpotPage extends Component {
 }
 
 const mapStateToProps = state => {
-  const { workspot } = state;
+  const { workspot, profile } = state;
+  console.log(`state`, state);
   return {
     locationData:
       workspot &&
@@ -557,6 +560,7 @@ const mapStateToProps = state => {
     colleagueListData: workspot && workspot.getColleagueData,
     searchColleague: workspot && workspot.searchColleague,
     deleteSearchColleague: workspot && workspot.deleteSearchColleague,
+    profileUserLoading: profile && profile.userList && profile.userList.loading,
   };
 };
 
@@ -608,6 +612,7 @@ WorkSpotPage.propTypes = {
   deleteSearchColleague: PropTypes.object,
   history: PropTypes.object,
   colleagues: PropTypes.object,
+  profileUserLoading: PropTypes.bool,
 };
 
 export default compose(

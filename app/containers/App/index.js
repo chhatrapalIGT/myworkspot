@@ -9,20 +9,19 @@
 
 import React, { useEffect, useState } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { connect } from 'react-redux';
 
 // import HomePage from 'containers/HomePage/Loadable';
 import Spinner from 'react-bootstrap/Spinner';
-import { createStructuredSelector } from 'reselect';
 import { useHistory } from 'react-router';
-import { makeUserSelector } from './selectors';
 import ProfilePage from '../ProfilePage';
 import Washington from '../OfficeMapPage';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import Faq from '../../components/FAQ';
 import delegateProfile from '../../components/Profile/delegateProfile';
+import { requestUserlistData } from '../ProfilePage/actions';
 import Report from '../ReportPage';
 import Boarding from '../onBoardingPage';
 import WorkSpot from '../WorkspotPage';
@@ -46,6 +45,7 @@ const App = props => {
 
   useEffect(() => {
     requestLogin();
+    props.requestUserlistData();
     setTimeout(() => {
       setPageLoading(false);
     }, 1000);
@@ -58,14 +58,6 @@ const App = props => {
         <>
           <Header />
           <Switch>
-            <Route
-              exact
-              props={props}
-              path="/workspot"
-              Route
-              component={WorkSpot}
-            />
-            {/* <Route exact path="/login" component={Login} /> */}
             <Route exact path="/auth" component={Login} />
             <Route
               exact
@@ -83,8 +75,7 @@ const App = props => {
               props={props}
               component={Report}
             />
-            <Route exact path="/" props={props} Route component={Boarding} />
-            {/* {props.profileUser && props.profileUser.isFirstTime === true ? (
+            {props.profileUser && props.profileUser.isFirstTime === true ? (
               <Route exact path="/" props={props} Route component={Boarding} />
             ) : (
               <Route exact props={props} path="/" Route component={WorkSpot} />
@@ -95,7 +86,7 @@ const App = props => {
               path="/workspot"
               Route
               component={WorkSpot}
-            /> */}
+            />
 
             <Route
               path="/profile/delegate"
@@ -118,24 +109,31 @@ const App = props => {
     </div>
   );
 };
-const mapStateToProps = createStructuredSelector({
-  user: makeUserSelector(),
-});
-// const mapStateToProps = state => {
-//   const { profile } = state;
-//   return {
-//     profile,
-//     profileUser: profile && profile.userList && profile.userList.user,
-//   };
-// };
 
-// App.propTypes = {
-//   profileUser: PropTypes.object,
-// };
+const mapStateToProps = state => {
+  const { profile } = state;
+  return {
+    profile,
+    profileUser: profile && profile.userList && profile.userList.user,
+  };
+};
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    requestUserlistData: payload => dispatch(requestUserlistData(payload)),
+
+    dispatch,
+  };
+}
+
+App.propTypes = {
+  profileUser: PropTypes.object,
+  requestUserlistData: PropTypes.func,
+};
 
 export default withRouter(
   connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
   )(App),
 );
