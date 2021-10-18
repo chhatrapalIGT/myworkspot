@@ -128,7 +128,7 @@ class BorardingPage extends Component {
     const { timings } = this.state;
     if (
       (addErrorLocation && addErrorLocation.message) ||
-      !addErrorLocation.success
+      (addErrorLocation && !addErrorLocation.success)
     ) {
       setTimeout(() => {
         this.props.clearBoardData();
