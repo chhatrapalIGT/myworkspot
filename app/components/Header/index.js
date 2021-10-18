@@ -9,6 +9,7 @@ import { compose } from 'redux';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import Headerlogo from '../assets/images/logo_mains.svg';
 import Profile from '../assets/images/profileof.png';
 import {
@@ -18,7 +19,13 @@ import {
 } from '../../containers/ProfilePage/actions';
 import BadgeIcon from '../../images/badgeIcon.png';
 
+import { CONSTANT } from '../../enum';
+
+const { API_URL } = CONSTANT;
+
 const Header = props => {
+  // eslint-disable-next-line no-unused-vars
+  const [apiCall, setApiCall] = useState(false);
   const [sidebar, setSidebar] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
   const divRef = useRef();
@@ -63,6 +70,33 @@ const Header = props => {
     );
     setUserList(delPro);
     history.push(`/profile/delegate/${id}`);
+  };
+
+  const logout = () => {
+    console.log('callllllllll');
+    let token = sessionStorage.getItem('AccessToken');
+    token = JSON.parse(token);
+    setApiCall(true);
+    const urls = `${API_URL}/authenticate/logout`;
+    axios
+      .get(urls, {
+        headers: {
+          Authorization: `Bearer ${token.idtoken}`,
+        },
+      })
+      // eslint-disable-next-line consistent-return
+      .then(res => {
+        setApiCall(false);
+        if (res.data) {
+          window.location.replace(res.data.urls);
+          sessionStorage.clear();
+        }
+      })
+      .catch(err => {
+        // err;
+        console.log('err', err);
+        setApiCall(false);
+      });
   };
 
   return (
@@ -249,8 +283,8 @@ const Header = props => {
                         </div>
                       </div>
                     ))}
-                    <a href className="logout">
-                      Log Out
+                    <a href className="logout" onClick={() => logout()}>
+                      Log Outs
                     </a>
                   </div>
                 ) : (
@@ -301,8 +335,8 @@ const Header = props => {
                             </div>
                           </div>
                         ))}
-                      <a href className="logout">
-                        Log Out
+                      <a href className="logout" onClick={() => logout()}>
+                        Log Outs
                       </a>
                     </div>
                   )
