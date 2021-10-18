@@ -384,7 +384,7 @@ const Report = ({
 
                       <Datepicker
                         controls={['calendar']}
-                        dateFormat="DD MMM,YYYY"
+                        dateFormat="MMM D,YYYY"
                         selectMultiple
                         min={moment().toDate()}
                         className="dataaaa"

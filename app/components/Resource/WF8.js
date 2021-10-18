@@ -83,10 +83,7 @@ function WF8() {
           <span className="informer">847</span>
           <label htmlFor="my-spot">Partner Suite</label>
         </div>
-        <div className="office-part-one teal">
-          <span className="informer">248</span>
-          <label htmlFor="my-spot">Traveler's Suite</label>
-        </div>
+
         <div className="office-part-one heart pink">
           <span className="informer">
             <img src={heartImage} alt="" />
@@ -113,7 +110,7 @@ function WF8() {
           <label htmlFor="my-spot">Men's Restroom</label>
         </div>
 
-        <div className="office-part-one heart blue">
+        <div className="office-part-one teal_border">
           <span className="informer">
             <img src={allGender} alt="" />
           </span>

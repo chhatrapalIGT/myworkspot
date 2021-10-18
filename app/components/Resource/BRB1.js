@@ -74,7 +74,7 @@ function BlB1() {
           </span>
           <label htmlFor="my-spot">Kitchen</label>
         </div>
-        <div className="office-part-one blue">
+        <div className="office-part-one green">
           <span className="informer">
             <img src={printer} alt="" />
           </span>

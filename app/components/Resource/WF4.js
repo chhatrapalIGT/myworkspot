@@ -99,18 +99,7 @@ function WF4() {
           </span>
           <label htmlFor="my-spot">Men's Restroom</label>
         </div>
-        <div className="office-part-one white">
-          <span className="informer">
-            <img src={Huddle} alt="" />
-          </span>
-          <label htmlFor="my-spot">Huddle Room</label>
-        </div>
-        <div className="office-part-one white">
-          <span className="informer">
-            <img src={Phone} alt="" />
-          </span>
-          <label htmlFor="my-spot">Phone Room</label>
-        </div>
+
         <div className="office-part-one yellow">
           <span className="informer">
             <img src={printer} alt="" />
@@ -134,6 +123,18 @@ function WF4() {
             <img src={Wellness} alt="" />
           </span>
           <label htmlFor="my-spot">Wellness Room</label>
+        </div>
+        <div className="office-part-one white">
+          <span className="informer">
+            <img src={Huddle} alt="" />
+          </span>
+          <label htmlFor="my-spot">Huddle Room</label>
+        </div>
+        <div className="office-part-one white">
+          <span className="informer">
+            <img src={Phone} alt="" />
+          </span>
+          <label htmlFor="my-spot">Phone Room</label>
         </div>
       </div>
     </div>

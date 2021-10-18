@@ -304,7 +304,9 @@ const Profile = ({
                                 <button
                                   type="button"
                                   href
-                                  className="save"
+                                  className={
+                                    verifyBadgeSuccess ? 'save' : 'save_btn'
+                                  }
                                   onClick={() => {
                                     handleBadgeSubmit();
                                   }}
@@ -449,13 +451,14 @@ const Profile = ({
                 <div className="access-to">
                   {userListData &&
                     userListData.map(i => (
-                      <div
-                        className="access-one"
-                        onClick={() => handleRemove(i.employeeid)}
-                      >
+                      <div className="access-one">
                         <img src={ProfileImg} alt="" />
                         {i.firstname} {i.lastname}
-                        <a className="close_btn" href>
+                        <a
+                          className="close_btn"
+                          href
+                          onClick={() => handleRemove(i.employeeid)}
+                        >
                           <img src={Close} alt="" />
                         </a>
                       </div>

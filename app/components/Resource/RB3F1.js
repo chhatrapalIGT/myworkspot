@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import { useHistory } from 'react-router';
-
+import maleImage from '../../images/officeImage/Mrest.png';
 import womenImage from '../../images/officeImage/Wrest.png';
 import firstAid from '../../images/officeImage/firstaid.png';
 import pantry from '../../images/officeImage/Pantry.png';
@@ -67,6 +67,12 @@ function RB3F1() {
             <img src={womenImage} alt="" />
           </span>
           <label htmlFor="my-spot">Women's Restroom</label>
+        </div>
+        <div className="office-part-one teal_border">
+          <span className="informer">
+            <img src={maleImage} alt="" />
+          </span>
+          <label htmlFor="my-spot">Men's Restroom</label>
         </div>
       </div>
     </div>
