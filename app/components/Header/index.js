@@ -115,7 +115,8 @@ const Header = props => {
             </div>
             {((pathName !== '/' && pathName !== '/auth') ||
               (props.profileUser &&
-                props.profileUser.isFirstTime === false)) && (
+                props.profileUser.isFirstTime === false &&
+                pathName !== '/auth')) && (
               <div className={`${sidebar && 'show'} main-menu`}>
                 <ul>
                   <li>
