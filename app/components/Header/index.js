@@ -75,11 +75,15 @@ const Header = props => {
     setApiCall(true);
     const urls = `${API_URL}/authenticate/logout`;
     axios
-      .post(urls, {
-        headers: {
-          Authorization: `Bearer ${token.idtoken}`,
+      .post(
+        urls,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token.idtoken}`,
+          },
         },
-      })
+      )
       // eslint-disable-next-line consistent-return
       .then(res => {
         setApiCall(false);
