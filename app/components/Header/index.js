@@ -75,7 +75,7 @@ const Header = props => {
     setApiCall(true);
     const urls = `${API_URL}/authenticate/logout`;
     axios
-      .get(urls, {
+      .post(urls, {
         headers: {
           Authorization: `Bearer ${token.idtoken}`,
         },
@@ -287,7 +287,7 @@ const Header = props => {
                       </div>
                     ))}
                     <a href className="logout" onClick={() => logout()}>
-                      Log Outs
+                      Log Out
                     </a>
                   </div>
                 ) : (
@@ -343,7 +343,7 @@ const Header = props => {
                           </div>
                         ))}
                       <a href className="logout" onClick={() => logout()}>
-                        Log Outs
+                        Log Out
                       </a>
                     </div>
                   )
