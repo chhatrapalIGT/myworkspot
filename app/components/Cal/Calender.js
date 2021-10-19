@@ -591,7 +591,10 @@ const Calender = ({
                             <img
                               src={profile}
                               alt=""
-                              style={{ padding: '0px 18px 12px 0px' }}
+                              style={{
+                                padding: '5px 12px 12px 0px',
+                                height: ' 40px',
+                              }}
                             />
                             {'   '}
                             <label>
@@ -647,7 +650,7 @@ const Calender = ({
                                           )} }`
                                         : `{ day-one-wrapper ${locationClass(
                                             data && data.locationCode,
-                                          )} day-pointer }`
+                                          )}}`
                                     }
                                     onClick={() => {
                                       isCurrentDate(item.date) &&
