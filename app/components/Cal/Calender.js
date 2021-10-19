@@ -353,7 +353,10 @@ const Calender = ({
                                         {user.username || 'My Workspace'}
                                       </span>
                                     </div>
-                                    <p className="designation text-decor">
+                                    <p
+                                      className="designation text-decor"
+                                      title={user.jobtitle}
+                                    >
                                       {/* UX/UI Designer */}
                                       {user && user.jobtitle}
                                     </p>
@@ -618,7 +621,7 @@ const Calender = ({
                               }}
                             />
                             {'   '}
-                            <label>
+                            <label style={{ paddingBottom: ' 16px' }}>
                               <b>
                                 {obj.employeeidFirstname}{' '}
                                 {obj.employeeidLastname}

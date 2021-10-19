@@ -280,7 +280,7 @@ const Header = props => {
                           </h4>
                           <span>{props.profileUser.email}</span>
                           <br />
-                          You
+                          <span>You</span>
                         </div>
                       </div>
                     </Link>
@@ -354,6 +354,7 @@ const Header = props => {
                             <img
                               src={obj.delegateUserPhoto || Profile}
                               alt=""
+                              style={{ marginBottom: '10px' }}
                             />
                             <div className="sec-profile-info">
                               <h4>
