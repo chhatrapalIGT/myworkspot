@@ -15,6 +15,7 @@ import Profile from '../assets/images/profileof.png';
 import {
   clearData,
   requestDelegateProfile,
+  requestUserlistData,
 } from '../../containers/ProfilePage/actions';
 import BadgeIcon from '../../images/badgeIcon.png';
 
@@ -36,7 +37,9 @@ const Header = props => {
   const pathName = location.pathname;
   let url = pathName.split('/');
   url = url[url.length - 1];
-
+  useEffect(() => {
+    props.requestUserlistData();
+  }, []);
   useEffect(() => {
     if (props.profileSuccess) {
       const delPro =
@@ -436,6 +439,7 @@ export function mapDispatchToProps(dispatch) {
     requestDelegateProfile: payload =>
       dispatch(requestDelegateProfile(payload)),
     clearData: () => dispatch(clearData()),
+    requestUserlistData: payload => dispatch(requestUserlistData(payload)),
     dispatch,
   };
 }
@@ -446,6 +450,7 @@ Header.propTypes = {
   delegateHeaderProfile: PropTypes.object,
   clearData: PropTypes.func,
   profileSuccess: PropTypes.bool,
+  requestUserlistData: PropTypes.func,
 };
 
 export default compose(
