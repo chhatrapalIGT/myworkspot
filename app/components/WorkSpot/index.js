@@ -432,7 +432,7 @@ const WorkSpot = ({
                                   (neighborhoodData &&
                                     neighborhoodData.locationCode === 'RVA')
                                     ? 'building-name'
-                                    : ''
+                                    : 'building-data-name'
                                 }
                               >
                                 {neighborhoodData &&
@@ -452,7 +452,9 @@ const WorkSpot = ({
                           {neighborhoodData && neighborhoodData.floor && (
                             <h3
                               className={
-                                neighborhoodColor !== '' ? 'floor-name' : ''
+                                neighborhoodColor !== ''
+                                  ? 'floor-name'
+                                  : 'floor-data-name'
                               }
                             >
                               {`Floor ${neighborhoodData &&

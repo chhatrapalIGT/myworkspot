@@ -1271,11 +1271,23 @@ input[type='text'] {
       padding: 0 20px 0px 0px;
       border-right: 1px solid #d1dce7;
     }
+    .building-data-name {
+      font-size: 48px;
+      line-height: 1;
+      margin-right: 20px;
+      padding: 0 20px 0px 0px;
+    }
     .floor-name {
       font-size: 48px;
       // margin: 0 20px;
       padding: 0 20px 0px 0px;
       border-right: 1px solid #d1dce7;
+      line-height: 1;
+    }
+    .floor-data-name {
+      font-size: 48px;
+      // margin: 0 20px;
+      padding: 0 20px 0px 0px;
       line-height: 1;
     }
     .color-code {
