@@ -21,7 +21,6 @@ import Washington from '../OfficeMapPage';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import Faq from '../../components/FAQ';
 import delegateProfile from '../../components/Profile/delegateProfile';
-import { requestUserlistData } from '../ProfilePage/actions';
 import Report from '../ReportPage';
 import Boarding from '../onBoardingPage';
 import WorkSpot from '../WorkspotPage';
@@ -45,7 +44,6 @@ const App = props => {
 
   useEffect(() => {
     requestLogin();
-    props.requestUserlistData();
     setTimeout(() => {
       setPageLoading(false);
     }, 1000);
@@ -118,22 +116,13 @@ const mapStateToProps = state => {
   };
 };
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    requestUserlistData: payload => dispatch(requestUserlistData(payload)),
-
-    dispatch,
-  };
-}
-
 App.propTypes = {
   profileUser: PropTypes.object,
-  requestUserlistData: PropTypes.func,
 };
 
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps,
+    null,
   )(App),
 );
