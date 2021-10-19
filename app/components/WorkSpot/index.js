@@ -699,6 +699,7 @@ const WorkSpot = ({
                         selectMultiple={true}
                         selectCounter
                         dateFormat="YYYY-MM-DD"
+                        className="workspot_cal"
                         // headerText="dates selected"
                         // invalid={[
                         //   {

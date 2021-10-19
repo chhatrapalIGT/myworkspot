@@ -2857,8 +2857,8 @@ select.set_drop option[id='building'],
   margin: 0 auto 10px;
 }
 
-.mbsc-calendar-title-wrapper > button {
-  flex-direction: row-reverse;
+.workspot_cal .mbsc-calendar-title-wrapper button.mbsc-calendar-button {
+  direction: rtl;
 }
 
 .month-view-content
