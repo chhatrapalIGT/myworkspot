@@ -425,7 +425,16 @@ const WorkSpot = ({
                             </p>
 
                             <div className="block-info d-flex flex-wrap">
-                              <h3 className="building-name">
+                              <h3
+                                className={
+                                  (neighborhoodData &&
+                                    neighborhoodData.locationCode === 'WDC') ||
+                                  (neighborhoodData &&
+                                    neighborhoodData.locationCode === 'RVA')
+                                    ? 'building-name'
+                                    : ''
+                                }
+                              >
                                 {neighborhoodData &&
                                   neighborhoodData.locationName}
                               </h3>
@@ -441,7 +450,11 @@ const WorkSpot = ({
                             </h3>
                           )}
                           {neighborhoodData && neighborhoodData.floor && (
-                            <h3 className="floor-name">
+                            <h3
+                              className={
+                                neighborhoodColor !== '' ? 'floor-name' : ''
+                              }
+                            >
                               {`Floor ${neighborhoodData &&
                                 neighborhoodData.floor}`}
                             </h3>

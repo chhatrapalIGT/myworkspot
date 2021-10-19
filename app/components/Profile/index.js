@@ -365,8 +365,9 @@ const Profile = ({
               <h4 className="common-title">Weekly Default</h4>
               <p className="stroke-2 mt-3 profile_desc">
                 Your weekly default will pre-populate for each week unless you
-                update <i>my</i>Workspot for a specific day. You can update{' '}
-                <i>my</i>Workspot for a particular day on the homepage.
+                update <i>my</i>Workspot for a specific day.
+                <br /> You can update <i>my</i>Workspot for a particular day on
+                the homepage.
               </p>
               <div className="on-boarding-inner p-0">
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">

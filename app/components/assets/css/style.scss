@@ -1087,9 +1087,9 @@ input[type='text'] {
   .desc {
     width: 54% !important;
   }
-  .profile_desc {
-    width: 52%;
-  }
+  // .profile_desc {
+  //   width: 52%;
+  // }
   .on-boarding-inner {
     padding: 25px;
 
@@ -1217,7 +1217,7 @@ input[type='text'] {
 
 // Second design css
 .building-block-head {
-  padding: 30px 40px;
+  padding: 25px 40px;
 
   &.blue {
     background: url(../images/zone-blue.png) no-repeat right center;
@@ -1666,6 +1666,7 @@ input[type='text'] {
   color: #526e88;
   display: flex;
   align-items: center;
+  display: inline-flex;
 
   img {
     margin-right: 7px;
@@ -2810,4 +2811,8 @@ select.set_drop option[id='building'],
   display: block;
   width: calc(100% - 3rem);
   margin: 0 auto 10px;
+}
+
+.mbsc-calendar-title-wrapper > button {
+  flex-direction: row-reverse;
 }

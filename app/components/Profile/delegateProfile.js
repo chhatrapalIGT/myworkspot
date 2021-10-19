@@ -91,7 +91,10 @@ const DelegateProfile = props => {
                         </div>
                         <div className="attr_one">
                           <span>Manager</span>
-                          <p>Cameron Williamson</p>
+                          <p>
+                            {props.delegateUserProfile &&
+                              props.delegateUserProfile.managerName}
+                          </p>
                         </div>
                       </div>
                       <div className="col_one">
@@ -104,7 +107,12 @@ const DelegateProfile = props => {
                         </div>
                         <div className="attr_one">
                           <span>Assigned Space</span>
-                          <p>1435</p>
+                          <p>
+                            {props.delegateUserProfile &&
+                            props.delegateUserProfile.permanentdesk
+                              ? props.delegateUserProfile.permanentdesk
+                              : ''}
+                          </p>
                         </div>
                       </div>
                       <div className="col_one">
@@ -133,8 +141,9 @@ const DelegateProfile = props => {
               <h4 className="common-title">Weekly Default</h4>
               <p className="stroke-2 mt-3 profile_desc">
                 Your weekly default will pre-populate for each week unless you
-                update <i>my</i>Workspot for a specific day. You can update{' '}
-                <i>my</i>Workspot for a particular day on the homepage.
+                update <i>my</i>Workspot for a specific day.
+                <br /> You can update <i>my</i>Workspot for a particular day on
+                the homepage.
               </p>
               <div className="on-boarding-inner p-0">
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">

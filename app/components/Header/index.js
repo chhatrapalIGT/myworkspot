@@ -256,27 +256,34 @@ const Header = props => {
                         <button
                           type="button"
                           className="w-100 blue-color-btn profile-btn"
+                          onClick={() => setEditProfile(false)}
                         >
-                          View My Profile
+                          View Profile
                         </button>
                       </Link>
                     </div>
-                    <div
-                      aria-hidden="true"
-                      className="popup-secondary-profile"
-                      // onClick={() => userProfileData(obj.employeeid)}
-                    >
-                      <img src={props.profileUser.photo || Profile} alt="" />
-                      <div className="sec-profile-info">
-                        <h4>
-                          {props.profileUser.firstname}{' '}
-                          {props.profileUser.lastname}{' '}
-                        </h4>
-                        <span>{props.profileUser.email}</span>
-                        <br />
-                        You
+                    <Link to="/profile">
+                      <div
+                        aria-hidden="true"
+                        className="popup-secondary-profile"
+                        onClick={() => setEditProfile(false)}
+                      >
+                        <img
+                          src={props.profileUser.photo || Profile}
+                          alt=""
+                          style={{ marginBottom: '30px' }}
+                        />
+                        <div className="sec-profile-info">
+                          <h4>
+                            {props.profileUser.firstname}{' '}
+                            {props.profileUser.lastname}{' '}
+                          </h4>
+                          <span>{props.profileUser.email}</span>
+                          <br />
+                          You
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                     {userList.map(obj => (
                       <div
                         aria-hidden="true"
@@ -293,7 +300,11 @@ const Header = props => {
                         </div>
                       </div>
                     ))}
-                    <a href className="logout" onClick={() => logout()}>
+                    <a
+                      href
+                      className="logout day-pointer"
+                      onClick={() => logout()}
+                    >
                       Log Out
                     </a>
                   </div>
@@ -323,6 +334,7 @@ const Header = props => {
                           <button
                             type="button"
                             className="w-100 blue-color-btn profile-btn"
+                            onClick={() => setEditProfile(false)}
                           >
                             View My Profile
                           </button>
@@ -333,8 +345,11 @@ const Header = props => {
                         props.profileUser.delegateUserList.map(obj => (
                           <div
                             aria-hidden="true"
-                            className="popup-secondary-profile"
-                            onClick={() => userProfileData(obj.employeeid)}
+                            className="popup-secondary-profile day-pointer"
+                            onClick={() => {
+                              userProfileData(obj.employeeid);
+                              setEditProfile(false);
+                            }}
                           >
                             <img
                               src={obj.delegateUserPhoto || Profile}
@@ -349,7 +364,14 @@ const Header = props => {
                             </div>
                           </div>
                         ))}
-                      <a href className="logout" onClick={() => logout()}>
+                      <a
+                        href
+                        className="logout day-pointer"
+                        onClick={() => {
+                          logout();
+                          setEditProfile(false);
+                        }}
+                      >
                         Log Out
                       </a>
                     </div>
