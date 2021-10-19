@@ -8,6 +8,7 @@ import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Datepicker } from '@mobiscroll/react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import '../../../src/lib/mobiscroll/css/mobiscroll.react.scss';
 import Axios from 'axios';
 import Select from 'react-select';
@@ -65,6 +66,7 @@ const Report = ({
   isLoading,
   handleClearData,
   myTeamSuccess,
+  fetchMoreData,
 }) => {
   const [finalImg, setFinalImg] = useState('');
   const [officeRest, setOfficeRest] = useState('');
@@ -298,16 +300,28 @@ const Report = ({
             >
               My Team
             </h4>
-            <Calender
-              defaultSelected="week"
-              setShow={setShow}
-              allUser={state.allUser}
-              setEmployeeLocationDetail={setEmployeeLocationDetail}
-              getWorkSpots={getWorkSpots}
-              handleEditModal={datas => setModalData(datas)}
-              weekVal={state.weekVal}
-              teamLoading={state.teamLoading}
-            />
+
+            <InfiniteScroll
+              dataLength={state.allUser.length}
+              next={() => fetchMoreData()}
+              style={{ display: 'flex', flexDirection: 'column-reverse' }}
+              // inverse={true} //
+              // eslint-disable-next-line react/jsx-boolean-value
+              hasMore={true}
+              // loader={<h4>Loading...</h4>}
+              // scrollableTarget="scrollableDiv"
+            >
+              <Calender
+                defaultSelected="week"
+                setShow={setShow}
+                allUser={state.allUser}
+                setEmployeeLocationDetail={setEmployeeLocationDetail}
+                getWorkSpots={getWorkSpots}
+                handleEditModal={datas => setModalData(datas)}
+                weekVal={state.weekVal}
+                teamLoading={state.teamLoading}
+              />
+            </InfiniteScroll>
 
             <Modal
               className="modal fade test_modal"
@@ -618,6 +632,7 @@ Report.propTypes = {
   reportApiMessage: PropTypes.string,
   isLoading: PropTypes.bool,
   handleClearData: PropTypes.func,
+  fetchMoreData: PropTypes.func,
   myTeamSuccess: PropTypes.object,
 };
 

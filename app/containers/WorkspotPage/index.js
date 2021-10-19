@@ -286,7 +286,10 @@ class WorkSpotPage extends Component {
 
   handleScroll = e => {
     const element = e.target;
-    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+    if (
+      Math.round(element.scrollHeight - element.scrollTop) ===
+      element.clientHeight
+    ) {
       const { activePage } = this.state;
       this.setState({ activePage: activePage + 1 }, () =>
         this.loadColleagues(),

@@ -40,6 +40,7 @@ const Calender = ({
   setCalData,
   setChange,
   colleagueWeeklyData,
+  // handleLocDate,
   teamLoading,
 }) => {
   const [period, setPeriod] = useState(defaultSelected);
@@ -329,32 +330,33 @@ const Calender = ({
                         : 'card weekly-default mt-4 month-view-content'
                     }
                   >
-                    <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
-                      {!setVisible && teamLoading ? (
-                        <div style={{ margin: 'auto' }}>
-                          <Spinner
-                            className="app-spinner profile"
-                            animation="grow"
-                            variant="dark"
-                          />
-                        </div>
-                      ) : (
-                        !setVisible && (
-                          <>
-                            {allUser &&
-                              allUser.map((user, userIdx) => (
-                                <>
+                    {!setVisible && teamLoading ? (
+                      <div style={{ margin: 'auto' }}>
+                        <Spinner
+                          className="app-spinner profile"
+                          animation="grow"
+                          variant="dark"
+                        />
+                      </div>
+                    ) : (
+                      !setVisible && (
+                        <>
+                          {allUser &&
+                            allUser.map((user, userIdx) => (
+                              <>
+                                <div className="weekly-default-inner weekly-default-inner-team d-flex flex-wrap align-items-end hiren">
                                   <div className="my_team_member">
-                                    <div className="d-flex align-items-center mb-1">
+                                    <div className="d-flex align-items-center">
                                       <img src={ProfileImg} alt="" />
-                                      <span className="member-name">
+                                      <span className="member-name member-space text-decor">
+                                        {' '}
                                         {user.username || 'My Workspace'}
                                       </span>
                                     </div>
-                                    <span className="designation">
+                                    <p className="designation text-decor">
                                       {/* UX/UI Designer */}
                                       {user && user.jobtitle}
-                                    </span>
+                                    </p>
                                   </div>
                                   {days.dateToDisplay.map((item, itemIdx) => {
                                     const data = getCorrespondingMyTeamData(
@@ -366,8 +368,8 @@ const Calender = ({
                                         <div
                                           className={
                                             item.disable
-                                              ? 'day_one disabled'
-                                              : 'day_one'
+                                              ? 'day_one day_one_myteam disabled'
+                                              : 'day_one day_one_myteam'
                                           }
                                           onClick={() => {
                                             if (
@@ -414,7 +416,14 @@ const Calender = ({
                                                   )}  }`
                                             }
                                           >
-                                            <p className="work-station work-floor">
+                                            <p
+                                              className={
+                                                data &&
+                                                data.locationCode === 'RW'
+                                                  ? 'work-station remote-work work-floor'
+                                                  : 'work-station work-floor'
+                                              }
+                                            >
                                               {data && data.locationName}
                                             </p>
                                             {(data &&
@@ -444,100 +453,112 @@ const Calender = ({
                                       </>
                                     );
                                   })}
-                                </>
-                              ))}
-                          </>
-                        )
-                      )}
+                                </div>
+                              </>
+                            ))}
+                        </>
+                      )
+                    )}
 
-                      {setVisible && !workSpotData.length ? (
-                        <Spinner
-                          className="app-spinner profile"
-                          animation="grow"
-                          variant="dark"
-                        />
-                      ) : setVisible && !getWeekWorkspotDataLoading() ? (
-                        <Spinner
-                          className="app-spinner profile"
-                          animation="grow"
-                          variant="dark"
-                        />
-                      ) : (
-                        setVisible &&
-                        workSpotData.length > 0 &&
-                        days.dateToDisplay.map(item => {
-                          const data = getCorrespondingData(item.date);
-                          setCalData(workSpotData);
+                    {setVisible && !workSpotData.length ? (
+                      <Spinner
+                        className="app-spinner profile"
+                        animation="grow"
+                        variant="dark"
+                      />
+                    ) : setVisible && !getWeekWorkspotDataLoading() ? (
+                      <Spinner
+                        className="app-spinner profile"
+                        animation="grow"
+                        variant="dark"
+                      />
+                    ) : (
+                      setVisible &&
+                      workSpotData.length > 0 && (
+                        <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
+                          {days.dateToDisplay.map(item => {
+                            const data = getCorrespondingData(item.date);
+                            setCalData(workSpotData);
 
-                          return (
-                            <>
-                              <div
-                                className={
-                                  item.disable ? 'day_one disabled' : 'day_one'
-                                }
-                                key={`${item.value}`}
-                              >
-                                <p className="day-name">{item.day}</p>
-                                <p
-                                  className="date"
-                                  style={{
-                                    background: isDateSelected(item.date),
-                                  }}
-                                >
-                                  {' '}
-                                  {item.value}
-                                </p>
-
+                            return (
+                              <>
                                 <div
                                   className={
-                                    item.disable || isCurrentDate(item.date)
-                                      ? `{ day-one-wrapper ${locationClass(
-                                          data && data.locationCode,
-                                        )} }`
-                                      : `{ day-one-wrapper ${locationClass(
-                                          data && data.locationCode,
-                                        )} day-pointer }`
+                                    item.disable
+                                      ? 'day_one disabled'
+                                      : 'day_one'
                                   }
-                                  onClick={() => {
-                                    !item.disable &&
-                                      !isCurrentDate(item.date) &&
-                                      handleEditModal(
-                                        true,
-                                        item.date,
-                                        `${data && data.locationCode}`,
-                                        'self',
-                                        `${data && data.locationCode}`,
-                                        `${data && data.locationName}`,
-                                      );
-                                    setDate(
-                                      moment(item.date).format(
-                                        'dddd, MMMM DD, YYYY',
-                                      ),
-                                    );
-                                    setChange(false);
-                                  }}
-                                  aria-hidden="true"
+                                  key={`${item.value}`}
                                 >
-                                  <p className="work-station work-floor">
-                                    {data && data.locationName}
+                                  <p className="day-name">{item.day}</p>
+                                  <p
+                                    className="date"
+                                    style={{
+                                      background: isDateSelected(item.date),
+                                    }}
+                                  >
+                                    {' '}
+                                    {item.value}
                                   </p>
 
-                                  {(data && data.locationCode !== 'RW') ||
-                                    (data && data.locationCode !== 'PTO') ||
-                                    (data && data.locationCode !== 'EAB' && (
-                                      <span className="floor-location">
-                                        <img src={Vector} alt="" />
-                                        {data && data.floor} -{' '}
-                                        {data && data.color}
-                                      </span>
-                                    ))}
+                                  <div
+                                    className={
+                                      item.disable || isCurrentDate(item.date)
+                                        ? `{ day-one-wrapper ${locationClass(
+                                            data && data.locationCode,
+                                          )} }`
+                                        : `{ day-one-wrapper ${locationClass(
+                                            data && data.locationCode,
+                                          )} day-pointer }`
+                                    }
+                                    onClick={() => {
+                                      !item.disable &&
+                                        !isCurrentDate(item.date) &&
+                                        handleEditModal(
+                                          true,
+                                          item.date,
+                                          `${data && data.locationCode}`,
+                                          'self',
+                                          `${data && data.locationCode}`,
+                                          `${data && data.locationName}`,
+                                        );
+                                      setDate(
+                                        moment(item.date).format(
+                                          'dddd, MMMM DD, YYYY',
+                                        ),
+                                        // handleLocDate(item.date),
+                                      );
+                                      setChange(false);
+                                    }}
+                                    aria-hidden="true"
+                                  >
+                                    <p
+                                      className={
+                                        data && data.locationCode === 'RW'
+                                          ? 'work-station remote-work work-floor'
+                                          : 'work-station work-floor'
+                                      }
+                                    >
+                                      {data && data.locationName}
+                                    </p>
+
+                                    {(data && data.locationCode !== 'RW') ||
+                                      (data && data.locationCode !== 'PTO') ||
+                                      (data && data.locationCode !== 'EAB' && (
+                                        <span className="floor-location">
+                                          <img src={Vector} alt="" />
+                                          {data && data.floor} -{' '}
+                                          {data && data.color}
+                                        </span>
+                                      ))}
+                                  </div>
                                 </div>
-                              </div>
-                            </>
-                          );
-                        })
-                      )}
-                    </div>
+                              </>
+                            );
+                          })}
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
                 {setVisible &&
@@ -663,7 +684,13 @@ const Calender = ({
                                     }}
                                     aria-hidden="true"
                                   >
-                                    <p className="work-station work-floor">
+                                    <p
+                                      className={
+                                        data && data.locationCode === 'RW'
+                                          ? 'work-station remote-work work-floor'
+                                          : 'work-station work-floor'
+                                      }
+                                    >
                                       {data && data.locationName}
                                     </p>
                                     <span className="floor-location">
@@ -762,10 +789,17 @@ const Calender = ({
                                       'dddd, MMMM DD, YYYY',
                                     ),
                                   );
+                                  // handleLocDate(item.date);
                                 }}
                                 aria-hidden="true"
                               >
-                                <p className="work-station">
+                                <p
+                                  className={
+                                    data && data.locationCode === 'RW'
+                                      ? 'work-station remote-work work-floor'
+                                      : 'work-station work-floor'
+                                  }
+                                >
                                   {data && data.locationName}
                                 </p>
 

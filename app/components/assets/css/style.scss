@@ -602,6 +602,9 @@ input[type='text'] {
 .weekly-default {
   .weekly-default-inner {
     padding: 20px 25px 25px;
+    &.weekly-default-inner-team {
+      padding: 20px 25px 0px;
+    }
     .day_one {
       width: calc(20% - 10px);
       margin-right: 10px;
@@ -625,6 +628,12 @@ input[type='text'] {
           color: #002d50;
           margin-bottom: 6px;
           text-align: center;
+          &.remote-work {
+            color: #002d50;
+            margin-bottom: 6px;
+            text-align: center;
+            margin-top: 7px;
+          }
         }
 
         &.work-from-office {
@@ -1624,6 +1633,10 @@ input[type='text'] {
       margin-bottom: 32px;
       width: calc(14.28% - 10px);
 
+      &.day_one_myteam {
+        margin-bottom: 10px;
+      }
+
       &.weekend {
         .work-station {
           display: none;
@@ -2218,6 +2231,7 @@ input[type='text'] {
       }
       &:first-child {
         position: relative;
+        margin-bottom: 3px;
 
         &::after {
           content: '';
@@ -2230,7 +2244,8 @@ input[type='text'] {
         }
       }
       &:not(:first-child) {
-        padding-bottom: 0;
+        // padding-bottom: 0;
+        padding: 0px 25px 0px;
         .day_one {
           .day-name {
             display: none;
@@ -2248,13 +2263,15 @@ input[type='text'] {
         margin-right: 10px;
       }
       .my_team_member {
-        height: 92px;
+        height: 100px;
+        padding-top: 11px;
 
         img {
           width: 24px;
           height: 24px;
           border-radius: 50%;
           object-fit: cover;
+          // margin-bottom: 15px;
         }
         .member-name {
           font: 500 14px 'Museo Sans Medium';
@@ -2262,11 +2279,26 @@ input[type='text'] {
           -webkit-text-stroke: 0.2px;
           width: calc(100% - 34px);
           margin-left: auto;
+          &.member-space {
+            margin-bottom: 0px;
+          }
+          .member-space:first-child {
+            display: none;
+          }
+          &:first-child::after {
+            content: 'My Workspace';
+          }
         }
         .designation {
           font: 400 12px 'Museo Sans Regular';
           color: #526e88;
           padding-left: 34px;
+          &.text-decor {
+            text-overflow: ellipsis !important;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 0px;
+          }
         }
       }
     }
@@ -2827,4 +2859,24 @@ select.set_drop option[id='building'],
 
 .mbsc-calendar-title-wrapper > button {
   flex-direction: row-reverse;
+}
+
+.month-view-content
+  > .weekly-default-inner-team:first-child
+  > .my_team_member
+  > div
+  > span {
+  border: 1px solid red;
+  display: none;
+}
+
+.month-view-content
+  > .weekly-default-inner-team:first-child
+  > .my_team_member
+  > div::after {
+  content: 'My Workspace';
+  font-size: 12px;
+  font: 500 14px 'Museo Sans Medium';
+  color: #00355f;
+  margin-left: 10px;
 }
