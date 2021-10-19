@@ -189,6 +189,10 @@ const Profile = ({
                           <img
                             src={(userData && userData.photo) || ProfileImg}
                             alt=""
+                            style={{
+                              border: '1px solid black',
+                              borderRadius: '60px',
+                            }}
                           />
                         </div>
                         <h3 className="profile-username">

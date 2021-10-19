@@ -280,7 +280,7 @@ const Header = props => {
                           </h4>
                           <span>{props.profileUser.email}</span>
                           <br />
-                          You
+                          <span>You</span>
                         </div>
                       </div>
                     </Link>
