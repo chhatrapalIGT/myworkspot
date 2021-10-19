@@ -2,7 +2,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
-
 import { CONSTANT } from '../../enum';
 
 const { API_URL } = CONSTANT;
@@ -10,6 +9,7 @@ const { API_URL } = CONSTANT;
 export default function Login() {
   const [call, setCall] = useState(true);
   const [apiCall, setApiCall] = useState(false);
+  const pathName = window.location.host;
   useEffect(() => {
     if (call) {
       login();
@@ -22,6 +22,9 @@ export default function Login() {
     const url = `${API_URL}/authenticate/login`;
     axios
       .get(url, {
+        params: {
+          Url: `https://${pathName}`,
+        },
         headers: {
           Authorization: '',
         },
