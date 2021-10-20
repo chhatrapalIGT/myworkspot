@@ -621,7 +621,7 @@ const Calender = ({
                               }}
                             />
                             {'   '}
-                            <label style={{ paddingBottom: ' 16px' }}>
+                            <label style={{ paddingBottom: ' 18px' }}>
                               <b>
                                 {obj.employeeidFirstname}{' '}
                                 {obj.employeeidLastname}
