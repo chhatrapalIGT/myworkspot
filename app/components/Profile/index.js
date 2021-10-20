@@ -43,8 +43,6 @@ const Profile = ({
   requestAddDelegateList,
   requestRemoveDelegateList,
   delegrateUsersList,
-  onScroll,
-  handleChange,
 }) => {
   const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
@@ -54,6 +52,8 @@ const Profile = ({
   const [userListData, setUserListData] = useState([]);
   const [selectData, setselectData] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
+  const [allUser, setAllUser] = useState([]);
+  const [search, setSearch] = useState(false);
 
   const badgeValues = userData && userData.badgeNumber;
   const value =
@@ -71,8 +71,11 @@ const Profile = ({
     userData && userData.badgeNumber && userData.badgeNumber.slice(7, 11);
 
   useEffect(() => {
-    setSearchName(delegateList);
-  }, [delegateList]);
+    if (show && searchName.length) {
+      setSearchName([]);
+    }
+    setselectData(delegrateUsersList);
+  }, [show]);
 
   useEffect(() => {
     if (
@@ -101,6 +104,28 @@ const Profile = ({
       dataName.push(firstname);
     }
     setselectData(dataName);
+  };
+
+  const handleChange = event => {
+    setAllUser(delegateList);
+
+    let newList = [];
+    if (event.target.value !== '') {
+      setSearch(true);
+
+      newList = allUser.filter(({ firstname, lastname }) => {
+        const first = firstname.toLowerCase();
+        const last = lastname.toLowerCase();
+        const finalDataList = first.concat(last);
+        const filter = event.target.value.toLowerCase();
+        return finalDataList.includes(filter);
+      });
+    } else {
+      setSearch(false);
+      newList = [];
+    }
+
+    setSearchName(newList);
   };
 
   const handleClose = () => {
@@ -613,11 +638,7 @@ const Profile = ({
                 name="searchValue"
                 onChange={handleChange}
               />
-              <div
-                className="modal-body modal-update"
-                onScroll={onScroll}
-                id="data_update"
-              >
+              <div className="modal-body modal-update" id="data_update">
                 <form className="delegate-workspot-access" action="submit">
                   {searchName &&
                     searchName.map(i => (
@@ -630,7 +651,7 @@ const Profile = ({
                       >
                         <img src={ProfileImg} alt="" />
                         <input
-                          id="jane"
+                          id={i.employeeid}
                           type="radio"
                           className="checkbox"
                           checked={selectData.includes(i)}
@@ -695,8 +716,6 @@ Profile.propTypes = {
   handleCloseBtn: PropTypes.func,
   requestRemoveDelegateList: PropTypes.func,
   requestAddDelegateList: PropTypes.func,
-  onScroll: PropTypes.func,
-  handleChange: PropTypes.func,
   delegrateUsersList: PropTypes.object,
 };
 export default Profile;

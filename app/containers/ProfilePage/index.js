@@ -85,84 +85,24 @@ class ProfilePage extends Component {
   }
 
   componentDidMount() {
-    const doc = document.getElementById('data_update');
-    if (doc) doc.addEventListener('scroll', this.handleScroll(), true);
-
     this.props.requestGetDelegateList();
     this.props.requestGetProfileOfficeData({});
     this.props.requestGetOfficeLocation({});
-    this.loadCustomers();
+    this.props.requestDelegateData({});
   }
-
-  handleScroll = e => {
-    const element = e.target;
-    if (
-      Math.round(element.scrollHeight - element.scrollTop) ===
-      element.clientHeight
-    ) {
-      console.log('scroll in if ===== ');
-      const { activePage } = this.state;
-      this.setState({ activePage: activePage + 1 }, () => this.loadCustomers());
-      // do something at end of scroll
-    }
-  };
-
-  loadCustomers = () => {
-    const { activePage } = this.state;
-    const { delegateListSuccess } = this.props;
-
-    if (
-      this.state.searchValue !== '' &&
-      this.state.search &&
-      activePage <= delegateListSuccess.totalPage
-    ) {
-      this.props.requestDelegateData({
-        page: this.state.activePage,
-        searchUser: this.state.searchValue || '',
-      });
-    }
-    if (!this.state.search) {
-      this.props.requestDelegateData({
-        page: this.state.activePage,
-      });
-    }
-  };
 
   componentWillUnmount() {
     this.props.clearBoardData();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const {
       getProfileLocationSuccess,
       getProfileLocation,
       apiMessage,
       locationMessage,
       badgeUpdateData,
-      delegateListSuccess,
-      delegateList,
     } = this.props;
-    const { listArray } = this.state;
-    const { delegateList: prevdelegateList } = prevProps;
-
-    if (
-      delegateListSuccess &&
-      delegateListSuccess.success &&
-      delegateList !== prevdelegateList &&
-      !delegateListSuccess.loading
-    ) {
-      let list = [];
-      list = delegateList;
-
-      if (this.state.search) {
-        listArray.push(...list);
-      } else {
-        listArray.push(...prevdelegateList, ...list);
-      }
-
-      const newArr = this.unique(listArray, obj => obj.employeeid);
-      this.updateState(newArr);
-    }
 
     if (
       getProfileLocation &&
@@ -179,14 +119,6 @@ class ProfilePage extends Component {
       }, 5000);
     }
   }
-
-  updateState = newArr => {
-    this.setState({ updatedlistArray: newArr });
-  };
-
-  unique = (dataVal, key) => [
-    ...new Map(dataVal.map(x => [key(x), x])).values(),
-  ];
 
   handleClearstate = () => {
     this.setState({ listArray: [], trueData: false });
@@ -334,33 +266,6 @@ class ProfilePage extends Component {
     }
   };
 
-  handleChange = event => {
-    const { name, value } = event.target;
-
-    this.setState({ [name]: value }, () => {
-      // eslint-disable-next-line no-unused-expressions
-      this.state.searchValue !== ''
-        ? this.setState({ search: true })
-        : this.setState({ search: false });
-      this.setState({ updatedlistArray: [], listArray: [] });
-    });
-    if (this.state.typingTimeout) {
-      clearTimeout(this.state.typingTimeout);
-    }
-
-    const timeoutId = setTimeout(() => {
-      this.setState({ activePage: 1 }, () =>
-        this.props.requestDelegateData({
-          page: this.state.activePage,
-          searchUser: this.state.searchValue || '',
-        }),
-      );
-    }, 1000);
-    this.setState({
-      typingTimeout: timeoutId,
-    });
-  };
-
   // allTabColor = type => {
   //   let color;
   //   switch (type) {
@@ -397,6 +302,7 @@ class ProfilePage extends Component {
       verifyBadgeSuccess,
       verifyBadgeMsg,
       delegrateUsersList,
+      delegateList,
     } = this.props;
     return (
       <>
@@ -407,14 +313,13 @@ class ProfilePage extends Component {
             handleUserSelect={this.handleUserSelect}
             handleButtonData={this.handleButtonData}
             handleSubmit={this.handleSubmit}
-            handleChange={this.handleChange}
             handleClose={this.handleClose}
             handleUserSelectData={this.handleUserSelectData}
             handleShow={this.handleShow}
             allTabColor={this.allTabColor}
             getProfileLocation={getProfileLocation}
             userData={userData}
-            delegateList={this.state.updatedlistArray}
+            delegateList={delegateList}
             delegateSuccess={delegateSuccess}
             location={location}
             apiMessage={apiMessage}
@@ -447,8 +352,7 @@ const mapStateToProps = state => {
 
     delegateList:
       profile && profile.delegateList && profile.delegateList.delegate,
-    delegateListSuccess:
-      profile && profile.delegateList && profile.delegateList,
+
     delegateSuccess:
       profile && profile.delegateList && profile.delegateList.success,
     getProfileLocationSuccess:
@@ -529,7 +433,6 @@ ProfilePage.propTypes = {
   requestRemoveDelegateList: PropTypes.func,
   requestGetDelegateList: PropTypes.func,
   delegrateUsersList: PropTypes.object,
-  delegateListSuccess: PropTypes.object,
 };
 
 export default compose(
