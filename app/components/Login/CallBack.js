@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { parse } from 'query-string';
 
 export default function CallBack({ location }) {
@@ -7,8 +7,8 @@ export default function CallBack({ location }) {
   const response = parse(hash);
   if (response && response.error) {
     alert(response.error_description);
-    return <Link to="/auth" />;
+    return <Redirect to="/auth" />;
   }
   sessionStorage.setItem('AccessToken', JSON.stringify(response));
-  return <Link to="/" />;
+  return <Redirect to="/" />;
 }
