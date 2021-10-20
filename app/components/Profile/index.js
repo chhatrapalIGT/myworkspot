@@ -74,7 +74,6 @@ const Profile = ({
     if (show && searchName.length) {
       setSearchName([]);
     }
-    setselectData(delegrateUsersList);
   }, [show]);
 
   useEffect(() => {
