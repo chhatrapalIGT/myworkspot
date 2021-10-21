@@ -378,9 +378,9 @@ const Calender = ({
                                             if (
                                               isCurrentDate(item.date) &&
                                               ((data &&
-                                                data.locationCode === 'RVA') ||
+                                                data.locationCode === 'RIC') ||
                                                 (data &&
-                                                  data.locationCode === 'WDC'))
+                                                  data.locationCode === 'DC'))
                                             ) {
                                               setEmployeeLocationDetail(true);
                                               handleEditModal({
@@ -408,9 +408,9 @@ const Calender = ({
                                             className={
                                               isCurrentDate(item.date) &&
                                               ((data &&
-                                                data.locationCode === 'RVA') ||
+                                                data.locationCode === 'RIC') ||
                                                 (data &&
-                                                  data.locationCode === 'WDC'))
+                                                  data.locationCode === 'DC'))
                                                 ? `{ day-one-wrapper ${locationClass(
                                                     data && data.locationCode,
                                                   )} day-pointer }`
@@ -436,11 +436,10 @@ const Calender = ({
                                               ((data &&
                                                 data.locationCode !== 'EAB') ||
                                                 (((data &&
-                                                  data.locationCode ===
-                                                    'WDC') ||
+                                                  data.locationCode === 'DC') ||
                                                   (data &&
                                                     data.locationCode ===
-                                                      'RVA' &&
+                                                      'RIC' &&
                                                     item.disable &&
                                                     isCurrentDate(
                                                       item.date,
@@ -809,9 +808,9 @@ const Calender = ({
                                 {(data && data.locationCode !== 'RW') ||
                                   (data && data.locationCode !== 'PTO') ||
                                   ((data && data.locationCode !== 'EAB') ||
-                                    (((data && data.locationCode === 'WDC') ||
+                                    (((data && data.locationCode === 'DC') ||
                                       (data &&
-                                        data.locationCode === 'RVA' &&
+                                        data.locationCode === 'RIC' &&
                                         item.disable &&
                                         isCurrentDate(item.date))) && (
                                       <span className="floor-location">
