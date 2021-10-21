@@ -751,6 +751,14 @@ input[type='text'] {
   > input {
     border: 0px;
     height: 45px;
+    width: 100%;
+    cursor: pointer;
+  }
+  input:placeholder-shown {
+    opacity: 1 !important;
+  }
+  .mbsc-textfield.mbsc-textfield-hidden.mbsc-textarea {
+    font-size: 13px;
   }
 
   &.choose-date {
@@ -2581,10 +2589,6 @@ select.set_drop option[id='building'],
   }
 }
 
-.css-1hb7zxy-IndicatorsContainer > div:first-child {
-  display: none;
-}
-
 .css-26l3qy-menu {
   display: visible !important;
 }
@@ -2879,4 +2883,11 @@ select.set_drop option[id='building'],
   font: 500 14px 'Museo Sans Medium';
   color: #00355f;
   margin-left: 10px;
+}
+
+.css-b8ldur-Input {
+  height: 41px;
+}
+.css-cm7b0g-control {
+  border: 1px solid #d1dce7 !important;
 }

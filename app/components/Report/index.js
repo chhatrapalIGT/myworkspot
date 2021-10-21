@@ -73,7 +73,6 @@ const Report = ({
   const [call, setCall] = useState(true);
   const [isdata, setData] = useState(false);
   const data = location && location.length && location[location.length - 1];
-
   const colourStyles = {
     control: styles => ({
       ...styles,
@@ -81,6 +80,7 @@ const Report = ({
       borderRadius: '8px',
       cursor: 'pointer',
     }),
+
     option: (styles, { isFocused, isSelected, isVisited }) => ({
       ...styles,
       cursor: isFocused ? 'pointer' : '',
@@ -350,23 +350,24 @@ const Report = ({
                   <div className="modal-body modal-body_myteam">
                     <Select
                       isMulti
+                      isClearable={false}
                       value={state.selectedOption}
                       onChange={handleChange}
                       options={updatedEmpData}
                       closeMenuOnSelect={false}
                       hideSelectedOptions={false}
                       onMenuClose={false}
-                      className="mb-3 "
+                      className="mb-3"
                       name="employee"
                       placeholder="Select Team Member(s)"
                       styles={colourStyles}
-                      // theme={theme => ({
-                      //   ...theme,
-                      //   colors: {
-                      //     ...theme.colors,
-                      //     primary25: '#blue',
-                      //   },
-                      // })}
+                      theme={theme => ({
+                        ...theme,
+                        colors: {
+                          ...theme.colors,
+                          primary: '#d1dce7',
+                        },
+                      })}
                     />
                     <div className="selection">
                       <select name="location" onChange={handleUserSelect}>
@@ -401,33 +402,11 @@ const Report = ({
                         dateFormat="MMM D,YYYY"
                         selectMultiple
                         min={moment().toDate()}
-                        className="dataaaa"
                         selectCounter
+                        placeholder="Select Date(s)"
                         buttons={nowButtons}
                         ref={setNow}
                         onChange={onDateChange}
-                        // marked={[
-                        //   {
-                        //     date: new Date(2021, 8, 2),
-                        //     markCssClass: 'mbsc-calendar-marks1',
-                        //   },
-                        //   {
-                        //     date: new Date(2021, 8, 4),
-                        //     markCssClass: 'mbsc-calendar-marks1',
-                        //   },
-                        //   {
-                        //     date: new Date(2021, 8, 5),
-                        //     markCssClass: 'mbsc-calendar-marks2',
-                        //   },
-                        //   {
-                        //     date: new Date(2021, 8, 7),
-                        //     markCssClass: 'mbsc-calendar-marks3',
-                        //   },
-                        //   {
-                        //     date: new Date(2021, 8, 6),
-                        //     markCssClass: 'mbsc-calendar-marks3',
-                        //   },
-                        // ]}
                       />
                     </div>
 
