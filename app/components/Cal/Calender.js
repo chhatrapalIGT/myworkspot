@@ -42,12 +42,20 @@ const Calender = ({
   colleagueWeeklyData,
   // handleLocDate,
   teamLoading,
-  displayDefault,
+  // displayDefault,
 }) => {
-  const [period, setPeriod] = useState(displayDefault);
+  // const [period, setPeriod] = useState(displayDefault);
+  // const [selectedWeek, setSelectedWeek] = useState(new Date());
+  // const [days, setDays] = useState(() =>
+  //   displayDefault === 'week'
+  //     ? getWeekStartEndDate(new Date())
+  //     : getMonthStartEndDate(new Date()),
+  // );
+
+  const [period, setPeriod] = useState(defaultSelected);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
   const [days, setDays] = useState(() =>
-    displayDefault === 'week'
+    defaultSelected === 'week'
       ? getWeekStartEndDate(new Date())
       : getMonthStartEndDate(new Date()),
   );
