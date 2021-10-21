@@ -56,7 +56,6 @@ const WorkSpot = ({
   onChange,
   onDateChange,
   handleUserSelect,
-  handleChange,
   handleRemove,
   handleZoomIn,
   handleZoomOut,
@@ -95,6 +94,8 @@ const WorkSpot = ({
   const [isLocUpdate, setLocUpdate] = useState(false);
   const [isworkspotLoader, setWorkspotLoader] = useState(false);
   const [isdate, setDate] = useState('');
+  const [allUser, setAllUser] = useState([]);
+  const [search, setSearch] = useState(false);
 
   const [calData, setCalData] = useState([]);
   const [searchName, setSearchName] = useState([]);
@@ -113,6 +114,25 @@ const WorkSpot = ({
     };
   });
 
+  const handleChange = event => {
+    setAllUser(colleaguesData);
+    let newList = [];
+    if (event.target.value !== '' && colleaguesData.length) {
+      setSearch(true);
+      newList = colleaguesData.filter(({ firstname, lastname }) => {
+        const first = firstname.toLowerCase();
+        const last = lastname.toLowerCase();
+        const finalDataList = first.concat(last);
+        const filter = event.target.value.toLowerCase();
+        return finalDataList.includes(filter);
+      });
+    } else {
+      setSearch(false);
+      newList = [];
+    }
+    setSearchName(newList);
+  };
+
   const newArr = useMemo(() => {
     const d =
       locationData &&
@@ -123,8 +143,10 @@ const WorkSpot = ({
   });
 
   useEffect(() => {
-    setSearchName(colleaguesData);
-  }, [colleaguesData]);
+    if (isEmployeeModal && searchName.length) {
+      setSearchName([]);
+    }
+  }, [isEmployeeModal]);
 
   const handleClickOutside = event => {
     if (divRef && divRef.current && !divRef.current.contains(event.target)) {
@@ -802,11 +824,7 @@ const WorkSpot = ({
                   name="searchValue"
                   onChange={handleChange}
                 />
-                <div
-                  className="modal-body modal-update"
-                  onScroll={onScroll}
-                  id="data_workspot"
-                >
+                <div className="modal-body modal-update" id="data_workspot">
                   <form className="delegate-workspot-access" action="submit">
                     {searchName &&
                       searchName.map(i => (
@@ -817,7 +835,7 @@ const WorkSpot = ({
                         >
                           <img src={ProfileImg} alt="" />
                           <input
-                            id="jane"
+                            id={i.employeeid}
                             type="radio"
                             className="checkbox"
                             checked={state.selectedColleagues.includes(i)}
@@ -1114,7 +1132,6 @@ WorkSpot.propTypes = {
   onChange: PropTypes.func,
   onDateChange: PropTypes.func,
   handleUserSelect: PropTypes.func,
-  handleChange: PropTypes.func,
   imgStyle: PropTypes.object,
   handleRemove: PropTypes.func,
   handleZoomOut: PropTypes.func,

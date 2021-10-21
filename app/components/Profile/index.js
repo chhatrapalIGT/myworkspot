@@ -52,7 +52,6 @@ const Profile = ({
   const [userListData, setUserListData] = useState([]);
   const [selectData, setselectData] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
-  const [allUser, setAllUser] = useState([]);
   const [search, setSearch] = useState(false);
 
   const badgeValues = userData && userData.badgeNumber;
@@ -106,13 +105,10 @@ const Profile = ({
   };
 
   const handleChange = event => {
-    setAllUser(delegateList);
-
     let newList = [];
-    if (event.target.value !== '') {
+    if (event.target.value !== '' && delegateList.length) {
       setSearch(true);
-
-      newList = allUser.filter(({ firstname, lastname }) => {
+      newList = delegateList.filter(({ firstname, lastname }) => {
         const first = firstname.toLowerCase();
         const last = lastname.toLowerCase();
         const finalDataList = first.concat(last);
@@ -123,7 +119,6 @@ const Profile = ({
       setSearch(false);
       newList = [];
     }
-
     setSearchName(newList);
   };
 
