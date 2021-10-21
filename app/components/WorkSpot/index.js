@@ -209,7 +209,7 @@ const WorkSpot = ({
     let imageSrc = '';
     let officeRes = '';
     switch (neighborhoodImg) {
-      case 'WDC':
+      case 'DC':
         switch (neighborhoodBuild) {
           case '2':
             imageSrc = map2;
@@ -229,7 +229,7 @@ const WorkSpot = ({
             break;
         }
         break;
-      case 'RVA':
+      case 'RIC':
         switch (neighborhoodBuild) {
           case '1':
             imageSrc = map5;
@@ -279,9 +279,9 @@ const WorkSpot = ({
   // eslint-disable-next-line consistent-return
   const addressLink = address => {
     switch (address) {
-      case 'WDC':
+      case 'DC':
         return 'https://goo.gl/maps/wSt2HtVQ7J2vuoGy7';
-      case 'RVA':
+      case 'RIC':
         return 'https://goo.gl/maps/sMKpVpBFJJRUqT446';
       case 'BAL':
         return 'https://goo.gl/maps/8zpk6ZWT49puXgp67';
@@ -410,9 +410,7 @@ const WorkSpot = ({
                           your{' '}
                           {state.updatingObject &&
                           state.updatingObject.work_area_name &&
-                          state.updatingObject.work_area_name.includes(
-                            'WDC',
-                          ) ? (
+                          state.updatingObject.work_area_name.includes('DC') ? (
                             <span> DC </span>
                           ) : (
                             <span>Richmond </span>
@@ -426,14 +424,14 @@ const WorkSpot = ({
                     ) : (
                       <>
                         {neighborhoodData &&
-                        neighborhoodData.locationCode === 'RVA' ? (
+                        neighborhoodData.locationCode === 'RIC' ? (
                           <p className="stroke-2">
                             Hi {neighborhoodData && neighborhoodData.username},
                             your <span>Richmond </span>
                             neighborhood today is
                           </p>
                         ) : neighborhoodData &&
-                          neighborhoodData.locationCode === 'WDC' ? (
+                          neighborhoodData.locationCode === 'DC' ? (
                           <p className="stroke-2">
                             Hi {neighborhoodData && neighborhoodData.username},
                             your <span> DC </span>
@@ -450,9 +448,9 @@ const WorkSpot = ({
                               <h3
                                 className={
                                   (neighborhoodData &&
-                                    neighborhoodData.locationCode === 'WDC') ||
+                                    neighborhoodData.locationCode === 'DC') ||
                                   (neighborhoodData &&
-                                    neighborhoodData.locationCode === 'RVA')
+                                    neighborhoodData.locationCode === 'RIC')
                                     ? 'building-name'
                                     : 'building-data-name'
                                 }

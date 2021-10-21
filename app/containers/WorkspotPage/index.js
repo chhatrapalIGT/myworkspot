@@ -304,7 +304,7 @@ class WorkSpotPage extends Component {
     const payload = {
       data: {
         // eslint-disable-next-line radix
-        locationid: a ? a.id : 'WDC',
+        locationid: a ? a.id : 'DC',
         weekofday: [moment(updatingObject.date).format('YYYY-MM-DD')],
       },
 
@@ -328,7 +328,7 @@ class WorkSpotPage extends Component {
     const payload = {
       data: {
         // eslint-disable-next-line radix
-        locationid: a ? a.id : 'WDC',
+        locationid: a ? a.id : 'DC',
         weekofday: locDate,
       },
       employeeid: 239323,

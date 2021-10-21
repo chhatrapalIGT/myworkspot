@@ -190,7 +190,7 @@ const Report = ({
     let imageSrc = '';
     let officeRes = '';
     switch (neighborhoodImg) {
-      case 'WDC':
+      case 'DC':
         switch (neighborhoodBuild) {
           case '2':
             imageSrc = map2;
@@ -210,7 +210,7 @@ const Report = ({
             break;
         }
         break;
-      case 'RVA':
+      case 'RIC':
         switch (neighborhoodBuild) {
           case '1':
             imageSrc = map5;

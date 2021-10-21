@@ -275,10 +275,10 @@ class ProfilePage extends Component {
   //     case 'Richmond , VA':
   //       color = 'border-top-blue';
   //       break;
-  //     case 'Birmigham , AL':
+  //     case 'Birmigham , BHM':
   //       color = 'border-top-green';
   //       break;
-  //     case 'Bloomington , MN':
+  //     case 'Bloomington , BLM':
   //       color = 'border-top-black';
   //       break;
 

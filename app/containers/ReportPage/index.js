@@ -45,7 +45,7 @@ class ReportPage extends Component {
         ? this.props.location &&
           this.props.location[0] &&
           this.props.location[0].locationCode
-        : 'WDC',
+        : 'DC',
       date: '',
       allUser: [],
       weekVal: true,
