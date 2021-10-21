@@ -42,11 +42,12 @@ const Calender = ({
   colleagueWeeklyData,
   // handleLocDate,
   teamLoading,
+  displayDefault,
 }) => {
-  const [period, setPeriod] = useState(defaultSelected);
+  const [period, setPeriod] = useState(displayDefault);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
   const [days, setDays] = useState(() =>
-    defaultSelected === 'week'
+    displayDefault === 'week'
       ? getWeekStartEndDate(new Date())
       : getMonthStartEndDate(new Date()),
   );
@@ -104,7 +105,12 @@ const Calender = ({
       periodType === 'month'
         ? getMonthStartEndDate(startDate)
         : getWeekStartEndDate(selectedWeek);
+    // if (isEmpty(getWeekWorkspotDataLoading)) {
     callAPI(newDays.dateToDisplay, periodType);
+    // }
+    // if (getMonthWorkspotDataLoading) {
+    //   callAPI(newDays.dateToDisplay, periodType);
+    // }
     setDays(newDays);
     periodType === 'week' && setSelectedWeek(newDays.startDate);
     setPeriod(periodType);
@@ -174,7 +180,6 @@ const Calender = ({
         'day',
       ),
     );
-
     return a;
   };
 
@@ -735,7 +740,7 @@ const Calender = ({
                       <>
                         {items.map(item => {
                           const data = getCorrespondingData(item.date);
-
+                          setCalData(workSpotData);
                           return (
                             <div
                               className={`${
@@ -849,6 +854,7 @@ const Calender = ({
 Calender.propTypes = {
   setModal: PropTypes.func,
   defaultSelected: PropTypes.string,
+  displayDefault: PropTypes.string,
   setEmployeeModal: PropTypes.func,
   setEmployee: PropTypes.func,
   handleEditModal: PropTypes.func,

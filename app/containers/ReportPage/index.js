@@ -37,6 +37,7 @@ class ReportPage extends Component {
     super(props);
     this.state = {
       defaultSelected: 'week',
+      displayDefault: 'week',
       selectedOption: [],
       scale: defaultScale,
       rotate: defaultRotate,
@@ -49,6 +50,8 @@ class ReportPage extends Component {
       date: '',
       allUser: [],
       weekVal: true,
+      activePage: 1,
+      itemPerPage: 5,
     };
   }
 
@@ -133,6 +136,30 @@ class ReportPage extends Component {
     this.getUserData(startDispDate, endDispDate);
   }
 
+  unique = (dataVal, key) => [
+    ...new Map(dataVal.map(x => [key(x), x])).values(),
+  ];
+
+  fetchMoreData = () => {
+    let newArr = [];
+
+    if (this.state.allUsers.length >= this.state.allUser.length) {
+      const page = Math.ceil(
+        this.state.allUsers.length - this.state.itemPerPage,
+      );
+
+      newArr = [...this.state.userData];
+      newArr.splice(page);
+      const arr = this.state.allUser.concat(newArr);
+      setTimeout(() => {
+        const data = this.unique(arr, obj => obj.employeeid);
+        this.setState({
+          allUser: data,
+        });
+      }, 1500);
+    }
+  };
+
   getUserData = async (startDispDate, endDispDate) => {
     const { history } = this.props;
     this.setState({ teamLoading: true });
@@ -141,7 +168,12 @@ class ReportPage extends Component {
       endDispDate,
     );
 
-    this.setState({ allUser: data });
+    this.setState({ allUsers: data });
+    let newArr = [];
+    newArr = [...this.state.allUsers];
+    const item = newArr.splice(5);
+    this.setState({ userData: item });
+    this.setState({ allUser: newArr });
     if (success) {
       this.setState({ teamLoading: false });
     } else {
@@ -228,6 +260,7 @@ class ReportPage extends Component {
             isLoading={isLoading}
             handleClearData={this.handleClearData}
             myTeamSuccess={myTeamSuccess}
+            fetchMoreData={this.fetchMoreData}
           />{' '}
         </div>
       </>

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable camelcase */
 /* eslint-disable default-case */
 /* eslint-disable no-nested-ternary */
@@ -319,6 +320,42 @@ const WorkSpot = ({
       : neighborhoodData && neighborhoodData.colorcode === 'F7CA0F'
       ? 'Yellow'
       : '';
+
+  const dateData = () => {
+    const dates = [];
+    calData.filter(ele => {
+      const prevDate = moment(ele.date).isBefore(moment(), 'day');
+
+      const getMonth = moment(ele.date).format('MM');
+      const nextMonth = moment()
+        .add(1, 'month')
+        .format('MM');
+      const currentMonth = getMonth !== nextMonth;
+
+      let obj = {};
+      if (!prevDate && currentMonth) {
+        if (ele.officetype === 'EAB Office') {
+          obj = {
+            date: ele.date,
+            markCssClass: 'mbsc-calendar-marks1',
+          };
+        } else if (ele.officetype === 'Remote Work') {
+          obj = {
+            date: ele.date,
+            markCssClass: 'mbsc-calendar-marks2',
+          };
+        } else if (ele.officetype === 'Paid Time Off') {
+          obj = {
+            date: ele.date,
+            markCssClass: 'mbsc-calendar-marks3',
+          };
+        }
+      }
+
+      dates.push(obj);
+    });
+    return dates;
+  };
 
   return (
     <>
@@ -658,6 +695,7 @@ const WorkSpot = ({
             setWorkspotLoader={setWorkspotLoader}
             workspotLoading={state.workspotLoading}
             calObject={state.calObject}
+            displayDefault={state.displayDefault}
           />
           <Modal
             className="modal fade test_modal"
@@ -729,24 +767,8 @@ const WorkSpot = ({
                         //     },
                         //   },
                         // ]}
-                        marked={[
-                          {
-                            date: new Date(2021, 8, 28),
-                            markCssClass: 'mbsc-calendar-marks1',
-                          },
-                          {
-                            date: new Date(2021, 8, 29),
-                            markCssClass: 'mbsc-calendar-marks1',
-                          },
-                          {
-                            date: new Date(2021, 8, 29),
-                            markCssClass: 'mbsc-calendar-marks3',
-                          },
-                          {
-                            date: new Date(2021, 8, 30),
-                            markCssClass: 'mbsc-calendar-marks3',
-                          },
-                        ]}
+
+                        marked={dateData()}
                       />
                       <div className="bottom">
                         <span className="eab-ofc">EAB Office</span>

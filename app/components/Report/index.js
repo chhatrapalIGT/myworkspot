@@ -72,6 +72,7 @@ const Report = ({
   const [officeRest, setOfficeRest] = useState('');
   const [call, setCall] = useState(true);
   const [isdata, setData] = useState(false);
+  const [calData, setCalData] = useState([]);
   const data = location && location.length && location[location.length - 1];
   const colourStyles = {
     control: styles => ({
@@ -257,6 +258,42 @@ const Report = ({
     setCall(false);
   };
 
+  // const dateData = () => {
+  //   const dates = [];
+  //   calData.filter(ele => {
+  //     const prevDate = moment(ele.date).isBefore(moment(), 'day');
+
+  //     const getMonth = moment(ele.date).format('MM');
+  //     const nextMonth = moment()
+  //       .add(1, 'month')
+  //       .format('MM');
+  //     const currentMonth = getMonth !== nextMonth;
+
+  //     let obj = {};
+  //     if (!prevDate && currentMonth) {
+  //       if (ele.officetype === 'EAB Office') {
+  //         obj = {
+  //           date: ele.date,
+  //           markCssClass: 'mbsc-calendar-marks1',
+  //         };
+  //       } else if (ele.officetype === 'Remote Work') {
+  //         obj = {
+  //           date: ele.date,
+  //           markCssClass: 'mbsc-calendar-marks2',
+  //         };
+  //       } else if (ele.officetype === 'Paid Time Off') {
+  //         obj = {
+  //           date: ele.date,
+  //           markCssClass: 'mbsc-calendar-marks3',
+  //         };
+  //       }
+  //     }
+
+  //     dates.push(obj);
+  //   });
+  //   return dates;
+  // };
+
   return (
     <>
       {locationErrorHandle &&
@@ -320,6 +357,7 @@ const Report = ({
                 handleEditModal={datas => setModalData(datas)}
                 weekVal={state.weekVal}
                 teamLoading={state.teamLoading}
+                displayDefault={state.displayDefault}
               />
             </InfiniteScroll>
 

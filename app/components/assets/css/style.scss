@@ -2306,6 +2306,9 @@ input[type='text'] {
             overflow: hidden;
             white-space: nowrap;
             margin-bottom: 0px;
+            // &:hover {
+            //   overflow: visible;
+            // }
           }
         }
       }
@@ -2400,11 +2403,11 @@ li.highlightOption:hover {
 .mbsc-calendar-marks1 {
   content: '';
   position: absolute;
-  left: 18px;
+  left: 15px;
   top: 100%;
   transform: translateY(0%);
   width: 25px !important;
-  height: 3px !important;
+  height: 4px !important;
   border-radius: 10px !important;
   background: #00355f !important;
 }
@@ -2412,11 +2415,11 @@ li.highlightOption:hover {
 .mbsc-calendar-marks2 {
   content: '';
   position: absolute;
-  left: 18px;
+  left: 15px;
   top: 100%;
   transform: translateY(0%);
   width: 25px !important;
-  height: 3px !important;
+  height: 4px !important;
   border-radius: 10px !important;
   background: #95a7b8 !important;
 }
@@ -2424,11 +2427,11 @@ li.highlightOption:hover {
 .mbsc-calendar-marks3 {
   content: '';
   position: absolute;
-  left: 18px;
+  left: 15px;
   top: 100%;
   transform: translateY(0%);
   width: 25px !important;
-  height: 3px !important;
+  height: 4px !important;
   border-radius: 10px !important;
   background: #8643ff !important;
 }
@@ -2890,4 +2893,7 @@ select.set_drop option[id='building'],
 }
 .css-cm7b0g-control {
   border: 1px solid #d1dce7 !important;
+}
+.mbsc-calendar-marks {
+  height: 0px;
 }
