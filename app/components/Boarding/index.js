@@ -53,7 +53,7 @@ const Boarding = ({
 
   const finalLocation =
     location && location.length
-      ? location.filter(obj => obj && obj.locationname !== 'Remote Work')
+      ? location.filter(obj => obj && obj.locationCode !== 'RW')
       : '';
 
   return (

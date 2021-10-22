@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 /* eslint-disable default-case */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
@@ -11,7 +12,8 @@ import { Datepicker } from '@mobiscroll/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import '../../../src/lib/mobiscroll/css/mobiscroll.react.scss';
 import Axios from 'axios';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
+import createClass from 'create-react-class';
 import Spinner from 'react-bootstrap/Spinner';
 import Draggable from 'react-draggable';
 import Calender from '../Cal/Calender';
@@ -156,6 +158,33 @@ const Report = ({
     return item;
   });
 
+  const Option = createClass({
+    render() {
+      return (
+        <components.Option {...this.props}>
+          <div style={{ display: 'flex' }}>
+            <div style={{ flex: '1' }}>
+              <img
+                src={this.props.data.flag}
+                alt="flag"
+                style={{ height: '20px', marginBottom: '5px' }}
+              />{' '}
+              <label>
+                {`${this.props.data.value} ${this.props.data.labelData || ''}`}{' '}
+              </label>
+              <input
+                className="select_checkbox"
+                type="checkbox"
+                checked={this.props.isSelected}
+                onChange={e => null}
+              />{' '}
+            </div>
+            <div className={this.props.isSelected ? 'selected_val' : ''} />
+          </div>
+        </components.Option>
+      );
+    },
+  });
   useEffect(() => {
     // calData.map(obj => setData(obj));
     if (call && Object.keys(modalData).length > 0) {
@@ -387,6 +416,7 @@ const Report = ({
                   </div>
                   <div className="modal-body modal-body_myteam">
                     <Select
+                      components={{ Option }}
                       isMulti
                       isClearable={false}
                       value={state.selectedOption}

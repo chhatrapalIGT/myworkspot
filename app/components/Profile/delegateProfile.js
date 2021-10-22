@@ -105,15 +105,18 @@ const DelegateProfile = props => {
                               props.delegateUserProfile.primaryofficelocation}
                           </p>
                         </div>
-                        <div className="attr_one">
-                          <span>Assigned Space</span>
-                          <p>
-                            {props.delegateUserProfile &&
-                            props.delegateUserProfile.permanentdesk
-                              ? props.delegateUserProfile.permanentdesk
-                              : ''}
-                          </p>
-                        </div>
+                        {props.delegateUserProfile &&
+                          props.delegateUserProfile.permanentdesk && (
+                            <div className="attr_one">
+                              <span>Assigned Space</span>
+                              <p>
+                                {props.delegateUserProfile &&
+                                props.delegateUserProfile.permanentdesk
+                                  ? props.delegateUserProfile.permanentdesk
+                                  : ''}
+                              </p>
+                            </div>
+                          )}
                       </div>
                       <div className="col_one">
                         <div className="attr_one">
