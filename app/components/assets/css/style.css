@@ -3,7 +3,7 @@
 
 /****************************************************Responsive***********************************/
 @media (max-width: 1365px){
-  .building-block-head .block-info .building-name, .building-block-head .block-info .floor-name, .building-block-head .block-info .color-code{
+  .building-block-head .block-info .building-name,.building-block-head .block-info .building-data-name, .building-block-head .block-info .floor-name,.building-block-head .block-info .floor-data-name, .building-block-head .block-info .color-code{
       font-size: 32px;
   }
 }
@@ -15,7 +15,7 @@
   .weekly-default .weekly-default-inner .day_one .day-one-wrapper.work-from-office{background-size: 55px;}
   .weekly-default .weekly-default-inner .day_one .day-one-wrapper.work-from-home{background-size: 100px;}
   body.modal-open .site-header{width: 100%;}
-  .building-block-head .block-info .building-name, .building-block-head .block-info .floor-name, .building-block-head .block-info .color-code{
+  .building-block-head .block-info .building-name,.building-block-head .block-info .building-data-name, .building-block-head .block-info .floor-name,.building-block-head .block-info .floor-data-name, .building-block-head .block-info .color-code{
       font-size: 32px;
   }
   .building-block-head .building-location-strip {margin-top: 60px;}
@@ -56,7 +56,7 @@
   .onboarding-main .on-boarding-inner .badge-number .badge-number-inner input{max-width: 70px;}
   .onboarding-main .top-illustration .welcome h2{font-size: 26px;}
   .update-office-workspot .weekly-default-inner .day_one .date{margin-bottom: 12px; width: 25px; height: 25px;}
-  .building-block-head .block-info .building-name, .building-block-head .block-info .floor-name, .building-block-head .block-info .color-code{font-size: 26px;}
+  .building-block-head .block-info .building-name,.building-block-head .block-info .building-data-name, .building-block-head .block-info .floor-name, .building-block-head .block-info .floor-data-name, .building-block-head .block-info .color-code{font-size: 26px;}
   .weekly-default.month-view-content .day_one:nth-child(n+8) .day-name{display: block;}
   .weekly-default.month-view-content .day_one:nth-child(7n){margin-right: 5px; margin-left: 5px;}
   .office-structure .office-structure-inner .left-panel,
@@ -100,8 +100,8 @@
   .update-office-workspot .input-button-strip{flex-wrap: wrap;}
   .input-button-strip .updatespot{margin-left: 0; width: 100%; margin-top: 20px;}
   .building-block-head{background-image: none !important; padding: 15px 15px;}
-  .building-block-head .block-info .building-name, .building-block-head .block-info .floor-name, .building-block-head .block-info .color-code{font-size: 22px; margin-bottom: 0;}
-  .building-block-head .block-info .floor-name{padding: 0 12px; margin: 0 12px;}
+  .building-block-head .block-info .building-name,.building-block-head .block-info .building-data-name, .building-block-head .block-info .floor-name,.building-block-head .block-info .floor-data-name, .building-block-head .block-info .color-code{font-size: 22px; margin-bottom: 0;}
+  .building-block-head .block-info .floor-name,.building-block-head .block-info .floor-data-name{padding: 0 12px; margin: 0 12px;}
   .building-block-head .building-location-strip > div{margin-top: 12px;}
   .input-button-strip .change-log .what-day{font-size: 12px; padding: 0 12px;}
   .input-button-strip .change-log .prev, .input-button-strip .change-log .next{width: 40px;}
@@ -141,7 +141,7 @@
   .onboarding-main .on-boarding-inner .badge-number .badge-number-inner input{max-width: 60px; margin-right: 5px;}
   .onboarding-main .on-boarding-inner .badge-number .badge-number-inner input:first-child{max-width: 55px; margin-right: 10px;}
   .onboarding-main .on-boarding-inner .badge-number .badge-number-inner input:last-child{margin-left: 5px;}
-  .building-block-head .block-info .building-name, .building-block-head .block-info .floor-name, .building-block-head .block-info .color-code{font-size: 16px;}
+  .building-block-head .block-info .building-name,.building-block-head .block-info .building-data-name, .building-block-head .block-info .floor-name,.building-block-head .block-info .floor-data-name, .building-block-head .block-info .color-code{font-size: 16px;}
   .building-block-head > p{font-size: 12px;}
   .datepicker-Wrapper .date{width: 2rem; height: 2rem;}
 }
