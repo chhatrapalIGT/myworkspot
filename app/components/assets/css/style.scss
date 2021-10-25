@@ -199,6 +199,10 @@ input[type='text'] {
   background-color: #f7ca0f;
   font-weight: bold;
   color: #00355f;
+  // position: fixed;
+  // width: 100%;
+  // z-index: 999;
+  // top: 78px;
   > img {
     margin: 0px 5px 6px;
   }
@@ -494,6 +498,7 @@ input[type='text'] {
 }
 
 .wrapper_main {
+  // padding: 90px 0;
   padding: 50px 0;
   min-height: calc(100vh - 175px);
 }
@@ -2620,6 +2625,11 @@ select.set_drop option[id='building'],
     font-size: 20px;
     background-color: #e85959;
     color: black;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    // top: 130px;
+    top: 78px;
   }
   &_success {
     line-height: 42px;
@@ -2627,6 +2637,11 @@ select.set_drop option[id='building'],
     color: black;
     font-size: 20px;
     background-color: #73da62;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    // top: 130px;
+    top: 78px;
   }
 }
 
