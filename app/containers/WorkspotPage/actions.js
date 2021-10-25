@@ -24,6 +24,7 @@ import {
   REQUEST_DELETE_COLLEAGUE_DATA,
   SUCCESS_DELETE_COLLEAGUE_DATA,
   FAILED_DELETE_COLLEAGUE_DATA,
+  RESET_WORKSPOT_MESSAGE,
 } from './constants';
 
 export const requestGetLocation = payload => ({
@@ -148,4 +149,8 @@ export const DeleteColleagueDataSuccess = payload => ({
 export const DeleteColleagueDataFailed = error => ({
   type: FAILED_DELETE_COLLEAGUE_DATA,
   payload: error,
+});
+
+export const resetWorkspotMessage = () => ({
+  type: RESET_WORKSPOT_MESSAGE,
 });

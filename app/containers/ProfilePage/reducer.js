@@ -156,6 +156,7 @@ const profilePageReducer = (state = initialState, action) =>
         break;
       case CLEAR_DATA:
         draft.apiMessage = '';
+        draft.apiSuccess = false;
         draft.badgeUpdate.message = '';
         draft.badgeUpdate.success = false;
         draft.delegateProfile.success = false;
@@ -188,8 +189,7 @@ const profilePageReducer = (state = initialState, action) =>
         draft.delegateProfile.success = true;
         draft.delegateProfile.delegateProfileList = action.payload;
         draft.delegateProfile.error = '';
-        draft.apiMessage = action.payload.message;
-        draft.apiSuccess = action.payload.success;
+
         break;
       case FAILED_DELEGATE_PROFILE:
         draft.delegateProfile.loading = false;

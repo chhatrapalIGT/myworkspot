@@ -26,6 +26,7 @@ import {
   REQUEST_DELETE_COLLEAGUE_DATA,
   SUCCESS_DELETE_COLLEAGUE_DATA,
   FAILED_DELETE_COLLEAGUE_DATA,
+  RESET_WORKSPOT_MESSAGE,
 } from './constants';
 
 const initialState = {
@@ -79,9 +80,7 @@ const initialState = {
     success: false,
     isloading: false,
   },
-
   apiSuccess: false,
-
   apiMessage: '',
 };
 
@@ -98,16 +97,13 @@ const workspotReducer = (state = initialState, action) =>
         draft.getLocationData.success = true;
         draft.getLocationData.message = action.payload.message;
         draft.getLocationData.locationList = action.payload.data;
-        draft.apiSuccess = action.payload.success;
 
-        draft.apiMessage = action.payload.message;
         break;
       case FAILED_GET_LOCATION:
         draft.getLocationData.success = false;
         draft.getLocationData.message = action.payload.message;
         draft.getLocationData.locationList = {};
         draft.apiSuccess = action.payload.success;
-
         draft.apiMessage = action.payload.message;
         break;
       case REQUEST_GET_WEEKLY_DEFAULT:
@@ -124,6 +120,8 @@ const workspotReducer = (state = initialState, action) =>
         draft.getWeeklyDefaultData.success = false;
         draft.getWeeklyDefaultData.message = action.payload.message;
         draft.getWeeklyDefaultData.weeklyData = {};
+        draft.apiSuccess = action.payload.success;
+        draft.apiMessage = action.payload.message;
         break;
       case REQUEST_UPDATE_WORKSPOT:
         draft.updateWorkspot.success = false;
@@ -137,7 +135,6 @@ const workspotReducer = (state = initialState, action) =>
         draft.updateWorkspot.message = action.payload.message;
         draft.updateWorkspot.updateData = action.payload.deptData;
         draft.apiSuccess = action.payload.success;
-
         draft.apiMessage = action.payload.message;
         break;
       case FAILED_UPDATE_WORKSPOT:
@@ -145,13 +142,11 @@ const workspotReducer = (state = initialState, action) =>
         draft.updateWorkspot.isLoading = false;
         draft.updateWorkspot.message = action.payload.message;
         draft.updateWorkspot.updateData = {};
+        draft.apiSuccess = action.payload.success;
+        draft.apiMessage = action.payload.message;
         break;
       case RESET_WORKSPOT:
         draft.updateWorkspot.updateData = {};
-
-        draft.apiSuccess = false;
-
-        draft.apiMessage = '';
         draft.updateWorkspot.success = false;
         draft.updateWorkspot.isLoading = false;
         draft.updateWorkspot.message = '';
@@ -159,7 +154,6 @@ const workspotReducer = (state = initialState, action) =>
         draft.searchColleague.message = '';
         draft.deleteSearchColleague.success = false;
         draft.deleteSearchColleague.message = '';
-
         break;
 
       case REQUEST_GET_NEIGHBORHOOD:
@@ -173,9 +167,7 @@ const workspotReducer = (state = initialState, action) =>
         draft.neighborhood.success = true;
         draft.neighborhood.message = action.payload.message;
         draft.neighborhood.neighborhoodData = action.payload.locationdata;
-        draft.apiSuccess = action.payload.success;
 
-        draft.apiMessage = action.payload.message;
         break;
       case FAILED_GET_NEIGHBORHOOD:
         draft.neighborhood.isloading = false;
@@ -183,24 +175,21 @@ const workspotReducer = (state = initialState, action) =>
         draft.neighborhood.message = action.payload.message;
         draft.neighborhood.neighborhoodData = {};
         draft.apiSuccess = action.payload.success;
-
         draft.apiMessage = action.payload.message;
         break;
 
       case REQUEST_GET_COLLEAGUE:
         draft.colleagueData.success = false;
         draft.colleagueData.isloading = true;
-        draft.colleagueData.message = '';
-        draft.colleagueData.colleagueList = [];
+        // draft.colleagueData.message = '';
+        // draft.colleagueData.colleagueList = [];
         break;
       case SUCCESS_GET_COLLEAGUE:
         draft.colleagueData.isloading = false;
         draft.colleagueData.success = true;
         draft.colleagueData.message = action.payload.message;
         draft.colleagueData.colleagueList = action.payload.userData;
-        draft.apiSuccess = action.payload.success;
 
-        draft.apiMessage = action.payload.message;
         break;
       case FAILED_GET_COLLEAGUE:
         draft.colleagueData.isloading = false;
@@ -208,7 +197,6 @@ const workspotReducer = (state = initialState, action) =>
         draft.colleagueData.message = action.payload.message;
         draft.colleagueData.colleagueDataData = {};
         draft.apiSuccess = action.payload.success;
-
         draft.apiMessage = action.payload.message;
         break;
 
@@ -223,9 +211,6 @@ const workspotReducer = (state = initialState, action) =>
         draft.getColleagueData.success = true;
         draft.getColleagueData.message = action.payload.message;
         draft.getColleagueData.colleagueData = action.payload.returnData;
-        draft.apiSuccess = action.payload.success;
-
-        draft.apiMessage = action.payload.message;
         break;
       case FAILED_VIEW_COLLEAGUE_DATA:
         draft.getColleagueData.isloading = false;
@@ -233,7 +218,6 @@ const workspotReducer = (state = initialState, action) =>
         draft.getColleagueData.message = action.payload.message;
         draft.getColleagueData.colleagueData = {};
         draft.apiSuccess = action.payload.success;
-
         draft.apiMessage = action.payload.message;
         break;
 
@@ -249,7 +233,6 @@ const workspotReducer = (state = initialState, action) =>
         draft.searchColleague.message = action.payload.message;
         // draft.searchColleague.colleagueData = action.payload.returnData;
         draft.apiSuccess = action.payload.success;
-
         draft.apiMessage = action.payload.message;
         break;
       case FAILED_SEARCH_COLLEAGUE_DATA:
@@ -258,14 +241,13 @@ const workspotReducer = (state = initialState, action) =>
         draft.searchColleague.message = action.payload.message;
         // draft.searchColleague.colleagueData = {};
         draft.apiSuccess = action.payload.success;
-
         draft.apiMessage = action.payload.message;
         break;
 
       case REQUEST_DELETE_COLLEAGUE_DATA:
         draft.deleteSearchColleague.success = false;
         draft.deleteSearchColleague.isloading = true;
-        draft.deleteSearchColleague.message = '';
+        // draft.deleteSearchColleague.message = '';
         // draft.deleteSearchColleague.colleagueData = {};
         break;
       case SUCCESS_DELETE_COLLEAGUE_DATA:
@@ -274,7 +256,6 @@ const workspotReducer = (state = initialState, action) =>
         draft.deleteSearchColleague.message = action.payload.message;
         // draft.deleteSearchColleague.colleagueData = action.payload.returnData;
         draft.apiSuccess = action.payload.success;
-
         draft.apiMessage = action.payload.message;
         break;
       case FAILED_DELETE_COLLEAGUE_DATA:
@@ -283,8 +264,12 @@ const workspotReducer = (state = initialState, action) =>
         draft.deleteSearchColleague.message = action.payload.message;
         // draft.deleteSearchColleague.colleagueData = {};
         draft.apiSuccess = action.payload.success;
-
         draft.apiMessage = action.payload.message;
+        break;
+
+      case RESET_WORKSPOT_MESSAGE:
+        draft.apiMessage = '';
+        draft.apiSuccess = false;
         break;
     }
   });

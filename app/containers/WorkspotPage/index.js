@@ -20,6 +20,7 @@ import {
   requestGetColleagueData,
   requestSearchColleagueData,
   requestDeleteColleagueData,
+  resetWorkspotMessage,
 } from './actions';
 import { getWorkSpotData } from './helpers';
 import {
@@ -148,6 +149,7 @@ class WorkSpotPage extends Component {
       workspotMessage,
       searchColleague,
       deleteSearchColleague,
+      apiMessage,
     } = this.props;
 
     if (workspotSuccess && workspotMessage) {
@@ -163,12 +165,15 @@ class WorkSpotPage extends Component {
       }, 5000);
     }
 
+    if (apiMessage) {
+      setTimeout(() => {
+        this.props.resetWorkspotMessage();
+      }, 5000);
+    }
     const sDate = moment(selectedDateRange.startDate).format('YYYY-MM-DD');
     const eDate = moment(selectedDateRange.endDate).format('YYYY-MM-DD');
     if (
-      (searchColleague &&
-        searchColleague.success &&
-        (searchColleague && searchColleague.message)) ||
+      (searchColleague && searchColleague.success) ||
       (deleteSearchColleague && deleteSearchColleague.success)
     ) {
       this.props.requestGetColleagueData({
@@ -522,6 +527,7 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestSearchColleagueData(payload)),
     requestDeleteColleagueData: payload =>
       dispatch(requestDeleteColleagueData(payload)),
+    resetWorkspotMessage: () => dispatch(resetWorkspotMessage()),
     dispatch,
   };
 }
@@ -554,6 +560,7 @@ WorkSpotPage.propTypes = {
   deleteSearchColleague: PropTypes.object,
   history: PropTypes.object,
   profileUserLoading: PropTypes.bool,
+  resetWorkspotMessage: PropTypes.func,
 };
 
 export default compose(

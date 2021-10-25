@@ -130,8 +130,8 @@ const Header = props => {
                     <Link to="/workspot" activeClassName="active">
                       <a
                         className={
-                          pathName === '/workspot' ||
-                          (pathName === '/' && 'active')
+                          (pathName === '/workspot' || pathName === '/') &&
+                          'active'
                         }
                         href="true"
                       >
@@ -393,12 +393,13 @@ const Header = props => {
           </div>
         </div>
       </header>
-      {pathName !== '/' &&
-        !pathName.includes('/profile/delegate') &&
+      {props.profileUser &&
+        props.profileUser.isFirstTime === false &&
+        !pathName.includes('/profile') &&
         (props.profileUser && props.profileUser.badgeNumber === '' && (
           <div className="badge_check">
             <img src={BadgeIcon} alt="bicon" />{' '}
-            <span>You don't have a badge associated with your profile</span>{' '}
+            <span>You don't have a badge associated with your profile</span>
             {pathName !== '/profile' && (
               <Link to="/profile">
                 <button type="button" className="btn_badge">

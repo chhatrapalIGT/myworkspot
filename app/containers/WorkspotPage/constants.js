@@ -31,3 +31,5 @@ export const FAILED_SEARCH_COLLEAGUE_DATA = 'searchColleagueDataFailed';
 export const REQUEST_DELETE_COLLEAGUE_DATA = 'requestDeleteColleagueData';
 export const SUCCESS_DELETE_COLLEAGUE_DATA = 'DeleteColleagueDataSuccess';
 export const FAILED_DELETE_COLLEAGUE_DATA = 'DeleteColleagueDataFailed';
+
+export const RESET_WORKSPOT_MESSAGE = 'resetWorkspotMessage';
