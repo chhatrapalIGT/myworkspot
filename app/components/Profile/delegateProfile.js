@@ -14,7 +14,10 @@ import { Link, useLocation } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import ProfileImg from '../assets/images/myprofile.png';
 import Edit from '../assets/images/edit.svg';
-import { requestDelegateProfile } from '../../containers/ProfilePage/actions';
+import {
+  requestDelegateProfile,
+  clearData,
+} from '../../containers/ProfilePage/actions';
 
 const DelegateProfile = props => {
   const location = useLocation();
@@ -25,17 +28,21 @@ const DelegateProfile = props => {
   useEffect(() => {
     props.requestDelegateProfile({ empId: url });
   }, [url]);
+
+  useEffect(() => {
+    if (props.delegateMessage) {
+      setTimeout(() => {
+        props.clearData();
+      }, 5000);
+    }
+  }, [props.delegateMessage]);
+
   return (
     <Fragment>
       <>
-        {props.apiMessage && (
-          <div
-            className={`"alert-dismissible fade show ${
-              props.apiSuccess ? 'popup_success' : 'popup_err'
-            } "`}
-            role="alert"
-          >
-            <p className="text-center m-auto">{props.apiMessage || ''}</p>
+        {!props.delegateSuccess && props.delegateMessage && (
+          <div className="alert-dismissible fade show popup_err" role="alert">
+            <p className="text-center m-auto">{props.delegateMessage || ''}</p>
           </div>
         )}
         <div className="wrapper_main">
@@ -219,15 +226,17 @@ DelegateProfile.propTypes = {
   delegateUserProfile: PropTypes.object,
   delegateUserWeek: PropTypes.object,
   requestDelegateProfile: PropTypes.func,
+  clearData: PropTypes.func,
   isLoading: PropTypes.bool,
-  apiMessage: PropTypes.string,
-  apiSuccess: PropTypes.bool,
+  delegateMessage: PropTypes.string,
+  delegateSuccess: PropTypes.bool,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
     requestDelegateProfile: payload =>
       dispatch(requestDelegateProfile(payload)),
+    clearData: () => dispatch(clearData()),
     dispatch,
   };
 }
