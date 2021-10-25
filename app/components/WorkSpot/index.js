@@ -69,7 +69,6 @@ const WorkSpot = ({
   handleUpdatingModalData,
   onUpdateWorkspot,
   neighborhoodData,
-  errMessage,
   errSuccess,
   neighborhood,
   workspotSuccess,
@@ -85,6 +84,8 @@ const WorkSpot = ({
   colleagueListData,
   deleteSearchColleague,
   profileUserLoading,
+  apiMessage,
+  apiSuccess,
   onScroll,
 }) => {
   const isDraggable = state.scale > 1;
@@ -359,33 +360,14 @@ const WorkSpot = ({
 
   return (
     <>
-      {(errMessage ||
-        locationMsg ||
-        workspotMessage ||
-        neighborhoodMsg ||
-        (colleagueListData && colleagueListData.message) ||
-        (deleteSearchColleague && deleteSearchColleague.message)) && (
+      {apiMessage && (
         <div
-          className={`alert-dismissible fade show ${
-            errSuccess ||
-            locationSuccess ||
-            neighborhoodSuccess ||
-            workspotSuccess ||
-            (colleagueListData && colleagueListData.success) ||
-            (deleteSearchColleague && deleteSearchColleague.success)
-              ? 'popup_success'
-              : 'popup_err'
-          } `}
+          className={`"alert-dismissible fade show ${
+            apiSuccess ? 'popup_success' : 'popup_err'
+          } "`}
           role="alert"
         >
-          <p className="text-center m-auto">
-            {errMessage ||
-              locationMsg ||
-              workspotMessage ||
-              neighborhoodMsg ||
-              (colleagueListData && colleagueListData.message) ||
-              (deleteSearchColleague && deleteSearchColleague.message)}
-          </p>
+          <p className="text-center m-auto">{apiMessage || ''}</p>
         </div>
       )}
 
@@ -1168,7 +1150,6 @@ WorkSpot.propTypes = {
   onUpdateWorkspot: PropTypes.func,
   onScroll: PropTypes.func,
   neighborhoodData: PropTypes.object,
-  errMessage: PropTypes.string,
   errSuccess: PropTypes.bool,
   neighborhood: PropTypes.object,
   workspotSuccess: PropTypes.bool,
@@ -1184,5 +1165,7 @@ WorkSpot.propTypes = {
   colleagueListData: PropTypes.object,
   deleteSearchColleague: PropTypes.object,
   profileUserLoading: PropTypes.bool,
+  apiMessage: PropTypes.string,
+  apiSuccess: PropTypes.bool,
 };
 export default WorkSpot;
