@@ -149,10 +149,9 @@ const Profile = ({
   };
 
   const data = location && location.length && location[location.length - 1];
-
   const finalLocation =
     location && location.length
-      ? location.filter(obj => obj && obj.locationname !== 'Remote Work')
+      ? location.filter(obj => obj && obj.locationCode !== 'RW')
       : '';
 
   const handleRemove = name => {
@@ -240,14 +239,16 @@ const Profile = ({
                           <span>Primary Office</span>
                           <p>{userData && userData.primaryofficelocation}</p>
                         </div>
-                        <div className="attr_one">
-                          <span>Assigned Space</span>
-                          <p>
-                            {userData && userData.permanentdesk
-                              ? userData.permanentdesk
-                              : ''}
-                          </p>
-                        </div>
+                        {userData && userData.permanentdesk && (
+                          <div className="attr_one">
+                            <span>Assigned Space</span>
+                            <p>
+                              {userData && userData.permanentdesk
+                                ? userData.permanentdesk
+                                : ''}
+                            </p>
+                          </div>
+                        )}
                       </div>
                       <div className="col_one">
                         <div className="attr_one">

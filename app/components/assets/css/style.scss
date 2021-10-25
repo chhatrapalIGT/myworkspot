@@ -537,8 +537,10 @@ input[type='text'] {
     }
     .right-content {
       width: calc(100% - 264px);
-      padding: 20px 40px;
+      padding: 30px 40px;
       display: flex;
+      height: 100%;
+      // place-items: center;
       justify-content: space-between;
 
       .col_one {
@@ -1238,7 +1240,7 @@ input[type='text'] {
 
   &.blue {
     background: url(../images/zone-blue.png) no-repeat right center;
-    background-size: 55%;
+    background-size: 58%;
     .color-code {
       color: #0072ce;
     }
@@ -1246,12 +1248,12 @@ input[type='text'] {
 
   &.default {
     background: url(../images/bloom.svg) no-repeat right center;
-    background-size: 55%;
+    background-size: 58%;
   }
 
   &.orange {
     background: url(../images/orange_bg.png) no-repeat right center;
-    background-size: 55%;
+    background-size: 58%;
     .color-code {
       color: #ed8b00;
     }
@@ -1259,7 +1261,7 @@ input[type='text'] {
 
   &.teal {
     background: url(../images//teal_bg.png) no-repeat right center;
-    background-size: 55%;
+    background-size: 58%;
     .color-code {
       color: #00b1b0;
     }
@@ -1267,7 +1269,7 @@ input[type='text'] {
 
   &.yellow {
     background: url(../images/yellow_bg.png) no-repeat right center;
-    background-size: 55%;
+    background-size: 58%;
     .color-code {
       color: #f7ca0f;
     }
@@ -2896,4 +2898,21 @@ select.set_drop option[id='building'],
 }
 .mbsc-calendar-marks {
   height: 0px;
+}
+
+.selected_val {
+  content: '';
+  width: 6px;
+  height: 12px;
+  border-right: 2px solid #0072ce;
+  border-bottom: 2px solid #0072ce;
+  right: 32px;
+  margin-right: 10px;
+  top: 50%;
+  transform: translateY(-70%) rotate(45deg);
+  margin-top: 10px;
+  z-index: 99;
+}
+.select_checkbox {
+  opacity: 0;
 }
