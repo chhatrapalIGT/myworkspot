@@ -303,6 +303,7 @@ class ProfilePage extends Component {
       verifyBadgeMsg,
       delegrateUsersList,
       delegateList,
+      badgeUpdateSuccess,
     } = this.props;
     return (
       <>
@@ -337,6 +338,7 @@ class ProfilePage extends Component {
             requestRemoveDelegateList={this.props.requestRemoveDelegateList}
             delegrateUsersList={delegrateUsersList}
             onScroll={this.handleScroll}
+            badgeUpdateSuccess={badgeUpdateSuccess}
           />
         </div>
       </>
@@ -366,6 +368,7 @@ const mapStateToProps = state => {
     apiSuccess: profile && profile.apiSuccess,
     apiMessage: profile && profile.apiMessage,
     badgeUpdateData: profile && profile.badgeUpdate,
+    badgeUpdateSuccess: profile && profile.badgeUpdate.success,
     delegrateUsersList:
       profile &&
       profile.getUpdatedelegateListData &&
@@ -433,6 +436,7 @@ ProfilePage.propTypes = {
   requestRemoveDelegateList: PropTypes.func,
   requestGetDelegateList: PropTypes.func,
   delegrateUsersList: PropTypes.object,
+  badgeUpdateSuccess: PropTypes.bool,
 };
 
 export default compose(
