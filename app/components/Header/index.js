@@ -395,7 +395,7 @@ const Header = props => {
       </header>
       {props.profileUser &&
         props.profileUser.isFirstTime === false &&
-        !pathName.includes('/profile') &&
+        !pathName.includes('/profile/delegate') &&
         (props.profileUser && props.profileUser.badgeNumber === '' && (
           <div className="badge_check">
             <img src={BadgeIcon} alt="bicon" />{' '}
