@@ -10,9 +10,9 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import profile from '../../images/profileof.png';
+import profile from '../../images/myprofile.png';
 import Report from '../../components/Report';
-import allImage from '../../images/Vectoruser.png';
+import allImage from '../../images/icon.svg';
 import reducer from './reducer';
 import saga from './saga';
 import {

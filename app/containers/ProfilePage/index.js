@@ -102,6 +102,8 @@ class ProfilePage extends Component {
       apiMessage,
       locationMessage,
       badgeUpdateData,
+      locationApiMessage,
+      locationApiSuccess,
     } = this.props;
 
     if (
@@ -112,7 +114,12 @@ class ProfilePage extends Component {
     ) {
       this.handleData();
     }
-    if (apiMessage || locationMessage || badgeUpdateData.message) {
+    if (
+      apiMessage ||
+      locationMessage ||
+      badgeUpdateData.message ||
+      (locationApiMessage && !locationApiSuccess)
+    ) {
       setTimeout(() => {
         this.props.clearData();
         this.props.clearBoardData();
@@ -303,7 +310,8 @@ class ProfilePage extends Component {
       verifyBadgeMsg,
       delegrateUsersList,
       delegateList,
-      badgeUpdateSuccess,
+      locationApiSuccess,
+      locationApiMessage,
     } = this.props;
     return (
       <>
@@ -338,7 +346,8 @@ class ProfilePage extends Component {
             requestRemoveDelegateList={this.props.requestRemoveDelegateList}
             delegrateUsersList={delegrateUsersList}
             onScroll={this.handleScroll}
-            badgeUpdateSuccess={badgeUpdateSuccess}
+            locationApiMessage={locationApiMessage}
+            locationApiSuccess={locationApiSuccess}
           />
         </div>
       </>
@@ -367,8 +376,9 @@ const mapStateToProps = state => {
     locationMessage: locationData && locationData.addOfficeLocation.message,
     apiSuccess: profile && profile.apiSuccess,
     apiMessage: profile && profile.apiMessage,
+    locationApiMessage: locationData && locationData.apiMessage,
+    locationApiSuccess: locationData && locationData.apiSuccess,
     badgeUpdateData: profile && profile.badgeUpdate,
-    badgeUpdateSuccess: profile && profile.badgeUpdate.success,
     delegrateUsersList:
       profile &&
       profile.getUpdatedelegateListData &&
@@ -436,7 +446,8 @@ ProfilePage.propTypes = {
   requestRemoveDelegateList: PropTypes.func,
   requestGetDelegateList: PropTypes.func,
   delegrateUsersList: PropTypes.object,
-  badgeUpdateSuccess: PropTypes.bool,
+  locationApiMessage: PropTypes.string,
+  locationApiSuccess: PropTypes.bool,
 };
 
 export default compose(

@@ -44,6 +44,8 @@ const Profile = ({
   requestAddDelegateList,
   requestRemoveDelegateList,
   delegrateUsersList,
+  locationApiMessage,
+  locationApiSuccess,
 }) => {
   const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
@@ -112,8 +114,8 @@ const Profile = ({
       newList = delegateList.filter(({ firstname, lastname }) => {
         const first = firstname.toLowerCase();
         const last = lastname.toLowerCase();
-        const finalDataList = first.concat(last);
-        const filter = event.target.value.toLowerCase();
+        const finalDataList = first.concat(' ', last);
+        const filter = event.target.value.toLowerCase().trim();
         return finalDataList.includes(filter);
       });
     } else {
@@ -172,15 +174,17 @@ const Profile = ({
   return (
     <Fragment>
       <>
-        {(apiMessage || locationMessage) && (
+        {(apiMessage || locationMessage || locationApiMessage) && (
           <div
             className={`"alert-dismissible fade show ${
-              apiSuccess || locationSuccess ? 'popup_success' : 'popup_err'
+              apiSuccess || locationSuccess || locationApiSuccess
+                ? 'popup_success'
+                : 'popup_err'
             } "`}
             role="alert"
           >
             <p className="text-center m-auto">
-              {apiMessage || locationMessage || ''}
+              {apiMessage || locationMessage || locationApiMessage || ''}
             </p>
           </div>
         )}
@@ -736,5 +740,7 @@ Profile.propTypes = {
   requestAddDelegateList: PropTypes.func,
   delegrateUsersList: PropTypes.object,
   badgeUpdateSuccess: PropTypes.bool,
+  locationApiMessage: PropTypes.string,
+  locationApiSuccess: PropTypes.bool,
 };
 export default Profile;
