@@ -82,6 +82,7 @@ const Report = ({
       backgroundColor: 'white',
       borderRadius: '8px',
       cursor: 'pointer',
+      border: '1px solid #d1dce7',
     }),
 
     option: (styles, { isFocused, isSelected, isVisited }) => ({
@@ -437,6 +438,7 @@ const Report = ({
                         },
                       })}
                     />
+
                     <div className="selection">
                       <select name="location" onChange={handleUserSelect}>
                         <optgroup label="EAB Office">

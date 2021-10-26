@@ -33,6 +33,8 @@ const initialState = {
     message: '',
     loading: '',
   },
+  apiMessage: '',
+  apiSuccess: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -54,6 +56,8 @@ const onBoardingReducer = (state = initialState, action) =>
         draft.getOfficeLocation.location = [];
         draft.getOfficeLocation.success = action.payload.success;
         draft.getOfficeLocation.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = false;
 
         break;
 
@@ -79,6 +83,9 @@ const onBoardingReducer = (state = initialState, action) =>
         draft.getOfficeLocation.message = '';
         draft.verifyBadge.message = '';
         draft.verifyBadge.success = '';
+        draft.apiMessage = '';
+        draft.apiSuccess = false;
+
         break;
       case REQUEST_VERIFY_BADGE:
         draft.verifyBadge.loading = true;
