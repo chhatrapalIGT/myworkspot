@@ -124,8 +124,8 @@ const WorkSpot = ({
       newList = colleaguesData.filter(({ firstname, lastname }) => {
         const first = firstname.toLowerCase();
         const last = lastname.toLowerCase();
-        const finalDataList = first.concat(last);
-        const filter = event.target.value.toLowerCase();
+        const finalDataList = first.concat(' ', last);
+        const filter = event.target.value.toLowerCase().trim();
         return finalDataList.includes(filter);
       });
     } else {
