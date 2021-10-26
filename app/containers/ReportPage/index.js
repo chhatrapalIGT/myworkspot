@@ -22,6 +22,7 @@ import {
 } from './actions';
 import { getMyTeamData } from './helpers';
 import { requestGetOfficeLocation } from '../onBoardingPage/actions';
+import { requestGetMonthData } from '../WorkspotPage/actions';
 import {
   getStartEndDate,
   getWeekStartEndDate,
@@ -128,6 +129,7 @@ class ReportPage extends Component {
   componentDidMount() {
     this.props.requestGetOfficeLocation();
     this.props.requestGetTeamMember();
+    this.props.requestGetMonthData();
     const { dateToDisplay } = getWeekStartEndDate(new Date());
     const { startDispDate, endDispDate } = getStartEndDate(
       dateToDisplay,
@@ -232,6 +234,7 @@ class ReportPage extends Component {
       reportApiSuccess,
       isLoading,
       myTeamSuccess,
+      monthData,
     } = this.props;
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
@@ -261,6 +264,7 @@ class ReportPage extends Component {
             handleClearData={this.handleClearData}
             myTeamSuccess={myTeamSuccess}
             fetchMoreData={this.fetchMoreData}
+            monthData={monthData}
           />{' '}
         </div>
       </>
@@ -268,7 +272,7 @@ class ReportPage extends Component {
   }
 }
 const mapStateToProps = state => {
-  const { locationData, myTeam } = state;
+  const { locationData, myTeam, workspot } = state;
   return {
     location:
       locationData &&
@@ -284,6 +288,8 @@ const mapStateToProps = state => {
     reportApiSuccess: myTeam && myTeam.reportApiSuccess,
     isLoading: myTeam && myTeam.updateMember && myTeam.updateMember.loading,
     myTeamSuccess: myTeam && myTeam.updateMember && myTeam.updateMember,
+    monthData:
+      workspot && workspot.getMonthData && workspot.getMonthData.monthData,
   };
 };
 
@@ -293,6 +299,7 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestGetOfficeLocation(payload)),
     requestGetTeamMember: payload => dispatch(requestGetTeamMember(payload)),
     requestAddTeamMember: payload => dispatch(requestAddTeamMember(payload)),
+    requestGetMonthData: payload => dispatch(requestGetMonthData(payload)),
     clearAddTeamData: () => dispatch(clearAddTeamData()),
     dispatch,
   };
@@ -305,6 +312,7 @@ ReportPage.propTypes = {
   requestGetOfficeLocation: PropTypes.func,
   requestGetTeamMember: PropTypes.func,
   requestAddTeamMember: PropTypes.func,
+  requestGetMonthData: PropTypes.func,
   reportApiSuccess: PropTypes.bool,
   reportApiMessage: PropTypes.string,
   clearAddTeamData: PropTypes.func,
@@ -314,6 +322,7 @@ ReportPage.propTypes = {
   myTeamSuccess: PropTypes.object,
   isLoading: PropTypes.bool,
   history: PropTypes.object,
+  monthData: PropTypes.object,
 };
 
 export default compose(

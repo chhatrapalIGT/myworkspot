@@ -21,6 +21,7 @@ import {
   requestSearchColleagueData,
   requestDeleteColleagueData,
   resetWorkspotMessage,
+  requestGetMonthData,
 } from './actions';
 import { getWorkSpotData } from './helpers';
 import {
@@ -39,7 +40,8 @@ class WorkSpotPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      defaultSelected: 'week',
+      defaultSelected: 'month',
+      displayDefault: 'week',
       // searchValue: '',
       allUser: [],
       date: '',
@@ -73,6 +75,7 @@ class WorkSpotPage extends Component {
       activePage: 1,
       loc_date: '',
       listArray: [],
+      removeColleague: [],
     };
   }
 
@@ -108,6 +111,7 @@ class WorkSpotPage extends Component {
     this.props.requestGetLocation();
     this.props.requestGetNeighborhood();
     this.props.requestGetColleague();
+    this.props.requestGetMonthData();
     const { dateToDisplay } =
       defaultSelected === 'week'
         ? getWeekStartEndDate(new Date())
@@ -148,8 +152,9 @@ class WorkSpotPage extends Component {
       workspotSuccess,
       workspotMessage,
       searchColleague,
-      deleteSearchColleague,
+      // deleteSearchColleague,
       apiMessage,
+      colleagueListData,
     } = this.props;
 
     if (workspotSuccess && workspotMessage) {
@@ -173,8 +178,10 @@ class WorkSpotPage extends Component {
     const sDate = moment(selectedDateRange.startDate).format('YYYY-MM-DD');
     const eDate = moment(selectedDateRange.endDate).format('YYYY-MM-DD');
     if (
-      (searchColleague && searchColleague.success) ||
-      (deleteSearchColleague && deleteSearchColleague.success)
+      searchColleague &&
+      searchColleague.success
+      // ||
+      // (deleteSearchColleague && deleteSearchColleague.success)
     ) {
       this.props.requestGetColleagueData({
         employeeid: 239323,
@@ -183,7 +190,18 @@ class WorkSpotPage extends Component {
       });
       this.props.resetWorkspot();
     }
+
+    if (colleagueListData && colleagueListData.success) {
+      this.props.resetWorkspot();
+      this.handleColleagues();
+    }
   }
+
+  handleColleagues = () => {
+    const newArr = [...this.props.colleagueWeeklyData];
+
+    this.setState({ colleagueWeeklyData: newArr });
+  };
 
   handleLocDate = date => {
     this.setState({ loc_date: date });
@@ -217,15 +235,7 @@ class WorkSpotPage extends Component {
   };
 
   handleRemove = (id, removeAll, data) => {
-    const { colleagueWeeklyData } = this.props;
-
-    const newArr = [...colleagueWeeklyData];
-    if (newArr.includes(data)) {
-      const idx = newArr.indexOf(data);
-      newArr.splice(idx, 1);
-    }
-
-    this.setState({ colleagueWeeklyData: newArr });
+    this.setState({ removeColleague: data });
     if (removeAll) {
       this.props.requestDeleteColleagueData({ colleaguesid: 'Remove All' });
     } else {
@@ -235,7 +245,6 @@ class WorkSpotPage extends Component {
 
   handleChange = event => {
     const { name, value } = event.target;
-
     this.setState({ [name]: value }, () => {
       // eslint-disable-next-line no-unused-expressions
       this.state.searchValue !== ''
@@ -402,20 +411,16 @@ class WorkSpotPage extends Component {
     const {
       locationData,
       neighborhoodData,
-      location,
       neighborhood,
-      workspotSuccess,
-      workspotMessage,
       apiMessage,
       apiSuccess,
       colleagueWeeklyData,
       colleagueDataLoader,
-      colleagueListData,
-      deleteSearchColleague,
       profileUserLoading,
       colleaguesData,
+      monthData,
     } = this.props;
-    const { errMessage, errSuccess } = this.state;
+    const { errSuccess } = this.state;
     return (
       <>
         <div id="content-wrap">
@@ -438,23 +443,17 @@ class WorkSpotPage extends Component {
             handleEditModal={this.handleEditModal}
             handleUpdatingModalData={this.handleUpdatingModalData}
             onUpdateWorkspot={this.onUpdateWorkspot}
-            workspotSuccess={workspotSuccess}
             apiMessage={apiMessage}
             apiSuccess={apiSuccess}
-            workspotMessage={workspotMessage}
             neighborhoodData={neighborhoodData}
-            errMessage={errMessage}
             errSuccess={errSuccess}
-            location={location}
             neighborhood={neighborhood}
             colleaguesData={colleaguesData}
             colleagueWeeklyData={colleagueWeeklyData}
             colleagueDataLoader={colleagueDataLoader}
-            colleagueListData={colleagueListData}
-            deleteSearchColleague={deleteSearchColleague}
-            handleLocDate={this.handleLocDate}
-            onScroll={this.handleScroll}
             profileUserLoading={profileUserLoading}
+            requestGetColleagueData={this.props.requestGetColleagueData}
+            monthData={monthData}
           />
         </div>
       </>
@@ -464,6 +463,7 @@ class WorkSpotPage extends Component {
 
 const mapStateToProps = state => {
   const { workspot, profile } = state;
+  console.log(`state`, state);
   return {
     locationData:
       workspot &&
@@ -508,6 +508,8 @@ const mapStateToProps = state => {
     searchColleague: workspot && workspot.searchColleague,
     deleteSearchColleague: workspot && workspot.deleteSearchColleague,
     profileUserLoading: profile && profile.userList && profile.userList.loading,
+    monthData:
+      workspot && workspot.getMonthData && workspot.getMonthData.monthData,
   };
 };
 
@@ -527,6 +529,7 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestSearchColleagueData(payload)),
     requestDeleteColleagueData: payload =>
       dispatch(requestDeleteColleagueData(payload)),
+    requestGetMonthData: payload => dispatch(requestGetMonthData(payload)),
     resetWorkspotMessage: () => dispatch(resetWorkspotMessage()),
     dispatch,
   };
@@ -544,23 +547,23 @@ WorkSpotPage.propTypes = {
   resetWorkspot: PropTypes.func,
   requestGetNeighborhood: PropTypes.func,
   neighborhoodData: PropTypes.object,
-  location: PropTypes.object,
   neighborhood: PropTypes.object,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
   requestGetColleague: PropTypes.func,
   colleaguesData: PropTypes.object,
   requestGetColleagueData: PropTypes.func,
+  requestGetMonthData: PropTypes.func,
   colleagueWeeklyData: PropTypes.object,
   colleagueDataLoader: PropTypes.bool,
   colleagueListData: PropTypes.object,
   requestSearchColleagueData: PropTypes.func,
   searchColleague: PropTypes.object,
   requestDeleteColleagueData: PropTypes.func,
-  deleteSearchColleague: PropTypes.object,
   history: PropTypes.object,
   profileUserLoading: PropTypes.bool,
   resetWorkspotMessage: PropTypes.func,
+  monthData: PropTypes.object,
 };
 
 export default compose(

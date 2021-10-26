@@ -4,9 +4,9 @@ import computer from '../../images/officeImage/Computer.png';
 import pantry from '../../images/officeImage/PantryWdc.png';
 import firstAid from '../../images/officeImage/Aidwdc.png';
 import printer from '../../images/officeImage/Copywdc.png';
-import Profile from '../../images/officeImage/Wprofile.png';
+import Profile from '../assets/images/profileof.png';
 
-function BlB1() {
+function BlB1(from) {
   const history = useHistory();
   return (
     <div className="left-panel" style={{ height: ' 60vh' }}>
@@ -16,12 +16,23 @@ function BlB1() {
       </div>
       <div className="office-resource">
         <p>Office Resources</p>
-        {history.location.pathname !== '/office' && (
+        {history.location.pathname !== '/office' && !from && (
           <div className="office-part-one blue">
             <span className="informer">
               <img src={Profile} alt="" />
             </span>
             <label htmlFor="my-spot">My Workspot</label>
+          </div>
+        )}
+
+        {history.location.pathname !== '/office' && from.from && (
+          <div className="office-part-one blue">
+            <span className="informer">
+              <img src={Profile} alt="" className="search-colleague-img" />
+            </span>
+            <label htmlFor="my-spot">{`${
+              from.ColleagueUserName
+            }'s Workspot`}</label>
           </div>
         )}
         <div className="office-part-one teal">

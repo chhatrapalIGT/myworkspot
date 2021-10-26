@@ -33,3 +33,7 @@ export const SUCCESS_DELETE_COLLEAGUE_DATA = 'DeleteColleagueDataSuccess';
 export const FAILED_DELETE_COLLEAGUE_DATA = 'DeleteColleagueDataFailed';
 
 export const RESET_WORKSPOT_MESSAGE = 'resetWorkspotMessage';
+
+export const REQUEST_GET_MONTH_DATA = 'requestGetMonthData';
+export const SUCCESS_GET_MONTH_DATA = 'getMonthDataSuccess';
+export const FAILED_GET_MONTH_DATA = 'getMonthDataFailed';

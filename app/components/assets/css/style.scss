@@ -829,7 +829,7 @@ input[type='text'] {
     border-bottom: none;
     padding: 1.5rem 1.5rem 1rem;
     .left-panel {
-      width: 245px;
+      width: 257px;
       border-right: 1px solid #ebeef1;
     }
     .myteam-user {
@@ -1401,9 +1401,9 @@ input[type='text'] {
         padding: 3px 9px 4px;
         &.work-from-office {
           background-image: none;
-          &.day-pointer {
-            cursor: pointer;
-          }
+          // &.day-pointer {
+          //   cursor: pointer;
+          // }
         }
         &.paid-off {
           background: #f4eeff url(../images/beach-trees.svg) no-repeat center
@@ -2930,4 +2930,8 @@ select.set_drop option[id='building'],
 }
 .select_checkbox {
   opacity: 0;
+}
+
+.search-colleague-img {
+  height: 33px;
 }

@@ -11,9 +11,9 @@ import Wellness from '../../images/officeImage/WellWdc.png';
 import Huddle from '../../images/officeImage/HuddleWdc.png';
 import Phone from '../../images/officeImage/CallWdc.png';
 import Lact from '../../images/officeImage/Lactwdc.png';
-import Profile from '../../images/officeImage/Wprofile.png';
+import Profile from '../assets/images/profileof.png';
 
-function WF4() {
+function WF4(from) {
   const history = useHistory();
 
   return (
@@ -24,12 +24,22 @@ function WF4() {
       </div>
       <div className="office-resource">
         <p>Office Resources</p>
-        {history.location.pathname !== '/office' && (
+        {history.location.pathname !== '/office' && !from && (
           <div className="office-part-one blue">
             <span className="informer">
               <img src={Profile} alt="" />
             </span>
             <label htmlFor="my-spot">My Workspot</label>
+          </div>
+        )}
+        {history.location.pathname !== '/office' && from.from && (
+          <div className="office-part-one blue">
+            <span className="informer">
+              <img src={Profile} alt="" className="search-colleague-img" />
+            </span>
+            <label htmlFor="my-spot">{`${
+              from.ColleagueUserName
+            }'s Workspot`}</label>
           </div>
         )}
         <div className="office-part-one blue">

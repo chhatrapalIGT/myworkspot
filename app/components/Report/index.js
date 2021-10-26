@@ -11,41 +11,15 @@ import moment from 'moment';
 import { Datepicker } from '@mobiscroll/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import '../../../src/lib/mobiscroll/css/mobiscroll.react.scss';
-import Axios from 'axios';
 import Select, { components } from 'react-select';
 import createClass from 'create-react-class';
 import Spinner from 'react-bootstrap/Spinner';
-import Draggable from 'react-draggable';
 import Calender from '../Cal/Calender';
-import locationMap from '../../images/location.png';
 import profile from '../assets/images/profileof.png';
-import Floormap from '../../images/Map_2.svg';
-import zoomin from '../../images/zoomin.png';
-import zoomout from '../../images/zoomout.png';
 import success from '../../images/Message.png';
-import WF2 from '../Resource/WF2';
-import WF3 from '../Resource/WF3';
-import WF4 from '../Resource/WF4';
-import WF8 from '../Resource/WF8';
-import RB1 from '../Resource/RB1';
-import RB2 from '../Resource/RB2';
-import RB3F1 from '../Resource/RB3F1';
-import RB3F2 from '../Resource/RB3F2';
-import BLB1 from '../Resource/BLB1';
-import BRB1 from '../Resource/BRB1';
-
-import map1 from '../../images/Map_1.svg';
-import map2 from '../../images/MapWF2.svg';
-import map3 from '../../images/Map_3.svg';
-import map4 from '../../images/Map_4.svg';
-import map5 from '../../images/Map_5.svg';
-import map6 from '../../images/Map_6.svg';
-import map7 from '../../images/Map_7.svg';
-import map8 from '../../images/Map_8.svg';
-import map9 from '../../images/Map_9.svg';
-import map10 from '../../images/Map_10.svg';
 
 import '../FAQ/styles.scss';
+import MapComponent from '../Resource/map';
 
 const Report = ({
   handleChange,
@@ -59,7 +33,6 @@ const Report = ({
   location,
   locationErrorHandle,
   getWorkSpots,
-  memberData,
   handleModalClose,
   handleTextData,
   dataList,
@@ -69,12 +42,9 @@ const Report = ({
   handleClearData,
   myTeamSuccess,
   fetchMoreData,
+  monthData,
 }) => {
-  const [finalImg, setFinalImg] = useState('');
-  const [officeRest, setOfficeRest] = useState('');
-  const [call, setCall] = useState(true);
   const [isdata, setData] = useState(false);
-  const [calData, setCalData] = useState([]);
   const data = location && location.length && location[location.length - 1];
   const colourStyles = {
     control: styles => ({
@@ -185,143 +155,43 @@ const Report = ({
       );
     },
   });
-  useEffect(() => {
-    // calData.map(obj => setData(obj));
-    if (call && Object.keys(modalData).length > 0) {
-      if (
-        modalData &&
-        modalData.building !== null &&
-        (modalData && modalData.floor !== null)
-      ) {
-        imgData(
-          modalData && modalData.locationCode,
 
-          modalData &&
-            modalData.building &&
-            modalData.building.concat(modalData && modalData.floor),
-        );
-      } else if (modalData && modalData.floor === null) {
-        imgData(
-          modalData && modalData.locationCode,
+  const dateData = () => {
+    const dates = [];
+    // eslint-disable-next-line array-callback-return
+    monthData.filter(ele => {
+      const prevDate = moment(ele.date).isBefore(moment(), 'day');
 
-          modalData && modalData.building,
-        );
-      } else if (modalData && modalData.building === null) {
-        imgData(
-          modalData && modalData.locationCode,
+      const getMonth = moment(ele.date).format('MM');
+      const nextMonth = moment()
+        .add(1, 'month')
+        .format('MM');
+      const currentMonth = getMonth !== nextMonth;
 
-          modalData && modalData.floor,
-        );
+      let obj = {};
+      if (!prevDate && currentMonth) {
+        if (ele.officetype === 'EAB Office') {
+          obj = {
+            date: ele.date,
+            markCssClass: 'mbsc-calendar-marks1',
+          };
+        } else if (ele.officetype === 'Remote Work') {
+          obj = {
+            date: ele.date,
+            markCssClass: 'mbsc-calendar-marks2',
+          };
+        } else if (ele.officetype === 'Paid Time Off') {
+          obj = {
+            date: ele.date,
+            markCssClass: 'mbsc-calendar-marks3',
+          };
+        }
       }
-    }
-  }, [call, modalData]);
 
-  const imgData = async (neighborhoodImg, neighborhoodBuild) => {
-    let imageSrc = '';
-    let officeRes = '';
-    switch (neighborhoodImg) {
-      case 'DC':
-        switch (neighborhoodBuild) {
-          case '2':
-            imageSrc = map2;
-            officeRes = WF2;
-            break;
-          case '3':
-            imageSrc = map1;
-            officeRes = WF3;
-            break;
-          case '4':
-            imageSrc = map3;
-            officeRes = WF4;
-            break;
-          case '8':
-            imageSrc = map4;
-            officeRes = WF8;
-            break;
-        }
-        break;
-      case 'RIC':
-        switch (neighborhoodBuild) {
-          case '1':
-            imageSrc = map5;
-            officeRes = RB1;
-            break;
-          case '2':
-            imageSrc = map6;
-            officeRes = RB2;
-            break;
-          // building 3 , floor 1
-          case '31':
-            imageSrc = map7;
-            officeRes = RB3F1;
-            break;
-          case '32':
-            imageSrc = map8;
-            officeRes = RB3F2;
-            break;
-        }
-        break;
-      case 'BAL':
-        switch (neighborhoodBuild) {
-          case '1':
-            imageSrc = map10;
-            officeRes = BRB1;
-            break;
-        }
-        break;
-
-      case 'BMN':
-        switch (neighborhoodBuild) {
-          case '1':
-            imageSrc = map9;
-            officeRes = BLB1;
-            break;
-        }
-        break;
-
-      default:
-    }
-    setFinalImg(imageSrc);
-
-    setOfficeRest(officeRes);
-    setCall(false);
+      dates.push(obj);
+    });
+    return dates;
   };
-
-  // const dateData = () => {
-  //   const dates = [];
-  //   calData.filter(ele => {
-  //     const prevDate = moment(ele.date).isBefore(moment(), 'day');
-
-  //     const getMonth = moment(ele.date).format('MM');
-  //     const nextMonth = moment()
-  //       .add(1, 'month')
-  //       .format('MM');
-  //     const currentMonth = getMonth !== nextMonth;
-
-  //     let obj = {};
-  //     if (!prevDate && currentMonth) {
-  //       if (ele.officetype === 'EAB Office') {
-  //         obj = {
-  //           date: ele.date,
-  //           markCssClass: 'mbsc-calendar-marks1',
-  //         };
-  //       } else if (ele.officetype === 'Remote Work') {
-  //         obj = {
-  //           date: ele.date,
-  //           markCssClass: 'mbsc-calendar-marks2',
-  //         };
-  //       } else if (ele.officetype === 'Paid Time Off') {
-  //         obj = {
-  //           date: ele.date,
-  //           markCssClass: 'mbsc-calendar-marks3',
-  //         };
-  //       }
-  //     }
-
-  //     dates.push(obj);
-  //   });
-  //   return dates;
-  // };
 
   return (
     <>
@@ -475,6 +345,7 @@ const Report = ({
                         buttons={nowButtons}
                         ref={setNow}
                         onChange={onDateChange}
+                        marked={dateData()}
                       />
                     </div>
 
@@ -557,7 +428,11 @@ const Report = ({
                     </div>
                     <div className="myteam-user">
                       {' '}
-                      <img src={profile} alt="" />
+                      <img
+                        src={profile}
+                        alt=""
+                        className="search-colleague-img"
+                      />
                       <label htmlFor="my-spot">
                         {modalData && modalData.user}
                       </label>
@@ -573,57 +448,16 @@ const Report = ({
                   <div className="modal-body">
                     <div className="office-structure office-structure-modal">
                       <div className="container" style={{ height: '100%' }}>
-                        <>
-                          <div
-                            className="card office-structure-inner"
-                            style={{ height: '100%' }}
-                          >
-                            {officeRest || ''}
-                            <div className="right-map">
-                              <Draggable
-                                disabled={!isDraggable}
-                                key={state.version}
-                              >
-                                <div
-                                  className="drag_image"
-                                  style={
-                                    isDraggable ? { cursor: 'move' } : null
-                                  }
-                                >
-                                  <img
-                                    src={finalImg}
-                                    alt=""
-                                    style={imgStyle}
-                                    draggable="false"
-                                  />
-                                </div>
-                              </Draggable>
-                              <div className="toolbar">
-                                <button
-                                  className="location"
-                                  type="button"
-                                  onClick={() => handleDefault()}
-                                >
-                                  <img src={locationMap} alt="" />
-                                </button>
-                                <button
-                                  className="zoomin"
-                                  type="button"
-                                  onClick={() => handleZoomIn()}
-                                >
-                                  <img src={zoomin} alt="" />
-                                </button>
-                                <button
-                                  className="zoomout"
-                                  type="button"
-                                  onClick={() => handleZoomOut()}
-                                >
-                                  <img src={zoomout} alt="" />
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </>
+                        <MapComponent
+                          building={modalData.building}
+                          floor={modalData.floor}
+                          locationCode={modalData.locationCode}
+                          state={state}
+                          imgStyle={imgStyle}
+                          handleZoomIn={handleZoomIn}
+                          handleZoomOut={handleZoomOut}
+                          handleDefault={handleDefault}
+                        />
                       </div>
                       <div className="container" style={{ height: '100%' }}>
                         <div className="right-map" />
@@ -673,7 +507,6 @@ Report.propTypes = {
   getWorkSpots: PropTypes.func,
   handleModalClose: PropTypes.func,
   handleTextData: PropTypes.func,
-  memberData: PropTypes.object,
   dataList: PropTypes.object,
   reportApiSuccess: PropTypes.bool,
   reportApiMessage: PropTypes.string,
@@ -681,6 +514,7 @@ Report.propTypes = {
   handleClearData: PropTypes.func,
   fetchMoreData: PropTypes.func,
   myTeamSuccess: PropTypes.object,
+  monthData: PropTypes.object,
 };
 
 export default Report;

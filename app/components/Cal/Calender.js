@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable indent */
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
@@ -24,7 +24,6 @@ import {
 } from './helpers';
 
 const Calender = ({
-  defaultSelected,
   setModal,
   setEmployeeModal,
   setEmployee,
@@ -37,28 +36,22 @@ const Calender = ({
   setEmployeeLocationDetail,
   workSpotData = [],
   getWorkSpots,
-  setCalData,
   setChange,
   colleagueWeeklyData,
-  // handleLocDate,
   teamLoading,
-  // displayDefault,
+  displayDefault,
+  requestGetColleagueData,
+  handleColleagueModal,
 }) => {
-  // const [period, setPeriod] = useState(displayDefault);
-  // const [selectedWeek, setSelectedWeek] = useState(new Date());
-  // const [days, setDays] = useState(() =>
-  //   displayDefault === 'week'
-  //     ? getWeekStartEndDate(new Date())
-  //     : getMonthStartEndDate(new Date()),
-  // );
-
-  const [period, setPeriod] = useState(defaultSelected);
+  const [period, setPeriod] = useState(displayDefault);
+  const [colleagueData, setColleagueData] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
   const [days, setDays] = useState(() =>
-    defaultSelected === 'week'
+    displayDefault === 'week'
       ? getWeekStartEndDate(new Date())
       : getMonthStartEndDate(new Date()),
   );
+
   const isDateSelected = useCallback(
     date => {
       return date && date.startOf('day').isSame(days.currentDate.startOf('day'))
@@ -81,6 +74,12 @@ const Calender = ({
       periodValue,
     );
     getWorkSpots(startDispDate, endDispDate);
+    const sDate = moment(startDispDate).format('YYYY-MM-DD');
+    const eDate = moment(endDispDate).format('YYYY-MM-DD');
+
+    periodValue !== 'month' &&
+      setVisible &&
+      requestGetColleagueData({ startdate: sDate, enddate: eDate });
   };
 
   const handlePrevNext = direction => {
@@ -113,12 +112,7 @@ const Calender = ({
       periodType === 'month'
         ? getMonthStartEndDate(startDate)
         : getWeekStartEndDate(selectedWeek);
-    // if (isEmpty(getWeekWorkspotDataLoading)) {
     callAPI(newDays.dateToDisplay, periodType);
-    // }
-    // if (getMonthWorkspotDataLoading) {
-    //   callAPI(newDays.dateToDisplay, periodType);
-    // }
     setDays(newDays);
     periodType === 'week' && setSelectedWeek(newDays.startDate);
     setPeriod(periodType);
@@ -163,7 +157,7 @@ const Calender = ({
   };
 
   const getCorrespondingColleagueData = (dateValue, employeeId) => {
-    const user = colleagueWeeklyData.find(
+    const user = colleagueData.find(
       ({ employeeid }) => employeeid === employeeId,
     );
     return (
@@ -232,6 +226,20 @@ const Calender = ({
         className = 'eab-office border-top-blue';
     }
     return className;
+  };
+
+  useEffect(() => {
+    setColleagueData(colleagueWeeklyData);
+  }, [colleagueWeeklyData]);
+
+  const handleRemoveColleague = data => {
+    const newArr = [...colleagueData];
+    if (newArr.includes(data)) {
+      const idx = newArr.indexOf(data);
+      newArr.splice(idx, 1);
+    }
+
+    setColleagueData(newArr);
   };
 
   return (
@@ -493,7 +501,6 @@ const Calender = ({
                         <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
                           {days.dateToDisplay.map(item => {
                             const data = getCorrespondingData(item.date);
-                            setCalData(workSpotData);
 
                             return (
                               <>
@@ -519,12 +526,12 @@ const Calender = ({
                                   <div
                                     className={
                                       item.disable || isCurrentDate(item.date)
-                                        ? `{ day-one-wrapper ${locationClass(
+                                        ? `day-one-wrapper ${locationClass(
                                             data && data.locationCode,
-                                          )} }`
-                                        : `{ day-one-wrapper ${locationClass(
+                                          )} `
+                                        : `day-one-wrapper ${locationClass(
                                             data && data.locationCode,
-                                          )} day-pointer }`
+                                          )} day-pointer`
                                     }
                                     onClick={() => {
                                       !item.disable &&
@@ -541,7 +548,6 @@ const Calender = ({
                                         moment(item.date).format(
                                           'dddd, MMMM DD, YYYY',
                                         ),
-                                        // handleLocDate(item.date),
                                       );
                                       setChange(false);
                                     }}
@@ -576,25 +582,24 @@ const Calender = ({
                     )}
                   </div>
                 </div>
-                {setVisible &&
-                  colleagueWeeklyData &&
-                  colleagueWeeklyData.length > 0 && (
-                    <div className="mt-4">
-                      Search results
-                      <label
-                        className="weekly-remove"
-                        style={{ float: 'right' }}
-                        aria-hidden="true"
-                        onClick={() =>
-                          handleRemove(colleagueWeeklyData, true, null)
-                        }
-                      >
-                        {' '}
-                        Remove All
-                      </label>
-                      <hr />
-                    </div>
-                  )}
+                {setVisible && colleagueData && colleagueData.length > 0 && (
+                  <div className="mt-4">
+                    Search results
+                    <label
+                      className="weekly-remove"
+                      style={{ float: 'right' }}
+                      aria-hidden="true"
+                      onClick={() => {
+                        handleRemove(colleagueData, true, null);
+                        handleRemoveColleague(colleagueData);
+                      }}
+                    >
+                      {' '}
+                      Remove All
+                    </label>
+                    <hr />
+                  </div>
+                )}
                 {/* {setVisible && colleagueDataLoader ? (
                   <div className=" tab-pane fade show active">
                     <div className="card weekly-default mt-4 ">
@@ -608,8 +613,8 @@ const Calender = ({
                 ) : ( */}
 
                 {setVisible &&
-                  colleagueWeeklyData.length > 0 &&
-                  colleagueWeeklyData.map((obj, userIdx) => (
+                  colleagueData.length > 0 &&
+                  colleagueData.map((obj, userIdx) => (
                     <div
                       className="tab-pane fade show active"
                       id="nav-week-view"
@@ -643,9 +648,10 @@ const Calender = ({
                               style={{ float: 'right' }}
                               className="weekly-remove"
                               aria-hidden="true"
-                              onClick={() =>
-                                handleRemove(obj.employeeid, false, obj)
-                              }
+                              onClick={() => {
+                                handleRemove(obj.employeeid, false, obj);
+                                handleRemoveColleague(obj);
+                              }}
                             >
                               {' '}
                               Remove
@@ -680,15 +686,24 @@ const Calender = ({
 
                                   <div
                                     className={
-                                      item.disable || isCurrentDate(item.date)
+                                      item.disable
                                         ? `{ day-one-wrapper ${locationClass(
                                             data && data.locationCode,
                                           )} }`
-                                        : `{ day-one-wrapper ${locationClass(
+                                        : isCurrentDate(item.date)
+                                        ? ` day-one-wrapper ${locationClass(
                                             data && data.locationCode,
-                                          )}}`
+                                          )} day-pointer `
+                                        : ` day-one-wrapper ${locationClass(
+                                            data && data.locationCode,
+                                          )}`
                                     }
                                     onClick={() => {
+                                      handleColleagueModal({
+                                        ...data,
+                                        firstName: obj.employeeidFirstname,
+                                        lastName: obj.employeeidLastname,
+                                      });
                                       isCurrentDate(item.date) &&
                                         setEmployee(true);
                                       setDate(
@@ -708,11 +723,13 @@ const Calender = ({
                                     >
                                       {data && data.locationName}
                                     </p>
-                                    <span className="floor-location">
-                                      <img src={Vector} alt="" />
-                                      {data && data.floor} -{' '}
-                                      {data && data.color}
-                                    </span>
+                                    {data && data.floor && (
+                                      <span className="floor-location">
+                                        <img src={Vector} alt="" />
+                                        {data && data.floor} -{' '}
+                                        {data && data.color}
+                                      </span>
+                                    )}
                                   </div>
                                 </div>
                               );
@@ -748,7 +765,6 @@ const Calender = ({
                       <>
                         {items.map(item => {
                           const data = getCorrespondingData(item.date);
-                          setCalData(workSpotData);
                           return (
                             <div
                               className={`${
@@ -861,7 +877,6 @@ const Calender = ({
 
 Calender.propTypes = {
   setModal: PropTypes.func,
-  defaultSelected: PropTypes.string,
   displayDefault: PropTypes.string,
   setEmployeeModal: PropTypes.func,
   setEmployee: PropTypes.func,
@@ -870,15 +885,15 @@ Calender.propTypes = {
   setShow: PropTypes.func,
   handleRemove: PropTypes.func,
   getWorkSpots: PropTypes.func,
+  requestGetColleagueData: PropTypes.func,
   allUser: PropTypes.array,
   workSpotData: PropTypes.array,
   setDate: PropTypes.string,
   setEmployeeLocationDetail: PropTypes.bool,
   teamLoading: PropTypes.bool,
-  setCalData: PropTypes.object,
   setChange: PropTypes.bool,
   colleagueWeeklyData: PropTypes.object,
-  // colleagueDataLoader: PropTypes.bool,
+  handleColleagueModal: PropTypes.object,
 };
 
 export default Calender;
