@@ -25,6 +25,9 @@ import {
   SUCCESS_DELETE_COLLEAGUE_DATA,
   FAILED_DELETE_COLLEAGUE_DATA,
   RESET_WORKSPOT_MESSAGE,
+  REQUEST_GET_MONTH_DATA,
+  SUCCESS_GET_MONTH_DATA,
+  FAILED_GET_MONTH_DATA,
 } from './constants';
 
 export const requestGetLocation = payload => ({
@@ -153,4 +156,19 @@ export const DeleteColleagueDataFailed = error => ({
 
 export const resetWorkspotMessage = () => ({
   type: RESET_WORKSPOT_MESSAGE,
+});
+
+export const requestGetMonthData = payload => ({
+  type: REQUEST_GET_MONTH_DATA,
+  payload,
+});
+
+export const getMonthDataSuccess = payload => ({
+  type: SUCCESS_GET_MONTH_DATA,
+  payload,
+});
+
+export const getMonthDataFailed = error => ({
+  type: FAILED_GET_MONTH_DATA,
+  payload: error,
 });

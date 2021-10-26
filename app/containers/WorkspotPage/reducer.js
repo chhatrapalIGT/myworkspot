@@ -27,6 +27,9 @@ import {
   SUCCESS_DELETE_COLLEAGUE_DATA,
   FAILED_DELETE_COLLEAGUE_DATA,
   RESET_WORKSPOT_MESSAGE,
+  REQUEST_GET_MONTH_DATA,
+  SUCCESS_GET_MONTH_DATA,
+  FAILED_GET_MONTH_DATA,
 } from './constants';
 
 const initialState = {
@@ -79,6 +82,13 @@ const initialState = {
     message: '',
     success: false,
     isloading: false,
+  },
+
+  getMonthData: {
+    success: false,
+    loading: false,
+    message: '',
+    monthData: [],
   },
   apiSuccess: false,
   apiMessage: '',
@@ -154,6 +164,8 @@ const workspotReducer = (state = initialState, action) =>
         draft.searchColleague.message = '';
         draft.deleteSearchColleague.success = false;
         draft.deleteSearchColleague.message = '';
+        draft.getColleagueData.success = false;
+
         break;
 
       case REQUEST_GET_NEIGHBORHOOD:
@@ -263,6 +275,29 @@ const workspotReducer = (state = initialState, action) =>
         draft.deleteSearchColleague.success = false;
         draft.deleteSearchColleague.message = action.payload.message;
         // draft.deleteSearchColleague.colleagueData = {};
+        draft.apiSuccess = action.payload.success;
+        draft.apiMessage = action.payload.message;
+        break;
+
+      case REQUEST_GET_MONTH_DATA:
+        draft.getMonthData.success = false;
+        draft.getMonthData.isloading = true;
+        // draft.getMonthData.message = '';
+        // draft.getMonthData.colleagueData = {};
+        break;
+      case SUCCESS_GET_MONTH_DATA:
+        draft.getMonthData.isloading = false;
+        draft.getMonthData.success = true;
+        draft.getMonthData.message = action.payload.message;
+        draft.getMonthData.monthData = action.payload.response;
+        draft.apiSuccess = action.payload.success;
+        draft.apiMessage = action.payload.message;
+        break;
+      case FAILED_GET_MONTH_DATA:
+        draft.getMonthData.isloading = false;
+        draft.getMonthData.success = false;
+        draft.getMonthData.message = action.payload.message;
+        // draft.getMonthData.colleagueData = {};
         draft.apiSuccess = action.payload.success;
         draft.apiMessage = action.payload.message;
         break;

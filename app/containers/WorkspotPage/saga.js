@@ -14,6 +14,7 @@ import {
   REQUEST_VIEW_COLLEAGUE_DATA,
   REQUEST_SEARCH_COLLEAGUE_DATA,
   REQUEST_DELETE_COLLEAGUE_DATA,
+  REQUEST_GET_MONTH_DATA,
 } from './constants';
 
 import {
@@ -33,6 +34,8 @@ import {
   searchColleagueDataFailed,
   DeleteColleagueDataSuccess,
   DeleteColleagueDataFailed,
+  getMonthDataSuccess,
+  getMonthDataFailed,
 } from './actions';
 // eslint-disable-next-line import/named
 import { CONSTANT } from '../../enum';
@@ -272,6 +275,34 @@ export function* deleteSearchColleagueData({ payload }) {
   }
 }
 
+export function* getMonthData() {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const requestURL = `${API_URL}/workspot/GetMonthSignForWorkspot`;
+  try {
+    const monthData = yield request({
+      method: 'GET',
+      url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+    const { data } = monthData;
+    if (monthData.status === 403) {
+      sessionStorage.clear();
+
+      // window.location.push('/auth');
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getMonthDataSuccess(data));
+    } else {
+      yield put(getMonthDataFailed(data));
+    }
+  } catch (err) {
+    yield put(getMonthDataFailed(err));
+  }
+}
+
 export default function* workSpotSaga() {
   yield takeLatest(REQUEST_GET_LOCATION, getLocation);
   yield takeLatest(REQUEST_UPDATE_WORKSPOT, updateWorkspot);
@@ -281,4 +312,5 @@ export default function* workSpotSaga() {
   yield takeLatest(REQUEST_VIEW_COLLEAGUE_DATA, getColleagueData);
   yield takeLatest(REQUEST_SEARCH_COLLEAGUE_DATA, searchColleagueData);
   yield takeLatest(REQUEST_DELETE_COLLEAGUE_DATA, deleteSearchColleagueData);
+  yield takeLatest(REQUEST_GET_MONTH_DATA, getMonthData);
 }

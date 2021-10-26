@@ -12,44 +12,18 @@ import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import './custom.scss';
-import Draggable from 'react-draggable';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import { Datepicker } from '@mobiscroll/react';
 import Axios from 'axios';
 import { isEmpty } from 'lodash';
-import locationMap from '../../images/location.png';
-import zoomin from '../../images/zoomin.png';
-import zoomout from '../../images/zoomout.png';
 import union from '../assets/images/Union.svg';
 import editPen from '../assets/images/edit-pen.svg';
 import ProfileImg from '../assets/images/myprofile.png';
 import profile from '../assets/images/profileof.png';
 import '../../../src/lib/mobiscroll/css/mobiscroll.react.scss';
 import Calender from '../Cal/Calender';
-import WF2 from '../Resource/WF2';
-import WF3 from '../Resource/WF3';
-import WF4 from '../Resource/WF4';
-import WF8 from '../Resource/WF8';
-import RB1 from '../Resource/RB1';
-import RB2 from '../Resource/RB2';
-import RB3F1 from '../Resource/RB3F1';
-import RB3F2 from '../Resource/RB3F2';
-import BLB1 from '../Resource/BLB1';
-import BRB1 from '../Resource/BRB1';
-import map1 from '../../images/Map_1.svg';
-import map2 from '../../images/MapWF2.svg';
-import map3 from '../../images/Map_3.svg';
-import map4 from '../../images/Map_4.svg';
-import map5 from '../../images/Map_5.svg';
-import map6 from '../../images/Map_6.svg';
-import map7 from '../../images/Map_7.svg';
-import map8 from '../../images/Map_8.svg';
-import map9 from '../../images/Map_9.svg';
-import map10 from '../../images/Map_10.svg';
-import bloom from '../assets/images/bloom.svg';
-import paidtimeoffimg from '../assets/images/paidtimeoffimg.svg';
-import remoteWorkimg from '../assets/images/remoteWorkimg.svg';
+import MapComponent from '../Resource/map';
 
 const WorkSpot = ({
   onSubmit,
@@ -71,24 +45,16 @@ const WorkSpot = ({
   neighborhoodData,
   errSuccess,
   neighborhood,
-  workspotSuccess,
-  locationSuccess,
-  locationMsg,
-  neighborhoodSuccess,
-  neighborhoodMsg,
-  workspotMessage,
   neighborhoodLoad,
   colleaguesData,
   colleagueWeeklyData,
   colleagueDataLoader,
-  colleagueListData,
-  deleteSearchColleague,
   profileUserLoading,
   apiMessage,
   apiSuccess,
-  onScroll,
+  requestGetColleagueData,
+  monthData,
 }) => {
-  const isDraggable = state.scale > 1;
   const [isModal, setModal] = useState(false);
   const [visible, setVisible] = useState(false);
   const [isEmployeeModal, setEmployeeModal] = useState(false);
@@ -98,13 +64,8 @@ const WorkSpot = ({
   const [isdate, setDate] = useState('');
   const [allUser, setAllUser] = useState([]);
   const [search, setSearch] = useState(false);
-
-  const [calData, setCalData] = useState([]);
+  const [employeeData, setEmployeeData] = useState({});
   const [searchName, setSearchName] = useState([]);
-  const [finalImg, setFinalImg] = useState('');
-  const [data, setData] = useState({});
-  const [officeRest, setOfficeRest] = useState('');
-  const [call, setCall] = useState(true);
   const [isChange, setChange] = useState(false);
   const divRef = useRef();
   useEffect(() => {
@@ -115,7 +76,6 @@ const WorkSpot = ({
       document.removeEventListener('mousedown', handleClickOutside, false);
     };
   });
-
   const handleChange = event => {
     setAllUser(colleaguesData);
     let newList = [];
@@ -159,11 +119,6 @@ const WorkSpot = ({
     }
   };
 
-  // const getCurrentData = state.workSpotData.find(ele =>
-  //   moment(ele.date, 'MM/D/YYYY').isSame(moment().format('MM/D/YY')),
-  // );
-  // console.log(`getCurrentData`, getCurrentData);
-
   const arr =
     locationData &&
     locationData.length > 0 &&
@@ -172,110 +127,6 @@ const WorkSpot = ({
 
   const updateModalData = (key, val) => {
     handleUpdatingModalData(key, val);
-  };
-
-  useEffect(() => {
-    calData.map(obj => setData(obj));
-    if (call && Object.keys(neighborhoodData).length > 0) {
-      if (
-        neighborhoodData &&
-        neighborhoodData.building !== null &&
-        (neighborhoodData && neighborhoodData.floor !== null)
-      ) {
-        imgData(
-          neighborhoodData && neighborhoodData.locationCode,
-
-          neighborhoodData &&
-            neighborhoodData.building &&
-            neighborhoodData.building.concat(
-              neighborhoodData && neighborhoodData.floor,
-            ),
-        );
-      } else if (neighborhoodData && neighborhoodData.floor === null) {
-        imgData(
-          neighborhoodData && neighborhoodData.locationCode,
-
-          neighborhoodData && neighborhoodData.building,
-        );
-      } else if (neighborhoodData && neighborhoodData.building === null) {
-        imgData(
-          neighborhoodData && neighborhoodData.locationCode,
-
-          neighborhoodData && neighborhoodData.floor,
-        );
-      }
-    }
-  }, [call, neighborhoodData]);
-
-  const imgData = async (neighborhoodImg, neighborhoodBuild) => {
-    let imageSrc = '';
-    let officeRes = '';
-    switch (neighborhoodImg) {
-      case 'DC':
-        switch (neighborhoodBuild) {
-          case '2':
-            imageSrc = map2;
-            officeRes = WF2;
-            break;
-          case '3':
-            imageSrc = map1;
-            officeRes = WF3;
-            break;
-          case '4':
-            imageSrc = map3;
-            officeRes = WF4;
-            break;
-          case '8':
-            imageSrc = map4;
-            officeRes = WF8;
-            break;
-        }
-        break;
-      case 'RIC':
-        switch (neighborhoodBuild) {
-          case '1':
-            imageSrc = map5;
-            officeRes = RB1;
-            break;
-          case '2':
-            imageSrc = map6;
-            officeRes = RB2;
-            break;
-          // building 3 , floor 1
-          case '31':
-            imageSrc = map7;
-            officeRes = RB3F1;
-            break;
-          case '32':
-            imageSrc = map8;
-            officeRes = RB3F2;
-            break;
-        }
-        break;
-      case 'BAL':
-        switch (neighborhoodBuild) {
-          case '1':
-            imageSrc = map10;
-            officeRes = BRB1;
-            break;
-        }
-        break;
-
-      case 'BMN':
-        switch (neighborhoodBuild) {
-          case '1':
-            imageSrc = map9;
-            officeRes = BLB1;
-            break;
-        }
-        break;
-
-      default:
-    }
-
-    setFinalImg(imageSrc);
-    setOfficeRest(officeRes);
-    setCall(false);
   };
 
   // eslint-disable-next-line consistent-return
@@ -321,10 +172,9 @@ const WorkSpot = ({
       : neighborhoodData && neighborhoodData.colorcode === 'F7CA0F'
       ? 'Yellow'
       : '';
-
   const dateData = () => {
     const dates = [];
-    calData.filter(ele => {
+    monthData.filter(ele => {
       const prevDate = moment(ele.date).isBefore(moment(), 'day');
 
       const getMonth = moment(ele.date).format('MM');
@@ -357,6 +207,11 @@ const WorkSpot = ({
     });
     return dates;
   };
+
+  const ColleagueUserName = employeeData
+    ? employeeData.firstName &&
+      employeeData.firstName.charAt(0).concat(' ', employeeData.lastName)
+    : '';
 
   return (
     <>
@@ -589,67 +444,16 @@ const WorkSpot = ({
                     neighborhood &&
                     neighborhood.success &&
                     !isEmpty(neighborhood.neighborhoodData) && (
-                      <div
-                        className="card office-structure-inner"
-                        style={{ height: '100%' }}
-                      >
-                        {!neighborhoodData.locationCode ||
-                        neighborhoodData.locationCode === 'RW' ||
-                        neighborhoodData.locationCode === 'PTO' ? (
-                          <Spinner
-                            className="app-spinner workspot_spinner"
-                            animation="grow"
-                            variant="dark"
-                          />
-                        ) : (
-                          <>
-                            {officeRest || ''}
-                            <div className="right-map">
-                              <Draggable
-                                disabled={!isDraggable}
-                                key={state.version}
-                              >
-                                <div
-                                  className="drag_image"
-                                  style={
-                                    isDraggable ? { cursor: 'move' } : null
-                                  }
-                                >
-                                  <img
-                                    src={finalImg}
-                                    alt=""
-                                    style={imgStyle}
-                                    draggable="false"
-                                  />
-                                </div>
-                              </Draggable>
-                              <div className="toolbar">
-                                <button
-                                  className="location"
-                                  type="button"
-                                  onClick={() => handleDefault()}
-                                >
-                                  <img src={locationMap} alt="" />
-                                </button>
-                                <button
-                                  className="zoomin"
-                                  type="button"
-                                  onClick={() => handleZoomIn()}
-                                >
-                                  <img src={zoomin} alt="" />
-                                </button>
-                                <button
-                                  className="zoomout"
-                                  type="button"
-                                  onClick={() => handleZoomOut()}
-                                >
-                                  <img src={zoomout} alt="" />
-                                </button>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </div>
+                      <MapComponent
+                        building={neighborhoodData.building}
+                        floor={neighborhoodData.floor}
+                        locationCode={neighborhoodData.locationCode}
+                        state={state}
+                        imgStyle={imgStyle}
+                        handleZoomIn={handleZoomIn}
+                        handleZoomOut={handleZoomOut}
+                        handleDefault={handleDefault}
+                      />
                     )
                   )}
                 </div>
@@ -670,14 +474,12 @@ const WorkSpot = ({
             state={state}
             isLocUpdate={isLocUpdate}
             errSuccess={errSuccess}
-            setCalData={setCalData}
             setChange={setChange}
             colleagueWeeklyData={colleagueWeeklyData}
             colleagueDataLoader={colleagueDataLoader}
-            setWorkspotLoader={setWorkspotLoader}
-            workspotLoading={state.workspotLoading}
-            calObject={state.calObject}
             displayDefault={state.displayDefault}
+            requestGetColleagueData={requestGetColleagueData}
+            handleColleagueModal={datas => setEmployeeData(datas)}
           />
           <Modal
             className="modal fade test_modal"
@@ -740,16 +542,6 @@ const WorkSpot = ({
                         selectCounter
                         dateFormat="YYYY-MM-DD"
                         className="workspot_cal"
-                        // headerText="dates selected"
-                        // invalid={[
-                        //   {
-                        //     recurring: {
-                        //       repeat: 'weekly',
-                        //       weekDays: 'SA,SU',
-                        //     },
-                        //   },
-                        // ]}
-
                         marked={dateData()}
                       />
                       <div className="bottom">
@@ -778,7 +570,6 @@ const WorkSpot = ({
                     type="button"
                     className="btn save-data"
                     onClick={() => {
-                      // handleDataUpdate();
                       onUpdateWorkspot();
                       setModal(false);
                       // eslint-disable-next-line no-unused-expressions
@@ -895,8 +686,16 @@ const WorkSpot = ({
                   </div>
                   <div className="myteam-user">
                     {' '}
-                    <img src={profile} alt="" />
-                    <label htmlFor="my-spot">Jane Cooper</label>
+                    <img
+                      src={profile}
+                      alt=""
+                      className="search-colleague-img"
+                    />
+                    <label htmlFor="my-spot">
+                      <span style={{ verticalAlign: 'middle' }}>
+                        {employeeData.firstName} {employeeData.lastName}
+                      </span>
+                    </label>
                   </div>
                   <button
                     type="button"
@@ -908,99 +707,40 @@ const WorkSpot = ({
                 </div>
                 <div className="modal-body">
                   <div className="office-structure office-structure-modal">
-                    <div className="container p-0">
-                      <div className="card office-structure-inner">
-                        <div className="left-panel">
-                          <div className="office-info">
-                            <p className="name">Washington, DC</p>
-                            <span className="floor">Floor 3</span>
-                            {/* <span className="floor">floor 4</span> */}
-                          </div>
-                          <div className="office-resource myteam_res">
-                            <p>Office Resources</p>
-                            <div className="office-part-one yellow">
-                              <span className="informer" />
-                              <label htmlFor="my-spot">Yellow</label>
-                            </div>
-                            <div className="office-part-one teal">
-                              <span className="informer" />
-                              <label htmlFor="my-spot">Teal</label>
-                            </div>
-                            <div className="office-part-one orange">
-                              <span className="informer" />
-                              <label htmlFor="my-spot">Orange</label>
-                            </div>
-                            <div className="office-part-one blue">
-                              <span className="informer" />
-                              <label htmlFor="my-spot">Blue</label>
-                            </div>
-                            <div className="office-part-one teal">
-                              <span className="informer">315</span>
-                              <label htmlFor="my-spot">Bel-Air</label>
-                            </div>
-                            <div className="office-part-one teal">
-                              <span className="informer">332</span>
-                              <label htmlFor="my-spot">Walkerville</label>
-                            </div>
-                            <div className="office-part-one white">
-                              <span className="informer">334</span>
-                              <label htmlFor="my-spot">Common Room</label>
-                            </div>
-                            <div className="office-part-one black">
-                              <span className="informer">359</span>
-                              <label htmlFor="my-spot">The Post</label>
-                            </div>
-                            <div className="office-part-one heart pink">
-                              <span className="informer">
-                                <img src="./images/heart.png" alt="" />
-                              </span>
-                              <label htmlFor="my-spot">AED</label>
-                            </div>
-                          </div>
+                    {employeeData &&
+                      employeeData.locationCode !== 'RW' &&
+                      employeeData &&
+                      employeeData.locationCode !== 'PTO' &&
+                      ((employeeData && employeeData.building === null) ||
+                      !employeeData.building ||
+                      ((employeeData && employeeData.floor === null) ||
+                        !employeeData.floor) ? (
+                        <div className="container" style={{ height: '100%' }}>
+                          {employeeData && (
+                            <h5 style={{ textAlign: 'center' }}>
+                              {' '}
+                              Relevant Data is not Available
+                            </h5>
+                          )}
                         </div>
-                        <div className="right-map">
-                          <Draggable
-                            disabled={!isDraggable}
-                            key={state.version}
-                          >
-                            <div
-                              className="drag_image"
-                              style={isDraggable ? { cursor: 'move' } : null}
-                            >
-                              <img
-                                src={map2}
-                                alt=""
-                                style={imgStyle}
-                                draggable="false"
-                              />
-                            </div>
-                          </Draggable>
-                          <div className="toolbar">
-                            <button
-                              className="location"
-                              type="button"
-                              onClick={() => handleDefault()}
-                            >
-                              <img src={locationMap} alt="" />
-                            </button>
-                            <button
-                              className="zoomin"
-                              type="button"
-                              onClick={() => handleZoomIn()}
-                            >
-                              <img src={zoomin} alt="" />
-                            </button>
-                            <button
-                              className="zoomout"
-                              type="button"
-                              onClick={() => handleZoomOut()}
-                            >
-                              <img src={zoomout} alt="" />
-                            </button>
-                          </div>
+                      ) : (
+                        <div className="container" style={{ height: '100%' }}>
+                          {employeeData && (
+                            <MapComponent
+                              building={employeeData.building}
+                              floor={employeeData.floor}
+                              locationCode={employeeData.locationCode}
+                              state={state}
+                              imgStyle={imgStyle}
+                              handleZoomIn={handleZoomIn}
+                              handleZoomOut={handleZoomOut}
+                              handleDefault={handleDefault}
+                              ColleagueUserName={ColleagueUserName}
+                              from="employeeData"
+                            />
+                          )}
                         </div>
-                      </div>
-                    </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -1148,24 +888,17 @@ WorkSpot.propTypes = {
   handleUpdatingModalData: PropTypes.func,
   locationData: PropTypes.object,
   onUpdateWorkspot: PropTypes.func,
-  onScroll: PropTypes.func,
   neighborhoodData: PropTypes.object,
   errSuccess: PropTypes.bool,
   neighborhood: PropTypes.object,
-  workspotSuccess: PropTypes.bool,
-  locationSuccess: PropTypes.bool,
-  locationMsg: PropTypes.string,
-  neighborhoodSuccess: PropTypes.bool,
-  neighborhoodMsg: PropTypes.string,
-  workspotMessage: PropTypes.string,
   neighborhoodLoad: PropTypes.bool,
   colleaguesData: PropTypes.object,
   colleagueWeeklyData: PropTypes.object,
   colleagueDataLoader: PropTypes.bool,
-  colleagueListData: PropTypes.object,
-  deleteSearchColleague: PropTypes.object,
   profileUserLoading: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
+  requestGetColleagueData: PropTypes.func,
+  monthData: PropTypes.object,
 };
 export default WorkSpot;

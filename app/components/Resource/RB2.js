@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import { useHistory } from 'react-router';
-import Profile from '../../images/officeImage/Wprofile.png';
+import Profile from '../assets/images/profileof.png';
 import firstAid from '../../images/officeImage/firstaid.png';
 import womenImage from '../../images/officeImage/Wrest.png';
 import maleImage from '../../images/officeImage/Mrest.png';
@@ -11,7 +11,7 @@ import Team from '../../images/Vectoruser.png';
 import pantry from '../../images/officeImage/Pantry.png';
 import Printer from '../../images/officeImage/Printer.png';
 
-function RB2() {
+function RB2(from) {
   const history = useHistory();
   return (
     <div className="left-panel" style={{ height: ' 60vh' }}>
@@ -21,12 +21,22 @@ function RB2() {
       </div>
       <div className="office-resource">
         <p>Office Resources</p>
-        {history.location.pathname !== '/office' && (
+        {history.location.pathname !== '/office' && !from && (
           <div className="office-part-one blue">
             <span className="informer">
               <img src={Profile} alt="" />
             </span>
             <label htmlFor="my-spot">My Workspot</label>
+          </div>
+        )}
+        {history.location.pathname !== '/office' && from.from && (
+          <div className="office-part-one blue">
+            <span className="informer">
+              <img src={Profile} alt="" className="search-colleague-img" />
+            </span>
+            <label htmlFor="my-spot">{`${
+              from.ColleagueUserName
+            }'s Workspot`}</label>
           </div>
         )}
         <div className="office-part-one blue">
