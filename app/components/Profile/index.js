@@ -20,6 +20,7 @@ import Close from '../assets/images/close.svg';
 
 const Profile = ({
   handleButtonData,
+  badgeUpdateSuccess,
   state,
   handleCheckbox,
   handleUserSelectData,
@@ -275,14 +276,36 @@ const Profile = ({
                                   </a>
                                 </>
                               ) : (
-                                <a
-                                  className="replace"
-                                  href
-                                  onClick={() => setOpenBadge(true)}
-                                >
-                                  <img src={Add} alt="" />
-                                  Add My Badge
-                                </a>
+                                <>
+                                  <p>
+                                    {badgeUpdateSuccess &&
+                                      (state.badgedata &&
+                                        `BB- ${state.badge}-
+                                          ${state.badgedata}
+                                        `)}
+                                    {/* { userData.badgeNumber} */}
+                                  </p>
+
+                                  {!badgeUpdateSuccess ? (
+                                    <a
+                                      className="replace"
+                                      href
+                                      onClick={() => setOpenBadge(true)}
+                                    >
+                                      <img src={Add} alt="" />
+                                      Add My Badge
+                                    </a>
+                                  ) : (
+                                    <a
+                                      className="replace"
+                                      href
+                                      onClick={() => setOpenBadge(true)}
+                                    >
+                                      <img src={Edit} alt="" />
+                                      Replace My Badge
+                                    </a>
+                                  )}
+                                </>
                               )}
                             </>
                           )}
@@ -712,5 +735,6 @@ Profile.propTypes = {
   requestRemoveDelegateList: PropTypes.func,
   requestAddDelegateList: PropTypes.func,
   delegrateUsersList: PropTypes.object,
+  badgeUpdateSuccess: PropTypes.bool,
 };
 export default Profile;

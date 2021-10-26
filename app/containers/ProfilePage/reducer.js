@@ -157,8 +157,8 @@ const profilePageReducer = (state = initialState, action) =>
       case CLEAR_DATA:
         draft.apiMessage = '';
         draft.apiSuccess = false;
-        draft.badgeUpdate.message = '';
-        draft.badgeUpdate.success = false;
+        // draft.badgeUpdate.message = '';
+        // draft.badgeUpdate.success = false;
         draft.delegateProfile.success = false;
         draft.userList.success = false;
         draft.delegateProfile.loading = false;
