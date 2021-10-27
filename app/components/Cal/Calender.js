@@ -525,7 +525,9 @@ const Calender = ({
 
                                   <div
                                     className={
-                                      item.disable || isCurrentDate(item.date)
+                                      item.disable ||
+                                      isCurrentDate(item.date) ||
+                                      (data && data.locationCode === 'PTO')
                                         ? `day-one-wrapper ${locationClass(
                                             data && data.locationCode,
                                           )} `
@@ -536,6 +538,7 @@ const Calender = ({
                                     onClick={() => {
                                       !item.disable &&
                                         !isCurrentDate(item.date) &&
+                                        (data && data.locationCode !== 'PTO') &&
                                         handleEditModal(
                                           true,
                                           item.date,
@@ -557,10 +560,14 @@ const Calender = ({
                                       className={
                                         data && data.locationCode === 'RW'
                                           ? 'work-station remote-work work-floor'
+                                          : data && data.locationCode === 'PTO'
+                                          ? 'work-station paid-time-off work-floor'
                                           : 'work-station work-floor'
                                       }
                                     >
-                                      {data && data.locationName}
+                                      {data.timeofftype
+                                        ? data.timeofftype
+                                        : data && data.locationName}
                                     </p>
 
                                     {(data && data.locationCode !== 'RW') ||
@@ -795,7 +802,8 @@ const Calender = ({
                                   (item.day === 'Saturday' ||
                                     item.day === 'Sunday' ||
                                     item.weekend) ||
-                                  isCurrentDate(item.date)
+                                  isCurrentDate(item.date) ||
+                                  (data && data.locationCode === 'PTO')
                                     ? `{ day-one-wrapper ${locationClass(
                                         data && data.locationCode,
                                       )} }`
@@ -806,6 +814,7 @@ const Calender = ({
                                 onClick={() => {
                                   !item.disable &&
                                     !isCurrentDate(item.date) &&
+                                    (data && data.locationCode !== 'PTO') &&
                                     handleEditModal(
                                       true,
                                       item.date,
@@ -828,10 +837,14 @@ const Calender = ({
                                   className={
                                     data && data.locationCode === 'RW'
                                       ? 'work-station remote-work work-floor'
+                                      : data && data.locationCode === 'PTO'
+                                      ? 'work-station paid-time-off work-floor'
                                       : 'work-station work-floor'
                                   }
                                 >
-                                  {data && data.locationName}
+                                  {data.timeofftype
+                                    ? data.timeofftype
+                                    : data && data.locationName}
                                 </p>
 
                                 {(data && data.locationCode !== 'RW') ||
