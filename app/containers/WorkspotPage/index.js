@@ -152,7 +152,7 @@ class WorkSpotPage extends Component {
       workspotSuccess,
       workspotMessage,
       searchColleague,
-      // deleteSearchColleague,
+      deleteSearchColleague,
       apiMessage,
       colleagueListData,
     } = this.props;
@@ -178,10 +178,8 @@ class WorkSpotPage extends Component {
     const sDate = moment(selectedDateRange.startDate).format('YYYY-MM-DD');
     const eDate = moment(selectedDateRange.endDate).format('YYYY-MM-DD');
     if (
-      searchColleague &&
-      searchColleague.success
-      // ||
-      // (deleteSearchColleague && deleteSearchColleague.success)
+      (searchColleague && searchColleague.success) ||
+      (deleteSearchColleague && deleteSearchColleague.success)
     ) {
       this.props.requestGetColleagueData({
         employeeid: 239323,
@@ -308,7 +306,7 @@ class WorkSpotPage extends Component {
 
   onSubmit = () => {
     // eslint-disable-next-line no-unused-vars
-    const { updatingObject, loc_date } = this.state;
+    const { updatingObject } = this.state;
     const { locationData } = this.props;
     const a =
       locationData &&
@@ -327,7 +325,7 @@ class WorkSpotPage extends Component {
     this.props.requestUpdateWorkspot(payload);
     this.updateWorkspotData(
       a.locationCode,
-      moment(loc_date).format('YYYY-MM-DD'),
+      moment(updatingObject.date).format('YYYY-MM-DD'),
       updatingObject.work_area_name,
     );
   };
@@ -564,6 +562,7 @@ WorkSpotPage.propTypes = {
   profileUserLoading: PropTypes.bool,
   resetWorkspotMessage: PropTypes.func,
   monthData: PropTypes.object,
+  deleteSearchColleague: PropTypes.object,
 };
 
 export default compose(
