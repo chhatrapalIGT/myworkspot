@@ -634,7 +634,7 @@ const WorkSpot = ({
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title" id="exampleModalLabel">
-                    Update My Workspot
+                    Search for Colleagues
                   </h5>
                   <button
                     type="button"

@@ -2908,25 +2908,25 @@ select.set_drop option[id='building'],
   direction: rtl;
 }
 
-.month-view-content
-  > .weekly-default-inner-team:first-child
-  > .my_team_member
-  > div
-  > span {
-  border: 1px solid red;
-  display: none;
-}
+// .month-view-content
+//   > .weekly-default-inner-team:first-child
+//   > .my_team_member
+//   > div
+//   > span {
+//   border: 1px solid red;
+//   display: none;
+// }
 
-.month-view-content
-  > .weekly-default-inner-team:first-child
-  > .my_team_member
-  > div::after {
-  content: 'My Workspace';
-  font-size: 12px;
-  font: 500 14px 'Museo Sans Medium';
-  color: #00355f;
-  margin-left: 10px;
-}
+// .month-view-content
+//   > .weekly-default-inner-team:first-child
+//   > .my_team_member
+//   > div::after {
+//   content: 'My Workspace';
+//   font-size: 12px;
+//   font: 500 14px 'Museo Sans Medium';
+//   color: #00355f;
+//   margin-left: 10px;
+// }
 
 .css-b8ldur-Input {
   height: 41px;
@@ -2958,4 +2958,7 @@ select.set_drop option[id='building'],
 
 .search-colleague-img {
   height: 33px;
+}
+.css-1wa3eu0-placeholder {
+  position: sticky !important;
 }

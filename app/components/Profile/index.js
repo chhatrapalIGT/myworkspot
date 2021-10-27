@@ -360,6 +360,7 @@ const Profile = ({
                                   }
                                   onClick={() => {
                                     handleBadgeSubmit();
+                                    setOpenBadge(false);
                                   }}
                                 >
                                   Save
@@ -378,13 +379,7 @@ const Profile = ({
                               </div>
                             </div>
                           )}
-                          {badgeUpdateData &&
-                            !badgeUpdateData.success &&
-                            badgeUpdateData.message && (
-                              <p style={{ color: 'red' }}>
-                                {`! ${badgeUpdateData.message}`}
-                              </p>
-                            )}
+
                           {verifyBadgeMsg && !verifyBadgeSuccess && (
                             <div
                               className="d-flex"

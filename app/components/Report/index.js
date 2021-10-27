@@ -16,7 +16,7 @@ import createClass from 'create-react-class';
 import Spinner from 'react-bootstrap/Spinner';
 import Calender from '../Cal/Calender';
 import profile from '../assets/images/profileof.png';
-import success from '../../images/Message.png';
+import success from '../../images/popup.png';
 
 import '../FAQ/styles.scss';
 import MapComponent from '../Resource/map';
@@ -43,6 +43,7 @@ const Report = ({
   myTeamSuccess,
   fetchMoreData,
   monthData,
+  clearAddTeamData,
 }) => {
   const [isdata, setData] = useState(false);
   const data = location && location.length && location[location.length - 1];
@@ -58,7 +59,6 @@ const Report = ({
     option: (styles, { isFocused, isSelected, isVisited }) => ({
       ...styles,
       cursor: isFocused ? 'pointer' : '',
-
       backgroundColor: isSelected
         ? '#f8f8f8'
         : '' || isFocused
@@ -111,6 +111,7 @@ const Report = ({
       setData(true);
       setTimeout(() => {
         setData(false);
+        clearAddTeamData();
       }, 3000);
     }
   }, [myTeamSuccess.success]);
@@ -482,12 +483,22 @@ const Report = ({
         centered
       >
         <div className=" modal-dialog-centered">
-          <div className="modal-content">
-            <img
-              src={success}
-              alt="Success"
-              style={{ width: '165px', margin: '70px auto' }}
-            />
+          <div
+            className="modal-content"
+            style={{ minHeight: 'calc(100vh - 555px)' }}
+          >
+            <div style={{ margin: ' 24% auto 0px' }}>
+              <img src={success} alt="Success" style={{ width: '140px' }} />
+            </div>
+            <div style={{ marginTop: '1rem' }}>
+              <h4 className="text-center">Success!</h4>
+              <p
+                className="text-center"
+                style={{ color: '#526E88', fontSize: '18px' }}
+              >
+                Your invite was sent
+              </p>
+            </div>
           </div>
         </div>
       </Modal>
@@ -517,6 +528,7 @@ Report.propTypes = {
   fetchMoreData: PropTypes.func,
   myTeamSuccess: PropTypes.object,
   monthData: PropTypes.object,
+  clearAddTeamData: PropTypes.func,
 };
 
 export default Report;

@@ -60,15 +60,13 @@ const reportReducer = (state = initialState, action) =>
         draft.updateMember.loading = false;
         draft.updateMember.success = action.payload.success;
         draft.updateMember.message = action.payload.message;
-        draft.reportApiMessage = action.payload.message;
-        draft.reportApiSuccess = action.payload.success;
+
         break;
       case FAILED_ADD_TEAM_MEMBER:
         draft.updateMember.loading = false;
         draft.updateMember.success = action.payload.success;
         draft.updateMember.message = action.payload.message;
-        draft.reportApiMessage = action.payload.message;
-        draft.reportApiSuccess = action.payload.success;
+
         break;
       case CLEAR_ADD_TEAM_DATA:
         draft.reportApiMessage = '';
