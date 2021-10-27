@@ -234,11 +234,12 @@ const Calender = ({
 
   const handleRemoveColleague = data => {
     const newArr = [...colleagueData];
-    if (newArr.includes(data)) {
+    if (newArr.length === data.length) {
+      newArr.splice(newArr);
+    } else if (newArr.includes(data)) {
       const idx = newArr.indexOf(data);
       newArr.splice(idx, 1);
     }
-
     setColleagueData(newArr);
   };
 
@@ -365,7 +366,7 @@ const Calender = ({
                           {allUser &&
                             allUser.map((user, userIdx) => (
                               <>
-                                <div className="weekly-default-inner weekly-default-inner-team d-flex flex-wrap align-items-end hiren">
+                                <div className="weekly-default-inner weekly-default-inner-team d-flex flex-wrap align-items-end">
                                   <div className="my_team_member">
                                     <div className="d-flex align-items-center">
                                       <img src={ProfileImg} alt="" />
@@ -498,7 +499,7 @@ const Calender = ({
                     ) : (
                       setVisible &&
                       workSpotData.length > 0 && (
-                        <div className="weekly-default-inner d-flex flex-wrap align-items-end hiren">
+                        <div className="weekly-default-inner d-flex flex-wrap align-items-end">
                           {days.dateToDisplay.map(item => {
                             const data = getCorrespondingData(item.date);
 
@@ -560,7 +561,10 @@ const Calender = ({
                                       className={
                                         data && data.locationCode === 'RW'
                                           ? 'work-station remote-work work-floor'
-                                          : data && data.locationCode === 'PTO'
+                                          : (data &&
+                                              data.locationCode === 'PTO') ||
+                                            (data &&
+                                              data.locationCode === 'EAB')
                                           ? 'work-station paid-time-off work-floor'
                                           : 'work-station work-floor'
                                       }
@@ -690,7 +694,6 @@ const Calender = ({
                                     {' '}
                                     {item.value}
                                   </p>
-
                                   <div
                                     className={
                                       item.disable
@@ -712,6 +715,10 @@ const Calender = ({
                                         lastName: obj.employeeidLastname,
                                       });
                                       isCurrentDate(item.date) &&
+                                        data &&
+                                        data.locationCode !== 'RW' &&
+                                        data &&
+                                        data.locationCode !== 'PTO' &&
                                         setEmployee(true);
                                       setDate(
                                         moment(item.date).format(
@@ -837,7 +844,8 @@ const Calender = ({
                                   className={
                                     data && data.locationCode === 'RW'
                                       ? 'work-station remote-work work-floor'
-                                      : data && data.locationCode === 'PTO'
+                                      : (data && data.locationCode === 'PTO') ||
+                                        (data && data.locationCode === 'EAB')
                                       ? 'work-station paid-time-off work-floor'
                                       : 'work-station work-floor'
                                   }
