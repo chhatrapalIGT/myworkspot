@@ -371,7 +371,7 @@ const Calender = ({
                                       <img src={ProfileImg} alt="" />
                                       <span className="member-name member-space text-decor">
                                         {' '}
-                                        {user.username || 'My Workspace'}
+                                        {user.username}
                                       </span>
                                     </div>
                                     <p

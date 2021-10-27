@@ -265,6 +265,7 @@ class ReportPage extends Component {
             myTeamSuccess={myTeamSuccess}
             fetchMoreData={this.fetchMoreData}
             monthData={monthData}
+            clearAddTeamData={this.props.clearAddTeamData}
           />{' '}
         </div>
       </>
