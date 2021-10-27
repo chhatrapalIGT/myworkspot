@@ -136,9 +136,9 @@ const WorkSpot = ({
         return 'https://goo.gl/maps/wSt2HtVQ7J2vuoGy7';
       case 'RIC':
         return 'https://goo.gl/maps/sMKpVpBFJJRUqT446';
-      case 'BAL':
+      case 'BHM':
         return 'https://goo.gl/maps/8zpk6ZWT49puXgp67';
-      case 'BMN':
+      case 'BLM':
         return 'https://goo.gl/maps/7pjiEquchRcDLWac9';
 
       default:
@@ -172,6 +172,7 @@ const WorkSpot = ({
       : neighborhoodData && neighborhoodData.colorcode === 'F7CA0F'
       ? 'Yellow'
       : '';
+
   const dateData = () => {
     const dates = [];
     monthData.filter(ele => {
@@ -182,7 +183,6 @@ const WorkSpot = ({
         .add(1, 'month')
         .format('MM');
       const currentMonth = getMonth !== nextMonth;
-
       let obj = {};
       if (!prevDate && currentMonth) {
         if (ele.officetype === 'EAB Office') {
@@ -190,12 +190,12 @@ const WorkSpot = ({
             date: ele.date,
             markCssClass: 'mbsc-calendar-marks1',
           };
-        } else if (ele.officetype === 'Remote Work') {
+        } else if (ele.locationCode === 'RW') {
           obj = {
             date: ele.date,
             markCssClass: 'mbsc-calendar-marks2',
           };
-        } else if (ele.officetype === 'Paid Time Off') {
+        } else if (ele.locationCode === 'PTO') {
           obj = {
             date: ele.date,
             markCssClass: 'mbsc-calendar-marks3',
@@ -204,6 +204,21 @@ const WorkSpot = ({
       }
 
       dates.push(obj);
+    });
+    return dates;
+  };
+
+  const invalidDate = () => {
+    const dates = [];
+    monthData.filter(ele => {
+      let data = {};
+      if (ele.locationCode === 'PTO') {
+        data = {
+          date: ele.date,
+        };
+      }
+
+      dates.push(data);
     });
     return dates;
   };
@@ -265,6 +280,12 @@ const WorkSpot = ({
                       ? 'card building-block-head teal'
                       : neighborhoodColor === 'Yellow'
                       ? 'card building-block-head yellow'
+                      : neighborhoodData &&
+                        neighborhoodData.locationCode === 'PTO'
+                      ? 'card building-block-head paid-time'
+                      : neighborhoodData &&
+                        neighborhoodData.locationCode === 'RW'
+                      ? 'card building-block-head remote'
                       : 'card building-block-head default'
                   }
                   style={{ backgroundColor: 'white' }}
@@ -357,6 +378,16 @@ const WorkSpot = ({
                           )}
                           <h3 className="color-code">{neighborhoodColor}</h3>
                         </div>
+
+                        {neighborhoodData &&
+                          neighborhoodData.locationCode === 'PTO' && (
+                            <div className="block-info d-flex flex-wrap">
+                              <h3 className="building-name-paid-time">
+                                {neighborhoodData &&
+                                  neighborhoodData.timeofftype}
+                              </h3>
+                            </div>
+                          )}
                       </>
                     )}
 
@@ -543,6 +574,7 @@ const WorkSpot = ({
                         dateFormat="YYYY-MM-DD"
                         className="workspot_cal"
                         marked={dateData()}
+                        invalid={invalidDate()}
                       />
                       <div className="bottom">
                         <span className="eab-ofc">EAB Office</span>
