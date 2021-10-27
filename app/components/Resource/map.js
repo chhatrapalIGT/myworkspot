@@ -119,7 +119,7 @@ const MapComponent = ({
             break;
         }
         break;
-      case 'BAL':
+      case 'BHM':
         switch (neighborhoodBuild) {
           case '1':
             imageSrc = map10;
@@ -130,7 +130,7 @@ const MapComponent = ({
         }
         break;
 
-      case 'BMN':
+      case 'BLM':
         switch (neighborhoodBuild) {
           case '1':
             imageSrc = map9;
