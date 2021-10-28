@@ -17,6 +17,8 @@ import Edit from '../assets/images/edit.svg';
 import Add from '../../images/Vectorplus.png';
 import Warnning from '../../images/officeImage/Warnning.png';
 import Close from '../assets/images/close.svg';
+import checkedCircle from '../../images/check-circle-fill.svg';
+import crossCircle from '../../images/x-circle-fill.svg';
 
 const Profile = ({
   handleButtonData,
@@ -46,6 +48,7 @@ const Profile = ({
   delegrateUsersList,
   locationApiMessage,
   locationApiSuccess,
+  handlecloseDataIcon,
 }) => {
   const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
@@ -173,19 +176,34 @@ const Profile = ({
 
   return (
     <Fragment>
-      <>
+      <div>
         {(apiMessage || locationMessage || locationApiMessage) && (
           <div
-            className={`"alert-dismissible fade show ${
+            className={`"alert fade show w-25 mx-auto ${
               apiSuccess || locationSuccess || locationApiSuccess
-                ? 'popup_success'
-                : 'popup_err'
+                ? 'alert alert-success '
+                : 'alert alert-danger '
             } "`}
-            role="alert"
+            style={{ marginTop: '20px', padding: '1rem' }}
           >
-            <p className="text-center m-auto">
-              {apiMessage || locationMessage || locationApiMessage || ''}
-            </p>
+            <img
+              src={
+                apiSuccess || locationSuccess || locationApiSuccess
+                  ? checkedCircle
+                  : crossCircle
+              }
+              alt=""
+              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+            />
+
+            {apiMessage || locationMessage || locationApiMessage || ''}
+
+            <span
+              style={{ float: 'right', fontSize: 'large' }}
+              onClick={() => handlecloseDataIcon()}
+            >
+              &#10006;
+            </span>
           </div>
         )}
         <div className="wrapper_main">
@@ -704,7 +722,7 @@ const Profile = ({
             </div>
           </div>
         </Modal>
-      </>
+      </div>
     </Fragment>
   );
 };
@@ -737,5 +755,6 @@ Profile.propTypes = {
   badgeUpdateSuccess: PropTypes.bool,
   locationApiMessage: PropTypes.string,
   locationApiSuccess: PropTypes.bool,
+  handlecloseDataIcon: PropTypes.func,
 };
 export default Profile;

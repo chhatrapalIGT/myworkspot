@@ -4,6 +4,7 @@ import Axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import './styles.scss';
 import { CONSTANT } from '../../enum';
+import crossCircle from '../../images/x-circle-fill.svg';
 
 const { API_URL } = CONSTANT;
 
@@ -46,10 +47,24 @@ const FAQ = () => {
     <>
       {error && error && (
         <div
-          className="popup_err alert-dismissible fade show popup_err"
-          role="alert"
+          className="alert fade alert alert-danger show w-25 mx-auto "
+          style={{ marginTop: '20px', padding: '1rem' }}
         >
-          <p className="text-center m-auto">{error}</p>
+          <img
+            src={crossCircle}
+            alt=""
+            style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+          />
+
+          {error}
+
+          <span
+            style={{ float: 'right', fontSize: 'large' }}
+            onClick={() => setError('')}
+            aria-hidden="true"
+          >
+            &#10006;
+          </span>
         </div>
       )}
 

@@ -17,6 +17,8 @@ import Spinner from 'react-bootstrap/Spinner';
 import Calender from '../Cal/Calender';
 import profile from '../assets/images/profileof.png';
 import success from '../../images/popup.png';
+import checkedCircle from '../../images/check-circle-fill.svg';
+import crossCircle from '../../images/x-circle-fill.svg';
 
 import '../FAQ/styles.scss';
 import MapComponent from '../Resource/map';
@@ -44,6 +46,7 @@ const Report = ({
   fetchMoreData,
   monthData,
   clearAddTeamData,
+  handlecloseReportDataIcon,
 }) => {
   const [isdata, setData] = useState(false);
   const data = location && location.length && location[location.length - 1];
@@ -218,26 +221,35 @@ const Report = ({
 
   return (
     <>
-      {locationErrorHandle &&
-        !locationErrorHandle.success &&
-        locationErrorHandle.error && (
-          <div className="alert-dismissible fade show popup_err" role="alert">
-            <p className="text-center m-auto">
-              {locationErrorHandle && !locationErrorHandle.success
-                ? locationErrorHandle.error
-                : ''}
-            </p>
-          </div>
-        )}
-
-      {reportApiMessage && (
+      {(reportApiMessage ||
+        (locationErrorHandle.error && !locationErrorHandle.success)) && (
         <div
-          className={`"alert-dismissible fade show ${
-            reportApiSuccess ? 'popup_success' : 'popup_err'
+          className={`"alert fade show w-25 mx-auto ${
+            reportApiSuccess || locationErrorHandle.success
+              ? 'alert alert-success '
+              : 'alert alert-danger '
           } "`}
-          role="alert"
+          style={{ marginTop: '20px', padding: '1rem' }}
         >
-          <p className="text-center m-auto">{reportApiMessage}</p>
+          <img
+            src={
+              reportApiSuccess || locationErrorHandle.success
+                ? checkedCircle
+                : crossCircle
+            }
+            alt=""
+            style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+          />
+
+          {locationErrorHandle.error || reportApiMessage || ''}
+
+          <span
+            style={{ float: 'right', fontSize: 'large' }}
+            onClick={() => handlecloseReportDataIcon()}
+            aria-hidden="true"
+          >
+            &#10006;
+          </span>
         </div>
       )}
 
@@ -551,6 +563,7 @@ Report.propTypes = {
   myTeamSuccess: PropTypes.object,
   monthData: PropTypes.object,
   clearAddTeamData: PropTypes.func,
+  handlecloseReportDataIcon: PropTypes.func,
 };
 
 export default Report;

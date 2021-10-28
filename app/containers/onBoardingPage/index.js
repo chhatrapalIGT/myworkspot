@@ -144,6 +144,10 @@ class BorardingPage extends Component {
     }
   }
 
+  handleData = () => {
+    this.props.clearBoardData();
+  };
+
   componentWillUnmount() {
     this.props.clearBoardData();
   }
@@ -210,6 +214,7 @@ class BorardingPage extends Component {
             handleSubmit={this.handleSubmit}
             handleSubmitData={this.handleSubmitData}
             handleBadgeData={this.handleBadgeData}
+            handleData={this.handleData}
             state={this.state}
             location={location}
             addErrorLocation={addErrorLocation}
