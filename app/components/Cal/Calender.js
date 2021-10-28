@@ -15,6 +15,7 @@ import floorLocation from '../assets/images/floor-location.png';
 import profile from '../assets/images/profileof.png';
 import ProfileImg from '../assets/images/myprofile.png';
 import searchicon from '../assets/images/search-blue.svg';
+import eabVector from '../assets/images/eab-Vector.png';
 
 import {
   getWeekStartEndDate,
@@ -446,10 +447,20 @@ const Calender = ({
                                                 data &&
                                                 data.locationCode === 'RW'
                                                   ? 'work-station remote-work work-floor'
+                                                  : data &&
+                                                    data.locationCode === 'PTO'
+                                                  ? 'work-station paid-time-off work-floor'
+                                                  : data &&
+                                                    data.locationCode === 'EAB'
+                                                  ? 'work-station eab-holiday work-floor'
                                                   : 'work-station work-floor'
                                               }
                                             >
-                                              {data && data.locationName}
+                                              {data && data.timeofftype
+                                                ? data.timeofftype
+                                                : data && data.eabHolidayType
+                                                ? data.eabHolidayType
+                                                : data && data.locationName}
                                             </p>
                                             {(data &&
                                               data.locationCode !== 'RW') ||
@@ -472,6 +483,14 @@ const Calender = ({
                                                     {data && data.color}
                                                   </span>
                                                 )))}
+
+                                            {data &&
+                                              data.locationCode === 'EAB' && (
+                                                <span className="floor-location eab-holiday">
+                                                  <img src={eabVector} alt="" />
+                                                  {data && data.locationName}
+                                                </span>
+                                              )}
                                           </div>
                                         </div>
                                       </>
@@ -561,16 +580,17 @@ const Calender = ({
                                       className={
                                         data && data.locationCode === 'RW'
                                           ? 'work-station remote-work work-floor'
-                                          : (data &&
-                                              data.locationCode === 'PTO') ||
-                                            (data &&
-                                              data.locationCode === 'EAB')
+                                          : data && data.locationCode === 'PTO'
                                           ? 'work-station paid-time-off work-floor'
+                                          : data && data.locationCode === 'EAB'
+                                          ? 'work-station eab-holiday work-floor'
                                           : 'work-station work-floor'
                                       }
                                     >
-                                      {data.timeofftype
+                                      {data && data.timeofftype
                                         ? data.timeofftype
+                                        : data && data.eabHolidayType
+                                        ? data.eabHolidayType
                                         : data && data.locationName}
                                     </p>
 
@@ -583,6 +603,13 @@ const Calender = ({
                                           {data && data.color}
                                         </span>
                                       ))}
+
+                                    {data && data.locationCode === 'EAB' && (
+                                      <span className="floor-location eab-holiday">
+                                        <img src={eabVector} alt="" />
+                                        {data && data.locationName}
+                                      </span>
+                                    )}
                                   </div>
                                 </div>
                               </>
@@ -700,7 +727,13 @@ const Calender = ({
                                         ? `{ day-one-wrapper ${locationClass(
                                             data && data.locationCode,
                                           )} }`
-                                        : isCurrentDate(item.date)
+                                        : isCurrentDate(item.date) &&
+                                          data &&
+                                          data.locationCode !== 'RW' &&
+                                          data &&
+                                          data.locationCode !== 'PTO' &&
+                                          data &&
+                                          data.locationCode !== 'EAB'
                                         ? ` day-one-wrapper ${locationClass(
                                             data && data.locationCode,
                                           )} day-pointer `
@@ -719,6 +752,8 @@ const Calender = ({
                                         data.locationCode !== 'RW' &&
                                         data &&
                                         data.locationCode !== 'PTO' &&
+                                        data &&
+                                        data.locationCode !== 'EAB' &&
                                         setEmployee(true);
                                       setDate(
                                         moment(item.date).format(
@@ -732,16 +767,31 @@ const Calender = ({
                                       className={
                                         data && data.locationCode === 'RW'
                                           ? 'work-station remote-work work-floor'
+                                          : data && data.locationCode === 'PTO'
+                                          ? 'work-station paid-time-off work-floor'
+                                          : data && data.locationCode === 'EAB'
+                                          ? 'work-station eab-holiday work-floor'
                                           : 'work-station work-floor'
                                       }
                                     >
-                                      {data && data.locationName}
+                                      {data && data.timeofftype
+                                        ? data.timeofftype
+                                        : data && data.eabHolidayType
+                                        ? data.eabHolidayType
+                                        : data && data.locationName}
                                     </p>
                                     {data && data.floor && (
                                       <span className="floor-location">
                                         <img src={Vector} alt="" />
                                         {data && data.floor} -{' '}
                                         {data && data.color}
+                                      </span>
+                                    )}
+
+                                    {data && data.locationCode === 'EAB' && (
+                                      <span className="floor-location eab-holiday">
+                                        <img src={eabVector} alt="" />
+                                        {data && data.locationName}
                                       </span>
                                     )}
                                   </div>
@@ -844,14 +894,17 @@ const Calender = ({
                                   className={
                                     data && data.locationCode === 'RW'
                                       ? 'work-station remote-work work-floor'
-                                      : (data && data.locationCode === 'PTO') ||
-                                        (data && data.locationCode === 'EAB')
+                                      : data && data.locationCode === 'PTO'
                                       ? 'work-station paid-time-off work-floor'
+                                      : data && data.locationCode === 'EAB'
+                                      ? 'work-station eab-holiday work-floor'
                                       : 'work-station work-floor'
                                   }
                                 >
-                                  {data.timeofftype
+                                  {data && data.timeofftype
                                     ? data.timeofftype
+                                    : data && data.eabHolidayType
+                                    ? data.eabHolidayType
                                     : data && data.locationName}
                                 </p>
 
@@ -869,6 +922,13 @@ const Calender = ({
                                         {data && data.color}
                                       </span>
                                     )))}
+
+                                {data && data.locationCode === 'EAB' && (
+                                  <span className="floor-location eab-holiday">
+                                    <img src={eabVector} alt="" />
+                                    {data && data.locationName}
+                                  </span>
+                                )}
                               </div>
                             </div>
                           );

@@ -177,12 +177,12 @@ const Report = ({
             date: ele.date,
             markCssClass: 'mbsc-calendar-marks1',
           };
-        } else if (ele.officetype === 'Remote Work') {
+        } else if (ele.locationCode === 'RW') {
           obj = {
             date: ele.date,
             markCssClass: 'mbsc-calendar-marks2',
           };
-        } else if (ele.officetype === 'Paid Time Off') {
+        } else if (ele.locationCode === 'PTO') {
           obj = {
             date: ele.date,
             markCssClass: 'mbsc-calendar-marks3',
@@ -191,6 +191,23 @@ const Report = ({
       }
 
       dates.push(obj);
+    });
+    return dates;
+  };
+
+  const invalidDate = () => {
+    const dates = [];
+    // eslint-disable-next-line array-callback-return
+    monthData.filter(ele => {
+      // eslint-disable-next-line no-shadow
+      let data = {};
+      if (ele.locationCode === 'PTO') {
+        data = {
+          date: ele.date,
+        };
+      }
+
+      dates.push(data);
     });
     return dates;
   };
@@ -349,6 +366,7 @@ const Report = ({
                         ref={setNow}
                         onChange={onDateChange}
                         marked={dateData()}
+                        invalid={invalidDate()}
                       />
                     </div>
 

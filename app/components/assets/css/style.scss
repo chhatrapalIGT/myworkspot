@@ -647,6 +647,12 @@ input[type='text'] {
             text-align: center;
             margin-top: 7px;
           }
+          &.eab-holiday {
+            color: #002d50;
+            margin-bottom: 0px;
+            text-align: center;
+            margin-top: 7px;
+          }
         }
 
         &.work-from-office {
@@ -1730,6 +1736,10 @@ input[type='text'] {
   display: flex;
   align-items: center;
   display: inline-flex;
+
+  &.eab-holiday {
+    font-size: 13px;
+  }
 
   img {
     margin-right: 7px;
