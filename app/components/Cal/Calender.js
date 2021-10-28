@@ -446,10 +446,18 @@ const Calender = ({
                                                 data &&
                                                 data.locationCode === 'RW'
                                                   ? 'work-station remote-work work-floor'
+                                                  : data &&
+                                                    data.locationCode === 'PTO'
+                                                  ? 'work-station paid-time-off work-floor'
+                                                  : data &&
+                                                    data.locationCode === 'EAB'
+                                                  ? 'work-station eab-holiday work-floor'
                                                   : 'work-station work-floor'
                                               }
                                             >
-                                              {data && data.locationName}
+                                              {data && data.timeofftype
+                                                ? data.timeofftype
+                                                : data && data.locationName}
                                             </p>
                                             {(data &&
                                               data.locationCode !== 'RW') ||
@@ -561,15 +569,14 @@ const Calender = ({
                                       className={
                                         data && data.locationCode === 'RW'
                                           ? 'work-station remote-work work-floor'
-                                          : (data &&
-                                              data.locationCode === 'PTO') ||
-                                            (data &&
-                                              data.locationCode === 'EAB')
+                                          : data && data.locationCode === 'PTO'
                                           ? 'work-station paid-time-off work-floor'
+                                          : data && data.locationCode === 'EAB'
+                                          ? 'work-station eab-holiday work-floor'
                                           : 'work-station work-floor'
                                       }
                                     >
-                                      {data.timeofftype
+                                      {data && data.timeofftype
                                         ? data.timeofftype
                                         : data && data.locationName}
                                     </p>
@@ -732,10 +739,16 @@ const Calender = ({
                                       className={
                                         data && data.locationCode === 'RW'
                                           ? 'work-station remote-work work-floor'
+                                          : data && data.locationCode === 'PTO'
+                                          ? 'work-station paid-time-off work-floor'
+                                          : data && data.locationCode === 'EAB'
+                                          ? 'work-station eab-holiday work-floor'
                                           : 'work-station work-floor'
                                       }
                                     >
-                                      {data && data.locationName}
+                                      {data && data.timeofftype
+                                        ? data.timeofftype
+                                        : data && data.locationName}
                                     </p>
                                     {data && data.floor && (
                                       <span className="floor-location">
@@ -844,13 +857,14 @@ const Calender = ({
                                   className={
                                     data && data.locationCode === 'RW'
                                       ? 'work-station remote-work work-floor'
-                                      : (data && data.locationCode === 'PTO') ||
-                                        (data && data.locationCode === 'EAB')
+                                      : data && data.locationCode === 'PTO'
                                       ? 'work-station paid-time-off work-floor'
+                                      : data && data.locationCode === 'EAB'
+                                      ? 'work-station eab-holiday work-floor'
                                       : 'work-station work-floor'
                                   }
                                 >
-                                  {data.timeofftype
+                                  {data && data.timeofftype
                                     ? data.timeofftype
                                     : data && data.locationName}
                                 </p>

@@ -339,6 +339,16 @@ const WorkSpot = ({
                               , your workspot today is
                             </p>
 
+                            {neighborhoodData &&
+                              neighborhoodData.locationCode === 'PTO' && (
+                                <div className="block-info d-flex flex-wrap">
+                                  <h3 className="building-name-paid-time">
+                                    {neighborhoodData &&
+                                      neighborhoodData.timeofftype}
+                                  </h3>
+                                </div>
+                              )}
+
                             <div className="block-info d-flex flex-wrap">
                               <h3
                                 className={
@@ -378,16 +388,6 @@ const WorkSpot = ({
                           )}
                           <h3 className="color-code">{neighborhoodColor}</h3>
                         </div>
-
-                        {neighborhoodData &&
-                          neighborhoodData.locationCode === 'PTO' && (
-                            <div className="block-info d-flex flex-wrap">
-                              <h3 className="building-name-paid-time">
-                                {neighborhoodData &&
-                                  neighborhoodData.timeofftype}
-                              </h3>
-                            </div>
-                          )}
                       </>
                     )}
 
