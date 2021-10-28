@@ -649,7 +649,7 @@ input[type='text'] {
           }
           &.eab-holiday {
             color: #002d50;
-            margin-bottom: 6px;
+            margin-bottom: 0px;
             text-align: center;
             margin-top: 7px;
           }
@@ -1736,6 +1736,10 @@ input[type='text'] {
   display: flex;
   align-items: center;
   display: inline-flex;
+
+  &.eab-holiday {
+    font-size: 13px;
+  }
 
   img {
     margin-right: 7px;
