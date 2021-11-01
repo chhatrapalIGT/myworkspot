@@ -54,6 +54,8 @@ const WorkSpot = ({
   apiSuccess,
   requestGetColleagueData,
   monthData,
+  leadersCommittee,
+  handleCheckbox,
 }) => {
   const [isModal, setModal] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -175,36 +177,38 @@ const WorkSpot = ({
 
   const dateData = () => {
     const dates = [];
-    monthData.filter(ele => {
-      const prevDate = moment(ele.date).isBefore(moment(), 'day');
+    // eslint-disable-next-line no-unused-expressions
+    monthData &&
+      monthData.filter(ele => {
+        const prevDate = moment(ele.date).isBefore(moment(), 'day');
 
-      const getMonth = moment(ele.date).format('MM');
-      const nextMonth = moment()
-        .add(1, 'month')
-        .format('MM');
-      const currentMonth = getMonth !== nextMonth;
-      let obj = {};
-      if (!prevDate && currentMonth) {
-        if (ele.officetype === 'EAB Office') {
-          obj = {
-            date: ele.date,
-            markCssClass: 'mbsc-calendar-marks1',
-          };
-        } else if (ele.locationCode === 'RW') {
-          obj = {
-            date: ele.date,
-            markCssClass: 'mbsc-calendar-marks2',
-          };
-        } else if (ele.locationCode === 'PTO') {
-          obj = {
-            date: ele.date,
-            markCssClass: 'mbsc-calendar-marks3',
-          };
+        const getMonth = moment(ele.date).format('MM');
+        const nextMonth = moment()
+          .add(1, 'month')
+          .format('MM');
+        const currentMonth = getMonth !== nextMonth;
+        let obj = {};
+        if (!prevDate && currentMonth) {
+          if (ele.officetype === 'EAB Office') {
+            obj = {
+              date: ele.date,
+              markCssClass: 'mbsc-calendar-marks1',
+            };
+          } else if (ele.locationCode === 'RW') {
+            obj = {
+              date: ele.date,
+              markCssClass: 'mbsc-calendar-marks2',
+            };
+          } else if (ele.locationCode === 'PTO') {
+            obj = {
+              date: ele.date,
+              markCssClass: 'mbsc-calendar-marks3',
+            };
+          }
         }
-      }
 
-      dates.push(obj);
-    });
+        dates.push(obj);
+      });
     return dates;
   };
 
@@ -598,10 +602,19 @@ const WorkSpot = ({
                         <span className="paidoff">Paid Time Off</span>
                       </div>
                     </div>
-                    {/* <div className="checkbox-label">
-                  <input type="checkbox" id="private-space" />
-                  <label htmlFor="private-space">Private space requested</label>
-                </div> */}
+                    {leadersCommittee && (
+                      <div className="checkbox-label">
+                        <input
+                          type="checkbox"
+                          name="privateSpace"
+                          // id="private-space"
+                          onClick={() => handleCheckbox()}
+                        />
+                        <label htmlFor="private-space">
+                          Private space requested
+                        </label>
+                      </div>
+                    )}
                     <p className="notice">
                       If you would like to update your weekly default, you can
                       update this under{' '}
@@ -948,7 +961,9 @@ WorkSpot.propTypes = {
   profileUserLoading: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
+  leadersCommittee: PropTypes.bool,
   requestGetColleagueData: PropTypes.func,
+  handleCheckbox: PropTypes.func,
   monthData: PropTypes.object,
 };
 export default WorkSpot;

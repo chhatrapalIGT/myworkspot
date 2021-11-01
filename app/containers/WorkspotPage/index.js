@@ -76,6 +76,7 @@ class WorkSpotPage extends Component {
       loc_date: '',
       listArray: [],
       removeColleague: [],
+      privateSpace: false,
     };
   }
 
@@ -276,6 +277,10 @@ class WorkSpotPage extends Component {
     this.setState({ [name]: value });
   };
 
+  handleCheckbox = () => {
+    this.setState({ privateSpace: true });
+  };
+
   onDateChange = event => {
     this.setState({ date: event.valueText });
   };
@@ -331,7 +336,7 @@ class WorkSpotPage extends Component {
   };
 
   onUpdateWorkspot = () => {
-    const { work_place, date } = this.state;
+    const { work_place, date, privateSpace } = this.state;
     const locDate = date.split(',');
     const { locationData } = this.props;
 
@@ -344,8 +349,10 @@ class WorkSpotPage extends Component {
         weekofday: locDate,
       },
       employeeid: 239323,
+      privateSpace,
     };
     this.props.requestUpdateWorkspot(payload);
+    this.setState({ privateSpace: false });
   };
 
   handleColleageUpdate = () => {
@@ -417,6 +424,7 @@ class WorkSpotPage extends Component {
       profileUserLoading,
       colleaguesData,
       monthData,
+      leadersCommittee,
     } = this.props;
     const { errSuccess } = this.state;
     return (
@@ -452,6 +460,8 @@ class WorkSpotPage extends Component {
             profileUserLoading={profileUserLoading}
             requestGetColleagueData={this.props.requestGetColleagueData}
             monthData={monthData}
+            leadersCommittee={leadersCommittee}
+            handleCheckbox={this.handleCheckbox}
           />
         </div>
       </>
@@ -508,6 +518,8 @@ const mapStateToProps = state => {
     profileUserLoading: profile && profile.userList && profile.userList.loading,
     monthData:
       workspot && workspot.getMonthData && workspot.getMonthData.monthData,
+    leadersCommittee:
+      profile && profile.userList && profile.userList.leaderscommittee,
   };
 };
 
@@ -560,6 +572,7 @@ WorkSpotPage.propTypes = {
   requestDeleteColleagueData: PropTypes.func,
   history: PropTypes.object,
   profileUserLoading: PropTypes.bool,
+  leadersCommittee: PropTypes.bool,
   resetWorkspotMessage: PropTypes.func,
   monthData: PropTypes.object,
   deleteSearchColleague: PropTypes.object,
