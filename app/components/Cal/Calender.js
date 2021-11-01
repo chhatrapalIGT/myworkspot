@@ -639,7 +639,7 @@ const Calender = ({
                                           }`}
                                           onClick={() => {
                                             !item.disable &&
-                                              isCurrentDate(item.date) &&
+                                              !isCurrentDate(item.date) &&
                                               (partially &&
                                                 partially.locationCode !==
                                                   'PTO') &&
