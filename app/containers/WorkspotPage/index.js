@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-else-return */
 /* eslint-disable camelcase */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
@@ -289,7 +291,39 @@ class WorkSpotPage extends Component {
         moment(date).format('MM/DD/YYYY'),
     );
 
+    const partialIndex =
+      workSpotData[index] &&
+      workSpotData[index].data &&
+      workSpotData[index].data.findIndex(
+        obj =>
+          moment(obj.date).format('MM/DD/YYYY') ===
+          moment(date).format('MM/DD/YYYY'),
+      );
+
     const data = workSpotData.map((obj, idx) => {
+      if (obj.unitsapproved && idx === index) {
+        const arr = [];
+        obj.data.find((ele, id) => {
+          if (id === partialIndex) {
+            // eslint-disable-next-line no-unused-expressions
+            ele = [
+              {
+                ...ele,
+                locationName,
+                locationCode,
+              },
+              {
+                ...obj.data[1],
+              },
+            ];
+            arr.push(...ele);
+          }
+
+          obj = { ...obj, data: arr };
+          return obj;
+        });
+      }
+      //  else {
       if (idx === index) {
         return {
           ...obj,
@@ -300,6 +334,7 @@ class WorkSpotPage extends Component {
       } else {
         return obj;
       }
+      // }
     });
     this.setState({ workSpotData: data });
   };
