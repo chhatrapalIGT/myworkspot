@@ -29,6 +29,7 @@ class BorardingPage extends Component {
           this.props.location[0].locationname
         : 'Washington, DC',
       checked: false,
+      privateSpace: false,
       timings: [
         {
           day: 'Monday',
@@ -96,7 +97,7 @@ class BorardingPage extends Component {
 
   // eslint-disable-next-line consistent-return
   handleSubmitData = () => {
-    const { timings, badge, badgedata } = this.state;
+    const { timings, badge, badgedata, privateSpace } = this.state;
     const { location } = this.props;
     const final = timings.filter(data => data.name !== '');
 
@@ -117,6 +118,7 @@ class BorardingPage extends Component {
       data: finalLocationDay,
       employeeid: '239323',
       badgenumber: badge && badgedata ? `BB${badge.concat(badgedata)}` : '',
+      privateSpace,
     };
     // if (this.props.verifyBadgeSuccess) {
     this.props.requestAddOfficeLocation(data);
@@ -155,6 +157,10 @@ class BorardingPage extends Component {
     this.setState({ checked: true });
   };
 
+  onCheckbox = () => {
+    this.setState({ privateSpace: true });
+  };
+
   handleBadgeData = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value }, () => {
@@ -191,6 +197,7 @@ class BorardingPage extends Component {
       verifyBadgeMsg,
       userName,
       profileUserLoading,
+      leadersCommittee,
     } = this.props;
     return (
       <>
@@ -217,6 +224,8 @@ class BorardingPage extends Component {
             verifyBadgeMsg={verifyBadgeMsg}
             userName={userName}
             profileUserLoading={profileUserLoading}
+            leadersCommittee={leadersCommittee}
+            onCheckbox={this.onCheckbox}
           />
         </div>
         <Footer />
@@ -267,6 +276,8 @@ const mapStateToProps = state => {
       profile.userList.user &&
       profile.userList.user.firstname,
     profileUserLoading: profile && profile.userList && profile.userList.loading,
+    leadersCommittee:
+      profile && profile.userList && profile.userList.leaderscommittee,
   };
 };
 
@@ -304,6 +315,7 @@ BorardingPage.propTypes = {
   verifyBadgeMsg: PropTypes.string,
   userName: PropTypes.string,
   profileUserLoading: PropTypes.bool,
+  leadersCommittee: PropTypes.bool,
 };
 
 export default compose(

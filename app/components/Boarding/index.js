@@ -36,6 +36,8 @@ const Boarding = ({
   verifyBadgeMsg,
   userName,
   profileUserLoading,
+  leadersCommittee,
+  onCheckbox,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
@@ -292,6 +294,20 @@ const Boarding = ({
                         Apply to all days of the week
                       </label>
                     </div>
+
+                    {leadersCommittee && (
+                      <div className="checkbox-label">
+                        <input
+                          type="checkbox"
+                          name="privateSpace"
+                          id="privateSpace"
+                          onClick={() => onCheckbox()}
+                        />
+                        <label htmlFor="private-space">
+                          Private space requested
+                        </label>
+                      </div>
+                    )}
                   </form>
                 </div>
                 <div className="modal-footer">
@@ -344,6 +360,8 @@ Boarding.propTypes = {
   verifyBadgeMsg: PropTypes.string,
   userName: PropTypes.string,
   profileUserLoading: PropTypes.bool,
+  leadersCommittee: PropTypes.bool,
+  onCheckbox: PropTypes.func,
 };
 
 export default Boarding;
