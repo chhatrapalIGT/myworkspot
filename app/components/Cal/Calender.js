@@ -161,15 +161,24 @@ const Calender = ({
     const user = colleagueData.find(
       ({ employeeid }) => employeeid === employeeId,
     );
-    return (
+    const data =
       user.workspotdata.length > 0 &&
       user &&
       user.workspotdata &&
-      user.workspotdata.find(
-        ({ date }) =>
-          moment(date).format('DD') === moment(dateValue).format('DD'),
-      )
-    );
+      // eslint-disable-next-line array-callback-return
+      user.workspotdata.find(obj => {
+        if (obj.unitsapproved) {
+          if (
+            moment(obj.date).format('DD') === moment(dateValue).format('DD')
+          ) {
+            return obj;
+          }
+        }
+
+        return moment(obj.date).format('DD') === moment(dateValue).format('DD');
+      });
+
+    return data;
   };
 
   const getWeekWorkspotDataLoading = () => {
@@ -397,23 +406,6 @@ const Calender = ({
                                               ? 'day_one day_one_myteam disabled'
                                               : 'day_one day_one_myteam'
                                           }
-                                          onClick={() => {
-                                            if (
-                                              isCurrentDate(item.date) &&
-                                              ((data &&
-                                                data.locationCode === 'RIC') ||
-                                                (data &&
-                                                  data.locationCode === 'DC'))
-                                            ) {
-                                              setEmployeeLocationDetail(true);
-                                              handleEditModal({
-                                                ...data,
-                                                user: user.username,
-                                              });
-                                            }
-                                          }}
-                                          aria-hidden="true"
-                                          key={`${item.value}`}
                                         >
                                           <p className="day-name">{item.day}</p>
                                           <p
@@ -426,72 +418,162 @@ const Calender = ({
                                           >
                                             {item.value}
                                           </p>
-
-                                          <div
-                                            className={
-                                              isCurrentDate(item.date) &&
-                                              ((data &&
-                                                data.locationCode === 'RIC') ||
-                                                (data &&
-                                                  data.locationCode === 'DC'))
-                                                ? `{ day-one-wrapper ${locationClass(
-                                                    data && data.locationCode,
-                                                  )} day-pointer }`
-                                                : `{ day-one-wrapper ${locationClass(
-                                                    data && data.locationCode,
-                                                  )}  }`
-                                            }
-                                          >
-                                            <p
+                                          {data &&
+                                          data.unitsapproved === '0.5' ? (
+                                            <>
+                                              {data &&
+                                                data.data.map(teamPart => (
+                                                  <div
+                                                    className={`day-one-wrapper ${
+                                                      teamPart &&
+                                                      teamPart.locationCode ===
+                                                        'PTO'
+                                                        ? 'half-paid-off mt-6'
+                                                        : isCurrentDate(
+                                                            item.date,
+                                                          ) &&
+                                                          ((teamPart &&
+                                                            teamPart.locationCode ===
+                                                              'RIC') ||
+                                                            (teamPart &&
+                                                              teamPart.locationCode ===
+                                                                'DC'))
+                                                        ? 'has-half-paid-off day-pointer'
+                                                        : 'has-half-paid-off '
+                                                    }`}
+                                                    onClick={() => {
+                                                      if (
+                                                        isCurrentDate(
+                                                          item.date,
+                                                        ) &&
+                                                        ((teamPart &&
+                                                          teamPart.locationCode ===
+                                                            'RIC') ||
+                                                          (teamPart &&
+                                                            teamPart.locationCode ===
+                                                              'DC'))
+                                                      ) {
+                                                        setEmployeeLocationDetail(
+                                                          true,
+                                                        );
+                                                        handleEditModal({
+                                                          ...teamPart,
+                                                          user: user.username,
+                                                        });
+                                                      }
+                                                    }}
+                                                    aria-hidden="true"
+                                                    key={`${item.value}`}
+                                                  >
+                                                    <p className="work-station half-paid-off">
+                                                      {teamPart.locationCode ===
+                                                      'PTO'
+                                                        ? teamPart.timeofftype
+                                                        : teamPart.locationName}
+                                                    </p>
+                                                  </div>
+                                                ))}
+                                            </>
+                                          ) : (
+                                            <div
                                               className={
-                                                data &&
-                                                data.locationCode === 'RW'
-                                                  ? 'work-station remote-work work-floor'
-                                                  : data &&
-                                                    data.locationCode === 'PTO'
-                                                  ? 'work-station paid-time-off work-floor'
-                                                  : data &&
-                                                    data.locationCode === 'EAB'
-                                                  ? 'work-station eab-holiday work-floor'
-                                                  : 'work-station work-floor'
-                                              }
-                                            >
-                                              {data && data.timeofftype
-                                                ? data.timeofftype
-                                                : data && data.eabHolidayType
-                                                ? data.eabHolidayType
-                                                : data && data.locationName}
-                                            </p>
-                                            {(data &&
-                                              data.locationCode !== 'RW') ||
-                                              (data &&
-                                                data.locationCode !== 'PTO') ||
-                                              ((data &&
-                                                data.locationCode !== 'EAB') ||
-                                                (((data &&
-                                                  data.locationCode === 'DC') ||
+                                                isCurrentDate(item.date) &&
+                                                ((data &&
+                                                  data.locationCode ===
+                                                    'RIC') ||
                                                   (data &&
+                                                    data.locationCode === 'DC'))
+                                                  ? `{ day-one-wrapper ${locationClass(
+                                                      data && data.locationCode,
+                                                    )} day-pointer }`
+                                                  : `{ day-one-wrapper ${locationClass(
+                                                      data && data.locationCode,
+                                                    )}  }`
+                                              }
+                                              onClick={() => {
+                                                if (
+                                                  isCurrentDate(item.date) &&
+                                                  ((data &&
                                                     data.locationCode ===
-                                                      'RIC' &&
-                                                    item.disable &&
-                                                    isCurrentDate(
-                                                      item.date,
-                                                    ))) && (
-                                                  <span className="floor-location">
-                                                    <img src={Vector} alt="" />
-                                                    {data && data.floor} -{' '}
-                                                    {data && data.color}
-                                                  </span>
-                                                )))}
+                                                      'RIC') ||
+                                                    (data &&
+                                                      data.locationCode ===
+                                                        'DC'))
+                                                ) {
+                                                  setEmployeeLocationDetail(
+                                                    true,
+                                                  );
+                                                  handleEditModal({
+                                                    ...data,
+                                                    user: user.username,
+                                                  });
+                                                }
+                                              }}
+                                              aria-hidden="true"
+                                              key={`${item.value}`}
+                                            >
+                                              <p
+                                                className={
+                                                  data &&
+                                                  data.locationCode === 'RW'
+                                                    ? 'work-station remote-work work-floor'
+                                                    : data &&
+                                                      data.locationCode ===
+                                                        'PTO'
+                                                    ? 'work-station paid-time-off work-floor'
+                                                    : data &&
+                                                      data.locationCode ===
+                                                        'EAB'
+                                                    ? 'work-station eab-holiday work-floor'
+                                                    : 'work-station work-floor'
+                                                }
+                                              >
+                                                {data && data.timeofftype
+                                                  ? data.timeofftype
+                                                  : data && data.eabHolidayType
+                                                  ? data.eabHolidayType
+                                                  : data && data.locationName}
+                                              </p>
+                                              {(data &&
+                                                data.locationCode !== 'RW') ||
+                                                (data &&
+                                                  data.locationCode !==
+                                                    'PTO') ||
+                                                ((data &&
+                                                  data.locationCode !==
+                                                    'EAB') ||
+                                                  (((data &&
+                                                    data.locationCode ===
+                                                      'DC') ||
+                                                    (data &&
+                                                      data.locationCode ===
+                                                        'RIC' &&
+                                                      item.disable &&
+                                                      isCurrentDate(
+                                                        item.date,
+                                                      ))) && (
+                                                    <span className="floor-location">
+                                                      <img
+                                                        src={Vector}
+                                                        alt=""
+                                                      />
+                                                      {data && data.floor} -{' '}
+                                                      {data && data.color}
+                                                    </span>
+                                                  )))}
 
-                                            {data &&
-                                              data.locationCode === 'EAB' && (
-                                                <span className="floor-location eab-holiday">
-                                                  <img src={eabVector} alt="" />
-                                                  {data && data.locationName}
-                                                </span>
-                                              )}
-                                          </div>
+                                              {data &&
+                                                data.locationCode === 'EAB' && (
+                                                  <span className="floor-location eab-holiday">
+                                                    <img
+                                                      src={eabVector}
+                                                      alt=""
+                                                    />
+                                                    {data && data.locationName}
+                                                  </span>
+                                                )}
+                                            </div>
+                                          )}
                                         </div>
                                       </>
                                     );
@@ -543,74 +625,125 @@ const Calender = ({
                                     {item.value}
                                   </p>
 
-                                  <div
-                                    className={
-                                      item.disable ||
-                                      isCurrentDate(item.date) ||
-                                      (data && data.locationCode === 'PTO')
-                                        ? `day-one-wrapper ${locationClass(
-                                            data && data.locationCode,
-                                          )} `
-                                        : `day-one-wrapper ${locationClass(
-                                            data && data.locationCode,
-                                          )} day-pointer`
-                                    }
-                                    onClick={() => {
-                                      !item.disable &&
-                                        !isCurrentDate(item.date) &&
-                                        (data && data.locationCode !== 'PTO') &&
-                                        handleEditModal(
-                                          true,
-                                          item.date,
-                                          `${data && data.locationCode}`,
-                                          'self',
-                                          `${data && data.locationCode}`,
-                                          `${data && data.locationName}`,
-                                        );
-                                      setDate(
-                                        moment(item.date).format(
-                                          'dddd, MMMM DD, YYYY',
-                                        ),
-                                      );
-                                      setChange(false);
-                                    }}
-                                    aria-hidden="true"
-                                  >
-                                    <p
-                                      className={
-                                        data && data.locationCode === 'RW'
-                                          ? 'work-station remote-work work-floor'
-                                          : data && data.locationCode === 'PTO'
-                                          ? 'work-station paid-time-off work-floor'
-                                          : data && data.locationCode === 'EAB'
-                                          ? 'work-station eab-holiday work-floor'
-                                          : 'work-station work-floor'
-                                      }
-                                    >
-                                      {data && data.timeofftype
-                                        ? data.timeofftype
-                                        : data && data.eabHolidayType
-                                        ? data.eabHolidayType
-                                        : data && data.locationName}
-                                    </p>
-
-                                    {(data && data.locationCode !== 'RW') ||
-                                      (data && data.locationCode !== 'PTO') ||
-                                      (data && data.locationCode !== 'EAB' && (
-                                        <span className="floor-location">
-                                          <img src={Vector} alt="" />
-                                          {data && data.floor} -{' '}
-                                          {data && data.color}
-                                        </span>
+                                  {data && data.unitsapproved === '0.5' ? (
+                                    <>
+                                      {data.data.map(partially => (
+                                        <div
+                                          className={`day-one-wrapper ${
+                                            partially.locationCode === 'PTO'
+                                              ? 'half-paid-off'
+                                              : item.disable ||
+                                                isCurrentDate(item.date)
+                                              ? 'has-half-paid-off'
+                                              : 'has-half-paid-off day-pointer'
+                                          }`}
+                                          onClick={() => {
+                                            !item.disable &&
+                                              !isCurrentDate(item.date) &&
+                                              (partially &&
+                                                partially.locationCode !==
+                                                  'PTO') &&
+                                              handleEditModal(
+                                                true,
+                                                item.date,
+                                                `${partially &&
+                                                  partially.locationCode}`,
+                                                'self',
+                                                `${partially &&
+                                                  partially.locationCode}`,
+                                                `${partially &&
+                                                  partially.locationName}`,
+                                              );
+                                            setDate(
+                                              moment(item.date).format(
+                                                'dddd, MMMM DD, YYYY',
+                                              ),
+                                            );
+                                            setChange(false);
+                                          }}
+                                          aria-hidden="true"
+                                        >
+                                          <p className="work-station half-paid-off">
+                                            {partially.locationCode === 'PTO'
+                                              ? partially.timeofftype
+                                              : partially.locationName}
+                                          </p>
+                                        </div>
                                       ))}
+                                    </>
+                                  ) : (
+                                    <div
+                                      className={
+                                        item.disable ||
+                                        isCurrentDate(item.date) ||
+                                        (data && data.locationCode === 'PTO')
+                                          ? `day-one-wrapper ${locationClass(
+                                              data && data.locationCode,
+                                            )} `
+                                          : `day-one-wrapper ${locationClass(
+                                              data && data.locationCode,
+                                            )} day-pointer`
+                                      }
+                                      onClick={() => {
+                                        !item.disable &&
+                                          !isCurrentDate(item.date) &&
+                                          (data &&
+                                            data.locationCode !== 'PTO') &&
+                                          handleEditModal(
+                                            true,
+                                            item.date,
+                                            `${data && data.locationCode}`,
+                                            'self',
+                                            `${data && data.locationCode}`,
+                                            `${data && data.locationName}`,
+                                          );
+                                        setDate(
+                                          moment(item.date).format(
+                                            'dddd, MMMM DD, YYYY',
+                                          ),
+                                        );
+                                        setChange(false);
+                                      }}
+                                      aria-hidden="true"
+                                    >
+                                      <p
+                                        className={
+                                          data && data.locationCode === 'RW'
+                                            ? 'work-station remote-work work-floor'
+                                            : data &&
+                                              data.locationCode === 'PTO'
+                                            ? 'work-station paid-time-off work-floor'
+                                            : data &&
+                                              data.locationCode === 'EAB'
+                                            ? 'work-station eab-holiday work-floor'
+                                            : 'work-station work-floor'
+                                        }
+                                      >
+                                        {data && data.timeofftype
+                                          ? data.timeofftype
+                                          : data && data.eabHolidayType
+                                          ? data.eabHolidayType
+                                          : data && data.locationName}
+                                      </p>
 
-                                    {data && data.locationCode === 'EAB' && (
-                                      <span className="floor-location eab-holiday">
-                                        <img src={eabVector} alt="" />
-                                        {data && data.locationName}
-                                      </span>
-                                    )}
-                                  </div>
+                                      {(data && data.locationCode !== 'RW') ||
+                                        (data && data.locationCode !== 'PTO') ||
+                                        (data && data.locationCode !== 'EAB' && (
+                                          <span className="floor-location">
+                                            <img src={Vector} alt="" />
+                                            {data && data.floor} -{' '}
+                                            {data && data.color}
+                                          </span>
+                                        ))}
+
+                                      {data && data.locationCode === 'EAB' && (
+                                        <span className="floor-location eab-holiday">
+                                          <img src={eabVector} alt="" />
+                                          {data && data.locationName}
+                                        </span>
+                                      )}
+                                    </div>
+                                  )}
                                 </div>
                               </>
                             );
@@ -649,7 +782,6 @@ const Calender = ({
                     </div>
                   </div>
                 ) : ( */}
-
                 {setVisible &&
                   colleagueData.length > 0 &&
                   colleagueData.map((obj, userIdx) => (
@@ -721,80 +853,131 @@ const Calender = ({
                                     {' '}
                                     {item.value}
                                   </p>
-                                  <div
-                                    className={
-                                      item.disable
-                                        ? `{ day-one-wrapper ${locationClass(
-                                            data && data.locationCode,
-                                          )} }`
-                                        : isCurrentDate(item.date) &&
+                                  {data && data.unitsapproved === '0.5' ? (
+                                    <>
+                                      {data.data.map(partially => (
+                                        <div
+                                          className={`day-one-wrapper ${
+                                            partially &&
+                                            partially.locationCode === 'PTO'
+                                              ? 'half-paid-off'
+                                              : item.disable ||
+                                                isCurrentDate(item.date)
+                                              ? 'has-half-paid-off day-pointer'
+                                              : 'has-half-paid-off '
+                                          }`}
+                                          onClick={() => {
+                                            handleColleagueModal({
+                                              ...partially,
+                                              firstName:
+                                                obj.employeeidFirstname,
+                                              lastName: obj.employeeidLastname,
+                                            });
+                                            isCurrentDate(item.date) &&
+                                              partially &&
+                                              partially.locationCode !== 'RW' &&
+                                              partially &&
+                                              partially.locationCode !==
+                                                'PTO' &&
+                                              partially &&
+                                              partially.locationCode !==
+                                                'EAB' &&
+                                              setEmployee(true);
+                                            setDate(
+                                              moment(item.date).format(
+                                                'dddd, MMMM DD, YYYY',
+                                              ),
+                                            );
+                                          }}
+                                          aria-hidden="true"
+                                        >
+                                          <p className="work-station half-paid-off">
+                                            {partially &&
+                                            partially.locationCode === 'PTO'
+                                              ? partially.timeofftype
+                                              : partially.locationName}
+                                          </p>
+                                        </div>
+                                      ))}
+                                    </>
+                                  ) : (
+                                    <div
+                                      className={
+                                        item.disable
+                                          ? `{ day-one-wrapper ${locationClass(
+                                              data && data.locationCode,
+                                            )} }`
+                                          : isCurrentDate(item.date) &&
+                                            data &&
+                                            data.locationCode !== 'RW' &&
+                                            data &&
+                                            data.locationCode !== 'PTO' &&
+                                            data &&
+                                            data.locationCode !== 'EAB'
+                                          ? ` day-one-wrapper ${locationClass(
+                                              data && data.locationCode,
+                                            )} day-pointer `
+                                          : ` day-one-wrapper ${locationClass(
+                                              data && data.locationCode,
+                                            )}`
+                                      }
+                                      onClick={() => {
+                                        handleColleagueModal({
+                                          ...data,
+                                          firstName: obj.employeeidFirstname,
+                                          lastName: obj.employeeidLastname,
+                                        });
+                                        isCurrentDate(item.date) &&
                                           data &&
                                           data.locationCode !== 'RW' &&
                                           data &&
                                           data.locationCode !== 'PTO' &&
                                           data &&
-                                          data.locationCode !== 'EAB'
-                                        ? ` day-one-wrapper ${locationClass(
-                                            data && data.locationCode,
-                                          )} day-pointer `
-                                        : ` day-one-wrapper ${locationClass(
-                                            data && data.locationCode,
-                                          )}`
-                                    }
-                                    onClick={() => {
-                                      handleColleagueModal({
-                                        ...data,
-                                        firstName: obj.employeeidFirstname,
-                                        lastName: obj.employeeidLastname,
-                                      });
-                                      isCurrentDate(item.date) &&
-                                        data &&
-                                        data.locationCode !== 'RW' &&
-                                        data &&
-                                        data.locationCode !== 'PTO' &&
-                                        data &&
-                                        data.locationCode !== 'EAB' &&
-                                        setEmployee(true);
-                                      setDate(
-                                        moment(item.date).format(
-                                          'dddd, MMMM DD, YYYY',
-                                        ),
-                                      );
-                                    }}
-                                    aria-hidden="true"
-                                  >
-                                    <p
-                                      className={
-                                        data && data.locationCode === 'RW'
-                                          ? 'work-station remote-work work-floor'
-                                          : data && data.locationCode === 'PTO'
-                                          ? 'work-station paid-time-off work-floor'
-                                          : data && data.locationCode === 'EAB'
-                                          ? 'work-station eab-holiday work-floor'
-                                          : 'work-station work-floor'
-                                      }
+                                          data.locationCode !== 'EAB' &&
+                                          setEmployee(true);
+                                        setDate(
+                                          moment(item.date).format(
+                                            'dddd, MMMM DD, YYYY',
+                                          ),
+                                        );
+                                      }}
+                                      aria-hidden="true"
                                     >
-                                      {data && data.timeofftype
-                                        ? data.timeofftype
-                                        : data && data.eabHolidayType
-                                        ? data.eabHolidayType
-                                        : data && data.locationName}
-                                    </p>
-                                    {data && data.floor && (
-                                      <span className="floor-location">
-                                        <img src={Vector} alt="" />
-                                        {data && data.floor} -{' '}
-                                        {data && data.color}
-                                      </span>
-                                    )}
+                                      <p
+                                        className={
+                                          data && data.locationCode === 'RW'
+                                            ? 'work-station remote-work work-floor'
+                                            : data &&
+                                              data.locationCode === 'PTO'
+                                            ? 'work-station paid-time-off work-floor'
+                                            : data &&
+                                              data.locationCode === 'EAB'
+                                            ? 'work-station eab-holiday work-floor'
+                                            : 'work-station work-floor'
+                                        }
+                                      >
+                                        {data && data.timeofftype
+                                          ? data.timeofftype
+                                          : data && data.eabHolidayType
+                                          ? data.eabHolidayType
+                                          : data && data.locationName}
+                                      </p>
+                                      {data && data.floor && (
+                                        <span className="floor-location">
+                                          <img src={Vector} alt="" />
+                                          {data && data.floor} -{' '}
+                                          {data && data.color}
+                                        </span>
+                                      )}
 
-                                    {data && data.locationCode === 'EAB' && (
-                                      <span className="floor-location eab-holiday">
-                                        <img src={eabVector} alt="" />
-                                        {data && data.locationName}
-                                      </span>
-                                    )}
-                                  </div>
+                                      {data && data.locationCode === 'EAB' && (
+                                        <span className="floor-location eab-holiday">
+                                          <img src={eabVector} alt="" />
+                                          {data && data.locationName}
+                                        </span>
+                                      )}
+                                    </div>
+                                  )}
                                 </div>
                               );
                             })}
@@ -853,83 +1036,134 @@ const Calender = ({
                                 {item.value}
                               </p>
 
-                              <div
-                                className={
-                                  item.disable ||
-                                  (item.day === 'Saturday' ||
-                                    item.day === 'Sunday' ||
-                                    item.weekend) ||
-                                  isCurrentDate(item.date) ||
-                                  (data && data.locationCode === 'PTO')
-                                    ? `{ day-one-wrapper ${locationClass(
-                                        data && data.locationCode,
-                                      )} }`
-                                    : `{ day-one-wrapper ${locationClass(
-                                        data && data.locationCode,
-                                      )} day-pointer }`
-                                }
-                                onClick={() => {
-                                  !item.disable &&
-                                    !isCurrentDate(item.date) &&
-                                    (data && data.locationCode !== 'PTO') &&
-                                    handleEditModal(
-                                      true,
-                                      item.date,
-                                      `${data && data.locationCode}`,
-                                      'self',
-                                      `${data && data.locationCode}`,
-                                      `${data && data.locationName}`,
-                                    );
+                              {data && data.unitsapproved === '0.5' ? (
+                                <>
+                                  {data.data.map(otherHalf => (
+                                    <div
+                                      className={`day-one-wrapper ${
+                                        otherHalf.locationCode === 'PTO'
+                                          ? 'half-paid-off'
+                                          : item.disable ||
+                                            (item.day === 'Saturday' ||
+                                              item.day === 'Sunday' ||
+                                              item.weekend) ||
+                                            isCurrentDate(item.date)
+                                          ? 'has-half-paid-off'
+                                          : 'has-half-paid-off day-pointer'
+                                      }`}
+                                      onClick={() => {
+                                        !item.disable &&
+                                          !isCurrentDate(item.date) &&
+                                          (otherHalf &&
+                                            otherHalf.locationCode !== 'PTO') &&
+                                          handleEditModal(
+                                            true,
+                                            item.date,
+                                            `${otherHalf &&
+                                              otherHalf.locationCode}`,
+                                            'self',
+                                            `${otherHalf &&
+                                              otherHalf.locationCode}`,
+                                            `${otherHalf &&
+                                              otherHalf.locationName}`,
+                                          );
 
-                                  setDate(
-                                    moment(item.date).format(
-                                      'dddd, MMMM DD, YYYY',
-                                    ),
-                                  );
-                                  // handleLocDate(item.date);
-                                }}
-                                aria-hidden="true"
-                              >
-                                <p
+                                        setDate(
+                                          moment(item.date).format(
+                                            'dddd, MMMM DD, YYYY',
+                                          ),
+                                        );
+                                        // handleLocDate(item.date);
+                                      }}
+                                      aria-hidden="true"
+                                    >
+                                      <p className="work-station half-paid-off">
+                                        {otherHalf.locationCode === 'PTO'
+                                          ? otherHalf.timeofftype
+                                          : otherHalf.locationName}
+                                      </p>
+                                    </div>
+                                  ))}
+                                </>
+                              ) : (
+                                <div
                                   className={
-                                    data && data.locationCode === 'RW'
-                                      ? 'work-station remote-work work-floor'
-                                      : data && data.locationCode === 'PTO'
-                                      ? 'work-station paid-time-off work-floor'
-                                      : data && data.locationCode === 'EAB'
-                                      ? 'work-station eab-holiday work-floor'
-                                      : 'work-station work-floor'
+                                    item.disable ||
+                                    (item.day === 'Saturday' ||
+                                      item.day === 'Sunday' ||
+                                      item.weekend) ||
+                                    isCurrentDate(item.date) ||
+                                    (data && data.locationCode === 'PTO')
+                                      ? `{ day-one-wrapper ${locationClass(
+                                          data && data.locationCode,
+                                        )} }`
+                                      : `{ day-one-wrapper ${locationClass(
+                                          data && data.locationCode,
+                                        )} day-pointer }`
                                   }
+                                  onClick={() => {
+                                    !item.disable &&
+                                      !isCurrentDate(item.date) &&
+                                      (data && data.locationCode !== 'PTO') &&
+                                      handleEditModal(
+                                        true,
+                                        item.date,
+                                        `${data && data.locationCode}`,
+                                        'self',
+                                        `${data && data.locationCode}`,
+                                        `${data && data.locationName}`,
+                                      );
+
+                                    setDate(
+                                      moment(item.date).format(
+                                        'dddd, MMMM DD, YYYY',
+                                      ),
+                                    );
+                                    // handleLocDate(item.date);
+                                  }}
+                                  aria-hidden="true"
                                 >
-                                  {data && data.timeofftype
-                                    ? data.timeofftype
-                                    : data && data.eabHolidayType
-                                    ? data.eabHolidayType
-                                    : data && data.locationName}
-                                </p>
+                                  <p
+                                    className={
+                                      data && data.locationCode === 'RW'
+                                        ? 'work-station remote-work work-floor'
+                                        : data && data.locationCode === 'PTO'
+                                        ? 'work-station paid-time-off work-floor'
+                                        : data && data.locationCode === 'EAB'
+                                        ? 'work-station eab-holiday work-floor'
+                                        : 'work-station work-floor'
+                                    }
+                                  >
+                                    {data && data.timeofftype
+                                      ? data.timeofftype
+                                      : data && data.eabHolidayType
+                                      ? data.eabHolidayType
+                                      : data && data.locationName}
+                                  </p>
 
-                                {(data && data.locationCode !== 'RW') ||
-                                  (data && data.locationCode !== 'PTO') ||
-                                  ((data && data.locationCode !== 'EAB') ||
-                                    (((data && data.locationCode === 'DC') ||
-                                      (data &&
-                                        data.locationCode === 'RIC' &&
-                                        item.disable &&
-                                        isCurrentDate(item.date))) && (
-                                      <span className="floor-location">
-                                        <img src={Vector} alt="" />
-                                        {data && data.floor} -{' '}
-                                        {data && data.color}
-                                      </span>
-                                    )))}
+                                  {(data && data.locationCode !== 'RW') ||
+                                    (data && data.locationCode !== 'PTO') ||
+                                    ((data && data.locationCode !== 'EAB') ||
+                                      (((data && data.locationCode === 'DC') ||
+                                        (data &&
+                                          data.locationCode === 'RIC' &&
+                                          item.disable &&
+                                          isCurrentDate(item.date))) && (
+                                        <span className="floor-location">
+                                          <img src={Vector} alt="" />
+                                          {data && data.floor} -{' '}
+                                          {data && data.color}
+                                        </span>
+                                      )))}
 
-                                {data && data.locationCode === 'EAB' && (
-                                  <span className="floor-location eab-holiday">
-                                    <img src={eabVector} alt="" />
-                                    {data && data.locationName}
-                                  </span>
-                                )}
-                              </div>
+                                  {data && data.locationCode === 'EAB' && (
+                                    <span className="floor-location eab-holiday">
+                                      <img src={eabVector} alt="" />
+                                      {data && data.locationName}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
                             </div>
                           );
                         })}
