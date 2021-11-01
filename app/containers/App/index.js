@@ -29,6 +29,7 @@ import Footer from '../../components/Footer';
 // import Login from '../../components/Login';
 import CallBack from '../../components/Login/CallBack';
 import Login from '../../components/Login';
+import EmployeePage from '../EmployeePage';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
@@ -99,6 +100,7 @@ const App = props => {
               component={Washington}
               props={props}
             />
+            <Route path="/employee" component={EmployeePage} />
             <Route component={NotFoundPage} />
           </Switch>
           <Footer />

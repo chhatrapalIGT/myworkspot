@@ -1,0 +1,12 @@
+export const REQUEST_GET_EMPLOYEE_DETAIL = 'requestGetEmployeeDetail';
+export const SUCCESS_GET_EMPLOYEE_DETAIL = 'getEmployeeDetailSuccess';
+export const FAILED_GET_EMPLOYEE_DETAIL = 'getEmployeeDetailFailed';
+export const REQUEST_EDIT_EMPLOYEE_DETAIL = 'requestEditEmployeeDetail';
+export const SUCCESS_EDIT_EMPLOYEE_DETAIL = 'editEmployeeDetailSuccess';
+export const FAILED_EDIT_EMPLOYEE_DETAIL = 'editEmployeeDetailFailed';
+export const REQUEST_UPDATE_EMPLOYEE_DETAIL = 'requestUpdateEmployeeDetail';
+export const SUCCESS_UPDATE_EMPLOYEE_DETAIL = 'updateEmployeeDetailSuccess';
+export const FAILED_UPDATE_EMPLOYEE_DETAIL = 'updateEmployeeDetailFailed';
+export const REQUEST_GET_WORKSPACE = 'requestgetWorkspace';
+export const SUCCESS_GET_WORKSPACE = 'getWorkspaceSuccess';
+export const FAILED_GET_WORKSPACE = 'getWorkspaceFailed';
