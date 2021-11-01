@@ -1,0 +1,32 @@
+import { put, takeLatest } from 'redux-saga/effects';
+import request from 'utils/request';
+import { REQUEST_UPDATE_ACTIVE_STATUS } from './constants';
+import { updateActiveStatusSuccess, updateActiveStatusFailed } from './actions';
+import { CONSTANT } from '../../enum';
+
+const { API_URL } = CONSTANT;
+
+export function* statusUpdate({ payload }) {
+  const requestURL = `${API_URL}/spaces/activeStatusAction`;
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  try {
+    const response = yield request({
+      method: 'PUT',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+    yield put(updateActiveStatusSuccess(data));
+  } catch (error) {
+    yield put(updateActiveStatusFailed(error));
+  }
+}
+
+export default function* spaceMapData() {
+  yield takeLatest(REQUEST_UPDATE_ACTIVE_STATUS, statusUpdate);
+}

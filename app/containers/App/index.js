@@ -30,6 +30,8 @@ import Footer from '../../components/Footer';
 import CallBack from '../../components/Login/CallBack';
 import Login from '../../components/Login';
 import EmployeePage from '../EmployeePage';
+import officeUpload from '../UploadMapPage';
+import space from '../SpacePage';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
@@ -67,6 +69,8 @@ const App = props => {
             />
             <Route exact path="/callback/" component={CallBack} />
             <Route exact path="/faq" component={Faq} />
+            <Route exact path="/officemap" component={officeUpload} />
+            <Route exact path="/space" component={space} />
             <Route
               exact
               path="/report"

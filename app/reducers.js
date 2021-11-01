@@ -12,6 +12,8 @@ import OfficeReducer from './containers/OfficeMapPage/reducer';
 import onBoardingReducer from './containers/onBoardingPage/reducer';
 import profilePageReducer from './containers/ProfilePage/reducer';
 import employeeReducer from './containers/EmployeePage/reducer';
+import uploadReducer from './containers/UploadMapPage/reducer';
+import spaceReducer from './containers/SpacePage/reducer';
 // import myTeamReducer from './containers/ReportPage/reducer';
 
 /**
@@ -24,6 +26,8 @@ export default function createReducer(injectedReducers = {}) {
     officeData: OfficeReducer,
     locationData: onBoardingReducer,
     profile: profilePageReducer,
+    uploadOffice: uploadReducer,
+    space: spaceReducer,
     // myTeam: myTeamReducer,
     router: connectRouter(history),
     employee: employeeReducer,
