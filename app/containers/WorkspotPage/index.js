@@ -606,7 +606,10 @@ const mapStateToProps = state => {
     monthData:
       workspot && workspot.getMonthData && workspot.getMonthData.monthData,
     leadersCommittee:
-      profile && profile.userList && profile.userList.leaderscommittee,
+      profile &&
+      profile.userList &&
+      profile.userList.user &&
+      profile.userList.user.leaderscommittee,
   };
 };
 
