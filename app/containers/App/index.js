@@ -104,7 +104,13 @@ const App = props => {
               component={Washington}
               props={props}
             />
-            <Route path="/employee" component={EmployeePage} />
+            <Route
+              exact
+              Route
+              props={props}
+              path="/employee"
+              component={EmployeePage}
+            />
             <Route component={NotFoundPage} />
           </Switch>
           <Footer />

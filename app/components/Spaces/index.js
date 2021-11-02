@@ -21,7 +21,7 @@ const Spaces = ({
     const dataFinal = floor.split(',');
     if (val === false) {
       const payload = {
-        active: checked,
+        active: !checked,
         locationid: state.selectedNames,
         floor: dataFinal && dataFinal[0] !== 'null' ? dataFinal[0] : '',
         building: dataFinal && dataFinal[1] !== 'null' ? dataFinal[1] : '',
@@ -31,7 +31,7 @@ const Spaces = ({
       requestUpdateActiveStatus(payload);
     } else {
       const payload = {
-        active: checked,
+        active: !checked,
         locationid: state.selectedNames,
         floor: dataFinal && dataFinal[0] !== 'null' ? dataFinal[0] : '',
         building: dataFinal && dataFinal[1] !== 'null' ? dataFinal[1] : '',
@@ -149,7 +149,7 @@ const Spaces = ({
                                           id="data2"
                                           // name="dataVal"
                                           type="checkbox"
-                                          // defaultChecked={state.checked}
+                                          defaultChecked={floor.inactive}
                                           onChange={() =>
                                             handleCheckbox(
                                               floor.colorcode,
@@ -170,6 +170,9 @@ const Spaces = ({
                                                 <input
                                                   id="data1"
                                                   type="checkbox"
+                                                  defaultChecked={
+                                                    space.inactive
+                                                  }
                                                   onChange={() =>
                                                     handleCheckbox(
                                                       space.id,
