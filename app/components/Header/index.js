@@ -3,6 +3,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState, useRef, useEffect } from 'react';
 import '../assets/css/style.scss';
+import '../assets/css/adminStyle.css';
 import '../assets/css/style.css';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
