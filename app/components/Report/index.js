@@ -169,10 +169,14 @@ const Report = ({
         .add(1, 'month')
         .format('MM');
       const currentMonth = getMonth !== nextMonth;
-
+      const datas =
+        ele && ele.data ? ele.data.find(obj => obj.locationCode !== 'PTO') : '';
       let obj = {};
       if (!prevDate && currentMonth) {
-        if (ele.officetype === 'EAB Office') {
+        if (
+          ele.officetype === 'EAB Office' ||
+          (datas.officetype === 'EAB Office' && ele.locationCode !== 'EAB')
+        ) {
           obj = {
             date: ele.date,
             markCssClass: 'mbsc-calendar-marks1',

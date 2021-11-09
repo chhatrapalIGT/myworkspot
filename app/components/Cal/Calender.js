@@ -676,7 +676,9 @@ const Calender = ({
                                       className={
                                         item.disable ||
                                         isCurrentDate(item.date) ||
-                                        (data && data.locationCode === 'PTO')
+                                        ((data &&
+                                          data.locationCode === 'PTO') ||
+                                          (data && data.locationCode === 'EAB'))
                                           ? `day-one-wrapper ${locationClass(
                                               data && data.locationCode,
                                             )} `
@@ -689,6 +691,8 @@ const Calender = ({
                                           !isCurrentDate(item.date) &&
                                           (data &&
                                             data.locationCode !== 'PTO') &&
+                                          (data &&
+                                            data.locationCode !== 'EAB') &&
                                           handleEditModal(
                                             true,
                                             item.date,
@@ -1093,7 +1097,8 @@ const Calender = ({
                                       item.day === 'Sunday' ||
                                       item.weekend) ||
                                     isCurrentDate(item.date) ||
-                                    (data && data.locationCode === 'PTO')
+                                    (data && data.locationCode === 'PTO') ||
+                                    (data && data.locationCode === 'EAB')
                                       ? `{ day-one-wrapper ${locationClass(
                                           data && data.locationCode,
                                         )} }`
@@ -1105,6 +1110,7 @@ const Calender = ({
                                     !item.disable &&
                                       !isCurrentDate(item.date) &&
                                       (data && data.locationCode !== 'PTO') &&
+                                      (data && data.locationCode !== 'EAB') &&
                                       handleEditModal(
                                         true,
                                         item.date,
