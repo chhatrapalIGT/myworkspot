@@ -165,13 +165,29 @@ const WorkSpot = ({
   };
 
   const neighborhoodColor =
-    neighborhoodData && neighborhoodData.colorcode === '0072CE'
+    (neighborhoodData && neighborhoodData.colorcode) ||
+    (neighborhoodData &&
+      neighborhoodData.data &&
+      neighborhoodData.data[0] &&
+      neighborhoodData.data[0].colorcode) === '0072CE'
       ? 'Blue'
-      : neighborhoodData && neighborhoodData.colorcode === 'ED8B00'
+      : (neighborhoodData && neighborhoodData.colorcode) ||
+        (neighborhoodData &&
+          neighborhoodData.data &&
+          neighborhoodData.data[0] &&
+          neighborhoodData.data[0].colorcode) === 'ED8B00'
       ? 'Orange'
-      : neighborhoodData && neighborhoodData.colorcode === '00B1B0'
+      : (neighborhoodData && neighborhoodData.colorcode) ||
+        (neighborhoodData &&
+          neighborhoodData.data &&
+          neighborhoodData.data[0] &&
+          neighborhoodData.data[0].colorcode) === '00B1B0'
       ? 'Teal'
-      : neighborhoodData && neighborhoodData.colorcode === 'F7CA0F'
+      : (neighborhoodData && neighborhoodData.colorcode) ||
+        (neighborhoodData &&
+          neighborhoodData.data &&
+          neighborhoodData.data[0] &&
+          neighborhoodData.data[0].colorcode) === 'F7CA0F'
       ? 'Yellow'
       : '';
 
@@ -189,7 +205,11 @@ const WorkSpot = ({
         const currentMonth = getMonth !== nextMonth;
         let obj = {};
         if (!prevDate && currentMonth) {
-          if (ele.officetype === 'EAB Office') {
+          if (
+            ele.officetype === 'EAB Office' ||
+            (halfDayData.officetype === 'EAB Office' &&
+              ele.locationCode !== 'EAB')
+          ) {
             obj = {
               date: ele.date,
               markCssClass: 'mbsc-calendar-marks1',
@@ -231,6 +251,11 @@ const WorkSpot = ({
     ? employeeData.firstName &&
       employeeData.firstName.charAt(0).concat(' ', employeeData.lastName)
     : '';
+
+  const halfDayData =
+    neighborhoodData && neighborhoodData.data
+      ? neighborhoodData.data.find(obj => obj.locationCode !== 'PTO')
+      : '';
 
   return (
     <>
@@ -324,15 +349,17 @@ const WorkSpot = ({
                       </>
                     ) : (
                       <>
-                        {neighborhoodData &&
-                        neighborhoodData.locationCode === 'RIC' ? (
+                        {(neighborhoodData &&
+                          neighborhoodData.locationCode === 'RIC') ||
+                        halfDayData.locationCode === 'RIC' ? (
                           <p className="stroke-2">
                             Hi {neighborhoodData && neighborhoodData.username},
                             your <span>Richmond </span>
                             neighborhood today is
                           </p>
-                        ) : neighborhoodData &&
-                          neighborhoodData.locationCode === 'DC' ? (
+                        ) : (neighborhoodData &&
+                            neighborhoodData.locationCode === 'DC') ||
+                          halfDayData.locationCode === 'DC' ? (
                           <p className="stroke-2">
                             Hi {neighborhoodData && neighborhoodData.username},
                             your <span> DC </span>
@@ -369,8 +396,11 @@ const WorkSpot = ({
                                   className={
                                     (neighborhoodData &&
                                       neighborhoodData.locationCode === 'DC') ||
+                                    halfDayData.locationCode === 'DC' ||
                                     (neighborhoodData &&
-                                      neighborhoodData.locationCode === 'RIC')
+                                      neighborhoodData.locationCode ===
+                                        'RIC') ||
+                                    halfDayData.locationCode === 'RIC'
                                       ? 'building-name'
                                       : 'building-data-name'
                                   }
@@ -384,13 +414,16 @@ const WorkSpot = ({
                         )}
 
                         <div className="block-info d-flex flex-wrap">
-                          {neighborhoodData && neighborhoodData.building && (
+                          {((neighborhoodData && neighborhoodData.building) ||
+                            halfDayData.building) && (
                             <h3 className="building-name">
-                              {`Building ${neighborhoodData &&
-                                neighborhoodData.building}`}
+                              {`Building ${(neighborhoodData &&
+                                neighborhoodData.building) ||
+                                halfDayData.building}`}
                             </h3>
                           )}
-                          {neighborhoodData && neighborhoodData.floor && (
+                          {((neighborhoodData && neighborhoodData.floor) ||
+                            halfDayData.floor) && (
                             <h3
                               className={
                                 neighborhoodColor !== ''
@@ -398,8 +431,9 @@ const WorkSpot = ({
                                   : 'floor-data-name'
                               }
                             >
-                              {`Floor ${neighborhoodData &&
-                                neighborhoodData.floor}`}
+                              {`Floor ${(neighborhoodData &&
+                                neighborhoodData.floor) ||
+                                halfDayData.floor}`}
                             </h3>
                           )}
                           <h3 className="color-code">{neighborhoodColor}</h3>
@@ -440,8 +474,9 @@ const WorkSpot = ({
                                   >
                                     <img src={union} alt="" />
 
-                                    {neighborhoodData &&
-                                      neighborhoodData.officeAddress}
+                                    {(neighborhoodData &&
+                                      neighborhoodData.officeAddress) ||
+                                      halfDayData.officeAddress}
                                   </a>
                                 </div>
                               ))}
@@ -480,8 +515,12 @@ const WorkSpot = ({
               neighborhoodData.locationCode !== 'PTO' &&
               neighborhoodData &&
               neighborhoodData.locationCode !== 'EAB' &&
-              ((neighborhoodData && neighborhoodData.building !== null) ||
-                (neighborhoodData && neighborhoodData.floor !== null)) && (
+              ((neighborhoodData &&
+                neighborhoodData.building !== null &&
+                (halfDayData && halfDayData.building !== null)) ||
+                (neighborhoodData &&
+                  neighborhoodData.floor !== null &&
+                  (halfDayData && halfDayData.floor !== null))) && (
                 <div className="container" style={{ height: '100%' }}>
                   {neighborhoodLoad ? (
                     <div className="card building-block-head">
@@ -496,9 +535,14 @@ const WorkSpot = ({
                     neighborhood.success &&
                     !isEmpty(neighborhood.neighborhoodData) && (
                       <MapComponent
-                        building={neighborhoodData.building}
-                        floor={neighborhoodData.floor}
-                        locationCode={neighborhoodData.locationCode}
+                        building={
+                          neighborhoodData.building || halfDayData.building
+                        }
+                        floor={neighborhoodData.floor || halfDayData.floor}
+                        locationCode={
+                          neighborhoodData.locationCode ||
+                          halfDayData.locationCode
+                        }
                         state={state}
                         imgStyle={imgStyle}
                         handleZoomIn={handleZoomIn}
