@@ -16,7 +16,7 @@ const FAQ = () => {
   const requestGetData = () => {
     let token = sessionStorage.getItem('AccessToken');
     token = JSON.parse(token);
-    const url = `${API_URL}/Help/GetData`;
+    const url = `${API_URL}/help/getHelpData`;
     Axios.get(url, {
       withCredentials: true,
       headers: {
@@ -31,11 +31,11 @@ const FAQ = () => {
       });
   };
 
-  // const htmlDecode = content => {
-  //   const e = document.createElement('div');
-  //   e.innerHTML = content;
-  //   return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue;
-  // };
+  const htmlDecode = content => {
+    const e = document.createElement('div');
+    e.innerHTML = content;
+    return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue;
+  };
 
   useEffect(() => {
     if (!helpData) {
@@ -88,13 +88,19 @@ const FAQ = () => {
                       {helpData &&
                         helpData.map(data => (
                           <Card className="mt-3" id={data.id}>
-                            <Card.Body
-                            // dangerouslySetInnerHTML={{
-                            //   __html: htmlDecode(data.shortdesc),
-                            // }}
-                            >
+                            <Card.Body>
                               <h5>{data.topic}</h5>
-                              {data.longdesc}
+
+                              <div
+                                // eslint-disable-next-line react/no-danger
+                                dangerouslySetInnerHTML={{
+                                  __html: htmlDecode(
+                                    data.shortdesc === ''
+                                      ? data.longdesc
+                                      : data.shortdesc,
+                                  ),
+                                }}
+                              />
                             </Card.Body>
                           </Card>
                         ))}
