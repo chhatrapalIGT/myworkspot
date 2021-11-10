@@ -121,7 +121,7 @@
   height: 52px;
   border-radius: 8px;
   border: 1px solid #d1dce7;
-  padding: 18px 35px 0px 15px;
+  padding: 0px 35px 0px 15px;
   line-height: 1.15;
   -webkit-appearance: none;
   position: relative;
@@ -1104,4 +1104,11 @@
   100% {
     opacity: 1;
   }
+}
+
+.blue span {
+  margin: 0px 5px;
+}
+.emp_wrapper {
+  padding-bottom: 80px;
 }

@@ -1,33 +1,31 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import Table from './table';
+// import Select from 'react-select';
+import Pagination from './Pagination';
+// import Table from './table';;
+import Menu from '../assets/images/admin/menu.png';
+import Profile from '../assets/images/profileof.png';
+import Edit from '../assets/images/edit.svg';
+import Search from '../assets/images/admin/search.png';
 
 const Employee = props => {
+  const { state, employeeData } = props;
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (state.page - 1) * state.limit;
+    const lastPageIndex = firstPageIndex + state.limit;
+    return employeeData
+      ? employeeData.slice(firstPageIndex, lastPageIndex)
+      : [];
+  }, [employeeData]);
+  console.log('currentTableData', currentTableData);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   // const [build, setBuild] = useState(8);
-
-  // console.log('floor', floor);
-  // console.log('build', build);
-  // console.log('props.state.floor', props.state.floor);
-
-  // const handleChangeData = useCallback(
-  //   value => {
-  //     props.changeAssignedSpace(value);
-  //   },
-  //   [value],
-  // );
-
-  // const dataref = useRef();
-  // const focusInput = () => {
-  //   inputRef.current.focus();
-  // };
-
   const data =
     props.workSpace &&
     props.workSpace.find(i =>
@@ -44,254 +42,361 @@ const Employee = props => {
 
   workspace &&
     workspace.map(i => {
-      if (i.length > 0) {
+      if (i && i.length > 0) {
         i.map(j => finalData.push({ officeSpace: j.workspacenumber }));
       }
     });
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'firstname',
-        id: 'firstname',
-        accessor: d => d.firstname.concat(d.lastname),
-      },
-      {
-        Header: 'Role',
-        id: 'userRole',
-        accessor: d => d.userRole,
-      },
-      {
-        Header: 'PERMANENT SPACE',
-        id: 'assignedSpace',
-        accessor: d =>
-          d.permanentdesk !== null &&
-          d.primaryofficelocation.concat(', ', d.permanentdesk),
-      },
-      {
-        Header: 'EMAIL',
-        id: 'EMAIL',
-        accessor: d => d.email,
-      },
-      {
-        Header: 'BADGE',
-        id: 'badgeId',
-        accessor: d => d.badgeId,
-      },
+  // const options = [
+  //   { value: 'chocolate', label: 'Chocolate' },
+  //   { value: 'strawberry', label: 'Strawberry' },
+  //   { value: 'vanilla', label: 'Vanilla' },
+  // ];
 
-      {
-        Header: 'Edit',
-        id: 'edit',
-        filterable: false,
-        maxWidth: 70,
-        className: 'center',
-        accessor: i => (
-          <button
-            type="button"
-            onClick={() => {
-              props.editEmployee(i.employeeid);
-              handleShow();
-            }}
-          >
-            Edit
-          </button>
-        ),
-      },
-    ],
-    [],
-  );
   return (
-    <div className="wrapper-main">
-      <h2>Location</h2>
-      {console.log('props.stat=====e', props)}
-      {/* <table>
-        <input type="text" onChange={props.handleSearch} name="searchVal" />
-        <select onClick={props.handleSearch} name="rolee">
-          <option value="Admin"> admin </option>
-          <option value="user"> user </option>
-          <option value="Manager"> manager </option>
-        </select>
-        <tr>
-          <th>Name</th>
-          <th>Role</th>
-          <th>Permenant Space</th>
-          <th>Email</th>
-          <th>Badge</th>
-          <th />
-        </tr>
-        {props.EmployeeData &&
-          props.EmployeeData.map(i => (
-            <tr>
-              <td>{i.firstname + i.lastname}</td>
-              <td>{i.userRole}</td>
-              <td>{i.permanentdesk}</td>
-              <td>{i.email}</td>
-              <td>{i.badgeId}</td>
-              <button
-                type="submit"
-                onClick={() => {
-                  props.editEmployee(i.employeeid);
-                  handleShow();
-                }}
-              >
-                Edit
-              </button>
-            </tr>
-          ))}
-      </table> */}
-      {props.EmployeeData && props.EmployeeData.length && (
-        <Table
-          data={props.EmployeeData}
-          columns={columns}
-          // loading={loading}
-          manual
-          page={props.state.page}
-          pages={Math.ceil(props.employeeCount / props.state.limit)}
-          pageSize={props.state.limit}
-          defaultPageSize={props.state.limit}
-          onPageChange={props.handlePageChange}
-          onPageSizeChange={props.handleLimitChange}
-        />
-      )}
-      {/* <Table
-      // columns={columns}
-      // data={
-      //   props.EmployeeData.length
-      //     ? props.EmployeeData && props.EmployeeData
-      //     : []
-      // }
-      /> */}
-      {/* <BootstrapTable
-        // bootstrap4
-        keyField="id"
-        data={props.EmployeeData}
-        columns={columns}
-        // pagination={paginationFactory({ sizePerPage: 5 })}
-      /> */}
+    <div className="wrapper_main emp_wrapper">
+      <div className="office_maps">
+        <div className="container">
+          <h4 className="common-title mb-4">Employees</h4>
+          <div className="head d-flex align-items-center">
+            <div className="office-selections wrap">
+              <div className="menu-img">
+                <img src={Menu} className="img-fluid" alt="" />
+              </div>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {props.state && props.state.name}{' '}
-            {props.singleEmployeeData && props.singleEmployeeData.LastName}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {' '}
-          <form onSubmit={props.handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput">Role</label>
+              <div className="selction_one mat-10 ww-100">
+                <label htmlFor="role">Role</label>
+                <select onClick={props.handleSearch} name="rolee" multiple>
+                  <option value="User">User</option>
+                  <option value="Admin">Admin </option>
+                </select>
+              </div>
+              <div className="selction_one mat-10 ww-100">
+                <label htmlFor="space">Permanent Space</label>
+                <select name="" id="">
+                  <option value="0">Washington, DC, +1</option>
+                  <option value="1">Richmond, VA </option>
+                  <option value="2">Not Assigned</option>
+                </select>
+              </div>
+            </div>
+            <div className="search-box">
+              <div className="pos-rela">
+                <input
+                  type="text"
+                  onChange={props.handleSearcha}
+                  name="searchVal"
+                  placeholder="Search"
+                />
+                <div className="search-img">
+                  <img src={Search} className="img-fluid" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="emp-table">
+            <table>
+              <tr>
+                <th>
+                  Name{' '}
+                  <img
+                    src="images/sort.png"
+                    className="img-fluid sort-img"
+                    alt=""
+                  />
+                </th>
+                <th>
+                  Role{' '}
+                  <img
+                    src="images/sort.png"
+                    className="img-fluid sort-img"
+                    alt=""
+                  />
+                </th>
+                <th>
+                  Permanent Space{' '}
+                  <img
+                    src="images/sort.png"
+                    className="img-fluid sort-img"
+                    alt=""
+                  />
+                </th>
+                <th>
+                  Email{' '}
+                  <img
+                    src="images/sort.png"
+                    className="img-fluid sort-img"
+                    alt=""
+                  />
+                </th>
+                <th>
+                  Badge{' '}
+                  <img
+                    src="images/sort.png"
+                    className="img-fluid sort-img"
+                    alt=""
+                  />
+                </th>
+              </tr>
+              {employeeData &&
+                employeeData.map(i => (
+                  <tr>
+                    <td>
+                      <img
+                        src={i.photo || Profile}
+                        className="img-fluid user-img"
+                        alt=""
+                        style={{ height: '32px' }}
+                      />{' '}
+                      {i.firstname}
+                      {''} {i.lastname}
+                    </td>
+                    <td>{i.userRole}</td>
+                    <td>{i.permanentdesk}</td>
+                    <td>{i.email}</td>
+                    <td>{i.badgeId}</td>
+                    <td>
+                      {' '}
+                      <img
+                        src={Edit}
+                        onClick={() => {
+                          props.editEmployee(i.employeeid);
+                          handleShow();
+                        }}
+                        alt="Edit"
+                      />
+                    </td>
+                  </tr>
+                ))}
+
+              {/* </tr> */}
+            </table>
+          </div>
+          <div className="table-bot-flex">
+            <div className="selction_one">
               <select
-                onClick={props.handleSearch}
-                defaultValue={props.state.Role || 'user'}
-                name="rolee"
+                name=""
+                id=""
+                className="pad-manual"
+                onChange={e => props.handleLimitChange(e.target.value)}
               >
-                <option value="admin"> admin </option>
-                <option value="user"> user </option>
-                <option value="Manager"> manager </option>
+                <option value="10">10 per page</option>
+                <option value="20">20 per page</option>
+                <option value="30">30 per page</option>
+                <option value="40">40 per page</option>
               </select>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput2">BadgeNumber</label>
-              <input
-                name="BadgeNumber"
-                type="text"
-                value={props.state.BadgeNumber}
-                className="form-control"
-                onChange={props.handleChange}
-                placeholder="badgeNumber"
+            <div className="">
+              {state.page * state.limit - (state.limit - 1)} -
+              {state.page * state.limit} of {props.employeeCount} shown
+            </div>
+            <Pagination
+              className="pagination-bar"
+              currentPage={state.page}
+              totalCounts={props.employeeCount * state.limit}
+              totalCount={props.employeeCount}
+              pageSize={state.limit}
+              onPageChange={page => props.handlePageChange(page)}
+            />
+          </div>
+        </div>
+      </div>
+      <Modal
+        className="modal fade  test_modal"
+        id="invite_team"
+        show={show}
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        onHide={() => setShow(false)}
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Edit Employee Info
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setShow(false)}
               />
             </div>
-            {console.log(
-              'props.state.deskLocationname',
-              props.state.deskLocationname,
-            )}
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput2">Location</label>
-              <select
-                // onChange={e => {
-                //   setFloor(e.target.value);
-                // }}
-                onChange={props.handleChange}
-                name="floor"
-                value={props.state.deskLocationname}
-              >
-                {props.workSpace &&
-                  props.workSpace.map(i => (
-                    <option
-                      // selected={props.state.deskLocationname}
-                      name="location"
-                      value={i.id}
-                    >
-                      {i.locationname}
-                    </option>
-                  ))}
-              </select>
+            <div className="modal-body pt-0">
+              <div className="prof-flex">
+                <div className="mar-4">
+                  <img
+                    src={
+                      (props.singleEmployeeData &&
+                        props.singleEmployeeData.photo) ||
+                      Profile
+                    }
+                    className="img-fluid"
+                    alt=""
+                  />
+                </div>
+                <div className="">
+                  <div className="pro-title">
+                    {props.singleEmployeeData &&
+                      props.singleEmployeeData.FirstName}{' '}
+                    {props.singleEmployeeData &&
+                      props.singleEmployeeData.LastName}
+                  </div>
+                  <p>
+                    <span className="gray-font">Title:</span>{' '}
+                    {props.singleEmployeeData && props.singleEmployeeData.Title}
+                  </p>
+                  <p>
+                    <span className="gray-font">Primary Office:</span>{' '}
+                    {props.singleEmployeeData &&
+                      props.singleEmployeeData.deskLocationname}
+                  </p>
+                  <p>
+                    <span className="gray-font">Email:</span>{' '}
+                    {props.singleEmployeeData && props.singleEmployeeData.Email}
+                  </p>
+                  <p>
+                    <span className="gray-font">Eligible for Private:</span> Yes
+                  </p>
+                </div>
+              </div>
+              <form onSubmit={props.handleSubmit}>
+                <div className="selction_one ww-100">
+                  <label htmlFor="role">Role</label>
+                  <select
+                    onClick={props.handleSearch}
+                    defaultValue={props.state.Role || 'user'}
+                    name="rolee"
+                  >
+                    <option value="admin"> admin </option>
+                    <option value="user"> user </option>
+                    <option value="Manager"> manager </option>
+                  </select>
+                </div>
+
+                <div className="selction_one after-none ww-100">
+                  <label htmlFor="badge">Badge Number</label>
+                  <div className="prefix">BB</div>
+                  <input
+                    name="BadgeNumber"
+                    type="text"
+                    value={props.state.BadgeNumber}
+                    className="form-control"
+                    onChange={props.handleChange}
+                  />
+                </div>
+
+                <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
+                  <div className="pro-title1">Permanent space</div>
+                  <div className="pro-title1 red unassign">Unassign</div>
+                </div>
+
+                <div className="selction_one mat-10 ww-100">
+                  <select
+                    className="pad-manual"
+                    onChange={props.handleChange}
+                    name="floor"
+                    value={props.state.deskLocationname}
+                  >
+                    {props.workSpace &&
+                      props.workSpace.map(i => (
+                        <option name="location" value={i.id}>
+                          {i.locationname}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+
+                <div className="selction_one mat-10 ww-100">
+                  <select
+                    onChange={props.handleChange}
+                    name="build"
+                    value={`${props.state.build}`}
+                    className="pad-manual"
+                  >
+                    {data &&
+                      data.FloorBuilding.map(i => (
+                        <>
+                          <option
+                            value={
+                              i.floor &&
+                              i.floor !== null &&
+                              i.building &&
+                              i.building !== null
+                                ? `${i.floor}${i.building}`
+                                : i.building && i.building !== null
+                                ? `${i.building}`
+                                : i.floor && i.floor !== null
+                                ? `${i.floor}`
+                                : ''
+                            }
+                          >
+                            {i.floor &&
+                            i.floor !== null &&
+                            i.building &&
+                            i.building !== null
+                              ? `Building ${i.building}, Floor${i.floor}`
+                              : i.building && i.building !== null
+                              ? `Building ${i.building}`
+                              : i.floor && i.floor !== null
+                              ? `Floor ${i.floor}`
+                              : ''}
+                          </option>
+                        </>
+                      ))}
+                  </select>
+                </div>
+
+                <div className="selction_one ww-100">
+                  <select
+                    onChange={props.handleChange}
+                    name="AssignedSpace"
+                    value={props.state.AssignedSpace}
+                    defaultValue={finalData[0]}
+                    className="pad-manual"
+                  >
+                    <option id="spval">select Spaces</option>
+                    {finalData &&
+                      finalData.map(i => (
+                        <option value={i.officeSpace} name="AssignedSpace">
+                          {' '}
+                          {i && i.officeSpace}{' '}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+
+                <p className="red minus-10" id="error">
+                  <img
+                    src="images/red-info.png"
+                    className="img-fluid v-bot"
+                    alt=""
+                  />{' '}
+                  You have to fill in this field to assign a space
+                </p>
+
+                <div className="modal-footer mt-2 border-none pad-0">
+                  <input
+                    type="submit"
+                    className="btn save-data"
+                    id="save-btn"
+                    value="save"
+                  />
+                  <button
+                    type="button"
+                    className="btn dismiss"
+                    data-bs-dismiss="modal"
+                    onClick={() => setShow(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
-            <div className="form-group">
-              <label htmlFor="formGroupExampleInput2">Floor</label>
-              <select
-                onChange={props.handleChange}
-                name="build"
-                value={`${props.state.build}`}
-                //  value="/4
-              >
-                {/* <option>Please Select</option> */}
-                {data &&
-                  data.FloorBuilding.map(i => (
-                    <>
-                      <option
-                        value={
-                          i.floor &&
-                          i.floor !== null &&
-                          i.building &&
-                          i.building !== null
-                            ? `${i.floor}${i.building}`
-                            : i.building && i.building !== null
-                            ? `${i.building}`
-                            : i.floor && i.floor !== null
-                            ? `${i.floor}`
-                            : ''
-                        }
-                      >
-                        {i.floor &&
-                        i.floor !== null &&
-                        i.building &&
-                        i.building !== null
-                          ? `Building ${i.building}, Floor${i.floor}`
-                          : i.building && i.building !== null
-                          ? `Building ${i.building}`
-                          : i.floor && i.floor !== null
-                          ? `Floor ${i.floor}`
-                          : ''}
-                      </option>
-                    </>
-                  ))}
-              </select>
-            </div>
-            <div className="form-group">
-              {console.log('AssignedSpace', props.state.AssignedSpace)}
-              {console.log('finalData[0]', finalData[0])}
-              <label htmlFor="formGroupExampleInput2">Space</label>
-              <select
-                onChange={props.handleChange}
-                name="AssignedSpace"
-                value={props.state.AssignedSpace}
-                defaultValue={finalData[0]}
-              >
-                {/* <option>Please Select</option> */}
-                {finalData &&
-                  finalData.map(i => (
-                    <option value={i.officeSpace} name="AssignedSpace">
-                      {' '}
-                      {i && i.officeSpace}{' '}
-                    </option>
-                  ))}
-              </select>
-            </div>
-            <input type="submit" value="submit" />
-          </form>
-        </Modal.Body>
+          </div>
+        </div>
       </Modal>
     </div>
   );
@@ -299,10 +404,9 @@ const Employee = props => {
 
 Employee.propTypes = {
   editEmployee: PropTypes.func,
-  EmployeeData: PropTypes.object,
+  employeeData: PropTypes.object,
   handleSearch: PropTypes.func,
   singleEmployeeData: PropTypes.object,
-  handleRoleSelect: PropTypes.func,
   handleSubmit: PropTypes.func,
   handleChange: PropTypes.func,
   workSpace: PropTypes.object,
@@ -310,6 +414,7 @@ Employee.propTypes = {
   employeeCount: PropTypes.number,
   handlePageChange: PropTypes.func,
   handleLimitChange: PropTypes.func,
+  handleSearcha: PropTypes.func,
 };
 
 export default Employee;
