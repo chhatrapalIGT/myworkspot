@@ -8,7 +8,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import saga from './saga';
 import reducer from './reducer';
-import { requestGetOfficeData } from './actions';
+import { requestGetOfficeData, clearOffice } from './actions';
 import Office from '../../components/OfficeWDC ';
 
 const zoomStep = 1;
@@ -53,6 +53,23 @@ class OfficeMap extends Component {
     }));
   };
 
+  componentDidUpdate() {
+    const { officeLocationErrorHandle } = this.props;
+    if (
+      officeLocationErrorHandle &&
+      !officeLocationErrorHandle.success &&
+      officeLocationErrorHandle.error
+    ) {
+      setTimeout(() => {
+        this.props.clearOffice();
+      }, 5000);
+    }
+  }
+
+  handleClearOffice = () => {
+    this.props.clearOffice();
+  };
+
   componentDidMount() {
     this.props.requestGetOfficeData({});
   }
@@ -72,6 +89,7 @@ class OfficeMap extends Component {
             handleZoomIn={this.handleZoomIn}
             handleZoomOut={this.handleZoomOut}
             handleDefault={this.handleDefault}
+            handleClearOffice={this.handleClearOffice}
             handleMouseOut={this.handleMouseOut}
             handleMouseMove={this.handleMouseMove}
             officeLocation={officeLocation}
@@ -98,6 +116,7 @@ const mapStateToProps = state => {
 export function mapDispatchToProps(dispatch) {
   return {
     requestGetOfficeData: payload => dispatch(requestGetOfficeData(payload)),
+    clearOffice: payload => dispatch(clearOffice(payload)),
 
     dispatch,
   };
@@ -109,6 +128,7 @@ OfficeMap.propTypes = {
   requestGetOfficeData: PropTypes.func,
   officeLocation: PropTypes.object,
   officeLocationErrorHandle: PropTypes.string,
+  clearOffice: PropTypes.func,
 };
 
 export default compose(

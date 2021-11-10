@@ -198,6 +198,10 @@ class WorkSpotPage extends Component {
     }
   }
 
+  handleClearCal = () => {
+    this.props.resetWorkspot();
+  };
+
   handleColleagues = () => {
     const newArr = [...this.props.colleagueWeeklyData];
 
@@ -483,6 +487,7 @@ class WorkSpotPage extends Component {
             getWorkSpots={this.getWorkSpots}
             handleEditModal={this.handleEditModal}
             handleUpdatingModalData={this.handleUpdatingModalData}
+            handleClearCal={this.handleClearCal}
             onUpdateWorkspot={this.onUpdateWorkspot}
             apiMessage={apiMessage}
             apiSuccess={apiSuccess}

@@ -127,6 +127,11 @@ class ProfilePage extends Component {
     }
   }
 
+  handlecloseDataIcon = () => {
+    this.props.clearData();
+    this.props.clearBoardData();
+  };
+
   handleClearstate = () => {
     this.setState({ listArray: [], trueData: false });
   };
@@ -342,6 +347,7 @@ class ProfilePage extends Component {
             verifyBadgeSuccess={verifyBadgeSuccess}
             verifyBadgeMsg={verifyBadgeMsg}
             handleCloseBtn={this.handleCloseBtn}
+            handlecloseDataIcon={this.handlecloseDataIcon}
             requestAddDelegateList={this.props.requestAddDelegateList}
             requestRemoveDelegateList={this.props.requestRemoveDelegateList}
             delegrateUsersList={delegrateUsersList}
@@ -357,6 +363,7 @@ class ProfilePage extends Component {
 
 const mapStateToProps = state => {
   const { profile, locationData } = state;
+  console.log(`state`, state);
   return {
     getProfileLocation: profile && profile.getOffice,
     userData: profile && profile.userList && profile.userList.user,

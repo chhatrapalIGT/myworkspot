@@ -30,6 +30,8 @@ import RB3F1 from '../Resource/RB3F1';
 import RB3F2 from '../Resource/RB3F2';
 import BRB1 from '../Resource/BRB1';
 import BLB1 from '../Resource/BLB1';
+import crossCircle from '../../images/x-circle-fill.svg';
+
 const OfficeWDC = ({
   handleZoomIn,
   handleZoomOut,
@@ -38,6 +40,7 @@ const OfficeWDC = ({
   state,
   officeLocation,
   officeLocationErrorHandle,
+  handleClearOffice,
 }) => {
   const isDraggable = state.scale > 1;
   const [office, setOffice] = useState('Washington, DC');
@@ -151,12 +154,25 @@ const OfficeWDC = ({
       {officeLocationErrorHandle &&
         !officeLocationErrorHandle.success &&
         officeLocationErrorHandle.error && (
-          <div className="alert-dismissible fade show popup_err" role="alert">
-            <p className="text-center m-auto">
-              {officeLocationErrorHandle && !officeLocationErrorHandle.success
-                ? officeLocationErrorHandle.error
-                : ''}
-            </p>
+          <div
+            className="alert fade alert alert-danger show w-25 mx-auto "
+            style={{ marginTop: '20px', padding: '1rem' }}
+          >
+            <img
+              src={crossCircle}
+              alt=""
+              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+            />
+
+            {officeLocationErrorHandle.error}
+
+            <span
+              style={{ float: 'right', fontSize: 'large' }}
+              onClick={() => handleClearOffice()}
+              aria-hidden="true"
+            >
+              &#10006;
+            </span>
           </div>
         )}
       {officeLocation && !officeLocation.length ? (
@@ -295,5 +311,6 @@ OfficeWDC.propTypes = {
   handleDefault: PropTypes.func,
   officeLocationErrorHandle: PropTypes.string,
   officeLocation: PropTypes.object,
+  handleClearOffice: PropTypes.func,
 };
 export default OfficeWDC;

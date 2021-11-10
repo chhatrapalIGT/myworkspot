@@ -143,8 +143,7 @@ const profilePageReducer = (state = initialState, action) =>
         draft.delegateList.delegate = action.payload.userData;
         draft.delegateList.totalPage = action.payload.totalPages;
         draft.delegateList.error = '';
-        draft.apiMessage = action.payload.message;
-        draft.apiSuccess = action.payload.success;
+
         break;
       case FAILED_DELEGATE_DATA:
         draft.delegateList.loading = false;
@@ -250,7 +249,7 @@ const profilePageReducer = (state = initialState, action) =>
         break;
       case SUCCESS_GET_DELEGATE_LIST:
         draft.getUpdatedelegateListData.loading = false;
-        draft.getUpdatedelegateListData.success = true;
+        draft.getUpdatedelegateListData.success = action.payload.success;
         draft.getUpdatedelegateListData.delegateUpdate = action.payload;
         draft.getUpdatedelegateListData.error = '';
         break;

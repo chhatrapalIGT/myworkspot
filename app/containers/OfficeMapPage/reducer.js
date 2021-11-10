@@ -3,6 +3,7 @@ import {
   REQUEST_GET_OFFICE_DATA,
   SUCCESS_GET_OFFICE_DATA,
   FAILED_GET_OFFICE_DATA,
+  CLEAR_OFFICE,
 } from './constants';
 
 // The initial state of the App
@@ -36,6 +37,9 @@ const OfficeReducer = (state = initialState, action) =>
         draft.getOfficeData.masterData = [];
         draft.getOfficeData.error = action.payload;
         break;
+      case CLEAR_OFFICE:
+        draft.getOfficeData.error = '';
+        draft.getOfficeData.success = false;
     }
   });
 
