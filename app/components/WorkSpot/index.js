@@ -346,9 +346,7 @@ const WorkSpot = ({
                         state.updatingObject.work_area_name &&
                         state.updatingObject.work_area_name.includes('DC'))) &&
                     isChange &&
-                    isLocUpdate &&
-                    neighborhoodData &&
-                    !neighborhoodData.isAssignmentUpdate ? (
+                    isLocUpdate ? (
                       <>
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
@@ -461,66 +459,66 @@ const WorkSpot = ({
                     )}
 
                     <div className="building-location-strip d-flex flex-wrap align-items-center">
-                      {neighborhoodData &&
-                        neighborhoodData.locationCode !== 'PTO' &&
+                      {((neighborhoodData &&
+                        neighborhoodData.locationCode !== 'PTO') ||
                         (neighborhoodData &&
-                          neighborhoodData.locationCode !== 'EAB') && (
-                          <>
-                            {(state.updatingObject &&
+                          neighborhoodData.locationCode !== 'EAB')) && (
+                        <>
+                          {(state.updatingObject &&
+                            state.updatingObject.work_area_name &&
+                            state.updatingObject.work_area_name.includes(
+                              'VA',
+                            )) ||
+                            (state.updatingObject &&
                               state.updatingObject.work_area_name &&
                               state.updatingObject.work_area_name.includes(
-                                'VA',
+                                'DC',
                               )) ||
-                              (state.updatingObject &&
-                                state.updatingObject.work_area_name &&
-                                state.updatingObject.work_area_name.includes(
-                                  'DC',
-                                )) ||
-                              (neighborhoodData &&
-                                neighborhoodData.locationCode !== 'RW' && (
-                                  <div
-                                    className="location d-flex align-items-center"
-                                    aria-hidden="true"
+                            (neighborhoodData &&
+                              neighborhoodData.locationCode !== 'RW' && (
+                                <div
+                                  className="location d-flex align-items-center"
+                                  aria-hidden="true"
+                                  target="_blank"
+                                >
+                                  <a
+                                    className="address_url"
                                     target="_blank"
+                                    href={addressLink(
+                                      neighborhoodData &&
+                                        neighborhoodData.locationCode,
+                                    )}
                                   >
-                                    <a
-                                      className="address_url"
-                                      target="_blank"
-                                      href={addressLink(
-                                        neighborhoodData &&
-                                          neighborhoodData.locationCode,
-                                      )}
-                                    >
-                                      <img src={union} alt="" />
+                                    <img src={union} alt="" />
 
-                                      {(neighborhoodData &&
-                                        neighborhoodData.officeAddress) ||
-                                        halfDayData.officeAddress}
-                                    </a>
-                                  </div>
-                                ))}
-                            <div
-                              className="change-workspot d-flex align-items-center"
-                              onClick={() => {
-                                handleEditModal(true);
-                                // handleData();
-                                setChange(true);
-                                setDate('');
-                              }}
+                                    {(neighborhoodData &&
+                                      neighborhoodData.officeAddress) ||
+                                      halfDayData.officeAddress}
+                                  </a>
+                                </div>
+                              ))}
+                          <div
+                            className="change-workspot d-flex align-items-center"
+                            onClick={() => {
+                              handleEditModal(true);
+                              // handleData();
+                              setChange(true);
+                              setDate('');
+                            }}
+                            aria-hidden="true"
+                          >
+                            <img
+                              src={editPen}
+                              alt=""
+                              className="onHover"
                               aria-hidden="true"
-                            >
-                              <img
-                                src={editPen}
-                                alt=""
-                                className="onHover"
-                                aria-hidden="true"
-                              />{' '}
-                              <a href className="change-workspot">
-                                Change Today's Workspot
-                              </a>
-                            </div>
-                          </>
-                        )}
+                            />{' '}
+                            <a href className="change-workspot">
+                              Change Today's Workspot
+                            </a>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </>
                 </div>
@@ -534,9 +532,11 @@ const WorkSpot = ({
               neighborhoodData.locationCode !== 'PTO' &&
               neighborhoodData &&
               neighborhoodData.locationCode !== 'EAB' &&
-              ((neighborhoodData && neighborhoodData.building !== null) ||
-                (halfDayData && halfDayData.building !== null) ||
-                ((neighborhoodData && neighborhoodData.floor !== null) ||
+              ((neighborhoodData &&
+                neighborhoodData.building !== null &&
+                (halfDayData && halfDayData.building !== null)) ||
+                (neighborhoodData &&
+                  neighborhoodData.floor !== null &&
                   (halfDayData && halfDayData.floor !== null))) && (
                 <div className="container" style={{ height: '100%' }}>
                   {neighborhoodLoad ? (
@@ -604,7 +604,7 @@ const WorkSpot = ({
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title" id="exampleModalLabel">
-                    Update <i>my</i>Workspot
+                    Update My Workspot
                   </h5>
                   <button
                     type="button"
