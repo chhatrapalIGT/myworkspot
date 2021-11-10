@@ -27,8 +27,8 @@ class EmployeePage extends Component {
       BadgeNumber: '',
       hasData: false,
       permanentdeskNo: '',
-      page: 0,
-      limit: 20,
+      page: 1,
+      limit: 10,
       deskLocationname: '',
       deskFloor: '',
       id: '',
@@ -75,7 +75,7 @@ class EmployeePage extends Component {
   handlePageChange = e => {
     const { limit } = this.state;
     this.setState({ page: e });
-    this.getEmpData('', '', e + 1, limit);
+    this.getEmpData('', '', e, limit);
   };
 
   componentDidMount() {
@@ -90,7 +90,6 @@ class EmployeePage extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log('submitttt');
     const { role, BadgeNumber, id, AssignedSpace } = this.state;
     this.props.requestUpdateEmployeeDetail({
       role,
@@ -107,14 +106,7 @@ class EmployeePage extends Component {
     });
   };
 
-  // changeAssignedSpace = value => {
-  //   console.log('changeAssignedSpace', value);
-  //   this.setState({
-  //     AssignedSpace: value,
-  //   });
-  // };
-
-  handleSearch = e => {
+  handleSearcha = e => {
     const { name, value } = e.target;
     if (this.state.typingTimeout) {
       clearTimeout(this.state.typingTimeout);
@@ -132,16 +124,41 @@ class EmployeePage extends Component {
     });
   };
 
+  handleSearch = e => {
+    const value = Array.from(e.target.selectedOptions, option => option.value);
+    let str = '[';
+    value.forEach(ev => {
+      str += `"${ev}",`;
+    });
+    str += ']';
+    this.setState({ values: value }, () => {
+      this.props.requestGetEmployeeDetail({
+        role: str,
+      });
+    });
+  };
+
+  // handleChange = option => {
+  //   this.setState(() => ({
+  //     selectedOption: option,
+  //   }));
+  // };
+
   render() {
-    const { singleEmployeeData } = this.state;
-    const { EmployeeData, workSpace, employeeCount } = this.props;
+    const {
+      employeeData,
+      workSpace,
+      employeeCount,
+      singleEmployeeData,
+    } = this.props;
     return (
       <div>
         <Employee
           editEmployee={this.handleEdit}
           handleSubmit={this.handleSubmit}
-          EmployeeData={EmployeeData}
+          employeeData={employeeData}
           handleSearch={this.handleSearch}
+          handleSearcha={this.handleSearcha}
           workSpace={workSpace}
           singleEmployeeData={singleEmployeeData}
           handleChange={this.handleChange}
@@ -158,13 +175,8 @@ class EmployeePage extends Component {
 
 const mapStateToProps = state => {
   const { employee } = state;
-  console.log(
-    '   employee',
-    employee && employee.workspotDetail && employee.workspotDetail.workspotData,
-  );
   return {
-    employee,
-    EmployeeData:
+    employeeData:
       employee &&
       employee.EmployeeDetail &&
       employee.EmployeeDetail.employee &&
@@ -181,7 +193,7 @@ const mapStateToProps = state => {
       employee &&
       employee.EmployeeDetail &&
       employee.EmployeeDetail.employee &&
-      employee.EmployeeDetail.employee.totalPages,
+      employee.EmployeeDetail.employee.count,
   };
 };
 
@@ -202,7 +214,7 @@ const withSaga = injectSaga({ key: 'employee', saga });
 
 EmployeePage.propTypes = {
   requestGetEmployeeDetail: PropTypes.object,
-  EmployeeData: PropTypes.object,
+  employeeData: PropTypes.object,
   requestEditEmployeeDetail: PropTypes.object,
   singleEmployeeData: PropTypes.object,
   requestUpdateEmployeeDetail: PropTypes.object,
