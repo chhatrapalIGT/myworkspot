@@ -23,6 +23,7 @@ const Office = ({
 
   const [floor, setFloor] = useState();
   const [color, setColor] = useState();
+  const [flToggle, setFlToggle] = useState(false);
   const floorData =
     officeLocation &&
     officeLocation.find(data =>
@@ -56,9 +57,9 @@ const Office = ({
     acc[i].addEventListener('click', function() {
       this.classList.toggle('active');
       const panel = this.nextElementSibling;
-      console.log(`panel`, panel);
+      // console.log(`panel`, panel);
       if (panel.style.maxHeight) {
-        console.log(`panel.scrollHeight`, panel.scrollHeight);
+        // console.log(`panel.scrollHeight`, panel.scrollHeight);
         panel.style.maxHeight = null;
       } else {
         panel.style.maxHeight = `${panel.scrollHeight}10px`;
@@ -110,47 +111,54 @@ const Office = ({
               {(state.selectedNames === 'DC' ||
                 state.selectedNames === 'RIC') && (
                 <div className="col-md-3 part-right">
-                  {floorData &&
-                    floorData.FloorBuilding &&
-                    floorData.FloorBuilding.map(obj => (
-                      <div className="accordion_box p-2">
-                        <div
-                          aria-hidden="true"
-                          className="accordion pad-left-0 bg-blue"
-                          id="floor2"
-                          onClick={() => {
-                            setFloor(obj.floor);
-                          }}
-                        >
-                          <span className="dash-menu-item">
-                            {obj.building && `Building${obj.building}`}{' '}
-                            {obj.floor && `Floor${obj.floor}`}
-                          </span>
-                        </div>
-                        {obj &&
-                          obj.neighborhood.map(floor => (
-                            <div
-                              aria-hidden="true"
-                              className="panel"
-                              style={{ maxHeight: '20810px' }}
-                              onClick={() => {
-                                setColor(floor.neighborhoodname);
-                              }}
-                            >
-                              <div className="panel-list">
-                                <div className="dash-menu-list pad-left-23">
-                                  <div className="dash-menu-item2">
-                                    <span
-                                      className={`sq-${floor.neighborhoodname.toLowerCase()}`}
-                                    />
-                                    {floor.neighborhoodname}{' '}
+                  <div className="accordion_box p-2">
+                    {console.log('flToggle', flToggle)}
+                    {floorData &&
+                      floorData.FloorBuilding &&
+                      floorData.FloorBuilding.map(obj => (
+                        <>
+                          <div
+                            aria-hidden="true"
+                            className={`accordion pad-left-0 bg-blue ${flToggle &&
+                              'active'}`}
+                            id="floor2"
+                            onClick={() => {
+                              setFlToggle(true);
+                              setFloor(obj.floor);
+                            }}
+                          >
+                            <span className="dash-menu-item">
+                              {obj.building && `Building${obj.building}`}{' '}
+                              {obj.floor && `Floor${obj.floor}`}
+                            </span>
+                          </div>
+                          <div
+                            className="panel"
+                            style={{ maxHeight: '20810px' }}
+                          >
+                            {obj &&
+                              obj.neighborhood.map(floor => (
+                                <div
+                                  aria-hidden="true"
+                                  className="panel-list"
+                                  onClick={() => {
+                                    setColor(floor.neighborhoodname);
+                                  }}
+                                >
+                                  <div className="dash-menu-list pad-left-23">
+                                    <div className="dash-menu-item2">
+                                      <span
+                                        className={`sq-${floor.neighborhoodname.toLowerCase()}`}
+                                      />
+                                      {floor.neighborhoodname}{' '}
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          ))}
-                      </div>
-                    ))}
+                              ))}
+                          </div>
+                        </>
+                      ))}
+                  </div>
                 </div>
               )}
               <div className="col-md-9 pl-0 pr-0">
