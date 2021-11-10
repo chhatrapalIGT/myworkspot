@@ -37,6 +37,7 @@ const maxScale = 5;
 const minScale = 1;
 const defaultScale = minScale;
 const defaultRotate = 0;
+let datas;
 
 class WorkSpotPage extends Component {
   constructor(props) {
@@ -148,6 +149,10 @@ class WorkSpotPage extends Component {
     });
   }
 
+  componentWillUnmount() {
+    clearInterval(datas);
+  }
+
   clearState = () => {
     this.setState({ updatingObject: { work_area: '' } });
   };
@@ -169,9 +174,10 @@ class WorkSpotPage extends Component {
       deleteSearchColleague,
       apiMessage,
       colleagueListData,
+      neighborhoodData,
     } = this.props;
-
     if (workspotSuccess && workspotMessage) {
+      this.props.requestGetNeighborhood();
       this.getWorkSpots(
         selectedDateRange && selectedDateRange.startDate,
         selectedDateRange && selectedDateRange.endDate,
@@ -182,6 +188,9 @@ class WorkSpotPage extends Component {
       setTimeout(() => {
         this.handleClearModal();
       }, 5000);
+    }
+    if (neighborhoodData && neighborhoodData.isAssignmentUpdate) {
+      clearInterval(datas);
     }
 
     if (apiMessage) {
@@ -228,9 +237,12 @@ class WorkSpotPage extends Component {
   };
 
   handleClearModal = () => {
-    this.setState({
-      updatingObject: {},
-    });
+    setTimeout(() => {
+      this.setState({
+        updatingObject: {},
+      });
+      this.props.requestGetNeighborhood();
+    }, 300000);
 
     this.setState({ errSuccess: false, errMessage: '', success: false });
 

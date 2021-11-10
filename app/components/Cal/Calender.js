@@ -43,6 +43,7 @@ const Calender = ({
   displayDefault,
   requestGetColleagueData,
   handleColleagueModal,
+  // colleagueDataLoader,
 }) => {
   const [period, setPeriod] = useState(displayDefault);
   const [colleagueData, setColleagueData] = useState([]);
@@ -283,7 +284,7 @@ const Calender = ({
               </button>
             </div>
             {!setVisible && <p className="week-range mb-0">{title}</p>}
-            {setVisible && workSpotData.length && (
+            {setVisible && workSpotData.length > 0 && (
               <div
                 className="week-month-toggle nav nav-tabs"
                 id="nav-tab"
