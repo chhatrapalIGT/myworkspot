@@ -1,6 +1,6 @@
-export const REQUEST_GET_OFFICE_DATA = 'requestGetOfficeData';
-export const SUCCESS_GET_OFFICE_DATA = 'getOfficeDataSuccess';
-export const FAILED_GET_OFFICE_DATA = 'getOfficeDataFailed';
+export const REQUEST_GET_OFFICE_UPDATE_DATA = 'requestGetOfficeUpdateData';
+export const SUCCESS_GET_OFFICE_UPDATE_DATA = 'getOfficeDataUdateSuccess';
+export const FAILED_GET_OFFICE_UPDATE_DATA = 'getOfficeDataUpdateFailed';
 
 export const CLEAR_OFFICE = 'clearOffice';
 

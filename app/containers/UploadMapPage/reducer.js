@@ -1,8 +1,8 @@
 import produce from 'immer';
 import {
-  REQUEST_GET_OFFICE_DATA,
-  SUCCESS_GET_OFFICE_DATA,
-  FAILED_GET_OFFICE_DATA,
+  REQUEST_GET_OFFICE_UPDATE_DATA,
+  SUCCESS_GET_OFFICE_UPDATE_DATA,
+  FAILED_GET_OFFICE_UPDATE_DATA,
   CLEAR_OFFICE,
   REQUEST_FILE_UPLOAD,
   SUCCESS_FILE_UPLOAD,
@@ -31,17 +31,17 @@ const initialState = {
 const OfficeReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case REQUEST_GET_OFFICE_DATA:
+      case REQUEST_GET_OFFICE_UPDATE_DATA:
         draft.getOfficeData.loading = true;
         draft.getOfficeData.error = '';
         break;
-      case SUCCESS_GET_OFFICE_DATA:
+      case SUCCESS_GET_OFFICE_UPDATE_DATA:
         draft.getOfficeData.loading = false;
         draft.getOfficeData.success = true;
         draft.getOfficeData.masterData = action.payload;
         draft.getOfficeData.error = '';
         break;
-      case FAILED_GET_OFFICE_DATA:
+      case FAILED_GET_OFFICE_UPDATE_DATA:
         draft.getOfficeData.loading = false;
         draft.getOfficeData.success = false;
         draft.getOfficeData.masterData = [];

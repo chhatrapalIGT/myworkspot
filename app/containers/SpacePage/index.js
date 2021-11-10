@@ -8,7 +8,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import saga from './saga';
 import reducer from './reducer';
-import { requestGetOfficeData } from '../UploadMapPage/actions';
+import { requestGetOfficeUpdateData } from '../UploadMapPage/actions';
 import { requestUpdateActiveStatus } from './actions';
 import Spaces from '../../components/Spaces';
 
@@ -21,7 +21,7 @@ class OfficeMap extends Component {
   }
 
   componentDidMount() {
-    this.props.requestGetOfficeData({});
+    this.props.requestGetOfficeUpdateData({});
   }
 
   handleUserSelect = event => {
@@ -59,7 +59,8 @@ const mapStateToProps = state => {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    requestGetOfficeData: payload => dispatch(requestGetOfficeData(payload)),
+    requestGetOfficeUpdateData: payload =>
+      dispatch(requestGetOfficeUpdateData(payload)),
     requestUpdateActiveStatus: payload =>
       dispatch(requestUpdateActiveStatus(payload)),
     dispatch,
@@ -69,7 +70,7 @@ const withReducer = injectReducer({ key: 'space', reducer });
 const withSaga = injectSaga({ key: 'space', saga });
 
 OfficeMap.propTypes = {
-  requestGetOfficeData: PropTypes.func,
+  requestGetOfficeUpdateData: PropTypes.func,
   officeLocation: PropTypes.object,
   requestUpdateActiveStatus: PropTypes.func,
 };

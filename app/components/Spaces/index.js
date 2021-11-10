@@ -123,6 +123,9 @@ const Spaces = ({
                             >
                               {obj.building && `Building${obj.building}`}{' '}
                               {obj.floor && `Floor${obj.floor}`}
+                              <br />
+                              {`${obj.lockedWorkspaceNumber} /
+                                ${obj.totalWorkspace} Locked`}
                             </Accordion.Toggle>
                           </Card.Header>
 
@@ -145,6 +148,9 @@ const Spaces = ({
                                         }}
                                       >
                                         {floor.neighborhoodname}
+                                        <br />
+                                        {`${floor.neighborhoodLockedSpace} /
+                                ${floor.neighborhoodTotalSpace} Locked`}
                                         <input
                                           id="data2"
                                           // name="dataVal"

@@ -8,7 +8,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import saga from './saga';
 import reducer from './reducer';
-import { requestGetOfficeData, requestFileUpload } from './actions';
+import { requestGetOfficeUpdateData, requestFileUpload } from './actions';
 import Office from '../../components/Office';
 
 const zoomStep = 1;
@@ -55,7 +55,7 @@ class UploadMap extends Component {
   };
 
   componentDidMount() {
-    this.props.requestGetOfficeData({});
+    this.props.requestGetOfficeUpdateData({});
   }
 
   handleUserSelect = event => {
@@ -100,7 +100,8 @@ const mapStateToProps = state => {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    requestGetOfficeData: payload => dispatch(requestGetOfficeData(payload)),
+    requestGetOfficeUpdateData: payload =>
+      dispatch(requestGetOfficeUpdateData(payload)),
     requestFileUpload: payload => dispatch(requestFileUpload(payload)),
 
     dispatch,
@@ -110,7 +111,7 @@ const withReducer = injectReducer({ key: 'uploadOffice', reducer });
 const withSaga = injectSaga({ key: 'uploadOffice', saga });
 
 UploadMap.propTypes = {
-  requestGetOfficeData: PropTypes.func,
+  requestGetOfficeUpdateData: PropTypes.func,
   requestFileUpload: PropTypes.func,
   officeLocation: PropTypes.object,
 };

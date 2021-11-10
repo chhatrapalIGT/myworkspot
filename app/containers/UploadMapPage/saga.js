@@ -1,9 +1,12 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
-import { REQUEST_GET_OFFICE_DATA, REQUEST_FILE_UPLOAD } from './constants';
 import {
-  getOfficeDataSuccess,
-  getOfficeDataFailed,
+  REQUEST_GET_OFFICE_UPDATE_DATA,
+  REQUEST_FILE_UPLOAD,
+} from './constants';
+import {
+  getOfficeDataUdateSuccess,
+  getOfficeDataUpdateFailed,
   fileUploadSuccess,
   fileUploadFailed,
 } from './actions';
@@ -27,12 +30,12 @@ export function* getData() {
     });
     const { data } = usersList;
     if (data && data.success) {
-      yield put(getOfficeDataSuccess(data.location));
+      yield put(getOfficeDataUdateSuccess(data.location));
     } else {
-      yield put(getOfficeDataFailed(data.message));
+      yield put(getOfficeDataUpdateFailed(data.message));
     }
   } catch (err) {
-    yield put(getOfficeDataFailed(err.message));
+    yield put(getOfficeDataUpdateFailed(err.message));
   }
 }
 
@@ -59,6 +62,6 @@ export function* fileUpload({ payload }) {
 }
 
 export default function* officeMapData() {
-  yield takeLatest(REQUEST_GET_OFFICE_DATA, getData);
+  yield takeLatest(REQUEST_GET_OFFICE_UPDATE_DATA, getData);
   yield takeLatest(REQUEST_FILE_UPLOAD, fileUpload);
 }

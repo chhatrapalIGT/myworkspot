@@ -1,25 +1,25 @@
 import {
-  REQUEST_GET_OFFICE_DATA,
-  SUCCESS_GET_OFFICE_DATA,
-  FAILED_GET_OFFICE_DATA,
+  REQUEST_GET_OFFICE_UPDATE_DATA,
+  SUCCESS_GET_OFFICE_UPDATE_DATA,
+  FAILED_GET_OFFICE_UPDATE_DATA,
   CLEAR_OFFICE,
   REQUEST_FILE_UPLOAD,
   SUCCESS_FILE_UPLOAD,
   FAILED_FILE_UPLOAD,
 } from './constants';
 
-export const requestGetOfficeData = payload => ({
-  type: REQUEST_GET_OFFICE_DATA,
+export const requestGetOfficeUpdateData = payload => ({
+  type: REQUEST_GET_OFFICE_UPDATE_DATA,
   payload,
 });
 
-export const getOfficeDataSuccess = payload => ({
-  type: SUCCESS_GET_OFFICE_DATA,
+export const getOfficeDataUdateSuccess = payload => ({
+  type: SUCCESS_GET_OFFICE_UPDATE_DATA,
   payload,
 });
 
-export const getOfficeDataFailed = error => ({
-  type: FAILED_GET_OFFICE_DATA,
+export const getOfficeDataUpdateFailed = error => ({
+  type: FAILED_GET_OFFICE_UPDATE_DATA,
   payload: error,
 });
 export const clearOffice = () => ({

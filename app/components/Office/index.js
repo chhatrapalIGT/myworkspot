@@ -1,9 +1,8 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable indent */
 /* eslint-disable default-case */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import '../style.scss';
-import { Accordion, Card, Button } from 'react-bootstrap';
 import Draggable from 'react-draggable';
 
 import location from '../../images/location.png';
@@ -50,16 +49,38 @@ const Office = ({
     requestFileUpload({ formData });
   };
 
+  const acc = document.getElementsByClassName('accordion');
+  let i;
+
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener('click', function() {
+      this.classList.toggle('active');
+      const panel = this.nextElementSibling;
+      console.log(`panel`, panel);
+      if (panel.style.maxHeight) {
+        console.log(`panel.scrollHeight`, panel.scrollHeight);
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = `${panel.scrollHeight}10px`;
+      }
+    });
+  }
+
+  const updateVal = () => {
+    document.getElementById('fileUpload').click();
+  };
+
   return (
-    <div className="wrapper-main" style={{ marginTop: ' 10%' }}>
+    <div className="wrapper_main">
       <div className="office_maps">
         <div className="container">
-          <div className="head d-flex align-items-center">
-            <h4 className="common-title">Office Maps</h4>
-            <div className="office-selections">
-              <div className="selction_one">
-                <label htmlFor="val">Office</label>
-
+          <div className="head d-flex align-items-center between">
+            <div>
+              <h4 className="common-title mb-4">Office Maps</h4>
+            </div>
+            <div className="office-selections wrap">
+              <div className="selction_one ww-100">
+                <label htmlFor="ofc">Office</label>
                 <select
                   name=""
                   id=""
@@ -83,127 +104,128 @@ const Office = ({
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="office-structure mt-4">
-        <div className="container">
-          <div className="card office-structure-inner">
-            <div className="left-panel">
-              <div className="office-info">
-                <p className="name">{floorData && floorData.locationname}</p>
-              </div>
+          <div className="office-maps">
+            <div className="row">
               {(state.selectedNames === 'DC' ||
                 state.selectedNames === 'RIC') && (
-                <div className="office-resource">
+                <div className="col-md-3 part-right">
                   {floorData &&
                     floorData.FloorBuilding &&
                     floorData.FloorBuilding.map(obj => (
-                      <Accordion
-                        // defaultActiveKey="0"
-                        onClick={e => {
-                          setFloor(obj.floor);
-                        }}
-                      >
-                        <Card>
-                          <Card.Header>
-                            <Accordion.Toggle
-                              as={Button}
-                              variant="link"
-                              eventKey="0"
-                              value={obj.floor}
+                      <div className="accordion_box p-2">
+                        <div
+                          aria-hidden="true"
+                          className="accordion pad-left-0 bg-blue"
+                          id="floor2"
+                          onClick={() => {
+                            setFloor(obj.floor);
+                          }}
+                        >
+                          <span className="dash-menu-item">
+                            {obj.building && `Building${obj.building}`}{' '}
+                            {obj.floor && `Floor${obj.floor}`}
+                          </span>
+                        </div>
+                        {obj &&
+                          obj.neighborhood.map(floor => (
+                            <div
+                              aria-hidden="true"
+                              className="panel"
+                              style={{ maxHeight: '20810px' }}
+                              onClick={() => {
+                                setColor(floor.neighborhoodname);
+                              }}
                             >
-                              {obj.building && `Building${obj.building}`}{' '}
-                              {obj.floor && `Floor${obj.floor}`}
-                            </Accordion.Toggle>
-                          </Card.Header>
-
-                          <Accordion.Collapse eventKey="0">
-                            <Card.Body>
-                              {obj &&
-                                obj.neighborhood.map(floor => (
-                                  <>
-                                    <div
-                                      className={`office-part-one ${floor.neighborhoodname.toLowerCase()}`}
-                                    >
-                                      <span className="informer" />
-
-                                      <span
-                                        aria-hidden="true"
-                                        value={floor.neighborhoodname}
-                                        onClick={() => {
-                                          setColor(floor.neighborhoodname);
-                                        }}
-                                      >
-                                        {floor.neighborhoodname}
-                                      </span>
-                                    </div>
-                                  </>
-                                ))}
-                            </Card.Body>
-                          </Accordion.Collapse>
-                        </Card>
-                      </Accordion>
+                              <div className="panel-list">
+                                <div className="dash-menu-list pad-left-23">
+                                  <div className="dash-menu-item2">
+                                    <span
+                                      className={`sq-${floor.neighborhoodname.toLowerCase()}`}
+                                    />
+                                    {floor.neighborhoodname}{' '}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
                     ))}
                 </div>
               )}
-            </div>
-            <div className="d-flex" style={{ width: '25%' }}>
-              <div style={{ marginRight: '4px' }}>
-                {floorData && floorData.locationname}
-              </div>
-              <div style={{ marginRight: '4px' }} className="mr-8">
-                Floor {floor}
-              </div>
-              <div style={{ marginRight: '4px' }} className="mr-8">
-                {color}
-              </div>
-            </div>
+              <div className="col-md-9 pl-0 pr-0">
+                <div className="floor2">
+                  <div className="d-flex align-items-center justify-content-between pad-tri">
+                    <div className="">
+                      {floorData && floorData.locationname}
+                      <div className="of-mp-head" />
+                      <div className="of-mp-para">
+                        Upload .PDF file to update the map. Notice,
+                        neighbourhood maps WON’T be updated automaticlly.
+                      </div>
+                    </div>
 
-            <div className="right-map">
-              <input
-                type="file"
-                accept=".png,.svg,.jpg"
-                content="Add New Map"
-                onChange={onFileUpload}
-                style={{ width: 'inherit', marginBottom: ' 105%' }}
-              />
+                    <div className="">
+                      <input
+                        type="file"
+                        id="fileUpload"
+                        accept=".png,.svg,.jpg"
+                        onChange={onFileUpload}
+                        className="blue-bg-btn1"
+                      />
+                      <input
+                        type="button"
+                        id="btnUpload"
+                        onClick={updateVal}
+                        className="blue-bg-btn1"
+                        value="Upload New Map"
+                      />
+                    </div>
+                  </div>
 
-              <Draggable disabled={!isDraggable} key={state.version}>
-                <div
-                  className="drag_image"
-                  style={isDraggable ? { cursor: 'move' } : null}
-                >
-                  <img
-                    alt=""
-                    src={defaultImage ? defaultImage.image : ''}
-                    style={imgStyle}
-                    draggable="false"
-                  />
+                  <div className="border-bot" />
+
+                  <div className="p-3">
+                    <Draggable disabled={!isDraggable} key={state.version}>
+                      <div
+                        className="tx-center "
+                        style={isDraggable ? { cursor: 'move' } : null}
+                      >
+                        <img
+                          src={defaultImage ? defaultImage.image : ''}
+                          style={imgStyle}
+                          draggable="false"
+                          className="img-fluid"
+                          alt="img"
+                        />
+                      </div>
+                    </Draggable>
+                  </div>
+                  <div className="map-control">
+                    <div
+                      className="map-btn"
+                      onClick={() => handleDefault()}
+                      aria-hidden="true"
+                    >
+                      <img src={location} className="img-fluid" alt="data" />
+                    </div>
+                    <div
+                      aria-hidden="true"
+                      className="map-btn mt-2"
+                      onClick={() => handleZoomIn()}
+                    >
+                      <img src={Zoomin} className="img-fluid" alt="data" />
+                    </div>
+
+                    <div
+                      className="map-btn"
+                      aria-hidden="true"
+                      onClick={() => handleZoomOut()}
+                    >
+                      <img src={Zoomout} className="img-fluid" alt="data" />
+                    </div>
+                  </div>
                 </div>
-              </Draggable>
-              <div className="toolbar">
-                <button
-                  className="location"
-                  type="button"
-                  onClick={() => handleDefault()}
-                >
-                  <img src={location} alt="" />
-                </button>
-                <button
-                  className="zoomin"
-                  type="button"
-                  onClick={() => handleZoomIn()}
-                >
-                  <img src={Zoomin} alt="" />
-                </button>
-                <button
-                  className="zoomout"
-                  type="button"
-                  onClick={() => handleZoomOut()}
-                >
-                  <img src={Zoomout} alt="" />
-                </button>
               </div>
             </div>
           </div>
