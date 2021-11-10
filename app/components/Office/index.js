@@ -3,8 +3,6 @@
 /* eslint-disable default-case */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import '../style.scss';
-import { Accordion, Card, Button } from 'react-bootstrap';
 import Draggable from 'react-draggable';
 
 import location from '../../images/location.png';
@@ -72,7 +70,7 @@ const Office = ({
         if (panel.style.maxHeight) {
           panel.style.maxHeight = null;
         } else {
-          panel.style.maxHeight = panel.scrollHeight + '10px';
+          panel.style.maxHeight = `${panel.scrollHeight}10px`;
         }
       });
     }
@@ -223,7 +221,6 @@ const Office = ({
                       </div>
                     </Draggable>
                   </div>
-
                   <div className="map-control">
                     <div
                       className="map-btn"
