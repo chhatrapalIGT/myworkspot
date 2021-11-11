@@ -111,15 +111,21 @@ class WorkSpotPage extends Component {
 
   componentDidMount() {
     const { defaultSelected } = this.state;
+    const { neighborhoodData } = this.props;
 
     this.props.requestGetLocation();
     this.props.requestGetNeighborhood();
     this.props.requestGetColleague();
     this.props.requestGetMonthData();
 
-    datas = setInterval(() => {
-      this.props.requestGetNeighborhood();
-    }, 60000);
+    if (
+      (neighborhoodData && neighborhoodData.locationCode !== 'PTO') ||
+      (neighborhoodData && neighborhoodData.locationCode !== 'EAB')
+    ) {
+      datas = setInterval(() => {
+        this.props.requestGetNeighborhood();
+      }, 60000);
+    }
 
     const { dateToDisplay } =
       defaultSelected === 'week'

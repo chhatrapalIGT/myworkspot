@@ -172,7 +172,7 @@ const workspotReducer = (state = initialState, action) =>
         draft.neighborhood.success = false;
         draft.neighborhood.isloading = true;
         draft.neighborhood.message = '';
-        draft.neighborhood.neighborhoodData = {};
+        // draft.neighborhood.neighborhoodData = {};
         break;
       case SUCCESS_GET_NEIGHBORHOOD:
         draft.neighborhood.isloading = false;

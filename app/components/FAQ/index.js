@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import Axios from 'axios';
+import { useHistory } from 'react-router';
 import Spinner from 'react-bootstrap/Spinner';
 import './styles.scss';
 import { CONSTANT } from '../../enum';
@@ -11,6 +12,7 @@ const { API_URL } = CONSTANT;
 const FAQ = () => {
   const [helpData, setHelpData] = useState();
   const [error, setError] = useState();
+  const history = useHistory();
 
   const handlecolor = () => {};
 
@@ -28,6 +30,10 @@ const FAQ = () => {
         setHelpData(res.data.locationdata);
       })
       .catch(err => {
+        if (err.response.status === 403) {
+          sessionStorage.clear();
+          history.push('/auth');
+        }
         setError(err.response.data.message);
       });
   };
