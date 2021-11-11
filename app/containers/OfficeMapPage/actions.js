@@ -2,6 +2,7 @@ import {
   REQUEST_GET_OFFICE_DATA,
   SUCCESS_GET_OFFICE_DATA,
   FAILED_GET_OFFICE_DATA,
+  CLEAR_OFFICE,
 } from './constants';
 
 export const requestGetOfficeData = payload => ({
@@ -17,4 +18,7 @@ export const getOfficeDataSuccess = payload => ({
 export const getOfficeDataFailed = error => ({
   type: FAILED_GET_OFFICE_DATA,
   payload: error,
+});
+export const clearOffice = () => ({
+  type: CLEAR_OFFICE,
 });

@@ -225,6 +225,10 @@ class ReportPage extends Component {
     }
   }
 
+  handlecloseReportDataIcon() {
+    this.props.clearAddTeamData();
+  }
+
   render() {
     const {
       locationErrorHandle,
@@ -264,6 +268,7 @@ class ReportPage extends Component {
             handleClearData={this.handleClearData}
             myTeamSuccess={myTeamSuccess}
             fetchMoreData={this.fetchMoreData}
+            handlecloseReportDataIcon={this.handlecloseReportDataIcon}
             monthData={monthData}
             clearAddTeamData={this.props.clearAddTeamData}
           />{' '}

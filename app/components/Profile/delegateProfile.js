@@ -18,6 +18,7 @@ import {
   requestDelegateProfile,
   clearData,
 } from '../../containers/ProfilePage/actions';
+import crossCircle from '../../images/x-circle-fill.svg';
 
 const DelegateProfile = props => {
   const location = useLocation();
@@ -41,8 +42,25 @@ const DelegateProfile = props => {
     <Fragment>
       <>
         {!props.delegateSuccess && props.delegateMessage && (
-          <div className="alert-dismissible fade show popup_err" role="alert">
-            <p className="text-center m-auto">{props.delegateMessage || ''}</p>
+          <div
+            className="alert fade alert alert-danger show w-25 mx-auto "
+            style={{ marginTop: '20px', padding: '1rem' }}
+          >
+            <img
+              src={crossCircle}
+              alt=""
+              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+            />
+
+            {props.delegateMessage}
+
+            <span
+              style={{ float: 'right', fontSize: 'large' }}
+              onClick={() => props.clearData()}
+              aria-hidden="true"
+            >
+              &#10006;
+            </span>
           </div>
         )}
         <div className="wrapper_main">

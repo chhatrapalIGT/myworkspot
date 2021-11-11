@@ -24,6 +24,8 @@ import profile from '../assets/images/profileof.png';
 import '../../../src/lib/mobiscroll/css/mobiscroll.react.scss';
 import Calender from '../Cal/Calender';
 import MapComponent from '../Resource/map';
+import checkedCircle from '../../images/check-circle-fill.svg';
+import crossCircle from '../../images/x-circle-fill.svg';
 
 const WorkSpot = ({
   onSubmit,
@@ -56,6 +58,7 @@ const WorkSpot = ({
   monthData,
   leadersCommittee,
   handleCheckbox,
+  handleClearCal,
 }) => {
   const [isModal, setModal] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -261,12 +264,26 @@ const WorkSpot = ({
     <>
       {apiMessage && (
         <div
-          className={`"alert-dismissible fade show ${
-            apiSuccess ? 'popup_success' : 'popup_err'
+          className={`"alert fade show w-25 mx-auto ${
+            apiSuccess ? 'alert alert-success ' : 'alert alert-danger '
           } "`}
-          role="alert"
+          style={{ marginTop: '20px', padding: '1rem' }}
         >
-          <p className="text-center m-auto">{apiMessage || ''}</p>
+          <img
+            src={apiSuccess ? checkedCircle : crossCircle}
+            alt=""
+            style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+          />
+
+          {apiMessage || ''}
+
+          <span
+            style={{ float: 'right', fontSize: 'large' }}
+            onClick={() => handleClearCal()}
+            aria-hidden="true"
+          >
+            &#10006;
+          </span>
         </div>
       )}
 
@@ -1009,5 +1026,6 @@ WorkSpot.propTypes = {
   requestGetColleagueData: PropTypes.func,
   handleCheckbox: PropTypes.func,
   monthData: PropTypes.object,
+  handleClearCal: PropTypes.func,
 };
 export default WorkSpot;

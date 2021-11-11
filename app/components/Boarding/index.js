@@ -15,6 +15,8 @@ import Axios from 'axios';
 import logo from '../../images/Illustration.svg';
 import plus from '../../images/plus.svg';
 import Warnning from '../../images/officeImage/Warnning.png';
+import checkedCircle from '../../images/check-circle-fill.svg';
+import crossCircle from '../../images/x-circle-fill.svg';
 const Boarding = ({
   handleButtonData,
   state,
@@ -38,6 +40,7 @@ const Boarding = ({
   profileUserLoading,
   leadersCommittee,
   onCheckbox,
+  handleData,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
@@ -60,29 +63,27 @@ const Boarding = ({
 
   return (
     <>
-      {/* {(locationErrorHandle &&
-        !locationErrorHandle.success &&
-        locationErrorHandle.error) ||
-        (addErrorLocation && !addErrorLocation.success && (
-          <div className="alert-dismissible fade show popup_err" role="alert">
-            <p className="text-center m-auto">
-              {(locationErrorHandle && !locationErrorHandle.success) ||
-              (!addErrorLocation && addErrorLocation.success)
-                ? locationErrorHandle.message || addErrorLocation.message
-                : ''}
-            </p>
-          </div>
-        ))} */}
       {(addErrorLocationMsg || locationErrorHandleMsg) && (
         <div
-          className={`"alert-dismissible fade show ${
-            addErrorLocation ? 'popup_success' : 'popup_err'
+          className={`"alert fade show w-25 mx-auto ${
+            addErrorLocation ? 'alert alert-success ' : 'alert alert-danger '
           } "`}
-          role="alert"
+          style={{ marginTop: '20px', padding: '1rem' }}
         >
-          <p className="text-center m-auto">
-            {addErrorLocationMsg || locationErrorHandleMsg || ''}
-          </p>
+          <img
+            src={addErrorLocation ? checkedCircle : crossCircle}
+            alt=""
+            style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+          />
+
+          {addErrorLocationMsg || locationErrorHandleMsg || ''}
+
+          <span
+            style={{ float: 'right', fontSize: 'large' }}
+            onClick={() => handleData()}
+          >
+            &#10006;
+          </span>
         </div>
       )}
 
@@ -362,6 +363,7 @@ Boarding.propTypes = {
   profileUserLoading: PropTypes.bool,
   leadersCommittee: PropTypes.bool,
   onCheckbox: PropTypes.func,
+  handleData: PropTypes.func,
 };
 
 export default Boarding;
