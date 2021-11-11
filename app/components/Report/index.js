@@ -482,6 +482,7 @@ const Report = ({
                           handleZoomIn={handleZoomIn}
                           handleZoomOut={handleZoomOut}
                           handleDefault={handleDefault}
+                          colorCode={modalData.colorcode}
                         />
                       </div>
                       <div className="container" style={{ height: '100%' }}>

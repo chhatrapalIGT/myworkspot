@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 /* eslint-disable default-case */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/jsx-no-comment-textnodes */
@@ -23,16 +24,39 @@ import RB3F1 from './RB3F1';
 import RB3F2 from './RB3F2';
 import BLB1 from './BLB1';
 import BRB1 from './BRB1';
-import map1 from '../../images/Map_1.svg';
-import map2 from '../../images/MapWF2.svg';
-import map3 from '../../images/Map_3.svg';
-import map4 from '../../images/Map_4.svg';
-import map5 from '../../images/Map_5.svg';
-import map6 from '../../images/Map_6.svg';
-import map7 from '../../images/Map_7.svg';
-import map8 from '../../images/Map_8.svg';
-import map9 from '../../images/Map_9.svg';
-import map10 from '../../images/Map_10.svg';
+import mapDCF2Teal from '../assets/images/MapFL2teal.svg';
+import mapDCF2Blue from '../assets/images/MapFL2blue.svg';
+import mapDCF2Orange from '../assets/images/MapFL2orange.svg';
+import mapDCF2Yellow from '../assets/images/MapFL2yellow.svg';
+import mapDCF3Blue from '../assets/images/MapF3Blue.svg';
+import mapDCF3Orange from '../assets/images/MapF3orange.svg';
+import mapDCF3Teal from '../assets/images/MapF3Teal.svg';
+import mapDCF3Yellow from '../assets/images/MapF3yellow.svg';
+import mapDCF4 from '../assets/images/MapF4.svg';
+import mapDCF4Blue from '../assets/images/MapF4blue.svg';
+import mapDCF4Orange from '../assets/images/MapF4orange.svg';
+import mapDCF4Teal from '../assets/images/MapF4teal.svg';
+import mapDCF4Yellow from '../assets/images/MapF4yellow.svg';
+import mapDCF8Blue from '../assets/images/MapF8blue.svg';
+import mapDCF8Orange from '../assets/images/MapF8orange.svg';
+import mapDCF8Teal from '../assets/images/MapF8Teal.svg';
+import mapDCF8Yellow from '../assets/images/MapF8Yellow.svg';
+import mapRICB1Teal from '../assets/images/MapB1teal.svg';
+import mapRICB1Blue from '../assets/images/Mapb1blue.svg';
+import mapRICB1Orange from '../assets/images/Mapb1orange.svg';
+import mapRICB1Yellow from '../assets/images/Mapb1yellow.svg';
+import mapRICB2Blue from '../assets/images/Mapb2blue.svg';
+import mapRICB2Orange from '../assets/images/Mapb2orange.svg';
+import mapRICB2Teal from '../assets/images/Mapb2teal.svg';
+import mapRICB2Yellow from '../assets/images/Mapb2yellow.svg';
+import mapRICB3F1Teal from '../assets/images/Mapb3f1teal.svg';
+import mapRICB3F1Blue from '../assets/images/Mapb3f1blue.svg';
+import mapRICB3F1Orange from '../assets/images/Mapb3f1orange.svg';
+import mapRICB3F2Orange from '../assets/images/Mapb3f2orange.svg';
+import mapRICB3F2Teal from '../assets/images/Mapb3f2teal.svg';
+import mapRICB3F2Blue from '../assets/images/Mapb3f2blue.svg';
+import mapBHMB1 from '../assets/images/MapBirmingham.svg';
+import mapBLMB1 from '../assets/images/MapBloomington.svg';
 
 const MapComponent = ({
   building,
@@ -45,46 +69,129 @@ const MapComponent = ({
   handleDefault,
   from,
   ColleagueUserName,
+  colorCode,
 }) => {
   const isDraggable = state.scale > 1;
   const [finalImg, setFinalImg] = useState('');
   const [officeRest, setOfficeRest] = useState('');
   useEffect(() => {
     if (building !== null && floor !== null) {
-      imgData(locationCode, building && building.concat(floor));
+      imgData(locationCode, building && building.concat(floor), colorCode);
     } else if (floor === null) {
-      imgData(locationCode, building);
+      imgData(locationCode, building, colorCode);
     } else if (building === null) {
-      imgData(locationCode, floor);
+      imgData(locationCode, floor, colorCode);
     }
   }, []);
 
-  const imgData = async (neighborhoodImg, neighborhoodBuild) => {
+  const imgData = async (
+    neighborhoodImg,
+    neighborhoodBuild,
+    neighborhoodColor,
+  ) => {
     let imageSrc = '';
     let officeRes = '';
     switch (neighborhoodImg) {
       case 'DC':
-        switch (neighborhoodBuild) {
-          case '2':
-            imageSrc = map2;
+        switch ((neighborhoodBuild, neighborhoodColor)) {
+          case '2' && 'Blue':
+            imageSrc = mapDCF2Blue;
             officeRes = (
               <WF2 from={from} ColleagueUserName={ColleagueUserName} />
             );
             break;
-          case '3':
-            imageSrc = map1;
+          case '2' && 'Teal':
+            imageSrc = mapDCF2Teal;
+            officeRes = (
+              <WF2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '2' && 'Orange':
+            imageSrc = mapDCF2Orange;
+            officeRes = (
+              <WF2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '2' && 'Yellow':
+            imageSrc = mapDCF2Yellow;
+            officeRes = (
+              <WF2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '3' && 'Blue':
+            imageSrc = mapDCF3Blue;
+            officeRes = (
+              <WF3 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '3' && 'Orange':
+            imageSrc = mapDCF3Orange;
+            officeRes = (
+              <WF3 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '3' && 'Teal':
+            imageSrc = mapDCF3Teal;
+            officeRes = (
+              <WF3 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '3' && 'Yellow':
+            imageSrc = mapDCF3Yellow;
             officeRes = (
               <WF3 from={from} ColleagueUserName={ColleagueUserName} />
             );
             break;
           case '4':
-            imageSrc = map3;
+            imageSrc = mapDCF4;
             officeRes = (
               <WF4 from={from} ColleagueUserName={ColleagueUserName} />
             );
             break;
-          case '8':
-            imageSrc = map4;
+          case '4' && 'Yellow':
+            imageSrc = mapDCF4Yellow;
+            officeRes = (
+              <WF4 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '4' && 'Blue':
+            imageSrc = mapDCF4Blue;
+            officeRes = (
+              <WF4 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '4' && 'Orange':
+            imageSrc = mapDCF4Orange;
+            officeRes = (
+              <WF4 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '4' && 'Teal':
+            imageSrc = mapDCF4Teal;
+            officeRes = (
+              <WF4 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '8' && 'Blue':
+            imageSrc = mapDCF8Blue;
+            officeRes = (
+              <WF8 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '8' && 'Orange':
+            imageSrc = mapDCF8Orange;
+            officeRes = (
+              <WF8 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '8' && 'Teal':
+            imageSrc = mapDCF8Teal;
+            officeRes = (
+              <WF8 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '8' && 'Yellow':
+            imageSrc = mapDCF8Yellow;
             officeRes = (
               <WF8 from={from} ColleagueUserName={ColleagueUserName} />
             );
@@ -92,27 +199,87 @@ const MapComponent = ({
         }
         break;
       case 'RIC':
-        switch (neighborhoodBuild) {
-          case '1':
-            imageSrc = map5;
+        switch ((neighborhoodBuild, neighborhoodColor)) {
+          case '1' && 'Teal':
+            imageSrc = mapRICB1Teal;
             officeRes = (
               <RB1 from={from} ColleagueUserName={ColleagueUserName} />
             );
             break;
-          case '2':
-            imageSrc = map6;
+          case '1' && 'Orange':
+            imageSrc = mapRICB1Orange;
+            officeRes = (
+              <RB1 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '1' && 'Yellow':
+            imageSrc = mapRICB1Yellow;
+            officeRes = (
+              <RB1 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '1' && 'Blue':
+            imageSrc = mapRICB1Blue;
+            officeRes = (
+              <RB1 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '2' && 'Teal':
+            imageSrc = mapRICB2Teal;
             officeRes = (
               <RB2 from={from} ColleagueUserName={ColleagueUserName} />
             );
             break;
-          case '31':
-            imageSrc = map7;
+          case '2' && 'Orange':
+            imageSrc = mapRICB2Orange;
+            officeRes = (
+              <RB2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '2' && 'Yellow':
+            imageSrc = mapRICB2Yellow;
+            officeRes = (
+              <RB2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '2' && 'Blue':
+            imageSrc = mapRICB2Blue;
+            officeRes = (
+              <RB2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '31' && 'Teal':
+            imageSrc = mapRICB3F1Teal;
             officeRes = (
               <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
             );
             break;
-          case '32':
-            imageSrc = map8;
+          case '31' && 'Orange':
+            imageSrc = mapRICB3F1Orange;
+            officeRes = (
+              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '31' && 'Blue':
+            imageSrc = mapRICB3F1Blue;
+            officeRes = (
+              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '32' && 'Teal':
+            imageSrc = mapRICB3F2Teal;
+            officeRes = (
+              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '32' && 'Orange':
+            imageSrc = mapRICB3F2Orange;
+            officeRes = (
+              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '32' && 'Blue':
+            imageSrc = mapRICB3F2Blue;
             officeRes = (
               <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
             );
@@ -122,7 +289,7 @@ const MapComponent = ({
       case 'BHM':
         switch (neighborhoodBuild) {
           case '1':
-            imageSrc = map10;
+            imageSrc = mapBHMB1;
             officeRes = (
               <BRB1 from={from} ColleagueUserName={ColleagueUserName} />
             );
@@ -133,7 +300,7 @@ const MapComponent = ({
       case 'BLM':
         switch (neighborhoodBuild) {
           case '1':
-            imageSrc = map9;
+            imageSrc = mapBLMB1;
             officeRes = (
               <BLB1 from={from} ColleagueUserName={ColleagueUserName} />
             );
@@ -210,6 +377,7 @@ MapComponent.propTypes = {
   handleDefault: PropTypes.func,
   from: PropTypes.string,
   ColleagueUserName: PropTypes.string,
+  colorCode: PropTypes.string,
 };
 
 export default MapComponent;

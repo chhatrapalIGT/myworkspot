@@ -287,7 +287,7 @@ const WorkSpot = ({
                 </div>
                 <div className="building-location-strip d-flex flex-wrap align-items-center" />
               </div>
-            ) : neighborhoodLoad ? (
+            ) : isEmpty(neighborhoodData) ? (
               <div className="card building-block-head">
                 <Spinner
                   className="app-spinner workspot_spinner"
@@ -296,8 +296,8 @@ const WorkSpot = ({
                 />
               </div>
             ) : (
-              neighborhood &&
-              neighborhood.success &&
+              // neighborhood &&
+              // neighborhood.success &&
               !isEmpty(neighborhood.neighborhoodData) && (
                 <div
                   className={
@@ -520,7 +520,12 @@ const WorkSpot = ({
               ((neighborhoodData && neighborhoodData.building !== null) ||
                 (halfDayData && halfDayData.building !== null) ||
                 ((neighborhoodData && neighborhoodData.floor !== null) ||
-                  (halfDayData && halfDayData.floor !== null))) && (
+                  (halfDayData && halfDayData.floor !== null))) &&
+              ((neighborhoodData &&
+                neighborhoodData.colorcode !== null &&
+                (neighborhoodData && neighborhoodData.colorcode !== '')) ||
+                (neighborhoodData.floor === 4 &&
+                  !neighborhoodData.colorcode)) && (
                 <div className="container" style={{ height: '100%' }}>
                   {neighborhoodLoad ? (
                     <div className="card building-block-head">
@@ -548,6 +553,7 @@ const WorkSpot = ({
                         handleZoomIn={handleZoomIn}
                         handleZoomOut={handleZoomOut}
                         handleDefault={handleDefault}
+                        colorCode={neighborhoodColor}
                       />
                     )
                   )}
@@ -844,6 +850,7 @@ const WorkSpot = ({
                               handleDefault={handleDefault}
                               ColleagueUserName={ColleagueUserName}
                               from="employeeData"
+                              colorCode={employeeData.colorcode}
                             />
                           )}
                         </div>
