@@ -18,7 +18,7 @@ const FAQ = () => {
     token = JSON.parse(token);
     const url = `${API_URL}/help/getHelpData`;
     Axios.get(url, {
-      withCredentials: true,
+      // withCredentials: true,
       headers: {
         Authorization: `Bearer ${token.idtoken}`,
       },
