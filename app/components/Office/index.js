@@ -39,7 +39,9 @@ const Office = ({
     const id = state.selectedNames;
 
     const formData = new FormData();
-    formData.append('floor', floor);
+    if (floor) {
+      formData.append('floor', floor);
+    }
     if (color) {
       formData.append('isNeighborhood', true);
     } else {
@@ -50,25 +52,28 @@ const Office = ({
     requestFileUpload({ formData });
   };
 
-  const acc = document.getElementsByClassName('accordion');
-  let i;
-
-  for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener('click', function() {
-      this.classList.toggle('active');
-      const panel = this.nextElementSibling;
-      // console.log(`panel`, panel);
-      if (panel.style.maxHeight) {
-        // console.log(`panel.scrollHeight`, panel.scrollHeight);
-        panel.style.maxHeight = null;
-      } else {
-        panel.style.maxHeight = `${panel.scrollHeight}10px`;
-      }
-    });
-  }
-
   const updateVal = () => {
     document.getElementById('fileUpload').click();
+  };
+
+  const add = () => {
+    setFlToggle(true);
+    const acc = document.getElementsByClassName('accordion');
+
+    let i;
+    // eslint-disable-next-line no-plusplus
+    for (i = 0; i < acc.length; i++) {
+      // eslint-disable-next-line func-names
+      acc[i].addEventListener('click', function() {
+        this.classList.toggle('active');
+        const panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + '10px';
+        }
+      });
+    }
   };
 
   return (
@@ -112,18 +117,19 @@ const Office = ({
                 state.selectedNames === 'RIC') && (
                 <div className="col-md-3 part-right">
                   <div className="accordion_box p-2">
-                    {console.log('flToggle', flToggle)}
                     {floorData &&
                       floorData.FloorBuilding &&
                       floorData.FloorBuilding.map(obj => (
                         <>
                           <div
                             aria-hidden="true"
-                            className={`accordion pad-left-0 bg-blue ${flToggle &&
-                              'active'}`}
+                            className={`accordion pad-left-0 bg-blue ${
+                              flToggle ? 'active' : ''
+                            }`}
+                            key={obj.id}
                             id="floor2"
                             onClick={() => {
-                              setFlToggle(true);
+                              add();
                               setFloor(obj.floor);
                             }}
                           >
@@ -193,14 +199,20 @@ const Office = ({
 
                   <div className="border-bot" />
 
-                  <div className="p-3">
+                  <div className="p-3 office_update">
                     <Draggable disabled={!isDraggable} key={state.version}>
                       <div
                         className="tx-center "
                         style={isDraggable ? { cursor: 'move' } : null}
                       >
                         <img
-                          src={defaultImage ? defaultImage.image : ''}
+                          src={
+                            defaultImage
+                              ? defaultImage.image
+                              : floorData &&
+                                floorData.FloorBuilding[0] &&
+                                floorData.FloorBuilding[0].image
+                          }
                           style={imgStyle}
                           draggable="false"
                           className="img-fluid"
@@ -209,20 +221,29 @@ const Office = ({
                       </div>
                     </Draggable>
                   </div>
+
                   <div className="map-control">
                     <div
                       className="map-btn"
                       onClick={() => handleDefault()}
                       aria-hidden="true"
                     >
-                      <img src={location} className="img-fluid" alt="data" />
+                      <img
+                        src={location}
+                        className="img-fluid img-fix"
+                        alt="data"
+                      />
                     </div>
                     <div
                       aria-hidden="true"
                       className="map-btn mt-2"
                       onClick={() => handleZoomIn()}
                     >
-                      <img src={Zoomin} className="img-fluid" alt="data" />
+                      <img
+                        src={Zoomin}
+                        className="img-fluid img-fix"
+                        alt="data"
+                      />
                     </div>
 
                     <div
@@ -230,7 +251,11 @@ const Office = ({
                       aria-hidden="true"
                       onClick={() => handleZoomOut()}
                     >
-                      <img src={Zoomout} className="img-fluid" alt="data" />
+                      <img
+                        src={Zoomout}
+                        className="img-fluid img-fix"
+                        alt="data"
+                      />
                     </div>
                   </div>
                 </div>

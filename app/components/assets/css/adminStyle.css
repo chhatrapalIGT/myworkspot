@@ -768,6 +768,19 @@
 }
 .map-btn {
   cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  display: block;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  line-height: 1;
+  padding: 0;
+  margin-top: 10px;
 }
 .bg-l-blue {
   background-color: #ebf6ff;
@@ -1111,4 +1124,19 @@
 }
 .emp_wrapper {
   padding-bottom: 80px;
+}
+
+.img-fix {
+  margin-top: 8px;
+  margin-left: 9px;
+}
+
+.office_update {
+  width: calc(100% - 0px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
 }
