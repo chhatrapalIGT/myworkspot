@@ -221,6 +221,7 @@ const Office = ({
                       </div>
                     </Draggable>
                   </div>
+
                   <div className="map-control">
                     <div
                       className="map-btn"
