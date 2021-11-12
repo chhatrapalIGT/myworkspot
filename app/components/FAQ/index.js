@@ -14,8 +14,6 @@ const FAQ = () => {
   const [error, setError] = useState();
   const history = useHistory();
 
-  const handlecolor = () => {};
-
   const requestGetData = () => {
     let token = sessionStorage.getItem('AccessToken');
     token = JSON.parse(token);
@@ -96,7 +94,6 @@ const FAQ = () => {
                             <a
                               className="list-group-item Faq-content"
                               href={`#${obj.id}`}
-                              onClick={handlecolor}
                             >
                               {obj.topic}
                             </a>
