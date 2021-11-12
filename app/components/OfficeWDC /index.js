@@ -158,21 +158,22 @@ const OfficeWDC = ({
             className="alert fade alert alert-danger show w-25 mx-auto "
             style={{ marginTop: '20px', padding: '1rem' }}
           >
-            <img
-              src={crossCircle}
-              alt=""
-              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
-            />
+            <div>
+              <img
+                src={crossCircle}
+                alt=""
+                style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+              />
 
-            {officeLocationErrorHandle.error}
-
-            <span
+              {officeLocationErrorHandle.error}
+            </div>
+            <div
               style={{ float: 'right', fontSize: 'large' }}
               onClick={() => handleClearOffice()}
               aria-hidden="true"
             >
               &#10006;
-            </span>
+            </div>
           </div>
         )}
       {officeLocation && !officeLocation.length ? (

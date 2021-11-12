@@ -231,25 +231,26 @@ const Report = ({
           } "`}
           style={{ marginTop: '20px', padding: '1rem' }}
         >
-          <img
-            src={
-              reportApiSuccess || locationErrorHandle.success
-                ? checkedCircle
-                : crossCircle
-            }
-            alt=""
-            style={{ paddingRight: '5px', marginBottom: ' 4px' }}
-          />
+          <div>
+            <img
+              src={
+                reportApiSuccess || locationErrorHandle.success
+                  ? checkedCircle
+                  : crossCircle
+              }
+              alt=""
+              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+            />
 
-          {locationErrorHandle.error || reportApiMessage || ''}
-
-          <span
+            {locationErrorHandle.error || reportApiMessage || ''}
+          </div>
+          <div
             style={{ float: 'right', fontSize: 'large' }}
             onClick={() => handlecloseReportDataIcon()}
             aria-hidden="true"
           >
             &#10006;
-          </span>
+          </div>
         </div>
       )}
 
@@ -520,12 +521,12 @@ const Report = ({
         <div className=" modal-dialog-centered">
           <div
             className="modal-content"
-            style={{ minHeight: 'calc(100vh - 555px)' }}
+            // style={{ minHeight: 'calc(100vh - 555px)' }}
           >
-            <div style={{ margin: ' 24% auto 0px' }}>
+            <div style={{ margin: 'auto', padding: '20%' }}>
               <img src={success} alt="Success" style={{ width: '140px' }} />
-            </div>
-            <div style={{ marginTop: '1rem' }}>
+              {/* </div> */}
+              {/* <div style={{ marginTop: '1rem' }}> */}
               <h4 className="text-center">Success!</h4>
               <p
                 className="text-center"
