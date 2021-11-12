@@ -239,7 +239,7 @@ const WorkSpot = ({
     const dates = [];
     monthData.filter(ele => {
       let data = {};
-      if (ele.locationCode === 'PTO') {
+      if (ele.locationCode === 'PTO' || ele.locationCode === 'EAB') {
         data = {
           date: ele.date,
         };
@@ -331,7 +331,12 @@ const WorkSpot = ({
               !isEmpty(neighborhood.neighborhoodData) && (
                 <div
                   className={
-                    neighborhoodColor === 'Blue'
+                    (neighborhoodData &&
+                      neighborhoodData.locationCode === 'BHM') ||
+                    (neighborhoodData &&
+                      neighborhoodData.locationCode === 'BLM')
+                      ? 'card building-block-head default'
+                      : neighborhoodColor === 'Blue'
                       ? 'card building-block-head blue'
                       : neighborhoodColor === 'Orange'
                       ? 'card building-block-head orange'
@@ -445,31 +450,39 @@ const WorkSpot = ({
                           </>
                         )}
 
-                        <div className="block-info d-flex flex-wrap">
-                          {((neighborhoodData && neighborhoodData.building) ||
-                            halfDayData.building) && (
-                            <h3 className="building-name">
-                              {`Building ${(neighborhoodData &&
+                        {neighborhoodData &&
+                          neighborhoodData.locationCode !== 'BHM' &&
+                          neighborhoodData &&
+                          neighborhoodData.locationCode !== 'BLM' && (
+                            <div className="block-info d-flex flex-wrap">
+                              {((neighborhoodData &&
                                 neighborhoodData.building) ||
-                                halfDayData.building}`}
-                            </h3>
+                                halfDayData.building) && (
+                                <h3 className="building-name">
+                                  {`Building ${(neighborhoodData &&
+                                    neighborhoodData.building) ||
+                                    halfDayData.building}`}
+                                </h3>
+                              )}
+                              {((neighborhoodData && neighborhoodData.floor) ||
+                                halfDayData.floor) && (
+                                <h3
+                                  className={
+                                    neighborhoodColor !== ''
+                                      ? 'floor-name'
+                                      : 'floor-data-name'
+                                  }
+                                >
+                                  {`Floor ${(neighborhoodData &&
+                                    neighborhoodData.floor) ||
+                                    halfDayData.floor}`}
+                                </h3>
+                              )}
+                              <h3 className="color-code">
+                                {neighborhoodColor}
+                              </h3>
+                            </div>
                           )}
-                          {((neighborhoodData && neighborhoodData.floor) ||
-                            halfDayData.floor) && (
-                            <h3
-                              className={
-                                neighborhoodColor !== ''
-                                  ? 'floor-name'
-                                  : 'floor-data-name'
-                              }
-                            >
-                              {`Floor ${(neighborhoodData &&
-                                neighborhoodData.floor) ||
-                                halfDayData.floor}`}
-                            </h3>
-                          )}
-                          <h3 className="color-code">{neighborhoodColor}</h3>
-                        </div>
                       </>
                     )}
 
@@ -566,8 +579,6 @@ const WorkSpot = ({
                       />
                     </div>
                   ) : (
-                    neighborhood &&
-                    neighborhood.success &&
                     !isEmpty(neighborhood.neighborhoodData) && (
                       <MapComponent
                         building={
