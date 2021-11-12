@@ -41,9 +41,9 @@ function WF3(from) {
             }'s Workspot`}</label>
           </div>
         )}
-        <div className="office-part-one yellow">
+        <div className="office-part-one blue">
           <span className="informer" />
-          <label htmlFor="my-spot">Yellow</label>
+          <label htmlFor="my-spot">Blue</label>
         </div>
         <div className="office-part-one teal">
           <span className="informer" />
@@ -53,10 +53,11 @@ function WF3(from) {
           <span className="informer" />
           <label htmlFor="my-spot">Orange</label>
         </div>
-        <div className="office-part-one blue">
+        <div className="office-part-one yellow">
           <span className="informer" />
-          <label htmlFor="my-spot">Blue</label>
+          <label htmlFor="my-spot">Yellow</label>
         </div>
+
         <div className="office-part-one teal">
           <span className="informer">315</span>
           <label htmlFor="my-spot">Bel-Air</label>

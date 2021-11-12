@@ -260,6 +260,12 @@ const WorkSpot = ({
       ? neighborhoodData.data.find(obj => obj.locationCode !== 'PTO')
       : '';
 
+  const htmlDecode = content => {
+    const e = document.createElement('div');
+    e.innerHTML = content;
+    return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue;
+  };
+
   return (
     <>
       {apiMessage && (
@@ -269,21 +275,28 @@ const WorkSpot = ({
           } "`}
           style={{ marginTop: '20px', padding: '1rem' }}
         >
-          <img
-            src={apiSuccess ? checkedCircle : crossCircle}
-            alt=""
-            style={{ paddingRight: '5px', marginBottom: ' 4px' }}
-          />
+          <div style={{ display: 'flex' }}>
+            <img
+              src={apiSuccess ? checkedCircle : crossCircle}
+              alt=""
+              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+            />
 
-          {apiMessage || ''}
+            <div
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: htmlDecode(apiMessage || ''),
+              }}
+            />
+          </div>
 
-          <span
+          <div
             style={{ float: 'right', fontSize: 'large' }}
             onClick={() => handleClearCal()}
             aria-hidden="true"
           >
             &#10006;
-          </span>
+          </div>
         </div>
       )}
 

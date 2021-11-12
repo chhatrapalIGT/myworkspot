@@ -179,31 +179,31 @@ const Profile = ({
       <div>
         {(apiMessage || locationMessage || locationApiMessage) && (
           <div
-            className={`"alert fade show w-25 mx-auto ${
+            className={`alert fade show w-25 mx-auto ${
               apiSuccess || locationSuccess || locationApiSuccess
-                ? 'alert alert-success '
-                : 'alert alert-danger '
-            } "`}
+                ? 'alert alert-success'
+                : 'alert alert-danger'
+            }`}
             style={{ marginTop: '20px', padding: '1rem' }}
           >
-            <img
-              src={
-                apiSuccess || locationSuccess || locationApiSuccess
-                  ? checkedCircle
-                  : crossCircle
-              }
-              alt=""
-              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
-            />
-
-            {apiMessage || locationMessage || locationApiMessage || ''}
-
-            <span
+            <div>
+              <img
+                src={
+                  apiSuccess || locationSuccess || locationApiSuccess
+                    ? checkedCircle
+                    : crossCircle
+                }
+                alt=""
+                style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+              />
+              {apiMessage || locationMessage || locationApiMessage || ''}
+            </div>
+            <div
               style={{ float: 'right', fontSize: 'large' }}
               onClick={() => handlecloseDataIcon()}
             >
               &#10006;
-            </span>
+            </div>
           </div>
         )}
         <div className="wrapper_main">

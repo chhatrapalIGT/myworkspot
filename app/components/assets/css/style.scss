@@ -2979,3 +2979,16 @@ select.set_drop option[id='building'],
 .css-1wa3eu0-placeholder {
   position: sticky !important;
 }
+
+.alert {
+  margin-top: 20px;
+  padding: 1rem;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  right: 0;
+  display: flex;
+  div:first-child {
+    flex: 1;
+  }
+}

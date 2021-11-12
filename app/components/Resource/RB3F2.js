@@ -38,6 +38,10 @@ function RB3F2(from) {
             }'s Workspot`}</label>
           </div>
         )}
+        <div className="office-part-one blue">
+          <span className="informer" />
+          <label htmlFor="my-spot">Blue</label>
+        </div>
         <div className="office-part-one teal">
           <span className="informer" />
           <label htmlFor="my-spot">Teal</label>
@@ -46,10 +50,7 @@ function RB3F2(from) {
           <span className="informer" />
           <label htmlFor="my-spot">Orange</label>
         </div>
-        <div className="office-part-one blue">
-          <span className="informer" />
-          <label htmlFor="my-spot">Blue</label>
-        </div>
+
         <div className="office-part-one blue-area">
           <span className="informer">1</span>
           <label htmlFor="my-spot">Richard Whiteside</label>

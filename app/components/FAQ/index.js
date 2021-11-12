@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import Axios from 'axios';
@@ -13,8 +14,6 @@ const FAQ = () => {
   const [helpData, setHelpData] = useState();
   const [error, setError] = useState();
   const history = useHistory();
-
-  const handlecolor = () => {};
 
   const requestGetData = () => {
     let token = sessionStorage.getItem('AccessToken');
@@ -56,21 +55,22 @@ const FAQ = () => {
           className="alert fade alert alert-danger show w-25 mx-auto "
           style={{ marginTop: '20px', padding: '1rem' }}
         >
-          <img
-            src={crossCircle}
-            alt=""
-            style={{ paddingRight: '5px', marginBottom: ' 4px' }}
-          />
+          <div>
+            <img
+              src={crossCircle}
+              alt=""
+              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+            />
 
-          {error}
-
-          <span
+            {error}
+          </div>
+          <div
             style={{ float: 'right', fontSize: 'large' }}
             onClick={() => setError('')}
             aria-hidden="true"
           >
             &#10006;
-          </span>
+          </div>
         </div>
       )}
 
@@ -96,10 +96,10 @@ const FAQ = () => {
                             <a
                               className="list-group-item Faq-content"
                               href={`#${obj.id}`}
-                              onClick={handlecolor}
-                            >
-                              {obj.topic}
-                            </a>
+                              dangerouslySetInnerHTML={{
+                                __html: htmlDecode(obj.topic),
+                              }}
+                            />
                           </div>
                         ))}
                     </div>
@@ -110,10 +110,13 @@ const FAQ = () => {
                         helpData.map(data => (
                           <Card className="mt-3" id={data.id}>
                             <Card.Body>
-                              <h5>{data.topic}</h5>
+                              <h5
+                                dangerouslySetInnerHTML={{
+                                  __html: htmlDecode(data.topic),
+                                }}
+                              />
 
                               <div
-                                // eslint-disable-next-line react/no-danger
                                 dangerouslySetInnerHTML={{
                                   __html: htmlDecode(
                                     data.shortdesc === ''

@@ -80,7 +80,7 @@ function RB1(from) {
           <span className="informer">
             <img src={printer} alt="" />
           </span>
-          <label htmlFor="my-spot">Copy Station</label>
+          <label htmlFor="my-spot">Copy Room</label>
         </div>
 
         <div className="office-part-one teal_border">
