@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import Axios from 'axios';
@@ -94,9 +95,10 @@ const FAQ = () => {
                             <a
                               className="list-group-item Faq-content"
                               href={`#${obj.id}`}
-                            >
-                              {obj.topic}
-                            </a>
+                              dangerouslySetInnerHTML={{
+                                __html: htmlDecode(obj.topic),
+                              }}
+                            />
                           </div>
                         ))}
                     </div>
@@ -107,10 +109,13 @@ const FAQ = () => {
                         helpData.map(data => (
                           <Card className="mt-3" id={data.id}>
                             <Card.Body>
-                              <h5>{data.topic}</h5>
+                              <h5
+                                dangerouslySetInnerHTML={{
+                                  __html: htmlDecode(data.topic),
+                                }}
+                              />
 
                               <div
-                                // eslint-disable-next-line react/no-danger
                                 dangerouslySetInnerHTML={{
                                   __html: htmlDecode(
                                     data.shortdesc === ''

@@ -79,7 +79,7 @@ function WF4(from) {
           <label htmlFor="my-spot">Sessions</label>
         </div>
         <div className="office-part-one teal">
-          <span className="informer">231</span>
+          <span className="informer">431</span>
           <label htmlFor="my-spot">Washington</label>
         </div>
         <div className="office-part-one blue">

@@ -69,23 +69,31 @@ function RB2(from) {
         </div>
         <div className="office-part-one black">
           <span className="informer">4</span>
-          <label htmlFor="my-spot">Bill Royall</label>
+          <label htmlFor="my-spot">Founder's</label>
         </div>
         <div className="office-part-one black">
           <span className="informer">5</span>
-          <label htmlFor="my-spot">Robert Jones</label>
+          <label htmlFor="my-spot">Bill Royall</label>
         </div>
         <div className="office-part-one black">
           <span className="informer">6</span>
-          <label htmlFor="my-spot">Wally Stettinius</label>
+          <label htmlFor="my-spot">Robert Jones</label>
         </div>
         <div className="office-part-one black">
           <span className="informer">7</span>
-          <label htmlFor="my-spot">Team Meeting</label>
+          <label htmlFor="my-spot">Wally Stettinius</label>
         </div>
         <div className="office-part-one black">
           <span className="informer">8</span>
+          <label htmlFor="my-spot">Team Meeting</label>
+        </div>
+        <div className="office-part-one black">
+          <span className="informer">9</span>
           <label htmlFor="my-spot">Team Collab</label>
+        </div>
+        <div className="office-part-one black">
+          <span className="informer">10</span>
+          <label htmlFor="my-spot">Talent Conference Room</label>
         </div>
 
         <div className="office-part-one heart pink">

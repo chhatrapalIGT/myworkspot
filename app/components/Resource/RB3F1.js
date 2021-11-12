@@ -55,6 +55,14 @@ function RB3F1(from) {
           <span className="informer">1</span>
           <label htmlFor="my-spot">Hampden-Sydney</label>
         </div>
+        <div className="office-part-one blue-area">
+          <span className="informer">2</span>
+          <label htmlFor="my-spot">Conference 304</label>
+        </div>
+        <div className="office-part-one blue-area">
+          <span className="informer">3</span>
+          <label htmlFor="my-spot">Conference 308</label>
+        </div>
         <div className="office-part-one heart pink">
           <span className="informer">
             <img src={firstAid} alt="" />
