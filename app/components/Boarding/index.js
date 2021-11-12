@@ -70,20 +70,21 @@ const Boarding = ({
           } "`}
           style={{ marginTop: '20px', padding: '1rem' }}
         >
-          <img
-            src={addErrorLocation ? checkedCircle : crossCircle}
-            alt=""
-            style={{ paddingRight: '5px', marginBottom: ' 4px' }}
-          />
+          <div>
+            <img
+              src={addErrorLocation ? checkedCircle : crossCircle}
+              alt=""
+              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+            />
 
-          {addErrorLocationMsg || locationErrorHandleMsg || ''}
-
-          <span
+            {addErrorLocationMsg || locationErrorHandleMsg || ''}
+          </div>
+          <div
             style={{ float: 'right', fontSize: 'large' }}
             onClick={() => handleData()}
           >
             &#10006;
-          </span>
+          </div>
         </div>
       )}
 

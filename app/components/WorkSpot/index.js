@@ -275,7 +275,7 @@ const WorkSpot = ({
           } "`}
           style={{ marginTop: '20px', padding: '1rem' }}
         >
-          <div style={{ display: 'flex', flex: '1' }}>
+          <div style={{ display: 'flex' }}>
             <img
               src={apiSuccess ? checkedCircle : crossCircle}
               alt=""
