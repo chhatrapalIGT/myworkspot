@@ -75,12 +75,20 @@ const MapComponent = ({
   const [finalImg, setFinalImg] = useState('');
   const [officeRest, setOfficeRest] = useState('');
   useEffect(() => {
-    if (building !== null && floor !== null) {
+    if (
+      building !== null &&
+      floor !== null &&
+      (building !== undefined && floor !== undefined)
+    ) {
       imgData(locationCode, building && building.concat(floor), colorCode);
-    } else if (floor === null) {
+    } else if (floor === null || floor === undefined) {
       imgData(locationCode, building, colorCode);
-    } else if (building === null) {
+    } else if (building === null || building === undefined) {
       imgData(locationCode, floor, colorCode);
+    } else if (locationCode === 'BLM' || locationCode === 'BHM') {
+      imgData(locationCode, building);
+    } else if (colorCode === null || colorCode === '') {
+      imgData(locationCode, building);
     }
   }, []);
 
@@ -200,6 +208,42 @@ const MapComponent = ({
         break;
       case 'RIC':
         switch ((neighborhoodBuild, neighborhoodColor)) {
+          case '31' && 'Teal':
+            imageSrc = mapRICB3F1Teal;
+            officeRes = (
+              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '31' && 'Orange':
+            imageSrc = mapRICB3F1Orange;
+            officeRes = (
+              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '31' && 'Blue':
+            imageSrc = mapRICB3F1Blue;
+            officeRes = (
+              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '32' && 'Teal':
+            imageSrc = mapRICB3F2Teal;
+            officeRes = (
+              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '32' && 'Orange':
+            imageSrc = mapRICB3F2Orange;
+            officeRes = (
+              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
+          case '32' && 'Blue':
+            imageSrc = mapRICB3F2Blue;
+            officeRes = (
+              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
+            );
+            break;
           case '1' && 'Teal':
             imageSrc = mapRICB1Teal;
             officeRes = (
@@ -246,42 +290,6 @@ const MapComponent = ({
             imageSrc = mapRICB2Blue;
             officeRes = (
               <RB2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '31' && 'Teal':
-            imageSrc = mapRICB3F1Teal;
-            officeRes = (
-              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '31' && 'Orange':
-            imageSrc = mapRICB3F1Orange;
-            officeRes = (
-              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '31' && 'Blue':
-            imageSrc = mapRICB3F1Blue;
-            officeRes = (
-              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '32' && 'Teal':
-            imageSrc = mapRICB3F2Teal;
-            officeRes = (
-              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '32' && 'Orange':
-            imageSrc = mapRICB3F2Orange;
-            officeRes = (
-              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '32' && 'Blue':
-            imageSrc = mapRICB3F2Blue;
-            officeRes = (
-              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
             );
             break;
         }

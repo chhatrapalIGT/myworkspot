@@ -521,7 +521,7 @@ const Calender = ({
                                                     : data &&
                                                       data.locationCode ===
                                                         'PTO'
-                                                    ? 'work-station paid-time-off work-floor'
+                                                    ? 'work-station paid-time-off-text work-floor'
                                                     : data &&
                                                       data.locationCode ===
                                                         'EAB'
@@ -717,7 +717,7 @@ const Calender = ({
                                             ? 'work-station remote-work work-floor'
                                             : data &&
                                               data.locationCode === 'PTO'
-                                            ? 'work-station paid-time-off work-floor'
+                                            ? 'work-station paid-time-off-text work-floor'
                                             : data &&
                                               data.locationCode === 'EAB'
                                             ? 'work-station eab-holiday work-floor'
@@ -954,7 +954,7 @@ const Calender = ({
                                             ? 'work-station remote-work work-floor'
                                             : data &&
                                               data.locationCode === 'PTO'
-                                            ? 'work-station paid-time-off work-floor'
+                                            ? 'work-station paid-time-off-text work-floor'
                                             : data &&
                                               data.locationCode === 'EAB'
                                             ? 'work-station eab-holiday work-floor'
@@ -1135,7 +1135,7 @@ const Calender = ({
                                       data && data.locationCode === 'RW'
                                         ? 'work-station remote-work work-floor'
                                         : data && data.locationCode === 'PTO'
-                                        ? 'work-station paid-time-off work-floor'
+                                        ? 'work-station paid-time-off-text work-floor'
                                         : data && data.locationCode === 'EAB'
                                         ? 'work-station eab-holiday work-floor'
                                         : 'work-station work-floor'
