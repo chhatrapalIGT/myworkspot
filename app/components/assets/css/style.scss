@@ -2992,3 +2992,10 @@ select.set_drop option[id='building'],
     flex: 1;
   }
 }
+
+.eab-holiday-name {
+  text-overflow: ellipsis !important;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 30%;
+}

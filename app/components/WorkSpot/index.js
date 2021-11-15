@@ -427,7 +427,13 @@ const WorkSpot = ({
                                   {neighborhoodData &&
                                     neighborhoodData.eabHolidayType}
                                 </h3>
-                                <h3>
+                                <h3
+                                  className="eab-holiday-name"
+                                  title={
+                                    neighborhoodData &&
+                                    neighborhoodData.locationName
+                                  }
+                                >
                                   {neighborhoodData &&
                                     neighborhoodData.locationName}
                                 </h3>
