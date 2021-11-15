@@ -167,15 +167,15 @@ const Report = ({
     monthData.filter(ele => {
       const prevDate = moment(ele.date).isBefore(moment(), 'day');
 
-      const getMonth = moment(ele.date).format('MM');
-      const nextMonth = moment()
-        .add(1, 'month')
-        .format('MM');
-      const currentMonth = getMonth !== nextMonth;
+      // const getMonth = moment(ele.date).format('MM');
+      // const nextMonth = moment()
+      //   .add(1, 'month')
+      //   .format('MM');
+      // const currentMonth = getMonth !== nextMonth;
       const datas =
         ele && ele.data ? ele.data.find(obj => obj.locationCode !== 'PTO') : '';
       let obj = {};
-      if (!prevDate && currentMonth) {
+      if (!prevDate) {
         if (
           ele.officetype === 'EAB Office' ||
           (datas.officetype === 'EAB Office' && ele.locationCode !== 'EAB')
@@ -208,6 +208,7 @@ const Report = ({
     monthData.filter(ele => {
       // eslint-disable-next-line no-shadow
       let data = {};
+
       if (ele.locationCode === 'PTO') {
         data = {
           date: ele.date,
@@ -377,6 +378,7 @@ const Report = ({
                         dateFormat="MMM D,YYYY"
                         selectMultiple
                         min={moment().toDate()}
+                        max={moment().add(3, 'months')}
                         selectCounter
                         placeholder="Select Date(s)"
                         buttons={nowButtons}
@@ -485,19 +487,33 @@ const Report = ({
                   </div>
                   <div className="modal-body">
                     <div className="office-structure office-structure-modal">
-                      <div className="container" style={{ height: '100%' }}>
-                        <MapComponent
-                          building={modalData.building}
-                          floor={modalData.floor}
-                          locationCode={modalData.locationCode}
-                          state={state}
-                          imgStyle={imgStyle}
-                          handleZoomIn={handleZoomIn}
-                          handleZoomOut={handleZoomOut}
-                          handleDefault={handleDefault}
-                          colorCode={modalData.colorcode}
-                        />
-                      </div>
+                      {(modalData && modalData.building === null) ||
+                      !modalData.building ||
+                      ((modalData && modalData.floor === null) ||
+                        !modalData.floor) ? (
+                        <div className="container" style={{ height: '100%' }}>
+                          {modalData && (
+                            <h5 style={{ textAlign: 'center' }}>
+                              {' '}
+                              Relevant Data is not Available
+                            </h5>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="container" style={{ height: '100%' }}>
+                          <MapComponent
+                            building={modalData.building}
+                            floor={modalData.floor}
+                            locationCode={modalData.locationCode}
+                            state={state}
+                            imgStyle={imgStyle}
+                            handleZoomIn={handleZoomIn}
+                            handleZoomOut={handleZoomOut}
+                            handleDefault={handleDefault}
+                            colorCode={modalData.colorcode}
+                          />
+                        </div>
+                      )}
                       <div className="container" style={{ height: '100%' }}>
                         <div className="right-map" />
                       </div>
