@@ -154,10 +154,7 @@ const OfficeWDC = ({
       {officeLocationErrorHandle &&
         !officeLocationErrorHandle.success &&
         officeLocationErrorHandle.error && (
-          <div
-            className="alert fade alert alert-danger show w-25 mx-auto "
-            style={{ marginTop: '20px', padding: '1rem' }}
-          >
+          <div className="alert fade alert alert-danger show mx-auto">
             <div>
               <img
                 src={crossCircle}
@@ -168,9 +165,10 @@ const OfficeWDC = ({
               {officeLocationErrorHandle.error}
             </div>
             <div
-              style={{ float: 'right', fontSize: 'large' }}
+              style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
               onClick={() => handleClearOffice()}
               aria-hidden="true"
+              className="day-pointer"
             >
               &#10006;
             </div>

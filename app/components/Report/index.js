@@ -224,12 +224,11 @@ const Report = ({
       {(reportApiMessage ||
         (locationErrorHandle.error && !locationErrorHandle.success)) && (
         <div
-          className={`"alert fade show w-25 mx-auto ${
+          className={`"alert fade show mx-auto ${
             reportApiSuccess || locationErrorHandle.success
-              ? 'alert alert-success '
-              : 'alert alert-danger '
+              ? 'alert alert-success'
+              : 'alert alert-danger'
           } "`}
-          style={{ marginTop: '20px', padding: '1rem' }}
         >
           <div>
             <img
@@ -245,9 +244,10 @@ const Report = ({
             {locationErrorHandle.error || reportApiMessage || ''}
           </div>
           <div
-            style={{ float: 'right', fontSize: 'large' }}
+            style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
             onClick={() => handlecloseReportDataIcon()}
             aria-hidden="true"
+            className="day-pointer"
           >
             &#10006;
           </div>
@@ -380,6 +380,8 @@ const Report = ({
                         selectCounter
                         placeholder="Select Date(s)"
                         buttons={nowButtons}
+                        cssClass="date_set"
+                        // style="date_set"
                         ref={setNow}
                         onChange={onDateChange}
                         marked={dateData()}

@@ -270,10 +270,9 @@ const WorkSpot = ({
     <>
       {apiMessage && (
         <div
-          className={`"alert fade show w-25 mx-auto ${
+          className={`"alert fade show mx-auto ${
             apiSuccess ? 'alert alert-success ' : 'alert alert-danger '
           } "`}
-          style={{ marginTop: '20px', padding: '1rem' }}
         >
           <div style={{ display: 'flex' }}>
             <img
@@ -291,9 +290,10 @@ const WorkSpot = ({
           </div>
 
           <div
-            style={{ float: 'right', fontSize: 'large' }}
+            style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
             onClick={() => handleClearCal()}
             aria-hidden="true"
+            className="day-pointer"
           >
             &#10006;
           </div>

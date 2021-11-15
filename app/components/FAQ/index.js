@@ -51,10 +51,7 @@ const FAQ = () => {
   return (
     <>
       {error && error && (
-        <div
-          className="alert fade alert alert-danger show w-25 mx-auto "
-          style={{ marginTop: '20px', padding: '1rem' }}
-        >
+        <div className="alert fade alert alert-danger show mx-auto">
           <div>
             <img
               src={crossCircle}
@@ -65,9 +62,10 @@ const FAQ = () => {
             {error}
           </div>
           <div
-            style={{ float: 'right', fontSize: 'large' }}
+            style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
             onClick={() => setError('')}
             aria-hidden="true"
+            className="day-pointer"
           >
             &#10006;
           </div>
@@ -94,6 +92,7 @@ const FAQ = () => {
                         helpData.map(obj => (
                           <div className="list-group bg-trans">
                             <a
+                              key={obj.id}
                               className="list-group-item Faq-content"
                               href={`#${obj.id}`}
                               dangerouslySetInnerHTML={{
@@ -108,7 +107,7 @@ const FAQ = () => {
                     <div className="panel border-radius-10">
                       {helpData &&
                         helpData.map(data => (
-                          <Card className="mt-3" id={data.id}>
+                          <Card className="mt-3" id={data.id} key={data.id}>
                             <Card.Body>
                               <h5
                                 dangerouslySetInnerHTML={{
