@@ -77,15 +77,18 @@ const FAQ = () => {
       ) : (
         <>
           <div
-            id="content-wrap"
+            // id="content-wrap"
             style={{
               backgroundColor: '#dde7fa4f',
             }}
           >
-            <div className="wrapper_main pb-4">
+            <div className="wrapper_main _faq">
               <div className="container">
                 <div className="row">
-                  <div className="col-md-3">
+                  <div
+                    className="col-md-3"
+                    style={{ maxHeight: '80vh', overflow: 'scroll' }}
+                  >
                     <div className="mar-btm">
                       <h5>How can we help you today ?</h5>
                       {helpData &&
@@ -103,7 +106,10 @@ const FAQ = () => {
                         ))}
                     </div>
                   </div>
-                  <div className="col-md-9">
+                  <div
+                    className="col-md-9"
+                    style={{ maxHeight: '80vh', overflow: 'scroll' }}
+                  >
                     <div className="panel border-radius-10">
                       {helpData &&
                         helpData.map(data => (

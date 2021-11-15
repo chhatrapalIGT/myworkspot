@@ -212,3 +212,7 @@ a.list-group-item-dark:focus {
   color: #0958b9 !important;
   cursor: pointer;
 }
+.col-md-3::-webkit-scrollbar,
+.col-md-9::-webkit-scrollbar {
+  display: none;
+}

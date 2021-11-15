@@ -380,8 +380,6 @@ const Report = ({
                         selectCounter
                         placeholder="Select Date(s)"
                         buttons={nowButtons}
-                        cssClass="date_set"
-                        // style="date_set"
                         ref={setNow}
                         onChange={onDateChange}
                         marked={dateData()}
