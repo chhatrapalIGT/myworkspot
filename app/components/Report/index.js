@@ -519,15 +519,15 @@ const Report = ({
         centered
       >
         <div className=" modal-dialog-centered">
-          <div
-            className="modal-content"
-            // style={{ minHeight: 'calc(100vh - 555px)' }}
-          >
+          <div className="modal-content">
             <div style={{ margin: 'auto', padding: '20%' }}>
-              <img src={success} alt="Success" style={{ width: '140px' }} />
-              {/* </div> */}
-              {/* <div style={{ marginTop: '1rem' }}> */}
-              <h4 className="text-center">Success!</h4>
+              <img
+                src={success}
+                alt="Success"
+                style={{ width: '140px', marginLeft: ' 13px' }}
+              />
+
+              <h4 className="text-center pt-4">Success!</h4>
               <p
                 className="text-center"
                 style={{ color: '#526E88', fontSize: '18px' }}
