@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import saga from './saga';
 import reducer from './reducer';
 import { requestGetOfficeData, clearOffice } from './actions';
-import Office from '../../components/OfficeWDC ';
+import Office from '../../components/OfficeWDC';
 
 const zoomStep = 1;
 const maxScale = 5;
