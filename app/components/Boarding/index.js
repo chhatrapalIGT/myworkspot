@@ -65,10 +65,9 @@ const Boarding = ({
     <>
       {(addErrorLocationMsg || locationErrorHandleMsg) && (
         <div
-          className={`"alert fade show w-25 mx-auto ${
+          className={`"alert fade show mx-auto ${
             addErrorLocation ? 'alert alert-success ' : 'alert alert-danger '
           } "`}
-          style={{ marginTop: '20px', padding: '1rem' }}
         >
           <div>
             <img
@@ -80,8 +79,9 @@ const Boarding = ({
             {addErrorLocationMsg || locationErrorHandleMsg || ''}
           </div>
           <div
-            style={{ float: 'right', fontSize: 'large' }}
+            style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
             onClick={() => handleData()}
+            className="day-pointer"
           >
             &#10006;
           </div>

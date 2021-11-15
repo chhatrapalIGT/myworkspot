@@ -51,10 +51,7 @@ const FAQ = () => {
   return (
     <>
       {error && error && (
-        <div
-          className="alert fade alert alert-danger show w-25 mx-auto "
-          style={{ marginTop: '20px', padding: '1rem' }}
-        >
+        <div className="alert fade alert alert-danger show mx-auto">
           <div>
             <img
               src={crossCircle}
@@ -65,9 +62,10 @@ const FAQ = () => {
             {error}
           </div>
           <div
-            style={{ float: 'right', fontSize: 'large' }}
+            style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
             onClick={() => setError('')}
             aria-hidden="true"
+            className="day-pointer"
           >
             &#10006;
           </div>
@@ -79,21 +77,25 @@ const FAQ = () => {
       ) : (
         <>
           <div
-            id="content-wrap"
+            // id="content-wrap"
             style={{
               backgroundColor: '#dde7fa4f',
             }}
           >
-            <div className="wrapper_main pb-4">
+            <div className="wrapper_main _faq">
               <div className="container">
                 <div className="row">
-                  <div className="col-md-3">
+                  <div
+                    className="col-md-3"
+                    style={{ maxHeight: '80vh', overflow: 'scroll' }}
+                  >
                     <div className="mar-btm">
                       <h5>How can we help you today ?</h5>
                       {helpData &&
                         helpData.map(obj => (
                           <div className="list-group bg-trans">
                             <a
+                              key={obj.id}
                               className="list-group-item Faq-content"
                               href={`#${obj.id}`}
                               dangerouslySetInnerHTML={{
@@ -104,11 +106,14 @@ const FAQ = () => {
                         ))}
                     </div>
                   </div>
-                  <div className="col-md-9">
+                  <div
+                    className="col-md-9"
+                    style={{ maxHeight: '80vh', overflow: 'scroll' }}
+                  >
                     <div className="panel border-radius-10">
                       {helpData &&
                         helpData.map(data => (
-                          <Card className="mt-3" id={data.id}>
+                          <Card className="mt-3" id={data.id} key={data.id}>
                             <Card.Body>
                               <h5
                                 dangerouslySetInnerHTML={{

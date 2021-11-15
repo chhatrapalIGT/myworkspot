@@ -501,6 +501,9 @@ input[type='text'] {
   // padding: 90px 0;
   padding: 50px 0;
   min-height: calc(100vh - 175px);
+  &._faq {
+    padding-bottom: 90px;
+  }
 }
 
 .btn-check:focus + .btn,
@@ -2981,10 +2984,11 @@ select.set_drop option[id='building'],
 }
 
 .alert {
-  margin-top: 20px;
-  padding: 1rem;
+  margin-top: 10px;
+  padding: 0.3rem 1rem;
   position: fixed;
   z-index: 999;
+  width: fit-content;
   left: 0;
   right: 0;
   display: flex;
