@@ -77,7 +77,7 @@ const FAQ = () => {
               backgroundColor: '#dde7fa4f',
             }}
           >
-            <div className="wrapper_main _faq">
+            <div className="wrapper_main">
               <div className="container" style={{ marginTop: '20px' }}>
                 <div className="row">
                   <div
@@ -85,6 +85,7 @@ const FAQ = () => {
                     style={{
                       maxHeight: '80vh',
                       overflow: 'scroll',
+                      marginBottom: '1rem',
                     }}
                   >
                     <div className="mar-btm">
@@ -109,6 +110,7 @@ const FAQ = () => {
                     style={{
                       maxHeight: '80vh',
                       overflow: 'scroll',
+                      marginBottom: '1rem',
                     }}
                   >
                     <div className="panel border-radius-10">
