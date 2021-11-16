@@ -1,12 +1,11 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable camelcase */
-/* eslint-disable default-case */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-constant-condition */
-/* eslint-disable indent */
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable react/no-unescaped-entities */
+/* eslint-disable array-callback-return */
+/* eslint-disable indent */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
@@ -15,7 +14,6 @@ import './custom.scss';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import { Datepicker } from '@mobiscroll/react';
-import Axios from 'axios';
 import { isEmpty } from 'lodash';
 import union from '../assets/images/Union.svg';
 import editPen from '../assets/images/edit-pen.svg';
@@ -201,13 +199,13 @@ const WorkSpot = ({
       monthData.filter(ele => {
         const prevDate = moment(ele.date).isBefore(moment(), 'day');
 
-        const getMonth = moment(ele.date).format('MM');
-        const nextMonth = moment()
-          .add(1, 'month')
-          .format('MM');
-        const currentMonth = getMonth !== nextMonth;
+        // const getMonth = moment(ele.date).format('MM');
+        // const nextMonth = moment()
+        //   .add(1, 'month')
+        //   .format('MM');
+        // const currentMonth = getMonth !== nextMonth;
         let obj = {};
-        if (!prevDate && currentMonth) {
+        if (!prevDate) {
           if (
             ele.officetype === 'EAB Office' ||
             (halfDayData.officetype === 'EAB Office' &&
@@ -373,7 +371,8 @@ const WorkSpot = ({
                           your{' '}
                           {state.updatingObject &&
                           state.updatingObject.work_area_name &&
-                          state.updatingObject.work_area_name.includes('DC') ? (
+                          state.updatingObject.work_area_name.includes('DC') &&
+                          isLocUpdate ? (
                             <span> DC </span>
                           ) : (
                             <span>Richmond </span>
@@ -422,9 +421,22 @@ const WorkSpot = ({
                             {neighborhoodData &&
                             neighborhoodData.locationCode === 'EAB' ? (
                               <div className="block-info d-flex flex-wrap">
-                                <h3 className="building-name-paid-time">
+                                <h3
+                                  className="building-name-paid-time"
+                                  style={{ borderRight: '1px solid #95a7b8' }}
+                                >
                                   {neighborhoodData &&
                                     neighborhoodData.eabHolidayType}
+                                </h3>
+                                <h3
+                                  className="eab-holiday-name"
+                                  title={
+                                    neighborhoodData &&
+                                    neighborhoodData.locationName
+                                  }
+                                >
+                                  {neighborhoodData &&
+                                    neighborhoodData.locationName}
                                 </h3>
                               </div>
                             ) : (
@@ -492,7 +504,7 @@ const WorkSpot = ({
                         (neighborhoodData &&
                           neighborhoodData.locationCode !== 'EAB') && (
                           <>
-                            {(state.updatingObject &&
+                            {(((state.updatingObject &&
                               state.updatingObject.work_area_name &&
                               state.updatingObject.work_area_name.includes(
                                 'VA',
@@ -501,7 +513,8 @@ const WorkSpot = ({
                                 state.updatingObject.work_area_name &&
                                 state.updatingObject.work_area_name.includes(
                                   'DC',
-                                )) ||
+                                ))) &&
+                              isLocUpdate) ||
                               (neighborhoodData &&
                                 neighborhoodData.locationCode !== 'RW' && (
                                   <div
@@ -531,6 +544,7 @@ const WorkSpot = ({
                                 handleEditModal(true);
                                 // handleData();
                                 setChange(true);
+                                // setLocUpdate(false);
                                 setDate('');
                               }}
                               aria-hidden="true"
@@ -677,7 +691,7 @@ const WorkSpot = ({
                         display="inline"
                         // returnFormat="moment"
                         min={moment().toDate()}
-                        // max={moment().endOf('month')}
+                        max={moment().add(3, 'months')}
                         name="date"
                         onChange={onDateChange}
                         selectMultiple={true}
@@ -997,7 +1011,7 @@ const WorkSpot = ({
                       onSubmit();
                       // eslint-disable-next-line no-unused-expressions
                       setWorkspotLoader(true);
-                      setLocUpdate(true);
+                      setLocUpdate(!isLocUpdate);
                       handleEditModal(false);
                       // handleUpdate();
                     }}
