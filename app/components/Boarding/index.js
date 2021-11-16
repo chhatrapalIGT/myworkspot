@@ -69,19 +69,18 @@ const Boarding = ({
             addErrorLocation ? 'alert alert-success ' : 'alert alert-danger '
           } "`}
         >
-          <div>
+          <div style={{ display: 'flex', lineHeight: '30px' }}>
             <img
               src={addErrorLocation ? checkedCircle : crossCircle}
               alt=""
-              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+              style={{ paddingRight: '5px' }}
             />
-
-            {addErrorLocationMsg || locationErrorHandleMsg || ''}
+            <div>{addErrorLocationMsg || locationErrorHandleMsg || ''}</div>
           </div>
           <div
-            style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
+            style={{ float: 'right', fontSize: 'large' }}
             onClick={() => handleData()}
-            className="day-pointer"
+            className="day-pointer al_cross"
           >
             &#10006;
           </div>

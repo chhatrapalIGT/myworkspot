@@ -501,9 +501,6 @@ input[type='text'] {
   // padding: 90px 0;
   padding: 50px 0;
   min-height: calc(100vh - 175px);
-  &._faq {
-    padding-bottom: 90px;
-  }
 }
 
 .btn-check:focus + .btn,
@@ -3068,4 +3065,8 @@ select.set_drop option[id='building'],
 
 .mbsc-ios.mbsc-popup-pointer .mbsc-popup-body-round {
   border-radius: 0.5em 0.5em 0 0;
+}
+
+.al_cross {
+  margin-left: 3rem;
 }
