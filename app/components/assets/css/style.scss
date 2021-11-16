@@ -2999,3 +2999,69 @@ select.set_drop option[id='building'],
   white-space: nowrap;
   width: 30%;
 }
+
+.bottom {
+  padding: 1rem;
+  border-top: 1px solid #d1dce7;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 0 0 0.5em 0.5em;
+  z-index: 999;
+
+  span {
+    display: inline-block;
+    margin: 0 10px;
+    position: relative;
+    line-height: 1;
+    color: #526e88;
+    font-size: 12px;
+    font-family: 'Museo Sans Bold';
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 3px;
+      border-radius: 10px;
+    }
+
+    &.eab-ofc {
+      &::before {
+        background: #00355f;
+      }
+    }
+
+    &.remote {
+      &::before {
+        background: #95a7b8;
+      }
+    }
+
+    &.paidoff {
+      &::before {
+        background: #8643ff;
+      }
+    }
+  }
+}
+
+.mbsc-popup-anchored {
+  border-radius: 0.5em 0.5em 0 0;
+  & div.bottom:not(:nth-child(3)) {
+    display: none;
+  }
+}
+.mbsc-datepicker-anchored {
+  border-radius: 0.5em 0.5em 0 0;
+  & div.bottom:not(:nth-child(3)) {
+    display: none;
+  }
+}
+
+.mbsc-ios.mbsc-popup-pointer .mbsc-popup-body-round {
+  border-radius: 0.5em 0.5em 0 0;
+}

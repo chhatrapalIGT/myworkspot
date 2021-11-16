@@ -371,7 +371,8 @@ const WorkSpot = ({
                           your{' '}
                           {state.updatingObject &&
                           state.updatingObject.work_area_name &&
-                          state.updatingObject.work_area_name.includes('DC') ? (
+                          state.updatingObject.work_area_name.includes('DC') &&
+                          isLocUpdate ? (
                             <span> DC </span>
                           ) : (
                             <span>Richmond </span>
@@ -503,7 +504,7 @@ const WorkSpot = ({
                         (neighborhoodData &&
                           neighborhoodData.locationCode !== 'EAB') && (
                           <>
-                            {(state.updatingObject &&
+                            {(((state.updatingObject &&
                               state.updatingObject.work_area_name &&
                               state.updatingObject.work_area_name.includes(
                                 'VA',
@@ -512,7 +513,8 @@ const WorkSpot = ({
                                 state.updatingObject.work_area_name &&
                                 state.updatingObject.work_area_name.includes(
                                   'DC',
-                                )) ||
+                                ))) &&
+                              isLocUpdate) ||
                               (neighborhoodData &&
                                 neighborhoodData.locationCode !== 'RW' && (
                                   <div
@@ -542,6 +544,7 @@ const WorkSpot = ({
                                 handleEditModal(true);
                                 // handleData();
                                 setChange(true);
+                                // setLocUpdate(false);
                                 setDate('');
                               }}
                               aria-hidden="true"
@@ -1008,7 +1011,7 @@ const WorkSpot = ({
                       onSubmit();
                       // eslint-disable-next-line no-unused-expressions
                       setWorkspotLoader(true);
-                      setLocUpdate(true);
+                      setLocUpdate(!isLocUpdate);
                       handleEditModal(false);
                       // handleUpdate();
                     }}

@@ -220,6 +220,35 @@ const Report = ({
     return dates;
   };
 
+  const element = document.getElementsByClassName(
+    'mbsc-popup  mbsc-ios mbsc-popup-anchored',
+  )[0];
+  const param = document.createElement('div');
+  param.className = 'bottom';
+
+  document.getElementsByClassName('bottom');
+
+  const spanTagA = document.createElement('span');
+  const spanTagB = document.createElement('span');
+  const spanTagC = document.createElement('span');
+  spanTagA.className = 'eab-ofc';
+  spanTagB.className = 'remote';
+  spanTagC.className = 'paidoff';
+  param.appendChild(spanTagA);
+  param.appendChild(spanTagB);
+  param.appendChild(spanTagC);
+
+  const text = document.createTextNode('EAB Office');
+  const textA = document.createTextNode('Remote Work');
+  const textB = document.createTextNode('Paid Time Off');
+  spanTagA.appendChild(text);
+  spanTagB.appendChild(textA);
+  spanTagC.appendChild(textB);
+
+  if (element) {
+    element.appendChild(param);
+  }
+
   return (
     <>
       {(reportApiMessage ||
@@ -384,6 +413,7 @@ const Report = ({
                         buttons={nowButtons}
                         ref={setNow}
                         onChange={onDateChange}
+                        id="mobiscroll-cal"
                         marked={dateData()}
                         invalid={invalidDate()}
                       />
