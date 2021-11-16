@@ -5,12 +5,6 @@ import { useHistory } from 'react-router';
 import heartImage from '../../images/heart.png';
 import womenImage from '../../images/officeImage/Wrest.png';
 import maleImage from '../../images/officeImage/Mrest.png';
-import printer from '../../images/officeImage/Copywdc.png';
-import firstAid from '../../images/officeImage/Aidwdc.png';
-import Wellness from '../../images/officeImage/WellWdc.png';
-import Huddle from '../../images/officeImage/HuddleWdc.png';
-import Phone from '../../images/officeImage/CallWdc.png';
-import Lact from '../../images/officeImage/Lactwdc.png';
 import Profile from '../assets/images/profileof.png';
 
 function WF4(from) {
@@ -42,49 +36,22 @@ function WF4(from) {
             }'s Workspot`}</label>
           </div>
         )}
-        <div className="office-part-one blue">
-          <span className="informer" />
-          <label htmlFor="my-spot">Blue</label>
-        </div>
-        <div className="office-part-one teal">
-          <span className="informer" />
-          <label htmlFor="my-spot">Teal</label>
-        </div>
-        <div className="office-part-one orange">
-          <span className="informer" />
-          <label htmlFor="my-spot">Orange</label>
-        </div>
-        <div className="office-part-one yellow">
-          <span className="informer" />
-          <label htmlFor="my-spot">Yellow</label>
-        </div>
-        <div className="office-part-one yellow">
+        <div className="office-part-one white">
           <span className="informer">401</span>
           <label htmlFor="my-spot">Bethune</label>
         </div>
-        <div className="office-part-one yellow">
+        <div className="office-part-one white">
           <span className="informer">402</span>
           <label htmlFor="my-spot">Gallaudet</label>
         </div>
-        <div className="office-part-one yellow">
+        <div className="office-part-one white">
           <span className="informer">403</span>
           <label htmlFor="my-spot">Montessori</label>
         </div>
-        <div className="office-part-one yellow">
+
+        <div className="office-part-one white">
           <span className="informer">404</span>
           <label htmlFor="my-spot">Rogers</label>
-        </div>
-        <div className="office-part-one teal">
-          <span className="informer">421</span>
-          <label htmlFor="my-spot">Sessions</label>
-        </div>
-        <div className="office-part-one teal">
-          <span className="informer">431</span>
-          <label htmlFor="my-spot">Washington</label>
-        </div>
-        <div className="office-part-one blue">
-          <span className="informer">454</span>
-          <label htmlFor="my-spot">Young</label>
         </div>
         <div className="office-part-one white">
           <span className="informer">432</span>
@@ -108,43 +75,6 @@ function WF4(from) {
             <img src={maleImage} alt="" />
           </span>
           <label htmlFor="my-spot">Men's Restroom</label>
-        </div>
-
-        <div className="office-part-one yellow">
-          <span className="informer">
-            <img src={printer} alt="" />
-          </span>
-          <label htmlFor="my-spot">Copy Room</label>
-        </div>
-        <div className="office-part-one yellow">
-          <span className="informer">
-            <img src={firstAid} alt="" />
-          </span>
-          <label htmlFor="my-spot">First Aid</label>
-        </div>
-        <div className="office-part-one yellow">
-          <span className="informer">
-            <img src={Lact} alt="" />
-          </span>
-          <label htmlFor="my-spot">Lactation Room</label>
-        </div>
-        <div className="office-part-one yellow">
-          <span className="informer">
-            <img src={Wellness} alt="" />
-          </span>
-          <label htmlFor="my-spot">Wellness Room</label>
-        </div>
-        <div className="office-part-one white">
-          <span className="informer">
-            <img src={Huddle} alt="" />
-          </span>
-          <label htmlFor="my-spot">Huddle Room</label>
-        </div>
-        <div className="office-part-one white">
-          <span className="informer">
-            <img src={Phone} alt="" />
-          </span>
-          <label htmlFor="my-spot">Phone Room</label>
         </div>
       </div>
     </div>
