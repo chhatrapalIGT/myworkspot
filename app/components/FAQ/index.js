@@ -52,20 +52,15 @@ const FAQ = () => {
     <>
       {error && error && (
         <div className="alert fade alert alert-danger show mx-auto">
-          <div>
-            <img
-              src={crossCircle}
-              alt=""
-              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
-            />
-
-            {error}
+          <div style={{ display: 'flex', lineHeight: '30px' }}>
+            <img src={crossCircle} alt="" style={{ paddingRight: '5px' }} />
+            <div>{error}</div>
           </div>
           <div
-            style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
+            style={{ float: 'right', fontSize: 'large' }}
             onClick={() => setError('')}
             aria-hidden="true"
-            className="day-pointer"
+            className="day-pointer al_cross"
           >
             &#10006;
           </div>
@@ -83,11 +78,14 @@ const FAQ = () => {
             }}
           >
             <div className="wrapper_main _faq">
-              <div className="container">
+              <div className="container" style={{ marginTop: '20px' }}>
                 <div className="row">
                   <div
                     className="col-md-3"
-                    style={{ maxHeight: '80vh', overflow: 'scroll' }}
+                    style={{
+                      maxHeight: '80vh',
+                      overflow: 'scroll',
+                    }}
                   >
                     <div className="mar-btm">
                       <h5>How can we help you today ?</h5>
@@ -108,13 +106,16 @@ const FAQ = () => {
                   </div>
                   <div
                     className="col-md-9"
-                    style={{ maxHeight: '80vh', overflow: 'scroll' }}
+                    style={{
+                      maxHeight: '80vh',
+                      overflow: 'scroll',
+                    }}
                   >
                     <div className="panel border-radius-10">
                       {helpData &&
                         helpData.map(data => (
-                          <Card className="mt-3" id={data.id} key={data.id}>
-                            <Card.Body>
+                          <Card className="m-3" key={data.id}>
+                            <Card.Body id={data.id}>
                               <h5
                                 dangerouslySetInnerHTML={{
                                   __html: htmlDecode(data.topic),

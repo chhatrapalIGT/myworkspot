@@ -185,7 +185,7 @@ const Profile = ({
                 : 'alert alert-danger'
             }`}
           >
-            <div>
+            <div style={{ display: 'flex', lineHeight: '30px' }}>
               <img
                 src={
                   apiSuccess || locationSuccess || locationApiSuccess
@@ -193,14 +193,16 @@ const Profile = ({
                     : crossCircle
                 }
                 alt=""
-                style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+                style={{ paddingRight: '5px' }}
               />
-              {apiMessage || locationMessage || locationApiMessage || ''}
+              <div>
+                {apiMessage || locationMessage || locationApiMessage || ''}
+              </div>
             </div>
             <div
-              style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
+              style={{ float: 'right', fontSize: 'large' }}
               onClick={() => handlecloseDataIcon()}
-              className="day-pointer"
+              className="day-pointer al_cross"
             >
               &#10006;
             </div>

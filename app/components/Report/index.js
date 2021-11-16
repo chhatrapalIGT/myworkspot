@@ -260,7 +260,7 @@ const Report = ({
               : 'alert alert-danger'
           } "`}
         >
-          <div>
+          <div style={{ display: 'flex', lineHeight: '30px' }}>
             <img
               src={
                 reportApiSuccess || locationErrorHandle.success
@@ -268,16 +268,15 @@ const Report = ({
                   : crossCircle
               }
               alt=""
-              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+              style={{ paddingRight: '5px' }}
             />
-
-            {locationErrorHandle.error || reportApiMessage || ''}
+            <div>{locationErrorHandle.error || reportApiMessage || ''}</div>
           </div>
           <div
-            style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
+            style={{ float: 'right', fontSize: 'large' }}
             onClick={() => handlecloseReportDataIcon()}
             aria-hidden="true"
-            className="day-pointer"
+            className="day-pointer al_cross"
           >
             &#10006;
           </div>

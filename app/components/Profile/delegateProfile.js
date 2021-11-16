@@ -43,20 +43,15 @@ const DelegateProfile = props => {
       <>
         {!props.delegateSuccess && props.delegateMessage && (
           <div className="alert fade alert alert-danger show mx-auto">
-            <div>
-              <img
-                src={crossCircle}
-                alt=""
-                style={{ paddingRight: '5px', marginBottom: ' 4px' }}
-              />
-
-              {props.delegateMessage}
+            <div style={{ display: 'flex', lineHeight: '30px' }}>
+              <img src={crossCircle} alt="" style={{ paddingRight: '5px' }} />
+              <div>{props.delegateMessage}</div>
             </div>
             <div
-              style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
+              style={{ float: 'right', fontSize: 'large' }}
               onClick={() => props.clearData()}
               aria-hidden="true"
-              className="day-pointer"
+              className="day-pointer al_cross"
             >
               &#10006;
             </div>

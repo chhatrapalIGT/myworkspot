@@ -272,11 +272,11 @@ const WorkSpot = ({
             apiSuccess ? 'alert alert-success ' : 'alert alert-danger '
           } "`}
         >
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', lineHeight: '30px' }}>
             <img
               src={apiSuccess ? checkedCircle : crossCircle}
               alt=""
-              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+              style={{ paddingRight: '5px' }}
             />
 
             <div
@@ -288,10 +288,10 @@ const WorkSpot = ({
           </div>
 
           <div
-            style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
+            style={{ float: 'right', fontSize: 'large' }}
             onClick={() => handleClearCal()}
             aria-hidden="true"
-            className="day-pointer"
+            className="day-pointer al_cross"
           >
             &#10006;
           </div>
