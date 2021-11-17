@@ -99,199 +99,229 @@ const MapComponent = ({
   ) => {
     let imageSrc = '';
     let officeRes = '';
+
     switch (neighborhoodImg) {
       case 'DC':
-        switch ((neighborhoodBuild, neighborhoodColor)) {
-          case '2' && 'Blue':
-            imageSrc = mapDCF2Blue;
-            officeRes = (
-              <WF2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
+        switch (neighborhoodBuild) {
+          case '2':
+            switch (neighborhoodColor) {
+              case 'Blue':
+                imageSrc = mapDCF2Blue;
+                officeRes = (
+                  <WF2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Teal':
+                imageSrc = mapDCF2Teal;
+                officeRes = (
+                  <WF2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Orange':
+                imageSrc = mapDCF2Orange;
+                officeRes = (
+                  <WF2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Yellow':
+                imageSrc = mapDCF2Yellow;
+                officeRes = (
+                  <WF2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+            }
             break;
-          case '2' && 'Teal':
-            imageSrc = mapDCF2Teal;
-            officeRes = (
-              <WF2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '2' && 'Orange':
-            imageSrc = mapDCF2Orange;
-            officeRes = (
-              <WF2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '2' && 'Yellow':
-            imageSrc = mapDCF2Yellow;
-            officeRes = (
-              <WF2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '3' && 'Blue':
-            imageSrc = mapDCF3Blue;
-            officeRes = (
-              <WF3 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '3' && 'Orange':
-            imageSrc = mapDCF3Orange;
-            officeRes = (
-              <WF3 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '3' && 'Teal':
-            imageSrc = mapDCF3Teal;
-            officeRes = (
-              <WF3 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '3' && 'Yellow':
-            imageSrc = mapDCF3Yellow;
-            officeRes = (
-              <WF3 from={from} ColleagueUserName={ColleagueUserName} />
-            );
+          case '3':
+            switch (neighborhoodColor) {
+              case 'Blue':
+                imageSrc = mapDCF3Blue;
+                officeRes = (
+                  <WF3 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Orange':
+                imageSrc = mapDCF3Orange;
+                officeRes = (
+                  <WF3 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Teal':
+                imageSrc = mapDCF3Teal;
+                officeRes = (
+                  <WF3 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Yellow':
+                imageSrc = mapDCF3Yellow;
+                officeRes = (
+                  <WF3 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+            }
             break;
           case '4':
             imageSrc = mapDCF4;
             officeRes = (
               <WF4 from={from} ColleagueUserName={ColleagueUserName} />
             );
+            // break;
+            switch (neighborhoodColor) {
+              case 'Yellow':
+                imageSrc = mapDCF4Yellow;
+                officeRes = (
+                  <WF4 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Blue':
+                imageSrc = mapDCF4Blue;
+                officeRes = (
+                  <WF4 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Orange':
+                imageSrc = mapDCF4Orange;
+                officeRes = (
+                  <WF4 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Teal':
+                imageSrc = mapDCF4Teal;
+                officeRes = (
+                  <WF4 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+            }
             break;
-          case '4' && 'Yellow':
-            imageSrc = mapDCF4Yellow;
-            officeRes = (
-              <WF4 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '4' && 'Blue':
-            imageSrc = mapDCF4Blue;
-            officeRes = (
-              <WF4 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '4' && 'Orange':
-            imageSrc = mapDCF4Orange;
-            officeRes = (
-              <WF4 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '4' && 'Teal':
-            imageSrc = mapDCF4Teal;
-            officeRes = (
-              <WF4 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '8' && 'Blue':
-            imageSrc = mapDCF8Blue;
-            officeRes = (
-              <WF8 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '8' && 'Orange':
-            imageSrc = mapDCF8Orange;
-            officeRes = (
-              <WF8 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '8' && 'Teal':
-            imageSrc = mapDCF8Teal;
-            officeRes = (
-              <WF8 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '8' && 'Yellow':
-            imageSrc = mapDCF8Yellow;
-            officeRes = (
-              <WF8 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
+          case '8':
+            switch (neighborhoodColor) {
+              case 'Blue':
+                imageSrc = mapDCF8Blue;
+                officeRes = (
+                  <WF8 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Orange':
+                imageSrc = mapDCF8Orange;
+                officeRes = (
+                  <WF8 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Teal':
+                imageSrc = mapDCF8Teal;
+                officeRes = (
+                  <WF8 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Yellow':
+                imageSrc = mapDCF8Yellow;
+                officeRes = (
+                  <WF8 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+            }
         }
         break;
       case 'RIC':
-        switch ((neighborhoodBuild, neighborhoodColor)) {
-          case '31' && 'Teal':
-            imageSrc = mapRICB3F1Teal;
-            officeRes = (
-              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
-            );
+        switch (neighborhoodBuild) {
+          case '31':
+            switch (neighborhoodColor) {
+              case 'Teal':
+                imageSrc = mapRICB3F1Teal;
+                officeRes = (
+                  <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case '31' && 'Orange':
+                imageSrc = mapRICB3F1Orange;
+                officeRes = (
+                  <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case '31' && 'Blue':
+                imageSrc = mapRICB3F1Blue;
+                officeRes = (
+                  <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+            }
             break;
-          case '31' && 'Orange':
-            imageSrc = mapRICB3F1Orange;
-            officeRes = (
-              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
-            );
+          case '32':
+            switch (neighborhoodColor) {
+              case 'Teal':
+                imageSrc = mapRICB3F2Teal;
+                officeRes = (
+                  <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Orange':
+                imageSrc = mapRICB3F2Orange;
+                officeRes = (
+                  <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Blue':
+                imageSrc = mapRICB3F2Blue;
+                officeRes = (
+                  <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+            }
             break;
-          case '31' && 'Blue':
-            imageSrc = mapRICB3F1Blue;
-            officeRes = (
-              <RB3F1 from={from} ColleagueUserName={ColleagueUserName} />
-            );
+          case '1':
+            switch (neighborhoodColor) {
+              case 'Teal':
+                imageSrc = mapRICB1Teal;
+                officeRes = (
+                  <RB1 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Orange':
+                imageSrc = mapRICB1Orange;
+                officeRes = (
+                  <RB1 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Yellow':
+                imageSrc = mapRICB1Yellow;
+                officeRes = (
+                  <RB1 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Blue':
+                imageSrc = mapRICB1Blue;
+                officeRes = (
+                  <RB1 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+            }
             break;
-          case '32' && 'Teal':
-            imageSrc = mapRICB3F2Teal;
-            officeRes = (
-              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '32' && 'Orange':
-            imageSrc = mapRICB3F2Orange;
-            officeRes = (
-              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '32' && 'Blue':
-            imageSrc = mapRICB3F2Blue;
-            officeRes = (
-              <RB3F2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '1' && 'Teal':
-            imageSrc = mapRICB1Teal;
-            officeRes = (
-              <RB1 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '1' && 'Orange':
-            imageSrc = mapRICB1Orange;
-            officeRes = (
-              <RB1 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '1' && 'Yellow':
-            imageSrc = mapRICB1Yellow;
-            officeRes = (
-              <RB1 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '1' && 'Blue':
-            imageSrc = mapRICB1Blue;
-            officeRes = (
-              <RB1 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '2' && 'Teal':
-            imageSrc = mapRICB2Teal;
-            officeRes = (
-              <RB2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '2' && 'Orange':
-            imageSrc = mapRICB2Orange;
-            officeRes = (
-              <RB2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '2' && 'Yellow':
-            imageSrc = mapRICB2Yellow;
-            officeRes = (
-              <RB2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
-          case '2' && 'Blue':
-            imageSrc = mapRICB2Blue;
-            officeRes = (
-              <RB2 from={from} ColleagueUserName={ColleagueUserName} />
-            );
-            break;
+          case '2':
+            switch (neighborhoodColor) {
+              case 'Teal':
+                imageSrc = mapRICB2Teal;
+                officeRes = (
+                  <RB2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Orange':
+                imageSrc = mapRICB2Orange;
+                officeRes = (
+                  <RB2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Yellow':
+                imageSrc = mapRICB2Yellow;
+                officeRes = (
+                  <RB2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+              case 'Blue':
+                imageSrc = mapRICB2Blue;
+                officeRes = (
+                  <RB2 from={from} ColleagueUserName={ColleagueUserName} />
+                );
+                break;
+            }
         }
         break;
       case 'BHM':
