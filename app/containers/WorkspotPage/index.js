@@ -220,7 +220,7 @@ class WorkSpotPage extends Component {
   }
 
   handleClearCal = () => {
-    this.props.resetWorkspot();
+    this.props.resetWorkspotMessage();
   };
 
   handleColleagues = () => {

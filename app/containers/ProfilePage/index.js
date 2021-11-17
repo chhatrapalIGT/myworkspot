@@ -317,7 +317,13 @@ class ProfilePage extends Component {
       delegateList,
       locationApiSuccess,
       locationApiMessage,
+      history,
     } = this.props;
+    const validateBadge =
+      history &&
+      history.location &&
+      history.location.state &&
+      history.location.state.badge;
     return (
       <>
         <div id="content-wrap">
@@ -354,6 +360,7 @@ class ProfilePage extends Component {
             onScroll={this.handleScroll}
             locationApiMessage={locationApiMessage}
             locationApiSuccess={locationApiSuccess}
+            validateBadge={validateBadge}
           />
         </div>
       </>
@@ -455,6 +462,7 @@ ProfilePage.propTypes = {
   delegrateUsersList: PropTypes.object,
   locationApiMessage: PropTypes.string,
   locationApiSuccess: PropTypes.bool,
+  history: PropTypes.object,
 };
 
 export default compose(

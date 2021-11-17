@@ -89,7 +89,7 @@ const FAQ = () => {
                     }}
                   >
                     <div className="mar-btm">
-                      <h5>How can we help you today ?</h5>
+                      <h5>How can we help you today?</h5>
                       {helpData &&
                         helpData.map(obj => (
                           <div className="list-group bg-trans">
