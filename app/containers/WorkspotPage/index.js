@@ -80,6 +80,7 @@ class WorkSpotPage extends Component {
       listArray: [],
       removeColleague: [],
       privateSpace: false,
+      tempLocation: '',
     };
   }
 
@@ -381,6 +382,7 @@ class WorkSpotPage extends Component {
       locationData.find(
         obj => obj.locationname === updatingObject.work_area_name,
       );
+    this.setState({ tempLocation: a ? a.id : 'DC' });
     const payload = {
       data: {
         // eslint-disable-next-line radix
@@ -535,7 +537,6 @@ class WorkSpotPage extends Component {
 
 const mapStateToProps = state => {
   const { workspot, profile } = state;
-  console.log(`state`, state);
   return {
     locationData:
       workspot &&
