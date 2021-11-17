@@ -62,7 +62,6 @@ const WorkSpot = ({
   const [visible, setVisible] = useState(false);
   const [isEmployeeModal, setEmployeeModal] = useState(false);
   const [isEmployee, setEmployee] = useState(false);
-  const [isLocUpdate, setLocUpdate] = useState(false);
   const [isworkspotLoader, setWorkspotLoader] = useState(false);
   const [isdate, setDate] = useState('');
   const [allUser, setAllUser] = useState([]);
@@ -355,24 +354,15 @@ const WorkSpot = ({
                   style={{ backgroundColor: 'white' }}
                 >
                   <>
-                    {((state.updatingObject &&
-                      state.updatingObject.work_area_name &&
-                      state.updatingObject.work_area_name.includes('VA')) ||
-                      (state.updatingObject &&
-                        state.updatingObject.work_area_name &&
-                        state.updatingObject.work_area_name.includes('DC'))) &&
+                    {['DC', 'VA'].includes(state.tempLocation) &&
                     isChange &&
-                    isLocUpdate &&
                     neighborhoodData &&
                     !neighborhoodData.isAssignmentUpdate ? (
                       <>
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
                           your{' '}
-                          {state.updatingObject &&
-                          state.updatingObject.work_area_name &&
-                          state.updatingObject.work_area_name.includes('DC') &&
-                          isLocUpdate ? (
+                          {state.tempLocation.includes('DC') ? (
                             <span> DC </span>
                           ) : (
                             <span>Richmond </span>
@@ -504,40 +494,30 @@ const WorkSpot = ({
                         (neighborhoodData &&
                           neighborhoodData.locationCode !== 'EAB') && (
                           <>
-                            {(((state.updatingObject &&
-                              state.updatingObject.work_area_name &&
-                              state.updatingObject.work_area_name.includes(
-                                'VA',
-                              )) ||
-                              (state.updatingObject &&
-                                state.updatingObject.work_area_name &&
-                                state.updatingObject.work_area_name.includes(
-                                  'DC',
-                                ))) &&
-                              isLocUpdate) ||
+                            {(['DC', 'VA'].includes(state.tempLocation) ||
                               (neighborhoodData &&
-                                neighborhoodData.locationCode !== 'RW' && (
-                                  <div
-                                    className="location d-flex align-items-center"
-                                    aria-hidden="true"
-                                    target="_blank"
-                                  >
-                                    <a
-                                      className="address_url"
-                                      target="_blank"
-                                      href={addressLink(
-                                        neighborhoodData &&
-                                          neighborhoodData.locationCode,
-                                      )}
-                                    >
-                                      <img src={union} alt="" />
+                                neighborhoodData.locationCode !== 'RW')) && (
+                              <div
+                                className="location d-flex align-items-center"
+                                aria-hidden="true"
+                                target="_blank"
+                              >
+                                <a
+                                  className="address_url"
+                                  target="_blank"
+                                  href={addressLink(
+                                    neighborhoodData &&
+                                      neighborhoodData.locationCode,
+                                  )}
+                                >
+                                  <img src={union} alt="" />
 
-                                      {(neighborhoodData &&
-                                        neighborhoodData.officeAddress) ||
-                                        halfDayData.officeAddress}
-                                    </a>
-                                  </div>
-                                ))}
+                                  {(neighborhoodData &&
+                                    neighborhoodData.officeAddress) ||
+                                    halfDayData.officeAddress}
+                                </a>
+                              </div>
+                            )}
                             <div
                               className="change-workspot d-flex align-items-center"
                               onClick={() => {
@@ -628,7 +608,6 @@ const WorkSpot = ({
             workSpotData={state.workSpotData}
             getWorkSpots={getWorkSpots}
             state={state}
-            isLocUpdate={isLocUpdate}
             errSuccess={errSuccess}
             setChange={setChange}
             colleagueWeeklyData={colleagueWeeklyData}
@@ -940,7 +919,6 @@ const WorkSpot = ({
                     aria-label="Close"
                     onClick={() => {
                       handleEditModal(false);
-                      setLocUpdate(false);
                     }}
                   />
                 </div>
@@ -1011,7 +989,6 @@ const WorkSpot = ({
                       onSubmit();
                       // eslint-disable-next-line no-unused-expressions
                       setWorkspotLoader(true);
-                      setLocUpdate(!isLocUpdate);
                       handleEditModal(false);
                       // handleUpdate();
                     }}
@@ -1024,7 +1001,6 @@ const WorkSpot = ({
                     data-bs-dismiss="modal"
                     onClick={() => {
                       handleEditModal(false);
-                      setLocUpdate(false);
                     }}
                   >
                     Cancel

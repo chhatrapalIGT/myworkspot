@@ -43,7 +43,7 @@ const Calender = ({
   displayDefault,
   requestGetColleagueData,
   handleColleagueModal,
-  // colleagueDataLoader,
+  colleagueDataLoader,
 }) => {
   const [period, setPeriod] = useState(displayDefault);
   const [colleagueData, setColleagueData] = useState([]);
@@ -784,7 +784,7 @@ const Calender = ({
                     <hr />
                   </div>
                 )}
-                {/* {setVisible && colleagueDataLoader ? (
+                {setVisible && colleagueDataLoader ? (
                   <div className=" tab-pane fade show active">
                     <div className="card weekly-default mt-4 ">
                       <Spinner
@@ -794,8 +794,8 @@ const Calender = ({
                       />
                     </div>
                   </div>
-                ) : ( */}
-                {setVisible &&
+                ) : (
+                  setVisible &&
                   colleagueData.length > 0 &&
                   colleagueData.map((obj, userIdx) => (
                     <div
@@ -1001,18 +1001,8 @@ const Calender = ({
                         </div>
                       </div>
                     </div>
-                  ))}
-                {/* {setVisible && colleagueDataLoader && (
-                  <div className=" tab-pane fade show active">
-                    <div className=" weekly-default mt-4 ">
-                      <Spinner
-                        className="app-spinner profile"
-                        animation="grow"
-                        variant="dark"
-                      />
-                    </div>
-                  </div>
-                )} */}
+                  ))
+                )}
               </>
             ) : (
               <div className="card weekly-default month-view-content month-spinner">
@@ -1228,6 +1218,7 @@ Calender.propTypes = {
   setEmployeeLocationDetail: PropTypes.bool,
   teamLoading: PropTypes.bool,
   setChange: PropTypes.bool,
+  colleagueDataLoader: PropTypes.bool,
   colleagueWeeklyData: PropTypes.object,
   handleColleagueModal: PropTypes.object,
 };
