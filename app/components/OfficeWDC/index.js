@@ -155,7 +155,7 @@ const OfficeWDC = ({
         !officeLocationErrorHandle.success &&
         officeLocationErrorHandle.error && (
           <div className="alert fade alert alert-danger show mx-auto">
-            <div style={{ display: 'flex', lineHeight: '30px' }}>
+            <div style={{ display: 'contents', lineHeight: '30px' }}>
               <img src={crossCircle} alt="" style={{ paddingRight: '5px' }} />
               <div>{officeLocationErrorHandle.error}</div>
             </div>

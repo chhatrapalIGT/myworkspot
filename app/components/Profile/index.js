@@ -185,7 +185,7 @@ const Profile = ({
                 : 'alert alert-danger'
             }`}
           >
-            <div style={{ display: 'flex', lineHeight: '30px' }}>
+            <div style={{ display: 'contents', lineHeight: '30px' }}>
               <img
                 src={
                   apiSuccess || locationSuccess || locationApiSuccess
