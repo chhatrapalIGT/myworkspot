@@ -10,6 +10,7 @@ import {
   REQUEST_VERIFY_BADGE,
   SUCCESS_VERIFY_BADGE,
   FAILED_VERIFY_BADGE,
+  CLEAR_BADGE_SUCCESS,
 } from './constants';
 
 // The initial state of the App
@@ -31,7 +32,8 @@ const initialState = {
     err: '',
     success: '',
     message: '',
-    loading: '',
+    loading: false,
+    update: '',
   },
   apiMessage: '',
   apiSuccess: false,
@@ -85,7 +87,10 @@ const onBoardingReducer = (state = initialState, action) =>
         draft.verifyBadge.success = '';
         draft.apiMessage = '';
         draft.apiSuccess = false;
+        break;
 
+      case CLEAR_BADGE_SUCCESS:
+        draft.verifyBadge.update = '';
         break;
       case REQUEST_VERIFY_BADGE:
         draft.verifyBadge.loading = true;
@@ -101,6 +106,8 @@ const onBoardingReducer = (state = initialState, action) =>
         draft.verifyBadge.loading = false;
         draft.verifyBadge.message = action.payload.message;
         draft.verifyBadge.success = action.payload.success;
+        draft.verifyBadge.update = 'Badge update failed';
+
         break;
     }
   });

@@ -9,6 +9,7 @@ import {
   REQUEST_VERIFY_BADGE,
   SUCCESS_VERIFY_BADGE,
   FAILED_VERIFY_BADGE,
+  CLEAR_BADGE_SUCCESS,
 } from './constants';
 
 export const requestGetOfficeLocation = payload => ({
@@ -43,6 +44,9 @@ export const addOfficeLocationFailed = payload => ({
 
 export const clearBoardData = () => ({
   type: CLEAR_BOARD_DATA,
+});
+export const clearBadgeSuccess = () => ({
+  type: CLEAR_BADGE_SUCCESS,
 });
 
 export const requestVerifyBadge = payload => ({
