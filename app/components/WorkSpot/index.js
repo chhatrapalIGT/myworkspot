@@ -272,7 +272,7 @@ const WorkSpot = ({
             apiSuccess ? 'alert alert-success ' : 'alert alert-danger '
           } "`}
         >
-          <div style={{ display: 'flex', lineHeight: '30px' }}>
+          <div style={{ display: 'contents', lineHeight: '30px' }}>
             <img
               src={apiSuccess ? checkedCircle : crossCircle}
               alt=""
