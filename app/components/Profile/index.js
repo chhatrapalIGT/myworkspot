@@ -49,6 +49,7 @@ const Profile = ({
   locationApiMessage,
   locationApiSuccess,
   handlecloseDataIcon,
+  verifyBadgeLoading,
   validateBadge,
 }) => {
   const [openbadgeData, setOpenBadgeData] = useState(true);
@@ -357,6 +358,7 @@ const Profile = ({
                                   <input
                                     id="badgeNumber"
                                     name="badge"
+                                    value={state.badge}
                                     type="text"
                                     className="put-value badge_val"
                                     placeholder={inputval || 'XXX'}
@@ -368,6 +370,7 @@ const Profile = ({
                                     id="badgeValue"
                                     className="put-value badge_val"
                                     name="badgedata"
+                                    value={state.badgedata}
                                     type="text"
                                     placeholder={inputval2 || 'XXX'}
                                     maxLength="3"
@@ -389,6 +392,9 @@ const Profile = ({
                                   }}
                                 >
                                   Save
+                                  {verifyBadgeLoading && (
+                                    <div className="spinner-border" />
+                                  )}
                                 </button>
                                 <button
                                   type="button"
@@ -764,5 +770,6 @@ Profile.propTypes = {
   locationApiSuccess: PropTypes.bool,
   handlecloseDataIcon: PropTypes.func,
   validateBadge: PropTypes.bool,
+  verifyBadgeLoading: PropTypes.bool,
 };
 export default Profile;

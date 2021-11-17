@@ -12,6 +12,7 @@ import {
   requestAddOfficeLocation,
   requestVerifyBadge,
   clearBoardData,
+  clearBadgeSuccess,
 } from '../onBoardingPage/actions';
 
 import Profile from '../../components/Profile';
@@ -42,7 +43,6 @@ class ProfilePage extends Component {
       finalLocationDay: [],
       updatedlistArray: [],
       listArray: [],
-
       selectedDay: '',
       selectedNames: '',
       activePage: 1,
@@ -125,7 +125,17 @@ class ProfilePage extends Component {
         this.props.clearBoardData();
       }, 5000);
     }
+
+    if (this.props.verifyBadgeChk && this.props.verifyBadgeChk.update) {
+      this.handleCloseBadge();
+      this.props.clearBadgeSuccess();
+    }
   }
+
+  handleCloseBadge = () => {
+    this.setState({ badgedata: '', badge: '' });
+    document.getElementById('badgeNumber').focus();
+  };
 
   handlecloseDataIcon = () => {
     this.props.clearData();
@@ -173,6 +183,7 @@ class ProfilePage extends Component {
 
   handleCloseBtn = () => {
     this.props.clearBoardData();
+    this.handleCloseBadge();
   };
 
   handleButtonData = (selectedDay, finalval) => {
@@ -318,6 +329,7 @@ class ProfilePage extends Component {
       locationApiSuccess,
       locationApiMessage,
       history,
+      verifyBadgeLoading,
     } = this.props;
     const validateBadge =
       history &&
@@ -361,6 +373,7 @@ class ProfilePage extends Component {
             locationApiMessage={locationApiMessage}
             locationApiSuccess={locationApiSuccess}
             validateBadge={validateBadge}
+            verifyBadgeLoading={verifyBadgeLoading}
           />
         </div>
       </>
@@ -402,6 +415,12 @@ const mapStateToProps = state => {
       locationData &&
       locationData.verifyBadge &&
       locationData.verifyBadge.success,
+    verifyBadgeLoading:
+      locationData &&
+      locationData.verifyBadge &&
+      locationData.verifyBadge.loading,
+    verifyBadgeChk:
+      locationData && locationData.verifyBadge && locationData.verifyBadge,
     verifyBadgeMsg:
       locationData &&
       locationData.verifyBadge &&
@@ -420,6 +439,7 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestAddOfficeLocation(payload)),
     clearData: () => dispatch(clearData()),
     clearBoardData: () => dispatch(clearBoardData()),
+    clearBadgeSuccess: () => dispatch(clearBadgeSuccess()),
     requestBadgeData: payload => dispatch(requestBadgeData(payload)),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
     requestAddDelegateList: payload =>
@@ -463,6 +483,9 @@ ProfilePage.propTypes = {
   locationApiMessage: PropTypes.string,
   locationApiSuccess: PropTypes.bool,
   history: PropTypes.object,
+  clearBadgeSuccess: PropTypes.func,
+  verifyBadgeChk: PropTypes.string,
+  verifyBadgeLoading: PropTypes.bool,
 };
 
 export default compose(
