@@ -565,7 +565,12 @@ const Calender = ({
 
                                               {data &&
                                                 data.locationCode === 'EAB' && (
-                                                  <span className="floor-location eab-holiday">
+                                                  <span
+                                                    className="floor-location eab-holiday eab-holiday-name"
+                                                    title={
+                                                      data && data.locationName
+                                                    }
+                                                  >
                                                     <img
                                                       src={eabVector}
                                                       alt=""
@@ -742,7 +747,10 @@ const Calender = ({
                                         ))}
 
                                       {data && data.locationCode === 'EAB' && (
-                                        <span className="floor-location eab-holiday">
+                                        <span
+                                          className="floor-location eab-holiday eab-holiday-name"
+                                          title={data && data.locationName}
+                                        >
                                           <img src={eabVector} alt="" />
                                           {data && data.locationName}
                                         </span>
@@ -976,7 +984,10 @@ const Calender = ({
                                       )}
 
                                       {data && data.locationCode === 'EAB' && (
-                                        <span className="floor-location eab-holiday">
+                                        <span
+                                          className="floor-location eab-holiday eab-holiday-name"
+                                          title={data && data.locationName}
+                                        >
                                           <img src={eabVector} alt="" />
                                           {data && data.locationName}
                                         </span>
@@ -1164,7 +1175,10 @@ const Calender = ({
                                       )))}
 
                                   {data && data.locationCode === 'EAB' && (
-                                    <span className="floor-location eab-holiday">
+                                    <span
+                                      className="floor-location eab-holiday eab-holiday-name"
+                                      title={data && data.locationName}
+                                    >
                                       <img src={eabVector} alt="" />
                                       {data && data.locationName}
                                     </span>
