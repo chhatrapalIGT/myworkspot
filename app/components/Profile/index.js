@@ -49,6 +49,7 @@ const Profile = ({
   locationApiMessage,
   locationApiSuccess,
   handlecloseDataIcon,
+  validateBadge,
 }) => {
   const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
@@ -82,6 +83,10 @@ const Profile = ({
   }, [show]);
 
   useEffect(() => {
+    if (validateBadge) {
+      setOpenBadge(true);
+    }
+
     if (
       badgeUpdateData &&
       badgeUpdateData.success &&
@@ -758,5 +763,6 @@ Profile.propTypes = {
   locationApiMessage: PropTypes.string,
   locationApiSuccess: PropTypes.bool,
   handlecloseDataIcon: PropTypes.func,
+  validateBadge: PropTypes.bool,
 };
 export default Profile;

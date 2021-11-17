@@ -71,6 +71,10 @@ const Header = props => {
     history.push(`/profile/delegate/${id}`);
   };
 
+  const handleBadgeRedirect = () => {
+    history.push(`/profile`, { badge: true });
+  };
+
   const logout = () => {
     console.log('callllllllll');
     let token = sessionStorage.getItem('AccessToken');
@@ -401,12 +405,14 @@ const Header = props => {
             <img src={BadgeIcon} alt="bicon" />{' '}
             <span>You don't have a badge associated with your profile</span>
             {pathName !== '/profile' && (
-              <Link to="/profile">
-                <button type="button" className="btn_badge">
-                  {' '}
-                  Add My Badge
-                </button>
-              </Link>
+              <button
+                type="button"
+                className="btn_badge"
+                onClick={() => handleBadgeRedirect()}
+              >
+                {' '}
+                Add My Badge
+              </button>
             )}
           </div>
         ))}

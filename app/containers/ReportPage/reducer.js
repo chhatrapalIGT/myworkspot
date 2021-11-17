@@ -72,6 +72,7 @@ const reportReducer = (state = initialState, action) =>
         draft.reportApiMessage = '';
         draft.reportApiSuccess = false;
         draft.updateMember.success = false;
+        draft.updateMember.message = '';
         break;
     }
   });
