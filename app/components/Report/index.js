@@ -49,6 +49,7 @@ const Report = ({
   handlecloseReportDataIcon,
 }) => {
   const [isdata, setData] = useState(false);
+  const [isDiv, setDiv] = useState(false);
   const data = location && location.length && location[location.length - 1];
   const colourStyles = {
     control: styles => ({
@@ -220,34 +221,43 @@ const Report = ({
     return dates;
   };
 
-  const element = document.getElementsByClassName(
-    'mbsc-popup  mbsc-ios mbsc-popup-anchored',
-  )[0];
-  const param = document.createElement('div');
-  param.className = 'bottom';
+  const showDiv = () => {
+    const element = document.getElementsByClassName(
+      'mbsc-popup  mbsc-ios mbsc-popup-anchored',
+    )[0];
 
-  document.getElementsByClassName('bottom');
+    const param = document.createElement('div');
+    param.className = 'bottom';
 
-  const spanTagA = document.createElement('span');
-  const spanTagB = document.createElement('span');
-  const spanTagC = document.createElement('span');
-  spanTagA.className = 'eab-ofc';
-  spanTagB.className = 'remote';
-  spanTagC.className = 'paidoff';
-  param.appendChild(spanTagA);
-  param.appendChild(spanTagB);
-  param.appendChild(spanTagC);
+    document.getElementsByClassName('bottom');
 
-  const text = document.createTextNode('EAB Office');
-  const textA = document.createTextNode('Remote Work');
-  const textB = document.createTextNode('Paid Time Off');
-  spanTagA.appendChild(text);
-  spanTagB.appendChild(textA);
-  spanTagC.appendChild(textB);
+    const spanTagA = document.createElement('span');
+    const spanTagB = document.createElement('span');
+    const spanTagC = document.createElement('span');
+    spanTagA.className = 'eab-ofc';
+    spanTagB.className = 'remote';
+    spanTagC.className = 'paidoff';
+    param.appendChild(spanTagA);
+    param.appendChild(spanTagB);
+    param.appendChild(spanTagC);
 
-  if (element) {
-    element.appendChild(param);
-  }
+    const text = document.createTextNode('EAB Office');
+    const textA = document.createTextNode('Remote Work');
+    const textB = document.createTextNode('Paid Time Off');
+    spanTagA.appendChild(text);
+    spanTagB.appendChild(textA);
+    spanTagC.appendChild(textB);
+
+    if (element) {
+      element.appendChild(param);
+    }
+  };
+
+  useEffect(() => {
+    if (isDiv) {
+      showDiv();
+    }
+  }, [isDiv]);
 
   return (
     <>
@@ -415,6 +425,8 @@ const Report = ({
                         id="mobiscroll-cal"
                         marked={dateData()}
                         invalid={invalidDate()}
+                        onOpen={() => setDiv(true)}
+                        onClose={() => setDiv(false)}
                       />
                     </div>
 

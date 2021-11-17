@@ -1740,9 +1740,10 @@ input[type='text'] {
 .floor-location {
   font-size: 12px;
   color: #526e88;
-  display: flex;
+  // display: flex;
   align-items: center;
-  display: inline-flex;
+  // display: inline-flex;
+  display: inline-block;
 
   &.eab-holiday {
     font-size: 13px;
@@ -1750,6 +1751,14 @@ input[type='text'] {
 
   img {
     margin-right: 7px;
+    margin-bottom: 7px;
+  }
+
+  &.eab-holiday-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 95%;
   }
 }
 

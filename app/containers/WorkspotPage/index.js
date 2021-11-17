@@ -177,6 +177,7 @@ class WorkSpotPage extends Component {
       neighborhoodData,
     } = this.props;
     if (workspotSuccess && workspotMessage) {
+      this.props.requestGetMonthData();
       this.props.requestGetNeighborhood();
       this.getWorkSpots(
         selectedDateRange && selectedDateRange.startDate,
