@@ -383,7 +383,11 @@ class WorkSpotPage extends Component {
       locationData.find(
         obj => obj.locationname === updatingObject.work_area_name,
       );
-    this.setState({ tempLocation: updatingObject.work_area_name });
+    this.setState({
+      tempLocation: updatingObject.work_area_name
+        ? updatingObject.work_area_name
+        : 'DC',
+    });
     const payload = {
       data: {
         // eslint-disable-next-line radix
@@ -395,7 +399,7 @@ class WorkSpotPage extends Component {
     };
     this.props.requestUpdateWorkspot(payload);
     this.updateWorkspotData(
-      a.locationCode,
+      a && a.locationCode,
       moment(updatingObject.date).format('YYYY-MM-DD'),
       updatingObject.work_area_name,
     );
