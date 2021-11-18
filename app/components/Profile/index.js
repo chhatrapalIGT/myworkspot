@@ -94,10 +94,9 @@ const Profile = ({
       badgeUpdateData &&
       badgeUpdateData.success &&
       badgeUpdateData.message &&
-      openbadgeData
+      openBadge
     ) {
       setOpenBadge(false);
-      setOpenBadgeData(false);
     }
 
     if (delegrateUsersList && delegrateUsersList.length > 0) {

@@ -785,7 +785,7 @@ const WorkSpot = ({
                             id={i.employeeid}
                             type="radio"
                             className="checkbox"
-                            checked={state.selectedColleagues.includes(i)}
+                            // checked={state.selectedColleagues.includes(i)}
                           />
                           <label htmlFor="jane">
                             {i.firstname} {i.lastname}
