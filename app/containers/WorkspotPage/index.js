@@ -242,6 +242,7 @@ class WorkSpotPage extends Component {
     setTimeout(() => {
       this.setState({
         updatingObject: {},
+        tempLocation: '',
       });
       this.props.requestGetNeighborhood();
     }, 300000);
@@ -382,7 +383,7 @@ class WorkSpotPage extends Component {
       locationData.find(
         obj => obj.locationname === updatingObject.work_area_name,
       );
-    this.setState({ tempLocation: a ? a.id : 'DC' });
+    this.setState({ tempLocation: updatingObject.work_area_name });
     const payload = {
       data: {
         // eslint-disable-next-line radix

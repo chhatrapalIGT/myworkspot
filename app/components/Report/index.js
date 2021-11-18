@@ -170,12 +170,15 @@ const Report = ({
       //   .format('MM');
       // const currentMonth = getMonth !== nextMonth;
       const datas =
-        ele && ele.data ? ele.data.find(obj => obj.locationCode !== 'PTO') : '';
+        ele && ele.data
+          ? ele.data.find(obj => obj && obj.locationCode !== 'PTO')
+          : '';
       let obj = {};
       if (!prevDate) {
         if (
           ele.officetype === 'EAB Office' ||
-          (datas.officetype === 'EAB Office' && ele.locationCode !== 'EAB')
+          (datas.officetype === 'EAB Office' &&
+            (ele && ele.locationCode !== 'EAB'))
         ) {
           obj = {
             date: ele.date,
