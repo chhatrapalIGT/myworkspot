@@ -9,3 +9,4 @@ export const CLEAR_BOARD_DATA = 'clearBoardData';
 export const REQUEST_VERIFY_BADGE = 'requestVerifyBadge';
 export const SUCCESS_VERIFY_BADGE = 'verifyBadgeSuccess';
 export const FAILED_VERIFY_BADGE = 'verifyBadgeFailed';
+export const CLEAR_BADGE_SUCCESS = 'clearBadgeSuccess';

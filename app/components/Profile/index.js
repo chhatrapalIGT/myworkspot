@@ -49,11 +49,14 @@ const Profile = ({
   locationApiMessage,
   locationApiSuccess,
   handlecloseDataIcon,
+  verifyBadgeLoading,
   validateBadge,
+  badgeUpdateLoading,
 }) => {
   const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
+  const [replace, setReplace] = useState(true);
   const [modal, setModal] = useState(false);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
@@ -285,16 +288,14 @@ const Profile = ({
                           <span>Badge Number</span>
                           {!openBadge && (
                             <>
+                              <p>
+                                {state.badgedata
+                                  ? `BB- ${state.badge}-
+                                      ${state.badgedata}`
+                                  : userData.badgeNumber}
+                              </p>
                               {userData.badgeNumber ? (
                                 <>
-                                  <p>
-                                    {/* {state.badgedata
-                                      ? `BB ${state.badge.concat(
-                                          state.badgedata,
-                                        )}`
-                                      : finalBadges} */}
-                                    {userData.badgeNumber}
-                                  </p>
                                   <a
                                     className="replace"
                                     href
@@ -306,16 +307,7 @@ const Profile = ({
                                 </>
                               ) : (
                                 <>
-                                  <p>
-                                    {badgeUpdateSuccess &&
-                                      (state.badgedata &&
-                                        `BB- ${state.badge}-
-                                          ${state.badgedata}
-                                        `)}
-                                    {/* { userData.badgeNumber} */}
-                                  </p>
-
-                                  {!badgeUpdateSuccess ? (
+                                  {replace ? (
                                     <a
                                       className="replace"
                                       href
@@ -357,6 +349,7 @@ const Profile = ({
                                   <input
                                     id="badgeNumber"
                                     name="badge"
+                                    value={state.badge}
                                     type="text"
                                     className="put-value badge_val"
                                     placeholder={inputval || 'XXX'}
@@ -368,6 +361,7 @@ const Profile = ({
                                     id="badgeValue"
                                     className="put-value badge_val"
                                     name="badgedata"
+                                    value={state.badgedata}
                                     type="text"
                                     placeholder={inputval2 || 'XXX'}
                                     maxLength="3"
@@ -384,11 +378,15 @@ const Profile = ({
                                     verifyBadgeSuccess ? 'save' : 'save_btn'
                                   }
                                   onClick={() => {
+                                    setReplace(false);
                                     handleBadgeSubmit();
-                                    setOpenBadge(false);
                                   }}
                                 >
                                   Save
+                                  {(verifyBadgeLoading ||
+                                    badgeUpdateLoading) && (
+                                    <div className="spinner-border" />
+                                  )}
                                 </button>
                                 <button
                                   type="button"
@@ -764,5 +762,7 @@ Profile.propTypes = {
   locationApiSuccess: PropTypes.bool,
   handlecloseDataIcon: PropTypes.func,
   validateBadge: PropTypes.bool,
+  verifyBadgeLoading: PropTypes.bool,
+  badgeUpdateLoading: PropTypes.bool,
 };
 export default Profile;
