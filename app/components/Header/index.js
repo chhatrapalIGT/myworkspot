@@ -398,24 +398,28 @@ const Header = props => {
         </div>
       </header>
       {props.profileUser &&
-        props.profileUser.isFirstTime === false &&
-        !pathName.includes('/profile/delegate') &&
-        (props.profileUser && props.profileUser.badgeNumber === '' && (
-          <div className="badge_check">
-            <img src={BadgeIcon} alt="bicon" />{' '}
-            <span>You don't have a badge associated with your profile</span>
-            {pathName !== '/profile' && (
-              <button
-                type="button"
-                className="btn_badge"
-                onClick={() => handleBadgeRedirect()}
-              >
-                {' '}
-                Add My Badge
-              </button>
-            )}
-          </div>
-        ))}
+        props.profileUser.badgeNumber === '' &&
+        !props.badgeUpdateSuccess &&
+        (props.profileUser &&
+          props.profileUser.isFirstTime === false &&
+          !pathName.includes('/profile/delegate') &&
+          props.profileUser &&
+          props.profileUser.badgeNumber === '' && (
+            <div className="badge_check">
+              <img src={BadgeIcon} alt="bicon" />{' '}
+              <span>You don't have a badge associated with your profile</span>
+              {pathName !== '/profile' && (
+                <button
+                  type="button"
+                  className="btn_badge"
+                  onClick={() => handleBadgeRedirect()}
+                >
+                  {' '}
+                  Add My Badge
+                </button>
+              )}
+            </div>
+          ))}
     </div>
   );
 };
@@ -439,6 +443,7 @@ const mapStateToProps = state => {
       profile.delegateProfile.delegateProfileList.weeklydefaults,
     delegateHeaderProfileSuccess:
       profile && profile.delegateProfile && profile.delegateProfile.success,
+    badgeUpdateSuccess: profile && profile.badgeUpdate.badgeSuccess,
   };
 };
 
@@ -459,6 +464,7 @@ Header.propTypes = {
   clearData: PropTypes.func,
   profileSuccess: PropTypes.bool,
   requestUserlistData: PropTypes.func,
+  badgeUpdateSuccess: PropTypes.object,
 };
 
 export default compose(

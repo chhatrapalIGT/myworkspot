@@ -61,6 +61,7 @@ const initialState = {
   badgeUpdate: {
     error: '',
     success: false,
+    badgeSuccess: false,
     loading: false,
     message: '',
   },
@@ -173,6 +174,7 @@ const profilePageReducer = (state = initialState, action) =>
         draft.badgeUpdate.message = action.payload.message;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
+        draft.badgeUpdate.badgeSuccess = true;
 
         break;
       case FAILED_BADGE_DATA:

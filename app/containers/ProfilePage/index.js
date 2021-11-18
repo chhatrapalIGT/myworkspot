@@ -329,7 +329,9 @@ class ProfilePage extends Component {
       locationApiSuccess,
       locationApiMessage,
       history,
+      badgeUpdateSuccess,
       verifyBadgeLoading,
+      badgeUpdateLoading,
     } = this.props;
     const validateBadge =
       history &&
@@ -374,6 +376,8 @@ class ProfilePage extends Component {
             locationApiSuccess={locationApiSuccess}
             validateBadge={validateBadge}
             verifyBadgeLoading={verifyBadgeLoading}
+            badgeUpdateSuccess={badgeUpdateSuccess}
+            badgeUpdateLoading={badgeUpdateLoading}
           />
         </div>
       </>
@@ -406,6 +410,10 @@ const mapStateToProps = state => {
     locationApiMessage: locationData && locationData.apiMessage,
     locationApiSuccess: locationData && locationData.apiSuccess,
     badgeUpdateData: profile && profile.badgeUpdate,
+    badgeUpdateSuccess:
+      profile && profile.badgeUpdate && profile.badgeUpdate.success,
+    badgeUpdateLoading:
+      profile && profile.badgeUpdate && profile.badgeUpdate.loading,
     delegrateUsersList:
       profile &&
       profile.getUpdatedelegateListData &&
@@ -486,6 +494,8 @@ ProfilePage.propTypes = {
   clearBadgeSuccess: PropTypes.func,
   verifyBadgeChk: PropTypes.string,
   verifyBadgeLoading: PropTypes.bool,
+  badgeUpdateSuccess: PropTypes.bool,
+  badgeUpdateLoading: PropTypes.bool,
 };
 
 export default compose(
