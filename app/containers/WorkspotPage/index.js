@@ -386,7 +386,8 @@ class WorkSpotPage extends Component {
     this.setState({
       tempLocation: updatingObject.work_area_name
         ? updatingObject.work_area_name
-        : 'DC',
+        : this.props.neighborhoodData &&
+          this.props.neighborhoodData.locationCode,
     });
     const payload = {
       data: {
