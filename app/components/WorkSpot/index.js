@@ -208,7 +208,7 @@ const WorkSpot = ({
           if (
             ele.officetype === 'EAB Office' ||
             (halfDayData.officetype === 'EAB Office' &&
-              ele.locationCode !== 'EAB')
+              (ele && ele.locationCode !== 'EAB'))
           ) {
             obj = {
               date: ele.date,
@@ -325,6 +325,8 @@ const WorkSpot = ({
             ) : (
               // neighborhood &&
               // neighborhood.success &&
+              neighborhoodData &&
+              neighborhoodData.locationCode !== null &&
               !isEmpty(neighborhood.neighborhoodData) && (
                 <div
                   className={
@@ -354,10 +356,15 @@ const WorkSpot = ({
                   style={{ backgroundColor: 'white' }}
                 >
                   <>
-                    {['DC', 'VA'].includes(state.tempLocation) &&
-                    isChange &&
-                    neighborhoodData &&
-                    !neighborhoodData.isAssignmentUpdate ? (
+                    {((state.tempLocation.includes('DC') ||
+                      state.tempLocation.includes('VA')) &&
+                      isChange) ||
+                    (neighborhoodData &&
+                      !neighborhoodData.isAssignmentUpdate &&
+                      ((neighborhoodData &&
+                        neighborhoodData.locationCode === 'DC') ||
+                        (neighborhoodData &&
+                          neighborhoodData.locationCode === 'VA'))) ? (
                       <>
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},

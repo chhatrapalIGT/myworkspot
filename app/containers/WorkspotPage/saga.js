@@ -245,7 +245,6 @@ export function* searchColleagueData({ payload }) {
 }
 
 export function* deleteSearchColleagueData({ payload }) {
-  console.log(`payload`, payload);
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   const requestURL = `${API_URL}/Colleagues/deleteColleaguesUser?employeeid=239323&colleaguesid=${

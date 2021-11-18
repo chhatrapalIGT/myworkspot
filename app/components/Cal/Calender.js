@@ -636,6 +636,7 @@ const Calender = ({
                                       {data.data.map(partially => (
                                         <div
                                           className={`day-one-wrapper ${
+                                            partially &&
                                             partially.locationCode === 'PTO'
                                               ? 'half-paid-off'
                                               : item.disable ||
@@ -670,7 +671,8 @@ const Calender = ({
                                           aria-hidden="true"
                                         >
                                           <p className="work-station half-paid-off">
-                                            {partially.locationCode === 'PTO'
+                                            {partially &&
+                                            partially.locationCode === 'PTO'
                                               ? partially.timeofftype
                                               : partially.locationName}
                                           </p>
@@ -784,7 +786,7 @@ const Calender = ({
                     <hr />
                   </div>
                 )}
-                {setVisible && colleagueDataLoader ? (
+                {/* {setVisible && colleagueDataLoader ? (
                   <div className=" tab-pane fade show active">
                     <div className="card weekly-default mt-4 ">
                       <Spinner
@@ -794,8 +796,8 @@ const Calender = ({
                       />
                     </div>
                   </div>
-                ) : (
-                  setVisible &&
+                ) : ( */}
+                {setVisible &&
                   colleagueData.length > 0 &&
                   colleagueData.map((obj, userIdx) => (
                     <div
@@ -1001,8 +1003,8 @@ const Calender = ({
                         </div>
                       </div>
                     </div>
-                  ))
-                )}
+                  ))}
+                {/* // )} */}
               </>
             ) : (
               <div className="card weekly-default month-view-content month-spinner">
@@ -1047,6 +1049,7 @@ const Calender = ({
                                   {data.data.map(otherHalf => (
                                     <div
                                       className={`day-one-wrapper ${
+                                        otherHalf &&
                                         otherHalf.locationCode === 'PTO'
                                           ? 'half-paid-off'
                                           : item.disable ||
@@ -1084,7 +1087,8 @@ const Calender = ({
                                       aria-hidden="true"
                                     >
                                       <p className="work-station half-paid-off">
-                                        {otherHalf.locationCode === 'PTO'
+                                        {otherHalf &&
+                                        otherHalf.locationCode === 'PTO'
                                           ? otherHalf.timeofftype
                                           : otherHalf.locationName}
                                       </p>
@@ -1192,7 +1196,9 @@ const Calender = ({
               onClick={() => setEmployeeModal(true)}
             >
               {' '}
-              <img src={searchicon} alt="" /> Search for Colleagues
+              <img src={searchicon} alt="" />
+              Search for Colleagues
+              {colleagueDataLoader && <div className="spinner-border" />}
             </button>
           )}
         </div>
