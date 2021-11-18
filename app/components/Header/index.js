@@ -407,9 +407,7 @@ const Header = props => {
           props.profileUser.badgeNumber === '' && (
             <div className="badge_check">
               <img src={BadgeIcon} alt="bicon" />{' '}
-              <span>
-                You don't have a badge associated with your profile in ifffff
-              </span>
+              <span>You don't have a badge associated with your profile</span>
               {pathName !== '/profile' && (
                 <button
                   type="button"
