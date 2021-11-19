@@ -82,7 +82,9 @@ const FAQ = () => {
                 <div className="row">
                   <div className="col-md-12">
                     <div className="panel border-radius-10">
-                      <h5>How can we help you today?</h5>
+                      <h4 className="common-title mb-5">
+                        How can we help you today?
+                      </h4>
                       {helpData &&
                         helpData.map(data => (
                           <Card className="mb-3" key={data.id}>
