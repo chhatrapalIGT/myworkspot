@@ -38,6 +38,7 @@ const minScale = 1;
 const defaultScale = minScale;
 const defaultRotate = 0;
 let datas;
+let isIntervalWorking = false;
 
 class WorkSpotPage extends Component {
   constructor(props) {
@@ -84,6 +85,10 @@ class WorkSpotPage extends Component {
     };
   }
 
+  changeInterval = intValue => {
+    isIntervalWorking = intValue;
+  };
+
   handleZoomIn = () => {
     this.setState(state => {
       const newScale = state.scale + zoomStep;
@@ -112,21 +117,11 @@ class WorkSpotPage extends Component {
 
   componentDidMount() {
     const { defaultSelected } = this.state;
-    const { neighborhoodData } = this.props;
 
     this.props.requestGetLocation();
     this.props.requestGetNeighborhood();
     this.props.requestGetColleague();
     this.props.requestGetMonthData();
-
-    if (
-      (neighborhoodData && neighborhoodData.locationCode !== 'PTO') ||
-      (neighborhoodData && neighborhoodData.locationCode !== 'EAB')
-    ) {
-      datas = setInterval(() => {
-        this.props.requestGetNeighborhood();
-      }, 60000);
-    }
 
     const { dateToDisplay } =
       defaultSelected === 'week'
@@ -191,8 +186,22 @@ class WorkSpotPage extends Component {
         this.handleClearModal();
       }, 5000);
     }
+
     if (neighborhoodData && neighborhoodData.isAssignmentUpdate) {
       clearInterval(datas);
+      this.changeInterval(false);
+    } else if (
+      neighborhoodData &&
+      neighborhoodData.locationCode !== 'PTO' &&
+      neighborhoodData.locationCode !== 'EAB' &&
+      !neighborhoodData.isAssignmentUpdate
+    ) {
+      if (!isIntervalWorking) {
+        datas = setInterval(() => {
+          this.props.requestGetNeighborhood();
+        }, 60000);
+        this.changeInterval(true);
+      }
     }
 
     if (apiMessage) {
