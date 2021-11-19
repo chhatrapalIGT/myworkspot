@@ -72,7 +72,7 @@ const FAQ = () => {
       ) : (
         <>
           <div
-            // id="content-wrap"
+            id="content-wrap"
             style={{
               backgroundColor: '#dde7fa4f',
             }}
@@ -80,43 +80,14 @@ const FAQ = () => {
             <div className="wrapper_main">
               <div className="container" style={{ marginTop: '20px' }}>
                 <div className="row">
-                  <div
-                    className="col-md-3"
-                    style={{
-                      maxHeight: '80vh',
-                      overflow: 'scroll',
-                      marginBottom: '1rem',
-                    }}
-                  >
-                    <div className="mar-btm">
-                      <h5>How can we help you today?</h5>
-                      {helpData &&
-                        helpData.map(obj => (
-                          <div className="list-group bg-trans">
-                            <a
-                              key={obj.id}
-                              className="list-group-item Faq-content"
-                              href={`#${obj.id}`}
-                              dangerouslySetInnerHTML={{
-                                __html: htmlDecode(obj.topic),
-                              }}
-                            />
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                  <div
-                    className="col-md-9"
-                    style={{
-                      maxHeight: '80vh',
-                      overflow: 'scroll',
-                      marginBottom: '1rem',
-                    }}
-                  >
+                  <div className="col-md-12">
                     <div className="panel border-radius-10">
+                      <h4 className="common-title mb-5">
+                        How can we help you today?
+                      </h4>
                       {helpData &&
                         helpData.map(data => (
-                          <Card className="m-3" key={data.id}>
+                          <Card className="mb-3" key={data.id}>
                             <Card.Body id={data.id}>
                               <h5
                                 dangerouslySetInnerHTML={{
