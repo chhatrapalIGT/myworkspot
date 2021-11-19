@@ -369,9 +369,18 @@ const WorkSpot = ({
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
                           your{' '}
-                          {state.tempLocation.includes('DC') ? (
+                          {(state.tempLocation.includes('DC') ||
+                            (neighborhoodData &&
+                              neighborhoodData.locationCode === 'DC' &&
+                              (neighborhoodData &&
+                                !neighborhoodData.isAssignmentUpdate))) && (
                             <span> DC </span>
-                          ) : (
+                          )}
+                          {(state.tempLocation.includes('RIC') ||
+                            (neighborhoodData &&
+                              neighborhoodData.locationCode === 'RIC' &&
+                              (neighborhoodData &&
+                                !neighborhoodData.isAssignmentUpdate))) && (
                             <span>Richmond </span>
                           )}
                           neighborhood assignment will be ready shortly!
@@ -569,7 +578,8 @@ const WorkSpot = ({
                 neighborhoodData.colorcode !== null &&
                 (neighborhoodData && neighborhoodData.colorcode !== '')) ||
                 (neighborhoodData.floor === 4 &&
-                  !neighborhoodData.colorcode)) && (
+                  !neighborhoodData.colorcode)) &&
+              (neighborhoodData && neighborhoodData.isAssignmentUpdate) && (
                 <div className="container" style={{ height: '100%' }}>
                   {neighborhoodLoad ? (
                     <div className="card building-block-head">
