@@ -358,6 +358,8 @@ const WorkSpot = ({
                   <>
                     {((state.tempLocation.includes('DC') ||
                       state.tempLocation.includes('VA')) &&
+                      (neighborhoodData &&
+                        !neighborhoodData.isAssignmentUpdate) &&
                       isChange) ||
                     (neighborhoodData &&
                       !neighborhoodData.isAssignmentUpdate &&
@@ -369,18 +371,13 @@ const WorkSpot = ({
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
                           your{' '}
-                          {(state.tempLocation.includes('DC') ||
+                          {state.tempLocation.includes('DC') ||
+                          (neighborhoodData &&
+                            neighborhoodData.locationCode === 'DC' &&
                             (neighborhoodData &&
-                              neighborhoodData.locationCode === 'DC' &&
-                              (neighborhoodData &&
-                                !neighborhoodData.isAssignmentUpdate))) && (
+                              !neighborhoodData.isAssignmentUpdate)) ? (
                             <span> DC </span>
-                          )}
-                          {(state.tempLocation.includes('RIC') ||
-                            (neighborhoodData &&
-                              neighborhoodData.locationCode === 'RIC' &&
-                              (neighborhoodData &&
-                                !neighborhoodData.isAssignmentUpdate))) && (
+                          ) : (
                             <span>Richmond </span>
                           )}
                           neighborhood assignment will be ready shortly!
