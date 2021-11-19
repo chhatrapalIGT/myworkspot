@@ -199,7 +199,7 @@ class WorkSpotPage extends Component {
       if (!isIntervalWorking) {
         datas = setInterval(() => {
           this.props.requestGetNeighborhood();
-        }, 5000);
+        }, 60000);
         this.changeInterval(true);
       }
     }
