@@ -57,6 +57,7 @@ const WorkSpot = ({
   leadersCommittee,
   handleCheckbox,
   handleClearCal,
+  handleRemoveUserSelect,
 }) => {
   const [isModal, setModal] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -782,6 +783,8 @@ const WorkSpot = ({
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
             id="delegate_workspot"
+            backdrop="static"
+            keyboard={false}
           >
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content">
@@ -794,7 +797,10 @@ const WorkSpot = ({
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    onClick={() => setEmployeeModal(false)}
+                    onClick={() => {
+                      setEmployeeModal(false);
+                      handleRemoveUserSelect();
+                    }}
                   />
                 </div>
                 <input
@@ -810,7 +816,8 @@ const WorkSpot = ({
                       searchName.map(i => (
                         <div
                           aria-hidden="true"
-                          className="form-group"
+                          className={`${state.selectedColleagues.includes(i) &&
+                            'checked_item'}  form-group`}
                           onClick={() => handleUserSelect(i)}
                         >
                           <img src={ProfileImg} alt="" />
@@ -818,7 +825,7 @@ const WorkSpot = ({
                             id={i.employeeid}
                             type="radio"
                             className="checkbox"
-                            // checked={state.selectedColleagues.includes(i)}
+                            checked={state.selectedColleagues.includes(i)}
                           />
                           <label htmlFor="jane">
                             {i.firstname} {i.lastname}
@@ -842,7 +849,10 @@ const WorkSpot = ({
                     type="button"
                     className="btn dismiss"
                     data-bs-dismiss="modal"
-                    onClick={() => setEmployeeModal(false)}
+                    onClick={() => {
+                      setEmployeeModal(false);
+                      handleRemoveUserSelect();
+                    }}
                   >
                     Close
                   </button>
@@ -1088,5 +1098,6 @@ WorkSpot.propTypes = {
   handleCheckbox: PropTypes.func,
   monthData: PropTypes.object,
   handleClearCal: PropTypes.func,
+  handleRemoveUserSelect: PropTypes.func,
 };
 export default WorkSpot;
