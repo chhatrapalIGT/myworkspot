@@ -220,6 +220,7 @@ class WorkSpotPage extends Component {
         startdate: sDate,
         enddate: eDate,
       });
+      this.handleRemoveUserSelect();
       this.props.resetWorkspot();
     }
 
@@ -272,6 +273,10 @@ class WorkSpotPage extends Component {
     }
 
     this.setState({ selectedColleagues: newArr });
+  };
+
+  handleRemoveUserSelect = () => {
+    this.setState({ selectedColleagues: [] });
   };
 
   handleRemove = (id, removeAll, data) => {
@@ -507,6 +512,7 @@ class WorkSpotPage extends Component {
       leadersCommittee,
     } = this.props;
     const { errSuccess } = this.state;
+
     return (
       <>
         <div id="content-wrap">
@@ -543,6 +549,7 @@ class WorkSpotPage extends Component {
             monthData={monthData}
             leadersCommittee={leadersCommittee}
             handleCheckbox={this.handleCheckbox}
+            handleRemoveUserSelect={this.handleRemoveUserSelect}
           />
         </div>
       </>
