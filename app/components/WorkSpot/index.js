@@ -330,10 +330,22 @@ const WorkSpot = ({
               !isEmpty(neighborhood.neighborhoodData) && (
                 <div
                   className={
+                    ((state.tempLocation.includes('DC') ||
+                      state.tempLocation.includes('VA')) &&
+                      (neighborhoodData &&
+                        !neighborhoodData.isAssignmentUpdate) &&
+                      isChange) ||
                     (neighborhoodData &&
-                      neighborhoodData.locationCode === 'BHM') ||
-                    (neighborhoodData &&
-                      neighborhoodData.locationCode === 'BLM')
+                      !neighborhoodData.isAssignmentUpdate &&
+                      ((neighborhoodData &&
+                        neighborhoodData.locationCode === 'DC') ||
+                        (neighborhoodData &&
+                          neighborhoodData.locationCode === 'RIC')))
+                      ? 'card building-block-head default'
+                      : (neighborhoodData &&
+                          neighborhoodData.locationCode === 'BHM') ||
+                        (neighborhoodData &&
+                          neighborhoodData.locationCode === 'BLM')
                       ? 'card building-block-head default'
                       : neighborhoodColor === 'Blue'
                       ? 'card building-block-head blue'
@@ -366,7 +378,7 @@ const WorkSpot = ({
                       ((neighborhoodData &&
                         neighborhoodData.locationCode === 'DC') ||
                         (neighborhoodData &&
-                          neighborhoodData.locationCode === 'VA'))) ? (
+                          neighborhoodData.locationCode === 'RIC'))) ? (
                       <>
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
@@ -507,7 +519,18 @@ const WorkSpot = ({
                         (neighborhoodData &&
                           neighborhoodData.locationCode !== 'EAB') && (
                           <>
-                            {(['DC', 'VA'].includes(state.tempLocation) ||
+                            {(((state.tempLocation.includes('DC') ||
+                              state.tempLocation.includes('VA')) &&
+                              (neighborhoodData &&
+                                !neighborhoodData.isAssignmentUpdate) &&
+                              isChange) ||
+                              (neighborhoodData &&
+                                !neighborhoodData.isAssignmentUpdate &&
+                                ((neighborhoodData &&
+                                  neighborhoodData.locationCode === 'DC') ||
+                                  (neighborhoodData &&
+                                    neighborhoodData.locationCode ===
+                                      'RIC'))) ||
                               (neighborhoodData &&
                                 neighborhoodData.locationCode !== 'RW')) && (
                               <div
@@ -561,7 +584,9 @@ const WorkSpot = ({
             )}
           </div>
           <div className="office-structure mt-4">
-            {neighborhoodData &&
+            {(moment().format('ddd') !== 'Sat' ||
+              moment().format('ddd') !== 'Sun') &&
+              neighborhoodData &&
               neighborhoodData.locationCode !== 'RW' &&
               neighborhoodData &&
               neighborhoodData.locationCode !== 'PTO' &&
@@ -576,7 +601,8 @@ const WorkSpot = ({
                 (neighborhoodData && neighborhoodData.colorcode !== '')) ||
                 (neighborhoodData.floor === 4 &&
                   !neighborhoodData.colorcode)) &&
-              (neighborhoodData && neighborhoodData.isAssignmentUpdate) && (
+              neighborhoodData &&
+              neighborhoodData.isAssignmentUpdate && (
                 <div className="container" style={{ height: '100%' }}>
                   {neighborhoodLoad ? (
                     <div className="card building-block-head">

@@ -209,7 +209,7 @@ const Report = ({
       // eslint-disable-next-line no-shadow
       let data = {};
 
-      if (ele.locationCode === 'PTO') {
+      if (ele.locationCode === 'PTO' || ele.locationCode === 'EAB') {
         data = {
           date: ele.date,
         };
