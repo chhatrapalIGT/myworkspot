@@ -259,17 +259,13 @@ const Report = ({
   }, [isDiv]);
 
   const modalColorCode =
-    (modalData && modalData.colorcode) ||
     (modalData && modalData.colorcode) === '0072CE'
       ? 'Blue'
-      : (modalData && modalData.colorcode) ||
-        (modalData && modalData.colorcode) === 'ED8B00'
+      : (modalData && modalData.colorcode) === 'ED8B00'
       ? 'Orange'
-      : (modalData && modalData.colorcode) ||
-        (modalData && modalData.colorcode) === '00B1B0'
+      : (modalData && modalData.colorcode) === '00B1B0'
       ? 'Teal'
-      : (modalData && modalData.colorcode) ||
-        (modalData && modalData.colorcode) === 'F7CA0F'
+      : (modalData && modalData.colorcode) === 'F7CA0F'
       ? 'Yellow'
       : '';
 

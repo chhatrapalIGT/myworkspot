@@ -166,29 +166,13 @@ const WorkSpot = ({
   };
 
   const neighborhoodColor =
-    (neighborhoodData && neighborhoodData.colorcode) ||
-    (neighborhoodData &&
-      neighborhoodData.data &&
-      neighborhoodData.data[0] &&
-      neighborhoodData.data[0].colorcode) === '0072CE'
+    (neighborhoodData && neighborhoodData.colorcode) === '0072CE'
       ? 'Blue'
-      : (neighborhoodData && neighborhoodData.colorcode) ||
-        (neighborhoodData &&
-          neighborhoodData.data &&
-          neighborhoodData.data[0] &&
-          neighborhoodData.data[0].colorcode) === 'ED8B00'
+      : (neighborhoodData && neighborhoodData.colorcode) === 'ED8B00'
       ? 'Orange'
-      : (neighborhoodData && neighborhoodData.colorcode) ||
-        (neighborhoodData &&
-          neighborhoodData.data &&
-          neighborhoodData.data[0] &&
-          neighborhoodData.data[0].colorcode) === '00B1B0'
+      : (neighborhoodData && neighborhoodData.colorcode) === '00B1B0'
       ? 'Teal'
-      : (neighborhoodData && neighborhoodData.colorcode) ||
-        (neighborhoodData &&
-          neighborhoodData.data &&
-          neighborhoodData.data[0] &&
-          neighborhoodData.data[0].colorcode) === 'F7CA0F'
+      : (neighborhoodData && neighborhoodData.colorcode) === 'F7CA0F'
       ? 'Yellow'
       : '';
 
@@ -232,6 +216,17 @@ const WorkSpot = ({
       });
     return dates;
   };
+
+  const employeeMapColor =
+    (employeeData && employeeData.colorcode) === '0072CE'
+      ? 'Blue'
+      : (employeeData && employeeData.colorcode) === 'ED8B00'
+      ? 'Orange'
+      : (employeeData && employeeData.colorcode) === '00B1B0'
+      ? 'Teal'
+      : (employeeData && employeeData.colorcode) === 'F7CA0F'
+      ? 'Yellow'
+      : '';
 
   const invalidDate = () => {
     const dates = [];
@@ -903,42 +898,40 @@ const WorkSpot = ({
                 <div className="modal-body">
                   <div className="office-structure office-structure-modal">
                     {employeeData &&
-                      employeeData.locationCode !== 'RW' &&
-                      employeeData &&
-                      employeeData.locationCode !== 'PTO' &&
-                      employeeData &&
-                      employeeData.locationCode !== 'EAB' &&
-                      ((employeeData && employeeData.building === null) ||
-                      !employeeData.building ||
-                      ((employeeData && employeeData.floor === null) ||
-                        !employeeData.floor) ? (
-                        <div className="container" style={{ height: '100%' }}>
-                          {employeeData && (
-                            <h5 style={{ textAlign: 'center' }}>
-                              {' '}
-                              Relevant Data is not Available
-                            </h5>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="container" style={{ height: '100%' }}>
-                          {employeeData && (
-                            <MapComponent
-                              building={employeeData.building}
-                              floor={employeeData.floor}
-                              locationCode={employeeData.locationCode}
-                              state={state}
-                              imgStyle={imgStyle}
-                              handleZoomIn={handleZoomIn}
-                              handleZoomOut={handleZoomOut}
-                              handleDefault={handleDefault}
-                              ColleagueUserName={ColleagueUserName}
-                              from="employeeData"
-                              colorCode={employeeData.colorcode}
-                            />
-                          )}
-                        </div>
-                      ))}
+                    employeeData.locationCode !== 'RW' &&
+                    employeeData &&
+                    employeeData.locationCode !== 'PTO' &&
+                    employeeData &&
+                    employeeData.locationCode !== 'EAB' &&
+                    (employeeData &&
+                      employeeData.building === null &&
+                      (employeeData && employeeData.floor === null) &&
+                      (employeeData && employeeData.colorcode === '')) ? (
+                      <div className="container" style={{ height: '100%' }}>
+                        <h5 style={{ textAlign: 'center' }}>
+                          {' '}
+                          Relevant Data is not Available
+                        </h5>
+                      </div>
+                    ) : (
+                      <div className="container" style={{ height: '100%' }}>
+                        {employeeData && (
+                          <MapComponent
+                            building={employeeData.building}
+                            floor={employeeData.floor}
+                            locationCode={employeeData.locationCode}
+                            state={state}
+                            imgStyle={imgStyle}
+                            handleZoomIn={handleZoomIn}
+                            handleZoomOut={handleZoomOut}
+                            handleDefault={handleDefault}
+                            ColleagueUserName={ColleagueUserName}
+                            from="employeeData"
+                            colorCode={employeeMapColor}
+                          />
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

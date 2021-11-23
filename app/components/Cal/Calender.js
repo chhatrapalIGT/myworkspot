@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-nested-ternary */
@@ -254,6 +255,19 @@ const Calender = ({
     setColleagueData(newArr);
   };
 
+  // eslint-disable-next-line consistent-return
+  const modalColorCode = color => {
+    if (color === '0072CE') {
+      return 'Blue';
+    } else if (color === 'ED8B00') {
+      return 'Orange';
+    } else if (color === '00B1B0') {
+      return 'Teal';
+    } else if (color === 'F7CA0F') {
+      return 'Yellow';
+    }
+  };
+
   return (
     <div className={!setVisible && 'myteam_wrapper'}>
       <div className="container">
@@ -469,8 +483,10 @@ const Calender = ({
                                                     <p className="work-station half-paid-off">
                                                       {teamPart.locationCode ===
                                                       'PTO'
-                                                        ? teamPart.timeofftype
-                                                        : teamPart.locationName}
+                                                        ? teamPart &&
+                                                          teamPart.timeofftype
+                                                        : teamPart &&
+                                                          teamPart.locationName}
                                                     </p>
                                                   </div>
                                                 ))}
@@ -535,33 +551,59 @@ const Calender = ({
                                                   ? data.eabHolidayType
                                                   : data && data.locationName}
                                               </p>
-                                              {(data &&
-                                                data.locationCode !== 'RW') ||
+
+                                              {data &&
+                                                data.locationCode !== 'RW' &&
                                                 (data &&
                                                   data.locationCode !==
-                                                    'PTO') ||
-                                                ((data &&
+                                                    'PTO') &&
+                                                (data &&
                                                   data.locationCode !==
-                                                    'EAB') ||
-                                                  (((data &&
-                                                    data.locationCode ===
-                                                      'DC') ||
-                                                    (data &&
-                                                      data.locationCode ===
-                                                        'RIC' &&
-                                                      item.disable &&
-                                                      isCurrentDate(
-                                                        item.date,
-                                                      ))) && (
-                                                    <span className="floor-location">
-                                                      <img
-                                                        src={Vector}
-                                                        alt=""
-                                                      />
-                                                      {data && data.floor} -{' '}
-                                                      {data && data.color}
-                                                    </span>
-                                                  )))}
+                                                    'EAB') && (
+                                                  <span className="floor-location">
+                                                    {((data &&
+                                                      data.floor !== null) ||
+                                                      (data &&
+                                                        data.building !==
+                                                          null) ||
+                                                      (data &&
+                                                        data.colorcode !==
+                                                          '')) && (
+                                                      <>
+                                                        {data &&
+                                                          data.building !==
+                                                            undefined &&
+                                                          (data &&
+                                                            data.floor !==
+                                                              undefined) && (
+                                                            <>
+                                                              <img
+                                                                src={Vector}
+                                                                alt=""
+                                                              />
+                                                              {data &&
+                                                                data.building !==
+                                                                  null &&
+                                                                `Bldg ${data &&
+                                                                  data.building} -`}
+                                                              {data &&
+                                                                data.floor !==
+                                                                  null &&
+                                                                `Fl ${data &&
+                                                                  data.floor} -`}
+                                                              {data &&
+                                                                data.colorcode !==
+                                                                  '' &&
+                                                                modalColorCode(
+                                                                  data &&
+                                                                    data.colorcode,
+                                                                )}
+                                                            </>
+                                                          )}
+                                                      </>
+                                                    )}
+                                                  </span>
+                                                )}
 
                                               {data &&
                                                 data.locationCode === 'EAB' && (
@@ -673,8 +715,10 @@ const Calender = ({
                                           <p className="work-station half-paid-off">
                                             {partially &&
                                             partially.locationCode === 'PTO'
-                                              ? partially.timeofftype
-                                              : partially.locationName}
+                                              ? partially &&
+                                                partially.timeofftype
+                                              : partially &&
+                                                partially.locationName}
                                           </p>
                                         </div>
                                       ))}
@@ -738,15 +782,49 @@ const Calender = ({
                                           : data && data.locationName}
                                       </p>
 
-                                      {(data && data.locationCode !== 'RW') ||
-                                        (data && data.locationCode !== 'PTO') ||
-                                        (data && data.locationCode !== 'EAB' && (
+                                      {data &&
+                                        data.locationCode !== 'RW' &&
+                                        (data && data.locationCode !== 'PTO') &&
+                                        (data &&
+                                          data.locationCode !== 'EAB') && (
                                           <span className="floor-location">
-                                            <img src={Vector} alt="" />
-                                            {data && data.floor} -{' '}
-                                            {data && data.color}
+                                            {((data && data.floor !== null) ||
+                                              (data &&
+                                                data.building !== null) ||
+                                              (data &&
+                                                data.colorcode !== '')) && (
+                                              <>
+                                                {data &&
+                                                  data.building !== undefined &&
+                                                  (data &&
+                                                    data.floor !==
+                                                      undefined) && (
+                                                    <>
+                                                      <img
+                                                        src={Vector}
+                                                        alt=""
+                                                      />
+                                                      {data &&
+                                                        data.building !==
+                                                          null &&
+                                                        `Bldg ${data &&
+                                                          data.building} -`}
+                                                      {data &&
+                                                        data.floor !== null &&
+                                                        `Fl ${data &&
+                                                          data.floor} -`}
+                                                      {data &&
+                                                        data.colorcode !== '' &&
+                                                        modalColorCode(
+                                                          data &&
+                                                            data.colorcode,
+                                                        )}
+                                                    </>
+                                                  )}
+                                              </>
+                                            )}
                                           </span>
-                                        ))}
+                                        )}
 
                                       {data && data.locationCode === 'EAB' && (
                                         <span
@@ -909,8 +987,10 @@ const Calender = ({
                                           <p className="work-station half-paid-off">
                                             {partially &&
                                             partially.locationCode === 'PTO'
-                                              ? partially.timeofftype
-                                              : partially.locationName}
+                                              ? partially &&
+                                                partially.timeofftype
+                                              : partially &&
+                                                partially.locationName}
                                           </p>
                                         </div>
                                       ))}
@@ -977,13 +1057,50 @@ const Calender = ({
                                           ? data.eabHolidayType
                                           : data && data.locationName}
                                       </p>
-                                      {data && data.floor && (
-                                        <span className="floor-location">
-                                          <img src={Vector} alt="" />
-                                          {data && data.floor} -{' '}
-                                          {data && data.color}
-                                        </span>
-                                      )}
+
+                                      {data &&
+                                        data.locationCode !== 'RW' &&
+                                        (data && data.locationCode !== 'PTO') &&
+                                        (data &&
+                                          data.locationCode !== 'EAB') && (
+                                          <span className="floor-location">
+                                            {((data && data.floor !== null) ||
+                                              (data &&
+                                                data.building !== null) ||
+                                              (data &&
+                                                data.colorcode !== '')) && (
+                                              <>
+                                                {data &&
+                                                  data.building !== undefined &&
+                                                  (data &&
+                                                    data.floor !==
+                                                      undefined) && (
+                                                    <>
+                                                      <img
+                                                        src={Vector}
+                                                        alt=""
+                                                      />
+                                                      {data &&
+                                                        data.building !==
+                                                          null &&
+                                                        `Bldg ${data &&
+                                                          data.building} -`}
+                                                      {data &&
+                                                        data.floor !== null &&
+                                                        `Fl ${data &&
+                                                          data.floor} -`}
+                                                      {data &&
+                                                        data.colorcode !== '' &&
+                                                        modalColorCode(
+                                                          data &&
+                                                            data.colorcode,
+                                                        )}
+                                                    </>
+                                                  )}
+                                              </>
+                                            )}
+                                          </span>
+                                        )}
 
                                       {data && data.locationCode === 'EAB' && (
                                         <span
@@ -1089,8 +1206,8 @@ const Calender = ({
                                       <p className="work-station half-paid-off">
                                         {otherHalf &&
                                         otherHalf.locationCode === 'PTO'
-                                          ? otherHalf.timeofftype
-                                          : otherHalf.locationName}
+                                          ? otherHalf && otherHalf.timeofftype
+                                          : otherHalf && otherHalf.locationName}
                                       </p>
                                     </div>
                                   ))}
@@ -1153,20 +1270,40 @@ const Calender = ({
                                       : data && data.locationName}
                                   </p>
 
-                                  {(data && data.locationCode !== 'RW') ||
-                                    (data && data.locationCode !== 'PTO') ||
-                                    ((data && data.locationCode !== 'EAB') ||
-                                      (((data && data.locationCode === 'DC') ||
-                                        (data &&
-                                          data.locationCode === 'RIC' &&
-                                          item.disable &&
-                                          isCurrentDate(item.date))) && (
-                                        <span className="floor-location">
-                                          <img src={Vector} alt="" />
-                                          {data && data.floor} -{' '}
-                                          {data && data.color}
-                                        </span>
-                                      )))}
+                                  {data &&
+                                    data.locationCode !== 'RW' &&
+                                    (data && data.locationCode !== 'PTO') &&
+                                    (data && data.locationCode !== 'EAB') && (
+                                      <span className="floor-location">
+                                        {((data && data.floor !== null) ||
+                                          (data && data.building !== null) ||
+                                          (data && data.colorcode !== '')) && (
+                                          <>
+                                            {data &&
+                                              data.building !== undefined &&
+                                              (data &&
+                                                data.floor !== undefined) && (
+                                                <>
+                                                  <img src={Vector} alt="" />
+                                                  {data &&
+                                                    data.building !== null &&
+                                                    `Bldg ${data &&
+                                                      data.building} -`}
+                                                  {data &&
+                                                    data.floor !== null &&
+                                                    `Fl ${data &&
+                                                      data.floor} -`}
+                                                  {data &&
+                                                    data.colorcode !== '' &&
+                                                    modalColorCode(
+                                                      data && data.colorcode,
+                                                    )}
+                                                </>
+                                              )}
+                                          </>
+                                        )}
+                                      </span>
+                                    )}
 
                                   {data && data.locationCode === 'EAB' && (
                                     <span
