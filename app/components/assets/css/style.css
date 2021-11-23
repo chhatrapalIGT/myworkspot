@@ -10,11 +10,6 @@
     font-size: 32px;
   }
 }
-@media only screen and (min-width: 991px) and (max-width: 1600px) {
-  .office-structure .office-structure-inner {
-    height: calc(100vh - 150px);
-  }
-}
 @media (min-width: 1601px) {
   .office-structure-inner {
     height: calc(100vh - 350px);
