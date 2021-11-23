@@ -14,7 +14,7 @@ import Printer from '../../images/officeImage/Printer.png';
 function RB2(from) {
   const history = useHistory();
   return (
-    <div className="left-panel" style={{ height: ' 60vh' }}>
+    <div className="left-panel">
       <div className="office-info">
         <p className="name">Richmond, VA</p>
         <span className="floor">Building 2</span>
