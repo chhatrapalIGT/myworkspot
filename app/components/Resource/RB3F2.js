@@ -12,7 +12,7 @@ import Profile from '../assets/images/profileof.png';
 function RB3F2(from) {
   const history = useHistory();
   return (
-    <div className="left-panel" style={{ height: ' 60vh' }}>
+    <div className="left-panel">
       <div className="office-info">
         <p className="name">Richmond, VA</p>
         <span className="floor mr-2">Building 3</span>

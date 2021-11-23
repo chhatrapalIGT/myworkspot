@@ -10,7 +10,7 @@ import Profile from '../assets/images/profileof.png';
 function BlB1(from) {
   const history = useHistory();
   return (
-    <div className="left-panel" style={{ height: ' 60vh' }}>
+    <div className="left-panel">
       <div className="office-info">
         <p className="name">Birmingham, AL</p>
         {/* <span className="floor mr-2">Building 3</span> */}
