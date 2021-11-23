@@ -1823,6 +1823,8 @@ input[type='text'] {
 
     .left-panel {
       width: 245px;
+      height: 60vh;
+      overflow: hidden;
       border-right: 1px solid #ebeef1;
 
       .office-info {
@@ -1849,12 +1851,12 @@ input[type='text'] {
         max-height: calc(100% - 300px);
       }
       .office-resource {
-        padding: 20px 30px;
+        padding: 20px 30px 40px;
         overflow: auto;
         // &::-webkit-scrollbar {
         //   display: none;
         // }
-        max-height: calc(100% - 105px);
+        height: calc(100vh - 80%);
 
         & > p {
           font-size: 14px;
