@@ -283,7 +283,7 @@ const Report = ({
           </div>
           <div
             style={{ float: 'right', fontSize: 'large' }}
-            onClick={() => handlecloseReportDataIcon()}
+            onClick={handlecloseReportDataIcon}
             aria-hidden="true"
             className="day-pointer al_cross"
           >
