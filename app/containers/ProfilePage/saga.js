@@ -37,7 +37,7 @@ export function* getLocationData() {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/weaklyDefault/getweeklydefault?employeeid=239323`;
+  const requestURL = `${API_URL}/weaklyDefault/getweeklydefault`;
   try {
     const usersList = yield request({
       method: 'GET',
@@ -215,7 +215,7 @@ export function* removeDelegateMember({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Delegate/removeDelegateUser?employeeid=239323&delegateid=${
+  const requestURL = `${API_URL}/Delegate/removeDelegateUser?delegateid=${
     payload.id
   }`;
   try {
@@ -245,7 +245,7 @@ export function* getUpdateDelegateData() {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Delegate/getdelegateData?employeeid=239323`;
+  const requestURL = `${API_URL}/Delegate/getdelegateData`;
   try {
     const delegateUsersList = yield request({
       method: 'GET',

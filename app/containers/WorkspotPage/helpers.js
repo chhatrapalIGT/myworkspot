@@ -21,7 +21,7 @@ export const getWorkSpotData = async (startDate, endDate) => {
     .startOf('day');
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const url = `${API_URL}/workspot/getworkspotdata?startdate=${sDate}&enddate=${eDate}&employeeid=239323`;
+  const url = `${API_URL}/workspot/getworkspotdata?startdate=${sDate}&enddate=${eDate}`;
   await Axios.get(
     url,
     {
