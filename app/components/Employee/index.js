@@ -4,14 +4,25 @@
 import React, { useState, useMemo } from 'react';
 import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-// import Select from 'react-select';
+import Multiselect from 'multiselect-react-dropdown';
 import Pagination from './Pagination';
-// import Table from './table';;
 import Menu from '../assets/images/admin/menu.png';
 import Profile from '../assets/images/profileof.png';
 import Edit from '../assets/images/edit.svg';
 import Search from '../assets/images/admin/search.png';
 
+const options = [
+  { cat: 'Admin', key: 'Admin', value: 'Admin' },
+  { cat: 'User ', key: 'User', value: 'user' },
+  { cat: 'Manager', key: 'Manager', value: 'manager' },
+];
+const optionsLocation = [
+  { cat: 'Washington, DC', name: 'DC', value: 'DC' },
+  { cat: 'Richmond, VA', name: 'RIC', value: 'VA' },
+  { cat: 'Bloomington, aa', name: 'BLM', value: 'BLM' },
+  { cat: 'Bermingham, MN', name: 'BHM', value: 'BHM' },
+  { cat: 'Remote Work, RW', name: 'RW', value: 'RW' },
+];
 const Employee = props => {
   const { state, employeeData } = props;
   const currentTableData = useMemo(() => {
@@ -21,7 +32,6 @@ const Employee = props => {
       ? employeeData.slice(firstPageIndex, lastPageIndex)
       : [];
   }, [employeeData]);
-  console.log('currentTableData', currentTableData);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -47,12 +57,6 @@ const Employee = props => {
       }
     });
 
-  // const options = [
-  //   { value: 'chocolate', label: 'Chocolate' },
-  //   { value: 'strawberry', label: 'Strawberry' },
-  //   { value: 'vanilla', label: 'Vanilla' },
-  // ];
-
   return (
     <div className="wrapper_main emp_wrapper">
       <div className="office_maps">
@@ -66,18 +70,55 @@ const Employee = props => {
 
               <div className="selction_one mat-10 ww-100">
                 <label htmlFor="role">Role</label>
-                <select onClick={props.handleSearch} name="rolee" multiple>
-                  <option value="User">User</option>
-                  <option value="Admin">Admin </option>
-                </select>
+                <Multiselect
+                  displayValue="cat"
+                  // onKeyPressFn={function noRefCheck() {}}
+                  // onRemove={function noRefCheck() {}}
+                  // onSearch={function noRefCheck() {}}
+                  selectedValues={props.state.selectedOption}
+                  onSelect={props.handleChangeBox}
+                  options={options}
+                  hideSelectedOptions={false}
+                  avoidHighlightFirstOption
+                  closeOnSelect={false}
+                  closeMenuOnSelect
+                  showCheckbox
+                  name="role"
+                  hidePlaceholder="true"
+                  style={{
+                    chips: {
+                      background: 'transparent',
+                      color: 'black',
+                      padding: '15px 10px 0px',
+                    },
+                  }}
+                />
               </div>
               <div className="selction_one mat-10 ww-100">
                 <label htmlFor="space">Permanent Space</label>
-                <select name="" id="">
-                  <option value="0">Washington, DC, +1</option>
-                  <option value="1">Richmond, VA </option>
-                  <option value="2">Not Assigned</option>
-                </select>
+                <Multiselect
+                  displayValue="cat"
+                  // onKeyPressFn={function noRefCheck() {}}
+                  // onRemove={function noRefCheck() {}}
+                  // onSearch={function noRefCheck() {}}
+                  onSelect={props.handleChangeBox}
+                  selectedValues={props.state.selectedOption}
+                  options={optionsLocation}
+                  hideSelectedOptions={false}
+                  avoidHighlightFirstOption
+                  closeOnSelect={false}
+                  name="space"
+                  showCheckbox
+                  closeMenuOnSelect={false}
+                  hidePlaceholder="true"
+                  style={{
+                    chips: {
+                      background: 'transparent',
+                      color: 'black',
+                      padding: '15px 10px 0px',
+                    },
+                  }}
+                />
               </div>
             </div>
             <div className="search-box">
@@ -415,6 +456,7 @@ Employee.propTypes = {
   handlePageChange: PropTypes.func,
   handleLimitChange: PropTypes.func,
   handleSearcha: PropTypes.func,
+  handleChangeBox: PropTypes.func,
 };
 
 export default Employee;

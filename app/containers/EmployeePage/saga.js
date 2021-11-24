@@ -21,13 +21,12 @@ import { CONSTANT } from '../../enum';
 
 const { API_URL } = CONSTANT;
 export function* getEmployeeData({ payload }) {
-  console.log('payload ===> in get', payload);
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   const limit = get(payload, 'limit', 10);
   const page = get(payload, 'page', 1);
   const requestURL = `${API_URL}/user/getEmployeeData?searchUser=${payload.search ||
-    ''}&role=${payload.role || ''}&limit=${limit}&page=${page}`;
+    ''}&role=${payload.value || ''}&limit=${limit}&page=${page}`;
   try {
     const usersList = yield request({
       method: 'GET',

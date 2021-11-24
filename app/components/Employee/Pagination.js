@@ -19,9 +19,10 @@ const Pagination = props => {
     pageSize,
   });
 
-  if (currentPage === 0 || (paginationRange && paginationRange.length < 2)) {
-    return null;
-  }
+  console.log('paginationRange', paginationRange);
+  // if (currentPage === 0 || (paginationRange && paginationRange.length < 2)) {
+  //   return null;
+  // }
 
   const onNext = () => {
     onPageChange(currentPage + 1);
@@ -35,25 +36,28 @@ const Pagination = props => {
     paginationRange[paginationRange && paginationRange.length - 1];
   return (
     <div className="blue">
+      {/* <span className="arrow"> */}
       <span className="arrow" onClick={onPrevious}>
         &lsaquo;
       </span>{' '}
-      {/* <span className="pageno active">1</span>{' '} */}
-      {paginationRange.map(pageNumber => {
-        if (pageNumber === DOTS) {
-          return <span className="pageno pagination-item dots">&#8230;</span>;
-        }
+      {paginationRange &&
+        paginationRange.map(pageNumber => {
+          if (pageNumber === DOTS) {
+            return <span className="pageno pagination-item dots">&#8230;</span>;
+          }
 
-        return (
-          <span
-            role="data"
-            className="pageno active"
-            onClick={() => onPageChange(pageNumber)}
-          >
-            {pageNumber}
-          </span>
-        );
-      })}
+          return (
+            <span
+              role="data"
+              className={`pageno ${
+                props.currentPage === pageNumber ? 'active' : ''
+              }`}
+              onClick={() => onPageChange(pageNumber)}
+            >
+              {pageNumber}
+            </span>
+          );
+        })}
       <span className="arrow" onClick={onNext}>
         &rsaquo;
       </span>

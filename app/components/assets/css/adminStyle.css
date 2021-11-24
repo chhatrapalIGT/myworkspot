@@ -1146,3 +1146,6 @@
 .acc_active {
   background-color: #edf7ff;
 }
+.admin-selection {
+  height: 48px;
+}

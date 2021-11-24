@@ -35,6 +35,7 @@ class EmployeePage extends Component {
       floor: 'DC',
       build: '4',
       AssignedSpace: '',
+      selectedOption: [],
     };
   }
 
@@ -68,7 +69,7 @@ class EmployeePage extends Component {
   };
 
   handleLimitChange = e => {
-    this.setState({ limit: e, page: 0 });
+    this.setState({ limit: e, page: 1 });
     this.getEmpData('', '', 1, e);
   };
 
@@ -124,25 +125,35 @@ class EmployeePage extends Component {
     });
   };
 
-  handleSearch = e => {
-    const value = Array.from(e.target.selectedOptions, option => option.value);
-    let str = '[';
-    value.forEach(ev => {
-      str += `"${ev}",`;
-    });
-    str += ']';
-    this.setState({ values: value }, () => {
-      this.props.requestGetEmployeeDetail({
-        role: str,
-      });
-    });
+  handleSearch = () => {
+    //   console.log('e====>', selectedList, selectedItem);
+    //   const value = Array.from(e.target.selectedOptions, option => option.value);
+    //   console.log('value', value);
+    //   let str = '[';
+    //   value.forEach(ev => {
+    //     str += `"${ev}",`;
+    //   });
+    //   str += ']';
+    //   this.setState({ values: value }, () => {
+    //     this.props.requestGetEmployeeDetail({
+    //       role: str,
+    //     });
+    //   });
   };
 
-  // handleChange = option => {
-  //   this.setState(() => ({
-  //     selectedOption: option,
-  //   }));
-  // };
+  handleChangeBox = option => {
+    const values = option.map(i => i.value);
+    console.log('values', values);
+    let str = '[';
+    values.forEach(ev => {
+      str += `,"${ev}"`;
+    });
+    str += ']';
+    const da = str.slice(0, 1);
+    const ta = str.slice(2);
+    const strVal = da.concat(ta);
+    this.props.requestGetEmployeeDetail({ value: strVal });
+  };
 
   render() {
     const {
@@ -167,6 +178,8 @@ class EmployeePage extends Component {
           handleLimitChange={this.handleLimitChange}
           handlePageChange={this.handlePageChange}
           employeeCount={employeeCount}
+          handleSelectChange={this.handleSelectChange}
+          handleChangeBox={this.handleChangeBox}
         />
       </div>
     );
