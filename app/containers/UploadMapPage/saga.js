@@ -18,7 +18,7 @@ export function* getData() {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/user/getWorkSpaceData`;
+  const requestURL = `${API_URL}/adminPanel/user/getWorkSpaceData`;
 
   try {
     const usersList = yield request({
@@ -40,7 +40,7 @@ export function* getData() {
 }
 
 export function* fileUpload({ payload }) {
-  const requestURL = `${API_URL}/officeMap/uploadOfficeMap`;
+  const requestURL = `${API_URL}/adminPanel/officeMap/uploadOfficeMap`;
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   try {

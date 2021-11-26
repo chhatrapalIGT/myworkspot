@@ -8,7 +8,11 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import saga from './saga';
 import reducer from './reducer';
-import { requestGetOfficeUpdateData, requestFileUpload } from './actions';
+import {
+  requestGetOfficeUpdateData,
+  requestFileUpload,
+  clearOfficeData,
+} from './actions';
 import Office from '../../components/Office';
 
 const zoomStep = 1;
@@ -58,6 +62,22 @@ class UploadMap extends Component {
     this.props.requestGetOfficeUpdateData({});
   }
 
+  componentDidUpdate() {
+    const { officeUpdateMessage, uploadCsv } = this.props;
+    if (officeUpdateMessage) {
+      setTimeout(() => {
+        this.props.clearOfficeData();
+      }, 5000);
+    }
+    if (uploadCsv && uploadCsv.success) {
+      this.props.requestGetOfficeUpdateData({});
+    }
+  }
+
+  handleCloseIcon = () => {
+    this.props.clearOfficeData();
+  };
+
   handleUserSelect = event => {
     const { value } = event.target;
     this.setState({ selectedNames: value });
@@ -67,7 +87,11 @@ class UploadMap extends Component {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
-    const { officeLocation } = this.props;
+    const {
+      officeLocation,
+      officeUpdateMessage,
+      officeUpdateSuccess,
+    } = this.props;
 
     return (
       <>
@@ -81,6 +105,9 @@ class UploadMap extends Component {
             requestFileUpload={this.props.requestFileUpload}
             officeLocation={officeLocation}
             handleUserSelect={this.handleUserSelect}
+            handleCloseIcon={this.handleCloseIcon}
+            officeUpdateMessage={officeUpdateMessage}
+            officeUpdateSuccess={officeUpdateSuccess}
           />{' '}
         </div>
       </>
@@ -95,6 +122,9 @@ const mapStateToProps = state => {
       uploadOffice &&
       uploadOffice.getOfficeData &&
       uploadOffice.getOfficeData.masterData,
+    officeUpdateMessage: uploadOffice && uploadOffice.officeUpdateMessage,
+    officeUpdateSuccess: uploadOffice && uploadOffice.officeUpdateSuccess,
+    uploadCsv: uploadOffice && uploadOffice.uploadCsv,
   };
 };
 
@@ -103,6 +133,7 @@ export function mapDispatchToProps(dispatch) {
     requestGetOfficeUpdateData: payload =>
       dispatch(requestGetOfficeUpdateData(payload)),
     requestFileUpload: payload => dispatch(requestFileUpload(payload)),
+    clearOfficeData: () => dispatch(clearOfficeData()),
 
     dispatch,
   };
@@ -113,7 +144,11 @@ const withSaga = injectSaga({ key: 'uploadOffice', saga });
 UploadMap.propTypes = {
   requestGetOfficeUpdateData: PropTypes.func,
   requestFileUpload: PropTypes.func,
+  clearOfficeData: PropTypes.func,
   officeLocation: PropTypes.object,
+  officeUpdateMessage: PropTypes.string,
+  officeUpdateSuccess: PropTypes.bool,
+  uploadCsv: PropTypes.object,
 };
 
 export default compose(

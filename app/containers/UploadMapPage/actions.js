@@ -2,7 +2,7 @@ import {
   REQUEST_GET_OFFICE_UPDATE_DATA,
   SUCCESS_GET_OFFICE_UPDATE_DATA,
   FAILED_GET_OFFICE_UPDATE_DATA,
-  CLEAR_OFFICE,
+  CLEAR_OFFICE_DATA,
   REQUEST_FILE_UPLOAD,
   SUCCESS_FILE_UPLOAD,
   FAILED_FILE_UPLOAD,
@@ -22,8 +22,8 @@ export const getOfficeDataUpdateFailed = error => ({
   type: FAILED_GET_OFFICE_UPDATE_DATA,
   payload: error,
 });
-export const clearOffice = () => ({
-  type: CLEAR_OFFICE,
+export const clearOfficeData = () => ({
+  type: CLEAR_OFFICE_DATA,
 });
 
 export const requestFileUpload = payload => ({

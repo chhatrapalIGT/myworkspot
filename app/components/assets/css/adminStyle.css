@@ -340,7 +340,7 @@
 }
 .panel {
   background-color: #fff;
-  max-height: 0;
+  max-height: 300px !important;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
 }
@@ -1139,4 +1139,10 @@
   padding: 20px;
   position: relative;
   overflow: hidden;
+}
+.display_acc {
+  display: none;
+}
+.acc_active {
+  background-color: #edf7ff;
 }
