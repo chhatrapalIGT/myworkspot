@@ -165,6 +165,11 @@ const WorkSpot = ({
     updateModalData('work_area_name', work_area_name);
   };
 
+  const halfDayData =
+    neighborhoodData && neighborhoodData.data
+      ? neighborhoodData.data.find(obj => obj.locationCode !== 'PTO')
+      : '';
+
   const neighborhoodColor =
     (neighborhoodData && neighborhoodData.colorcode) === '0072CE'
       ? 'Blue'
@@ -173,6 +178,17 @@ const WorkSpot = ({
       : (neighborhoodData && neighborhoodData.colorcode) === '00B1B0'
       ? 'Teal'
       : (neighborhoodData && neighborhoodData.colorcode) === 'F7CA0F'
+      ? 'Yellow'
+      : '';
+
+  const halfdayColor =
+    (halfDayData && halfDayData.colorcode) === '0072CE'
+      ? 'Blue'
+      : (halfDayData && halfDayData.colorcode) === 'ED8B00'
+      ? 'Orange'
+      : (halfDayData && halfDayData.colorcode) === '00B1B0'
+      ? 'Teal'
+      : (halfDayData && halfDayData.colorcode) === 'F7CA0F'
       ? 'Yellow'
       : '';
 
@@ -247,11 +263,6 @@ const WorkSpot = ({
     ? employeeData.firstName &&
       employeeData.firstName.charAt(0).concat(' ', employeeData.lastName)
     : '';
-
-  const halfDayData =
-    neighborhoodData && neighborhoodData.data
-      ? neighborhoodData.data.find(obj => obj.locationCode !== 'PTO')
-      : '';
 
   const htmlDecode = content => {
     const e = document.createElement('div');
@@ -343,13 +354,15 @@ const WorkSpot = ({
                         (neighborhoodData &&
                           neighborhoodData.locationCode === 'BLM')
                       ? 'card building-block-head default'
-                      : neighborhoodColor === 'Blue'
+                      : neighborhoodColor === 'Blue' || halfdayColor === 'Blue'
                       ? 'card building-block-head blue'
-                      : neighborhoodColor === 'Orange'
+                      : neighborhoodColor === 'Orange' ||
+                        halfdayColor === 'Orange'
                       ? 'card building-block-head orange'
-                      : neighborhoodColor === 'Teal'
+                      : neighborhoodColor === 'Teal' || halfdayColor === 'Teal'
                       ? 'card building-block-head teal'
-                      : neighborhoodColor === 'Yellow'
+                      : neighborhoodColor === 'Yellow' ||
+                        halfdayColor === 'Yellow'
                       ? 'card building-block-head yellow'
                       : (neighborhoodData &&
                           neighborhoodData.locationCode === 'PTO') ||
@@ -491,7 +504,8 @@ const WorkSpot = ({
                                 halfDayData.floor) && (
                                 <h3
                                   className={
-                                    neighborhoodColor !== ''
+                                    neighborhoodColor !== '' ||
+                                    halfdayColor !== ''
                                       ? 'floor-name'
                                       : 'floor-data-name'
                                   }
@@ -502,7 +516,7 @@ const WorkSpot = ({
                                 </h3>
                               )}
                               <h3 className="color-code">
-                                {neighborhoodColor}
+                                {neighborhoodColor || halfdayColor}
                               </h3>
                             </div>
                           )}
@@ -595,8 +609,9 @@ const WorkSpot = ({
               ((neighborhoodData &&
                 neighborhoodData.colorcode !== null &&
                 (neighborhoodData && neighborhoodData.colorcode !== '')) ||
-                (neighborhoodData.floor === 4 &&
-                  !neighborhoodData.colorcode)) &&
+                (neighborhoodData.floor === 4 && !neighborhoodData.colorcode) ||
+                ((halfDayData && halfDayData.colorcode !== '') ||
+                  (halfDayData.floor === 4 && halfDayData.colorcode !== ''))) &&
               neighborhoodData &&
               neighborhoodData.isAssignmentUpdate && (
                 <div className="container" style={{ height: '100%' }}>
@@ -624,7 +639,7 @@ const WorkSpot = ({
                         handleZoomIn={handleZoomIn}
                         handleZoomOut={handleZoomOut}
                         handleDefault={handleDefault}
-                        colorCode={neighborhoodColor}
+                        colorCode={neighborhoodColor || halfdayColor}
                       />
                     )
                   )}
