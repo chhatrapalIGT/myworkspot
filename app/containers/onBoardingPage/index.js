@@ -282,7 +282,10 @@ const mapStateToProps = state => {
       profile.userList.user.firstname,
     profileUserLoading: profile && profile.userList && profile.userList.loading,
     leadersCommittee:
-      profile && profile.userList && profile.userList.leaderscommittee,
+      profile &&
+      profile.userList &&
+      profile.userList.user &&
+      profile.userList.user.leaderscommittee,
   };
 };
 
