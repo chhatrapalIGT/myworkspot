@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable indent */
 /* eslint-disable default-case */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
 import Spinner from 'react-bootstrap/Spinner';
@@ -28,13 +28,12 @@ const Office = ({
   const isDraggable = state.scale > 1;
 
   const [floor, setFloor] = useState();
-  const [color, setColor] = useState();
-  const [displayColor, setDisplayColor] = useState();
+  const [color, setColor] = useState('');
+  const [displayColor, setDisplayColor] = useState('');
   const [setActive, setActiveState] = useState('');
   const [imageUpdateData, setImageUpdateData] = useState();
 
   const content = useRef(null);
-
   function toggleAccordion(id) {
     setImageUpdateData(id);
     setDisplayColor('');
@@ -45,6 +44,17 @@ const Office = ({
       setActiveState(id);
     }
   }
+
+  useEffect(() => {
+    if (
+      (state.selectedNames === 'BHM' || state.selectedNames === 'BLM') &&
+      floor &&
+      floor.length
+    ) {
+      setFloor('');
+      setColor('');
+    }
+  }, [state.selectedNames]);
 
   const finalLocationVal =
     officeLocation && officeLocation.filter(obj => obj.id !== 'RW');
@@ -219,9 +229,9 @@ const Office = ({
                                     >
                                       <div className="dash-menu-list pad-left-23">
                                         <div
-                                          className={`dash-menu-item2 acc_${
+                                          className={`dash-menu-item2 ${
                                             color === floor.colorcode
-                                              ? 'active'
+                                              ? 'acc_active'
                                               : ''
                                           }`}
                                         >
