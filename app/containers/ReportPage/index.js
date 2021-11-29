@@ -225,9 +225,9 @@ class ReportPage extends Component {
     }
   }
 
-  handlecloseReportDataIcon() {
+  handlecloseReportDataIcon = () => {
     this.props.clearAddTeamData();
-  }
+  };
 
   render() {
     const {

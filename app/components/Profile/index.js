@@ -546,12 +546,15 @@ const Profile = ({
                     I Can Update <i>my</i>Workspot for
                   </h5>
                 </div>
-                {/* <div className="access-to update-workshop">
-                  <div className="access-one">
-                    <img src={ProfileImg} alt="" />
-                    Wade Warren
-                  </div>
-                </div> */}
+                <div className="access-to update-workshop">
+                  {userData.delegateUserList &&
+                    userData.delegateUserList.map(i => (
+                      <div className="access-one">
+                        <img src={i.delegateUserPhoto || ProfileImg} alt="" />
+                        {i.delegateUserFistname} {i.delegateUserLastname}
+                      </div>
+                    ))}
+                </div>
               </div>
             </div>
           </div>
