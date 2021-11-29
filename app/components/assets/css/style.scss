@@ -1820,9 +1820,11 @@ input[type='text'] {
   height: auto;
   .office-structure-inner {
     display: flex;
+    overflow: hidden;
 
     .left-panel {
       width: 245px;
+      height: 60vh;
       border-right: 1px solid #ebeef1;
 
       .office-info {
@@ -1854,7 +1856,7 @@ input[type='text'] {
         // &::-webkit-scrollbar {
         //   display: none;
         // }
-        max-height: calc(100% - 105px);
+        height: calc(100vh - 80%);
 
         & > p {
           font-size: 14px;

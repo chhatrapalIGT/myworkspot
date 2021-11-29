@@ -209,7 +209,7 @@ const Report = ({
       // eslint-disable-next-line no-shadow
       let data = {};
 
-      if (ele.locationCode === 'PTO') {
+      if (ele.locationCode === 'PTO' || ele.locationCode === 'EAB') {
         data = {
           date: ele.date,
         };
@@ -257,6 +257,17 @@ const Report = ({
       showDiv();
     }
   }, [isDiv]);
+
+  const modalColorCode =
+    (modalData && modalData.colorcode) === '0072CE'
+      ? 'Blue'
+      : (modalData && modalData.colorcode) === 'ED8B00'
+      ? 'Orange'
+      : (modalData && modalData.colorcode) === '00B1B0'
+      ? 'Teal'
+      : (modalData && modalData.colorcode) === 'F7CA0F'
+      ? 'Yellow'
+      : '';
 
   return (
     <>
@@ -517,10 +528,9 @@ const Report = ({
                 </div>
                 <div className="modal-body">
                   <div className="office-structure office-structure-modal">
-                    {(modalData && modalData.building === null) ||
-                    !modalData.building ||
-                    ((modalData && modalData.floor === null) ||
-                      !modalData.floor) ? (
+                    {modalData &&
+                    modalData.building === null &&
+                    (modalData && modalData.floor === null) ? (
                       <div className="container" style={{ height: '100%' }}>
                         {modalData && (
                           <h5 style={{ textAlign: 'center' }}>
@@ -540,7 +550,7 @@ const Report = ({
                           handleZoomIn={handleZoomIn}
                           handleZoomOut={handleZoomOut}
                           handleDefault={handleDefault}
-                          colorCode={modalData.colorcode}
+                          colorCode={modalColorCode}
                         />
                       </div>
                     )}

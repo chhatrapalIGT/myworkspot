@@ -57,6 +57,7 @@ const WorkSpot = ({
   leadersCommittee,
   handleCheckbox,
   handleClearCal,
+  handleRemoveUserSelect,
 }) => {
   const [isModal, setModal] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -165,29 +166,13 @@ const WorkSpot = ({
   };
 
   const neighborhoodColor =
-    (neighborhoodData && neighborhoodData.colorcode) ||
-    (neighborhoodData &&
-      neighborhoodData.data &&
-      neighborhoodData.data[0] &&
-      neighborhoodData.data[0].colorcode) === '0072CE'
+    (neighborhoodData && neighborhoodData.colorcode) === '0072CE'
       ? 'Blue'
-      : (neighborhoodData && neighborhoodData.colorcode) ||
-        (neighborhoodData &&
-          neighborhoodData.data &&
-          neighborhoodData.data[0] &&
-          neighborhoodData.data[0].colorcode) === 'ED8B00'
+      : (neighborhoodData && neighborhoodData.colorcode) === 'ED8B00'
       ? 'Orange'
-      : (neighborhoodData && neighborhoodData.colorcode) ||
-        (neighborhoodData &&
-          neighborhoodData.data &&
-          neighborhoodData.data[0] &&
-          neighborhoodData.data[0].colorcode) === '00B1B0'
+      : (neighborhoodData && neighborhoodData.colorcode) === '00B1B0'
       ? 'Teal'
-      : (neighborhoodData && neighborhoodData.colorcode) ||
-        (neighborhoodData &&
-          neighborhoodData.data &&
-          neighborhoodData.data[0] &&
-          neighborhoodData.data[0].colorcode) === 'F7CA0F'
+      : (neighborhoodData && neighborhoodData.colorcode) === 'F7CA0F'
       ? 'Yellow'
       : '';
 
@@ -231,6 +216,17 @@ const WorkSpot = ({
       });
     return dates;
   };
+
+  const employeeMapColor =
+    (employeeData && employeeData.colorcode) === '0072CE'
+      ? 'Blue'
+      : (employeeData && employeeData.colorcode) === 'ED8B00'
+      ? 'Orange'
+      : (employeeData && employeeData.colorcode) === '00B1B0'
+      ? 'Teal'
+      : (employeeData && employeeData.colorcode) === 'F7CA0F'
+      ? 'Yellow'
+      : '';
 
   const invalidDate = () => {
     const dates = [];
@@ -330,10 +326,22 @@ const WorkSpot = ({
               !isEmpty(neighborhood.neighborhoodData) && (
                 <div
                   className={
+                    ((state.tempLocation.includes('DC') ||
+                      state.tempLocation.includes('VA')) &&
+                      (neighborhoodData &&
+                        !neighborhoodData.isAssignmentUpdate) &&
+                      isChange) ||
                     (neighborhoodData &&
-                      neighborhoodData.locationCode === 'BHM') ||
-                    (neighborhoodData &&
-                      neighborhoodData.locationCode === 'BLM')
+                      !neighborhoodData.isAssignmentUpdate &&
+                      ((neighborhoodData &&
+                        neighborhoodData.locationCode === 'DC') ||
+                        (neighborhoodData &&
+                          neighborhoodData.locationCode === 'RIC')))
+                      ? 'card building-block-head default'
+                      : (neighborhoodData &&
+                          neighborhoodData.locationCode === 'BHM') ||
+                        (neighborhoodData &&
+                          neighborhoodData.locationCode === 'BLM')
                       ? 'card building-block-head default'
                       : neighborhoodColor === 'Blue'
                       ? 'card building-block-head blue'
@@ -366,7 +374,7 @@ const WorkSpot = ({
                       ((neighborhoodData &&
                         neighborhoodData.locationCode === 'DC') ||
                         (neighborhoodData &&
-                          neighborhoodData.locationCode === 'VA'))) ? (
+                          neighborhoodData.locationCode === 'RIC'))) ? (
                       <>
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
@@ -507,7 +515,18 @@ const WorkSpot = ({
                         (neighborhoodData &&
                           neighborhoodData.locationCode !== 'EAB') && (
                           <>
-                            {(['DC', 'VA'].includes(state.tempLocation) ||
+                            {(((state.tempLocation.includes('DC') ||
+                              state.tempLocation.includes('VA')) &&
+                              (neighborhoodData &&
+                                !neighborhoodData.isAssignmentUpdate) &&
+                              isChange) ||
+                              (neighborhoodData &&
+                                !neighborhoodData.isAssignmentUpdate &&
+                                ((neighborhoodData &&
+                                  neighborhoodData.locationCode === 'DC') ||
+                                  (neighborhoodData &&
+                                    neighborhoodData.locationCode ===
+                                      'RIC'))) ||
                               (neighborhoodData &&
                                 neighborhoodData.locationCode !== 'RW')) && (
                               <div
@@ -561,7 +580,9 @@ const WorkSpot = ({
             )}
           </div>
           <div className="office-structure mt-4">
-            {neighborhoodData &&
+            {(moment().format('ddd') !== 'Sat' ||
+              moment().format('ddd') !== 'Sun') &&
+              neighborhoodData &&
               neighborhoodData.locationCode !== 'RW' &&
               neighborhoodData &&
               neighborhoodData.locationCode !== 'PTO' &&
@@ -576,7 +597,8 @@ const WorkSpot = ({
                 (neighborhoodData && neighborhoodData.colorcode !== '')) ||
                 (neighborhoodData.floor === 4 &&
                   !neighborhoodData.colorcode)) &&
-              (neighborhoodData && neighborhoodData.isAssignmentUpdate) && (
+              neighborhoodData &&
+              neighborhoodData.isAssignmentUpdate && (
                 <div className="container" style={{ height: '100%' }}>
                   {neighborhoodLoad ? (
                     <div className="card building-block-head">
@@ -756,6 +778,8 @@ const WorkSpot = ({
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
             id="delegate_workspot"
+            backdrop="static"
+            keyboard={false}
           >
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content">
@@ -768,7 +792,10 @@ const WorkSpot = ({
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    onClick={() => setEmployeeModal(false)}
+                    onClick={() => {
+                      setEmployeeModal(false);
+                      handleRemoveUserSelect();
+                    }}
                   />
                 </div>
                 <input
@@ -784,7 +811,8 @@ const WorkSpot = ({
                       searchName.map(i => (
                         <div
                           aria-hidden="true"
-                          className="form-group"
+                          className={`${state.selectedColleagues.includes(i) &&
+                            'checked_item'}  form-group`}
                           onClick={() => handleUserSelect(i)}
                         >
                           <img src={ProfileImg} alt="" />
@@ -792,7 +820,7 @@ const WorkSpot = ({
                             id={i.employeeid}
                             type="radio"
                             className="checkbox"
-                            // checked={state.selectedColleagues.includes(i)}
+                            checked={state.selectedColleagues.includes(i)}
                           />
                           <label htmlFor="jane">
                             {i.firstname} {i.lastname}
@@ -816,7 +844,10 @@ const WorkSpot = ({
                     type="button"
                     className="btn dismiss"
                     data-bs-dismiss="modal"
-                    onClick={() => setEmployeeModal(false)}
+                    onClick={() => {
+                      setEmployeeModal(false);
+                      handleRemoveUserSelect();
+                    }}
                   >
                     Close
                   </button>
@@ -867,42 +898,40 @@ const WorkSpot = ({
                 <div className="modal-body">
                   <div className="office-structure office-structure-modal">
                     {employeeData &&
-                      employeeData.locationCode !== 'RW' &&
-                      employeeData &&
-                      employeeData.locationCode !== 'PTO' &&
-                      employeeData &&
-                      employeeData.locationCode !== 'EAB' &&
-                      ((employeeData && employeeData.building === null) ||
-                      !employeeData.building ||
-                      ((employeeData && employeeData.floor === null) ||
-                        !employeeData.floor) ? (
-                        <div className="container" style={{ height: '100%' }}>
-                          {employeeData && (
-                            <h5 style={{ textAlign: 'center' }}>
-                              {' '}
-                              Relevant Data is not Available
-                            </h5>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="container" style={{ height: '100%' }}>
-                          {employeeData && (
-                            <MapComponent
-                              building={employeeData.building}
-                              floor={employeeData.floor}
-                              locationCode={employeeData.locationCode}
-                              state={state}
-                              imgStyle={imgStyle}
-                              handleZoomIn={handleZoomIn}
-                              handleZoomOut={handleZoomOut}
-                              handleDefault={handleDefault}
-                              ColleagueUserName={ColleagueUserName}
-                              from="employeeData"
-                              colorCode={employeeData.colorcode}
-                            />
-                          )}
-                        </div>
-                      ))}
+                    employeeData.locationCode !== 'RW' &&
+                    employeeData &&
+                    employeeData.locationCode !== 'PTO' &&
+                    employeeData &&
+                    employeeData.locationCode !== 'EAB' &&
+                    (employeeData &&
+                      employeeData.building === null &&
+                      (employeeData && employeeData.floor === null) &&
+                      (employeeData && employeeData.colorcode === '')) ? (
+                      <div className="container" style={{ height: '100%' }}>
+                        <h5 style={{ textAlign: 'center' }}>
+                          {' '}
+                          Relevant Data is not Available
+                        </h5>
+                      </div>
+                    ) : (
+                      <div className="container" style={{ height: '100%' }}>
+                        {employeeData && (
+                          <MapComponent
+                            building={employeeData.building}
+                            floor={employeeData.floor}
+                            locationCode={employeeData.locationCode}
+                            state={state}
+                            imgStyle={imgStyle}
+                            handleZoomIn={handleZoomIn}
+                            handleZoomOut={handleZoomOut}
+                            handleDefault={handleDefault}
+                            ColleagueUserName={ColleagueUserName}
+                            from="employeeData"
+                            colorCode={employeeMapColor}
+                          />
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1062,5 +1091,6 @@ WorkSpot.propTypes = {
   handleCheckbox: PropTypes.func,
   monthData: PropTypes.object,
   handleClearCal: PropTypes.func,
+  handleRemoveUserSelect: PropTypes.func,
 };
 export default WorkSpot;

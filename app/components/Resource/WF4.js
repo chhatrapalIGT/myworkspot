@@ -11,7 +11,7 @@ function WF4(from) {
   const history = useHistory();
 
   return (
-    <div className="left-panel" style={{ height: ' 60vh' }}>
+    <div className="left-panel">
       <div className="office-info">
         <p className="name">Washington, DC</p>
         <span className="floor">Floor 4</span>

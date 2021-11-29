@@ -19,7 +19,7 @@ function WF8(from) {
   const history = useHistory();
 
   return (
-    <div className="left-panel" style={{ height: ' 60vh' }}>
+    <div className="left-panel">
       <div className="office-info">
         <p className="name">Washington, DC</p>
         <span className="floor">Floor 8</span>
