@@ -11,6 +11,7 @@ import {
   REQUEST_GET_WORKSPACE,
   SUCCESS_GET_WORKSPACE,
   FAILED_GET_WORKSPACE,
+  RESET_DATA_EMP,
 } from './constants';
 
 export const requestGetEmployeeDetail = payload => ({
@@ -71,4 +72,8 @@ export const getWorkspaceSuccess = payload => ({
 export const getWorkspaceFailed = error => ({
   type: FAILED_GET_WORKSPACE,
   payload: error,
+});
+
+export const resetDataEmp = () => ({
+  type: RESET_DATA_EMP,
 });

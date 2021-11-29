@@ -25,8 +25,9 @@ export function* getEmployeeData({ payload }) {
   token = JSON.parse(token);
   const limit = get(payload, 'limit', 10);
   const page = get(payload, 'page', 1);
-  const requestURL = `${API_URL}/user/getEmployeeData?searchUser=${payload.search ||
-    ''}&role=${payload.value || ''}&limit=${limit}&page=${page}`;
+  const requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
+    ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
+    ''}&limit=${limit}&page=${page}`;
   try {
     const usersList = yield request({
       method: 'GET',
@@ -51,7 +52,7 @@ export function* getEmployeeDataById({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/user/getEmployeeDetail?emp_id=${payload}`;
+  const requestURL = `${API_URL}/adminPanel/user/getEmployeeDetail?emp_id=${payload}`;
   try {
     const usersEditList = yield request({
       method: 'GET',
@@ -76,7 +77,7 @@ export function* updateEmployeeData({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/user/updateEmployeeData`;
+  const requestURL = `${API_URL}/adminPanel/user/updateEmployeeData`;
   try {
     const usersUpdateList = yield request({
       method: 'PUT',
@@ -102,7 +103,7 @@ export function* getWorkspotData({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/user/getWorkSpaceData`;
+  const requestURL = `${API_URL}/adminPanel/user/getWorkSpaceData`;
   try {
     const workspotData = yield request({
       method: 'GET',

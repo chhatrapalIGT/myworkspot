@@ -10,3 +10,4 @@ export const FAILED_UPDATE_EMPLOYEE_DETAIL = 'updateEmployeeDetailFailed';
 export const REQUEST_GET_WORKSPACE = 'requestgetWorkspace';
 export const SUCCESS_GET_WORKSPACE = 'getWorkspaceSuccess';
 export const FAILED_GET_WORKSPACE = 'getWorkspaceFailed';
+export const RESET_DATA_EMP = 'resetDataEmp';

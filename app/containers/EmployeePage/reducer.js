@@ -13,6 +13,7 @@ import {
   REQUEST_GET_WORKSPACE,
   SUCCESS_GET_WORKSPACE,
   FAILED_GET_WORKSPACE,
+  RESET_DATA_EMP,
 } from './constants';
 
 // The initial state of the App
@@ -34,7 +35,6 @@ const initialState = {
   UpdateEmployee: {
     error: '',
     success: false,
-    updateEmp: [],
     message: '',
     loading: '',
   },
@@ -98,7 +98,7 @@ const EmployeeReducer = (state = initialState, action) =>
       case SUCCESS_UPDATE_EMPLOYEE_DETAIL:
         draft.UpdateEmployee.loading = false;
         draft.UpdateEmployee.success = true;
-        draft.UpdateEmployee.updateEmp = action.payload;
+        draft.UpdateEmployee.message = action.payload;
         draft.UpdateEmployee.error = '';
         break;
       case FAILED_UPDATE_EMPLOYEE_DETAIL:
@@ -126,6 +126,11 @@ const EmployeeReducer = (state = initialState, action) =>
         draft.apiMessage = action.payload;
 
         break;
+      case RESET_DATA_EMP:
+        draft.UpdateEmployee.message = '';
+        draft.UpdateEmployee.success = false;
+        draft.EditEmployeeDetail.message = '';
+        draft.EditEmployeeDetail.success = false;
     }
   });
 export default EmployeeReducer;

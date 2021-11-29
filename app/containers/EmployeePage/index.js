@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -13,7 +15,10 @@ import {
   requestEditEmployeeDetail,
   requestUpdateEmployeeDetail,
   requestGetWorkspace,
+  resetDataEmp,
 } from './action';
+
+import { requestVerifyBadge, clearBoardData } from '../onBoardingPage/actions';
 
 class EmployeePage extends Component {
   constructor(props) {
@@ -23,9 +28,9 @@ class EmployeePage extends Component {
       isOpen: false,
       isEdit: false,
       email: '',
-      role: '',
+      role: 'Admin',
       BadgeNumber: '',
-      hasData: false,
+      hasData: true,
       permanentdeskNo: '',
       page: 1,
       limit: 10,
@@ -36,23 +41,32 @@ class EmployeePage extends Component {
       build: '4',
       AssignedSpace: '',
       selectedOption: [],
+      EditModel: false,
     };
   }
 
-  static getDerivedStateFromProps(props, prevState) {
-    const { singleEmployeeData } = props;
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { singleEmployeeData } = nextProps;
     const data = singleEmployeeData;
-    const { isEdit, hasData, email } = prevState;
-    if (data && data.FirstName && email !== data.email && isEdit && !hasData) {
+    const { hasData, email } = prevState;
+    if (data && data.Email && data.Email !== email && hasData) {
       return {
         name: data.FirstName.concat(data.LastName),
-        email: data.email,
+        email: data.Email,
         role: data.Role,
         BadgeNumber: data.BadgeNumber,
-        deskLocationname: data.deskLocationname,
-        build: data.deskFloor,
+        deskLocationname: data.deskLocationId,
+        floor: data.deskLocationId,
+        build:
+          data.deskFloor !== null && data.deskBuilding !== null
+            ? data.deskFloor.concat(data.deskBuilding)
+            : data.deskBuilding !== null
+            ? data.deskBuilding
+            : data.deskFloor !== null
+            ? data.deskFloor
+            : '',
         AssignedSpace: data.AssignedSpace,
-        hasData: true,
+        hasData: false,
       };
     }
     return null;
@@ -84,20 +98,32 @@ class EmployeePage extends Component {
     this.props.requestGetWorkspace();
   }
 
+  componentDidUpdate() {
+    const { updateEmployee } = this.props;
+    if (updateEmployee && updateEmployee.success) {
+      setTimeout(() => {
+        this.props.resetDataEmp();
+      }, 3000);
+    }
+  }
+
   handleEdit = ID => {
-    this.setState({ isEdit: true, id: ID });
+    this.setState({ isEdit: true, id: ID, hasData: true });
     this.props.requestEditEmployeeDetail(ID);
   };
 
   handleSubmit = e => {
     e.preventDefault();
     const { role, BadgeNumber, id, AssignedSpace } = this.state;
-    this.props.requestUpdateEmployeeDetail({
-      role,
-      badgeNo: BadgeNumber,
-      permanentdeskNo: AssignedSpace,
-      emp_id: id,
-    });
+    const { verifyBadge } = this.props;
+    if (verifyBadge && verifyBadge.success) {
+      this.props.requestUpdateEmployeeDetail({
+        role: this.state.role || 'Admin',
+        badgeNo: BadgeNumber,
+        permanentdeskNo: AssignedSpace,
+        emp_id: id,
+      });
+    }
   };
 
   handleChange = event => {
@@ -125,25 +151,27 @@ class EmployeePage extends Component {
     });
   };
 
-  handleSearch = () => {
-    //   console.log('e====>', selectedList, selectedItem);
-    //   const value = Array.from(e.target.selectedOptions, option => option.value);
-    //   console.log('value', value);
-    //   let str = '[';
-    //   value.forEach(ev => {
-    //     str += `"${ev}",`;
-    //   });
-    //   str += ']';
-    //   this.setState({ values: value }, () => {
-    //     this.props.requestGetEmployeeDetail({
-    //       role: str,
-    //     });
-    //   });
+  handleBadgeData = e => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      const { BadgeNumber, id } = this.state;
+      const badge = BadgeNumber.slice(3, 6).concat(BadgeNumber.slice(7, 10));
+      const data = {
+        employeeid: id,
+        badgeid: `BB${badge}`,
+      };
+      if (data.badgeid.length >= 8) {
+        this.props.requestVerifyBadge(data);
+      }
+    });
+  };
+
+  handleData = () => {
+    this.props.resetDataEmp();
   };
 
   handleChangeBox = option => {
     const values = option.map(i => i.value);
-    console.log('values', values);
     let str = '[';
     values.forEach(ev => {
       str += `,"${ev}"`;
@@ -151,8 +179,26 @@ class EmployeePage extends Component {
     str += ']';
     const da = str.slice(0, 1);
     const ta = str.slice(2);
-    const strVal = da.concat(ta);
+    const strVal = da && da.concat(ta);
     this.props.requestGetEmployeeDetail({ value: strVal });
+  };
+
+  handleChangeSpace = option => {
+    const space = option.map(i => i.value);
+    // console.log('values', values);
+    let str = '[';
+    space.forEach(ev => {
+      str += `,"${ev}"`;
+    });
+    str += ']';
+    const da = str.slice(0, 1);
+    const ta = str.slice(2);
+    const strVal = da && da.concat(ta);
+    this.props.requestGetEmployeeDetail({ space: strVal });
+  };
+
+  handleStateClear = () => {
+    this.props.clearBoardData();
   };
 
   render() {
@@ -161,6 +207,9 @@ class EmployeePage extends Component {
       workSpace,
       employeeCount,
       singleEmployeeData,
+      updateEmployee,
+      verifyBadgeMsg,
+      verifyBadgeSuccess,
     } = this.props;
     return (
       <div>
@@ -173,13 +222,19 @@ class EmployeePage extends Component {
           workSpace={workSpace}
           singleEmployeeData={singleEmployeeData}
           handleChange={this.handleChange}
-          // changeAssignedSpace={this.changeAssignedSpace}
           state={this.state}
           handleLimitChange={this.handleLimitChange}
           handlePageChange={this.handlePageChange}
           employeeCount={employeeCount}
           handleSelectChange={this.handleSelectChange}
           handleChangeBox={this.handleChangeBox}
+          handleBadgeData={this.handleBadgeData}
+          handleData={this.handleData}
+          updateEmployee={updateEmployee}
+          handleChangeSpace={this.handleChangeSpace}
+          verifyBadgeSuccess={verifyBadgeSuccess}
+          verifyBadgeMsg={verifyBadgeMsg}
+          handleStateClear={this.handleStateClear}
         />
       </div>
     );
@@ -187,7 +242,7 @@ class EmployeePage extends Component {
 }
 
 const mapStateToProps = state => {
-  const { employee } = state;
+  const { employee, locationData } = state;
   return {
     employeeData:
       employee &&
@@ -207,6 +262,16 @@ const mapStateToProps = state => {
       employee.EmployeeDetail &&
       employee.EmployeeDetail.employee &&
       employee.EmployeeDetail.employee.count,
+    updateEmployee: employee && employee.UpdateEmployee,
+    verifyBadge: locationData && locationData.verifyBadge,
+    verifyBadgeSuccess:
+      locationData &&
+      locationData.verifyBadge &&
+      locationData.verifyBadge.success,
+    verifyBadgeMsg:
+      locationData &&
+      locationData.verifyBadge &&
+      locationData.verifyBadge.message,
   };
 };
 
@@ -219,6 +284,9 @@ export function mapDispatchToProps(dispatch) {
     requestUpdateEmployeeDetail: payload =>
       dispatch(requestUpdateEmployeeDetail(payload)),
     requestGetWorkspace: payload => dispatch(requestGetWorkspace(payload)),
+    clearBoardData: () => dispatch(clearBoardData()),
+    requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
+    resetDataEmp: () => dispatch(resetDataEmp()),
     dispatch,
   };
 }
@@ -234,6 +302,14 @@ EmployeePage.propTypes = {
   requestGetWorkspace: PropTypes.object,
   workSpace: PropTypes.object,
   employeeCount: PropTypes.number,
+  requestVerifyBadge: PropTypes.object,
+  updateEmployee: PropTypes.object,
+  // handleData: PropTypes.func,
+  resetDataEmp: PropTypes.object,
+  verifyBadge: PropTypes.object,
+  verifyBadgeMsg: PropTypes.string,
+  verifyBadgeSuccess: PropTypes.bool,
+  clearBoardData: PropTypes.func,
 };
 
 export default compose(

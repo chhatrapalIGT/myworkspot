@@ -93,6 +93,7 @@ class ProfilePage extends Component {
 
   componentWillUnmount() {
     this.props.clearBoardData();
+    this.props.clearData();
   }
 
   componentDidUpdate() {
