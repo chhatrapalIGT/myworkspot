@@ -42,6 +42,11 @@ class EmployeePage extends Component {
       AssignedSpace: '',
       selectedOption: [],
       EditModel: false,
+      nameSorting: true,
+      primaryOfficeSorting: true,
+      badgeSorting: true,
+      emailSorting: true,
+      RoleSorting: true,
     };
   }
 
@@ -116,10 +121,11 @@ class EmployeePage extends Component {
     e.preventDefault();
     const { role, BadgeNumber, id, AssignedSpace } = this.state;
     const { verifyBadge } = this.props;
-    if (verifyBadge && verifyBadge.success) {
+    const badge = BadgeNumber.slice(3, 6).concat(BadgeNumber.slice(7, 10));
+    if (BadgeNumber.length) {
       this.props.requestUpdateEmployeeDetail({
         role: this.state.role || 'Admin',
-        badgeNo: BadgeNumber,
+        badgeNo: `BB${badge}`,
         permanentdeskNo: AssignedSpace,
         emp_id: id,
       });
@@ -201,6 +207,23 @@ class EmployeePage extends Component {
     this.props.clearBoardData();
   };
 
+  handleSorting = val => {
+    this.setState({
+      nameSorting: val,
+    });
+  };
+
+  handleClickSort = (name, val) => {
+    this.setState({ [name]: !val });
+    this.props.requestGetEmployeeDetail({
+      nameSorting: this.state.nameSorting,
+      primaryOfficeSorting: this.state.primaryOfficeSorting,
+      badgeSorting: this.state.badgeSorting,
+      emailSorting: this.state.emailSorting,
+      RoleSorting: this.state.RoleSorting,
+    });
+  };
+
   render() {
     const {
       employeeData,
@@ -210,6 +233,8 @@ class EmployeePage extends Component {
       updateEmployee,
       verifyBadgeMsg,
       verifyBadgeSuccess,
+      singleEmployeeLoading,
+      updateEmployeeLoading,
     } = this.props;
     return (
       <div>
@@ -235,6 +260,10 @@ class EmployeePage extends Component {
           verifyBadgeSuccess={verifyBadgeSuccess}
           verifyBadgeMsg={verifyBadgeMsg}
           handleStateClear={this.handleStateClear}
+          singleEmployeeLoading={singleEmployeeLoading}
+          handleClickSort={this.handleClickSort}
+          handleSorting={this.handleSorting}
+          updateEmployeeLoading={updateEmployeeLoading}
         />
       </div>
     );
@@ -243,6 +272,7 @@ class EmployeePage extends Component {
 
 const mapStateToProps = state => {
   const { employee, locationData } = state;
+  console.log('state', state);
   return {
     employeeData:
       employee &&
@@ -253,6 +283,10 @@ const mapStateToProps = state => {
       employee &&
       employee.EditEmployeeDetail &&
       employee.EditEmployeeDetail.singleEmployee,
+    singleEmployeeLoading:
+      employee &&
+      employee.EditEmployeeDetail &&
+      employee.EditEmployeeDetail.loading,
     workSpace:
       employee &&
       employee.workspotDetail &&
@@ -272,6 +306,8 @@ const mapStateToProps = state => {
       locationData &&
       locationData.verifyBadge &&
       locationData.verifyBadge.message,
+    updateEmployeeLoading:
+      employee && employee.UpdateEmployee && employee.UpdateEmployee.loading,
   };
 };
 
@@ -310,6 +346,8 @@ EmployeePage.propTypes = {
   verifyBadgeMsg: PropTypes.string,
   verifyBadgeSuccess: PropTypes.bool,
   clearBoardData: PropTypes.func,
+  singleEmployeeLoading: PropTypes.bool,
+  updateEmployeeLoading: PropTypes.bool,
 };
 
 export default compose(

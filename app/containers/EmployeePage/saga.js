@@ -25,9 +25,32 @@ export function* getEmployeeData({ payload }) {
   token = JSON.parse(token);
   const limit = get(payload, 'limit', 10);
   const page = get(payload, 'page', 1);
-  const requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
-    ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
-    ''}&limit=${limit}&page=${page}`;
+  let requestURL;
+  if (
+    payload.nameSorting ||
+    payload.primaryOfficeSorting ||
+    payload.badgeSorting ||
+    payload.emailSorting ||
+    payload.RoleSorting
+  ) {
+    requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
+      ''}&role=${payload.value || ''}&nameSorting=${
+      payload.nameSorting
+    }&primaryOfficeSorting=${payload.primaryOfficeSorting}&badgeSorting=${
+      payload.badgeSorting
+    }&emailSorting=${payload.emailSorting}&RoleSorting=${
+      payload.RoleSorting
+    }&limit=${limit}&page=${page}`;
+  } else if (
+    !payload.nameSorting ||
+    !payload.primaryOfficeSorting ||
+    !payload.badgeSorting ||
+    !payload.emailSorting ||
+    !payload.RoleSorting
+  ) {
+    requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
+      ''}&role=${payload.value || ''}&limit=${limit}&page=${page}`;
+  }
   try {
     const usersList = yield request({
       method: 'GET',

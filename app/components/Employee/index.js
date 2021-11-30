@@ -2,13 +2,14 @@
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useMemo, useEffect } from 'react';
-import { Modal } from 'react-bootstrap';
+import { Modal, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Multiselect from 'multiselect-react-dropdown';
 import Pagination from './Pagination';
 import Menu from '../assets/images/admin/menu.png';
 import Profile from '../assets/images/profileof.png';
 import Edit from '../assets/images/edit.svg';
+import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
@@ -181,41 +182,86 @@ const Employee = props => {
                   <th>
                     Name{' '}
                     <img
-                      src="images/sort.png"
+                      src={Sort}
                       className="img-fluid sort-img"
                       alt=""
+                      name="nameSorting"
+                      aria-hidden="true"
+                      value={props.state.nameSorting}
+                      onClick={() =>
+                        props.handleClickSort(
+                          'nameSorting',
+                          props.state.nameSorting,
+                        )
+                      }
                     />
                   </th>
                   <th>
                     Role{' '}
                     <img
-                      src="images/sort.png"
+                      src={Sort}
                       className="img-fluid sort-img"
+                      name="RoleSorting"
                       alt=""
+                      aria-hidden="true"
+                      value={props.state.RoleSorting}
+                      onClick={() =>
+                        props.handleClickSort(
+                          'RoleSorting',
+                          props.state.RoleSorting,
+                        )
+                      }
                     />
                   </th>
                   <th>
                     Permanent Space{' '}
                     <img
-                      src="images/sort.png"
+                      src={Sort}
                       className="img-fluid sort-img"
                       alt=""
+                      aria-hidden="true"
+                      name="primaryOfficeSorting"
+                      value={props.state.primaryOfficeSorting}
+                      onClick={() =>
+                        props.handleClickSort(
+                          'primaryOfficeSorting',
+                          props.state.primaryOfficeSorting,
+                        )
+                      }
                     />
                   </th>
                   <th>
                     Email{' '}
                     <img
-                      src="images/sort.png"
+                      src={Sort}
                       className="img-fluid sort-img"
                       alt=""
+                      aria-hidden="true"
+                      name="emailSorting"
+                      value={props.state.emailSorting}
+                      onClick={() =>
+                        props.handleClickSort(
+                          'emailSorting',
+                          props.state.emailSorting,
+                        )
+                      }
                     />
                   </th>
                   <th>
                     Badge{' '}
                     <img
-                      src="images/sort.png"
+                      src={Sort}
                       className="img-fluid sort-img"
                       alt=""
+                      name="badgeSorting"
+                      value={props.state.badgeSorting}
+                      aria-hidden="true"
+                      onClick={() =>
+                        props.handleClickSort(
+                          'badgeSorting',
+                          props.state.badgeSorting,
+                        )
+                      }
                     />
                   </th>
                   <th />
@@ -234,7 +280,7 @@ const Employee = props => {
                         {''} {i.lastname}
                       </td>
                       <td>{i.userRole}</td>
-                      <td>{i.permanentdesk}</td>
+                      <td>{i.deskDetails}</td>
                       <td>{i.email}</td>
                       <td>{i.badgeId}</td>
                       <td>
@@ -245,6 +291,7 @@ const Employee = props => {
                             props.editEmployee(i.employeeid);
                             handleShow();
                           }}
+                          aria-hidden="true"
                           alt="Edit"
                         />
                       </td>
@@ -290,6 +337,8 @@ const Employee = props => {
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
           onHide={() => setShow(false)}
+          backdrop="static"
+          keyboard={false}
         >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
@@ -302,216 +351,237 @@ const Employee = props => {
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                  onClick={() => setShow(false)}
+                  onClick={() => {
+                    setShow(false);
+                    props.handleStateClear();
+                  }}
                 />
               </div>
-              <div className="modal-body pt-0">
-                <div className="prof-flex">
-                  <div className="mar-4">
-                    <img
-                      src={
-                        (props.singleEmployeeData &&
-                          props.singleEmployeeData.photo) ||
-                        Profile
-                      }
-                      className="img-fluid"
-                      alt=""
-                    />
-                  </div>
-                  <div className="">
-                    <div className="pro-title">
-                      {props.singleEmployeeData &&
-                        props.singleEmployeeData.FirstName}{' '}
-                      {props.singleEmployeeData &&
-                        props.singleEmployeeData.LastName}
+              {props.singleEmployeeLoading ? (
+                <Spinner
+                  className="app-spinner"
+                  animation="grow"
+                  variant="dark"
+                />
+              ) : (
+                <div className="modal-body pt-0">
+                  <div className="prof-flex">
+                    <div className="mar-4">
+                      <img
+                        src={
+                          (props.singleEmployeeData &&
+                            props.singleEmployeeData.photo) ||
+                          Profile
+                        }
+                        className="img-fluid"
+                        alt=""
+                      />
                     </div>
-                    <p>
-                      <span className="gray-font">Title:</span>{' '}
-                      {props.singleEmployeeData &&
-                        props.singleEmployeeData.Title}
-                    </p>
-                    <p>
-                      <span className="gray-font">Primary Office:</span>{' '}
-                      {props.singleEmployeeData &&
-                        props.singleEmployeeData.deskLocationname}
-                    </p>
-                    <p>
-                      <span className="gray-font">Email:</span>{' '}
-                      {props.singleEmployeeData &&
-                        props.singleEmployeeData.Email}
-                    </p>
-                    <p>
-                      <span className="gray-font">Eligible for Private:</span>{' '}
-                      Yes
-                    </p>
-                  </div>
-                </div>
-                {console.log('props.state', props.state)}
-                <form onSubmit={props.handleSubmit}>
-                  <div className="selction_one ww-100">
-                    <label htmlFor="role">Role</label>
-                    <select
-                      onChange={props.handleChange}
-                      value={props.state.role}
-                      name="role"
-                    >
-                      <option value="Admin"> admin </option>
-                      <option value="User"> user </option>
-                      <option value="Manager"> manager </option>
-                    </select>
-                  </div>
-
-                  <div className="selction_one after-none ww-100">
-                    <label htmlFor="badge">Badge Number</label>
-                    <div className="prefix">BB</div>
-                    <input
-                      name="BadgeNumber"
-                      type="text"
-                      placeholder="BB-XXX-XXX"
-                      value={props.state.BadgeNumber}
-                      className="form-control"
-                      onChange={props.handleBadgeData}
-                    />
-                    {props.verifyBadgeMsg && !props.verifyBadgeSuccess && (
-                      <div className="d-flex" style={{ marginTop: '10px' }}>
-                        <img
-                          src={Warnning}
-                          alt="warn"
-                          style={{
-                            margin: '4px 5px 0px 0px',
-                            height: '14px',
-                          }}
-                        />
-                        <div style={{ color: 'red' }}>
-                          {props.verifyBadgeMsg}
-                        </div>
+                    <div className="">
+                      <div className="pro-title">
+                        {props.singleEmployeeData &&
+                          props.singleEmployeeData.FirstName}{' '}
+                        {props.singleEmployeeData &&
+                          props.singleEmployeeData.LastName}
                       </div>
-                    )}
-                  </div>
-
-                  <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
-                    <div className="pro-title1">Permanent space</div>
-                    <div
-                      className={`pro-title1 red ${
-                        props.state.AssignedSpace !== '' ? 'unassign' : ''
-                      }`}
-                    >
-                      Unassign
+                      <p>
+                        <span className="gray-font">Title:</span>{' '}
+                        {props.singleEmployeeData &&
+                          props.singleEmployeeData.Title}
+                      </p>
+                      <p>
+                        <span className="gray-font">Primary Office:</span>{' '}
+                        {props.singleEmployeeData &&
+                          props.singleEmployeeData.deskLocationname}
+                      </p>
+                      <p>
+                        <span className="gray-font">Email:</span>{' '}
+                        {props.singleEmployeeData &&
+                          props.singleEmployeeData.Email}
+                      </p>
+                      <p>
+                        <span className="gray-font">Eligible for Private:</span>{' '}
+                        Yes
+                      </p>
                     </div>
                   </div>
+                  {console.log('props.state', props.state)}
+                  <form onSubmit={props.handleSubmit}>
+                    <div className="selction_one ww-100">
+                      <label htmlFor="role">Role</label>
+                      <select
+                        onChange={props.handleChange}
+                        value={props.state.role}
+                        name="role"
+                      >
+                        <option value="Admin"> admin </option>
+                        <option value="User"> user </option>
+                        <option value="Manager"> manager </option>
+                      </select>
+                    </div>
 
-                  <div className="selction_one mat-10 ww-100">
-                    <label htmlFor>Office</label>
-                    <select
-                      className="pad-manual"
-                      onChange={props.handleChange}
-                      name="floor"
-                      value={props.state.floor || 'DC'}
-                    >
-                      {props.workSpace &&
-                        props.workSpace.map(i => (
-                          <option name="location" value={i.id}>
-                            {i.locationname}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
+                    <div className="selction_one after-none ww-100">
+                      <label htmlFor="badge">Badge Number</label>
+                      <div className="prefix">BB</div>
+                      <input
+                        name="BadgeNumber"
+                        type="text"
+                        placeholder="BB-XXX-XXX"
+                        value={props.state.BadgeNumber}
+                        className="form-control"
+                        onChange={props.handleBadgeData}
+                      />
+                      {props.verifyBadgeMsg && !props.verifyBadgeSuccess && (
+                        <div className="d-flex" style={{ marginTop: '10px' }}>
+                          <img
+                            src={Warnning}
+                            alt="warn"
+                            style={{
+                              margin: '4px 5px 0px 0px',
+                              height: '14px',
+                            }}
+                          />
+                          <div style={{ color: 'red' }}>
+                            {props.verifyBadgeMsg}
+                          </div>
+                        </div>
+                      )}
+                    </div>
 
-                  <div className="selction_one mat-10 ww-100">
-                    <label htmlFor>Building/Floor</label>
-                    <select
-                      onChange={props.handleChange}
-                      name="build"
-                      value={`${props.state.build}`}
-                      className="pad-manual"
-                    >
-                      {data &&
-                        data.FloorBuilding.map(i => (
-                          <>
-                            <option
-                              value={
-                                i.floor &&
+                    <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
+                      <div className="pro-title1">Permanent space</div>
+                      <div
+                        className={`pro-title1 red ${
+                          props.state.AssignedSpace !== '' ? 'unassign' : ''
+                        }`}
+                      >
+                        Unassign
+                      </div>
+                    </div>
+
+                    <div className="selction_one mat-10 ww-100">
+                      <label htmlFor>Office</label>
+                      <select
+                        className="pad-manual"
+                        onChange={props.handleChange}
+                        name="floor"
+                        value={props.state.floor || 'DC'}
+                      >
+                        {props.workSpace &&
+                          props.workSpace.map(i => (
+                            <option name="location" value={i.id}>
+                              {i.locationname}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+
+                    <div className="selction_one mat-10 ww-100">
+                      <label htmlFor>Building/Floor</label>
+                      <select
+                        onChange={props.handleChange}
+                        name="build"
+                        value={`${props.state.build}`}
+                        className="pad-manual"
+                      >
+                        {data &&
+                          data.FloorBuilding.map(i => (
+                            <>
+                              <option
+                                value={
+                                  i.floor &&
+                                  i.floor !== null &&
+                                  i.building &&
+                                  i.building !== null
+                                    ? `${i.floor}${i.building}`
+                                    : i.building && i.building !== null
+                                    ? `${i.building}`
+                                    : i.floor && i.floor !== null
+                                    ? `${i.floor}`
+                                    : ''
+                                }
+                              >
+                                {i.floor &&
                                 i.floor !== null &&
                                 i.building &&
                                 i.building !== null
-                                  ? `${i.floor}${i.building}`
+                                  ? `Building ${i.building}, Floor${i.floor}`
                                   : i.building && i.building !== null
-                                  ? `${i.building}`
+                                  ? `Building ${i.building}`
                                   : i.floor && i.floor !== null
-                                  ? `${i.floor}`
-                                  : ''
-                              }
-                            >
-                              {i.floor &&
-                              i.floor !== null &&
-                              i.building &&
-                              i.building !== null
-                                ? `Building ${i.building}, Floor${i.floor}`
-                                : i.building && i.building !== null
-                                ? `Building ${i.building}`
-                                : i.floor && i.floor !== null
-                                ? `Floor ${i.floor}`
-                                : ''}
+                                  ? `Floor ${i.floor}`
+                                  : ''}
+                              </option>
+                            </>
+                          ))}
+                      </select>
+                    </div>
+
+                    <div className="selction_one ww-100">
+                      <label htmlFor>Space</label>
+                      <select
+                        onChange={props.handleChange}
+                        name="AssignedSpace"
+                        value={props.state.AssignedSpace}
+                        defaultValue={finalData[0]}
+                        className="pad-manual"
+                      >
+                        <option id="spval">select Spaces</option>
+                        {finalData &&
+                          finalData.map(i => (
+                            <option value={i.officeSpace} name="AssignedSpace">
+                              {' '}
+                              {i && i.officeSpace}{' '}
                             </option>
-                          </>
-                        ))}
-                    </select>
-                  </div>
+                          ))}
+                      </select>
+                    </div>
 
-                  <div className="selction_one ww-100">
-                    <label htmlFor>Space</label>
-                    <select
-                      onChange={props.handleChange}
-                      name="AssignedSpace"
-                      value={props.state.AssignedSpace}
-                      defaultValue={finalData[0]}
-                      className="pad-manual"
-                    >
-                      <option id="spval">select Spaces</option>
-                      {finalData &&
-                        finalData.map(i => (
-                          <option value={i.officeSpace} name="AssignedSpace">
-                            {' '}
-                            {i && i.officeSpace}{' '}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
+                    <p className="red minus-10" id="error">
+                      <img
+                        src="images/red-info.png"
+                        className="img-fluid v-bot"
+                        alt=""
+                      />{' '}
+                      You have to fill in this field to assign a space
+                    </p>
 
-                  <p className="red minus-10" id="error">
-                    <img
-                      src="images/red-info.png"
-                      className="img-fluid v-bot"
-                      alt=""
-                    />{' '}
-                    You have to fill in this field to assign a space
-                  </p>
+                    <div className="modal-footer mt-2 border-none pad-0">
+                      <button
+                        type="submit"
+                        className={
+                          !props.state.BadgeNumber.length
+                            ? 'btn disable-data'
+                            : 'btn save-data'
+                        }
+                        id="save-btn"
+                        onClick={() => {
+                          // handleClose();
+                          props.handleStateClear();
+                        }}
+                        value="Save"
+                      >
+                        Save
+                        {props.updateEmployeeLoading && (
+                          <div className="spinner-border" />
+                        )}
+                      </button>
 
-                  <div className="modal-footer mt-2 border-none pad-0">
-                    <input
-                      type="submit"
-                      className="btn save-data"
-                      id="save-btn"
-                      onClick={() => {
-                        handleClose();
-                        props.handleStateClear();
-                      }}
-                      value="Save"
-                    />
-                    <button
-                      type="button"
-                      className="btn dismiss"
-                      data-bs-dismiss="modal"
-                      onClick={() => {
-                        setShow(false);
-                        props.handleStateClear();
-                      }}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
+                      <button
+                        type="button"
+                        className="btn dismiss"
+                        data-bs-dismiss="modal"
+                        onClick={() => {
+                          setShow(false);
+                          props.handleStateClear();
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
             </div>
           </div>
         </Modal>
@@ -540,6 +610,9 @@ Employee.propTypes = {
   verifyBadgeMsg: PropTypes.string,
   verifyBadgeSuccess: PropTypes.bool,
   handleStateClear: PropTypes.func,
+  handleClickSort: PropTypes.func,
+  singleEmployeeLoading: PropTypes.bool,
+  updateEmployeeLoading: PropTypes.bool,
 };
 
 export default Employee;
