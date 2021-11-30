@@ -10,11 +10,19 @@
     font-size: 32px;
   }
 }
-@media (min-width: 1601px) {
+
+@media (max-height: 901px) {
+  .office-structure .office-structure-inner .left-panel .office-resource,
+  .office-structure .office-structure-inner .left-panel {
+    height: 100vh;
+  }
+}
+
+/* @media (min-width: 1601px) {
   .office-structure-inner {
     height: calc(100vh - 350px);
   }
-}
+} */
 @media (max-width: 1199px) {
   .w-50 {
     width: 100% !important;
@@ -90,6 +98,12 @@
   .edit-badge-number .action-buttons {
     margin-left: 0;
     margin-top: 12px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .dash-menu-item {
+    font-size: 14px;
   }
 }
 
@@ -277,16 +291,48 @@
     justify-content: center;
     margin: auto;
   }
+
+  .head.d-flex.align-items-center {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  /****/
+  .head.d-flex.align-items-center.between {
+    justify-content: space-between;
+  }
+  .search-box input {
+    margin-top: 10px;
+  }
+  .emp-table {
+    width: 100%;
+    overflow-x: scroll;
+  }
+  .emp-table table {
+    width: 1000px;
+    overflow-x: scroll;
+    border-radius: 10px !important;
+  }
+  .wrap1 {
+    flex-wrap: wrap;
+    justify-content: center !important;
+  }
+  .office-selections.wrap1 {
+    display: block;
+    width: 100%;
+  }
+  .bg-w {
+    margin-top: 20px;
+  }
 }
 
 @media (max-width: 767px) {
   .site-header .header_wrapper .right-menus .username span {
     display: none;
   }
-  .office-structure .office-structure-inner {
+  /* .office-structure .office-structure-inner {
     flex-wrap: wrap;
     height: 100%;
-  }
+  } */
   .site-header .header_wrapper .right-menus .username img {
     margin-left: 0;
   }
@@ -311,6 +357,9 @@
   }
   .wrapper_main {
     padding: 50px 0;
+  }
+  .emp_wrapper {
+    padding: 50px 0 130px;
   }
   .site-header {
     padding: 12px 0;
@@ -447,6 +496,27 @@
     font-size: 14px;
     margin-right: 12px !important;
   }
+
+  .table-bot-flex {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .wrap {
+    flex-wrap: wrap;
+    justify-content: flex-start !important;
+  }
+  .mat-10 {
+    margin-top: 10px !important;
+  }
+  .ww-100 {
+    width: 100% !important;
+  }
+  .search-box input {
+    width: 100%;
+  }
+  .search-img {
+    transform: translateY(-50%);
+  }
 }
 
 @media (max-width: 575px) {
@@ -475,6 +545,13 @@
   }
   .calendar_main .bottom span {
     width: 100%;
+  }
+  .d-flex.align-items-center.justify-content-between.pad-tri {
+    flex-wrap: wrap;
+    justify-content: center !important;
+  }
+  .blue-bg-btn1 {
+    margin-top: 20px !important;
   }
 }
 
@@ -511,5 +588,42 @@
   .datepicker-Wrapper .date {
     width: 2rem;
     height: 2rem;
+  }
+}
+/********/
+@media (max-width: 480px) {
+  .sp-flex {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .light-blue-bg-btn1 {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+  .input-button-strip.mt-4 .d-flex.align-items-center {
+    flex-wrap: wrap !important;
+  }
+  /**/
+  .input-button-strip.mt-4 .d-flex.align-items-center .change-log {
+    margin-top: 10px;
+  }
+}
+
+/****/
+@media (max-width: 320px) {
+  .spaces-section {
+    padding: 10px 5px;
+  }
+  .bg-w {
+    padding: 8px;
+    min-height: 300px;
+  }
+  .w-94 {
+    width: 65px !important;
+  }
+  .per-line1 {
+    margin-left: 74px;
+    margin-top: -16px;
+    width: 75% !important;
   }
 }

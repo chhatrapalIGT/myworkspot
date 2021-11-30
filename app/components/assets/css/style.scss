@@ -1856,8 +1856,8 @@ input[type='text'] {
         // &::-webkit-scrollbar {
         //   display: none;
         // }
-        height: calc(100vh - 80%);
-
+        // height: calc(100vh - 80%);
+        max-height: calc(100% - 105px);
         & > p {
           font-size: 14px;
           font-weight: 600;
@@ -3081,4 +3081,19 @@ select.set_drop option[id='building'],
 
 .al_cross {
   margin-left: 3rem;
+}
+.chip > img.icon_cancel {
+  display: none;
+}
+
+.optionContainer li {
+  color: #00355f !important;
+  &:hover {
+    background: #ffffff !important;
+    color: #00355f !important;
+  }
+
+  > .checkbox {
+    display: none;
+  }
 }
