@@ -32,6 +32,7 @@ import Login from '../../components/Login';
 import EmployeePage from '../EmployeePage';
 import officeUpload from '../UploadMapPage';
 import space from '../SpacePage';
+import WorkspotAdminPage from '../WorkspotAdminPage';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
@@ -110,6 +111,13 @@ const App = props => {
               props={props}
               path="/employee"
               component={EmployeePage}
+            />
+            <Route
+              exact
+              Route
+              props={props}
+              path="/home"
+              component={WorkspotAdminPage}
             />
             <Route component={NotFoundPage} />
           </Switch>

@@ -14,6 +14,7 @@ import profilePageReducer from './containers/ProfilePage/reducer';
 import employeeReducer from './containers/EmployeePage/reducer';
 import uploadReducer from './containers/UploadMapPage/reducer';
 import spaceReducer from './containers/SpacePage/reducer';
+import workspotAdminReducer from './containers/WorkspotAdminPage/reducer';
 // import myTeamReducer from './containers/ReportPage/reducer';
 
 /**
@@ -31,6 +32,7 @@ export default function createReducer(injectedReducers = {}) {
     // myTeam: myTeamReducer,
     router: connectRouter(history),
     employee: employeeReducer,
+    workspotAdmin: workspotAdminReducer,
     ...injectedReducers,
   });
 

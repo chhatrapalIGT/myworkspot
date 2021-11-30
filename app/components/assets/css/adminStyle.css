@@ -956,9 +956,9 @@
   font-size: 12px;
   color: #00355f;
   font-weight: 600;
-  margin-left: 102px;
+  /* margin-left: 102px; */
   margin-top: 5px;
-  width: 70% !important;
+  /* width: 70% !important; */
 }
 .bar-graph-one .year {
   position: relative;
@@ -977,13 +977,13 @@
 }
 .bar-graph-one .bar-one .bar {
   border-radius: 0px;
-  background-color: #80d8d7;
+  /* background-color: #80d8d7; */
   -webkit-animation: show-bar-one 1.2s 0.1s forwards;
   -moz-animation: show-bar-one 1.2s 0.1s forwards;
   animation: show-bar-one 1.2s 0.1s forwards;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-  width: 21% !important;
+  /* width: 21% !important; */
   position: relative;
 }
 .bar-graph-one .bar-two .bar {
@@ -1074,7 +1074,7 @@
 }
 
 /* Bar Graph Horizontal Animations */
-@-webkit-keyframes show-bar-one {
+/* @-webkit-keyframes show-bar-one {
   0% {
     width: 0;
   }
@@ -1108,7 +1108,7 @@
   100% {
     width: 76.8%;
   }
-}
+} */
 
 @-webkit-keyframes fade-in-text {
   0% {
@@ -1117,6 +1117,15 @@
   100% {
     opacity: 1;
   }
+}
+
+.per-bar {
+  text-align: right;
+}
+
+.test div {
+  width: calc((100% / 5) - 2px);
+  /* // display: flex; */
 }
 
 .blue span {
@@ -1148,4 +1157,11 @@
 }
 .admin-selection {
   height: 48px;
+}
+
+.per-line1 > .d1 {
+  width: 15%;
+}
+.per-line1 .d2 {
+  width: 2%;
 }
