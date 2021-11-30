@@ -31,10 +31,10 @@ export function* getLocationCapacity({ payload }) {
     } else if (data && data.success) {
       yield put(locationCapacitySuccess(data));
     } else {
-      yield put(locationCapacityFailed(data.message));
+      yield put(locationCapacityFailed(data));
     }
   } catch (err) {
-    yield put(locationCapacityFailed(err.message));
+    yield put(locationCapacityFailed(err));
   }
 }
 

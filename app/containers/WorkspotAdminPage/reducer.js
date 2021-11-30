@@ -4,6 +4,7 @@ import {
   REQUEST_LOCATION_CAPACITY,
   SUCCESS_LOCATION_CAPACITY,
   FAILED_LOCATION_CAPACITY,
+  RESET_WORKSPOT_ADMIN_MESSAGE,
 } from './constants';
 
 const initialState = {
@@ -41,6 +42,11 @@ const workspotAdminReducer = (state = initialState, action) =>
         draft.getLocationCapacity.capacity = {};
         draft.apiSuccess = action.payload.success;
         draft.apiMessage = action.payload.message;
+        break;
+
+      case RESET_WORKSPOT_ADMIN_MESSAGE:
+        draft.apiMessage = '';
+        draft.apiSuccess = false;
         break;
     }
   });

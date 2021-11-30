@@ -3,6 +3,8 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useMemo, useCallback } from 'react';
 import moment from 'moment';
 import Spinner from 'react-bootstrap/Spinner';
@@ -12,11 +14,16 @@ import {
   getWeekTitle,
   getStartEndDate,
 } from '../Cal/helpers';
+import checkedCircle from '../../images/check-circle-fill.svg';
+import crossCircle from '../../images/x-circle-fill.svg';
 
 const WorkspotAdmin = ({
   getCapacity,
   requestLocationCapacity,
   capacityLoading,
+  apiSuccess,
+  apiMessage,
+  handleClearCal,
 }) => {
   const uniqueLocation = [];
   getCapacity &&
@@ -150,6 +157,30 @@ const WorkspotAdmin = ({
 
   return (
     <>
+      {apiMessage && (
+        <div
+          className={`alert fade show mx-auto ${
+            apiSuccess ? 'alert alert-success' : 'alert alert-danger'
+          }`}
+        >
+          <div style={{ display: 'contents', lineHeight: '30px' }}>
+            <img
+              src={apiSuccess ? checkedCircle : crossCircle}
+              alt=""
+              style={{ paddingRight: '5px' }}
+            />
+            <div>{apiMessage || ''}</div>
+          </div>
+          <div
+            style={{ float: 'right', fontSize: 'large' }}
+            onClick={() => handleClearCal()}
+            className="day-pointer al_cross"
+          >
+            &#10006;
+          </div>
+        </div>
+      )}
+
       {capacityLoading ? (
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
@@ -222,7 +253,14 @@ const WorkspotAdmin = ({
                             const data = spaces(item, obj);
                             return (
                               <>
-                                <td className="data-63">
+                                <td
+                                  className="data-63"
+                                  style={
+                                    data.LocationPercentage >= '80%'
+                                      ? { color: 'red' }
+                                      : { color: '' }
+                                  }
+                                >
                                   {`${parseFloat(
                                     data && data.LocationPercentage,
                                   ).toFixed(2)}%`}
@@ -294,7 +332,7 @@ const WorkspotAdmin = ({
                                                   fl.floor,
                                                   fl.building,
                                                 ),
-                                                width: fl.percentage,
+                                                width: `${fl.percentage}%`,
                                               }}
                                             >
                                               {/* <span className="hover-data">
@@ -304,16 +342,16 @@ const WorkspotAdmin = ({
                                                 </span>
                                               </span> */}
                                             </p>
-                                          </div>
-                                          <div
-                                            className="persantage"
-                                            style={{
-                                              width: '7%',
-                                            }}
-                                          >
-                                            {parseFloat(
-                                              fl && fl.percentage,
-                                            ).toFixed(2)}
+                                            <div
+                                              className="persantage"
+                                              // style={{
+                                              //   width: '7%',
+                                              // }}
+                                            >
+                                              {`${parseFloat(
+                                                fl && fl.percentage,
+                                              ).toFixed(2)}%`}
+                                            </div>
                                           </div>
                                         </div>
                                       ))}
@@ -352,7 +390,10 @@ const WorkspotAdmin = ({
 WorkspotAdmin.propTypes = {
   getCapacity: PropTypes.object,
   requestLocationCapacity: PropTypes.func,
+  handleClearCal: PropTypes.func,
   capacityLoading: PropTypes.bool,
+  apiMessage: PropTypes.string,
+  apiSuccess: PropTypes.bool,
 };
 
 export default WorkspotAdmin;
