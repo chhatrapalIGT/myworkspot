@@ -167,6 +167,16 @@ const Header = props => {
                           </a>
                         </Link>
                       </li>
+                      <li>
+                        <Link to="/faq">
+                          <a
+                            href="true"
+                            className={pathName === '/faq' && 'active'}
+                          >
+                            Help
+                          </a>
+                        </Link>
+                      </li>
                     </>
                   ) : (
                     <>
@@ -213,17 +223,6 @@ const Header = props => {
                       </li>
                     </>
                   )}
-
-                  <li>
-                    <Link to="/faq">
-                      <a
-                        href="true"
-                        className={pathName === '/faq' && 'active'}
-                      >
-                        Help
-                      </a>
-                    </Link>
-                  </li>
                 </ul>
               </div>
             )}
