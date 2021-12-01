@@ -50,16 +50,14 @@ class WorkspotAdminPage extends Component {
   render() {
     const { getCapacity, capacityLoading, apiMessage, apiSuccess } = this.props;
     return (
-      <>
-        <WorkspotAdmin
-          getCapacity={getCapacity}
-          requestLocationCapacity={this.props.requestLocationCapacity}
-          capacityLoading={capacityLoading}
-          apiMessage={apiMessage}
-          apiSuccess={apiSuccess}
-          handleClearCal={this.handleClearCal}
-        />
-      </>
+      <WorkspotAdmin
+        getCapacity={getCapacity}
+        requestLocationCapacity={this.props.requestLocationCapacity}
+        capacityLoading={capacityLoading}
+        apiMessage={apiMessage}
+        apiSuccess={apiSuccess}
+        handleClearCal={this.handleClearCal}
+      />
     );
   }
 }

@@ -826,6 +826,9 @@
   padding: 5px 6px;
   font-size: 10px;
 }
+.disabled {
+  opacity: 0.5;
+}
 .table1 .date {
   padding: 5px 6px;
   font-size: 10px;
@@ -1147,6 +1150,9 @@
 }
 .emp_wrapper {
   padding-bottom: 80px;
+}
+.cal_wrapper {
+  padding-bottom: 110px;
 }
 
 .img-fix {

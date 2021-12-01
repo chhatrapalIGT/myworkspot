@@ -184,204 +184,203 @@ const WorkspotAdmin = ({
       {capacityLoading ? (
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
-        <>
-          <div className="wrapper_main">
-            <div className="myteam_wrapper">
-              <div className="container">
-                <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between">
+        <div className="wrapper_main cal_wrapper">
+          <div className="myteam_wrapper">
+            <div className="container">
+              <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between">
+                <div>
+                  <h4 className="common-title">Office Capacity</h4>
+                </div>
+                <div className="d-flex align-items-center">
                   <div>
-                    <h4 className="common-title">Office Capacity</h4>
+                    <button
+                      type="submit"
+                      className="disable-btn opa2"
+                      onClick={handleToday}
+                    >
+                      {' '}
+                      Show current week
+                    </button>
                   </div>
-                  <div className="d-flex align-items-center">
-                    <div>
-                      <button
-                        type="submit"
-                        className="disable-btn opa2"
-                        onClick={handleToday}
-                      >
-                        {' '}
-                        Show current week
-                      </button>
-                    </div>
-                    <div className="change-log">
-                      <button
-                        type="submit"
-                        className="prev disable"
-                        onClick={() => handlePrevNext('prev')}
-                      >
-                        &lsaquo;
-                      </button>
-                      <span className="what-day">{title}</span>
-                      <button
-                        type="submit"
-                        className="next"
-                        onClick={() => handlePrevNext('next')}
-                      >
-                        &rsaquo;
-                      </button>
-                    </div>
+                  <div className="change-log">
+                    <button
+                      type="submit"
+                      className="prev disable"
+                      onClick={() => handlePrevNext('prev')}
+                    >
+                      &lsaquo;
+                    </button>
+                    <span className="what-day">{title}</span>
+                    <button
+                      type="submit"
+                      className="next"
+                      onClick={() => handlePrevNext('next')}
+                    >
+                      &rsaquo;
+                    </button>
                   </div>
                 </div>
+              </div>
 
-                <div className="table1">
-                  <table>
-                    <tr>
-                      <td />
-                      {days.dateToDisplay.map(item => {
-                        return (
-                          <>
-                            <td>
-                              {item.day}, <br />
-                              <span
-                                className="c-date"
-                                style={{
-                                  background: isDateSelected(item.date),
-                                }}
+              <div className="table1">
+                <table>
+                  <tr>
+                    <td />
+                    {days.dateToDisplay.map(item => {
+                      return (
+                        <>
+                          <td>
+                            {item.day}, <br />
+                            <span
+                              className={
+                                item.disable ? 'c-date disabled' : 'c-date'
+                              }
+                              style={{
+                                background: isDateSelected(item.date),
+                              }}
+                            >
+                              {item.value}
+                            </span>
+                          </td>
+                        </>
+                      );
+                    })}
+                  </tr>
+                  {uniqueLocation.length > 0 &&
+                    uniqueLocation.map(obj => (
+                      <tr>
+                        <td>{obj.locationname}</td>
+                        {days.dateToDisplay.map(item => {
+                          const data = spaces(item, obj);
+                          return (
+                            <>
+                              <td
+                                className="data-63"
+                                style={
+                                  data.LocationPercentage >= '80%'
+                                    ? { color: 'red' }
+                                    : { color: '' }
+                                }
                               >
-                                {item.value}
-                              </span>
-                            </td>
-                          </>
-                        );
-                      })}
-                    </tr>
-                    {uniqueLocation.length > 0 &&
-                      uniqueLocation.map(obj => (
-                        <tr>
-                          <td>{obj.locationname}</td>
-                          {days.dateToDisplay.map(item => {
-                            const data = spaces(item, obj);
-                            return (
-                              <>
-                                <td
-                                  className="data-63"
-                                  style={
-                                    data.LocationPercentage >= '80%'
-                                      ? { color: 'red' }
-                                      : { color: '' }
-                                  }
-                                >
-                                  {`${parseFloat(
-                                    data && data.LocationPercentage,
-                                  ).toFixed(2)}%`}
-                                  <span className="hover-data">
-                                    Spaces available{' '}
-                                    <sapn className="digit">
-                                      {`${data &&
-                                        data.LocationFillCapacity}/100`}
-                                    </sapn>
-                                  </span>
-                                </td>
-                              </>
-                            );
-                          })}
-                        </tr>
-                      ))}
-                  </table>
-                </div>
+                                {`${parseFloat(
+                                  data && data.LocationPercentage,
+                                ).toFixed(2)}%`}
+                                <span className="hover-data">
+                                  Spaces available{' '}
+                                  <sapn className="digit">
+                                    {`${data && data.LocationFillCapacity}/100`}
+                                  </sapn>
+                                </span>
+                              </td>
+                            </>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                </table>
+              </div>
 
-                <div className="chart-data">
-                  <div className="row">
-                    {floorCapacity &&
-                      floorCapacity.data &&
-                      floorCapacity.data.map(
-                        obj =>
-                          (obj.id === 'DC' || obj.id === 'RIC') && (
-                            <div className="col-lg-6 pl-0">
-                              <div className="bg-w">
-                                <div className="chart-title">
-                                  {obj.locationname} Office Capacity -{' '}
-                                  {parseFloat(obj.LocationPercentage).toFixed(
-                                    2,
-                                  )}
-                                </div>
-                                <div className="chart-para">
-                                  Today, {moment(obj.date).format('LL')}
-                                </div>
-                                <div className="bar-chart">
-                                  <div className="bar-graph bar-graph-horizontal bar-graph-one">
-                                    {obj.FloorBuilding &&
-                                      obj.FloorBuilding.map(fl => (
-                                        <div className="bar-one d-flex">
-                                          <div
-                                            className="year"
-                                            style={{
-                                              width: '18%',
-                                            }}
-                                          >
-                                            {fl.building === null &&
-                                              `Floor ${fl.floor}`}
-                                            {fl.floor === null &&
-                                              `Building ${fl.building}`}
-                                            {fl.building !== null &&
-                                              fl.floor !== null &&
-                                              `Bldg ${fl.building}, Floor ${
-                                                fl.floor
-                                              }`}
-                                          </div>
-                                          <div
+              <div className="chart-data">
+                <div className="row">
+                  {floorCapacity &&
+                    floorCapacity.data &&
+                    floorCapacity.data.map(
+                      obj =>
+                        (obj.id === 'DC' || obj.id === 'RIC') && (
+                          <div className="col-lg-6 pl-0">
+                            <div className="bg-w">
+                              <div className="chart-title">
+                                {obj.locationname} Office Capacity -{' '}
+                                {`${parseFloat(obj.LocationPercentage).toFixed(
+                                  2,
+                                )}%`}
+                              </div>
+                              <div className="chart-para">
+                                Today, {moment(obj.date).format('LL')}
+                              </div>
+                              <div className="bar-chart">
+                                <div className="bar-graph bar-graph-horizontal bar-graph-one">
+                                  {obj.FloorBuilding &&
+                                    obj.FloorBuilding.map(fl => (
+                                      <div className="bar-one d-flex">
+                                        <div
+                                          className="year"
+                                          style={{
+                                            width: '18%',
+                                          }}
+                                        >
+                                          {fl.building === null &&
+                                            `Floor ${fl.floor}`}
+                                          {fl.floor === null &&
+                                            `Building ${fl.building}`}
+                                          {fl.building !== null &&
+                                            fl.floor !== null &&
+                                            `Bldg ${fl.building}, Floor ${
+                                              fl.floor
+                                            }`}
+                                        </div>
+                                        <div
+                                          className="bar"
+                                          style={{
+                                            width: '75%',
+                                          }}
+                                        >
+                                          <p
                                             className="bar"
                                             style={{
-                                              width: '75%',
+                                              backgroundColor: barColor(
+                                                fl.floor,
+                                                fl.building,
+                                              ),
+                                              width: `${fl.percentage}%`,
                                             }}
                                           >
-                                            <p
-                                              className="bar"
-                                              style={{
-                                                backgroundColor: barColor(
-                                                  fl.floor,
-                                                  fl.building,
-                                                ),
-                                                width: `${fl.percentage}%`,
-                                              }}
-                                            >
-                                              {/* <span className="hover-data">
+                                            {/* <span className="hover-data">
                                                 Spaces available{' '}
                                                 <span className="digit">
                                                   {`${fl && fl.percentage}/100`}
                                                 </span>
                                               </span> */}
-                                            </p>
-                                            <div
-                                              className="persantage"
-                                              // style={{
-                                              //   width: '7%',
-                                              // }}
-                                            >
-                                              {`${parseFloat(
-                                                fl && fl.percentage,
-                                              ).toFixed(2)}%`}
-                                            </div>
+                                          </p>
+                                          <div
+                                            className="persantage"
+                                            // style={{
+                                            //   width: '7%',
+                                            // }}
+                                          >
+                                            {`${parseFloat(
+                                              fl && fl.percentage,
+                                            ).toFixed(2)}%`}
                                           </div>
                                         </div>
-                                      ))}
-
-                                    <div className="per-line1">
-                                      <div className="d1" />
-                                      <div
-                                        className="test d-flex"
-                                        style={{ width: '75%' }}
-                                      >
-                                        <div className="per-bar">20%</div>
-                                        <div className="per-bar">40%</div>
-                                        <div className="per-bar">60%</div>
-                                        <div className="per-bar">80%</div>
-                                        <div className="per-bar">100%</div>
                                       </div>
-                                      <div className="d2" />
+                                    ))}
+
+                                  <div className="per-line1">
+                                    <div className="d1" />
+                                    <div
+                                      className="test d-flex"
+                                      style={{ width: '75%' }}
+                                    >
+                                      <div className="per-bar">20%</div>
+                                      <div className="per-bar">40%</div>
+                                      <div className="per-bar">60%</div>
+                                      <div className="per-bar">80%</div>
+                                      <div className="per-bar">100%</div>
                                     </div>
+                                    <div className="d2" />
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          ),
-                      )}
-                  </div>
+                          </div>
+                        ),
+                    )}
                 </div>
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   );
