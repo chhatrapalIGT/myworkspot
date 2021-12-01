@@ -3,6 +3,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState, useRef, useEffect } from 'react';
 import '../assets/css/style.scss';
+import '../assets/css/adminStyle.css';
 import '../assets/css/style.css';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -28,6 +29,7 @@ const Header = props => {
   const [apiCall, setApiCall] = useState(false);
   const [sidebar, setSidebar] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const divRef = useRef();
   const location = useLocation();
   const history = useHistory();
@@ -130,39 +132,87 @@ const Header = props => {
                 pathName !== '/auth')) && (
               <div className={`${sidebar && 'show'} main-menu`}>
                 <ul>
-                  <li>
-                    <Link to="/workspot" activeClassName="active">
-                      <a
-                        className={
-                          (pathName === '/workspot' || pathName === '/') &&
-                          'active'
-                        }
-                        href="true"
-                      >
-                        Home
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/report" activeClassName="active">
-                      <a
-                        className={pathName === '/report' && 'active'}
-                        href="true"
-                      >
-                        My Team
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/office" activeClassName="active">
-                      <a
-                        className={pathName === '/office' && 'active'}
-                        href="true"
-                      >
-                        Office Maps
-                      </a>
-                    </Link>
-                  </li>
+                  {!isAdmin ? (
+                    <>
+                      <li>
+                        <Link to="/workspot" activeClassName="active">
+                          <a
+                            className={
+                              (pathName === '/workspot' || pathName === '/') &&
+                              'active'
+                            }
+                            href="true"
+                          >
+                            Home
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/report" activeClassName="active">
+                          <a
+                            className={pathName === '/report' && 'active'}
+                            href="true"
+                          >
+                            My Team
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/office" activeClassName="active">
+                          <a
+                            className={pathName === '/office' && 'active'}
+                            href="true"
+                          >
+                            Office Maps
+                          </a>
+                        </Link>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      {' '}
+                      <li>
+                        <Link to="/workspot" activeClassName="active">
+                          <a
+                            className={pathName === '/workspot' && 'active'}
+                            href="true"
+                          >
+                            Home
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/space" activeClassName="active">
+                          <a
+                            className={pathName === '/space' && 'active'}
+                            href="true"
+                          >
+                            Spaces
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/employee" activeClassName="active">
+                          <a
+                            className={pathName === '/employee' && 'active'}
+                            href="true"
+                          >
+                            Employees
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/officemap" activeClassName="active">
+                          <a
+                            className={pathName === '/officemap' && 'active'}
+                            href="true"
+                          >
+                            Office Maps
+                          </a>
+                        </Link>
+                      </li>
+                    </>
+                  )}
 
                   <li>
                     <Link to="/faq">
@@ -223,6 +273,9 @@ const Header = props => {
                       }
                     >
                       <span>
+                        {isAdmin && (
+                          <span style={{ color: '#ED8B00' }}> Admin </span>
+                        )}
                         {props.profileUser && props.profileUser.firstname}
                       </span>{' '}
                       <img
@@ -239,7 +292,10 @@ const Header = props => {
                       <span style={{ color: '#ed8b00' }}>On behalf of</span>
                     </div>
                     <div className="profile-popup-main">
-                      <img src={Profile} alt="" />
+                      <img
+                        src={props.delegateHeaderProfile.photo || Profile}
+                        alt=""
+                      />
                       <h3>
                         {' '}
                         {props.delegateHeaderProfile &&
@@ -260,7 +316,10 @@ const Header = props => {
                         <button
                           type="button"
                           className="w-100 blue-color-btn profile-btn"
-                          onClick={() => setEditProfile(false)}
+                          onClick={() => {
+                            setEditProfile(false);
+                            setIsAdmin(false);
+                          }}
                         >
                           View Profile
                         </button>
@@ -338,7 +397,10 @@ const Header = props => {
                           <button
                             type="button"
                             className="w-100 blue-color-btn profile-btn"
-                            onClick={() => setEditProfile(false)}
+                            onClick={() => {
+                              setIsAdmin(false);
+                              setEditProfile(false);
+                            }}
                           >
                             View My Profile
                           </button>
@@ -369,6 +431,31 @@ const Header = props => {
                             </div>
                           </div>
                         ))}
+                      {props.profileUser.role === 'Admin' && (
+                        <div
+                          aria-hidden="true"
+                          className="popup-secondary-profile day-pointer"
+                          onClick={() => {
+                            // userProfileData(obj.employeeid);
+                            setIsAdmin(true);
+                          }}
+                        >
+                          <img
+                            src={props.profileUser.photo || Profile}
+                            alt=""
+                            style={{ marginBottom: '10px' }}
+                          />
+                          <div className="sec-profile-info">
+                            <h4>
+                              {props.profileUser.firstname}{' '}
+                              {props.profileUser.lastname}
+                            </h4>
+                            <span style={{ color: '#FF8D62' }}>
+                              {props.profileUser.role}
+                            </span>
+                          </div>
+                        </div>
+                      )}
                       <a
                         href
                         className="logout day-pointer"

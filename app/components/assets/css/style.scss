@@ -1816,6 +1816,29 @@ input[type='text'] {
   }
 }
 
+#multiselectContainerReact {
+  width: 270px;
+  border-radius: 8px;
+  border: 1px solid #d1dce7;
+  line-height: 1.15;
+  -webkit-appearance: none;
+  position: relative;
+  outline: none;
+  font-size: 16px;
+  font-family: 'Museo Sans Medium';
+  .searchWrapper {
+    border: 0;
+    background: white;
+    // span.chip {
+    //   background: transparent;
+    //   color: black;
+    //   // img {
+    //   //   display: none;
+    //   // }
+    // }
+  }
+}
+
 .office-structure {
   height: auto;
   .office-structure-inner {

@@ -29,6 +29,10 @@ import Footer from '../../components/Footer';
 // import Login from '../../components/Login';
 import CallBack from '../../components/Login/CallBack';
 import Login from '../../components/Login';
+import EmployeePage from '../EmployeePage';
+import officeUpload from '../UploadMapPage';
+import space from '../SpacePage';
+import WorkspotAdminPage from '../WorkspotAdminPage';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
@@ -66,6 +70,8 @@ const App = props => {
             />
             <Route exact path="/callback/" component={CallBack} />
             <Route exact path="/faq" component={Faq} />
+            <Route exact path="/officemap" component={officeUpload} />
+            <Route exact path="/space" component={space} />
             <Route
               exact
               path="/report"
@@ -98,6 +104,20 @@ const App = props => {
               path="/office"
               component={Washington}
               props={props}
+            />
+            <Route
+              exact
+              Route
+              props={props}
+              path="/employee"
+              component={EmployeePage}
+            />
+            <Route
+              exact
+              Route
+              props={props}
+              path="/home"
+              component={WorkspotAdminPage}
             />
             <Route component={NotFoundPage} />
           </Switch>
