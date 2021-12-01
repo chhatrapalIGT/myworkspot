@@ -3,6 +3,9 @@ import {
   SUCCESS_LOCATION_CAPACITY,
   FAILED_LOCATION_CAPACITY,
   RESET_WORKSPOT_ADMIN_MESSAGE,
+  REQUEST_CAPACITY_WARNING,
+  SUCCESS_CAPACITY_WARNING,
+  FAILED_CAPACITY_WARNING,
 } from './constants';
 
 export const requestLocationCapacity = payload => ({
@@ -22,4 +25,19 @@ export const locationCapacityFailed = error => ({
 
 export const resetWorkspotAdminMessage = () => ({
   type: RESET_WORKSPOT_ADMIN_MESSAGE,
+});
+
+export const requestCapacityWarning = payload => ({
+  type: REQUEST_CAPACITY_WARNING,
+  payload,
+});
+
+export const capacityWarningSuccess = payload => ({
+  type: SUCCESS_CAPACITY_WARNING,
+  payload,
+});
+
+export const capacityWarningFailed = error => ({
+  type: FAILED_CAPACITY_WARNING,
+  payload: error,
 });

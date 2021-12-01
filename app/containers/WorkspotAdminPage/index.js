@@ -7,7 +7,11 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import reducer from './reducer';
 import WorkspotAdmin from '../../components/WorkspotAdmin';
-import { requestLocationCapacity, resetWorkspotAdminMessage } from './actions';
+import {
+  requestLocationCapacity,
+  resetWorkspotAdminMessage,
+  requestCapacityWarning,
+} from './actions';
 import {
   getStartEndDate,
   getWeekStartEndDate,
@@ -32,6 +36,7 @@ class WorkspotAdminPage extends Component {
     const enddate = moment(endDispDate).format('YYYY-MM-DD');
 
     this.props.requestLocationCapacity({ startdate, enddate });
+    this.props.requestCapacityWarning();
   }
 
   handleClearCal = () => {
@@ -48,7 +53,13 @@ class WorkspotAdminPage extends Component {
   }
 
   render() {
-    const { getCapacity, capacityLoading, apiMessage, apiSuccess } = this.props;
+    const {
+      getCapacity,
+      capacityLoading,
+      apiMessage,
+      apiSuccess,
+      getWarningData,
+    } = this.props;
     return (
       <WorkspotAdmin
         getCapacity={getCapacity}
@@ -57,6 +68,7 @@ class WorkspotAdminPage extends Component {
         apiMessage={apiMessage}
         apiSuccess={apiSuccess}
         handleClearCal={this.handleClearCal}
+        getWarningData={getWarningData}
       />
     );
   }
@@ -75,6 +87,10 @@ const mapStateToProps = state => {
       workspotAdmin.getLocationCapacity.loading,
     apiMessage: workspotAdmin && workspotAdmin.apiMessage,
     apiSuccess: workspotAdmin && workspotAdmin.apiSuccess,
+    getWarningData:
+      workspotAdmin &&
+      workspotAdmin.getCapacityWarning &&
+      workspotAdmin.getCapacityWarning.getWarning,
   };
 };
 
@@ -83,6 +99,8 @@ export function mapDispatchToProps(dispatch) {
     requestLocationCapacity: payload =>
       dispatch(requestLocationCapacity(payload)),
     resetWorkspotAdminMessage: () => dispatch(resetWorkspotAdminMessage()),
+    requestCapacityWarning: payload =>
+      dispatch(requestCapacityWarning(payload)),
 
     dispatch,
   };
@@ -92,10 +110,12 @@ const withReducer = injectReducer({ key: 'workspotAdmin', reducer });
 WorkspotAdminPage.propTypes = {
   requestLocationCapacity: PropTypes.func,
   resetWorkspotAdminMessage: PropTypes.func,
+  requestCapacityWarning: PropTypes.func,
   getCapacity: PropTypes.object,
   capacityLoading: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
+  getWarningData: PropTypes.object,
 };
 
 export default compose(
