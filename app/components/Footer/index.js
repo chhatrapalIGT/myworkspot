@@ -1,6 +1,7 @@
 import React from 'react';
 import footerlogo from '../assets/images/footer-logo.svg';
 
+const year = new Date().getFullYear();
 const Footer = () => (
   <>
     <footer className="site-footer">
@@ -10,7 +11,7 @@ const Footer = () => (
             <img src={footerlogo} alt="" />
           </div>
           <div className="col-md-6">
-            <p>© 2021 EAB. All Rights Reserved</p>
+            <p>© {year} EAB. All Rights Reserved</p>
           </div>
         </div>
       </div>
