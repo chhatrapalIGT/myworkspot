@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable indent */
 /* eslint-disable array-callback-return */
 /* eslint-disable arrow-body-style */
@@ -16,6 +18,7 @@ import {
 } from '../Cal/helpers';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
+import BadgeIcon from '../../images/badgeIcon.png';
 
 const WorkspotAdmin = ({
   getCapacity,
@@ -24,6 +27,7 @@ const WorkspotAdmin = ({
   apiSuccess,
   apiMessage,
   handleClearCal,
+  getWarningData,
 }) => {
   const uniqueLocation = [];
   getCapacity &&
@@ -184,203 +188,231 @@ const WorkspotAdmin = ({
       {capacityLoading ? (
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
-        <div className="wrapper_main cal_wrapper">
-          <div className="myteam_wrapper">
-            <div className="container">
-              <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between">
-                <div>
-                  <h4 className="common-title">Office Capacity</h4>
-                </div>
-                <div className="d-flex align-items-center">
+        <>
+          {getWarningData &&
+            getWarningData.length > 0 &&
+            getWarningData.map(
+              obj =>
+                obj.dates.length !== 0 && (
+                  <div className="badge_check">
+                    <img src={BadgeIcon} alt="" />{' '}
+                    <span>
+                      Capacity Warning:{' '}
+                      {obj.locationID === 'RIC'
+                        ? 'Richmond'
+                        : obj.locationID === 'BLM'
+                        ? 'Bloomington'
+                        : obj.locationID === 'BHM'
+                        ? 'Birmingham'
+                        : obj.locationID}{' '}
+                      office on{' '}
+                      {obj &&
+                        obj.dates &&
+                        obj.dates.map(ele => `${moment(ele).format('LL')}; `)}
+                    </span>
+                  </div>
+                ),
+            )}
+
+          <div className="wrapper_main cal_wrapper">
+            <div className="myteam_wrapper">
+              <div className="container">
+                <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between">
                   <div>
-                    <button
-                      type="submit"
-                      className="disable-btn opa2"
-                      onClick={handleToday}
-                    >
-                      {' '}
-                      Show current week
-                    </button>
+                    <h4 className="common-title">Office Capacity</h4>
                   </div>
-                  <div className="change-log">
-                    <button
-                      type="submit"
-                      className="prev disable"
-                      onClick={() => handlePrevNext('prev')}
-                    >
-                      &lsaquo;
-                    </button>
-                    <span className="what-day">{title}</span>
-                    <button
-                      type="submit"
-                      className="next"
-                      onClick={() => handlePrevNext('next')}
-                    >
-                      &rsaquo;
-                    </button>
+                  <div className="d-flex align-items-center">
+                    <div>
+                      <button
+                        type="submit"
+                        className="disable-btn opa2"
+                        onClick={handleToday}
+                      >
+                        {' '}
+                        Show current week
+                      </button>
+                    </div>
+                    <div className="change-log">
+                      <button
+                        type="submit"
+                        className="prev disable"
+                        onClick={() => handlePrevNext('prev')}
+                      >
+                        &lsaquo;
+                      </button>
+                      <span className="what-day">{title}</span>
+                      <button
+                        type="submit"
+                        className="next"
+                        onClick={() => handlePrevNext('next')}
+                      >
+                        &rsaquo;
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="table1">
-                <table>
-                  <tr>
-                    <td />
-                    {days.dateToDisplay.map(item => {
-                      return (
-                        <>
-                          <td>
-                            {item.day}, <br />
-                            <span
-                              className={
-                                item.disable ? 'c-date disabled' : 'c-date'
-                              }
-                              style={{
-                                background: isDateSelected(item.date),
-                              }}
-                            >
-                              {item.value}
-                            </span>
-                          </td>
-                        </>
-                      );
-                    })}
-                  </tr>
-                  {uniqueLocation.length > 0 &&
-                    uniqueLocation.map(obj => (
-                      <tr>
-                        <td>{obj.locationname}</td>
-                        {days.dateToDisplay.map(item => {
-                          const data = spaces(item, obj);
-                          return (
-                            <>
-                              <td
-                                className="data-63"
-                                style={
-                                  data.LocationPercentage >= '80%'
-                                    ? { color: 'red' }
-                                    : { color: '' }
+                <div className="table1">
+                  <table>
+                    <tr>
+                      <td />
+                      {days.dateToDisplay.map(item => {
+                        return (
+                          <>
+                            <td>
+                              {item.day}, <br />
+                              <span
+                                className={
+                                  item.disable ? 'c-date disabled' : 'c-date'
                                 }
+                                style={{
+                                  background: isDateSelected(item.date),
+                                }}
                               >
-                                {`${parseFloat(
-                                  data && data.LocationPercentage,
-                                ).toFixed(2)}%`}
-                                <span className="hover-data">
-                                  Spaces available{' '}
-                                  <sapn className="digit">
-                                    {`${data && data.LocationFillCapacity}/100`}
-                                  </sapn>
-                                </span>
-                              </td>
-                            </>
-                          );
-                        })}
-                      </tr>
-                    ))}
-                </table>
-              </div>
+                                {item.value}
+                              </span>
+                            </td>
+                          </>
+                        );
+                      })}
+                    </tr>
+                    {uniqueLocation.length > 0 &&
+                      uniqueLocation.map(obj => (
+                        <tr>
+                          <td>{obj.locationname}</td>
+                          {days.dateToDisplay.map(item => {
+                            const data = spaces(item, obj);
+                            return (
+                              <>
+                                <td
+                                  className="data-63"
+                                  style={
+                                    data.LocationPercentage >= '80%'
+                                      ? { color: 'red' }
+                                      : { color: '' }
+                                  }
+                                >
+                                  {`${parseFloat(
+                                    data && data.LocationPercentage,
+                                  ).toFixed(2)}%`}
+                                  <span className="hover-data">
+                                    Spaces available{' '}
+                                    <sapn className="digit">
+                                      {`${data &&
+                                        data.LocationFillCapacity}/100`}
+                                    </sapn>
+                                  </span>
+                                </td>
+                              </>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                  </table>
+                </div>
 
-              <div className="chart-data">
-                <div className="row">
-                  {floorCapacity &&
-                    floorCapacity.data &&
-                    floorCapacity.data.map(
-                      obj =>
-                        (obj.id === 'DC' || obj.id === 'RIC') && (
-                          <div className="col-lg-6 pl-0">
-                            <div className="bg-w">
-                              <div className="chart-title">
-                                {obj.locationname} Office Capacity -{' '}
-                                {`${parseFloat(obj.LocationPercentage).toFixed(
-                                  2,
-                                )}%`}
-                              </div>
-                              <div className="chart-para">
-                                Today, {moment(obj.date).format('LL')}
-                              </div>
-                              <div className="bar-chart">
-                                <div className="bar-graph bar-graph-horizontal bar-graph-one">
-                                  {obj.FloorBuilding &&
-                                    obj.FloorBuilding.map(fl => (
-                                      <div className="bar-one d-flex">
-                                        <div
-                                          className="year"
-                                          style={{
-                                            width: '18%',
-                                          }}
-                                        >
-                                          {fl.building === null &&
-                                            `Floor ${fl.floor}`}
-                                          {fl.floor === null &&
-                                            `Building ${fl.building}`}
-                                          {fl.building !== null &&
-                                            fl.floor !== null &&
-                                            `Bldg ${fl.building}, Floor ${
-                                              fl.floor
-                                            }`}
-                                        </div>
-                                        <div
-                                          className="bar"
-                                          style={{
-                                            width: '75%',
-                                          }}
-                                        >
-                                          <p
-                                            className="bar"
+                <div className="chart-data">
+                  <div className="row">
+                    {floorCapacity &&
+                      floorCapacity.data &&
+                      floorCapacity.data.map(
+                        obj =>
+                          (obj.id === 'DC' || obj.id === 'RIC') && (
+                            <div className="col-lg-6 pl-0">
+                              <div className="bg-w">
+                                <div className="chart-title">
+                                  {obj.locationname} Office Capacity -{' '}
+                                  {`${parseFloat(
+                                    obj.LocationPercentage,
+                                  ).toFixed(2)}%`}
+                                </div>
+                                <div className="chart-para">
+                                  Today, {moment(obj.date).format('LL')}
+                                </div>
+                                <div className="bar-chart">
+                                  <div className="bar-graph bar-graph-horizontal bar-graph-one">
+                                    {obj.FloorBuilding &&
+                                      obj.FloorBuilding.map(fl => (
+                                        <div className="bar-one d-flex">
+                                          <div
+                                            className="year"
                                             style={{
-                                              backgroundColor: barColor(
-                                                fl.floor,
-                                                fl.building,
-                                              ),
-                                              width: `${fl.percentage}%`,
+                                              width: '18%',
                                             }}
                                           >
-                                            {/* <span className="hover-data">
+                                            {fl.building === null &&
+                                              `Floor ${fl.floor}`}
+                                            {fl.floor === null &&
+                                              `Building ${fl.building}`}
+                                            {fl.building !== null &&
+                                              fl.floor !== null &&
+                                              `Bldg ${fl.building}, Floor ${
+                                                fl.floor
+                                              }`}
+                                          </div>
+                                          <div
+                                            className="bar"
+                                            style={{
+                                              width: '75%',
+                                            }}
+                                          >
+                                            <p
+                                              className="bar"
+                                              style={{
+                                                backgroundColor: barColor(
+                                                  fl.floor,
+                                                  fl.building,
+                                                ),
+                                                width: `${fl.percentage}%`,
+                                              }}
+                                            >
+                                              {/* <span className="hover-data">
                                                 Spaces available{' '}
                                                 <span className="digit">
                                                   {`${fl && fl.percentage}/100`}
                                                 </span>
                                               </span> */}
-                                          </p>
-                                          <div
-                                            className="persantage"
-                                            // style={{
-                                            //   width: '7%',
-                                            // }}
-                                          >
-                                            {`${parseFloat(
-                                              fl && fl.percentage,
-                                            ).toFixed(2)}%`}
+                                            </p>
+                                            <div
+                                              className="persantage"
+                                              // style={{
+                                              //   width: '7%',
+                                              // }}
+                                            >
+                                              {`${parseFloat(
+                                                fl && fl.percentage,
+                                              ).toFixed(2)}%`}
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    ))}
+                                      ))}
 
-                                  <div className="per-line1">
-                                    <div className="d1" />
-                                    <div
-                                      className="test d-flex"
-                                      style={{ width: '75%' }}
-                                    >
-                                      <div className="per-bar">20%</div>
-                                      <div className="per-bar">40%</div>
-                                      <div className="per-bar">60%</div>
-                                      <div className="per-bar">80%</div>
-                                      <div className="per-bar">100%</div>
+                                    <div className="per-line1">
+                                      <div className="d1" />
+                                      <div
+                                        className="test d-flex"
+                                        style={{ width: '75%' }}
+                                      >
+                                        <div className="per-bar">20%</div>
+                                        <div className="per-bar">40%</div>
+                                        <div className="per-bar">60%</div>
+                                        <div className="per-bar">80%</div>
+                                        <div className="per-bar">100%</div>
+                                      </div>
+                                      <div className="d2" />
                                     </div>
-                                    <div className="d2" />
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ),
-                    )}
+                          ),
+                      )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );
@@ -393,6 +425,7 @@ WorkspotAdmin.propTypes = {
   capacityLoading: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
+  getWarningData: PropTypes.object,
 };
 
 export default WorkspotAdmin;
