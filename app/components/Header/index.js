@@ -172,9 +172,9 @@ const Header = props => {
                     <>
                       {' '}
                       <li>
-                        <Link to="/workspot" activeClassName="active">
+                        <Link to="/home" activeClassName="active">
                           <a
-                            className={pathName === '/workspot' && 'active'}
+                            className={pathName === '/home' && 'active'}
                             href="true"
                           >
                             Home
