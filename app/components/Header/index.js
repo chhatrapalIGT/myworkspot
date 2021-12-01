@@ -249,7 +249,10 @@ const Header = props => {
                       </span>
                     </span>{' '}
                     <img
-                      src={props.profileUser.photo || Profile}
+                      src={
+                        (props.profileUser && props.profileUser.photo) ||
+                        Profile
+                      }
                       className="user-img"
                       alt=""
                     />
@@ -279,7 +282,10 @@ const Header = props => {
                         {props.profileUser && props.profileUser.firstname}
                       </span>{' '}
                       <img
-                        src={props.profileUser.photo || Profile}
+                        src={
+                          (props.profileUser && props.profileUser.photo) ||
+                          Profile
+                        }
                         className="user-img"
                         alt=""
                       />
@@ -293,7 +299,11 @@ const Header = props => {
                     </div>
                     <div className="profile-popup-main">
                       <img
-                        src={props.delegateHeaderProfile.photo || Profile}
+                        src={
+                          (props.delegateHeaderProfile &&
+                            props.delegateHeaderProfile.photo) ||
+                          Profile
+                        }
                         alt=""
                       />
                       <h3>
@@ -332,14 +342,17 @@ const Header = props => {
                         onClick={() => setEditProfile(false)}
                       >
                         <img
-                          src={props.profileUser.photo || Profile}
+                          src={
+                            (props.profileUser && props.profileUser.photo) ||
+                            Profile
+                          }
                           alt=""
                           style={{ marginBottom: '30px' }}
                         />
                         <div className="sec-profile-info">
                           <h4>
-                            {props.profileUser.firstname}{' '}
-                            {props.profileUser.lastname}{' '}
+                            {props.profileUser && props.profileUser.firstname}{' '}
+                            {props.profileUser && props.profileUser.lastname}{' '}
                           </h4>
                           <span>{props.profileUser.email}</span>
                           <br />
@@ -353,13 +366,16 @@ const Header = props => {
                         className="popup-secondary-profile"
                         onClick={() => userProfileData(obj.employeeid)}
                       >
-                        <img src={obj.delegateUserPhoto || Profile} alt="" />
+                        <img
+                          src={(obj && obj.delegateUserPhoto) || Profile}
+                          alt=""
+                        />
                         <div className="sec-profile-info">
                           <h4>
-                            {obj.delegateUserFistname}{' '}
-                            {obj.delegateUserLastname}{' '}
+                            {obj && obj.delegateUserFistname}{' '}
+                            {obj && obj.delegateUserLastname}{' '}
                           </h4>
-                          <span>{obj.delegateUserEmail}</span>
+                          <span>{obj && obj.delegateUserEmail}</span>
                         </div>
                       </div>
                     ))}
@@ -418,20 +434,20 @@ const Header = props => {
                             }}
                           >
                             <img
-                              src={obj.delegateUserPhoto || Profile}
+                              src={(obj && obj.delegateUserPhoto) || Profile}
                               alt=""
                               style={{ marginBottom: '10px' }}
                             />
                             <div className="sec-profile-info">
                               <h4>
-                                {obj.delegateUserFistname}{' '}
-                                {obj.delegateUserLastname}{' '}
+                                {obj && obj.delegateUserFistname}{' '}
+                                {obj && obj.delegateUserLastname}{' '}
                               </h4>
-                              <span>{obj.delegateUserEmail}</span>
+                              <span>{obj && obj.delegateUserEmail}</span>
                             </div>
                           </div>
                         ))}
-                      {props.profileUser.role === 'Admin' && (
+                      {props.profileUser && props.profileUser.role === 'Admin' && (
                         <div
                           aria-hidden="true"
                           className="popup-secondary-profile day-pointer"
@@ -441,17 +457,20 @@ const Header = props => {
                           }}
                         >
                           <img
-                            src={props.profileUser.photo || Profile}
+                            src={
+                              (props.profileUser && props.profileUser.photo) ||
+                              Profile
+                            }
                             alt=""
                             style={{ marginBottom: '10px' }}
                           />
                           <div className="sec-profile-info">
                             <h4>
-                              {props.profileUser.firstname}{' '}
-                              {props.profileUser.lastname}
+                              {props.profileUser && props.profileUser.firstname}{' '}
+                              {props.profileUser && props.profileUser.lastname}
                             </h4>
                             <span style={{ color: '#FF8D62' }}>
-                              {props.profileUser.role}
+                              {props.profileUser && props.profileUser.role}
                             </span>
                           </div>
                         </div>
