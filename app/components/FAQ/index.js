@@ -81,7 +81,7 @@ const FAQ = () => {
               <div className="container" style={{ marginTop: '20px' }}>
                 <div className="row">
                   <div className="col-md-12">
-                    <div className="panel border-radius-10">
+                    <div className="border-radius-10">
                       <h4 className="common-title mb-5">
                         How can we help you today?
                       </h4>
