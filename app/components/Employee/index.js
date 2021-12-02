@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
@@ -21,10 +23,10 @@ const options = [
 ];
 const optionsLocation = [
   { cat: 'Washington, DC', name: 'DC', value: 'DC' },
-  { cat: 'Richmond, VA', name: 'RIC', value: 'VA' },
-  { cat: 'Bloomington, aa', name: 'BLM', value: 'BLM' },
-  { cat: 'Bermingham, MN', name: 'BHM', value: 'BHM' },
-  { cat: 'Remote Work, RW', name: 'RW', value: 'RW' },
+  { cat: 'Richmond, VA', name: 'RIC', value: 'RIC' },
+  { cat: 'Bloomington, MN', name: 'BLM', value: 'BLM' },
+  { cat: 'Birmingham, AL', name: 'BHM', value: 'BHM' },
+  { cat: 'Remote Work', name: 'RW', value: 'RW' },
 ];
 const Employee = props => {
   const { state, employeeData } = props;
@@ -108,7 +110,7 @@ const Employee = props => {
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
 
-                <div className="selction_one mat-10 ww-100">
+                <div className="selction_one emp_drop mat-10 ww-100">
                   <label htmlFor="role">Role</label>
                   <Multiselect
                     displayValue="cat"
@@ -121,6 +123,7 @@ const Employee = props => {
                     hideSelectedOptions={false}
                     avoidHighlightFirstOption
                     closeOnSelect={false}
+                    onRemove={props.handleRemoveRole}
                     closeMenuOnSelect
                     showCheckbox
                     name="role"
@@ -134,7 +137,7 @@ const Employee = props => {
                     }}
                   />
                 </div>
-                <div className="selction_one mat-10 ww-100">
+                <div className="selction_one emp_drop mat-10 ww-100">
                   <label htmlFor="space">Permanent Space</label>
                   <Multiselect
                     displayValue="cat"
@@ -144,6 +147,7 @@ const Employee = props => {
                     onSelect={props.handleChangeSpace}
                     selectedValues={props.state.selectedOption}
                     options={optionsLocation}
+                    onRemove={props.handleRemoveSpace}
                     hideSelectedOptions={false}
                     avoidHighlightFirstOption
                     closeOnSelect={false}
@@ -266,7 +270,16 @@ const Employee = props => {
                   </th>
                   <th />
                 </tr>
-                {employeeData &&
+                {props.employeeLoading ? (
+                  <td colSpan="5">
+                    <Spinner
+                      className="app-spinner"
+                      animation="grow"
+                      variant="dark"
+                    />
+                  </td>
+                ) : (
+                  employeeData &&
                   employeeData.map(i => (
                     <tr>
                       <td>
@@ -296,38 +309,41 @@ const Employee = props => {
                         />
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
 
                 {/* </tr> */}
               </table>
             </div>
-            <div className="table-bot-flex">
-              <div className="selction_one">
-                <select
-                  name=""
-                  id=""
-                  className="pad-manual"
-                  onChange={e => props.handleLimitChange(e.target.value)}
-                >
-                  <option value="10">10 per page</option>
-                  <option value="20">20 per page</option>
-                  <option value="30">30 per page</option>
-                  <option value="40">40 per page</option>
-                </select>
+            {!props.employeeLoading && (
+              <div className="table-bot-flex">
+                <div className="selction_one">
+                  <select
+                    name=""
+                    id=""
+                    className="pad-manual"
+                    onChange={e => props.handleLimitChange(e.target.value)}
+                  >
+                    <option value="10">10 per page</option>
+                    <option value="20">20 per page</option>
+                    <option value="30">30 per page</option>
+                    <option value="40">40 per page</option>
+                  </select>
+                </div>
+                <div className="">
+                  {state.page * state.limit - (state.limit - 1)} -
+                  {state.page * state.limit} of {props.employeeCount} shown
+                </div>
+                <Pagination
+                  className="pagination-bar"
+                  currentPage={state.page}
+                  totalCounts={props.employeeCount * state.limit}
+                  totalCount={props.employeeCount}
+                  pageSize={state.limit}
+                  onPageChange={page => props.handlePageChange(page)}
+                />
               </div>
-              <div className="">
-                {state.page * state.limit - (state.limit - 1)} -
-                {state.page * state.limit} of {props.employeeCount} shown
-              </div>
-              <Pagination
-                className="pagination-bar"
-                currentPage={state.page}
-                totalCounts={props.employeeCount * state.limit}
-                totalCount={props.employeeCount}
-                pageSize={state.limit}
-                onPageChange={page => props.handlePageChange(page)}
-              />
-            </div>
+            )}
           </div>
         </div>
         <Modal
@@ -405,7 +421,6 @@ const Employee = props => {
                       </p>
                     </div>
                   </div>
-                  {console.log('props.state', props.state)}
                   <form onSubmit={props.handleSubmit}>
                     <div className="selction_one ww-100">
                       <label htmlFor="role">Role</label>
@@ -613,6 +628,9 @@ Employee.propTypes = {
   handleClickSort: PropTypes.func,
   singleEmployeeLoading: PropTypes.bool,
   updateEmployeeLoading: PropTypes.bool,
+  employeeLoading: PropTypes.bool,
+  handleRemoveSpace: PropTypes.func,
+  handleRemoveRole: PropTypes.func,
 };
 
 export default Employee;

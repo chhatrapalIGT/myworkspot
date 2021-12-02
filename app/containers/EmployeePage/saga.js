@@ -34,13 +34,12 @@ export function* getEmployeeData({ payload }) {
     payload.RoleSorting
   ) {
     requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
-      ''}&role=${payload.value || ''}&nameSorting=${
-      payload.nameSorting
-    }&primaryOfficeSorting=${payload.primaryOfficeSorting}&badgeSorting=${
-      payload.badgeSorting
-    }&emailSorting=${payload.emailSorting}&RoleSorting=${
-      payload.RoleSorting
-    }&limit=${limit}&page=${page}`;
+      ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
+      ''}&nameSorting=${payload.nameSorting}&primaryOfficeSorting=${
+      payload.primaryOfficeSorting
+    }&badgeSorting=${payload.badgeSorting}&emailSorting=${
+      payload.emailSorting
+    }&RoleSorting=${payload.RoleSorting}&limit=${limit}&page=${page}`;
   } else if (
     !payload.nameSorting ||
     !payload.primaryOfficeSorting ||
@@ -49,7 +48,8 @@ export function* getEmployeeData({ payload }) {
     !payload.RoleSorting
   ) {
     requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
-      ''}&role=${payload.value || ''}&limit=${limit}&page=${page}`;
+      ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
+      ''}&limit=${limit}&page=${page}`;
   }
   try {
     const usersList = yield request({
@@ -60,7 +60,6 @@ export function* getEmployeeData({ payload }) {
       },
     });
     const { data } = usersList;
-    console.log(`data ===>employee`, data);
     if (data && data.success) {
       yield put(getEmployeeDetailSuccess(data || []));
     } else {
@@ -71,7 +70,6 @@ export function* getEmployeeData({ payload }) {
   }
 }
 export function* getEmployeeDataById({ payload }) {
-  console.log('payload======>', payload);
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
@@ -85,7 +83,6 @@ export function* getEmployeeDataById({ payload }) {
       },
     });
     const { data } = usersEditList;
-    console.log(`data ===>`, data);
     if (data && data.success) {
       yield put(editEmployeeDetailSuccess(data.data));
     } else {
@@ -96,7 +93,6 @@ export function* getEmployeeDataById({ payload }) {
   }
 }
 export function* updateEmployeeData({ payload }) {
-  console.log('payload======>', payload);
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
@@ -111,7 +107,6 @@ export function* updateEmployeeData({ payload }) {
       },
     });
     const { data } = usersUpdateList;
-    console.log(`data ===>`, data);
     if (data && data.success) {
       yield put(updateEmployeeDetailSuccess(data.data));
     } else {
@@ -122,7 +117,6 @@ export function* updateEmployeeData({ payload }) {
   }
 }
 export function* getWorkspotData({ payload }) {
-  console.log('payload======>', payload);
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
@@ -137,7 +131,6 @@ export function* getWorkspotData({ payload }) {
       },
     });
     const { data } = workspotData;
-    console.log(`data workspot ===>`, data);
     if (data && data.success) {
       yield put(getWorkspaceSuccess(data.location));
     } else {

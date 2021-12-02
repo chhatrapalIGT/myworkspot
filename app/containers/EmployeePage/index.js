@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-unused-state */
@@ -191,7 +192,6 @@ class EmployeePage extends Component {
 
   handleChangeSpace = option => {
     const space = option.map(i => i.value);
-    // console.log('values', values);
     let str = '[';
     space.forEach(ev => {
       str += `,"${ev}"`;
@@ -201,6 +201,40 @@ class EmployeePage extends Component {
     const ta = str.slice(2);
     const strVal = da && da.concat(ta);
     this.props.requestGetEmployeeDetail({ space: strVal });
+  };
+
+  handleRemoveSpace = data => {
+    const space = data.map(i => i.value);
+    let str = '[';
+    space.forEach(ev => {
+      str += `,"${ev}"`;
+    });
+    str += ']';
+    const da = str.slice(0, 1);
+    const ta = str.slice(2);
+    const strVal = da && da.concat(ta);
+    if (strVal === '[') {
+      this.props.requestGetEmployeeDetail({ search: '', role: '' });
+    } else {
+      this.props.requestGetEmployeeDetail({ space: strVal });
+    }
+  };
+
+  handleRemoveRole = data => {
+    const space = data.map(i => i.value);
+    let str = '[';
+    space.forEach(ev => {
+      str += `,"${ev}"`;
+    });
+    str += ']';
+    const da = str.slice(0, 1);
+    const ta = str.slice(2);
+    const strVal = da && da.concat(ta);
+    if (strVal === '[') {
+      this.props.requestGetEmployeeDetail({ search: '', role: '' });
+    } else {
+      this.props.requestGetEmployeeDetail({ value: strVal });
+    }
   };
 
   handleStateClear = () => {
@@ -235,6 +269,7 @@ class EmployeePage extends Component {
       verifyBadgeSuccess,
       singleEmployeeLoading,
       updateEmployeeLoading,
+      employeeLoading,
     } = this.props;
     return (
       <div>
@@ -264,6 +299,9 @@ class EmployeePage extends Component {
           handleClickSort={this.handleClickSort}
           handleSorting={this.handleSorting}
           updateEmployeeLoading={updateEmployeeLoading}
+          employeeLoading={employeeLoading}
+          handleRemoveSpace={this.handleRemoveSpace}
+          handleRemoveRole={this.handleRemoveRole}
         />
       </div>
     );
@@ -272,7 +310,6 @@ class EmployeePage extends Component {
 
 const mapStateToProps = state => {
   const { employee, locationData } = state;
-  console.log('state', state);
   return {
     employeeData:
       employee &&
@@ -308,6 +345,8 @@ const mapStateToProps = state => {
       locationData.verifyBadge.message,
     updateEmployeeLoading:
       employee && employee.UpdateEmployee && employee.UpdateEmployee.loading,
+    employeeLoading:
+      employee && employee.EmployeeDetail && employee.EmployeeDetail.loading,
   };
 };
 
@@ -348,6 +387,7 @@ EmployeePage.propTypes = {
   clearBoardData: PropTypes.func,
   singleEmployeeLoading: PropTypes.bool,
   updateEmployeeLoading: PropTypes.bool,
+  employeeLoading: PropTypes.bool,
 };
 
 export default compose(
