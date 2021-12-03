@@ -1,5 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import { push } from 'react-router-redux';
 import { REQUEST_UPDATE_ACTIVE_STATUS } from './constants';
 import { updateActiveStatusSuccess, updateActiveStatusFailed } from './actions';
 import { CONSTANT } from '../../enum';
@@ -21,7 +22,15 @@ export function* statusUpdate({ payload }) {
     });
 
     const { data } = response;
-    yield put(updateActiveStatusSuccess(data));
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(updateActiveStatusSuccess(data));
+    } else {
+      yield put(updateActiveStatusFailed(data));
+    }
   } catch (error) {
     yield put(updateActiveStatusFailed(error));
   }
