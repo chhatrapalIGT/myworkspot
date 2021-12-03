@@ -21,12 +21,12 @@ const Spaces = ({
   const [color, setColor] = useState();
 
   const handleCheckbox = (data, val, final) => {
-    const dataFinal = data && data.split(',');
-
+    const dataFinal = floor && floor.split(',');
     if (final === 'FloorClick') {
+      const dataVal = data && data.split(',');
       const payload = {
-        floor: dataFinal && dataFinal[0] !== 'null' ? dataFinal[0] : '',
-        building: dataFinal && dataFinal[1] !== 'null' ? dataFinal[1] : '',
+        floor: dataVal && dataVal[0] !== 'null' ? dataVal[0] : '',
+        building: dataVal && dataVal[1] !== 'null' ? dataVal[1] : '',
         isLocationBuildingFloor: true,
         locationid: state.selectedNames,
         active: !val,
@@ -197,6 +197,7 @@ const Spaces = ({
                                       e.target.checked,
                                       'FloorClick',
                                     );
+                                    setFloor(`${obj.floor},${obj.building}`);
                                   }}
                                   style={{
                                     marginLeft: '6px',
