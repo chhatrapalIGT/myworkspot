@@ -193,13 +193,13 @@ const Employee = props => {
                       src={Sort}
                       className="img-fluid sort-img"
                       alt=""
-                      name="nameSorting"
+                      name="name"
                       aria-hidden="true"
-                      value={props.state.nameSorting}
+                      value={props.state.name}
                       onClick={() =>
                         props.handleClickSort(
-                          'nameSorting',
-                          props.state.nameSorting,
+                          'name',
+                          props.state.sortOrder.name,
                         )
                       }
                     />
@@ -209,14 +209,14 @@ const Employee = props => {
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
-                      name="RoleSorting"
+                      name="role"
                       alt=""
                       aria-hidden="true"
-                      value={props.state.RoleSorting}
+                      value={props.state.role}
                       onClick={() =>
                         props.handleClickSort(
-                          'RoleSorting',
-                          props.state.RoleSorting,
+                          'role',
+                          props.state.sortOrder.role,
                         )
                       }
                     />
@@ -228,12 +228,12 @@ const Employee = props => {
                       className="img-fluid sort-img"
                       alt=""
                       aria-hidden="true"
-                      name="primaryOfficeSorting"
-                      value={props.state.primaryOfficeSorting}
+                      name="primaryOffice"
+                      value={props.state.primaryOffice}
                       onClick={() =>
                         props.handleClickSort(
-                          'primaryOfficeSorting',
-                          props.state.primaryOfficeSorting,
+                          'primaryOffice',
+                          props.state.sortOrder.primaryOffice,
                         )
                       }
                     />
@@ -245,12 +245,12 @@ const Employee = props => {
                       className="img-fluid sort-img"
                       alt=""
                       aria-hidden="true"
-                      name="emailSorting"
-                      value={props.state.emailSorting}
+                      name="email"
+                      value={props.state.Email}
                       onClick={() =>
                         props.handleClickSort(
-                          'emailSorting',
-                          props.state.emailSorting,
+                          'email',
+                          props.state.sortOrder.email,
                         )
                       }
                     />
@@ -261,13 +261,13 @@ const Employee = props => {
                       src={Sort}
                       className="img-fluid sort-img"
                       alt=""
-                      name="badgeSorting"
-                      value={props.state.badgeSorting}
+                      name="badge"
+                      value={props.state.badge}
                       aria-hidden="true"
                       onClick={() =>
                         props.handleClickSort(
-                          'badgeSorting',
-                          props.state.badgeSorting,
+                          'badge',
+                          props.state.sortOrder.badge,
                         )
                       }
                     />

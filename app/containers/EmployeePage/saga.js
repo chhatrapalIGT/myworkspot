@@ -26,27 +26,11 @@ export function* getEmployeeData({ payload }) {
   const limit = get(payload, 'limit', 10);
   const page = get(payload, 'page', 1);
   let requestURL;
-  if (
-    payload.nameSorting ||
-    payload.primaryOfficeSorting ||
-    payload.badgeSorting ||
-    payload.emailSorting ||
-    payload.RoleSorting
-  ) {
+  if (payload.sortBy) {
     requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
       ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
-      ''}&nameSorting=${payload.nameSorting}&primaryOfficeSorting=${
-      payload.primaryOfficeSorting
-    }&badgeSorting=${payload.badgeSorting}&emailSorting=${
-      payload.emailSorting
-    }&RoleSorting=${payload.RoleSorting}&limit=${limit}&page=${page}`;
-  } else if (
-    !payload.nameSorting ||
-    !payload.primaryOfficeSorting ||
-    !payload.badgeSorting ||
-    !payload.emailSorting ||
-    !payload.RoleSorting
-  ) {
+      ''}&sortBy=${payload.sortBy}&limit=${limit}&page=${page}`;
+  } else if (!payload.sortBy) {
     requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
       ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
       ''}&limit=${limit}&page=${page}`;

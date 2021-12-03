@@ -43,11 +43,13 @@ class EmployeePage extends Component {
       AssignedSpace: '',
       selectedOption: [],
       EditModel: false,
-      nameSorting: true,
-      primaryOfficeSorting: true,
-      badgeSorting: true,
-      emailSorting: true,
-      RoleSorting: true,
+      sortOrder: {
+        name: true,
+        email: true,
+        primaryOffice: true,
+        badge: true,
+        role: true,
+      },
     };
   }
 
@@ -242,21 +244,15 @@ class EmployeePage extends Component {
     this.props.clearBoardData();
   };
 
-  handleSorting = val => {
-    this.setState({
-      nameSorting: val,
-    });
-  };
-
-  handleClickSort = (name, val) => {
-    this.setState({ [name]: !val });
-    this.props.requestGetEmployeeDetail({
-      nameSorting: this.state.nameSorting,
-      primaryOfficeSorting: this.state.primaryOfficeSorting,
-      badgeSorting: this.state.badgeSorting,
-      emailSorting: this.state.emailSorting,
-      RoleSorting: this.state.RoleSorting,
-    });
+  handleClickSort = (key, val) => {
+    this.setState(prev => ({ sortOrder: { ...prev.sortOrder, [key]: !val } }));
+    let sortBy;
+    if (val) {
+      sortBy = `${[key]}-ASC`;
+    } else {
+      sortBy = `${[key]}-DESC`;
+    }
+    this.props.requestGetEmployeeDetail({ sortBy });
   };
 
   render() {
@@ -298,7 +294,6 @@ class EmployeePage extends Component {
           handleStateClear={this.handleStateClear}
           singleEmployeeLoading={singleEmployeeLoading}
           handleClickSort={this.handleClickSort}
-          handleSorting={this.handleSorting}
           updateEmployeeLoading={updateEmployeeLoading}
           employeeLoading={employeeLoading}
           handleRemoveSpace={this.handleRemoveSpace}
