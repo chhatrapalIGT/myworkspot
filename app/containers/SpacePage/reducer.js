@@ -3,6 +3,7 @@ import {
   REQUEST_UPDATE_ACTIVE_STATUS,
   SUCCESS_UPDATE_ACTIVE_STATUS,
   FAILED_UPDATE_ACTIVE_STATUS,
+  CLEAR_UPDATE_STATUS,
 } from './constants';
 
 // The initial state of the App
@@ -33,6 +34,9 @@ const spaceReducer = (state = initialState, action) =>
         draft.updateStatus.success = false;
         draft.updateStatus.error = action.payload.Error;
         break;
+      case CLEAR_UPDATE_STATUS:
+        draft.updateStatus.success = false;
+        draft.updateStatus.message = '';
     }
   });
 

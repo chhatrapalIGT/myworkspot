@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import saga from './saga';
 import reducer from './reducer';
 import { requestGetOfficeUpdateData } from '../UploadMapPage/actions';
-import { requestUpdateActiveStatus } from './actions';
+import { requestUpdateActiveStatus, clearUpdateStatus } from './actions';
 import Spaces from '../../components/Spaces';
 
 class OfficeMap extends Component {
@@ -29,8 +29,21 @@ class OfficeMap extends Component {
     this.setState({ selectedNames: value });
   };
 
+  handleCloseUpdate = () => {
+    this.props.clearUpdateStatus();
+  };
+
+  componentDidUpdate() {
+    const { spaceUpdate } = this.props;
+    if (spaceUpdate && spaceUpdate.message) {
+      setTimeout(() => {
+        this.props.clearUpdateStatus();
+      }, 5000);
+    }
+  }
+
   render() {
-    const { officeLocation } = this.props;
+    const { officeLocation, spaceUpdate, officeSuccess } = this.props;
 
     return (
       <>
@@ -39,7 +52,10 @@ class OfficeMap extends Component {
             state={this.state}
             officeLocation={officeLocation}
             handleUserSelect={this.handleUserSelect}
+            handleCloseUpdate={this.handleCloseUpdate}
             requestUpdateActiveStatus={this.props.requestUpdateActiveStatus}
+            spaceUpdate={spaceUpdate}
+            officeSuccess={officeSuccess}
           />{' '}
         </div>
       </>
@@ -48,12 +64,15 @@ class OfficeMap extends Component {
 }
 
 const mapStateToProps = state => {
-  const { uploadOffice } = state;
+  const { uploadOffice, space } = state;
   return {
     officeLocation:
       uploadOffice &&
       uploadOffice.getOfficeData &&
       uploadOffice.getOfficeData.masterData,
+    officeSuccess:
+      uploadOffice && uploadOffice.getOfficeData && uploadOffice.getOfficeData,
+    spaceUpdate: space && space.updateStatus,
   };
 };
 
@@ -63,6 +82,7 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestGetOfficeUpdateData(payload)),
     requestUpdateActiveStatus: payload =>
       dispatch(requestUpdateActiveStatus(payload)),
+    clearUpdateStatus: () => dispatch(clearUpdateStatus()),
     dispatch,
   };
 }
@@ -73,6 +93,9 @@ OfficeMap.propTypes = {
   requestGetOfficeUpdateData: PropTypes.func,
   officeLocation: PropTypes.object,
   requestUpdateActiveStatus: PropTypes.func,
+  clearUpdateStatus: PropTypes.func,
+  spaceUpdate: PropTypes.object,
+  officeSuccess: PropTypes.object,
 };
 
 export default compose(
