@@ -3123,3 +3123,7 @@ select.set_drop option[id='building'],
     display: none;
   }
 }
+
+.emp_drop::after {
+  top: 23px !important;
+}
