@@ -826,7 +826,7 @@
   padding: 5px 6px;
   font-size: 10px;
 }
-.disabled {
+span.disabled {
   opacity: 0.5;
 }
 .table1 .date {
