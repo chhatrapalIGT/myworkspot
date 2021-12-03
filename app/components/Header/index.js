@@ -277,7 +277,7 @@ const Header = props => {
                       }
                     >
                       <span>
-                        {isAdmin && (
+                        {localStorage.getItem('Admin') === 'true' && (
                           <span style={{ color: '#ED8B00' }}> Admin </span>
                         )}
                         {props.profileUser && props.profileUser.firstname}
@@ -343,7 +343,10 @@ const Header = props => {
                       <div
                         aria-hidden="true"
                         className="popup-secondary-profile"
-                        onClick={() => setEditProfile(false)}
+                        onClick={() => {
+                          setEditProfile(false);
+                          localStorage.setItem('Admin', false);
+                        }}
                       >
                         <img
                           src={
@@ -453,6 +456,7 @@ const Header = props => {
                             onClick={() => {
                               userProfileData(obj.employeeid);
                               setEditProfile(false);
+                              localStorage.setItem('Admin', false);
                             }}
                           >
                             <img
@@ -469,35 +473,72 @@ const Header = props => {
                             </div>
                           </div>
                         ))}
-                      {props.profileUser && props.profileUser.role === 'Admin' && (
-                        <div
-                          aria-hidden="true"
-                          className="popup-secondary-profile day-pointer"
-                          onClick={() => {
-                            // userProfileData(obj.employeeid);
-                            setIsAdmin(true);
-                            localStorage.setItem('Admin', true);
-                          }}
-                        >
-                          <img
-                            src={
-                              (props.profileUser && props.profileUser.photo) ||
-                              Profile
-                            }
-                            alt=""
-                            style={{ marginBottom: '10px' }}
-                          />
-                          <div className="sec-profile-info">
-                            <h4>
-                              {props.profileUser && props.profileUser.firstname}{' '}
-                              {props.profileUser && props.profileUser.lastname}
-                            </h4>
-                            <span style={{ color: '#FF8D62' }}>
-                              {props.profileUser && props.profileUser.role}
-                            </span>
+                      {props.profileUser &&
+                        props.profileUser.role === 'Admin' &&
+                        (localStorage.getItem('Admin') === 'false' ? (
+                          <div
+                            aria-hidden="true"
+                            className="popup-secondary-profile day-pointer"
+                            onClick={() => {
+                              // userProfileData(obj.employeeid);
+                              setIsAdmin(true);
+                              localStorage.setItem('Admin', true);
+                            }}
+                          >
+                            <img
+                              src={
+                                (props.profileUser &&
+                                  props.profileUser.photo) ||
+                                Profile
+                              }
+                              alt=""
+                              style={{ marginBottom: '10px' }}
+                            />
+                            <div className="sec-profile-info">
+                              <h4>
+                                {props.profileUser &&
+                                  props.profileUser.firstname}{' '}
+                                {props.profileUser &&
+                                  props.profileUser.lastname}
+                              </h4>
+                              <span style={{ color: '#FF8D62' }}>
+                                {props.profileUser && props.profileUser.role}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        ) : (
+                          // <Link to="/profile">
+                          <div
+                            aria-hidden="true"
+                            className="popup-secondary-profile"
+                            onClick={() => {
+                              setEditProfile(false);
+                              localStorage.setItem('Admin', false);
+                            }}
+                          >
+                            <img
+                              src={
+                                (props.profileUser &&
+                                  props.profileUser.photo) ||
+                                Profile
+                              }
+                              alt=""
+                              style={{ marginBottom: '30px' }}
+                            />
+                            <div className="sec-profile-info">
+                              <h4>
+                                {props.profileUser &&
+                                  props.profileUser.firstname}{' '}
+                                {props.profileUser &&
+                                  props.profileUser.lastname}{' '}
+                              </h4>
+                              <span>{props.profileUser.email}</span>
+                              <br />
+                              <span>You</span>
+                            </div>
+                          </div>
+                          // </Link>
+                        ))}
                       <a
                         href
                         className="logout day-pointer"
