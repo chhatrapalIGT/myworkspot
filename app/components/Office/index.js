@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable indent */
 /* eslint-disable default-case */
@@ -112,74 +113,77 @@ const Office = ({
 
   return (
     <>
-      {officeLocation && !officeLocation.length ? (
-        <Spinner className="app-spinner" animation="grow" variant="dark" />
-      ) : (
-        <div className="wrapper_main">
-          {officeUpdateMessage && (
+      <div className="wrapper_main">
+        {officeUpdateMessage && (
+          <div
+            className={`alert fade show mx-auto ${
+              officeUpdateSuccess ? 'alert alert-success' : 'alert alert-danger'
+            }`}
+          >
+            <div>
+              <img
+                src={officeUpdateSuccess ? checkedCircle : crossCircle}
+                alt=""
+                style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+              />
+              {officeUpdateMessage || ''}
+            </div>
             <div
-              className={`alert fade show mx-auto ${
-                officeUpdateSuccess
-                  ? 'alert alert-success'
-                  : 'alert alert-danger'
-              }`}
+              aria-hidden="true"
+              style={{
+                float: 'right',
+                fontSize: 'large',
+                marginLeft: '10px',
+              }}
+              onClick={handleCloseIcon}
+              className="day-pointer"
             >
+              &#10006;
+            </div>
+          </div>
+        )}
+        <div className="office_maps">
+          <div className="container">
+            <div className="head d-flex align-items-center between">
               <div>
-                <img
-                  src={officeUpdateSuccess ? checkedCircle : crossCircle}
-                  alt=""
-                  style={{ paddingRight: '5px', marginBottom: ' 4px' }}
-                />
-                {officeUpdateMessage || ''}
+                <h4 className="common-title mb-4">Office Maps</h4>
               </div>
-              <div
-                aria-hidden="true"
-                style={{
-                  float: 'right',
-                  fontSize: 'large',
-                  marginLeft: '10px',
-                }}
-                onClick={handleCloseIcon}
-                className="day-pointer"
-              >
-                &#10006;
+              <div className="office-selections wrap">
+                <div className="selction_one ww-100">
+                  <label htmlFor="ofc">Office</label>
+                  <select
+                    name=""
+                    id=""
+                    value={state.selectedNames}
+                    onChange={handleUserSelect}
+                    className="set_drop"
+                  >
+                    {finalLocationVal &&
+                      finalLocationVal.map(obj => (
+                        <>
+                          <option
+                            value={obj.id}
+                            key={obj.locationname}
+                            id="building"
+                          >
+                            {obj.locationname}
+                          </option>
+                        </>
+                      ))}
+                  </select>
+                </div>
               </div>
             </div>
-          )}
-          <div className="office_maps">
-            <div className="container">
-              <div className="head d-flex align-items-center between">
-                <div>
-                  <h4 className="common-title mb-4">Office Maps</h4>
+            <div className="office-maps">
+              {officeLocation && !officeLocation.length ? (
+                <div className="row">
+                  <Spinner
+                    className="app-spinner"
+                    animation="grow"
+                    variant="dark"
+                  />
                 </div>
-                <div className="office-selections wrap">
-                  <div className="selction_one ww-100">
-                    <label htmlFor="ofc">Office</label>
-                    <select
-                      name=""
-                      id=""
-                      value={state.selectedNames}
-                      onChange={handleUserSelect}
-                      className="set_drop"
-                    >
-                      {finalLocationVal &&
-                        finalLocationVal.map(obj => (
-                          <>
-                            <option
-                              value={obj.id}
-                              key={obj.locationname}
-                              id="building"
-                            >
-                              {obj.locationname}
-                            </option>
-                          </>
-                        ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div className="office-maps">
+              ) : (
                 <div className="row">
                   {(state.selectedNames === 'DC' ||
                     state.selectedNames === 'RIC') && (
@@ -362,11 +366,11 @@ const Office = ({
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

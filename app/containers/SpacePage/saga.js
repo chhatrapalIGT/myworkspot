@@ -7,7 +7,7 @@ import { CONSTANT } from '../../enum';
 const { API_URL } = CONSTANT;
 
 export function* statusUpdate({ payload }) {
-  const requestURL = `${API_URL}/spaces/activeStatusAction`;
+  const requestURL = `${API_URL}/adminPanel/spaces/activeStatusAction`;
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   try {
