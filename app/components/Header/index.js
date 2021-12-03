@@ -99,6 +99,7 @@ const Header = props => {
         if (res.data) {
           window.location.replace(res.data.urls);
           sessionStorage.clear();
+          localStorage.clear();
         }
       })
       .catch(err => {
@@ -132,7 +133,7 @@ const Header = props => {
                 pathName !== '/auth')) && (
               <div className={`${sidebar && 'show'} main-menu`}>
                 <ul>
-                  {!isAdmin ? (
+                  {localStorage.getItem('Admin') === 'false' ? (
                     <>
                       <li>
                         <Link to="/workspot" activeClassName="active">
@@ -230,6 +231,7 @@ const Header = props => {
 
             {pathName !== '/auth' && (
               <div className="right-menus" ref={divRef}>
+                {/* /////////////////// header heading for popup  */}
                 {pathName !== '/' && pathName.includes('/profile/delegate') ? (
                   <div
                     aria-hidden="true"
@@ -292,6 +294,9 @@ const Header = props => {
                     </div>
                   )
                 )}
+                {/* /////////////////// header heading for popup over */}
+                {/* ///////////////////popup   */}
+
                 {pathName !== '/' && pathName.includes('/profile/delegate') ? (
                   <div className={`profile-inner ${editProfile && 'opened'}`}>
                     <div className="head del">
@@ -394,9 +399,15 @@ const Header = props => {
                       props.profileUser.isFirstTime === true &&
                       pathName !== '/')) && (
                     <div className={`profile-inner ${editProfile && 'opened'}`}>
-                      <div className="head">
-                        <span>This is your account</span>
-                      </div>
+                      {localStorage.getItem('Admin') === 'true' ? (
+                        <div className="head del">
+                          <span>Admin Access</span>
+                        </div>
+                      ) : (
+                        <div className="head">
+                          <span>This is your account</span>
+                        </div>
+                      )}
                       <div className="profile-popup-main">
                         <img src={Profile} alt="" />
                         <h3>
@@ -404,7 +415,18 @@ const Header = props => {
                           {props.profileUser.firstname}{' '}
                           {props.profileUser.lastname}
                         </h3>
-                        <p>{props.profileUser.email}</p>
+                        {localStorage.getItem('Admin') === 'true' ? (
+                          <p
+                            style={{
+                              color: '#FF8D62',
+                              fontSize: '16px',
+                            }}
+                          >
+                            Admin
+                          </p>
+                        ) : (
+                          <p>{props.profileUser.email}</p>
+                        )}
                         <Link
                           className={pathName === '/profile' && 'active'}
                           to="/profile"
@@ -416,6 +438,7 @@ const Header = props => {
                             onClick={() => {
                               setIsAdmin(false);
                               setEditProfile(false);
+                              localStorage.setItem('Admin', false);
                             }}
                           >
                             View My Profile
@@ -454,6 +477,7 @@ const Header = props => {
                           onClick={() => {
                             // userProfileData(obj.employeeid);
                             setIsAdmin(true);
+                            localStorage.setItem('Admin', true);
                           }}
                         >
                           <img
