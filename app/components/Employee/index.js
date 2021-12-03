@@ -73,26 +73,20 @@ const Employee = props => {
 
   return (
     <>
-      {props.updateEmployee && props.updateEmployee.message && (
+      {props.apiMessage && (
         <div
           className={`"alert fade show mx-auto ${
-            props.updateEmployee && props.updateEmployee.success
-              ? 'alert alert-success'
-              : 'alert alert-danger '
+            props.apiSuccess ? 'alert alert-success' : 'alert alert-danger '
           } "`}
         >
           <div>
             <img
-              src={
-                props.updateEmployee && props.updateEmployee.success
-                  ? checkedCircle
-                  : crossCircle
-              }
+              src={props.apiSuccess ? checkedCircle : crossCircle}
               alt=""
               style={{ paddingRight: '5px', marginBottom: ' 4px' }}
             />
 
-            {props.updateEmployee && props.updateEmployee.message}
+            {props.apiMessage}
           </div>
           <div
             style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
@@ -327,6 +321,7 @@ const Employee = props => {
                     name=""
                     id=""
                     className="pad-manual"
+                    value={props.state.limit}
                     onChange={e => props.handleLimitChange(e.target.value)}
                   >
                     <option value="10">10 per page</option>
@@ -611,6 +606,38 @@ const Employee = props => {
                       </button>
                     </div>
                   </form>
+                  {props.apiMessage && (
+                    <div
+                      className={`"alert fade show mx-auto ${
+                        props.apiSuccess
+                          ? 'alert alert-success'
+                          : 'alert alert-danger '
+                      } "`}
+                      style={{ position: 'revert' }}
+                    >
+                      <div>
+                        <img
+                          src={props.apiSuccess ? checkedCircle : crossCircle}
+                          alt=""
+                          style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+                        />
+
+                        {props.apiMessage}
+                      </div>
+                      <div
+                        style={{
+                          float: 'right',
+                          fontSize: 'large',
+                          marginLeft: '10px',
+                        }}
+                        onClick={props.handleData}
+                        className="day-pointer"
+                        aria-hidden="true"
+                      >
+                        &#10006;
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -645,6 +672,8 @@ Employee.propTypes = {
   singleEmployeeLoading: PropTypes.bool,
   updateEmployeeLoading: PropTypes.bool,
   employeeLoading: PropTypes.bool,
+  apiSuccess: PropTypes.bool,
+  apiMessage: PropTypes.string,
   handleRemoveSpace: PropTypes.func,
   handleRemoveRole: PropTypes.func,
 };

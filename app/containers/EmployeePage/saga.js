@@ -25,16 +25,10 @@ export function* getEmployeeData({ payload }) {
   token = JSON.parse(token);
   const limit = get(payload, 'limit', 10);
   const page = get(payload, 'page', 1);
-  let requestURL;
-  if (payload.sortBy) {
-    requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
-      ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
-      ''}&sortBy=${payload.sortBy}&limit=${limit}&page=${page}`;
-  } else if (!payload.sortBy) {
-    requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
-      ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
-      ''}&limit=${limit}&page=${page}`;
-  }
+  const requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
+    ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
+    ''}&sortBy=${payload.sortBy || ''}&limit=${limit}&page=${page}`;
+
   try {
     const usersList = yield request({
       method: 'GET',
@@ -47,7 +41,7 @@ export function* getEmployeeData({ payload }) {
     if (data && data.success) {
       yield put(getEmployeeDetailSuccess(data || []));
     } else {
-      yield put(getEmployeeDetailFailed(data.message));
+      yield put(getEmployeeDetailFailed(data));
     }
   } catch (err) {
     yield put(getEmployeeDetailFailed('Please try again'));
@@ -68,9 +62,9 @@ export function* getEmployeeDataById({ payload }) {
     });
     const { data } = usersEditList;
     if (data && data.success) {
-      yield put(editEmployeeDetailSuccess(data.data));
+      yield put(editEmployeeDetailSuccess(data));
     } else {
-      yield put(editEmployeeDetailFailed(data.message));
+      yield put(editEmployeeDetailFailed(data));
     }
   } catch (err) {
     yield put(editEmployeeDetailFailed('Please try again'));
@@ -92,9 +86,9 @@ export function* updateEmployeeData({ payload }) {
     });
     const { data } = usersUpdateList;
     if (data && data.success) {
-      yield put(updateEmployeeDetailSuccess(data.data));
+      yield put(updateEmployeeDetailSuccess(data));
     } else {
-      yield put(updateEmployeeDetailFailed(data.message));
+      yield put(updateEmployeeDetailFailed(data));
     }
   } catch (err) {
     yield put(updateEmployeeDetailFailed('Please try again'));
@@ -118,7 +112,7 @@ export function* getWorkspotData({ payload }) {
     if (data && data.success) {
       yield put(getWorkspaceSuccess(data.location));
     } else {
-      yield put(getWorkspaceFailed(data.message));
+      yield put(getWorkspaceFailed(data));
     }
   } catch (err) {
     yield put(getWorkspaceFailed('Please try again'));

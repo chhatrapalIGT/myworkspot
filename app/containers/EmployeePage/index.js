@@ -108,11 +108,18 @@ class EmployeePage extends Component {
   }
 
   componentDidUpdate() {
-    const { updateEmployee } = this.props;
+    const { updateEmployee, apiMessage } = this.props;
     if (updateEmployee && updateEmployee.success) {
       setTimeout(() => {
         this.props.resetDataEmp();
+        this.props.requestGetEmployeeDetail({ search: '', role: '' });
       }, 3000);
+    }
+
+    if (apiMessage) {
+      setTimeout(() => {
+        this.props.resetDataEmp();
+      }, 5000);
     }
   }
 
@@ -153,6 +160,8 @@ class EmployeePage extends Component {
         this.props.requestGetEmployeeDetail({
           search: this.state.searchVal,
           role: this.state.rolee,
+          limit: this.state.limit,
+          page: this.state.page,
         });
       });
     }, 1000);
@@ -169,6 +178,7 @@ class EmployeePage extends Component {
       const data = {
         employeeid: id,
         badgeid: `BB${badge}`,
+        isAdminpanel: true,
       };
       if (data.badgeid.length === 8) {
         this.props.requestVerifyBadge(data);
@@ -190,7 +200,11 @@ class EmployeePage extends Component {
     const da = str.slice(0, 1);
     const ta = str.slice(2);
     const strVal = da && da.concat(ta);
-    this.props.requestGetEmployeeDetail({ value: strVal });
+    this.props.requestGetEmployeeDetail({
+      value: strVal,
+      limit: this.state.limit,
+      page: this.state.page,
+    });
   };
 
   handleChangeSpace = option => {
@@ -203,7 +217,11 @@ class EmployeePage extends Component {
     const da = str.slice(0, 1);
     const ta = str.slice(2);
     const strVal = da && da.concat(ta);
-    this.props.requestGetEmployeeDetail({ space: strVal });
+    this.props.requestGetEmployeeDetail({
+      space: strVal,
+      limit: this.state.limit,
+      page: this.state.page,
+    });
   };
 
   handleRemoveSpace = data => {
@@ -217,9 +235,18 @@ class EmployeePage extends Component {
     const ta = str.slice(2);
     const strVal = da && da.concat(ta);
     if (strVal === '[') {
-      this.props.requestGetEmployeeDetail({ search: '', role: '' });
+      this.props.requestGetEmployeeDetail({
+        search: '',
+        role: '',
+        limit: this.state.limit,
+        page: this.state.page,
+      });
     } else {
-      this.props.requestGetEmployeeDetail({ space: strVal });
+      this.props.requestGetEmployeeDetail({
+        space: strVal,
+        limit: this.state.limit,
+        page: this.state.page,
+      });
     }
   };
 
@@ -234,9 +261,18 @@ class EmployeePage extends Component {
     const ta = str.slice(2);
     const strVal = da && da.concat(ta);
     if (strVal === '[') {
-      this.props.requestGetEmployeeDetail({ search: '', role: '' });
+      this.props.requestGetEmployeeDetail({
+        search: '',
+        role: '',
+        limit: this.state.limit,
+        page: this.state.page,
+      });
     } else {
-      this.props.requestGetEmployeeDetail({ value: strVal });
+      this.props.requestGetEmployeeDetail({
+        value: strVal,
+        limit: this.state.limit,
+        page: this.state.page,
+      });
     }
   };
 
@@ -252,7 +288,11 @@ class EmployeePage extends Component {
     } else {
       sortBy = `${[key]}-DESC`;
     }
-    this.props.requestGetEmployeeDetail({ sortBy });
+    this.props.requestGetEmployeeDetail({
+      sortBy,
+      limit: this.state.limit,
+      page: this.state.page,
+    });
   };
 
   render() {
@@ -267,6 +307,8 @@ class EmployeePage extends Component {
       singleEmployeeLoading,
       updateEmployeeLoading,
       employeeLoading,
+      apiMessage,
+      apiSuccess,
     } = this.props;
     return (
       <div>
@@ -298,6 +340,8 @@ class EmployeePage extends Component {
           employeeLoading={employeeLoading}
           handleRemoveSpace={this.handleRemoveSpace}
           handleRemoveRole={this.handleRemoveRole}
+          apiSuccess={apiSuccess}
+          apiMessage={apiMessage}
         />
       </div>
     );
@@ -343,6 +387,8 @@ const mapStateToProps = state => {
       employee && employee.UpdateEmployee && employee.UpdateEmployee.loading,
     employeeLoading:
       employee && employee.EmployeeDetail && employee.EmployeeDetail.loading,
+    apiMessage: employee && employee.apiMessage,
+    apiSuccess: employee && employee.apiSuccess,
   };
 };
 
@@ -384,6 +430,8 @@ EmployeePage.propTypes = {
   singleEmployeeLoading: PropTypes.bool,
   updateEmployeeLoading: PropTypes.bool,
   employeeLoading: PropTypes.bool,
+  apiSuccess: PropTypes.bool,
+  apiMessage: PropTypes.string,
 };
 
 export default compose(
