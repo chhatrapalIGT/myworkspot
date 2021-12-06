@@ -41,10 +41,10 @@ const Header = props => {
   url = url[url.length - 1];
   useEffect(() => {
     props.requestUserlistData();
-    if (props.profileUser && props.profileUser.role === 'Admin') {
-      localStorage.setItem('Admin', true);
-    }
-  }, [props.profileUser.role]);
+    // if (props.profileUser && props.profileUser.role === 'Admin') {
+    localStorage.setItem('Admin', false);
+    // }
+  }, []);
   useEffect(() => {
     if (props.profileSuccess) {
       const delPro =
