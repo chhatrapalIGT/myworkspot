@@ -878,6 +878,7 @@ span.disabled {
 .data-63 {
   position: relative;
   cursor: pointer;
+  font-size: 18px;
 }
 .hover-data {
   display: none;
@@ -1211,4 +1212,8 @@ span.disabled {
   font-size: 14px;
   font-weight: 600;
   text-align: center;
+}
+
+.admin-loc-name {
+  font-size: 18px;
 }

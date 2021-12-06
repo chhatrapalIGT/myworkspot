@@ -194,7 +194,7 @@ const WorkspotAdmin = ({
             getWarningData.map(
               obj =>
                 obj.dates.length !== 0 && (
-                  <div className="badge_check">
+                  <div className="badge_check" style={{ fontSize: '16px' }}>
                     <img src={BadgeIcon} alt="" />{' '}
                     <span>
                       Capacity Warning:{' '}
@@ -264,6 +264,7 @@ const WorkspotAdmin = ({
                                   textAlign: 'right',
                                   marginBottom: '5px',
                                   marginTop: '13px',
+                                  fontSize: '14px',
                                 }}
                               >
                                 {item.day}{' '}
@@ -274,6 +275,7 @@ const WorkspotAdmin = ({
                                 }
                                 style={{
                                   background: isDateSelected(item.date),
+                                  fontSize: '12px',
                                 }}
                               >
                                 {item.value}
@@ -286,13 +288,13 @@ const WorkspotAdmin = ({
                     {uniqueLocation.length > 0 &&
                       uniqueLocation.map(obj => (
                         <tr>
-                          <td>{obj.locationname}</td>
+                          <td className="admin-loc-name">{obj.locationname}</td>
                           {days.dateToDisplay.map(item => {
                             const data = spaces(item, obj);
                             return (
                               <>
                                 <td
-                                  className="data-63"
+                                  className="data-63 "
                                   style={
                                     data.LocationPercentage >= '80%'
                                       ? { color: 'red' }
