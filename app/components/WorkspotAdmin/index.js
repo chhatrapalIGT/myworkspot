@@ -194,21 +194,17 @@ const WorkspotAdmin = ({
             getWarningData.map(
               obj =>
                 obj.dates.length !== 0 && (
-                  <div className="badge_check">
+                  <div className="badge_check" style={{ fontSize: '16px' }}>
                     <img src={BadgeIcon} alt="" />{' '}
                     <span>
                       Capacity Warning:{' '}
-                      {obj.locationID === 'RIC'
-                        ? 'Richmond'
-                        : obj.locationID === 'BLM'
-                        ? 'Bloomington'
-                        : obj.locationID === 'BHM'
-                        ? 'Birmingham'
-                        : obj.locationID}{' '}
-                      office on{' '}
-                      {obj &&
-                        obj.dates &&
-                        obj.dates.map(ele => `${moment(ele).format('LL')}; `)}
+                      {obj.locationID === 'RIC' ? 'Richmond' : obj.locationID}{' '}
+                      office on
+                      {obj && obj.dates && obj.dates.length === 1
+                        ? moment(obj && obj.dates[0]).format('LL')
+                        : obj &&
+                          obj.dates &&
+                          obj.dates.map(ele => `${moment(ele).format('LL')}; `)}
                     </span>
                   </div>
                 ),
@@ -222,7 +218,7 @@ const WorkspotAdmin = ({
                     <h4 className="common-title">Office Capacity</h4>
                   </div>
                   <div className="d-flex align-items-center">
-                    <div>
+                    {/* <div>
                       <button
                         type="submit"
                         className="disable-btn opa2"
@@ -231,7 +227,8 @@ const WorkspotAdmin = ({
                         {' '}
                         Show current week
                       </button>
-                    </div>
+                    </div> */}
+                    <p className="week-range m-auto admin-week">{title}</p>
                     <div className="change-log">
                       <button
                         type="submit"
@@ -240,7 +237,9 @@ const WorkspotAdmin = ({
                       >
                         &lsaquo;
                       </button>
-                      <span className="what-day">{title}</span>
+                      <span className="what-day" onClick={handleToday}>
+                        Today
+                      </span>
                       <button
                         type="submit"
                         className="next"
@@ -259,14 +258,24 @@ const WorkspotAdmin = ({
                       {days.dateToDisplay.map(item => {
                         return (
                           <>
-                            <td>
-                              {item.day}, <br />
+                            <td className="admin-day-name">
+                              <p
+                                style={{
+                                  textAlign: 'right',
+                                  marginBottom: '5px',
+                                  marginTop: '13px',
+                                  fontSize: '14px',
+                                }}
+                              >
+                                {item.day}{' '}
+                              </p>
                               <span
                                 className={
                                   item.disable ? 'c-date disabled' : 'c-date'
                                 }
                                 style={{
                                   background: isDateSelected(item.date),
+                                  fontSize: '12px',
                                 }}
                               >
                                 {item.value}
@@ -279,13 +288,13 @@ const WorkspotAdmin = ({
                     {uniqueLocation.length > 0 &&
                       uniqueLocation.map(obj => (
                         <tr>
-                          <td>{obj.locationname}</td>
+                          <td className="admin-loc-name">{obj.locationname}</td>
                           {days.dateToDisplay.map(item => {
                             const data = spaces(item, obj);
                             return (
                               <>
                                 <td
-                                  className="data-63"
+                                  className="data-63 "
                                   style={
                                     data.LocationPercentage >= '80%'
                                       ? { color: 'red' }
@@ -321,7 +330,8 @@ const WorkspotAdmin = ({
                             <div className="col-lg-6 pl-0">
                               <div className="bg-w">
                                 <div className="chart-title">
-                                  {obj.locationname} Office Capacity -{' '}
+                                  {obj.id === 'RIC' ? 'Richmond' : obj.id}{' '}
+                                  Office Capacity -{' '}
                                   {`${parseFloat(
                                     obj.LocationPercentage,
                                   ).toFixed(2)}%`}
