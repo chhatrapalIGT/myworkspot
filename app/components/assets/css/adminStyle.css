@@ -224,8 +224,9 @@
 }
 .prefix {
   position: absolute;
-  top: 35px;
+  top: 25px;
   left: 14px;
+  z-index: 1;
   color: #95a7b8;
 }
 .spaces-section {
