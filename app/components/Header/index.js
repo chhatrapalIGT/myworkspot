@@ -277,7 +277,8 @@ const Header = props => {
                       }
                     >
                       <span>
-                        {localStorage.getItem('Admin') === 'true' && (
+                        {(localStorage.getItem('Admin') === 'true' ||
+                          isAdmin) && (
                           <span style={{ color: '#ED8B00' }}> Admin </span>
                         )}
                         {props.profileUser && props.profileUser.firstname}
@@ -417,12 +418,14 @@ const Header = props => {
                           {props.profileUser.firstname}{' '}
                           {props.profileUser.lastname}
                         </h3>
-                        {localStorage.getItem('Admin') === 'true' ? (
+                        {localStorage.getItem('Admin') === 'true' || isAdmin ? (
                           <p
                             style={{
                               color: '#FF8D62',
                               fontSize: '16px',
                             }}
+                            aria-hidden="true"
+                            onClick={localStorage.setItem('Admin', true)}
                           >
                             Admin
                           </p>
@@ -473,9 +476,14 @@ const Header = props => {
                             </div>
                           </div>
                         ))}
-                      {props.profileUser &&
-                        props.profileUser.role === 'Admin' &&
-                        (localStorage.getItem('Admin') === 'false' ? (
+                      {console.log('isAdmin', isAdmin)}
+                      {console.log(
+                        'isAdminssss',
+                        localStorage.getItem('Admin') === 'false',
+                      )}
+                      {localStorage.getItem('Admin') === 'false' ? (
+                        props.profileUser &&
+                        props.profileUser.role === 'Admin' && (
                           <div
                             aria-hidden="true"
                             className="popup-secondary-profile day-pointer"
@@ -506,39 +514,36 @@ const Header = props => {
                               </span>
                             </div>
                           </div>
-                        ) : (
-                          // <Link to="/profile">
-                          <div
-                            aria-hidden="true"
-                            className="popup-secondary-profile"
-                            onClick={() => {
-                              setEditProfile(false);
-                              localStorage.setItem('Admin', false);
-                            }}
-                          >
-                            <img
-                              src={
-                                (props.profileUser &&
-                                  props.profileUser.photo) ||
-                                Profile
-                              }
-                              alt=""
-                              style={{ marginBottom: '30px' }}
-                            />
-                            <div className="sec-profile-info">
-                              <h4>
-                                {props.profileUser &&
-                                  props.profileUser.firstname}{' '}
-                                {props.profileUser &&
-                                  props.profileUser.lastname}{' '}
-                              </h4>
-                              <span>{props.profileUser.email}</span>
-                              <br />
-                              <span>You</span>
-                            </div>
+                        )
+                      ) : (
+                        // <Link to="/profile">
+                        <div
+                          aria-hidden="true"
+                          className="popup-secondary-profile"
+                          onClick={() => {
+                            setEditProfile(false);
+                            setIsAdmin(false);
+                            localStorage.setItem('Admin', false);
+                          }}
+                        >
+                          <img
+                            src={
+                              (props.profileUser && props.profileUser.photo) ||
+                              Profile
+                            }
+                            alt=""
+                            style={{ marginBottom: '10px' }}
+                          />
+                          <div className="sec-profile-info">
+                            <h4>
+                              {props.profileUser && props.profileUser.firstname}{' '}
+                              {props.profileUser && props.profileUser.lastname}{' '}
+                            </h4>
+                            <span>{props.profileUser.email}</span>
                           </div>
-                          // </Link>
-                        ))}
+                        </div>
+                        // </Link>
+                      )}
                       <a
                         href
                         className="logout day-pointer"
