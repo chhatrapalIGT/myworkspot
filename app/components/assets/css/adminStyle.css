@@ -795,7 +795,7 @@
 .table1 {
   margin-top: 15px;
   background-color: #fff;
-  padding: 10px;
+  padding: 0px 10px;
   border-radius: 8px;
   overflow-x: scroll;
 }
@@ -820,11 +820,17 @@
   text-align: left !important;
 }
 .table1 .c-date {
-  background-color: #c8e9ff;
-  color: #00355f;
-  border-radius: 100%;
-  padding: 5px 6px;
-  font-size: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #002d50;
+  font-weight: 600;
+  text-align: center;
+  font-size: 12px;
+  margin: auto 10px auto auto;
+  border-radius: 50%;
 }
 span.disabled {
   opacity: 0.5;
@@ -887,7 +893,7 @@ span.disabled {
   border-radius: 8px;
   padding: 5px;
   color: #fff;
-  font-size: 10px;
+  font-size: 18px;
   text-align: left;
 }
 .bar:hover > .hover-data {
@@ -1195,4 +1201,14 @@ span.disabled {
 
 .space_data::before {
   left: 0px;
+}
+
+.admin-week {
+  margin-right: 25px !important;
+}
+
+.admin-day-name {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
 }
