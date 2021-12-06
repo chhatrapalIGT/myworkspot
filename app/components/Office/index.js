@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable indent */
@@ -208,8 +209,8 @@ const Office = ({
                                 }}
                               >
                                 <span className="dash-menu-item">
-                                  {obj.building && `Building${obj.building}`}{' '}
-                                  {obj.floor && `Floor${obj.floor}`}
+                                  {obj.building && `Building ${obj.building}`}{' '}
+                                  {obj.floor && `Floor ${obj.floor}`}
                                 </span>
                               </div>
 
@@ -265,17 +266,22 @@ const Office = ({
                       <div className="d-flex align-items-center justify-content-between pad-tri">
                         <div className="">
                           {floorData && floorData.locationname}{' '}
-                          {dataFinal && dataFinal[1] !== 'null'
-                            ? `, Building ${dataFinal[1]}`
+                          {dataFinal &&
+                          dataFinal[1] !== 'null' &&
+                          dataFinal[0] !== 'null'
+                            ? `| Building ${dataFinal[1]}, Floor ${
+                                dataFinal[0]
+                              }`
+                            : dataFinal && dataFinal[1] !== 'null'
+                            ? `| Building ${dataFinal[1]}`
+                            : dataFinal && dataFinal[0] !== 'null'
+                            ? `| Floor ${dataFinal[0]}`
                             : ''}{' '}
-                          {dataFinal && dataFinal[0] !== 'null'
-                            ? `, Floor ${dataFinal[0]}`
-                            : ''}{' '}
-                          {displayColor ? `, ${displayColor}` : ''}
+                          {displayColor ? `| ${displayColor}` : ''}
                           <div className="of-mp-head" />
                           <div className="of-mp-para">
-                            Upload .PDF file to update the map. Notice,
-                            neighbourhood maps WON’T be updated automaticlly.
+                            Upload .SVG file to update the map. Neighborhood
+                            assignmnet maps will not be updated automatically.
                           </div>
                         </div>
 
