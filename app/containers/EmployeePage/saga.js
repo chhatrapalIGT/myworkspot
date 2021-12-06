@@ -1,5 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import { push } from 'react-router-redux';
 import { get } from 'lodash';
 import {
   REQUEST_GET_EMPLOYEE_DETAIL,
@@ -25,32 +26,10 @@ export function* getEmployeeData({ payload }) {
   token = JSON.parse(token);
   const limit = get(payload, 'limit', 10);
   const page = get(payload, 'page', 1);
-  let requestURL;
-  if (
-    payload.nameSorting ||
-    payload.primaryOfficeSorting ||
-    payload.badgeSorting ||
-    payload.emailSorting ||
-    payload.RoleSorting
-  ) {
-    requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
-      ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
-      ''}&nameSorting=${payload.nameSorting}&primaryOfficeSorting=${
-      payload.primaryOfficeSorting
-    }&badgeSorting=${payload.badgeSorting}&emailSorting=${
-      payload.emailSorting
-    }&RoleSorting=${payload.RoleSorting}&limit=${limit}&page=${page}`;
-  } else if (
-    !payload.nameSorting ||
-    !payload.primaryOfficeSorting ||
-    !payload.badgeSorting ||
-    !payload.emailSorting ||
-    !payload.RoleSorting
-  ) {
-    requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
-      ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
-      ''}&limit=${limit}&page=${page}`;
-  }
+  const requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
+    ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
+    ''}&sortBy=${payload.sortBy || ''}&limit=${limit}&page=${page}`;
+
   try {
     const usersList = yield request({
       method: 'GET',
@@ -60,10 +39,13 @@ export function* getEmployeeData({ payload }) {
       },
     });
     const { data } = usersList;
-    if (data && data.success) {
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getEmployeeDetailSuccess(data || []));
     } else {
-      yield put(getEmployeeDetailFailed(data.message));
+      yield put(getEmployeeDetailFailed(data));
     }
   } catch (err) {
     yield put(getEmployeeDetailFailed('Please try again'));
@@ -83,10 +65,13 @@ export function* getEmployeeDataById({ payload }) {
       },
     });
     const { data } = usersEditList;
-    if (data && data.success) {
-      yield put(editEmployeeDetailSuccess(data.data));
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(editEmployeeDetailSuccess(data));
     } else {
-      yield put(editEmployeeDetailFailed(data.message));
+      yield put(editEmployeeDetailFailed(data));
     }
   } catch (err) {
     yield put(editEmployeeDetailFailed('Please try again'));
@@ -107,10 +92,13 @@ export function* updateEmployeeData({ payload }) {
       },
     });
     const { data } = usersUpdateList;
-    if (data && data.success) {
-      yield put(updateEmployeeDetailSuccess(data.data));
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(updateEmployeeDetailSuccess(data));
     } else {
-      yield put(updateEmployeeDetailFailed(data.message));
+      yield put(updateEmployeeDetailFailed(data));
     }
   } catch (err) {
     yield put(updateEmployeeDetailFailed('Please try again'));
@@ -131,10 +119,13 @@ export function* getWorkspotData({ payload }) {
       },
     });
     const { data } = workspotData;
-    if (data && data.success) {
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getWorkspaceSuccess(data.location));
     } else {
-      yield put(getWorkspaceFailed(data.message));
+      yield put(getWorkspaceFailed(data));
     }
   } catch (err) {
     yield put(getWorkspaceFailed('Please try again'));

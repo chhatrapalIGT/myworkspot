@@ -45,7 +45,8 @@ const initialState = {
     loading: false,
     workspotData: [],
   },
-  // apiMessage: '',
+  apiMessage: '',
+  apiSuccess: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -68,7 +69,8 @@ const EmployeeReducer = (state = initialState, action) =>
         draft.EmployeeDetail.employee = [];
         draft.EmployeeDetail.success = action.payload.success;
         draft.EmployeeDetail.message = action.payload;
-        draft.apiMessage = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
 
         break;
       case REQUEST_EDIT_EMPLOYEE_DETAIL:
@@ -79,7 +81,7 @@ const EmployeeReducer = (state = initialState, action) =>
       case SUCCESS_EDIT_EMPLOYEE_DETAIL:
         draft.EditEmployeeDetail.loading = false;
         draft.EditEmployeeDetail.success = true;
-        draft.EditEmployeeDetail.singleEmployee = action.payload;
+        draft.EditEmployeeDetail.singleEmployee = action.payload.data;
         draft.EditEmployeeDetail.error = '';
         break;
       case FAILED_EDIT_EMPLOYEE_DETAIL:
@@ -87,7 +89,8 @@ const EmployeeReducer = (state = initialState, action) =>
         draft.EditEmployeeDetail.singleEmployee = [];
         draft.EditEmployeeDetail.success = action.payload.success;
         draft.EditEmployeeDetail.message = action.payload;
-        draft.apiMessage = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
 
         break;
       case REQUEST_UPDATE_EMPLOYEE_DETAIL:
@@ -98,13 +101,16 @@ const EmployeeReducer = (state = initialState, action) =>
       case SUCCESS_UPDATE_EMPLOYEE_DETAIL:
         draft.UpdateEmployee.loading = false;
         draft.UpdateEmployee.success = true;
-        draft.UpdateEmployee.message = action.payload;
-        draft.UpdateEmployee.error = '';
+        draft.UpdateEmployee.message = action.payload.data;
+        draft.apiMessage = action.payload.data;
+        draft.apiSuccess = action.payload.success;
         break;
       case FAILED_UPDATE_EMPLOYEE_DETAIL:
         draft.UpdateEmployee.loading = false;
         draft.UpdateEmployee.success = action.payload.success;
-        draft.UpdateEmployee.message = action.payload;
+        draft.UpdateEmployee.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
 
         break;
       case REQUEST_GET_WORKSPACE:
@@ -123,7 +129,8 @@ const EmployeeReducer = (state = initialState, action) =>
         draft.workspotDetail.workspotData = [];
         draft.workspotDetail.success = action.payload.success;
         draft.workspotDetail.message = action.payload;
-        draft.apiMessage = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
 
         break;
       case RESET_DATA_EMP:
@@ -131,6 +138,8 @@ const EmployeeReducer = (state = initialState, action) =>
         draft.UpdateEmployee.success = false;
         draft.EditEmployeeDetail.message = '';
         draft.EditEmployeeDetail.success = false;
+        draft.apiMessage = '';
+        draft.apiSuccess = false;
     }
   });
 export default EmployeeReducer;

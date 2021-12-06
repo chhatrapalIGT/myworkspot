@@ -1,5 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import { push } from 'react-router-redux';
 import {
   REQUEST_GET_OFFICE_UPDATE_DATA,
   REQUEST_FILE_UPLOAD,
@@ -29,7 +30,10 @@ export function* getData() {
       },
     });
     const { data } = usersList;
-    if (data && data.success) {
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
       yield put(getOfficeDataUdateSuccess(data.location));
     } else {
       yield put(getOfficeDataUpdateFailed(data.message));
@@ -55,7 +59,14 @@ export function* fileUpload({ payload }) {
     });
 
     const { data } = response;
-    yield put(fileUploadSuccess(data));
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(fileUploadSuccess(data));
+    } else {
+      yield put(fileUploadFailed(data));
+    }
   } catch (error) {
     yield put(fileUploadFailed(error));
   }

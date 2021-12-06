@@ -73,26 +73,20 @@ const Employee = props => {
 
   return (
     <>
-      {props.updateEmployee && props.updateEmployee.message && (
+      {props.apiMessage && (
         <div
           className={`"alert fade show mx-auto ${
-            props.updateEmployee && props.updateEmployee.success
-              ? 'alert alert-success'
-              : 'alert alert-danger '
+            props.apiSuccess ? 'alert alert-success' : 'alert alert-danger '
           } "`}
         >
           <div>
             <img
-              src={
-                props.updateEmployee && props.updateEmployee.success
-                  ? checkedCircle
-                  : crossCircle
-              }
+              src={props.apiSuccess ? checkedCircle : crossCircle}
               alt=""
               style={{ paddingRight: '5px', marginBottom: ' 4px' }}
             />
 
-            {props.updateEmployee && props.updateEmployee.message}
+            {props.apiMessage}
           </div>
           <div
             style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
@@ -193,13 +187,13 @@ const Employee = props => {
                       src={Sort}
                       className="img-fluid sort-img"
                       alt=""
-                      name="nameSorting"
+                      name="name"
                       aria-hidden="true"
-                      value={props.state.nameSorting}
+                      value={props.state.name}
                       onClick={() =>
                         props.handleClickSort(
-                          'nameSorting',
-                          props.state.nameSorting,
+                          'name',
+                          props.state.sortOrder.name,
                         )
                       }
                     />
@@ -209,14 +203,14 @@ const Employee = props => {
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
-                      name="RoleSorting"
+                      name="role"
                       alt=""
                       aria-hidden="true"
-                      value={props.state.RoleSorting}
+                      value={props.state.role}
                       onClick={() =>
                         props.handleClickSort(
-                          'RoleSorting',
-                          props.state.RoleSorting,
+                          'role',
+                          props.state.sortOrder.role,
                         )
                       }
                     />
@@ -228,12 +222,12 @@ const Employee = props => {
                       className="img-fluid sort-img"
                       alt=""
                       aria-hidden="true"
-                      name="primaryOfficeSorting"
-                      value={props.state.primaryOfficeSorting}
+                      name="primaryOffice"
+                      value={props.state.primaryOffice}
                       onClick={() =>
                         props.handleClickSort(
-                          'primaryOfficeSorting',
-                          props.state.primaryOfficeSorting,
+                          'primaryOffice',
+                          props.state.sortOrder.primaryOffice,
                         )
                       }
                     />
@@ -245,12 +239,12 @@ const Employee = props => {
                       className="img-fluid sort-img"
                       alt=""
                       aria-hidden="true"
-                      name="emailSorting"
-                      value={props.state.emailSorting}
+                      name="email"
+                      value={props.state.Email}
                       onClick={() =>
                         props.handleClickSort(
-                          'emailSorting',
-                          props.state.emailSorting,
+                          'email',
+                          props.state.sortOrder.email,
                         )
                       }
                     />
@@ -261,13 +255,13 @@ const Employee = props => {
                       src={Sort}
                       className="img-fluid sort-img"
                       alt=""
-                      name="badgeSorting"
-                      value={props.state.badgeSorting}
+                      name="badge"
+                      value={props.state.badge}
                       aria-hidden="true"
                       onClick={() =>
                         props.handleClickSort(
-                          'badgeSorting',
-                          props.state.badgeSorting,
+                          'badge',
+                          props.state.sortOrder.badge,
                         )
                       }
                     />
@@ -327,6 +321,7 @@ const Employee = props => {
                     name=""
                     id=""
                     className="pad-manual"
+                    value={props.state.limit}
                     onChange={e => props.handleLimitChange(e.target.value)}
                   >
                     <option value="10">10 per page</option>
@@ -611,6 +606,38 @@ const Employee = props => {
                       </button>
                     </div>
                   </form>
+                  {props.apiMessage && (
+                    <div
+                      className={`"alert fade show mx-auto ${
+                        props.apiSuccess
+                          ? 'alert alert-success'
+                          : 'alert alert-danger '
+                      } "`}
+                      style={{ position: 'revert' }}
+                    >
+                      <div>
+                        <img
+                          src={props.apiSuccess ? checkedCircle : crossCircle}
+                          alt=""
+                          style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+                        />
+
+                        {props.apiMessage}
+                      </div>
+                      <div
+                        style={{
+                          float: 'right',
+                          fontSize: 'large',
+                          marginLeft: '10px',
+                        }}
+                        onClick={props.handleData}
+                        className="day-pointer"
+                        aria-hidden="true"
+                      >
+                        &#10006;
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -645,6 +672,8 @@ Employee.propTypes = {
   singleEmployeeLoading: PropTypes.bool,
   updateEmployeeLoading: PropTypes.bool,
   employeeLoading: PropTypes.bool,
+  apiSuccess: PropTypes.bool,
+  apiMessage: PropTypes.string,
   handleRemoveSpace: PropTypes.func,
   handleRemoveRole: PropTypes.func,
 };
