@@ -280,8 +280,9 @@ const Office = ({
                           {displayColor ? `| ${displayColor}` : ''}
                           <div className="of-mp-head" />
                           <div className="of-mp-para">
-                            Upload .SVG file to update the map. Neighborhood
-                            assignmnet maps will not be updated automatically.
+                            {color && color.length
+                              ? 'Upload .SVG file to update the map.'
+                              : 'Upload .SVG file to update the map.Neighborhood assignmnet maps will not be updated automatically.'}
                           </div>
                         </div>
 
