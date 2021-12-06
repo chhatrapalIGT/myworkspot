@@ -277,7 +277,8 @@ const Header = props => {
                       }
                     >
                       <span>
-                        {isAdmin && (
+                        {(localStorage.getItem('Admin') === 'true' ||
+                          isAdmin) && (
                           <span style={{ color: '#ED8B00' }}> Admin </span>
                         )}
                         {props.profileUser && props.profileUser.firstname}
@@ -343,7 +344,10 @@ const Header = props => {
                       <div
                         aria-hidden="true"
                         className="popup-secondary-profile"
-                        onClick={() => setEditProfile(false)}
+                        onClick={() => {
+                          setEditProfile(false);
+                          localStorage.setItem('Admin', false);
+                        }}
                       >
                         <img
                           src={
@@ -414,12 +418,14 @@ const Header = props => {
                           {props.profileUser.firstname}{' '}
                           {props.profileUser.lastname}
                         </h3>
-                        {localStorage.getItem('Admin') === 'true' ? (
+                        {localStorage.getItem('Admin') === 'true' || isAdmin ? (
                           <p
                             style={{
                               color: '#FF8D62',
                               fontSize: '16px',
                             }}
+                            aria-hidden="true"
+                            onClick={localStorage.setItem('Admin', true)}
                           >
                             Admin
                           </p>
@@ -453,6 +459,7 @@ const Header = props => {
                             onClick={() => {
                               userProfileData(obj.employeeid);
                               setEditProfile(false);
+                              localStorage.setItem('Admin', false);
                             }}
                           >
                             <img
@@ -469,14 +476,54 @@ const Header = props => {
                             </div>
                           </div>
                         ))}
-                      {props.profileUser && props.profileUser.role === 'Admin' && (
+                      {console.log('isAdmin', isAdmin)}
+                      {console.log(
+                        'isAdminssss',
+                        localStorage.getItem('Admin') === 'false',
+                      )}
+                      {localStorage.getItem('Admin') === 'false' ? (
+                        props.profileUser &&
+                        props.profileUser.role === 'Admin' && (
+                          <div
+                            aria-hidden="true"
+                            className="popup-secondary-profile day-pointer"
+                            onClick={() => {
+                              // userProfileData(obj.employeeid);
+                              setIsAdmin(true);
+                              localStorage.setItem('Admin', true);
+                            }}
+                          >
+                            <img
+                              src={
+                                (props.profileUser &&
+                                  props.profileUser.photo) ||
+                                Profile
+                              }
+                              alt=""
+                              style={{ marginBottom: '10px' }}
+                            />
+                            <div className="sec-profile-info">
+                              <h4>
+                                {props.profileUser &&
+                                  props.profileUser.firstname}{' '}
+                                {props.profileUser &&
+                                  props.profileUser.lastname}
+                              </h4>
+                              <span style={{ color: '#FF8D62' }}>
+                                {props.profileUser && props.profileUser.role}
+                              </span>
+                            </div>
+                          </div>
+                        )
+                      ) : (
+                        // <Link to="/profile">
                         <div
                           aria-hidden="true"
-                          className="popup-secondary-profile day-pointer"
+                          className="popup-secondary-profile"
                           onClick={() => {
-                            // userProfileData(obj.employeeid);
-                            setIsAdmin(true);
-                            localStorage.setItem('Admin', true);
+                            setEditProfile(false);
+                            setIsAdmin(false);
+                            localStorage.setItem('Admin', false);
                           }}
                         >
                           <img
@@ -490,13 +537,12 @@ const Header = props => {
                           <div className="sec-profile-info">
                             <h4>
                               {props.profileUser && props.profileUser.firstname}{' '}
-                              {props.profileUser && props.profileUser.lastname}
+                              {props.profileUser && props.profileUser.lastname}{' '}
                             </h4>
-                            <span style={{ color: '#FF8D62' }}>
-                              {props.profileUser && props.profileUser.role}
-                            </span>
+                            <span>{props.profileUser.email}</span>
                           </div>
                         </div>
+                        // </Link>
                       )}
                       <a
                         href
