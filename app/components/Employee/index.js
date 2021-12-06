@@ -17,16 +17,16 @@ import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
 import Warnning from '../../images/officeImage/Warnning.png';
 const options = [
-  { cat: 'Admin', key: 'Admin', value: 'Admin' },
   { cat: 'User ', key: 'User', value: 'User' },
-  { cat: 'Manager', key: 'Manager', value: 'Manager' },
+  { cat: 'Admin', key: 'Admin', value: 'Admin' },
+  // { cat: 'Manager', key: 'Manager', value: 'Manager' },
 ];
 const optionsLocation = [
   { cat: 'Washington, DC', name: 'DC', value: 'DC' },
   { cat: 'Richmond, VA', name: 'RIC', value: 'RIC' },
-  { cat: 'Bloomington, MN', name: 'BLM', value: 'BLM' },
   { cat: 'Birmingham, AL', name: 'BHM', value: 'BHM' },
-  { cat: 'Remote Work', name: 'RW', value: 'RW' },
+  { cat: 'Bloomington, MN', name: 'BLM', value: 'BLM' },
+  // { cat: 'Remote Work', name: 'RW', value: 'RW' },
 ];
 const Employee = props => {
   const { state, employeeData } = props;
@@ -46,6 +46,10 @@ const Employee = props => {
     props.workSpace.find(i =>
       props.state.floor === i.id ? i.FloorBuilding : '',
     );
+
+  const finalValData =
+    props.workSpace && props.workSpace.filter(obj => obj.id !== 'RW');
+
   const space =
     data &&
     data.FloorBuilding.find(
@@ -306,6 +310,7 @@ const Employee = props => {
                           }}
                           aria-hidden="true"
                           alt="Edit"
+                          className="day-pointer"
                         />
                       </td>
                     </tr>
@@ -416,7 +421,9 @@ const Employee = props => {
                           props.singleEmployeeData.Email}
                       </p>
                       <p>
-                        <span className="gray-font">Eligible for Private:</span>{' '}
+                        <span className="gray-font">
+                          Private Space Eligible:
+                        </span>{' '}
                         Yes
                       </p>
                     </div>
@@ -429,19 +436,20 @@ const Employee = props => {
                         value={props.state.role}
                         name="role"
                       >
-                        <option value="Admin"> admin </option>
-                        <option value="User"> user </option>
-                        <option value="Manager"> manager </option>
+                        <option value="Admin"> Admin </option>
+                        <option value="User"> User </option>
                       </select>
                     </div>
 
                     <div className="selction_one after-none ww-100">
-                      <label htmlFor="badge">Badge Number</label>
+                      <label htmlFor="badge" style={{ top: '5px' }}>
+                        Badge Number
+                      </label>
                       <div className="prefix">BB</div>
                       <input
                         name="BadgeNumber"
                         type="text"
-                        placeholder="BB-XXX-XXX"
+                        placeholder="XXX-XXX"
                         value={props.state.BadgeNumber}
                         className="form-control"
                         onChange={props.handleBadgeData}
@@ -464,7 +472,7 @@ const Employee = props => {
                     </div>
 
                     <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
-                      <div className="pro-title1">Permanent space</div>
+                      <div className="pro-title1">Permanent Space</div>
                       <div
                         className={`pro-title1 red ${
                           props.state.AssignedSpace !== '' ? 'unassign' : ''
@@ -482,8 +490,11 @@ const Employee = props => {
                         name="floor"
                         value={props.state.floor || 'DC'}
                       >
-                        {props.workSpace &&
-                          props.workSpace.map(i => (
+                        <option id="spval" style={{ color: 'gray' }}>
+                          Select Office
+                        </option>
+                        {finalValData &&
+                          finalValData.map(i => (
                             <option name="location" value={i.id}>
                               {i.locationname}
                             </option>
@@ -499,6 +510,9 @@ const Employee = props => {
                         value={`${props.state.build}`}
                         className="pad-manual"
                       >
+                        <option id="spval" style={{ color: 'gray' }}>
+                          Select Building/Floor
+                        </option>
                         {data &&
                           data.FloorBuilding.map(i => (
                             <>
@@ -533,7 +547,9 @@ const Employee = props => {
                     </div>
 
                     <div className="selction_one ww-100">
-                      <label htmlFor>Space</label>
+                      <label htmlFor style={{ color: 'gray' }}>
+                        Space
+                      </label>
                       <select
                         onChange={props.handleChange}
                         name="AssignedSpace"

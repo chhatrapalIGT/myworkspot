@@ -56,11 +56,12 @@ class EmployeePage extends Component {
     const data = singleEmployeeData;
     const { hasData, email } = prevState;
     if (data && data.Email && data.Email !== email && hasData) {
+      const badgeId = data.BadgeNumber;
       return {
         name: data.FirstName.concat(data.LastName),
         email: data.Email,
         role: data.Role,
-        BadgeNumber: data.BadgeNumber,
+        BadgeNumber: badgeId.slice(3),
         deskLocationname: data.deskLocationId,
         floor: data.deskLocationId,
         build:
@@ -122,7 +123,7 @@ class EmployeePage extends Component {
     e.preventDefault();
     const { role, BadgeNumber, id, AssignedSpace } = this.state;
     const { verifyBadge } = this.props;
-    const badge = BadgeNumber.slice(3, 6).concat(BadgeNumber.slice(7, 10));
+    const badge = BadgeNumber.slice(0, 3).concat(BadgeNumber.slice(4, 7));
     if (BadgeNumber.length) {
       this.props.requestUpdateEmployeeDetail({
         role: this.state.role || 'Admin',
@@ -162,12 +163,12 @@ class EmployeePage extends Component {
     const { name, value } = e.target;
     this.setState({ [name]: value }, () => {
       const { BadgeNumber, id } = this.state;
-      const badge = BadgeNumber.slice(3, 6).concat(BadgeNumber.slice(7, 10));
+      const badge = BadgeNumber.slice(0, 3).concat(BadgeNumber.slice(4, 7));
       const data = {
         employeeid: id,
         badgeid: `BB${badge}`,
       };
-      if (data.badgeid.length >= 8) {
+      if (data.badgeid.length === 8) {
         this.props.requestVerifyBadge(data);
       }
     });
