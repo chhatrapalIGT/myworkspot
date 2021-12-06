@@ -41,7 +41,10 @@ const Header = props => {
   url = url[url.length - 1];
   useEffect(() => {
     props.requestUserlistData();
-  }, []);
+    if (props.profileUser && props.profileUser.role === 'Admin') {
+      localStorage.setItem('Admin', true);
+    }
+  }, [props.profileUser.role]);
   useEffect(() => {
     if (props.profileSuccess) {
       const delPro =
@@ -133,7 +136,51 @@ const Header = props => {
                 pathName !== '/auth')) && (
               <div className={`${sidebar && 'show'} main-menu`}>
                 <ul>
-                  {localStorage.getItem('Admin') === 'false' ? (
+                  {localStorage.getItem('manageAdmin') === 'true' ? (
+                    <>
+                      {' '}
+                      <li>
+                        <Link to="/home" activeClassName="active">
+                          <a
+                            className={pathName === '/home' && 'active'}
+                            href="true"
+                          >
+                            Home
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/space" activeClassName="active">
+                          <a
+                            className={pathName === '/space' && 'active'}
+                            href="true"
+                          >
+                            Spaces
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/employee" activeClassName="active">
+                          <a
+                            className={pathName === '/employee' && 'active'}
+                            href="true"
+                          >
+                            Employees
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/officemap" activeClassName="active">
+                          <a
+                            className={pathName === '/officemap' && 'active'}
+                            href="true"
+                          >
+                            Office Maps
+                          </a>
+                        </Link>
+                      </li>
+                    </>
+                  ) : (
                     <>
                       <li>
                         <Link to="/workspot" activeClassName="active">
@@ -175,50 +222,6 @@ const Header = props => {
                             className={pathName === '/faq' && 'active'}
                           >
                             Help
-                          </a>
-                        </Link>
-                      </li>
-                    </>
-                  ) : (
-                    <>
-                      {' '}
-                      <li>
-                        <Link to="/home" activeClassName="active">
-                          <a
-                            className={pathName === '/home' && 'active'}
-                            href="true"
-                          >
-                            Home
-                          </a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/space" activeClassName="active">
-                          <a
-                            className={pathName === '/space' && 'active'}
-                            href="true"
-                          >
-                            Spaces
-                          </a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/employee" activeClassName="active">
-                          <a
-                            className={pathName === '/employee' && 'active'}
-                            href="true"
-                          >
-                            Employees
-                          </a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/officemap" activeClassName="active">
-                          <a
-                            className={pathName === '/officemap' && 'active'}
-                            href="true"
-                          >
-                            Office Maps
                           </a>
                         </Link>
                       </li>
@@ -491,6 +494,8 @@ const Header = props => {
                               // userProfileData(obj.employeeid);
                               setIsAdmin(true);
                               localStorage.setItem('Admin', true);
+                              localStorage.setItem('manageAdmin', true);
+                              history.replace('/home');
                             }}
                           >
                             <img
@@ -519,11 +524,13 @@ const Header = props => {
                         // <Link to="/profile">
                         <div
                           aria-hidden="true"
-                          className="popup-secondary-profile"
+                          className="popup-secondary-profile day-pointer"
                           onClick={() => {
                             setEditProfile(false);
                             setIsAdmin(false);
                             localStorage.setItem('Admin', false);
+                            localStorage.setItem('manageAdmin', false);
+                            history.replace('/workspot');
                           }}
                         >
                           <img
