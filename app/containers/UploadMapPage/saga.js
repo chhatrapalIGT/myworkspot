@@ -51,7 +51,7 @@ export function* fileUpload({ payload }) {
     const response = yield request({
       method: 'POST',
       url: requestURL,
-      data: payload.formData,
+      data: payload.formData ? payload.formData : '',
       headers: {
         Authorization: `Bearer ${token.idtoken}`,
         'Content-Type': 'multipart/form-data',

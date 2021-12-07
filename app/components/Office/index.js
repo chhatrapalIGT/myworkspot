@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -29,7 +30,7 @@ const Office = ({
 }) => {
   const isDraggable = state.scale > 1;
 
-  const [floor, setFloor] = useState();
+  const [floor, setFloor] = useState('2,null');
   const [color, setColor] = useState('');
   const [displayColor, setDisplayColor] = useState('');
   const [setActive, setActiveState] = useState('');
@@ -48,13 +49,9 @@ const Office = ({
   }
 
   useEffect(() => {
-    if (
-      (state.selectedNames === 'BHM' || state.selectedNames === 'BLM') &&
-      floor &&
-      floor.length
-    ) {
+    if (state.selectedNames === 'BHM' || state.selectedNames === 'BLM') {
       setFloor('');
-      setColor('');
+      setDisplayColor('');
     }
   }, [state.selectedNames]);
 
@@ -78,6 +75,7 @@ const Office = ({
       final.colorcode === color ? final.neighborhoodImage : '',
     );
   const dataFinal = floor && floor.split(',');
+
   const onFileUpload = event => {
     const name = event.target.files[0];
     const id = state.selectedNames;
@@ -105,7 +103,10 @@ const Office = ({
     if (id === 'BHM' || id === 'BLM') {
       formData.append('building', 1);
     }
-    requestFileUpload({ formData });
+    if (event.target.value.length) {
+      requestFileUpload({ formData });
+    }
+    event.target.value = '';
   };
 
   const updateVal = () => {
@@ -153,6 +154,7 @@ const Office = ({
                 <div className="selction_one ww-100">
                   <label htmlFor="ofc">Office</label>
                   <select
+                    style={{ color: '#00355F' }}
                     name=""
                     id=""
                     value={state.selectedNames}
@@ -265,24 +267,32 @@ const Office = ({
                     <div className="floor2">
                       <div className="d-flex align-items-center justify-content-between pad-tri">
                         <div className="">
-                          {floorData && floorData.locationname}{' '}
-                          {dataFinal &&
-                          dataFinal[1] !== 'null' &&
-                          dataFinal[0] !== 'null'
-                            ? `| Building ${dataFinal[1]}, Floor ${
-                                dataFinal[0]
-                              }`
-                            : dataFinal && dataFinal[1] !== 'null'
-                            ? `| Building ${dataFinal[1]}`
-                            : dataFinal && dataFinal[0] !== 'null'
-                            ? `| Floor ${dataFinal[0]}`
-                            : ''}{' '}
-                          {displayColor ? `| ${displayColor}` : ''}
+                          <div
+                            style={{
+                              fontSize: '16px',
+                              fontWeight: '600',
+                              color: '#00355F',
+                            }}
+                          >
+                            {floorData && floorData.locationname}{' '}
+                            {dataFinal &&
+                            dataFinal[1] !== 'null' &&
+                            dataFinal[0] !== 'null'
+                              ? `| Building ${dataFinal[1]}, Floor ${
+                                  dataFinal[0]
+                                }`
+                              : dataFinal && dataFinal[1] !== 'null'
+                              ? `| Building ${dataFinal[1]}`
+                              : dataFinal && dataFinal[0] !== 'null'
+                              ? `| Floor ${dataFinal[0]}`
+                              : ''}{' '}
+                            {displayColor ? `| ${displayColor}` : ''}
+                          </div>
                           <div className="of-mp-head" />
                           <div className="of-mp-para">
                             {color && color.length
                               ? 'Upload .SVG file to update the map.'
-                              : 'Upload .SVG file to update the map.Neighborhood assignmnet maps will not be updated automatically.'}
+                              : 'Upload .SVG file to update the map. Neighborhood assignment maps will not be updated automatically.'}
                           </div>
                         </div>
 

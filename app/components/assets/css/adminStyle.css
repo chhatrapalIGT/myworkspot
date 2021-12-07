@@ -1218,3 +1218,10 @@ span.disabled {
 .admin-loc-name {
   font-size: 18px;
 }
+
+.col-md-3.part-right * {
+  color: #00355f !important;
+}
+.react-draggable img {
+  height: 400px;
+}

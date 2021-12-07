@@ -7,6 +7,7 @@ import {
   REQUEST_FILE_UPLOAD,
   SUCCESS_FILE_UPLOAD,
   FAILED_FILE_UPLOAD,
+  CLEAR_UPLOAD_SUCCESS,
 } from './constants';
 
 // The initial state of the App
@@ -55,7 +56,6 @@ const OfficeReducer = (state = initialState, action) =>
       case CLEAR_OFFICE_DATA:
         draft.officeUpdateSuccess = false;
         draft.officeUpdateMessage = '';
-        draft.uploadCsv.success = false;
         break;
 
       case REQUEST_FILE_UPLOAD:
@@ -76,6 +76,10 @@ const OfficeReducer = (state = initialState, action) =>
         draft.uploadCsv.error = action.payload.Error;
         draft.officeUpdateSuccess = action.payload.success;
         draft.officeUpdateMessage = action.payload.message;
+        break;
+
+      case CLEAR_UPLOAD_SUCCESS:
+        draft.uploadCsv.success = false;
         break;
     }
   });
