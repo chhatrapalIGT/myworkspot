@@ -24,8 +24,9 @@ const options = [
 const optionsLocation = [
   { cat: 'Washington, DC', name: 'DC', value: 'DC' },
   { cat: 'Richmond, VA', name: 'RIC', value: 'RIC' },
-  { cat: 'Birmingham, AL', name: 'BHM', value: 'BHM' },
-  { cat: 'Bloomington, MN', name: 'BLM', value: 'BLM' },
+  { cat: 'Not Assigned', name: 'Not Assigned', value: 'Not Assigned' },
+  // { cat: 'Birmingham, AL', name: 'BHM', value: 'BHM' },
+  // { cat: 'Bloomington, MN', name: 'BLM', value: 'BLM' },
   // { cat: 'Remote Work', name: 'RW', value: 'RW' },
 ];
 const Employee = props => {
@@ -48,7 +49,10 @@ const Employee = props => {
     );
 
   const finalValData =
-    props.workSpace && props.workSpace.filter(obj => obj.id !== 'RW');
+    props.workSpace &&
+    props.workSpace.filter(
+      obj => obj.id !== 'RW' && obj.id !== 'BHM' && obj.id !== 'BLM',
+    );
 
   const space =
     data &&
@@ -120,7 +124,7 @@ const Employee = props => {
                     options={options}
                     hideSelectedOptions={false}
                     avoidHighlightFirstOption
-                    closeOnSelect={false}
+                    closeOnSelect
                     onRemove={props.handleRemoveRole}
                     closeMenuOnSelect
                     showCheckbox
@@ -130,7 +134,7 @@ const Employee = props => {
                       chips: {
                         background: 'transparent',
                         color: 'black',
-                        padding: '15px 10px 0px',
+                        // padding: '15px 10px 0px',
                       },
                     }}
                   />
@@ -148,7 +152,7 @@ const Employee = props => {
                     onRemove={props.handleRemoveSpace}
                     hideSelectedOptions={false}
                     avoidHighlightFirstOption
-                    closeOnSelect={false}
+                    closeOnSelect
                     name="space"
                     showCheckbox
                     closeMenuOnSelect={false}
@@ -157,7 +161,7 @@ const Employee = props => {
                       chips: {
                         background: 'transparent',
                         color: 'black',
-                        padding: '15px 10px 0px',
+                        // padding: '15px 10px 0px',
                       },
                     }}
                   />
@@ -419,7 +423,8 @@ const Employee = props => {
                         <span className="gray-font">
                           Private Space Eligible:
                         </span>{' '}
-                        Yes
+                        {props.singleEmployeeData &&
+                          props.singleEmployeeData.leaderscommittee}
                       </p>
                     </div>
                   </div>
@@ -483,7 +488,7 @@ const Employee = props => {
                         className="pad-manual"
                         onChange={props.handleChange}
                         name="floor"
-                        value={props.state.floor || 'DC'}
+                        value={props.state.floor}
                       >
                         <option id="spval" style={{ color: 'gray' }}>
                           Select Office
@@ -552,7 +557,7 @@ const Employee = props => {
                         defaultValue={finalData[0]}
                         className="pad-manual"
                       >
-                        <option id="spval">select Spaces</option>
+                        <option id="spval">Select Spaces</option>
                         {finalData &&
                           finalData.map(i => (
                             <option value={i.officeSpace} name="AssignedSpace">

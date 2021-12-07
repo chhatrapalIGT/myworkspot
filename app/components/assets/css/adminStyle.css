@@ -796,7 +796,7 @@
 .table1 {
   margin-top: 15px;
   background-color: #fff;
-  padding: 0px 10px;
+  padding: 15px 60px 15px 20px;
   border-radius: 8px;
   overflow-x: scroll;
 }
@@ -816,6 +816,9 @@
   text-align: right;
   width: 10%;
   position: relative;
+}
+.table1 table td:nth-child(4) {
+  padding-right: 15px;
 }
 .table1 table td:first-child {
   text-align: left !important;
@@ -1213,8 +1216,14 @@ span.disabled {
   font-size: 14px;
   font-weight: 600;
   text-align: center;
+  padding-right: 5px !important;
 }
-
+.admin-day-name:nth-child(4) > span {
+  padding-right: 18px !important;
+}
+.admin-day-name:nth-child(6) > span {
+  margin-right: 5px !important;
+}
 .admin-loc-name {
   font-size: 18px;
 }
@@ -1224,4 +1233,8 @@ span.disabled {
 }
 .react-draggable img {
   height: 400px;
+}
+/* select:invalid, */
+.pad-manual option:first-child {
+  color: blue !important;
 }
