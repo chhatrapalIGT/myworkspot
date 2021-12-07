@@ -7,3 +7,5 @@ export const CLEAR_OFFICE_DATA = 'clearOfficeData';
 export const REQUEST_FILE_UPLOAD = 'requestFileUpload';
 export const SUCCESS_FILE_UPLOAD = 'fileUploadSuccess';
 export const FAILED_FILE_UPLOAD = 'fileUploadFailed';
+
+export const CLEAR_UPLOAD_SUCCESS = 'clearUploadSuccess';

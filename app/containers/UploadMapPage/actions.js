@@ -6,6 +6,7 @@ import {
   REQUEST_FILE_UPLOAD,
   SUCCESS_FILE_UPLOAD,
   FAILED_FILE_UPLOAD,
+  CLEAR_UPLOAD_SUCCESS,
 } from './constants';
 
 export const requestGetOfficeUpdateData = payload => ({
@@ -22,6 +23,7 @@ export const getOfficeDataUpdateFailed = error => ({
   type: FAILED_GET_OFFICE_UPDATE_DATA,
   payload: error,
 });
+
 export const clearOfficeData = () => ({
   type: CLEAR_OFFICE_DATA,
 });
@@ -39,4 +41,8 @@ export const fileUploadSuccess = payload => ({
 export const fileUploadFailed = error => ({
   type: FAILED_FILE_UPLOAD,
   payload: error,
+});
+
+export const clearUploadSuccess = () => ({
+  type: CLEAR_UPLOAD_SUCCESS,
 });

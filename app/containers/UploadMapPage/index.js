@@ -12,6 +12,7 @@ import {
   requestGetOfficeUpdateData,
   requestFileUpload,
   clearOfficeData,
+  clearUploadSuccess,
 } from './actions';
 import Office from '../../components/Office';
 
@@ -64,13 +65,14 @@ class UploadMap extends Component {
 
   componentDidUpdate() {
     const { officeUpdateMessage, uploadCsv } = this.props;
+    if (uploadCsv && uploadCsv.success) {
+      this.props.requestGetOfficeUpdateData({});
+      this.props.clearUploadSuccess();
+    }
     if (officeUpdateMessage) {
       setTimeout(() => {
         this.props.clearOfficeData();
       }, 5000);
-    }
-    if (uploadCsv && uploadCsv.success) {
-      this.props.requestGetOfficeUpdateData({});
     }
   }
 
@@ -134,6 +136,7 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestGetOfficeUpdateData(payload)),
     requestFileUpload: payload => dispatch(requestFileUpload(payload)),
     clearOfficeData: () => dispatch(clearOfficeData()),
+    clearUploadSuccess: () => dispatch(clearUploadSuccess()),
 
     dispatch,
   };
@@ -145,6 +148,7 @@ UploadMap.propTypes = {
   requestGetOfficeUpdateData: PropTypes.func,
   requestFileUpload: PropTypes.func,
   clearOfficeData: PropTypes.func,
+  clearUploadSuccess: PropTypes.func,
   officeLocation: PropTypes.object,
   officeUpdateMessage: PropTypes.string,
   officeUpdateSuccess: PropTypes.bool,
