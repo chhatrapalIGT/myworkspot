@@ -406,8 +406,8 @@ const Header = props => {
                       pathName !== '/')) && (
                     <div className={`profile-inner ${editProfile && 'opened'}`}>
                       {localStorage.getItem('Admin') === 'true' ? (
-                        <div className="head del">
-                          <span>Admin Access</span>
+                        <div className="head deladmin">
+                          <span style={{ color: '#FF8D62' }}>Admin Access</span>
                         </div>
                       ) : (
                         <div className="head">
