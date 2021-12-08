@@ -3143,3 +3143,45 @@ select.set_drop option[id='building'],
 .emp_drop::after {
   top: 23px !important;
 }
+
+.admin-employee .css-1rhbuit-multiValue {
+  background-color: transparent;
+  border-radius: 0px;
+  border: none;
+  font-size: 16px;
+  svg {
+    display: none;
+  }
+  &:not(:first-child) {
+    display: none;
+  }
+}
+
+.admin-employee > div {
+  border: none;
+  border-radius: 10px;
+  outline: 0 !important;
+  border-color: transparent !important;
+  box-shadow: none;
+  > div {
+    overflow: unset;
+    height: 33px;
+  }
+}
+
+.admin-employee {
+  border: 0px solid;
+  border-radius: 10px;
+}
+
+.admin-employee * svg {
+  margin-top: -20px;
+}
+
+.admin-employee .css-b8ldur-Input {
+  height: 20px;
+  opacity: 0;
+  > div {
+    overflow: unset;
+  }
+}

@@ -42,6 +42,7 @@ class EmployeePage extends Component {
       build: '4',
       AssignedSpace: '',
       selectedOption: [],
+      selectedRole: [],
       EditModel: false,
       sortOrder: {
         name: true,
@@ -192,6 +193,21 @@ class EmployeePage extends Component {
 
   handleChangeBox = option => {
     const values = option.map(i => i.value);
+    this.setState({ selectedRole: option }, () => {
+      let finalRole;
+      const val = this.state.selectedRole.length
+        ? this.state.selectedRole[0].name
+        : '';
+      if (this.state.selectedRole.length > 1) {
+        finalRole = val.concat(
+          `; ${this.state.selectedRole ? this.state.selectedRole[1].name : ''}`,
+        );
+        this.setState({ finalRole });
+      } else if (this.state.selectedRole.length > 0) {
+        finalRole = val;
+      }
+      this.setState({ finalRole });
+    });
     let str = '[';
     values.forEach(ev => {
       str += `,"${ev}"`;
@@ -200,66 +216,7 @@ class EmployeePage extends Component {
     const da = str.slice(0, 1);
     const ta = str.slice(2);
     const strVal = da && da.concat(ta);
-    this.props.requestGetEmployeeDetail({
-      value: strVal,
-      limit: this.state.limit,
-      page: this.state.page,
-    });
-  };
 
-  handleChangeSpace = option => {
-    const space = option.map(i => i.value);
-    let str = '[';
-    space.forEach(ev => {
-      str += `,"${ev}"`;
-    });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const strVal = da && da.concat(ta);
-    this.props.requestGetEmployeeDetail({
-      space: strVal,
-      limit: this.state.limit,
-      page: this.state.page,
-    });
-  };
-
-  handleRemoveSpace = data => {
-    const space = data.map(i => i.value);
-    let str = '[';
-    space.forEach(ev => {
-      str += `,"${ev}"`;
-    });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const strVal = da && da.concat(ta);
-    if (strVal === '[') {
-      this.props.requestGetEmployeeDetail({
-        search: '',
-        role: '',
-        limit: this.state.limit,
-        page: this.state.page,
-      });
-    } else {
-      this.props.requestGetEmployeeDetail({
-        space: strVal,
-        limit: this.state.limit,
-        page: this.state.page,
-      });
-    }
-  };
-
-  handleRemoveRole = data => {
-    const space = data.map(i => i.value);
-    let str = '[';
-    space.forEach(ev => {
-      str += `,"${ev}"`;
-    });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const strVal = da && da.concat(ta);
     if (strVal === '[') {
       this.props.requestGetEmployeeDetail({
         search: '',
@@ -274,6 +231,47 @@ class EmployeePage extends Component {
         page: this.state.page,
       });
     }
+  };
+
+  handleChangeSpace = option => {
+    const space = option.map(i => i.value);
+    let finalVal;
+    this.setState({ selectedOption: option }, () => {
+      const val = this.state.selectedOption.length
+        ? this.state.selectedOption[0].name
+        : '';
+      if (this.state.selectedOption.length > 1) {
+        const length = `, +${this.state.selectedOption.length - 1}`;
+        finalVal = val.concat(length);
+        this.setState({ finalVal });
+      } else if (this.state.selectedOption.length > 0) {
+        finalVal = val;
+      }
+      this.setState({ finalVal });
+      let str = '[';
+      space.forEach(ev => {
+        str += `,"${ev}"`;
+      });
+      str += ']';
+      const da = str.slice(0, 1);
+      const ta = str.slice(2);
+      const strVal = da && da.concat(ta);
+
+      if (strVal === '[') {
+        this.props.requestGetEmployeeDetail({
+          search: '',
+          role: '',
+          limit: this.state.limit,
+          page: this.state.page,
+        });
+      } else {
+        this.props.requestGetEmployeeDetail({
+          space: strVal,
+          limit: this.state.limit,
+          page: this.state.page,
+        });
+      }
+    });
   };
 
   handleStateClear = () => {
@@ -338,8 +336,6 @@ class EmployeePage extends Component {
           handleClickSort={this.handleClickSort}
           updateEmployeeLoading={updateEmployeeLoading}
           employeeLoading={employeeLoading}
-          handleRemoveSpace={this.handleRemoveSpace}
-          handleRemoveRole={this.handleRemoveRole}
           apiSuccess={apiSuccess}
           apiMessage={apiMessage}
         />
