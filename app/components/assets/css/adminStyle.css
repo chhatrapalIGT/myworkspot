@@ -1220,6 +1220,8 @@ span.disabled {
 }
 .admin-day-name:nth-child(4) > span {
   padding-right: 18px !important;
+  margin-right: 20px;
+  padding: 15px;
 }
 .admin-day-name:nth-child(6) > span {
   margin-right: 5px !important;
@@ -1238,3 +1240,34 @@ span.disabled {
 .pad-manual option:first-child {
   color: blue !important;
 }
+
+.space {
+  background: white;
+  border: 1px solid;
+  border-radius: 10px;
+  width: 224px;
+  padding: 0px 10px;
+  margin-left: 10px;
+}
+.role {
+  background: white;
+  border: 1px solid;
+  border-radius: 10px;
+  width: 224px;
+  padding: 0px 10px;
+}
+
+select,
+select option {
+  color: #000000;
+}
+
+select:invalid,
+select option[value=''] {
+  color: #999999;
+}
+
+/* label {
+  display: block;
+  /* margin: 16px 0; */
+/* }  */
