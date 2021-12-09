@@ -38,12 +38,13 @@ class EmployeePage extends Component {
       deskLocationname: '',
       deskFloor: '',
       id: '',
-      floor: 'DC',
-      build: '4',
+      floor: '',
+      build: '',
       AssignedSpace: '',
       selectedOption: [],
       selectedRole: [],
       EditModel: false,
+      handleUnassign: false,
       sortOrder: {
         name: true,
         email: true,
@@ -131,17 +132,23 @@ class EmployeePage extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { role, BadgeNumber, id, AssignedSpace } = this.state;
+    const { role, BadgeNumber, id, AssignedSpace, handleUnassign } = this.state;
     const { verifyBadge } = this.props;
     const badge = BadgeNumber.slice(0, 3).concat(BadgeNumber.slice(4, 7));
+    const permanentdeskNo = handleUnassign ? 'Unassign' : AssignedSpace;
     if (BadgeNumber.length) {
       this.props.requestUpdateEmployeeDetail({
         role: this.state.role || 'Admin',
         badgeNo: `BB${badge}`,
-        permanentdeskNo: AssignedSpace,
+        permanentdeskNo,
         emp_id: id,
       });
     }
+  };
+
+  handleUnassignedSpace = (name, val) => {
+    this.setState({ [name]: !val });
+    this.setState({ floor: '', build: '', AssignedSpace: '' });
   };
 
   handleChange = event => {
@@ -338,6 +345,7 @@ class EmployeePage extends Component {
           employeeLoading={employeeLoading}
           apiSuccess={apiSuccess}
           apiMessage={apiMessage}
+          handleUnassignedSpace={this.handleUnassignedSpace}
         />
       </div>
     );
