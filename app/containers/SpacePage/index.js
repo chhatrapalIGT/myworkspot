@@ -35,11 +35,15 @@ class OfficeMap extends Component {
 
   componentDidUpdate() {
     const { spaceUpdate } = this.props;
-    if (spaceUpdate && spaceUpdate.message) {
-      setTimeout(() => {
-        this.props.clearUpdateStatus();
-      }, 5000);
+    if (spaceUpdate && spaceUpdate.success && spaceUpdate.message) {
+      this.props.requestGetOfficeUpdateData({});
+      this.props.clearUpdateStatus();
     }
+    // if (spaceUpdate && spaceUpdate.message) {
+    //   setTimeout(() => {
+    //     this.props.clearUpdateStatus();
+    //   }, 5000);
+    // }
   }
 
   render() {

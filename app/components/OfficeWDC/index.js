@@ -187,6 +187,7 @@ const OfficeWDC = ({
                       onChange={e => {
                         setOffice(e.target.value);
                         setFloors(e.target.value);
+                        handleDefault();
                       }}
                       className="set_drop"
                     >
@@ -222,6 +223,7 @@ const OfficeWDC = ({
                       onChange={e => {
                         Icon(office, e.target.value);
                         setFinalFloor(e.target.value);
+                        handleDefault();
                       }}
                     >
                       {floor && floor.length

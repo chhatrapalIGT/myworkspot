@@ -158,7 +158,10 @@ const Office = ({
                     name=""
                     id=""
                     value={state.selectedNames}
-                    onChange={handleUserSelect}
+                    onChange={e => {
+                      handleUserSelect(e);
+                      handleDefault();
+                    }}
                     className="set_drop"
                   >
                     {finalLocationVal &&
@@ -208,11 +211,18 @@ const Office = ({
                                 onClick={() => {
                                   setFloor(`${obj.floor},${obj.building}`);
                                   toggleAccordion(obj.floorAndBuilding);
+                                  handleDefault();
                                 }}
                               >
                                 <span className="dash-menu-item">
-                                  {obj.building && `Building ${obj.building}`}{' '}
-                                  {obj.floor && `Floor ${obj.floor}`}
+                                  {obj.building !== null && obj.floor !== null
+                                    ? `Building ${obj.building},
+                                    Floor ${obj.floor}`
+                                    : obj.building !== null
+                                    ? `Building ${obj.building}`
+                                    : obj.floor !== null
+                                    ? `Floor ${obj.floor}`
+                                    : ''}
                                 </span>
                               </div>
 
@@ -232,6 +242,7 @@ const Office = ({
                                       onClick={() => {
                                         setColor(floor.colorcode);
                                         setDisplayColor(floor.neighborhoodname);
+                                        handleDefault();
                                       }}
                                     >
                                       <div className="dash-menu-list pad-left-23">
