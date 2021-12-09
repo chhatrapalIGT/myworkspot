@@ -251,7 +251,7 @@ const Employee = props => {
             <div className="emp-table">
               <table>
                 <tr>
-                  <th style={{ width: '20%' }}>
+                  <th style={{ width: '25%' }}>
                     Name{' '}
                     <img
                       src={Sort}
@@ -319,7 +319,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th style={{ width: '20%' }}>
+                  <th style={{ width: '15%' }}>
                     Badge{' '}
                     <img
                       src={Sort}
