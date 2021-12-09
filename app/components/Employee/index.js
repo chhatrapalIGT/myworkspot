@@ -584,85 +584,106 @@ const Employee = props => {
                           ))}
                       </select>
                     </div>
-                    <div className="selction_one mat-10 ww-100">
-                      <label htmlFor>Building/Floor</label>
-                      <select
-                        onChange={props.handleChange}
-                        name="build"
-                        value={`${props.state.build}`}
-                        className="pad-manual"
-                        required={
-                          props.state.floor !== null && props.state.floor !== ''
-                        }
-                      >
-                        <option
-                          id="spval"
-                          value=""
-                          selected
-                          style={{ color: '#526E88' }}
+                    {props.state.floor && props.state.floor !== '' && (
+                      <div className="selction_one mat-10 ww-100">
+                        <label htmlFor>Building/Floor</label>
+                        <select
+                          onChange={props.handleChange}
+                          name="build"
+                          value={`${props.state.build}`}
+                          className="pad-manual"
+                          required={
+                            props.state.floor !== null &&
+                            props.state.floor !== ''
+                          }
                         >
-                          Select Building/Floor
-                        </option>
-                        {data &&
-                          data.FloorBuilding.map(i => (
-                            <>
-                              <option
-                                value={
-                                  i.floor &&
+                          <option
+                            id="spval"
+                            value=""
+                            selected
+                            style={{ color: '#526E88' }}
+                          >
+                            Select Building/Floor
+                          </option>
+                          {data &&
+                            data.FloorBuilding.map(i => (
+                              <>
+                                <option
+                                  value={
+                                    i.floor &&
+                                    i.floor !== null &&
+                                    i.building &&
+                                    i.building !== null
+                                      ? `${i.floor}${i.building}`
+                                      : i.building && i.building !== null
+                                      ? `${i.building}`
+                                      : i.floor && i.floor !== null
+                                      ? `${i.floor}`
+                                      : ''
+                                  }
+                                >
+                                  {i.floor &&
                                   i.floor !== null &&
                                   i.building &&
                                   i.building !== null
-                                    ? `${i.floor}${i.building}`
+                                    ? `Building ${i.building}, Floor${i.floor}`
                                     : i.building && i.building !== null
-                                    ? `${i.building}`
+                                    ? `Building ${i.building}`
                                     : i.floor && i.floor !== null
-                                    ? `${i.floor}`
-                                    : ''
-                                }
+                                    ? `Floor ${i.floor}`
+                                    : ''}
+                                </option>
+                              </>
+                            ))}
+                        </select>
+                        {/* <div className="d-flex">
+                          <img
+                            src={Warnning}
+                            alt="warn"
+                            style={{
+                              margin: '4px 5px 0px 0px',
+                              height: '14px',
+                            }}
+                          />
+                          <p style={{ margin: '0px', color: 'red' }}>
+                            You have to fill in this field to assign a space
+                          </p>
+                        </div> */}
+                      </div>
+                    )}
+                    {props.state && props.state.build !== '' && (
+                      <div className="selction_one ww-100">
+                        <label htmlFor style={{ color: 'gray' }}>
+                          Space
+                        </label>
+                        <select
+                          onChange={props.handleChange}
+                          name="AssignedSpace"
+                          value={props.state.AssignedSpace}
+                          defaultValue={finalData[0]}
+                          className="pad-manual"
+                          required={
+                            props.state.build !== '' ||
+                            (props.state.floor !== null &&
+                              props.state.floor !== '')
+                          }
+                        >
+                          <option id="spval gray-font" value="" selected>
+                            Select Space
+                          </option>
+                          {finalData &&
+                            finalData.map(i => (
+                              <option
+                                value={i.officeSpace}
+                                name="AssignedSpace"
                               >
-                                {i.floor &&
-                                i.floor !== null &&
-                                i.building &&
-                                i.building !== null
-                                  ? `Building ${i.building}, Floor${i.floor}`
-                                  : i.building && i.building !== null
-                                  ? `Building ${i.building}`
-                                  : i.floor && i.floor !== null
-                                  ? `Floor ${i.floor}`
-                                  : ''}
+                                {' '}
+                                {i && i.officeSpace}{' '}
                               </option>
-                            </>
-                          ))}
-                      </select>
-                    </div>
-                    <div className="selction_one ww-100">
-                      <label htmlFor style={{ color: 'gray' }}>
-                        Space
-                      </label>
-                      <select
-                        onChange={props.handleChange}
-                        name="AssignedSpace"
-                        value={props.state.AssignedSpace}
-                        defaultValue={finalData[0]}
-                        className="pad-manual"
-                        required={
-                          props.state.build !== '' ||
-                          (props.state.floor !== null &&
-                            props.state.floor !== '')
-                        }
-                      >
-                        <option id="spval gray-font" value="" selected>
-                          Select Space
-                        </option>
-                        {finalData &&
-                          finalData.map(i => (
-                            <option value={i.officeSpace} name="AssignedSpace">
-                              {' '}
-                              {i && i.officeSpace}{' '}
-                            </option>
-                          ))}
-                      </select>
-                    </div>
+                            ))}
+                        </select>
+                      </div>
+                    )}
 
                     <p className="red minus-10" id="error">
                       <img
