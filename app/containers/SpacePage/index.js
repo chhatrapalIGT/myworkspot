@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
@@ -9,7 +10,11 @@ import PropTypes from 'prop-types';
 import saga from './saga';
 import reducer from './reducer';
 import { requestGetOfficeUpdateData } from '../UploadMapPage/actions';
-import { requestUpdateActiveStatus, clearUpdateStatus } from './actions';
+import {
+  requestUpdateActiveStatus,
+  clearUpdateStatus,
+  clearMessage,
+} from './actions';
 import Spaces from '../../components/Spaces';
 
 class OfficeMap extends Component {
@@ -30,20 +35,29 @@ class OfficeMap extends Component {
   };
 
   handleCloseUpdate = () => {
-    this.props.clearUpdateStatus();
+    this.props.clearMessage();
   };
 
   componentDidUpdate() {
-    const { spaceUpdate } = this.props;
-    if (spaceUpdate && spaceUpdate.message) {
+    const { spaceUpdate, setSpaceUpdate } = this.props;
+    if (spaceUpdate && spaceUpdate.success && spaceUpdate.message) {
+      this.props.requestGetOfficeUpdateData({});
+      this.props.clearUpdateStatus();
+    }
+    if (setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage) {
       setTimeout(() => {
-        this.props.clearUpdateStatus();
+        this.props.clearMessage();
       }, 5000);
     }
   }
 
   render() {
-    const { officeLocation, spaceUpdate, officeSuccess } = this.props;
+    const {
+      officeLocation,
+      spaceUpdate,
+      officeSuccess,
+      setSpaceUpdate,
+    } = this.props;
 
     return (
       <>
@@ -55,6 +69,7 @@ class OfficeMap extends Component {
             handleCloseUpdate={this.handleCloseUpdate}
             requestUpdateActiveStatus={this.props.requestUpdateActiveStatus}
             spaceUpdate={spaceUpdate}
+            setSpaceUpdate={setSpaceUpdate}
             officeSuccess={officeSuccess}
           />{' '}
         </div>
@@ -73,6 +88,7 @@ const mapStateToProps = state => {
     officeSuccess:
       uploadOffice && uploadOffice.getOfficeData && uploadOffice.getOfficeData,
     spaceUpdate: space && space.updateStatus,
+    setSpaceUpdate: space && space,
   };
 };
 
@@ -83,6 +99,7 @@ export function mapDispatchToProps(dispatch) {
     requestUpdateActiveStatus: payload =>
       dispatch(requestUpdateActiveStatus(payload)),
     clearUpdateStatus: () => dispatch(clearUpdateStatus()),
+    clearMessage: () => dispatch(clearMessage()),
     dispatch,
   };
 }
@@ -94,8 +111,10 @@ OfficeMap.propTypes = {
   officeLocation: PropTypes.object,
   requestUpdateActiveStatus: PropTypes.func,
   clearUpdateStatus: PropTypes.func,
+  clearMessage: PropTypes.func,
   spaceUpdate: PropTypes.object,
   officeSuccess: PropTypes.object,
+  setSpaceUpdate: PropTypes.object,
 };
 
 export default compose(

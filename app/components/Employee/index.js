@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
@@ -6,7 +7,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Modal, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import Multiselect from 'multiselect-react-dropdown';
+import createClass from 'create-react-class';
+import Select, { components } from 'react-select';
 import Pagination from './Pagination';
 import Menu from '../assets/images/admin/menu.png';
 import Profile from '../assets/images/profileof.png';
@@ -16,18 +18,16 @@ import Search from '../assets/images/admin/search.png';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
 import Warnning from '../../images/officeImage/Warnning.png';
+
 const options = [
-  { cat: 'User ', key: 'User', value: 'User' },
-  { cat: 'Admin', key: 'Admin', value: 'Admin' },
-  // { cat: 'Manager', key: 'Manager', value: 'Manager' },
+  { label: 'User', value: 'User', name: 'User' },
+  { label: 'Admin', value: 'Admin', name: 'Admin' },
 ];
+
 const optionsLocation = [
-  { cat: 'Washington, DC', name: 'DC', value: 'DC' },
-  { cat: 'Richmond, VA', name: 'RIC', value: 'RIC' },
-  { cat: 'Not Assigned', name: 'Not Assigned', value: 'Not Assigned' },
-  // { cat: 'Birmingham, AL', name: 'BHM', value: 'BHM' },
-  // { cat: 'Bloomington, MN', name: 'BLM', value: 'BLM' },
-  // { cat: 'Remote Work', name: 'RW', value: 'RW' },
+  { label: 'Washington, DC', name: 'Washington, DC', value: 'DC' },
+  { label: 'Richmond, VA', name: 'Richmond, VA', value: 'RIC' },
+  { label: 'Not Assigned', name: 'Not Assigned', value: 'Not Assigned' },
 ];
 const Employee = props => {
   const { state, employeeData } = props;
@@ -54,6 +54,30 @@ const Employee = props => {
       obj => obj.id !== 'RW' && obj.id !== 'BHM' && obj.id !== 'BLM',
     );
 
+  const colourStyles = {
+    control: styles => ({
+      ...styles,
+      backgroundColor: 'white',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      border: '1px solid #d1dce7',
+    }),
+
+    option: (styles, { isFocused, isSelected, isVisited }) => ({
+      ...styles,
+      cursor: isFocused ? 'pointer' : '',
+      backgroundColor: isSelected
+        ? '#f8f8f8'
+        : '' || isFocused
+        ? '#EbEEF1'
+        : '' || isVisited
+        ? '#f8f8f8'
+        : '#fffff',
+
+      color: '#000',
+    }),
+  };
+
   const space =
     data &&
     data.FloorBuilding.find(
@@ -74,6 +98,49 @@ const Employee = props => {
       setShow(!show);
     }
   }, [props.updateEmployee.success]);
+
+  const updatedEmpData = optionsLocation.map(item => {
+    // eslint-disable-next-line no-param-reassign
+    item.label = (
+      <>
+        <div className="drop_update">{props.state.finalVal || ''}</div>
+      </>
+    );
+    return item;
+  });
+
+  const updatedRole = options.map(item => {
+    // eslint-disable-next-line no-param-reassign
+    item.label = (
+      <>
+        <div className="drop_update">{props.state.finalRole || ''}</div>
+      </>
+    );
+    return item;
+  });
+
+  const Option = createClass({
+    render() {
+      return (
+        <components.Option {...this.props}>
+          <div style={{ display: 'flex' }}>
+            <div style={{ flex: '1' }}>
+              <label>
+                {`${this.props.data.name} ${this.props.data.labelData || ''}`}{' '}
+              </label>
+              <input
+                className="select_checkbox"
+                type="checkbox"
+                checked={this.props.isSelected}
+                onChange={e => null}
+              />{' '}
+            </div>
+            <div className={this.props.isSelected ? 'selected_val' : ''} />
+          </div>
+        </components.Option>
+      );
+    },
+  });
 
   return (
     <>
@@ -112,60 +179,59 @@ const Employee = props => {
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
 
-                <div className="selction_one emp_drop mat-10 ww-100">
-                  <label htmlFor="role">Role</label>
-                  <Multiselect
-                    displayValue="cat"
-                    // onKeyPressFn={function noRefCheck() {}}
-                    // onRemove={function noRefCheck() {}}
-                    // onSearch={function noRefCheck() {}}
-                    selectedValues={props.state.selectedOption}
-                    onSelect={props.handleChangeBox}
-                    options={options}
-                    hideSelectedOptions={false}
-                    avoidHighlightFirstOption
-                    closeOnSelect
-                    onRemove={props.handleRemoveRole}
+                <span htmlFor="role" className="role">
+                  <p
+                    style={{
+                      height: '18px',
+                      marginBottom: '0px',
+                      fontSize: '12px',
+                    }}
+                  >
+                    Role{' '}
+                  </p>
+                  <Select
+                    components={{ Option }}
+                    isMulti
+                    isClearable={false}
+                    // value={props.state.selectedOption}
+                    onChange={props.handleChangeBox}
+                    options={updatedRole}
                     closeMenuOnSelect
-                    showCheckbox
-                    name="role"
-                    hidePlaceholder="true"
-                    style={{
-                      chips: {
-                        background: 'transparent',
-                        color: 'black',
-                        // padding: '15px 10px 0px',
-                      },
-                    }}
-                  />
-                </div>
-                <div className="selction_one emp_drop mat-10 ww-100">
-                  <label htmlFor="space">Permanent Space</label>
-                  <Multiselect
-                    displayValue="cat"
-                    // onKeyPressFn={function noRefCheck() {}}
-                    // onRemove={function noRefCheck() {}}
-                    // onSearch={function noRefCheck() {}}
-                    onSelect={props.handleChangeSpace}
-                    selectedValues={props.state.selectedOption}
-                    options={optionsLocation}
-                    onRemove={props.handleRemoveSpace}
                     hideSelectedOptions={false}
-                    avoidHighlightFirstOption
-                    closeOnSelect
-                    name="space"
-                    showCheckbox
-                    closeMenuOnSelect={false}
-                    hidePlaceholder="true"
-                    style={{
-                      chips: {
-                        background: 'transparent',
-                        color: 'black',
-                        // padding: '15px 10px 0px',
-                      },
-                    }}
+                    onMenuClose={false}
+                    className=" admin-employee"
+                    name="role"
+                    styles={colourStyles}
+                    label="Role"
                   />
-                </div>
+                </span>
+                <span htmlFor="space" className="space">
+                  <p
+                    style={{
+                      height: '18px',
+                      marginBottom: '0px',
+                      fontSize: '12px',
+                    }}
+                  >
+                    {' '}
+                    Permanent Space{' '}
+                  </p>
+                  <Select
+                    components={{ Option }}
+                    isMulti
+                    isClearable={false}
+                    // value={props.state.selectedOption}
+                    onChange={props.handleChangeSpace}
+                    options={updatedEmpData}
+                    closeMenuOnSelect
+                    hideSelectedOptions={false}
+                    onMenuClose={false}
+                    className=" admin-employee"
+                    name="space"
+                    styles={colourStyles}
+                    label="Permanent Space"
+                  />
+                </span>
               </div>
               <div className="search-box">
                 <div className="pos-rela">
@@ -185,7 +251,7 @@ const Employee = props => {
             <div className="emp-table">
               <table>
                 <tr>
-                  <th>
+                  <th style={{ width: '20%' }}>
                     Name{' '}
                     <img
                       src={Sort}
@@ -202,7 +268,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '10%' }}>
                     Role{' '}
                     <img
                       src={Sort}
@@ -219,7 +285,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '25%' }}>
                     Permanent Space{' '}
                     <img
                       src={Sort}
@@ -236,7 +302,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '25%' }}>
                     Email{' '}
                     <img
                       src={Sort}
@@ -253,7 +319,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '20%' }}>
                     Badge{' '}
                     <img
                       src={Sort}
@@ -473,13 +539,25 @@ const Employee = props => {
 
                     <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
                       <div className="pro-title1">Permanent Space</div>
-                      <div
+
+                      <button
                         className={`pro-title1 red ${
-                          props.state.AssignedSpace !== '' ? 'unassign' : ''
+                          props.state.AssignedSpace !== null ? '' : 'unassign'
                         }`}
+                        name="handleUnassign"
+                        style={{ border: 'none', background: 'transparent' }}
+                        onClick={() =>
+                          props.handleUnassignedSpace(
+                            'handleUnassign',
+                            props.state.handleUnassign,
+                          )
+                        }
+                        aria-hidden="true"
+                        type="button"
+                        disabled={props.state.handleUnassign}
                       >
                         Unassign
-                      </div>
+                      </button>
                     </div>
 
                     <div className="selction_one mat-10 ww-100">
@@ -490,7 +568,12 @@ const Employee = props => {
                         name="floor"
                         value={props.state.floor}
                       >
-                        <option id="spval" style={{ color: 'gray' }}>
+                        <option
+                          id="spval"
+                          value=""
+                          selected
+                          style={{ color: '#526E88' }}
+                        >
                           Select Office
                         </option>
                         {finalValData &&
@@ -501,7 +584,6 @@ const Employee = props => {
                           ))}
                       </select>
                     </div>
-
                     <div className="selction_one mat-10 ww-100">
                       <label htmlFor>Building/Floor</label>
                       <select
@@ -509,8 +591,16 @@ const Employee = props => {
                         name="build"
                         value={`${props.state.build}`}
                         className="pad-manual"
+                        required={
+                          props.state.floor !== null && props.state.floor !== ''
+                        }
                       >
-                        <option id="spval" style={{ color: 'gray' }}>
+                        <option
+                          id="spval"
+                          value=""
+                          selected
+                          style={{ color: '#526E88' }}
+                        >
                           Select Building/Floor
                         </option>
                         {data &&
@@ -545,7 +635,6 @@ const Employee = props => {
                           ))}
                       </select>
                     </div>
-
                     <div className="selction_one ww-100">
                       <label htmlFor style={{ color: 'gray' }}>
                         Space
@@ -556,8 +645,15 @@ const Employee = props => {
                         value={props.state.AssignedSpace}
                         defaultValue={finalData[0]}
                         className="pad-manual"
+                        required={
+                          props.state.build !== '' ||
+                          (props.state.floor !== null &&
+                            props.state.floor !== '')
+                        }
                       >
-                        <option id="spval">Select Spaces</option>
+                        <option id="spval gray-font" value="" selected>
+                          Select Space
+                        </option>
                         {finalData &&
                           finalData.map(i => (
                             <option value={i.officeSpace} name="AssignedSpace">
@@ -679,8 +775,7 @@ Employee.propTypes = {
   employeeLoading: PropTypes.bool,
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
-  handleRemoveSpace: PropTypes.func,
-  handleRemoveRole: PropTypes.func,
+  handleUnassignedSpace: PropTypes.func,
 };
 
 export default Employee;

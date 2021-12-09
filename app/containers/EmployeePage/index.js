@@ -38,11 +38,13 @@ class EmployeePage extends Component {
       deskLocationname: '',
       deskFloor: '',
       id: '',
-      floor: 'DC',
-      build: '4',
+      floor: '',
+      build: '',
       AssignedSpace: '',
       selectedOption: [],
+      selectedRole: [],
       EditModel: false,
+      handleUnassign: false,
       sortOrder: {
         name: true,
         email: true,
@@ -81,10 +83,13 @@ class EmployeePage extends Component {
     return null;
   }
 
-  getEmpData = (id, search, page, limit) => {
+  getEmpData = (id, search, value, space, sortBy, page, limit) => {
     const finalPayload = {
       id,
       search,
+      value,
+      space,
+      sortBy,
       page,
       limit,
     };
@@ -93,13 +98,29 @@ class EmployeePage extends Component {
 
   handleLimitChange = e => {
     this.setState({ limit: e, page: 1 });
-    this.getEmpData('', '', 1, e);
+    this.getEmpData(
+      '',
+      '',
+      this.state.strVal,
+      this.state.strSpace,
+      this.state.sortBy,
+      1,
+      e,
+    );
   };
 
   handlePageChange = e => {
     const { limit } = this.state;
     this.setState({ page: e });
-    this.getEmpData('', '', e, limit);
+    this.getEmpData(
+      '',
+      '',
+      this.state.strVal,
+      this.state.strSpace,
+      this.state.sortBy,
+      e,
+      limit,
+    );
   };
 
   componentDidMount() {
@@ -111,6 +132,7 @@ class EmployeePage extends Component {
     const { updateEmployee, apiMessage } = this.props;
     if (updateEmployee && updateEmployee.success) {
       setTimeout(() => {
+        this.clearAssign();
         this.props.resetDataEmp();
         this.props.requestGetEmployeeDetail({ search: '', role: '' });
       }, 3000);
@@ -123,6 +145,10 @@ class EmployeePage extends Component {
     }
   }
 
+  clearAssign = () => {
+    this.setState({ handleUnassign: false });
+  };
+
   handleEdit = ID => {
     this.setState({ isEdit: true, id: ID, hasData: true });
     this.props.requestEditEmployeeDetail(ID);
@@ -130,17 +156,23 @@ class EmployeePage extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { role, BadgeNumber, id, AssignedSpace } = this.state;
+    const { role, BadgeNumber, id, AssignedSpace, handleUnassign } = this.state;
     const { verifyBadge } = this.props;
     const badge = BadgeNumber.slice(0, 3).concat(BadgeNumber.slice(4, 7));
+    const permanentdeskNo = handleUnassign ? 'Unassign' : AssignedSpace;
     if (BadgeNumber.length) {
       this.props.requestUpdateEmployeeDetail({
         role: this.state.role || 'Admin',
         badgeNo: `BB${badge}`,
-        permanentdeskNo: AssignedSpace,
+        permanentdeskNo,
         emp_id: id,
       });
     }
+  };
+
+  handleUnassignedSpace = (name, val) => {
+    this.setState({ [name]: !val });
+    this.setState({ floor: '', build: '', AssignedSpace: '' });
   };
 
   handleChange = event => {
@@ -159,7 +191,7 @@ class EmployeePage extends Component {
       this.setState({ [name]: value }, () => {
         this.props.requestGetEmployeeDetail({
           search: this.state.searchVal,
-          role: this.state.rolee,
+          role: this.state.role,
           limit: this.state.limit,
           page: this.state.page,
         });
@@ -192,6 +224,21 @@ class EmployeePage extends Component {
 
   handleChangeBox = option => {
     const values = option.map(i => i.value);
+    this.setState({ selectedRole: option }, () => {
+      let finalRole;
+      const val = this.state.selectedRole.length
+        ? this.state.selectedRole[0].name
+        : '';
+      if (this.state.selectedRole.length > 1) {
+        finalRole = val.concat(
+          `; ${this.state.selectedRole ? this.state.selectedRole[1].name : ''}`,
+        );
+        this.setState({ finalRole });
+      } else if (this.state.selectedRole.length > 0) {
+        finalRole = val;
+      }
+      this.setState({ finalRole });
+    });
     let str = '[';
     values.forEach(ev => {
       str += `,"${ev}"`;
@@ -199,9 +246,12 @@ class EmployeePage extends Component {
     str += ']';
     const da = str.slice(0, 1);
     const ta = str.slice(2);
-    const strVal = da && da.concat(ta);
+    const strVal = values.length !== 0 ? da && da.concat(ta) : '';
+    this.setState({ strVal });
+
     this.props.requestGetEmployeeDetail({
       value: strVal,
+      space: this.state.strSpace,
       limit: this.state.limit,
       page: this.state.page,
     });
@@ -209,71 +259,36 @@ class EmployeePage extends Component {
 
   handleChangeSpace = option => {
     const space = option.map(i => i.value);
-    let str = '[';
-    space.forEach(ev => {
-      str += `,"${ev}"`;
-    });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const strVal = da && da.concat(ta);
-    this.props.requestGetEmployeeDetail({
-      space: strVal,
-      limit: this.state.limit,
-      page: this.state.page,
-    });
-  };
+    let finalVal;
+    this.setState({ selectedOption: option }, () => {
+      const val = this.state.selectedOption.length
+        ? this.state.selectedOption[0].name
+        : '';
+      if (this.state.selectedOption.length > 1) {
+        const length = `, +${this.state.selectedOption.length - 1}`;
+        finalVal = val.concat(length);
+        this.setState({ finalVal });
+      } else if (this.state.selectedOption.length > 0) {
+        finalVal = val;
+      }
+      this.setState({ finalVal });
+      let str = '[';
+      space.forEach(ev => {
+        str += `,"${ev}"`;
+      });
+      str += ']';
+      const da = str.slice(0, 1);
+      const ta = str.slice(2);
+      const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
+      this.setState({ strSpace });
 
-  handleRemoveSpace = data => {
-    const space = data.map(i => i.value);
-    let str = '[';
-    space.forEach(ev => {
-      str += `,"${ev}"`;
+      this.props.requestGetEmployeeDetail({
+        space: strSpace,
+        value: this.state.strVal,
+        limit: this.state.limit,
+        page: this.state.page,
+      });
     });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const strVal = da && da.concat(ta);
-    if (strVal === '[') {
-      this.props.requestGetEmployeeDetail({
-        search: '',
-        role: '',
-        limit: this.state.limit,
-        page: this.state.page,
-      });
-    } else {
-      this.props.requestGetEmployeeDetail({
-        space: strVal,
-        limit: this.state.limit,
-        page: this.state.page,
-      });
-    }
-  };
-
-  handleRemoveRole = data => {
-    const space = data.map(i => i.value);
-    let str = '[';
-    space.forEach(ev => {
-      str += `,"${ev}"`;
-    });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const strVal = da && da.concat(ta);
-    if (strVal === '[') {
-      this.props.requestGetEmployeeDetail({
-        search: '',
-        role: '',
-        limit: this.state.limit,
-        page: this.state.page,
-      });
-    } else {
-      this.props.requestGetEmployeeDetail({
-        value: strVal,
-        limit: this.state.limit,
-        page: this.state.page,
-      });
-    }
   };
 
   handleStateClear = () => {
@@ -288,6 +303,7 @@ class EmployeePage extends Component {
     } else {
       sortBy = `${[key]}-DESC`;
     }
+    this.setState({ sortBy });
     this.props.requestGetEmployeeDetail({
       sortBy,
       limit: this.state.limit,
@@ -338,10 +354,9 @@ class EmployeePage extends Component {
           handleClickSort={this.handleClickSort}
           updateEmployeeLoading={updateEmployeeLoading}
           employeeLoading={employeeLoading}
-          handleRemoveSpace={this.handleRemoveSpace}
-          handleRemoveRole={this.handleRemoveRole}
           apiSuccess={apiSuccess}
           apiMessage={apiMessage}
+          handleUnassignedSpace={this.handleUnassignedSpace}
         />
       </div>
     );

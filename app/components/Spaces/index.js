@@ -1,27 +1,52 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable indent */
 /* eslint-disable default-case */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Accordion, Card, Button, Form } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
+import lock from '../../images/lock.png';
+import unLock from '../../images/unlock.png';
 
 const Spaces = ({
   state,
   handleUserSelect,
   officeLocation,
   handleCloseUpdate,
-  spaceUpdate,
+  // spaceUpdate,
+  setSpaceUpdate,
   officeSuccess,
   requestUpdateActiveStatus,
 }) => {
   const [floor, setFloor] = useState();
   const [color, setColor] = useState();
+  const [setActive, setActiveState] = useState('');
+  const [updateState, setUpdateState] = useState('');
+  // const [manageLoader, setManageLoader] = useState('');
+
+  function toggleAccordion(id) {
+    setColor('');
+    if (id === setActive) {
+      setActiveState('');
+    } else {
+      setActiveState(id);
+    }
+  }
+
+  function toggleSecondAccordion(id) {
+    if (id === updateState) {
+      setUpdateState('');
+    } else {
+      setUpdateState(id);
+    }
+  }
 
   const handleCheckbox = (data, val, final) => {
     const dataFinal = floor && floor.split(',');
+    // setManageLoader(final);
     if (final === 'FloorClick') {
       const dataVal = data && data.split(',');
       const payload = {
@@ -67,11 +92,11 @@ const Spaces = ({
     );
 
   return (
-    <div className="wrapper-main" style={{ marginTop: ' 10%' }}>
-      {spaceUpdate && spaceUpdate.message && (
+    <div className="wrapper_main">
+      {setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage && (
         <div
           className={`alert fade show mx-auto ${
-            spaceUpdate && spaceUpdate.success
+            setSpaceUpdate && setSpaceUpdate.showUpdateStatusSuccess
               ? 'alert alert-success'
               : 'alert alert-danger'
           }`}
@@ -79,12 +104,14 @@ const Spaces = ({
           <div>
             <img
               src={
-                spaceUpdate && spaceUpdate.success ? checkedCircle : crossCircle
+                setSpaceUpdate && setSpaceUpdate.showUpdateStatusSuccess
+                  ? checkedCircle
+                  : crossCircle
               }
               alt=""
               style={{ paddingRight: '5px', marginBottom: ' 4px' }}
             />
-            {(spaceUpdate && spaceUpdate.message) || ''}
+            {(setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage) || ''}
           </div>
           <div
             aria-hidden="true"
@@ -103,10 +130,12 @@ const Spaces = ({
       <div className="office_maps">
         <div className="container">
           <div className="head d-flex align-items-center">
-            <h4 className="common-title">Spaces</h4>
-            <div className="office-selections">
-              <div className="selction_one">
-                <label htmlFor="office">Office</label>
+            <div>
+              <h4 className="common-title mb-4">Spaces</h4>
+            </div>
+            <div className="office-selections wrap">
+              <div className="selction_one ww-100">
+                <label htmlFor>Office</label>
                 <select
                   name=""
                   id=""
@@ -130,15 +159,7 @@ const Spaces = ({
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="office-structure mt-4">
-        <div className="container">
-          <div
-            className="card office-structure-inner"
-            style={{ padding: ' 20px' }}
-          >
+          <div className="spaces-section">
             {officeLocation && !officeLocation.length ? (
               <Spinner
                 className="app-spinner"
@@ -146,169 +167,226 @@ const Spaces = ({
                 variant="dark"
               />
             ) : (
-              <div>
-                {/* <div className="office-info"> */}
-                {/* <p className="name">{floorData && floorData.locationname}</p> */}
-                {/* </div> */}
-                {(state.selectedNames === 'DC' ||
-                  state.selectedNames === 'RIC') && (
-                  <div className="office-resource" style={{ width: '100%' }}>
-                    {floorData &&
-                      floorData.FloorBuilding &&
-                      floorData.FloorBuilding.map(obj => (
-                        <Accordion
-                          // defaultActiveKey="0"
-                          onClick={() => {
-                            setFloor(`${obj.floor},${obj.building}`);
-                          }}
-                        >
-                          <Card>
-                            <Card.Header>
-                              <Accordion.Toggle
-                                as={Button}
-                                variant="link"
-                                eventKey="0"
-                                value={
-                                  obj.floor &&
-                                  obj.floor !== null &&
-                                  obj.building &&
-                                  obj.building !== null
-                                    ? `${obj.floor}${obj.building}`
-                                    : obj.building && obj.building !== null
-                                    ? `${obj.building}`
-                                    : obj.floor && obj.floor !== null
-                                    ? `${obj.floor}`
-                                    : ''
-                                }
-                                style={{ display: 'flex' }}
-                              >
-                                <p style={{ marginRight: '10px' }}>
-                                  {obj.building && `Building${obj.building}`}{' '}
-                                  {obj.floor && `Floor${obj.floor}`}
-                                </p>{' '}
-                                <Form.Check
-                                  id="data2"
-                                  // name="dataVal"
-                                  type="checkbox"
-                                  defaultChecked={obj.inactive}
-                                  onChange={e => {
-                                    handleCheckbox(
-                                      `${obj.floor},${obj.building}`,
-                                      e.target.checked,
-                                      'FloorClick',
-                                    );
-                                    setFloor(`${obj.floor},${obj.building}`);
-                                  }}
-                                  style={{
-                                    marginLeft: '6px',
-                                    margin: ' 5px',
-                                  }}
-                                />
-                                <p style={{ color: 'grey' }}>{`(${
-                                  obj.lockedWorkspaceNumber
-                                } /
-                                ${obj.totalWorkspace} Locked)`}</p>
-                              </Accordion.Toggle>
-                            </Card.Header>
+              <>
+                {floorData &&
+                  floorData.FloorBuilding &&
+                  floorData.FloorBuilding.map(obj => (
+                    <div className="accordion_box">
+                      <input
+                        type="checkbox"
+                        id={obj.floorAndBuilding}
+                        name="checkedItem"
+                        value="add"
+                        defaultChecked={
+                          obj.lockedWorkspaceNumber === obj.totalWorkspace
+                        }
+                        className="lock invisible"
+                        onChange={e => {
+                          handleCheckbox(
+                            `${obj.floor},${obj.building}`,
+                            e.target.checked,
+                            'FloorClick',
+                          );
+                          setFloor(`${obj.floor},${obj.building}`);
+                        }}
+                      />
+                      <label
+                        htmlFor={obj.floorAndBuilding}
+                        style={{ display: 'block', height: '0px' }}
+                      >
+                        {/* {spaceUpdate &&
+                          spaceUpdate.loading &&
+                          manageLoader === 'FloorClick' && (
+                            <div
+                              className={
+                                `${obj.floor},${obj.building}` === floor
+                                  ? 'spinner-border load_space'
+                                  : ''
+                              }
+                            />
+                          )} */}
+                        <img
+                          src={
+                            obj.lockedWorkspaceNumber === obj.totalWorkspace
+                              ? lock
+                              : unLock
+                          }
+                          title={
+                            obj.lockedWorkspaceNumber === obj.totalWorkspace
+                              ? 'unLock'
+                              : 'lock'
+                          }
+                          className="lock"
+                          alt=""
+                        />
+                      </label>
 
-                            <Accordion.Collapse eventKey="0">
-                              <Card.Body>
-                                {obj &&
-                                  obj.neighborhood.map(floor => (
-                                    <>
-                                      <div
-                                        className={`office-part-one ${floor.neighborhoodname.toLowerCase()}`}
-                                      >
-                                        <span className="informer" />
+                      <div
+                        aria-hidden="true"
+                        className={`accordion3 line ${
+                          setActive === obj.floorAndBuilding ? 'active' : ''
+                        }`}
+                        key={obj.floor}
+                        id={obj.floor}
+                        onClick={() => {
+                          setFloor(`${obj.floor},${obj.building}`);
+                          toggleAccordion(obj.floorAndBuilding);
+                        }}
+                      >
+                        <span className="dash-menu-item">
+                          {' '}
+                          {obj.building && `Building${obj.building}`}{' '}
+                          {obj.floor && `Floor${obj.floor}`}
+                        </span>{' '}
+                        <span className="acc-small">{`(${
+                          obj.lockedWorkspaceNumber
+                        } /
+                                ${obj.totalWorkspace} Locked)`}</span>
+                      </div>
+                      <div
+                        className={`panel2 ${
+                          setActive === obj.floorAndBuilding
+                            ? ''
+                            : 'display_acc'
+                        }`}
+                      >
+                        <div className="panel-list">
+                          <div className="dash-menu-list">
+                            {obj &&
+                              obj.neighborhood.map(floor => (
+                                <>
+                                  <input
+                                    type="checkbox"
+                                    id={obj.floorAndBuilding.concat(
+                                      floor.neighborhoodname,
+                                    )}
+                                    defaultChecked={
+                                      floor.neighborhoodLockedSpace ===
+                                      floor.neighborhoodTotalSpace
+                                    }
+                                    name="checkedItem1"
+                                    value="add1"
+                                    className="lock2 invisible"
+                                    onChange={e => {
+                                      handleCheckbox(
+                                        floor.colorcode,
+                                        e.target.checked,
+                                        'colorCLick',
+                                      );
+                                    }}
+                                  />
+                                  <label
+                                    htmlFor={obj.floorAndBuilding.concat(
+                                      floor.neighborhoodname,
+                                    )}
+                                  >
+                                    {/* {spaceUpdate &&
+                                      spaceUpdate.loading &&
+                                      manageLoader === 'colorCLick' && (
+                                        <div
+                                          className={
+                                            floor.neighborhoodname === color
+                                              ? 'spinner-border space_loading'
+                                              : ''
+                                          }
+                                        />
+                                      )} */}
+                                    <img
+                                      src={
+                                        floor.neighborhoodLockedSpace ===
+                                        floor.neighborhoodTotalSpace
+                                          ? lock
+                                          : unLock
+                                      }
+                                      title={
+                                        floor.neighborhoodLockedSpace ===
+                                        floor.neighborhoodTotalSpace
+                                          ? 'unLock'
+                                          : 'lock'
+                                      }
+                                      className="lock2"
+                                      alt=""
+                                    />
+                                  </label>
+                                  <div
+                                    className={`accordion2 ${
+                                      updateState === floor.neighborhoodname
+                                        ? 'active'
+                                        : ''
+                                    }`}
+                                    aria-hidden="true"
+                                    onClick={() => {
+                                      setColor(floor.neighborhoodname);
+                                      toggleSecondAccordion(
+                                        floor.neighborhoodname,
+                                      );
+                                    }}
+                                  >
+                                    <span className="dash-menu-item1 line">
+                                      <span
+                                        className={`sq-${floor.neighborhoodname.toLowerCase()}`}
+                                      />{' '}
+                                      {floor.neighborhoodname}{' '}
+                                    </span>{' '}
+                                    <span className="acc-small">{`(${
+                                      floor.neighborhoodLockedSpace
+                                    } /
+                                ${floor.neighborhoodTotalSpace} Locked)`}</span>
+                                  </div>
 
-                                        <a
-                                          href
-                                          aria-hidden="true"
-                                          value={floor.neighborhoodname}
-                                          onClick={() => {
-                                            setColor(floor.neighborhoodname);
-                                          }}
-                                        >
-                                          <div style={{ display: 'flex' }}>
-                                            <span
-                                              className={`sq-${floor.neighborhoodname.toLowerCase()} space_data`}
+                                  <div
+                                    className={`panel1 ${
+                                      updateState === floor.neighborhoodname
+                                        ? ''
+                                        : 'display_acc'
+                                    }`}
+                                  >
+                                    {floor &&
+                                      floor.neighborWorkspace &&
+                                      floor.neighborWorkspace.map(space => (
+                                        <>
+                                          <input
+                                            type="checkbox"
+                                            id={space.id}
+                                            name="checkedItem2"
+                                            value="add2"
+                                            defaultChecked={space.active}
+                                            className="lock3 invisible"
+                                            onChange={e => {
+                                              handleCheckbox(
+                                                space.id,
+                                                e.target.checked,
+                                                'neighborhoodClick',
+                                              );
+                                            }}
+                                          />
+                                          <label htmlFor={space.id}>
+                                            <img
+                                              src={space.active ? lock : unLock}
+                                              title={
+                                                space.active ? 'unLock' : 'lock'
+                                              }
+                                              className="lock3"
+                                              alt=""
                                             />
-                                            <p style={{ marginLeft: '40px' }}>
-                                              {floor.neighborhoodname}
-                                            </p>
-                                            <input
-                                              id="data2"
-                                              name="dataVal"
-                                              type="checkbox"
-                                              defaultChecked={floor.inactive}
-                                              onChange={e => {
-                                                handleCheckbox(
-                                                  floor.colorcode,
-                                                  e.target.checked,
-
-                                                  'colorCLick',
-                                                );
-                                              }}
-                                              style={{
-                                                marginLeft: '6px',
-                                                margin: ' 5px',
-                                              }}
-                                            />
-
-                                            <p
-                                              style={{
-                                                color: 'grey',
-                                                marginLeft: '10px',
-                                              }}
-                                            >{`(${
-                                              floor.neighborhoodLockedSpace
-                                            } /
-                                ${floor.neighborhoodTotalSpace} Locked)`}</p>
+                                          </label>
+                                          <div
+                                            className="dash-menu-list2"
+                                            value={space.workspacenumber}
+                                          >
+                                            {space.workspacenumber}{' '}
                                           </div>
-
-                                          {floor &&
-                                            floor.neighborWorkspace &&
-                                            floor.neighborWorkspace.map(
-                                              space => (
-                                                <Accordion.Collapse
-                                                  className="show"
-                                                  value={space.workspacenumber}
-                                                >
-                                                  <Card.Body>
-                                                    {space.workspacenumber}
-                                                    <input
-                                                      id="data1"
-                                                      type="checkbox"
-                                                      defaultChecked={
-                                                        space.inactive
-                                                      }
-                                                      onChange={e => {
-                                                        handleCheckbox(
-                                                          space.id,
-                                                          e.target.checked,
-                                                          'neighborhoodClick',
-                                                        );
-                                                      }}
-                                                      style={{
-                                                        marginLeft: '6px',
-                                                      }}
-                                                    />
-                                                  </Card.Body>
-                                                </Accordion.Collapse>
-                                              ),
-                                            )}
-                                        </a>
-                                      </div>
-                                    </>
-                                  ))}
-                              </Card.Body>
-                            </Accordion.Collapse>
-                          </Card>
-                        </Accordion>
-                      ))}
-                  </div>
-                )}
-              </div>
+                                        </>
+                                      ))}
+                                  </div>
+                                </>
+                              ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </>
             )}
           </div>
         </div>
@@ -323,7 +401,8 @@ Spaces.propTypes = {
   handleUserSelect: PropTypes.func,
   requestUpdateActiveStatus: PropTypes.func,
   handleCloseUpdate: PropTypes.func,
-  spaceUpdate: PropTypes.object,
+  // spaceUpdate: PropTypes.object,
   officeSuccess: PropTypes.object,
+  setSpaceUpdate: PropTypes.object,
 };
 export default Spaces;
