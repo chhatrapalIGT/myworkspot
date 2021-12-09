@@ -3,6 +3,7 @@ import {
   SUCCESS_UPDATE_ACTIVE_STATUS,
   FAILED_UPDATE_ACTIVE_STATUS,
   CLEAR_UPDATE_STATUS,
+  CLEAR_MESSAGE,
 } from './constants';
 
 export const requestUpdateActiveStatus = payload => ({
@@ -21,4 +22,7 @@ export const updateActiveStatusFailed = error => ({
 });
 export const clearUpdateStatus = () => ({
   type: CLEAR_UPDATE_STATUS,
+});
+export const clearMessage = () => ({
+  type: CLEAR_MESSAGE,
 });
