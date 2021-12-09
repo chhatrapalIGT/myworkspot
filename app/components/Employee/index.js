@@ -72,7 +72,7 @@ const Employee = props => {
         ? '#EbEEF1'
         : '' || isVisited
         ? '#f8f8f8'
-        : '#fff',
+        : '#fffff',
 
       color: '#000',
     }),
@@ -180,7 +180,15 @@ const Employee = props => {
                 </div>
 
                 <span htmlFor="role" className="role">
-                  Role
+                  <p
+                    style={{
+                      height: '18px',
+                      marginBottom: '0px',
+                      fontSize: '12px',
+                    }}
+                  >
+                    Role{' '}
+                  </p>
                   <Select
                     components={{ Option }}
                     isMulti
@@ -198,7 +206,16 @@ const Employee = props => {
                   />
                 </span>
                 <span htmlFor="space" className="space">
-                  Permanent Space
+                  <p
+                    style={{
+                      height: '18px',
+                      marginBottom: '0px',
+                      fontSize: '12px',
+                    }}
+                  >
+                    {' '}
+                    Permanent Space{' '}
+                  </p>
                   <Select
                     components={{ Option }}
                     isMulti
@@ -234,7 +251,7 @@ const Employee = props => {
             <div className="emp-table">
               <table>
                 <tr>
-                  <th>
+                  <th style={{ width: '20%' }}>
                     Name{' '}
                     <img
                       src={Sort}
@@ -251,7 +268,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '10%' }}>
                     Role{' '}
                     <img
                       src={Sort}
@@ -268,7 +285,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '25%' }}>
                     Permanent Space{' '}
                     <img
                       src={Sort}
@@ -285,7 +302,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '25%' }}>
                     Email{' '}
                     <img
                       src={Sort}
@@ -302,7 +319,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '20%' }}>
                     Badge{' '}
                     <img
                       src={Sort}

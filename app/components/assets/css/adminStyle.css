@@ -1243,18 +1243,20 @@ span.disabled {
 
 .space {
   background: white;
-  border: 1px solid;
+  border: 1px solid #d1dce7;
   border-radius: 10px;
   width: 224px;
   padding: 0px 10px;
   margin-left: 10px;
+  height: 50px;
 }
 .role {
   background: white;
-  border: 1px solid;
+  border: 1px solid #d1dce7;
   border-radius: 10px;
   width: 224px;
   padding: 0px 10px;
+  height: 50px;
 }
 
 select,
@@ -1271,3 +1273,7 @@ select option[value=''] {
   display: block;
   /* margin: 16px 0; */
 /* }  */
+
+div[class*="qy-menu"] *{
+background-color: white;
+}
