@@ -685,6 +685,7 @@ const Employee = props => {
                         onClick={() => {
                           // handleClose();
                           props.handleStateClear();
+                          props.clearAssign();
                         }}
                         value="Save"
                       >
@@ -776,6 +777,7 @@ Employee.propTypes = {
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
   handleUnassignedSpace: PropTypes.func,
+  clearAssign: PropTypes.func,
 };
 
 export default Employee;

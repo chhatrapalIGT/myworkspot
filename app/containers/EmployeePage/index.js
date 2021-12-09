@@ -357,6 +357,7 @@ class EmployeePage extends Component {
           apiSuccess={apiSuccess}
           apiMessage={apiMessage}
           handleUnassignedSpace={this.handleUnassignedSpace}
+          clearAssign={this.clearAssign}
         />
       </div>
     );
