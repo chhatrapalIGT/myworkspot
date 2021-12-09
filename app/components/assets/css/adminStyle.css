@@ -1237,9 +1237,9 @@ span.hover-data::after {
   height: 400px;
 }
 /* select:invalid, */
-.pad-manual option:first-child {
+/* .pad-manual option:first-child {
   color: blue !important;
-}
+} */
 
 .space {
   background: white;

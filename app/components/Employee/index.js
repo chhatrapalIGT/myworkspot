@@ -251,7 +251,7 @@ const Employee = props => {
             <div className="emp-table">
               <table>
                 <tr>
-                  <th style={{ width: '20%' }}>
+                  <th style={{ width: '25%' }}>
                     Name{' '}
                     <img
                       src={Sort}
@@ -319,7 +319,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th style={{ width: '20%' }}>
+                  <th style={{ width: '15%' }}>
                     Badge{' '}
                     <img
                       src={Sort}
@@ -685,6 +685,7 @@ const Employee = props => {
                         onClick={() => {
                           // handleClose();
                           props.handleStateClear();
+                          props.clearAssign();
                         }}
                         value="Save"
                       >
@@ -776,6 +777,7 @@ Employee.propTypes = {
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
   handleUnassignedSpace: PropTypes.func,
+  clearAssign: PropTypes.func,
 };
 
 export default Employee;
