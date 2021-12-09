@@ -223,7 +223,7 @@ input[type='text'] {
   width: 100%;
   left: 0;
   top: 0;
-  z-index: 999;
+  z-index: 999999999;
   -webkit-transition: none !important;
 
   // & + * {
@@ -373,8 +373,8 @@ input[type='text'] {
         .del {
           background-color: #e4b878;
         }
-        .deladmin{
-          background-color: #FFE9E0;
+        .deladmin {
+          background-color: #ffe9e0;
         }
         .profile-popup-main {
           padding: 0 30px 20px;

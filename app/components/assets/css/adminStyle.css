@@ -479,16 +479,7 @@
   margin: 0 auto;
   line-height: 26px;
 }
-.accordion1.active::before {
-  position: absolute;
-  content: '';
-  height: 105px;
-  width: 1px;
-  background-color: #63baff;
-  top: 26%;
-  left: 14px;
-  z-index: 0;
-}
+
 .dash-menu-item1 {
   padding: 0 20px;
   font-size: 16px;
@@ -1449,7 +1440,7 @@ div[class*='qy-menu'] * {
   width: 20px;
   height: 10px;
   left: -3px;
-  top: 16px;
+  top: 5px;
   border-bottom: 1px solid #d1dce7;
   border-bottom-left-radius: 8px;
   background-color: transparent;
@@ -1462,6 +1453,7 @@ div[class*='qy-menu'] * {
   background-repeat: no-repeat;
   top: 25px;
   left: -95px;
+  cursor: pointer;
 }
 
 .lock3 {
@@ -1471,6 +1463,7 @@ div[class*='qy-menu'] * {
   background-repeat: no-repeat;
   top: 29px;
   left: -91px;
+  cursor: pointer;
 }
 
 .lock {
@@ -1478,7 +1471,7 @@ div[class*='qy-menu'] * {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  top: 40px;
+  top: 15px;
   cursor: pointer;
 }
 
@@ -1501,7 +1494,17 @@ div[class*='qy-menu'] * {
   position: relative;
 }
 .space_loading {
-  left: -115px;
-  top: 51px;
+  left: -101px;
+  top: 30px;
   position: relative;
+}
+
+.panel1::before {
+  position: absolute;
+  content: '';
+  height: calc(100% - 250px);
+  width: 1px;
+  background-color: #d1dce7;
+  left: 74px;
+  z-index: 9;
 }

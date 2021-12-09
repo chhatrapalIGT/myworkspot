@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable indent */
 /* eslint-disable default-case */
@@ -14,7 +16,8 @@ const Spaces = ({
   handleUserSelect,
   officeLocation,
   handleCloseUpdate,
-  spaceUpdate,
+  // spaceUpdate,
+  setSpaceUpdate,
   officeSuccess,
   requestUpdateActiveStatus,
 }) => {
@@ -22,7 +25,7 @@ const Spaces = ({
   const [color, setColor] = useState();
   const [setActive, setActiveState] = useState('');
   const [updateState, setUpdateState] = useState('');
-  const [manageLoader, setManageLoader] = useState('');
+  // const [manageLoader, setManageLoader] = useState('');
 
   function toggleAccordion(id) {
     setColor('');
@@ -43,7 +46,7 @@ const Spaces = ({
 
   const handleCheckbox = (data, val, final) => {
     const dataFinal = floor && floor.split(',');
-    setManageLoader(final);
+    // setManageLoader(final);
     if (final === 'FloorClick') {
       const dataVal = data && data.split(',');
       const payload = {
@@ -90,10 +93,10 @@ const Spaces = ({
 
   return (
     <div className="wrapper_main">
-      {spaceUpdate && spaceUpdate.message && (
+      {setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage && (
         <div
           className={`alert fade show mx-auto ${
-            spaceUpdate && spaceUpdate.success
+            setSpaceUpdate && setSpaceUpdate.showUpdateStatusSuccess
               ? 'alert alert-success'
               : 'alert alert-danger'
           }`}
@@ -101,12 +104,14 @@ const Spaces = ({
           <div>
             <img
               src={
-                spaceUpdate && spaceUpdate.success ? checkedCircle : crossCircle
+                setSpaceUpdate && setSpaceUpdate.showUpdateStatusSuccess
+                  ? checkedCircle
+                  : crossCircle
               }
               alt=""
               style={{ paddingRight: '5px', marginBottom: ' 4px' }}
             />
-            {(spaceUpdate && spaceUpdate.message) || ''}
+            {(setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage) || ''}
           </div>
           <div
             aria-hidden="true"
@@ -130,7 +135,7 @@ const Spaces = ({
             </div>
             <div className="office-selections wrap">
               <div className="selction_one ww-100">
-                <label htmlFor="">Office</label>
+                <label htmlFor>Office</label>
                 <select
                   name=""
                   id=""
@@ -185,8 +190,11 @@ const Spaces = ({
                           setFloor(`${obj.floor},${obj.building}`);
                         }}
                       />
-                      <label htmlFor={obj.floorAndBuilding}>
-                        {spaceUpdate &&
+                      <label
+                        htmlFor={obj.floorAndBuilding}
+                        style={{ display: 'block', height: '0px' }}
+                      >
+                        {/* {spaceUpdate &&
                           spaceUpdate.loading &&
                           manageLoader === 'FloorClick' && (
                             <div
@@ -196,7 +204,7 @@ const Spaces = ({
                                   : ''
                               }
                             />
-                          )}
+                          )} */}
                         <img
                           src={
                             obj.lockedWorkspaceNumber === obj.totalWorkspace
@@ -272,8 +280,8 @@ const Spaces = ({
                                       floor.neighborhoodname,
                                     )}
                                   >
-                                    {spaceUpdate &&
-                                      !spaceUpdate.loading &&
+                                    {/* {spaceUpdate &&
+                                      spaceUpdate.loading &&
                                       manageLoader === 'colorCLick' && (
                                         <div
                                           className={
@@ -282,7 +290,7 @@ const Spaces = ({
                                               : ''
                                           }
                                         />
-                                      )}
+                                      )} */}
                                     <img
                                       src={
                                         floor.neighborhoodLockedSpace ===
@@ -393,7 +401,8 @@ Spaces.propTypes = {
   handleUserSelect: PropTypes.func,
   requestUpdateActiveStatus: PropTypes.func,
   handleCloseUpdate: PropTypes.func,
-  spaceUpdate: PropTypes.object,
+  // spaceUpdate: PropTypes.object,
   officeSuccess: PropTypes.object,
+  setSpaceUpdate: PropTypes.object,
 };
 export default Spaces;
