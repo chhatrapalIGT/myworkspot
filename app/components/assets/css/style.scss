@@ -3170,8 +3170,8 @@ select.set_drop option[id='building'],
   }
 }
 .admin-employee:nth-child(2) * {
-    margin-top: 0px;
-    margin-right: -3px;
+  margin-top: 0px;
+  margin-right: -3px;
 }
 
 .admin-employee {
@@ -3191,9 +3191,14 @@ select.set_drop option[id='building'],
   }
 }
 
-div[class*="qy-menu"] *{
+div[class*='qy-menu'] * {
   background-color: white !important;
-  &:focus{
+  &:focus {
     background-color: #fff !important;
   }
-  }
+}
+
+.css-1g6gooi{
+  height: 0px;
+  opacity: 0;
+}
