@@ -41,9 +41,8 @@ const Header = props => {
   url = url[url.length - 1];
   useEffect(() => {
     props.requestUserlistData();
-    // if (props.profileUser && props.profileUser.role === 'Admin') {
-    localStorage.setItem('Admin', false);
-    // }
+    const getAdmin = localStorage.getItem('Admin');
+    !getAdmin && localStorage.setItem('Admin', false);
   }, []);
   useEffect(() => {
     if (props.profileSuccess) {
@@ -280,9 +279,8 @@ const Header = props => {
                       }
                     >
                       <span>
-                        {(localStorage.getItem('Admin') === 'true' ||
-                          isAdmin) && (
-                          <span style={{ color: '#ED8B00' }}> Admin </span>
+                        {localStorage.getItem('manageAdmin') === 'true' && (
+                          <span style={{ color: '#ED8B00' }}>Admin </span>
                         )}
                         {props.profileUser && props.profileUser.firstname}
                       </span>{' '}
@@ -405,7 +403,7 @@ const Header = props => {
                       props.profileUser.isFirstTime === true &&
                       pathName !== '/')) && (
                     <div className={`profile-inner ${editProfile && 'opened'}`}>
-                      {localStorage.getItem('Admin') === 'true' ? (
+                      {localStorage.getItem('manageAdmin') === 'true' ? (
                         <div className="head deladmin">
                           <span style={{ color: '#FF8D62' }}>Admin Access</span>
                         </div>
@@ -426,6 +424,7 @@ const Header = props => {
                             style={{
                               color: '#FF8D62',
                               fontSize: '16px',
+                              marginBottom: '0px',
                             }}
                             aria-hidden="true"
                             onClick={localStorage.setItem('Admin', true)}
@@ -433,25 +432,28 @@ const Header = props => {
                             Admin
                           </p>
                         ) : (
-                          <p>{props.profileUser.email}</p>
+                          <>
+                            <p>{props.profileUser.email}</p>
+
+                            <Link
+                              className={pathName === '/profile' && 'active'}
+                              to="/profile"
+                              activeClassName="active"
+                            >
+                              <button
+                                type="button"
+                                className="w-100 blue-color-btn profile-btn"
+                                onClick={() => {
+                                  setIsAdmin(false);
+                                  setEditProfile(false);
+                                  localStorage.setItem('Admin', false);
+                                }}
+                              >
+                                View My Profile
+                              </button>
+                            </Link>
+                          </>
                         )}
-                        <Link
-                          className={pathName === '/profile' && 'active'}
-                          to="/profile"
-                          activeClassName="active"
-                        >
-                          <button
-                            type="button"
-                            className="w-100 blue-color-btn profile-btn"
-                            onClick={() => {
-                              setIsAdmin(false);
-                              setEditProfile(false);
-                              localStorage.setItem('Admin', false);
-                            }}
-                          >
-                            View My Profile
-                          </button>
-                        </Link>
                       </div>
                       {props.profileUser &&
                         props.profileUser.delegateUserList &&
@@ -479,47 +481,39 @@ const Header = props => {
                             </div>
                           </div>
                         ))}
-                      {console.log('isAdmin', isAdmin)}
-                      {console.log(
-                        'isAdminssss',
-                        localStorage.getItem('Admin') === 'false',
-                      )}
-                      {localStorage.getItem('Admin') === 'false' ? (
-                        props.profileUser &&
-                        props.profileUser.role === 'Admin' && (
-                          <div
-                            aria-hidden="true"
-                            className="popup-secondary-profile day-pointer"
-                            onClick={() => {
-                              // userProfileData(obj.employeeid);
-                              setIsAdmin(true);
-                              localStorage.setItem('Admin', true);
-                              localStorage.setItem('manageAdmin', true);
-                              history.replace('/home');
-                            }}
-                          >
-                            <img
-                              src={
-                                (props.profileUser &&
-                                  props.profileUser.photo) ||
-                                Profile
-                              }
-                              alt=""
-                              style={{ marginBottom: '10px' }}
-                            />
-                            <div className="sec-profile-info">
-                              <h4>
-                                {props.profileUser &&
-                                  props.profileUser.firstname}{' '}
-                                {props.profileUser &&
-                                  props.profileUser.lastname}
-                              </h4>
-                              <span style={{ color: '#FF8D62' }}>
-                                {props.profileUser && props.profileUser.role}
-                              </span>
-                            </div>
+                      {/* {localStorage.getItem('Admin') === 'false' ? ( */}
+                      {props.profileUser &&
+                      props.profileUser.role === 'Admin' &&
+                      localStorage.getItem('Admin') === 'false' ? (
+                        <div
+                          aria-hidden="true"
+                          className="popup-secondary-profile day-pointer"
+                          onClick={() => {
+                            // userProfileData(obj.employeeid);
+                            setIsAdmin(true);
+                            localStorage.setItem('Admin', true);
+                            localStorage.setItem('manageAdmin', true);
+                            history.replace('/home');
+                          }}
+                        >
+                          <img
+                            src={
+                              (props.profileUser && props.profileUser.photo) ||
+                              Profile
+                            }
+                            alt=""
+                            style={{ marginBottom: '10px' }}
+                          />
+                          <div className="sec-profile-info">
+                            <h4>
+                              {props.profileUser && props.profileUser.firstname}{' '}
+                              {props.profileUser && props.profileUser.lastname}
+                            </h4>
+                            <span style={{ color: '#FF8D62' }}>
+                              {props.profileUser && props.profileUser.role}
+                            </span>
                           </div>
-                        )
+                        </div>
                       ) : (
                         // <Link to="/profile">
                         <div

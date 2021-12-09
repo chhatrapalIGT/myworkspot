@@ -305,7 +305,7 @@ const WorkspotAdmin = ({
                                     data && data.LocationPercentage,
                                   ).toFixed(2)}%`}
                                   <span className="hover-data">
-                                    Spaces available{' '}
+                                    Spaces Available{' '}
                                     <sapn className="digit">
                                       {`${data &&
                                         data.LocationFillCapacity}/100`}
