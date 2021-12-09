@@ -72,7 +72,7 @@ const Employee = props => {
         ? '#EbEEF1'
         : '' || isVisited
         ? '#f8f8f8'
-        : '#fff',
+        : '#fffff',
 
       color: '#000',
     }),
@@ -180,7 +180,15 @@ const Employee = props => {
                 </div>
 
                 <span htmlFor="role" className="role">
-                  Role
+                  <p
+                    style={{
+                      height: '18px',
+                      marginBottom: '0px',
+                      fontSize: '12px',
+                    }}
+                  >
+                    Role{' '}
+                  </p>
                   <Select
                     components={{ Option }}
                     isMulti
@@ -198,7 +206,16 @@ const Employee = props => {
                   />
                 </span>
                 <span htmlFor="space" className="space">
-                  Permanent Space
+                  <p
+                    style={{
+                      height: '18px',
+                      marginBottom: '0px',
+                      fontSize: '12px',
+                    }}
+                  >
+                    {' '}
+                    Permanent Space{' '}
+                  </p>
                   <Select
                     components={{ Option }}
                     isMulti
@@ -234,7 +251,7 @@ const Employee = props => {
             <div className="emp-table">
               <table>
                 <tr>
-                  <th>
+                  <th style={{ width: '20%' }}>
                     Name{' '}
                     <img
                       src={Sort}
@@ -251,7 +268,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '10%' }}>
                     Role{' '}
                     <img
                       src={Sort}
@@ -268,7 +285,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '25%' }}>
                     Permanent Space{' '}
                     <img
                       src={Sort}
@@ -285,7 +302,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '25%' }}>
                     Email{' '}
                     <img
                       src={Sort}
@@ -302,7 +319,7 @@ const Employee = props => {
                       }
                     />
                   </th>
-                  <th>
+                  <th style={{ width: '20%' }}>
                     Badge{' '}
                     <img
                       src={Sort}
@@ -523,13 +540,24 @@ const Employee = props => {
                     <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
                       <div className="pro-title1">Permanent Space</div>
 
-                      <div
+                      <button
                         className={`pro-title1 red ${
                           props.state.AssignedSpace !== null ? '' : 'unassign'
                         }`}
+                        name="handleUnassign"
+                        style={{ border: 'none', background: 'transparent' }}
+                        onClick={() =>
+                          props.handleUnassignedSpace(
+                            'handleUnassign',
+                            props.state.handleUnassign,
+                          )
+                        }
+                        aria-hidden="true"
+                        type="button"
+                        disabled={props.state.handleUnassign}
                       >
                         Unassign
-                      </div>
+                      </button>
                     </div>
 
                     <div className="selction_one mat-10 ww-100">
@@ -538,7 +566,6 @@ const Employee = props => {
                         className="pad-manual"
                         onChange={props.handleChange}
                         name="floor"
-                        required
                         value={props.state.floor}
                       >
                         <option
@@ -557,15 +584,16 @@ const Employee = props => {
                           ))}
                       </select>
                     </div>
-
                     <div className="selction_one mat-10 ww-100">
                       <label htmlFor>Building/Floor</label>
                       <select
                         onChange={props.handleChange}
                         name="build"
-                        required
                         value={`${props.state.build}`}
                         className="pad-manual"
+                        required={
+                          props.state.floor !== null && props.state.floor !== ''
+                        }
                       >
                         <option
                           id="spval"
@@ -607,7 +635,6 @@ const Employee = props => {
                           ))}
                       </select>
                     </div>
-
                     <div className="selction_one ww-100">
                       <label htmlFor style={{ color: 'gray' }}>
                         Space
@@ -618,10 +645,14 @@ const Employee = props => {
                         value={props.state.AssignedSpace}
                         defaultValue={finalData[0]}
                         className="pad-manual"
-                        required
+                        required={
+                          props.state.build !== '' ||
+                          (props.state.floor !== null &&
+                            props.state.floor !== '')
+                        }
                       >
                         <option id="spval gray-font" value="" selected>
-                          Select Spaces
+                          Select Space
                         </option>
                         {finalData &&
                           finalData.map(i => (
@@ -744,6 +775,7 @@ Employee.propTypes = {
   employeeLoading: PropTypes.bool,
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
+  handleUnassignedSpace: PropTypes.func,
 };
 
 export default Employee;
