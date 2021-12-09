@@ -891,15 +891,26 @@ span.disabled {
 .data-63:hover > .hover-data {
   display: block;
   position: absolute;
-  top: -40px;
+  top: -50px;
   right: 10px;
   width: 100px;
-  background-color: rgba(0, 45, 80, 0.5);
+  background-color: #526e88;
   border-radius: 8px;
   padding: 5px;
   color: #fff;
-  font-size: 18px;
+  font-size: 12px;
+  opacity: 0.8;
   text-align: left;
+}
+span.hover-data::after {
+  content: " ";
+  position: absolute;
+  right: 5px;
+  bottom: -11px;
+  border-top: 12px solid #526e88;
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+  border-bottom: none;
 }
 .bar:hover > .hover-data {
   display: block;
