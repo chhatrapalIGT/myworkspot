@@ -83,10 +83,13 @@ class EmployeePage extends Component {
     return null;
   }
 
-  getEmpData = (id, search, page, limit) => {
+  getEmpData = (id, search, value, space, sortBy, page, limit) => {
     const finalPayload = {
       id,
       search,
+      value,
+      space,
+      sortBy,
       page,
       limit,
     };
@@ -95,13 +98,29 @@ class EmployeePage extends Component {
 
   handleLimitChange = e => {
     this.setState({ limit: e, page: 1 });
-    this.getEmpData('', '', 1, e);
+    this.getEmpData(
+      '',
+      '',
+      this.state.strVal,
+      this.state.strSpace,
+      this.state.sortBy,
+      1,
+      e,
+    );
   };
 
   handlePageChange = e => {
     const { limit } = this.state;
     this.setState({ page: e });
-    this.getEmpData('', '', e, limit);
+    this.getEmpData(
+      '',
+      '',
+      this.state.strVal,
+      this.state.strSpace,
+      this.state.sortBy,
+      e,
+      limit,
+    );
   };
 
   componentDidMount() {
@@ -113,6 +132,7 @@ class EmployeePage extends Component {
     const { updateEmployee, apiMessage } = this.props;
     if (updateEmployee && updateEmployee.success) {
       setTimeout(() => {
+        this.clearAssign();
         this.props.resetDataEmp();
         this.props.requestGetEmployeeDetail({ search: '', role: '' });
       }, 3000);
@@ -124,6 +144,10 @@ class EmployeePage extends Component {
       }, 5000);
     }
   }
+
+  clearAssign = () => {
+    this.setState({ handleUnassign: false });
+  };
 
   handleEdit = ID => {
     this.setState({ isEdit: true, id: ID, hasData: true });
@@ -167,7 +191,7 @@ class EmployeePage extends Component {
       this.setState({ [name]: value }, () => {
         this.props.requestGetEmployeeDetail({
           search: this.state.searchVal,
-          role: this.state.rolee,
+          role: this.state.role,
           limit: this.state.limit,
           page: this.state.page,
         });
@@ -222,22 +246,15 @@ class EmployeePage extends Component {
     str += ']';
     const da = str.slice(0, 1);
     const ta = str.slice(2);
-    const strVal = da && da.concat(ta);
+    const strVal = values.length !== 0 ? da && da.concat(ta) : '';
+    this.setState({ strVal });
 
-    if (strVal === '[') {
-      this.props.requestGetEmployeeDetail({
-        search: '',
-        role: '',
-        limit: this.state.limit,
-        page: this.state.page,
-      });
-    } else {
-      this.props.requestGetEmployeeDetail({
-        value: strVal,
-        limit: this.state.limit,
-        page: this.state.page,
-      });
-    }
+    this.props.requestGetEmployeeDetail({
+      value: strVal,
+      space: this.state.strSpace,
+      limit: this.state.limit,
+      page: this.state.page,
+    });
   };
 
   handleChangeSpace = option => {
@@ -262,22 +279,15 @@ class EmployeePage extends Component {
       str += ']';
       const da = str.slice(0, 1);
       const ta = str.slice(2);
-      const strVal = da && da.concat(ta);
+      const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
+      this.setState({ strSpace });
 
-      if (strVal === '[') {
-        this.props.requestGetEmployeeDetail({
-          search: '',
-          role: '',
-          limit: this.state.limit,
-          page: this.state.page,
-        });
-      } else {
-        this.props.requestGetEmployeeDetail({
-          space: strVal,
-          limit: this.state.limit,
-          page: this.state.page,
-        });
-      }
+      this.props.requestGetEmployeeDetail({
+        space: strSpace,
+        value: this.state.strVal,
+        limit: this.state.limit,
+        page: this.state.page,
+      });
     });
   };
 
@@ -293,6 +303,7 @@ class EmployeePage extends Component {
     } else {
       sortBy = `${[key]}-DESC`;
     }
+    this.setState({ sortBy });
     this.props.requestGetEmployeeDetail({
       sortBy,
       limit: this.state.limit,
