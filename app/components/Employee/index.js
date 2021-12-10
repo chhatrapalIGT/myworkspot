@@ -371,6 +371,7 @@ const Employee = props => {
                           onClick={() => {
                             props.editEmployee(i.employeeid);
                             handleShow();
+                            props.clearAssign();
                           }}
                           aria-hidden="true"
                           alt="Edit"
@@ -706,7 +707,6 @@ const Employee = props => {
                         onClick={() => {
                           // handleClose();
                           props.handleStateClear();
-                          props.clearAssign();
                         }}
                         value="Save"
                       >
