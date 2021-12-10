@@ -491,6 +491,7 @@ const Header = props => {
                           onClick={() => {
                             // userProfileData(obj.employeeid);
                             setIsAdmin(true);
+                            setEditProfile(false);
                             localStorage.setItem('Admin', true);
                             localStorage.setItem('manageAdmin', true);
                             history.replace('/home');
