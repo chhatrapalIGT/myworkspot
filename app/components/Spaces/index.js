@@ -234,9 +234,14 @@ const Spaces = ({
                         }}
                       >
                         <span className="dash-menu-item">
-                          {' '}
-                          {obj.building && `Building${obj.building}`}{' '}
-                          {obj.floor && `Floor${obj.floor}`}
+                          {obj.building !== null && obj.floor !== null
+                            ? `Building ${obj.building},
+                                    Floor ${obj.floor}`
+                            : obj.building !== null
+                            ? `Building ${obj.building}`
+                            : obj.floor !== null
+                            ? `Floor ${obj.floor}`
+                            : ''}
                         </span>{' '}
                         <span className="acc-small">{`(${
                           obj.lockedWorkspaceNumber
