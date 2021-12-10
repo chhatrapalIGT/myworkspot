@@ -11,3 +11,4 @@ export const REQUEST_GET_WORKSPACE = 'requestgetWorkspace';
 export const SUCCESS_GET_WORKSPACE = 'getWorkspaceSuccess';
 export const FAILED_GET_WORKSPACE = 'getWorkspaceFailed';
 export const RESET_DATA_EMP = 'resetDataEmp';
+export const CLEAR_EMP = 'clearEmp';

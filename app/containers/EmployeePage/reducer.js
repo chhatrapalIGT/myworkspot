@@ -14,6 +14,7 @@ import {
   SUCCESS_GET_WORKSPACE,
   FAILED_GET_WORKSPACE,
   RESET_DATA_EMP,
+  CLEAR_EMP,
 } from './constants';
 
 // The initial state of the App
@@ -140,6 +141,10 @@ const EmployeeReducer = (state = initialState, action) =>
         draft.EditEmployeeDetail.success = false;
         draft.apiMessage = '';
         draft.apiSuccess = false;
+        break;
+      case CLEAR_EMP:
+        draft.UpdateEmployee.message = '';
+        draft.UpdateEmployee.success = false;
     }
   });
 export default EmployeeReducer;

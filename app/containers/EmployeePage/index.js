@@ -17,6 +17,7 @@ import {
   requestUpdateEmployeeDetail,
   requestGetWorkspace,
   resetDataEmp,
+  clearEmp,
 } from './action';
 
 import { requestVerifyBadge, clearBoardData } from '../onBoardingPage/actions';
@@ -100,7 +101,7 @@ class EmployeePage extends Component {
     this.setState({ limit: e, page: 1 });
     this.getEmpData(
       '',
-      '',
+      this.state.searchVal,
       this.state.strVal,
       this.state.strSpace,
       this.state.sortBy,
@@ -114,7 +115,7 @@ class EmployeePage extends Component {
     this.setState({ page: e });
     this.getEmpData(
       '',
-      '',
+      this.state.searchVal,
       this.state.strVal,
       this.state.strSpace,
       this.state.sortBy,
@@ -130,11 +131,20 @@ class EmployeePage extends Component {
 
   componentDidUpdate() {
     const { updateEmployee, apiMessage } = this.props;
+    const { strVal, strSpace, sortBy, searchVal } = this.state;
     if (updateEmployee && updateEmployee.success) {
+      this.props.clearEmp();
+      this.props.requestGetEmployeeDetail({
+        search: searchVal,
+        value: strVal,
+        space: strSpace,
+        sortBy,
+        page: this.state.page,
+        limit: this.state.limit,
+      });
       setTimeout(() => {
         this.clearAssign();
         this.props.resetDataEmp();
-        this.props.requestGetEmployeeDetail({ search: '', role: '' });
       }, 3000);
     }
 
@@ -191,7 +201,9 @@ class EmployeePage extends Component {
       this.setState({ [name]: value }, () => {
         this.props.requestGetEmployeeDetail({
           search: this.state.searchVal,
-          role: this.state.role,
+          value: this.state.strVal,
+          space: this.state.strSpace,
+          sortBy: this.state.sortBy,
           limit: this.state.limit,
           page: this.state.page,
         });
@@ -252,6 +264,7 @@ class EmployeePage extends Component {
     this.props.requestGetEmployeeDetail({
       value: strVal,
       space: this.state.strSpace,
+      search: this.state.searchVal,
       limit: this.state.limit,
       page: this.state.page,
     });
@@ -285,6 +298,7 @@ class EmployeePage extends Component {
       this.props.requestGetEmployeeDetail({
         space: strSpace,
         value: this.state.strVal,
+        search: this.state.searchVal,
         limit: this.state.limit,
         page: this.state.page,
       });
@@ -420,6 +434,7 @@ export function mapDispatchToProps(dispatch) {
     clearBoardData: () => dispatch(clearBoardData()),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
     resetDataEmp: () => dispatch(resetDataEmp()),
+    clearEmp: () => dispatch(clearEmp()),
     dispatch,
   };
 }
@@ -448,6 +463,7 @@ EmployeePage.propTypes = {
   employeeLoading: PropTypes.bool,
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
+  clearEmp: PropTypes.func,
 };
 
 export default compose(
