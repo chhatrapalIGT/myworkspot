@@ -723,7 +723,6 @@ const Employee = props => {
                         onClick={() => {
                           // handleClose();
                           props.handleStateClear();
-                          props.clearAssign();
                           setchkspace(true);
                         }}
                         value="Save"
