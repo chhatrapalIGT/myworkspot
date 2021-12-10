@@ -302,8 +302,8 @@ const Office = ({
                           <div className="of-mp-head" />
                           <div className="of-mp-para">
                             {color && color.length
-                              ? 'Upload .SVG file to update the map.'
-                              : 'Upload .SVG file to update the map. Neighborhood assignment maps will not be updated automatically.'}
+                              ? 'Upload .PNG file to update the map.'
+                              : 'Upload .PNG file to update the map. Neighborhood assignment maps will not be updated automatically.'}
                           </div>
                         </div>
 

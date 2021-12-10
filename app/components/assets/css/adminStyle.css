@@ -892,7 +892,7 @@ span.disabled {
   text-align: left;
 }
 span.hover-data::after {
-  content: " ";
+  content: ' ';
   position: absolute;
   right: 5px;
   bottom: -11px;
@@ -1345,7 +1345,6 @@ div[class*='qy-menu'] * {
   border-bottom: 1px solid #63baff;
   border-bottom-left-radius: 8px;
   background-color: transparent;
-  z-index: 999;
 }
 
 .accordion3 {
@@ -1455,7 +1454,6 @@ div[class*='qy-menu'] * {
   border-bottom: 1px solid #d1dce7;
   border-bottom-left-radius: 8px;
   background-color: transparent;
-  z-index: 999999;
 }
 .lock2 {
   position: relative;
@@ -1501,12 +1499,19 @@ div[class*='qy-menu'] * {
 }
 
 .load_space {
-  top: 44px;
+  top: 21px;
+  left: -42px;
+  color: #00355f;
   position: relative;
 }
 .space_loading {
-  left: -101px;
+  left: -135px;
   top: 30px;
+  position: relative;
+}
+.space_Update_load {
+  left: -133px;
+  top: 33px;
   position: relative;
 }
 
@@ -1518,4 +1523,8 @@ div[class*='qy-menu'] * {
   background-color: #d1dce7;
   left: 74px;
   z-index: 9;
+}
+
+.bg_overall {
+  background-color: #ebf6ff;
 }

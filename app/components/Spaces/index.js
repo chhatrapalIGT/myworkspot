@@ -16,7 +16,7 @@ const Spaces = ({
   handleUserSelect,
   officeLocation,
   handleCloseUpdate,
-  // spaceUpdate,
+  spaceUpdate,
   setSpaceUpdate,
   officeSuccess,
   requestUpdateActiveStatus,
@@ -25,7 +25,8 @@ const Spaces = ({
   const [color, setColor] = useState();
   const [setActive, setActiveState] = useState('');
   const [updateState, setUpdateState] = useState('');
-  // const [manageLoader, setManageLoader] = useState('');
+  const [manageLoader, setManageLoader] = useState('');
+  const [spaceData, setSpaceData] = useState('');
 
   function toggleAccordion(id) {
     setColor('');
@@ -46,7 +47,7 @@ const Spaces = ({
 
   const handleCheckbox = (data, val, final) => {
     const dataFinal = floor && floor.split(',');
-    // setManageLoader(final);
+    setManageLoader(final);
     if (final === 'FloorClick') {
       const dataVal = data && data.split(',');
       const payload = {
@@ -69,7 +70,7 @@ const Spaces = ({
       requestUpdateActiveStatus(payload);
     } else if (final === 'neighborhoodClick') {
       const payload = {
-        active: !val,
+        active: val,
         locationid: state.selectedNames,
         floor: dataFinal && dataFinal[0] !== 'null' ? dataFinal[0] : '',
         building: dataFinal && dataFinal[1] !== 'null' ? dataFinal[1] : '',
@@ -177,7 +178,7 @@ const Spaces = ({
                         id={obj.floorAndBuilding}
                         name="checkedItem"
                         value="add"
-                        defaultChecked={
+                        checked={
                           obj.lockedWorkspaceNumber === obj.totalWorkspace
                         }
                         className="lock invisible"
@@ -194,17 +195,6 @@ const Spaces = ({
                         htmlFor={obj.floorAndBuilding}
                         style={{ display: 'block', height: '0px' }}
                       >
-                        {/* {spaceUpdate &&
-                          spaceUpdate.loading &&
-                          manageLoader === 'FloorClick' && (
-                            <div
-                              className={
-                                `${obj.floor},${obj.building}` === floor
-                                  ? 'spinner-border load_space'
-                                  : ''
-                              }
-                            />
-                          )} */}
                         <img
                           src={
                             obj.lockedWorkspaceNumber === obj.totalWorkspace
@@ -219,8 +209,18 @@ const Spaces = ({
                           className="lock"
                           alt=""
                         />
+                        {spaceUpdate &&
+                          spaceUpdate.loading &&
+                          manageLoader === 'FloorClick' && (
+                            <div
+                              className={
+                                `${obj.floor},${obj.building}` === floor
+                                  ? 'spinner-border load_space'
+                                  : ''
+                              }
+                            />
+                          )}
                       </label>
-
                       <div
                         aria-hidden="true"
                         className={`accordion3 line ${
@@ -243,6 +243,7 @@ const Spaces = ({
                         } /
                                 ${obj.totalWorkspace} Locked)`}</span>
                       </div>
+
                       <div
                         className={`panel2 ${
                           setActive === obj.floorAndBuilding
@@ -260,7 +261,7 @@ const Spaces = ({
                                     id={obj.floorAndBuilding.concat(
                                       floor.neighborhoodname,
                                     )}
-                                    defaultChecked={
+                                    checked={
                                       floor.neighborhoodLockedSpace ===
                                       floor.neighborhoodTotalSpace
                                     }
@@ -273,6 +274,7 @@ const Spaces = ({
                                         e.target.checked,
                                         'colorCLick',
                                       );
+                                      setColor(floor.neighborhoodname);
                                     }}
                                   />
                                   <label
@@ -280,17 +282,6 @@ const Spaces = ({
                                       floor.neighborhoodname,
                                     )}
                                   >
-                                    {/* {spaceUpdate &&
-                                      spaceUpdate.loading &&
-                                      manageLoader === 'colorCLick' && (
-                                        <div
-                                          className={
-                                            floor.neighborhoodname === color
-                                              ? 'spinner-border space_loading'
-                                              : ''
-                                          }
-                                        />
-                                      )} */}
                                     <img
                                       src={
                                         floor.neighborhoodLockedSpace ===
@@ -307,7 +298,20 @@ const Spaces = ({
                                       className="lock2"
                                       alt=""
                                     />
+
+                                    {spaceUpdate &&
+                                      spaceUpdate.loading &&
+                                      manageLoader === 'colorCLick' && (
+                                        <div
+                                          className={
+                                            floor.neighborhoodname === color
+                                              ? 'spinner-border space_loading'
+                                              : ''
+                                          }
+                                        />
+                                      )}
                                   </label>
+
                                   <div
                                     className={`accordion2 ${
                                       updateState === floor.neighborhoodname
@@ -350,7 +354,7 @@ const Spaces = ({
                                             id={space.id}
                                             name="checkedItem2"
                                             value="add2"
-                                            defaultChecked={space.active}
+                                            checked={space.active}
                                             className="lock3 invisible"
                                             onChange={e => {
                                               handleCheckbox(
@@ -358,17 +362,33 @@ const Spaces = ({
                                                 e.target.checked,
                                                 'neighborhoodClick',
                                               );
+                                              setSpaceData(
+                                                space.workspacenumber,
+                                              );
                                             }}
                                           />
                                           <label htmlFor={space.id}>
                                             <img
-                                              src={space.active ? lock : unLock}
+                                              src={space.active ? unLock : lock}
                                               title={
-                                                space.active ? 'unLock' : 'lock'
+                                                space.active ? 'lock' : 'Unlock'
                                               }
                                               className="lock3"
                                               alt=""
                                             />
+                                            {spaceUpdate &&
+                                              spaceUpdate.loading &&
+                                              manageLoader ===
+                                                'neighborhoodClick' && (
+                                                <div
+                                                  className={
+                                                    space.workspacenumber ===
+                                                    spaceData
+                                                      ? 'spinner-border space_Update_load'
+                                                      : ''
+                                                  }
+                                                />
+                                              )}
                                           </label>
                                           <div
                                             className="dash-menu-list2"
@@ -401,7 +421,7 @@ Spaces.propTypes = {
   handleUserSelect: PropTypes.func,
   requestUpdateActiveStatus: PropTypes.func,
   handleCloseUpdate: PropTypes.func,
-  // spaceUpdate: PropTypes.object,
+  spaceUpdate: PropTypes.object,
   officeSuccess: PropTypes.object,
   setSpaceUpdate: PropTypes.object,
 };
