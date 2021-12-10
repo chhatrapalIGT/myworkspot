@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-vars */
@@ -39,6 +40,8 @@ const Employee = props => {
       : [];
   }, [employeeData]);
   const [show, setShow] = useState(false);
+  const [build, setBuild] = useState(false);
+  const [chkSpace, setchkspace] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   // const [build, setBuild] = useState(8);
@@ -372,6 +375,7 @@ const Employee = props => {
                             props.editEmployee(i.employeeid);
                             handleShow();
                             props.clearAssign();
+                            setchkspace(false);
                           }}
                           aria-hidden="true"
                           alt="Edit"
@@ -441,6 +445,7 @@ const Employee = props => {
                   onClick={() => {
                     setShow(false);
                     props.handleStateClear();
+                    setchkspace(false);
                   }}
                 />
               </div>
@@ -517,6 +522,7 @@ const Employee = props => {
                         name="BadgeNumber"
                         type="text"
                         placeholder="XXX-XXX"
+                        maxLength="7"
                         value={props.state.BadgeNumber}
                         className="form-control"
                         onChange={props.handleBadgeData}
@@ -637,19 +643,21 @@ const Employee = props => {
                               </>
                             ))}
                         </select>
-                        {/* <div className="d-flex">
-                          <img
-                            src={Warnning}
-                            alt="warn"
-                            style={{
-                              margin: '4px 5px 0px 0px',
-                              height: '14px',
-                            }}
-                          />
-                          <p style={{ margin: '0px', color: 'red' }}>
-                            You have to fill in this field to assign a space
-                          </p>
-                        </div> */}
+                        {chkSpace && props.state.build === '' && (
+                          <div className="d-flex">
+                            <img
+                              src={Warnning}
+                              alt="warn"
+                              style={{
+                                margin: '4px 5px 0px 0px',
+                                height: '14px',
+                              }}
+                            />
+                            <p style={{ margin: '0px', color: 'red' }}>
+                              You have to fill in this field to assign a space
+                            </p>
+                          </div>
+                        )}
                       </div>
                     )}
                     {props.state && props.state.build !== '' && (
@@ -683,17 +691,25 @@ const Employee = props => {
                               </option>
                             ))}
                         </select>
+                        {chkSpace &&
+                          (props.state.AssignedSpace === '' ||
+                            props.state.AssignedSpace === null) && (
+                            <div className="d-flex">
+                              <img
+                                src={Warnning}
+                                alt="warn"
+                                style={{
+                                  margin: '4px 5px 0px 0px',
+                                  height: '14px',
+                                }}
+                              />
+                              <p style={{ margin: '0px', color: 'red' }}>
+                                You have to fill in this field to assign a space
+                              </p>
+                            </div>
+                          )}
                       </div>
                     )}
-
-                    <p className="red minus-10" id="error">
-                      <img
-                        src="images/red-info.png"
-                        className="img-fluid v-bot"
-                        alt=""
-                      />{' '}
-                      You have to fill in this field to assign a space
-                    </p>
 
                     <div className="modal-footer mt-2 border-none pad-0">
                       <button
@@ -707,6 +723,7 @@ const Employee = props => {
                         onClick={() => {
                           // handleClose();
                           props.handleStateClear();
+                          setchkspace(true);
                         }}
                         value="Save"
                       >
@@ -723,6 +740,7 @@ const Employee = props => {
                         onClick={() => {
                           setShow(false);
                           props.handleStateClear();
+                          setchkspace(false);
                         }}
                       >
                         Cancel
@@ -802,3 +820,13 @@ Employee.propTypes = {
 };
 
 export default Employee;
+
+document.addEventListener(
+  'invalid',
+  (function() {
+    return function(e) {
+      e.preventDefault();
+    };
+  })(),
+  true,
+);
