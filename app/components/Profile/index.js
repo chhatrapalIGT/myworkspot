@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable no-unused-vars */
@@ -556,6 +557,34 @@ const Profile = ({
                     ))}
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="workspot-access mt-40">
+            <div className="container">
+              <h4 className="common-title">Office Access</h4>
+              <p className="stroke-2 mt-3">
+                After submitting a form, the request will be sent to the office
+                manager's team. It may take up to 48 business hours to process
+                the request.
+              </p>
+              <a
+                style={{ textDecoration: 'underline' }}
+                target="_blank"
+                className="w-50 stroke-2 mt-3"
+                href="https://forms.eab.com/s3/Fitness-Center-Waiver-DC-Office"
+              >
+                Fitness Center Waiver - DC Office{' '}
+              </a>{' '}
+              <br />
+              <a
+                style={{ textDecoration: 'underline' }}
+                target="_blank"
+                className="w-50 stroke-2 mt-3"
+                href="https://forms.eab.com/s3/Bike-Waiver-for-DC-Office"
+              >
+                Bike Waiver - DC Office &#xf35d;
+              </a>
             </div>
           </div>
         </div>

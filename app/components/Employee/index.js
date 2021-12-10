@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable func-names */
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable array-callback-return */
@@ -349,6 +350,10 @@ const Employee = props => {
                       variant="dark"
                     />
                   </td>
+                ) : props.employeeData && props.employeeData.length === 0 ? (
+                  <td colSpan="5">
+                    <div className="employee-norecord">{'No record found'}</div>
+                  </td>
                 ) : (
                   employeeData &&
                   employeeData.map(i => (
@@ -389,36 +394,37 @@ const Employee = props => {
                 {/* </tr> */}
               </table>
             </div>
-            {!props.employeeLoading && (
-              <div className="table-bot-flex">
-                <div className="selction_one">
-                  <select
-                    name=""
-                    id=""
-                    className="pad-manual"
-                    value={props.state.limit}
-                    onChange={e => props.handleLimitChange(e.target.value)}
-                  >
-                    <option value="10">10 per page</option>
-                    <option value="20">20 per page</option>
-                    <option value="30">30 per page</option>
-                    <option value="40">40 per page</option>
-                  </select>
+            {!props.employeeLoading &&
+              (props.employeeData && props.employeeData.length > 0) && (
+                <div className="table-bot-flex">
+                  <div className="selction_one">
+                    <select
+                      name=""
+                      id=""
+                      className="pad-manual"
+                      value={props.state.limit}
+                      onChange={e => props.handleLimitChange(e.target.value)}
+                    >
+                      <option value="10">10 per page</option>
+                      <option value="20">20 per page</option>
+                      <option value="30">30 per page</option>
+                      <option value="40">40 per page</option>
+                    </select>
+                  </div>
+                  <div className="">
+                    {state.page * state.limit - (state.limit - 1)} -
+                    {state.page * state.limit} of {props.employeeCount} shown
+                  </div>
+                  <Pagination
+                    className="pagination-bar"
+                    currentPage={state.page}
+                    totalCounts={props.employeeCount * state.limit}
+                    totalCount={props.employeeCount}
+                    pageSize={state.limit}
+                    onPageChange={page => props.handlePageChange(page)}
+                  />
                 </div>
-                <div className="">
-                  {state.page * state.limit - (state.limit - 1)} -
-                  {state.page * state.limit} of {props.employeeCount} shown
-                </div>
-                <Pagination
-                  className="pagination-bar"
-                  currentPage={state.page}
-                  totalCounts={props.employeeCount * state.limit}
-                  totalCount={props.employeeCount}
-                  pageSize={state.limit}
-                  onPageChange={page => props.handlePageChange(page)}
-                />
-              </div>
-            )}
+              )}
           </div>
         </div>
         <Modal
