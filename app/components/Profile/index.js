@@ -20,6 +20,7 @@ import Warnning from '../../images/officeImage/Warnning.png';
 import Close from '../assets/images/close.svg';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
+import externalLink from '../assets/images/externalLink.png';
 
 const Profile = ({
   handleButtonData,
@@ -574,7 +575,15 @@ const Profile = ({
                 className="w-50 stroke-2 mt-3"
                 href="https://forms.eab.com/s3/Fitness-Center-Waiver-DC-Office"
               >
-                Fitness Center Waiver - DC Office{' '}
+                Fitness Center Waiver - DC Office{'   '}
+                <img
+                  src={externalLink}
+                  alt="warn"
+                  style={{
+                    margin: '4px 5px 9px 8px',
+                    height: '14px',
+                  }}
+                />
               </a>{' '}
               <br />
               <a
@@ -583,7 +592,15 @@ const Profile = ({
                 className="w-50 stroke-2 mt-3"
                 href="https://forms.eab.com/s3/Bike-Waiver-for-DC-Office"
               >
-                Bike Waiver - DC Office &#xf35d;
+                Bike Waiver - DC Office
+                <img
+                  src={externalLink}
+                  alt="warn"
+                  style={{
+                    margin: '4px 5px 9px 8px',
+                    height: '14px',
+                  }}
+                />
               </a>
             </div>
           </div>
