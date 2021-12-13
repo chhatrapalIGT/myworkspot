@@ -873,6 +873,10 @@ span.disabled {
   cursor: pointer;
   font-size: 18px;
 }
+.data-64 {
+  position: relative;
+  font-size: 18px;
+}
 .hover-data {
   display: none;
   cursor: pointer;
@@ -1219,9 +1223,9 @@ span.hover-data::after {
   padding-right: 5px !important;
 }
 .admin-day-name:nth-child(4) > span {
-  padding-right: 18px !important;
+  /* padding-right: 18px !important; */
   margin-right: 20px;
-  padding: 15px;
+  /* padding: 15px; */
 }
 .admin-day-name:nth-child(6) > span {
   margin-right: 5px !important;
