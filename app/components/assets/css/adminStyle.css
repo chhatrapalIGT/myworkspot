@@ -1312,7 +1312,7 @@ div[class*='qy-menu'] * {
 }
 .accordion2.active::after {
   position: absolute;
-  top: 20%;
+  top: -14%;
   left: 0px;
   content: '\203A';
   transform: rotate(90deg);
@@ -1324,7 +1324,7 @@ div[class*='qy-menu'] * {
   border-radius: 5px;
   transition: 0.5s all ease;
   margin: 0 auto;
-  line-height: 26px;
+  /* line-height: 26px; */
 }
 .accordion2.active::before {
   position: absolute;
@@ -1531,4 +1531,11 @@ div[class*='qy-menu'] * {
 
 .bg_overall {
   background-color: #ebf6ff;
+}
+
+.drop_emp {
+  display: flex;
+  border: black;
+  align-items: center;
+  margin-top: -6px;
 }
