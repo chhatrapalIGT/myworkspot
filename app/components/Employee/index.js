@@ -684,7 +684,7 @@ const Employee = props => {
                     )}
                     {props.state && props.state.build !== '' && (
                       <div className="selction_one ww-100">
-                        <label htmlFor style={{ color: 'gray' }}>
+                        <label htmlFor style={{ color: '#526E88' }}>
                           Space
                         </label>
                         <select
@@ -699,7 +699,12 @@ const Employee = props => {
                               props.state.floor !== '')
                           }
                         >
-                          <option id="spval gray-font" value="" selected>
+                          <option
+                            id="spval gray-font"
+                            value=""
+                            selected
+                            style={{ color: '#526E88' }}
+                          >
                             Select Space
                           </option>
                           {finalData &&
