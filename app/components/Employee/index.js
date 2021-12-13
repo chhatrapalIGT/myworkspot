@@ -535,6 +535,7 @@ const Employee = props => {
                         type="text"
                         placeholder="XXX-XXX"
                         maxLength="7"
+                        id="badgeUpdate"
                         value={props.state.BadgeNumber}
                         className="form-control"
                         onChange={props.handleBadgeData}

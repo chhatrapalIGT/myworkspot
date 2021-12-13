@@ -34,6 +34,7 @@ const Spaces = ({
       setActiveState('');
     } else {
       setActiveState(id);
+      setUpdateState('');
     }
   }
 
