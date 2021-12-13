@@ -3225,3 +3225,12 @@ div[class*='qy-menu'] * {
   left: -4px;
   z-index: 9;
 }
+
+.employee-norecord {
+  margin: 2% auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 18px;
+}
