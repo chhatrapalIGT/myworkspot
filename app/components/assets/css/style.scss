@@ -2598,6 +2598,7 @@ li.highlightOption:hover {
 }
 .set_drop {
   background-color: white;
+  color: #00355f;
   &:hover {
     cursor: pointer;
   }
@@ -3197,7 +3198,30 @@ div[class*='qy-menu'] * {
   }
 }
 
-.css-1g6gooi{
+.css-1g6gooi {
   height: 0px;
   opacity: 0;
+}
+.panel {
+  .panel-list:last-child > div::before {
+    position: absolute;
+    content: '';
+    height: calc(100% - 27px);
+    width: 1px;
+    background-color: #63baff;
+    top: 4%;
+    left: -4px;
+    z-index: 9;
+  }
+}
+
+.dash-menu-list:nth-child(4)::before {
+  position: absolute;
+  content: '';
+  height: 100%;
+  width: 1px;
+  background-color: #63baff;
+  top: 4%;
+  left: -4px;
+  z-index: 9;
 }
