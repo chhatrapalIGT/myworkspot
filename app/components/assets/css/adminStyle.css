@@ -236,7 +236,7 @@
   padding: 10px 25px;
 }
 .acc-small {
-  color: #95a7b8;
+  color: #526e88;
   font-size: 13px;
   font-weight: normal !important;
 }
@@ -335,9 +335,8 @@
 .dash-menu-item {
   padding: 0 20px;
   font-size: 16px;
-  color: #0e204d;
+  color: #00355f;
   padding: 5px 10px 10px;
-  padding-right: 15px;
 }
 .panel {
   background-color: #fff;
@@ -357,13 +356,14 @@
 .panel .dash-menu-list::before {
   position: absolute;
   content: '';
-  height: 80%;
+  height: 100%;
   width: 1px;
   background-color: #63baff;
   top: 4%;
   left: -4px;
   z-index: 9;
 }
+
 .panel .dash-menu-item {
   color: #00355f;
   font-size: 16px;
@@ -485,7 +485,7 @@
   font-size: 16px;
   color: #0e204d;
   padding: 10px;
-  padding-right: 15px;
+  /* padding-right: 15px; */
   padding-left: 50px;
 }
 .dash-menu-list1::before {
@@ -873,6 +873,10 @@ span.disabled {
   cursor: pointer;
   font-size: 18px;
 }
+.data-64 {
+  position: relative;
+  font-size: 18px;
+}
 .hover-data {
   display: none;
   cursor: pointer;
@@ -1219,9 +1223,9 @@ span.hover-data::after {
   padding-right: 5px !important;
 }
 .admin-day-name:nth-child(4) > span {
-  padding-right: 18px !important;
+  /* padding-right: 18px !important; */
   margin-right: 20px;
-  padding: 15px;
+  /* padding: 15px; */
 }
 .admin-day-name:nth-child(6) > span {
   margin-right: 5px !important;

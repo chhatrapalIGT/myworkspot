@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable func-names */
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable array-callback-return */
@@ -21,8 +22,8 @@ import crossCircle from '../../images/x-circle-fill.svg';
 import Warnning from '../../images/officeImage/Warnning.png';
 
 const options = [
-  { label: 'User', value: 'User', name: 'User' },
   { label: 'Admin', value: 'Admin', name: 'Admin' },
+  { label: 'User', value: 'User', name: 'User' },
 ];
 
 const optionsLocation = [
@@ -106,7 +107,9 @@ const Employee = props => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
-        <div className="drop_update">{props.state.finalVal || ''}</div>
+        <div className="drop_update">
+          {props.state.finalVal ? props.state.finalVal : 'Washington, DC +2'}
+        </div>
       </>
     );
     return item;
@@ -116,7 +119,9 @@ const Employee = props => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
-        <div className="drop_update">{props.state.finalRole || ''}</div>
+        <div className="drop_update">
+          {props.state.finalRole ? props.state.finalRole : 'Admin;User'}
+        </div>
       </>
     );
     return item;
@@ -196,6 +201,7 @@ const Employee = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
+                    defaultValue={options}
                     // value={props.state.selectedOption}
                     onChange={props.handleChangeBox}
                     options={updatedRole}
@@ -224,6 +230,7 @@ const Employee = props => {
                     isMulti
                     isClearable={false}
                     // value={props.state.selectedOption}
+                    defaultValue={optionsLocation}
                     onChange={props.handleChangeSpace}
                     options={updatedEmpData}
                     closeMenuOnSelect
@@ -349,6 +356,10 @@ const Employee = props => {
                       variant="dark"
                     />
                   </td>
+                ) : props.employeeData && props.employeeData.length === 0 ? (
+                  <td colSpan="5">
+                    <div className="employee-norecord">{'No record found'}</div>
+                  </td>
                 ) : (
                   employeeData &&
                   employeeData.map(i => (
@@ -389,36 +400,37 @@ const Employee = props => {
                 {/* </tr> */}
               </table>
             </div>
-            {!props.employeeLoading && (
-              <div className="table-bot-flex">
-                <div className="selction_one">
-                  <select
-                    name=""
-                    id=""
-                    className="pad-manual"
-                    value={props.state.limit}
-                    onChange={e => props.handleLimitChange(e.target.value)}
-                  >
-                    <option value="10">10 per page</option>
-                    <option value="20">20 per page</option>
-                    <option value="30">30 per page</option>
-                    <option value="40">40 per page</option>
-                  </select>
+            {!props.employeeLoading &&
+              (props.employeeData && props.employeeData.length > 0) && (
+                <div className="table-bot-flex">
+                  <div className="selction_one">
+                    <select
+                      name=""
+                      id=""
+                      className="pad-manual"
+                      value={props.state.limit}
+                      onChange={e => props.handleLimitChange(e.target.value)}
+                    >
+                      <option value="10">10 per page</option>
+                      <option value="20">20 per page</option>
+                      <option value="30">30 per page</option>
+                      <option value="40">40 per page</option>
+                    </select>
+                  </div>
+                  <div className="">
+                    {state.page * state.limit - (state.limit - 1)} -
+                    {state.page * state.limit} of {props.employeeCount} shown
+                  </div>
+                  <Pagination
+                    className="pagination-bar"
+                    currentPage={state.page}
+                    totalCounts={props.employeeCount * state.limit}
+                    totalCount={props.employeeCount}
+                    pageSize={state.limit}
+                    onPageChange={page => props.handlePageChange(page)}
+                  />
                 </div>
-                <div className="">
-                  {state.page * state.limit - (state.limit - 1)} -
-                  {state.page * state.limit} of {props.employeeCount} shown
-                </div>
-                <Pagination
-                  className="pagination-bar"
-                  currentPage={state.page}
-                  totalCounts={props.employeeCount * state.limit}
-                  totalCount={props.employeeCount}
-                  pageSize={state.limit}
-                  onPageChange={page => props.handlePageChange(page)}
-                />
-              </div>
-            )}
+              )}
           </div>
         </div>
         <Modal
@@ -548,24 +560,33 @@ const Employee = props => {
                     <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
                       <div className="pro-title1">Permanent Space</div>
 
-                      <button
-                        className={`pro-title1 red ${
-                          props.state.AssignedSpace !== null ? '' : 'unassign'
-                        }`}
-                        name="handleUnassign"
-                        style={{ border: 'none', background: 'transparent' }}
-                        onClick={() =>
-                          props.handleUnassignedSpace(
-                            'handleUnassign',
-                            props.state.handleUnassign,
-                          )
-                        }
-                        aria-hidden="true"
-                        type="button"
-                        disabled={props.state.handleUnassign}
-                      >
-                        Unassign
-                      </button>
+                      {props.state.AssignedSpace !== null &&
+                        props.state.AssignedSpace !== '' &&
+                        !props.state.handleUnassign && (
+                          <button
+                            className={`pro-title1 red ${
+                              props.state.AssignedSpace !== null
+                                ? ''
+                                : 'unassign'
+                            }`}
+                            name="handleUnassign"
+                            style={{
+                              border: 'none',
+                              background: 'transparent',
+                            }}
+                            onClick={() =>
+                              props.handleUnassignedSpace(
+                                'handleUnassign',
+                                props.state.handleUnassign,
+                              )
+                            }
+                            aria-hidden="true"
+                            type="button"
+                            disabled={props.state.handleUnassign}
+                          >
+                            Unassign
+                          </button>
+                        )}
                     </div>
 
                     <div className="selction_one mat-10 ww-100">

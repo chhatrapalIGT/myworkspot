@@ -244,10 +244,9 @@ const Spaces = ({
                             ? `Floor ${obj.floor}`
                             : ''}
                         </span>{' '}
-                        <span className="acc-small">{`(${
+                        <span className="acc-small">{`${
                           obj.lockedWorkspaceNumber
-                        } /
-                                ${obj.totalWorkspace} Locked)`}</span>
+                        }/${obj.totalWorkspace} Locked`}</span>
                       </div>
 
                       <div
@@ -337,11 +336,12 @@ const Spaces = ({
                                         className={`sq-${floor.neighborhoodname.toLowerCase()}`}
                                       />{' '}
                                       {floor.neighborhoodname}{' '}
-                                    </span>{' '}
-                                    <span className="acc-small">{`(${
+                                    </span>
+                                    <span className="acc-small">{`${
                                       floor.neighborhoodLockedSpace
-                                    } /
-                                ${floor.neighborhoodTotalSpace} Locked)`}</span>
+                                    }/${
+                                      floor.neighborhoodTotalSpace
+                                    } Locked`}</span>
                                   </div>
 
                                   <div
