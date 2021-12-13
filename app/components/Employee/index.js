@@ -190,7 +190,7 @@ const Employee = props => {
                 <span htmlFor="role" className="role">
                   <p
                     style={{
-                      height: '18px',
+                      height: '15px',
                       marginBottom: '0px',
                       fontSize: '12px',
                     }}
