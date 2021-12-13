@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
@@ -129,6 +130,11 @@ class EmployeePage extends Component {
     this.props.requestGetWorkspace();
   }
 
+  componentWillUnmount() {
+    this.props.resetDataEmp();
+    this.props.clearEmp();
+  }
+
   componentDidUpdate() {
     const { updateEmployee, apiMessage } = this.props;
     const { strVal, strSpace, sortBy, searchVal } = this.state;
@@ -216,15 +222,24 @@ class EmployeePage extends Component {
 
   handleBadgeData = e => {
     const { name, value } = e.target;
+
+    const { BadgeNumber, id } = this.state;
     this.setState({ [name]: value }, () => {
-      const { BadgeNumber, id } = this.state;
+      const ele = document.getElementById('badgeUpdate');
+      // eslint-disable-next-line func-names
+      ele.onkeyup = function(e) {
+        if (ele.value.length === 3 && e.key !== 'Backspace') {
+          ele.value += '-';
+        }
+      };
+
       const badge = BadgeNumber.slice(0, 3).concat(BadgeNumber.slice(4, 7));
       const data = {
         employeeid: id,
         badgeid: `BB${badge}`,
         isAdminpanel: true,
       };
-      if (data.badgeid.length === 8) {
+      if (ele.value.length === 7) {
         this.props.requestVerifyBadge(data);
       }
     });
