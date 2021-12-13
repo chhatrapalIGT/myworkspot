@@ -32,20 +32,22 @@ const WorkspotAdmin = ({
   const uniqueLocation = [];
   getCapacity &&
     Array.isArray(getCapacity) &&
-    getCapacity.forEach(obj =>
-      obj.data.forEach(({ id, locationname }) => {
-        if (uniqueLocation.length === 0) {
-          uniqueLocation.push({
-            id,
-            locationname,
-          });
-        } else if (!uniqueLocation.some(e => e.id === id)) {
-          uniqueLocation.push({
-            id,
-            locationname,
-          });
-        }
-      }),
+    getCapacity.forEach(
+      obj =>
+        obj &&
+        obj.data.forEach(({ id, locationname }) => {
+          if (uniqueLocation.length === 0) {
+            uniqueLocation.push({
+              id,
+              locationname,
+            });
+          } else if (!uniqueLocation.some(e => e.id === id)) {
+            uniqueLocation.push({
+              id,
+              locationname,
+            });
+          }
+        }),
     );
   const [period, setPeriod] = useState('week');
   const [selectedWeek, setSelectedWeek] = useState(new Date());
@@ -199,7 +201,7 @@ const WorkspotAdmin = ({
                     <span>
                       Capacity Warning:{' '}
                       {obj.locationID === 'RIC' ? 'Richmond' : obj.locationID}{' '}
-                      office on
+                      office on{' '}
                       {obj && obj.dates && obj.dates.length === 1
                         ? moment(obj && obj.dates[0]).format('LL')
                         : obj &&
@@ -294,9 +296,13 @@ const WorkspotAdmin = ({
                             return (
                               <>
                                 <td
-                                  className="data-63 "
+                                  className={
+                                    data && data.id !== 'RW'
+                                      ? 'data-63 day-pointer'
+                                      : 'data-64'
+                                  }
                                   style={
-                                    data.LocationPercentage >= '80%'
+                                    data && data.LocationPercentage >= '80%'
                                       ? { color: 'red' }
                                       : { color: '' }
                                   }
@@ -304,13 +310,16 @@ const WorkspotAdmin = ({
                                   {`${parseFloat(
                                     data && data.LocationPercentage,
                                   ).toFixed(2)}%`}
-                                  <span className="hover-data">
-                                    Spaces Available{' '}
-                                    <sapn className="digit">
-                                      {`${data &&
-                                        data.LocationFillCapacity}/100`}
-                                    </sapn>
-                                  </span>
+                                  {data && data.id !== 'RW' && (
+                                    <span className="hover-data">
+                                      Spaces Available{' '}
+                                      <sapn className="digit">
+                                        {`${data &&
+                                          data.LocationFillCapacity}/${data &&
+                                          data.LocationCapacity}`}
+                                      </sapn>
+                                    </span>
+                                  )}
                                 </td>
                               </>
                             );
