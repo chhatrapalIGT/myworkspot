@@ -107,7 +107,7 @@ const Employee = props => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
-        <div className="drop_update">
+        <div className="drop_emp">
           {props.state.finalVal ? props.state.finalVal : 'Washington, DC +2'}
         </div>
       </>
@@ -119,8 +119,8 @@ const Employee = props => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
-        <div className="drop_update">
-          {props.state.finalRole ? props.state.finalRole : 'Admin;User'}
+        <div className="drop_emp">
+          {props.state.finalRole ? props.state.finalRole : 'Admin; User'}
         </div>
       </>
     );
@@ -217,7 +217,7 @@ const Employee = props => {
                 <span htmlFor="space" className="space">
                   <p
                     style={{
-                      height: '18px',
+                      height: '15px',
                       marginBottom: '0px',
                       fontSize: '12px',
                     }}
@@ -458,6 +458,7 @@ const Employee = props => {
                     setShow(false);
                     props.handleStateClear();
                     setchkspace(false);
+                    props.onCancel();
                   }}
                 />
               </div>
@@ -768,6 +769,7 @@ const Employee = props => {
                           setShow(false);
                           props.handleStateClear();
                           setchkspace(false);
+                          props.onCancel();
                         }}
                       >
                         Cancel
@@ -844,6 +846,7 @@ Employee.propTypes = {
   apiMessage: PropTypes.string,
   handleUnassignedSpace: PropTypes.func,
   clearAssign: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
 export default Employee;
