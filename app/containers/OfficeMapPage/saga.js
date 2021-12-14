@@ -27,7 +27,7 @@ export function* getData() {
 
       yield put(push('/auth'));
     } else if (data && data.success) {
-      yield put(getOfficeDataSuccess(data.response));
+      yield put(getOfficeDataSuccess(data));
     } else {
       yield put(getOfficeDataFailed(data.message));
     }

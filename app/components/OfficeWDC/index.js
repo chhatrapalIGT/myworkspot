@@ -10,16 +10,6 @@ import Spinner from 'react-bootstrap/Spinner';
 import location from '../../images/location.png';
 import Zoomin from '../../images/zoomin.png';
 import Zoomout from '../../images/zoomout.png';
-import map1 from '../../images/Map_1.svg';
-import map2 from '../../images/MapWF2.svg';
-import map3 from '../../images/Map_3.svg';
-import map4 from '../../images/Map_4.svg';
-import map5 from '../../images/Map_5.svg';
-import map6 from '../../images/Map_6.svg';
-import map7 from '../../images/Map_7.svg';
-import map8 from '../../images/Map_8.svg';
-import map9 from '../../images/Map_9.svg';
-import map10 from '../../images/Map_10.svg';
 import WF2 from '../Resource/WF2';
 import WF3 from '../Resource/WF3';
 import WF4 from '../Resource/WF4';
@@ -52,15 +42,14 @@ const OfficeWDC = ({
   const finalFloorData =
     officeLocation &&
     officeLocation[0] &&
-    officeLocation[0].building &&
-    officeLocation[0].building.map(obj => obj);
+    officeLocation[0].LocationHasmanybuilding &&
+    officeLocation[0].LocationHasmanybuilding.map(obj => obj.building);
 
   useEffect(() => {
     if (office.length) {
       setFloors(office);
     }
-    Icon();
-  }, [office]);
+  }, [officeLocation]);
 
   const setFloors = value => {
     let Data = [];
@@ -69,18 +58,35 @@ const OfficeWDC = ({
     Data =
       officeLocation &&
       officeLocation.find(obj =>
-        obj.location === switchValue ? obj.building : '',
+        obj.locationname === switchValue ? obj.LocationHasmanybuilding : '',
       );
-    setFloor(Data && Data.building);
-    setFinalFloor(Data && Data.building[0]);
+
+    setFloor(Data && Data.LocationHasmanybuilding);
+    setFinalFloor(Data && Data.LocationHasmanybuilding[0]);
     Icon(
       switchValue,
-      officeLocation && officeLocation[0] && officeLocation[0].building,
+      Data && Data.LocationHasmanybuilding && Data.LocationHasmanybuilding[0],
     );
   };
+
+  const FinalFloorFunc = value => {
+    let finalUpdated = [];
+    finalUpdated =
+      officeLocation &&
+      officeLocation.find(obj =>
+        obj.locationname === office ? obj.LocationHasmanybuilding : '',
+      );
+    const finalValUpdate =
+      finalUpdated &&
+      finalUpdated.LocationHasmanybuilding.find(val =>
+        val.building === value ? val : '',
+      );
+    Icon(office, finalValUpdate);
+  };
+
   const Icon = (valOffice, valFinalFloor) => {
     const switchOffice = valOffice || office;
-    const switchFinalFloor = valFinalFloor || finalFloor;
+    const switchFinalFloor = valFinalFloor && valFinalFloor.building;
     let imageSrc = '';
     let imageDataResource = '';
 
@@ -88,19 +94,19 @@ const OfficeWDC = ({
       case 'Washington, DC':
         switch (switchFinalFloor) {
           case 'Floor 2':
-            imageSrc = map2;
+            imageSrc = valFinalFloor.image;
             imageDataResource = WF2;
             break;
           case 'Floor 3':
-            imageSrc = map1;
+            imageSrc = valFinalFloor.image;
             imageDataResource = WF3;
             break;
           case 'Floor 4':
-            imageSrc = map3;
+            imageSrc = valFinalFloor.image;
             imageDataResource = WF4;
             break;
           case 'Floor 8':
-            imageSrc = map4;
+            imageSrc = valFinalFloor.image;
             imageDataResource = WF8;
             break;
         }
@@ -108,19 +114,19 @@ const OfficeWDC = ({
       case 'Richmond, VA':
         switch (switchFinalFloor) {
           case 'Building 1':
-            imageSrc = map5;
+            imageSrc = valFinalFloor.image;
             imageDataResource = RB1;
             break;
           case 'Building 2':
-            imageSrc = map6;
+            imageSrc = valFinalFloor.image;
             imageDataResource = RB2;
             break;
           case 'Building 3, Floor 1':
-            imageSrc = map7;
+            imageSrc = valFinalFloor.image;
             imageDataResource = RB3F1;
             break;
           case 'Building 3, Floor 2':
-            imageSrc = map8;
+            imageSrc = valFinalFloor.image;
             imageDataResource = RB3F2;
             break;
         }
@@ -128,7 +134,7 @@ const OfficeWDC = ({
       case 'Birmingham, AL':
         switch (switchFinalFloor) {
           case 'Building 1':
-            imageSrc = map10;
+            imageSrc = valFinalFloor.image;
             imageDataResource = BRB1;
             break;
         }
@@ -137,7 +143,7 @@ const OfficeWDC = ({
       case 'Bloomington, MN':
         switch (switchFinalFloor) {
           case 'Building 1':
-            imageSrc = map9;
+            imageSrc = finalFloor.image;
             imageDataResource = BLB1;
             break;
         }
@@ -169,132 +175,143 @@ const OfficeWDC = ({
             </div>
           </div>
         )}
-      {officeLocation && !officeLocation.length ? (
-        <Spinner className="app-spinner" animation="grow" variant="dark" />
-      ) : (
-        <div className="wrapper_main">
-          <div className="office_maps">
-            <div className="container">
-              <div className="head d-flex align-items-center">
-                <h4 className="common-title">Office Maps</h4>
-                <div className="office-selections">
-                  <div className="selction_one">
-                    <label htmlFor="Office">Office</label>
-                    <select
-                      name=""
-                      id=""
-                      value={office}
-                      onChange={e => {
-                        setOffice(e.target.value);
-                        setFloors(e.target.value);
-                        handleDefault();
-                      }}
-                      className="set_drop"
-                    >
-                      {officeLocation &&
-                        officeLocation.map(obj => (
+
+      <div className="wrapper_main">
+        <div className="office_maps">
+          <div className="container">
+            <div className="head d-flex align-items-center">
+              <h4 className="common-title">Office Maps</h4>
+              <div className="office-selections">
+                <div className="selction_one">
+                  <label htmlFor="Office">Office</label>
+                  <select
+                    name=""
+                    id=""
+                    value={office}
+                    onChange={e => {
+                      setOffice(e.target.value);
+                      setFloors(e.target.value);
+                      handleDefault();
+                    }}
+                    className="set_drop"
+                  >
+                    {officeLocation &&
+                      officeLocation.map(obj => (
+                        <>
+                          <option
+                            value={obj.locationname}
+                            key={obj.locationname}
+                            id="building"
+                          >
+                            {obj.locationname}
+                          </option>
+                        </>
+                      ))}
+                  </select>
+                </div>
+                <div className="selction_one">
+                  <label htmlFor="Building/Floor">Building/Floor</label>
+                  <select
+                    className={
+                      office === 'Birmingham, AL' ||
+                      office === 'Bloomington, MN'
+                        ? ''
+                        : 'set_drop'
+                    }
+                    name=""
+                    id=""
+                    disabled={
+                      office === 'Birmingham, AL' ||
+                      office === 'Bloomington, MN'
+                    }
+                    onChange={e => {
+                      FinalFloorFunc(e.target.value);
+                      handleDefault();
+                    }}
+                  >
+                    {floor && floor.length
+                      ? floor &&
+                        floor.map(obj => (
                           <>
                             <option
-                              value={obj.location}
-                              key={obj.location}
-                              id="building"
+                              value={obj.building}
+                              key={obj.building}
+                              id="floors"
                             >
-                              {obj.location}
+                              {obj.building}
                             </option>
                           </>
+                        ))
+                      : finalFloorData &&
+                        finalFloorData.map(data => (
+                          <option value={data} key={data} id="floors">
+                            {data}
+                          </option>
                         ))}
-                    </select>
-                  </div>
-                  <div className="selction_one">
-                    <label htmlFor="Building/Floor">Building/Floor</label>
-                    <select
-                      className={
-                        office === 'Birmingham, AL' ||
-                        office === 'Bloomington, MN'
-                          ? ''
-                          : 'set_drop'
-                      }
-                      name=""
-                      id=""
-                      disabled={
-                        office === 'Birmingham, AL' ||
-                        office === 'Bloomington, MN'
-                      }
-                      onChange={e => {
-                        Icon(office, e.target.value);
-                        setFinalFloor(e.target.value);
-                        handleDefault();
-                      }}
-                    >
-                      {floor && floor.length
-                        ? floor &&
-                          floor.map(obj => (
-                            <>
-                              <option value={obj} key={obj} id="floors">
-                                {obj}
-                              </option>
-                            </>
-                          ))
-                        : finalFloorData &&
-                          finalFloorData.map(data => (
-                            <option value={data} key={data} id="floors">
-                              {data}
-                            </option>
-                          ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="office-structure mt-4">
-            <div className="container">
-              <div className="card office-structure-inner">
-                {imgResource || ''}
-                <div className="right-map">
-                  <Draggable disabled={!isDraggable} key={state.version}>
-                    <div
-                      className="drag_image"
-                      style={isDraggable ? { cursor: 'move' } : null}
-                    >
-                      <img
-                        src={imgSrc}
-                        alt=""
-                        style={imgStyle}
-                        draggable="false"
-                      />
-                    </div>
-                  </Draggable>
-
-                  <div className="toolbar">
-                    <button
-                      className="location"
-                      type="button"
-                      onClick={() => handleDefault()}
-                    >
-                      <img src={location} alt="" />
-                    </button>
-                    <button
-                      className="zoomin"
-                      type="button"
-                      onClick={() => handleZoomIn()}
-                    >
-                      <img src={Zoomin} alt="" />
-                    </button>
-                    <button
-                      className="zoomout"
-                      type="button"
-                      onClick={() => handleZoomOut()}
-                    >
-                      <img src={Zoomout} alt="" />
-                    </button>
-                  </div>
+                  </select>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      )}
+        <div className="container">
+          <div className="office-structure mt-4">
+            <div className="card office-structure-inner">
+              {officeLocationErrorHandle &&
+              officeLocationErrorHandle.loading ? (
+                <Spinner
+                  className="app-spinner"
+                  animation="grow"
+                  variant="dark"
+                />
+              ) : (
+                <>
+                  {imgResource || ''}
+                  <div className="right-map">
+                    <Draggable disabled={!isDraggable} key={state.version}>
+                      <div
+                        className="drag_image"
+                        style={isDraggable ? { cursor: 'move' } : null}
+                      >
+                        <img
+                          src={imgSrc}
+                          alt=""
+                          style={imgStyle}
+                          draggable="false"
+                        />
+                      </div>
+                    </Draggable>
+
+                    <div className="toolbar">
+                      <button
+                        className="location"
+                        type="button"
+                        onClick={() => handleDefault()}
+                      >
+                        <img src={location} alt="" />
+                      </button>
+                      <button
+                        className="zoomin"
+                        type="button"
+                        onClick={() => handleZoomIn()}
+                      >
+                        <img src={Zoomin} alt="" />
+                      </button>
+                      <button
+                        className="zoomout"
+                        type="button"
+                        onClick={() => handleZoomOut()}
+                      >
+                        <img src={Zoomout} alt="" />
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
