@@ -142,7 +142,10 @@ const Spaces = ({
                   name=""
                   id=""
                   value={state.selectedNames}
-                  onChange={handleUserSelect}
+                  onChange={e => {
+                    handleUserSelect(e);
+                    setActiveState('');
+                  }}
                   className="set_drop"
                 >
                   {finalLocate &&
