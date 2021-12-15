@@ -32,7 +32,6 @@ export function* getLocationData() {
       },
     });
     const { data } = usersList;
-    console.log(`data`, data);
     if (usersList.status === 403) {
       sessionStorage.clear();
 
@@ -62,7 +61,6 @@ export function* addOffice({ payload }) {
       },
     });
     const { data } = officeList;
-    console.log('officeList', officeList);
     if (officeList.status === 403) {
       sessionStorage.clear();
 
@@ -91,7 +89,6 @@ export function* verifyBadge({ payload }) {
       },
     });
     const { data } = verifyBadgeData;
-    console.log('verifyBadgeData', data);
     if (verifyBadgeData.status === 403) {
       sessionStorage.clear();
 

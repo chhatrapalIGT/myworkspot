@@ -1160,7 +1160,7 @@ span.hover-data::after {
   /* // display: flex; */
 }
 
-.blue span {
+.blue_pagination span {
   margin: 0px 5px;
 }
 .emp_wrapper {
@@ -1522,7 +1522,7 @@ div[class*='qy-menu'] * {
 .panel1::before {
   position: absolute;
   content: '';
-  height: calc(100% - 250px);
+  height: calc(100% - 194px);
   width: 1px;
   background-color: #d1dce7;
   left: 74px;

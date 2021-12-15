@@ -1,9 +1,7 @@
 import React from 'react';
-// import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { usePagination, DOTS } from './usePagination';
-// import './pagination./scss';
 const Pagination = props => {
   const {
     onPageChange,
@@ -19,11 +17,6 @@ const Pagination = props => {
     pageSize,
   });
 
-  console.log('paginationRange', paginationRange);
-  // if (currentPage === 0 || (paginationRange && paginationRange.length < 2)) {
-  //   return null;
-  // }
-
   const onNext = () => {
     onPageChange(currentPage + 1);
   };
@@ -32,12 +25,11 @@ const Pagination = props => {
     onPageChange(currentPage - 1);
   };
 
-  const lastPage =
-    paginationRange[paginationRange && paginationRange.length - 1];
+  // const lastPage =
+  //   paginationRange[paginationRange && paginationRange.length - 1];
   return (
-    <div className="blue">
-      {/* <span className="arrow"> */}
-      <span className="arrow" onClick={onPrevious}>
+    <div className="blue_pagination">
+      <span className="arrow" aria-hidden="true" onClick={onPrevious}>
         &lsaquo;
       </span>{' '}
       {paginationRange &&
@@ -48,7 +40,7 @@ const Pagination = props => {
 
           return (
             <span
-              role="data"
+              aria-hidden="true"
               className={`pageno ${
                 props.currentPage === pageNumber ? 'active' : ''
               }`}
@@ -58,7 +50,7 @@ const Pagination = props => {
             </span>
           );
         })}
-      <span className="arrow" onClick={onNext}>
+      <span className="arrow" aria-hidden="true" onClick={onNext}>
         &rsaquo;
       </span>
     </div>

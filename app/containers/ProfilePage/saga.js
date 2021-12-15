@@ -74,7 +74,6 @@ export function* getUserListData() {
       },
     });
     const { data } = usersList;
-    console.log('data==>>>> userprofile', usersList);
     if (usersList.status === 403) {
       sessionStorage.clear();
       yield put(push('/auth'));
@@ -161,7 +160,6 @@ export function* delegateProfile({ payload }) {
       },
     });
     const { data } = delegateProfileList;
-    console.log('data ===> delegarte profile', data);
     if (delegateProfileList.status === 403) {
       sessionStorage.clear();
       yield put(push('/auth'));
