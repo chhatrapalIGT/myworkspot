@@ -80,7 +80,6 @@ const Header = props => {
   };
 
   const logout = () => {
-    console.log('callllllllll');
     let token = sessionStorage.getItem('AccessToken');
     token = JSON.parse(token);
     setApiCall(true);

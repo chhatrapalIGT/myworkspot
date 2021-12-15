@@ -388,7 +388,6 @@ class ProfilePage extends Component {
 
 const mapStateToProps = state => {
   const { profile, locationData } = state;
-  console.log(`state`, state);
   return {
     getProfileLocation: profile && profile.getOffice,
     userData: profile && profile.userList && profile.userList.user,

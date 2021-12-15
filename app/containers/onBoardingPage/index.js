@@ -241,7 +241,6 @@ class BorardingPage extends Component {
 
 const mapStateToProps = state => {
   const { locationData, profile } = state;
-  console.log('locationData', state);
   return {
     location:
       locationData &&
