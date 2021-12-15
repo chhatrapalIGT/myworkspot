@@ -98,6 +98,24 @@ class EmployeePage extends Component {
     this.props.requestGetEmployeeDetail(finalPayload);
   };
 
+  onCancel = () => {
+    const { singleEmployeeData } = this.props;
+    const building =
+      singleEmployeeData.deskFloor !== null &&
+      singleEmployeeData.deskBuilding !== null
+        ? singleEmployeeData.deskFloor.concat(singleEmployeeData.deskBuilding)
+        : singleEmployeeData.deskBuilding !== null
+        ? singleEmployeeData.deskBuilding
+        : singleEmployeeData.deskFloor !== null
+        ? singleEmployeeData.deskFloor
+        : '';
+    this.setState({
+      build: building,
+      floor: singleEmployeeData.deskLocationId,
+      AssignedSpace: singleEmployeeData.AssignedSpace,
+    });
+  };
+
   handleLimitChange = e => {
     this.setState({ limit: e, page: 1 });
     this.getEmpData(
@@ -387,6 +405,7 @@ class EmployeePage extends Component {
           apiMessage={apiMessage}
           handleUnassignedSpace={this.handleUnassignedSpace}
           clearAssign={this.clearAssign}
+          onCancel={this.onCancel}
         />
       </div>
     );

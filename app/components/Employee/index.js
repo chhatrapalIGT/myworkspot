@@ -107,7 +107,7 @@ const Employee = props => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
-        <div className="drop_update">
+        <div className="drop_emp">
           {props.state.finalVal ? props.state.finalVal : 'Washington, DC +2'}
         </div>
       </>
@@ -119,8 +119,8 @@ const Employee = props => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
-        <div className="drop_update">
-          {props.state.finalRole ? props.state.finalRole : 'Admin;User'}
+        <div className="drop_emp">
+          {props.state.finalRole ? props.state.finalRole : 'Admin; User'}
         </div>
       </>
     );
@@ -178,7 +178,7 @@ const Employee = props => {
         </div>
       )}
       <div className="wrapper_main emp_wrapper">
-        <div className="office_maps">
+        <div className="office_maps" style={{ marginBottom: '95px' }}>
           <div className="container">
             <h4 className="common-title mb-4">Employees</h4>
             <div className="head d-flex align-items-center">
@@ -193,6 +193,7 @@ const Employee = props => {
                       height: '15px',
                       marginBottom: '0px',
                       fontSize: '12px',
+                      marginLeft: '16px',
                     }}
                   >
                     Role{' '}
@@ -217,9 +218,10 @@ const Employee = props => {
                 <span htmlFor="space" className="space">
                   <p
                     style={{
-                      height: '18px',
+                      height: '15px',
                       marginBottom: '0px',
                       fontSize: '12px',
+                      marginLeft: '16px',
                     }}
                   >
                     {' '}
@@ -458,6 +460,7 @@ const Employee = props => {
                     setShow(false);
                     props.handleStateClear();
                     setchkspace(false);
+                    props.onCancel();
                   }}
                 />
               </div>
@@ -768,6 +771,7 @@ const Employee = props => {
                           setShow(false);
                           props.handleStateClear();
                           setchkspace(false);
+                          props.onCancel();
                         }}
                       >
                         Cancel
@@ -844,6 +848,7 @@ Employee.propTypes = {
   apiMessage: PropTypes.string,
   handleUnassignedSpace: PropTypes.func,
   clearAssign: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
 export default Employee;
