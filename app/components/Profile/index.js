@@ -565,9 +565,9 @@ const Profile = ({
             <div className="container">
               <h4 className="common-title">Office Access</h4>
               <p className="stroke-2 mt-3">
-                After submitting a form, the request will be sent to the office
-                manager's team. It may take up to 48 business hours to process
-                the request.
+                After submitting an office access form, the request will be sent
+                to the office manager's team. It may take up to 48 business
+                hours to process the request.
               </p>
               <a
                 style={{ textDecoration: 'underline' }}
@@ -592,7 +592,7 @@ const Profile = ({
                 className="w-50 stroke-2 mt-3"
                 href="https://forms.eab.com/s3/Bike-Waiver-for-DC-Office"
               >
-                Bike Waiver - DC Office
+                Bike Room Waiver - DC Office
                 <img
                   src={externalLink}
                   alt="warn"
