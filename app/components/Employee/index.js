@@ -178,7 +178,7 @@ const Employee = props => {
         </div>
       )}
       <div className="wrapper_main emp_wrapper">
-        <div className="office_maps">
+        <div className="office_maps" style={{ marginBottom: '95px' }}>
           <div className="container">
             <h4 className="common-title mb-4">Employees</h4>
             <div className="head d-flex align-items-center">
@@ -193,6 +193,7 @@ const Employee = props => {
                       height: '15px',
                       marginBottom: '0px',
                       fontSize: '12px',
+                      marginLeft: '16px',
                     }}
                   >
                     Role{' '}
@@ -220,6 +221,7 @@ const Employee = props => {
                       height: '15px',
                       marginBottom: '0px',
                       fontSize: '12px',
+                      marginLeft: '16px',
                     }}
                   >
                     {' '}
