@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 /* eslint-disable default-case */
 import React, { useState, useEffect } from 'react';
@@ -143,7 +144,7 @@ const OfficeWDC = ({
       case 'Bloomington, MN':
         switch (switchFinalFloor) {
           case 'Building 1':
-            imageSrc = finalFloor.image;
+            imageSrc = valFinalFloor.image;
             imageDataResource = BLB1;
             break;
         }
