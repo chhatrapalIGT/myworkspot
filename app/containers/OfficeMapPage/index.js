@@ -107,7 +107,9 @@ const mapStateToProps = state => {
     officeLocation:
       officeData &&
       officeData.getOfficeData &&
-      officeData.getOfficeData.masterData,
+      officeData.getOfficeData.masterData &&
+      officeData.getOfficeData.masterData.data,
+
     officeLocationErrorHandle:
       officeData && officeData.getOfficeData && officeData.getOfficeData,
   };
