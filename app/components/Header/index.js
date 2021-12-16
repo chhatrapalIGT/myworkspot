@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable indent */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-unescaped-entities */
@@ -43,6 +44,11 @@ const Header = props => {
     props.requestUserlistData();
     const getAdmin = localStorage.getItem('Admin');
     !getAdmin && localStorage.setItem('Admin', false);
+    if (localStorage.getItem('manageAdmin') === 'true') {
+      history.replace('/home');
+    } else {
+      history.replace('/workspot');
+    }
   }, []);
   useEffect(() => {
     if (props.profileSuccess) {
@@ -120,8 +126,14 @@ const Header = props => {
                 <a href>
                   <img src={Headerlogo} alt="" />
                 </a>
+              ) : localStorage.getItem('manageAdmin') === 'true' ? (
+                <Link to="/home" activeClassName="active">
+                  <a href="true">
+                    <img src={Headerlogo} alt="" />
+                  </a>
+                </Link>
               ) : (
-                <Link to="/" activeClassName="active">
+                <Link to="/workspot" activeClassName="active">
                   <a href="true">
                     <img src={Headerlogo} alt="" />
                   </a>
