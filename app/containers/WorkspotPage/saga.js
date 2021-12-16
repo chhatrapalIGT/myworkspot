@@ -4,6 +4,7 @@
 
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import moment from 'moment';
 import { push } from 'react-router-redux';
 import {
   REQUEST_GET_LOCATION,
@@ -130,7 +131,7 @@ export function* updateWorkspot({ payload }) {
 export function* getNeighborhood() {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const date = new Date().toISOString().slice(0, 10);
+  const date = moment().format('YYYY-MM-DD');
   const requestURL = `${API_URL}/neighborhoods/getneighborhood?todayDate=${date}&employeeid=239323`;
   try {
     const neighborhhod = yield request({
