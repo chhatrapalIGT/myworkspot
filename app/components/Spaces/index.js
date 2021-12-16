@@ -376,34 +376,40 @@ const Spaces = ({
                                               );
                                             }}
                                           />
-                                          <label htmlFor={space.id}>
-                                            <img
-                                              src={space.active ? unLock : lock}
-                                              title={
-                                                space.active ? 'lock' : 'Unlock'
-                                              }
-                                              className="lock3"
-                                              alt=""
-                                            />
-                                            {spaceUpdate &&
-                                              spaceUpdate.loading &&
-                                              manageLoader ===
-                                                'neighborhoodClick' && (
-                                                <div
-                                                  className={
-                                                    space.workspacenumber ===
-                                                    spaceData
-                                                      ? 'spinner-border space_Update_load'
-                                                      : ''
-                                                  }
-                                                />
-                                              )}
-                                          </label>
-                                          <div
-                                            className="dash-menu-list2"
-                                            value={space.workspacenumber}
-                                          >
-                                            {space.workspacenumber}{' '}
+                                          <div className="dash-menu-data">
+                                            <label htmlFor={space.id}>
+                                              <img
+                                                src={
+                                                  space.active ? unLock : lock
+                                                }
+                                                title={
+                                                  space.active
+                                                    ? 'lock'
+                                                    : 'Unlock'
+                                                }
+                                                className="lock3"
+                                                alt=""
+                                              />
+                                              {spaceUpdate &&
+                                                spaceUpdate.loading &&
+                                                manageLoader ===
+                                                  'neighborhoodClick' && (
+                                                  <div
+                                                    className={
+                                                      space.workspacenumber ===
+                                                      spaceData
+                                                        ? 'spinner-border space_Update_load'
+                                                        : ''
+                                                    }
+                                                  />
+                                                )}
+                                            </label>
+                                            <div
+                                              className="dash-menu-list2"
+                                              value={space.workspacenumber}
+                                            >
+                                              {space.workspacenumber}{' '}
+                                            </div>
                                           </div>
                                         </>
                                       ))}
