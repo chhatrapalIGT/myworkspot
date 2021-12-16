@@ -70,6 +70,7 @@ const Employee = props => {
     option: (styles, { isFocused, isSelected, isVisited }) => ({
       ...styles,
       cursor: isFocused ? 'pointer' : '',
+
       backgroundColor: isSelected
         ? '#f8f8f8'
         : '' || isFocused
@@ -77,7 +78,8 @@ const Employee = props => {
         : '' || isVisited
         ? '#f8f8f8'
         : '#fffff',
-
+      paddingRight: isSelected ? '25px' : '',
+      boxShadow: ' 0px 8px 16px rgba(0, 45, 80, 0.12) !important',
       color: '#000',
     }),
   };
@@ -523,8 +525,8 @@ const Employee = props => {
                         value={props.state.role}
                         name="role"
                       >
-                        <option value="Admin"> Admin </option>
                         <option value="User"> User </option>
+                        <option value="Admin"> Admin </option>
                       </select>
                     </div>
 
@@ -744,11 +746,7 @@ const Employee = props => {
                     <div className="modal-footer mt-2 border-none pad-0">
                       <button
                         type="submit"
-                        className={
-                          !props.state.BadgeNumber.length
-                            ? 'btn disable-data'
-                            : 'btn save-data'
-                        }
+                        className="btn save-data"
                         id="save-btn"
                         onClick={() => {
                           // handleClose();

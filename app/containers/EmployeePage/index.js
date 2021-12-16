@@ -31,7 +31,7 @@ class EmployeePage extends Component {
       isOpen: false,
       isEdit: false,
       email: '',
-      role: 'Admin',
+      role: '',
       BadgeNumber: '',
       hasData: true,
       permanentdeskNo: '',
@@ -190,18 +190,15 @@ class EmployeePage extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { role, BadgeNumber, id, AssignedSpace, handleUnassign } = this.state;
-    const { verifyBadge } = this.props;
+    const { BadgeNumber, id, AssignedSpace, handleUnassign } = this.state;
     const badge = BadgeNumber.slice(0, 3).concat(BadgeNumber.slice(4, 7));
     const permanentdeskNo = handleUnassign ? 'Unassign' : AssignedSpace;
-    if (BadgeNumber.length) {
-      this.props.requestUpdateEmployeeDetail({
-        role: this.state.role || 'Admin',
-        badgeNo: `BB${badge}`,
-        permanentdeskNo,
-        emp_id: id,
-      });
-    }
+    this.props.requestUpdateEmployeeDetail({
+      role: this.state.role,
+      badgeNo: badge !== '' ? `BB${badge}` : '',
+      permanentdeskNo,
+      emp_id: id,
+    });
   };
 
   handleUnassignedSpace = (name, val) => {
@@ -488,7 +485,7 @@ EmployeePage.propTypes = {
   updateEmployee: PropTypes.object,
   // handleData: PropTypes.func,
   resetDataEmp: PropTypes.object,
-  verifyBadge: PropTypes.object,
+  // verifyBadge: PropTypes.object,
   verifyBadgeMsg: PropTypes.string,
   verifyBadgeSuccess: PropTypes.bool,
   clearBoardData: PropTypes.func,
