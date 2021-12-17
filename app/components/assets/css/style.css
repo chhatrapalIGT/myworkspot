@@ -361,6 +361,16 @@
   .emp_wrapper {
     padding: 50px 0 130px;
   }
+  .test_modal-employee {
+    max-width: 100% !important;
+  }
+
+  .myteam_header {
+    display: block;
+  }
+  .modal .modal-header .myteam-user img {
+    margin: 0rem 0.5rem 0rem 0rem;
+  }
   .cal_wrapper {
     padding: 50px 0 130px;
   }
@@ -416,6 +426,11 @@
     font-size: 22px;
     margin-bottom: 0;
   }
+
+  .neighborhood-font {
+    width: 100%;
+    font-size: 28px;
+  }
   .building-block-head .block-info .floor-name,
   .building-block-head .block-info .floor-data-name {
     padding: 0 12px;
@@ -433,11 +448,13 @@
     width: 40px;
   }
   .update-office-workspot .week-month-toggle {
-    margin-left: 12px;
+    margin-top: 10px;
+    margin-left: 0px;
+    width: 56%;
   }
   .update-office-workspot .week-month-toggle .week-view {
     font-size: 12px;
-    width: 70px;
+    width: 50%;
   }
   .blue-bg-btn,
   .light-blue-bg-btn {
@@ -544,7 +561,7 @@
     width: 30px;
   }
   .update-office-workspot .week-month-toggle .week-view {
-    width: 60px;
+    width: 50%;
     padding-left: 0;
     padding-right: 0;
   }
