@@ -42,13 +42,8 @@ const Header = props => {
   url = url[url.length - 1];
   useEffect(() => {
     props.requestUserlistData();
-    const getAdmin = localStorage.getItem('Admin');
-    !getAdmin && localStorage.setItem('Admin', false);
-    if (localStorage.getItem('manageAdmin') === 'true') {
-      history.replace('/home');
-    } else {
-      history.replace('/workspot');
-    }
+    const getAdmin = sessionStorage.getItem('Admin');
+    !getAdmin && sessionStorage.setItem('Admin', false);
   }, []);
   useEffect(() => {
     if (props.profileSuccess) {
@@ -106,7 +101,6 @@ const Header = props => {
         if (res.data) {
           window.location.replace(res.data.urls);
           sessionStorage.clear();
-          localStorage.clear();
         }
       })
       .catch(err => {
@@ -126,7 +120,7 @@ const Header = props => {
                 <a href>
                   <img src={Headerlogo} alt="" />
                 </a>
-              ) : localStorage.getItem('manageAdmin') === 'true' ? (
+              ) : sessionStorage.getItem('manageAdmin') === 'true' ? (
                 <Link to="/home" activeClassName="active">
                   <a href="true">
                     <img src={Headerlogo} alt="" />
@@ -146,7 +140,7 @@ const Header = props => {
                 pathName !== '/auth')) && (
               <div className={`${sidebar && 'show'} main-menu`}>
                 <ul>
-                  {localStorage.getItem('manageAdmin') === 'true' ? (
+                  {sessionStorage.getItem('manageAdmin') === 'true' ? (
                     <>
                       {' '}
                       <li>
@@ -290,7 +284,7 @@ const Header = props => {
                       }
                     >
                       <span>
-                        {localStorage.getItem('manageAdmin') === 'true' && (
+                        {sessionStorage.getItem('manageAdmin') === 'true' && (
                           <span style={{ color: '#ED8B00' }}>Admin </span>
                         )}
                         {props.profileUser && props.profileUser.firstname}
@@ -358,7 +352,7 @@ const Header = props => {
                         className="popup-secondary-profile"
                         onClick={() => {
                           setEditProfile(false);
-                          localStorage.setItem('Admin', false);
+                          sessionStorage.setItem('Admin', false);
                         }}
                       >
                         <img
@@ -414,7 +408,7 @@ const Header = props => {
                       props.profileUser.isFirstTime === true &&
                       pathName !== '/')) && (
                     <div className={`profile-inner ${editProfile && 'opened'}`}>
-                      {localStorage.getItem('manageAdmin') === 'true' ? (
+                      {sessionStorage.getItem('manageAdmin') === 'true' ? (
                         <div className="head deladmin">
                           <span style={{ color: '#FF8D62' }}>Admin Access</span>
                         </div>
@@ -430,7 +424,8 @@ const Header = props => {
                           {props.profileUser.firstname}{' '}
                           {props.profileUser.lastname}
                         </h3>
-                        {localStorage.getItem('Admin') === 'true' || isAdmin ? (
+                        {sessionStorage.getItem('Admin') === 'true' ||
+                        isAdmin ? (
                           <p
                             style={{
                               color: '#FF8D62',
@@ -438,7 +433,7 @@ const Header = props => {
                               marginBottom: '0px',
                             }}
                             aria-hidden="true"
-                            onClick={localStorage.setItem('Admin', true)}
+                            onClick={sessionStorage.setItem('Admin', true)}
                           >
                             Admin
                           </p>
@@ -457,7 +452,7 @@ const Header = props => {
                                 onClick={() => {
                                   setIsAdmin(false);
                                   setEditProfile(false);
-                                  localStorage.setItem('Admin', false);
+                                  sessionStorage.setItem('Admin', false);
                                 }}
                               >
                                 View My Profile
@@ -475,7 +470,7 @@ const Header = props => {
                             onClick={() => {
                               userProfileData(obj.employeeid);
                               setEditProfile(false);
-                              localStorage.setItem('Admin', false);
+                              sessionStorage.setItem('Admin', false);
                             }}
                           >
                             <img
@@ -492,10 +487,10 @@ const Header = props => {
                             </div>
                           </div>
                         ))}
-                      {/* {localStorage.getItem('Admin') === 'false' ? ( */}
+                      {/* {sessionStorage.getItem('Admin') === 'false' ? ( */}
                       {props.profileUser &&
                       props.profileUser.role === 'Admin' &&
-                      localStorage.getItem('Admin') === 'false' ? (
+                      sessionStorage.getItem('Admin') === 'false' ? (
                         <div
                           aria-hidden="true"
                           className="popup-secondary-profile day-pointer"
@@ -503,8 +498,8 @@ const Header = props => {
                             // userProfileData(obj.employeeid);
                             setIsAdmin(true);
                             setEditProfile(false);
-                            localStorage.setItem('Admin', true);
-                            localStorage.setItem('manageAdmin', true);
+                            sessionStorage.setItem('Admin', true);
+                            sessionStorage.setItem('manageAdmin', true);
                             history.replace('/home');
                           }}
                         >
@@ -534,8 +529,8 @@ const Header = props => {
                           onClick={() => {
                             setEditProfile(false);
                             setIsAdmin(false);
-                            localStorage.setItem('Admin', false);
-                            localStorage.setItem('manageAdmin', false);
+                            sessionStorage.setItem('Admin', false);
+                            sessionStorage.setItem('manageAdmin', false);
                             history.replace('/workspot');
                           }}
                         >
