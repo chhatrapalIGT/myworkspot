@@ -221,8 +221,12 @@ const Report = ({
   };
 
   const showDiv = () => {
-    const element = document.getElementsByClassName(
+    let element = document.getElementsByClassName(
       'mbsc-popup  mbsc-ios mbsc-popup-anchored',
+    )[0];
+
+    element = document.getElementsByClassName(
+      'mbsc-popup  mbsc-ios mbsc-popup-bottom',
     )[0];
 
     const param = document.createElement('div');
