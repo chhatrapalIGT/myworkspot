@@ -476,6 +476,7 @@
   }
   .office_maps .head .office-selections .selction_one select {
     width: 100%;
+    font-size: 14px;
     text-overflow: ellipsis;
   }
   .office_maps .head .office-selections {
@@ -519,6 +520,10 @@
   }
   .search-img {
     transform: translateY(-50%);
+  }
+
+  .common-title {
+    text-align: center;
   }
 }
 

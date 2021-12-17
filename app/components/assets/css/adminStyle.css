@@ -1237,9 +1237,9 @@ span.hover-data::after {
 .col-md-3.part-right * {
   color: #00355f !important;
 }
-.react-draggable img {
+/* .react-draggable img {
   height: 400px;
-}
+} */
 /* select:invalid, */
 /* .pad-manual option:first-child {
   color: blue !important;
@@ -1336,6 +1336,7 @@ div[class*='qy-menu'] * {
   left: 14px;
   z-index: 0;
 }
+
 .accordion2.active.line {
   position: relative;
 }

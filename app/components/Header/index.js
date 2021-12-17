@@ -226,14 +226,14 @@ const Header = props => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/faq">
+                        {/* <Link to="/faq">
                           <a
                             href="true"
                             className={pathName === '/faq' && 'active'}
                           >
                             Help
                           </a>
-                        </Link>
+                        </Link> */}
                       </li>
                     </>
                   )}

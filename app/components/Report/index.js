@@ -306,10 +306,7 @@ const Report = ({
       <div className="wrapper_main">
         <div className="mt-4 weekly-default-inner d-flex flex-wrap" />
         <div className="container">
-          <h4
-            className="common-title"
-            style={{ marginLeft: '20px', marginBottom: ' 38px' }}
-          >
+          <h4 className="common-title" style={{ marginLeft: '20px' }}>
             My Team
           </h4>
 
