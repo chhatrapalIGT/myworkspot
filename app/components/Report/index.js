@@ -1,3 +1,6 @@
+/* eslint-disable prefer-destructuring */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable default-case */
 /* eslint-disable no-nested-ternary */
@@ -58,6 +61,7 @@ const Report = ({
       borderRadius: '8px',
       cursor: 'pointer',
       border: '1px solid #d1dce7',
+      minHeight: 'auto ',
     }),
 
     option: (styles, { isFocused, isSelected, isVisited }) => ({
@@ -116,6 +120,42 @@ const Report = ({
     }
   }, [myTeamSuccess.success]);
 
+  const DropDown = props => {
+    const options = props.isMulti ? [...props.options] : props.options;
+    return (
+      <Select
+        components={props.components}
+        name="example"
+        placeholder="Select Team Member(s)"
+        options={options}
+        hideSelectedOptions={props.hideSelectedOptions}
+        styles={colourStyles}
+        theme={theme => ({
+          ...theme,
+          colors: {
+            ...theme.colors,
+            primary: '#d1dce7',
+          },
+        })}
+        onMenuClose={props.onMenuClose}
+        isClearable={props.isClearable}
+        closeMenuOnSelect={props.closeMenuOnSelect}
+        className="mb-3"
+        isMulti={props.isMulti}
+        value={props.value ? props.value : null}
+        onChange={selected => {
+          props.isMulti &&
+          selected.length &&
+          selected.find(option => option.value === 'All Team Member(s)')
+            ? handleChange(options.slice(1))
+            : !props.isMulti
+            ? handleChange((selected && selected.value) || null)
+            : handleChange(selected);
+        }}
+      />
+    );
+  };
+
   const updatedEmpData = dataList.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
@@ -127,6 +167,7 @@ const Report = ({
         </div>
       </>
     );
+
     return item;
   });
 
@@ -362,27 +403,16 @@ const Report = ({
                   />
                 </div>
                 <div className="modal-body modal-body_myteam">
-                  <Select
+                  <DropDown
                     components={{ Option }}
                     isMulti
                     isClearable={false}
                     value={state.selectedOption}
-                    onChange={handleChange}
-                    options={updatedEmpData}
+                    handleChange={handleChange}
                     closeMenuOnSelect={false}
                     hideSelectedOptions={false}
                     onMenuClose={false}
-                    className="mb-3"
-                    name="employee"
-                    placeholder="Select Team Member(s)"
-                    styles={colourStyles}
-                    theme={theme => ({
-                      ...theme,
-                      colors: {
-                        ...theme.colors,
-                        primary: '#d1dce7',
-                      },
-                    })}
+                    options={updatedEmpData}
                   />
 
                   <div className="selection">
@@ -453,6 +483,7 @@ const Report = ({
                       type="button"
                       className={
                         state.selectedNames &&
+                        state.selectedOption &&
                         state.selectedOption.length > 0 &&
                         state.date
                           ? 'btn save-data'
