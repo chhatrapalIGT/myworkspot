@@ -39,7 +39,7 @@ class ReportPage extends Component {
     this.state = {
       defaultSelected: 'week',
       displayDefault: 'week',
-      selectedOption: [],
+      selectedOption: null,
       scale: defaultScale,
       rotate: defaultRotate,
       version: 0,
@@ -56,20 +56,14 @@ class ReportPage extends Component {
     };
   }
 
-  handleChange = option => {
-    this.setState(() => ({
-      selectedOption: option,
-    }));
+  handleChange = value => {
+    this.setState({ selectedOption: value });
   };
 
   handleModalClose = () => {
     const { date, selectedNames, selectedOption, textValue } = this.state;
     const { location } = this.props;
     const optionData = selectedOption.map(data => data.id);
-    let optionAllValue = '';
-    optionAllValue = selectedOption.find(
-      data => data.value === 'All Team Member(s)',
-    );
 
     const data = location.find(e =>
       e.locationCode === selectedNames ? e.id : '',
@@ -79,7 +73,7 @@ class ReportPage extends Component {
       locDate && locDate.map(obj => moment(obj).format('YYYY-MM-DD'));
 
     const finalPayload = {
-      inviteid: optionAllValue ? optionAllValue.value : optionData,
+      inviteid: optionData,
       employeeid: 239323,
       invitedate: finalValue,
       invitelocation: data.id,

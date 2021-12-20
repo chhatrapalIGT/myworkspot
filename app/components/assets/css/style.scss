@@ -2624,14 +2624,15 @@ select.set_drop option[id='building'],
 }
 
 .css-yk16xz-control {
-  height: 50px;
+  min-height: auto !important;
   border-radius: 8px !important;
   &:hover {
     cursor: pointer;
   }
-  .css-g1d714-ValueContainer {
-    height: 50px;
-  }
+}
+.css-g1d714-ValueContainer,
+.css-1hwfws3 {
+  padding: 4px 8px !important;
 }
 
 .mbsc-ios.mbsc-textfield {
