@@ -215,7 +215,7 @@ const Report = ({
           ? ele.data.find(obj => obj && obj.locationCode !== 'PTO')
           : '';
       let obj = {};
-      if (!prevDate) {
+      if (!prevDate && ele && ele.officetype !== undefined) {
         if (
           ele.officetype === 'EAB Office' ||
           (datas.officetype === 'EAB Office' &&
