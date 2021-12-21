@@ -262,11 +262,11 @@ const Report = ({
   };
 
   const showDiv = () => {
-    let element = document.getElementsByClassName(
+    const element = document.getElementsByClassName(
       'mbsc-popup  mbsc-ios mbsc-popup-anchored',
     )[0];
 
-    element = document.getElementsByClassName(
+    const mobileCal = document.getElementsByClassName(
       'mbsc-popup  mbsc-ios mbsc-popup-bottom',
     )[0];
 
@@ -294,6 +294,8 @@ const Report = ({
 
     if (element) {
       element.appendChild(param);
+    } else if (mobileCal) {
+      mobileCal.appendChild(param);
     }
   };
 
