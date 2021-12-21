@@ -3200,10 +3200,13 @@ div[class*='qy-menu'] * {
   }
 }
 
-.css-1g6gooi {
-  height: 0px;
-  opacity: 0;
+.admin-employee {
+  .css-1g6gooi {
+    height: 0px;
+    opacity: 0;
+  }
 }
+
 .panel {
   .panel-list:last-child > div::before {
     position: absolute;
@@ -3235,4 +3238,10 @@ div[class*='qy-menu'] * {
   justify-content: center;
   flex-direction: column;
   font-size: 18px;
+}
+
+.pointer {
+  & :hover {
+    cursor: pointer;
+  }
 }
