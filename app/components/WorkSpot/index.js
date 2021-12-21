@@ -387,7 +387,12 @@ const WorkSpot = ({
                       ((neighborhoodData &&
                         neighborhoodData.locationCode === 'DC') ||
                         (neighborhoodData &&
-                          neighborhoodData.locationCode === 'RIC'))) ? (
+                          neighborhoodData.locationCode === 'RIC'))) ||
+                    (neighborhoodData &&
+                      !neighborhoodData.isAssignmentUpdate &&
+                      ((halfDayData && halfDayData.locationCode === 'DC') ||
+                        (halfDayData &&
+                          halfDayData.locationCode === 'RIC'))) ? (
                       <>
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
@@ -478,8 +483,9 @@ const WorkSpot = ({
                                       : 'building-data-name'
                                   }
                                 >
-                                  {neighborhoodData &&
-                                    neighborhoodData.locationName}
+                                  {(neighborhoodData &&
+                                    neighborhoodData.locationName) ||
+                                    (halfDayData && halfDayData.locationName)}
                                 </h3>
                               </div>
                             )}
@@ -730,6 +736,8 @@ const WorkSpot = ({
                         className="workspot_cal"
                         marked={dateData()}
                         invalid={invalidDate()}
+                        theme="ios"
+                        themeVariant="light"
                       />
                       <div className="bottom">
                         <span className="eab-ofc">EAB Office</span>
@@ -1004,8 +1012,10 @@ const WorkSpot = ({
                                 name="work_area"
                                 selected={
                                   isChange
-                                    ? (neighborhoodData &&
-                                        neighborhoodData.locationCode) ===
+                                    ? ((neighborhoodData &&
+                                        neighborhoodData.locationCode) ||
+                                        (halfDayData &&
+                                          halfDayData.locationCode)) ===
                                       i.locationCode
                                     : state.updatingObject.prevLocation ===
                                       i.locationCode
