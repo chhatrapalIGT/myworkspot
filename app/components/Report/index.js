@@ -204,7 +204,6 @@ const Report = ({
     // eslint-disable-next-line array-callback-return
     monthData.filter(ele => {
       const prevDate = moment(ele.date).isBefore(moment(), 'day');
-
       // const getMonth = moment(ele.date).format('MM');
       // const nextMonth = moment()
       //   .add(1, 'month')
@@ -217,22 +216,23 @@ const Report = ({
       let obj = {};
       if (!prevDate && ele && ele.officetype !== undefined) {
         if (
-          ele.officetype === 'EAB Office' ||
-          (datas.officetype === 'EAB Office' &&
+          (ele && ele.officetype === 'EAB Office') ||
+          (datas &&
+            datas.officetype === 'EAB Office' &&
             (ele && ele.locationCode !== 'EAB'))
         ) {
           obj = {
-            date: ele.date,
+            date: ele && ele.date,
             markCssClass: 'mbsc-calendar-marks1',
           };
-        } else if (ele.locationCode === 'RW') {
+        } else if (ele && ele.locationCode === 'RW') {
           obj = {
-            date: ele.date,
+            date: ele && ele.date,
             markCssClass: 'mbsc-calendar-marks2',
           };
-        } else if (ele.locationCode === 'PTO') {
+        } else if (ele && ele.locationCode === 'PTO') {
           obj = {
-            date: ele.date,
+            date: ele && ele.date,
             markCssClass: 'mbsc-calendar-marks3',
           };
         }
@@ -262,11 +262,11 @@ const Report = ({
   };
 
   const showDiv = () => {
-    let element = document.getElementsByClassName(
+    const element = document.getElementsByClassName(
       'mbsc-popup  mbsc-ios mbsc-popup-anchored',
     )[0];
 
-    element = document.getElementsByClassName(
+    const mobileCal = document.getElementsByClassName(
       'mbsc-popup  mbsc-ios mbsc-popup-bottom',
     )[0];
 
@@ -294,6 +294,8 @@ const Report = ({
 
     if (element) {
       element.appendChild(param);
+    } else if (mobileCal) {
+      mobileCal.appendChild(param);
     }
   };
 
@@ -461,6 +463,8 @@ const Report = ({
                       invalid={invalidDate()}
                       onOpen={() => setDiv(true)}
                       onClose={() => setDiv(false)}
+                      theme="ios"
+                      themeVariant="light"
                     />
                   </div>
 
