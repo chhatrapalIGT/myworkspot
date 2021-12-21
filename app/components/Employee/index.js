@@ -135,7 +135,7 @@ const Employee = props => {
         <components.Option {...this.props}>
           <div style={{ display: 'flex' }}>
             <div style={{ flex: '1' }}>
-              <label>
+              <label style={{ cursor: 'pointer' }}>
                 {`${this.props.data.name} ${this.props.data.labelData || ''}`}{' '}
               </label>
               <input
@@ -518,19 +518,19 @@ const Employee = props => {
                     </div>
                   </div>
                   <form onSubmit={props.handleSubmit}>
-                    <div className="selction_one ww-100">
+                    <div className="selction_one ww-100 pointer">
                       <label htmlFor="role">Role</label>
                       <select
                         onChange={props.handleChange}
                         value={props.state.role}
                         name="role"
                       >
-                        <option value="User"> User </option>
-                        <option value="Admin"> Admin </option>
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
                       </select>
                     </div>
 
-                    <div className="selction_one after-none ww-100">
+                    <div className="selction_one after-none ww-100 pointer">
                       <label htmlFor="badge" style={{ top: '5px' }}>
                         Badge Number
                       </label>
@@ -594,7 +594,7 @@ const Employee = props => {
                         )}
                     </div>
 
-                    <div className="selction_one mat-10 ww-100">
+                    <div className="selction_one mat-10 ww-100 pointer">
                       <label htmlFor>Office</label>
                       <select
                         className="pad-manual"
@@ -619,7 +619,7 @@ const Employee = props => {
                       </select>
                     </div>
                     {props.state.floor && props.state.floor !== '' && (
-                      <div className="selction_one mat-10 ww-100">
+                      <div className="selction_one mat-10 ww-100 pointer">
                         <label htmlFor>Building/Floor</label>
                         <select
                           onChange={props.handleChange}
@@ -688,7 +688,7 @@ const Employee = props => {
                       </div>
                     )}
                     {props.state && props.state.build !== '' && (
-                      <div className="selction_one ww-100">
+                      <div className="selction_one ww-100 pointer">
                         <label htmlFor style={{ color: '#526E88' }}>
                           Space
                         </label>

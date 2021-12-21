@@ -143,7 +143,7 @@ const Header = props => {
                   {sessionStorage.getItem('manageAdmin') === 'true' ? (
                     <>
                       {' '}
-                      <li>
+                      <li onClick={() => setSidebar(false)} aria-hidden="true">
                         <Link to="/home" activeClassName="active">
                           <a
                             className={pathName === '/home' && 'active'}
@@ -153,7 +153,7 @@ const Header = props => {
                           </a>
                         </Link>
                       </li>
-                      <li>
+                      <li onClick={() => setSidebar(false)} aria-hidden="true">
                         <Link to="/space" activeClassName="active">
                           <a
                             className={pathName === '/space' && 'active'}
@@ -163,7 +163,7 @@ const Header = props => {
                           </a>
                         </Link>
                       </li>
-                      <li>
+                      <li onClick={() => setSidebar(false)} aria-hidden="true">
                         <Link to="/employee" activeClassName="active">
                           <a
                             className={pathName === '/employee' && 'active'}
@@ -173,7 +173,7 @@ const Header = props => {
                           </a>
                         </Link>
                       </li>
-                      <li>
+                      <li onClick={() => setSidebar(false)} aria-hidden="true">
                         <Link to="/officemap" activeClassName="active">
                           <a
                             className={pathName === '/officemap' && 'active'}
@@ -186,7 +186,7 @@ const Header = props => {
                     </>
                   ) : (
                     <>
-                      <li>
+                      <li onClick={() => setSidebar(false)} aria-hidden="true">
                         <Link to="/workspot" activeClassName="active">
                           <a
                             className={
@@ -199,7 +199,7 @@ const Header = props => {
                           </a>
                         </Link>
                       </li>
-                      <li>
+                      <li onClick={() => setSidebar(false)} aria-hidden="true">
                         <Link to="/report" activeClassName="active">
                           <a
                             className={pathName === '/report' && 'active'}
@@ -209,7 +209,7 @@ const Header = props => {
                           </a>
                         </Link>
                       </li>
-                      <li>
+                      <li onClick={() => setSidebar(false)} aria-hidden="true">
                         <Link to="/office" activeClassName="active">
                           <a
                             className={pathName === '/office' && 'active'}

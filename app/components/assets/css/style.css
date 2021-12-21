@@ -539,8 +539,11 @@
     transform: translateY(-50%);
   }
 
-  .common-title {
-    text-align: center;
+  .btn_badge {
+    padding: 0px 6px;
+  }
+  .my-profile .my-profile-inner .right-content .col_one .attr_one p {
+    margin-right: 0px;
   }
 }
 

@@ -66,7 +66,7 @@ const Report = ({
 
     option: (styles, { isFocused, isSelected, isVisited }) => ({
       ...styles,
-      cursor: isFocused ? 'pointer' : '',
+      cursor: 'pointer',
       backgroundColor: isSelected
         ? '#f8f8f8'
         : '' || isFocused
@@ -182,7 +182,7 @@ const Report = ({
                 alt="flag"
                 style={{ height: '20px', marginBottom: '5px' }}
               />{' '}
-              <label>
+              <label style={{ cursor: 'pointer' }}>
                 {`${this.props.data.value} ${this.props.data.labelData || ''}`}{' '}
               </label>
               <input
@@ -386,6 +386,8 @@ const Report = ({
             aria-hidden="true"
             show={show}
             onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
           >
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content">
