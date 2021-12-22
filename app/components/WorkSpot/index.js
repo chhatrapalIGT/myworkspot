@@ -661,6 +661,7 @@ const WorkSpot = ({
             setEmployee={setEmployee}
             setVisible={setVisible}
             handleRemove={handleRemove}
+            handleDefault={handleDefault}
             setDate={setDate}
             workSpotData={state.workSpotData}
             getWorkSpots={getWorkSpots}
@@ -746,7 +747,10 @@ const WorkSpot = ({
                       </div>
                     </div>
                     {leadersCommittee && (
-                      <div className="checkbox-label">
+                      <div
+                        className="checkbox-label"
+                        style={{ margin: ' 20px 0' }}
+                      >
                         <input
                           type="checkbox"
                           name="privateSpace"
@@ -888,6 +892,8 @@ const WorkSpot = ({
             aria-hidden="true"
             centered
             size="lg"
+            backdrop="static"
+            keyboard={false}
           >
             <div className=" modal-dialog-centered">
               <div className="modal-content">
@@ -915,7 +921,10 @@ const WorkSpot = ({
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    onClick={() => setEmployee(false)}
+                    onClick={() => {
+                      setEmployee(false);
+                      handleDefault();
+                    }}
                   />
                 </div>
                 <div className="modal-body">
