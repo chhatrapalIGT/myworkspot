@@ -45,6 +45,7 @@ const Calender = ({
   requestGetColleagueData,
   handleColleagueModal,
   colleagueDataLoader,
+  handleDefault,
 }) => {
   const [period, setPeriod] = useState(displayDefault);
   const [colleagueData, setColleagueData] = useState([]);
@@ -981,6 +982,7 @@ const Calender = ({
                                                 'dddd, MMMM DD, YYYY',
                                               ),
                                             );
+                                            handleDefault();
                                           }}
                                           aria-hidden="true"
                                         >
@@ -1035,6 +1037,7 @@ const Calender = ({
                                             'dddd, MMMM DD, YYYY',
                                           ),
                                         );
+                                        handleDefault();
                                       }}
                                       aria-hidden="true"
                                     >
@@ -1364,6 +1367,7 @@ Calender.propTypes = {
   colleagueDataLoader: PropTypes.bool,
   colleagueWeeklyData: PropTypes.object,
   handleColleagueModal: PropTypes.object,
+  handleDefault: PropTypes.func,
 };
 
 export default Calender;

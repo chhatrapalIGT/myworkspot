@@ -26,16 +26,7 @@ function WF4(from) {
             <label htmlFor="my-spot">My Workspot</label>
           </div>
         )}
-        {history.location.pathname !== '/office' && from.from && (
-          <div className="office-part-one blue">
-            <span className="informer">
-              <img src={Profile} alt="" className="search-colleague-img" />
-            </span>
-            <label htmlFor="my-spot">{`${
-              from.ColleagueUserName
-            }'s Workspot`}</label>
-          </div>
-        )}
+
         <div className="office-part-one white">
           <span className="informer">401</span>
           <label htmlFor="my-spot">Bethune</label>

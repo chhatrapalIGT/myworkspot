@@ -545,6 +545,10 @@
   .my-profile .my-profile-inner .right-content .col_one .attr_one p {
     margin-right: 0px;
   }
+
+  .office-structure .office-structure-inner .right-map .drag_image img {
+    height: fit-content;
+  }
 }
 
 @media (max-width: 575px) {
