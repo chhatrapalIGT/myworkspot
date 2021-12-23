@@ -398,8 +398,10 @@ const WorkSpot = ({
                           Hi {neighborhoodData && neighborhoodData.username},
                           your{' '}
                           {state.tempLocation.includes('DC') ||
-                          (neighborhoodData &&
-                            neighborhoodData.locationCode === 'DC' &&
+                          (((neighborhoodData &&
+                            neighborhoodData.locationCode === 'DC') ||
+                            (halfDayData &&
+                              halfDayData.locationCode === 'DC')) &&
                             (neighborhoodData &&
                               !neighborhoodData.isAssignmentUpdate)) ? (
                             <span> DC </span>

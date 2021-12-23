@@ -634,6 +634,7 @@ const Calender = ({
                       )
                     )}
 
+                    {/* for week View calendar */}
                     {setVisible && !workSpotData.length ? (
                       <Spinner
                         className="app-spinner profile"
@@ -676,53 +677,86 @@ const Calender = ({
 
                                   {data && data.unitsapproved === '0.5' ? (
                                     <>
-                                      {data.data.map(partially => (
-                                        <div
-                                          className={`day-one-wrapper ${
-                                            partially &&
-                                            partially.locationCode === 'PTO'
-                                              ? 'half-paid-off'
-                                              : item.disable ||
-                                                isCurrentDate(item.date)
-                                              ? 'has-half-paid-off'
-                                              : 'has-half-paid-off day-pointer'
-                                          }`}
-                                          onClick={() => {
-                                            !item.disable &&
-                                              !isCurrentDate(item.date) &&
-                                              (partially &&
-                                                partially.locationCode !==
-                                                  'PTO') &&
-                                              handleEditModal(
-                                                true,
-                                                item.date,
-                                                `${partially &&
-                                                  partially.locationCode}`,
-                                                'self',
-                                                `${partially &&
-                                                  partially.locationCode}`,
-                                                `${partially &&
-                                                  partially.locationName}`,
+                                      {data.data.map(partially => {
+                                        return (
+                                          <div
+                                            className={`day-one-wrapper ${
+                                              partially &&
+                                              partially.locationCode === 'PTO'
+                                                ? 'half-paid-off'
+                                                : partially &&
+                                                  partially.locationCode ===
+                                                    'RW'
+                                                ? 'half-paid-off-remote'
+                                                : item.disable ||
+                                                  isCurrentDate(item.date)
+                                                ? 'has-half-paid-off'
+                                                : 'has-half-paid-off day-pointer'
+                                            }`}
+                                            onClick={() => {
+                                              !item.disable &&
+                                                !isCurrentDate(item.date) &&
+                                                (partially &&
+                                                  partially.locationCode !==
+                                                    'PTO') &&
+                                                handleEditModal(
+                                                  true,
+                                                  item.date,
+                                                  `${partially &&
+                                                    partially.locationCode}`,
+                                                  'self',
+                                                  `${partially &&
+                                                    partially.locationCode}`,
+                                                  `${partially &&
+                                                    partially.locationName}`,
+                                                );
+                                              setDate(
+                                                moment(item.date).format(
+                                                  'dddd, MMMM DD, YYYY',
+                                                ),
                                               );
-                                            setDate(
-                                              moment(item.date).format(
-                                                'dddd, MMMM DD, YYYY',
-                                              ),
-                                            );
-                                            setChange(false);
-                                          }}
-                                          aria-hidden="true"
-                                        >
-                                          <p className="work-station half-paid-off">
-                                            {partially &&
-                                            partially.locationCode === 'PTO'
-                                              ? partially &&
-                                                partially.timeofftype
-                                              : partially &&
-                                                partially.locationName}
-                                          </p>
-                                        </div>
-                                      ))}
+                                              setChange(false);
+                                            }}
+                                            aria-hidden="true"
+                                          >
+                                            <p className="work-station half-paid-off">
+                                              {partially &&
+                                              partially.locationCode === 'PTO'
+                                                ? partially &&
+                                                  partially.timeofftype
+                                                : partially &&
+                                                  partially.locationName}
+
+                                              {((partially &&
+                                                partially.building !== null) ||
+                                                (partially &&
+                                                  partially.floor !== null) ||
+                                                (partially &&
+                                                  partially.colorcode !==
+                                                    '')) && (
+                                                <span className="hover-data">
+                                                  {partially &&
+                                                    partially.building !==
+                                                      null &&
+                                                    `Bldg ${partially &&
+                                                      partially.building} -`}
+                                                  {partially &&
+                                                    partially.floor !== null &&
+                                                    `Fl ${partially &&
+                                                      partially.floor} -`}
+                                                  {partially &&
+                                                    partially.colorcode !==
+                                                      '' &&
+                                                    modalColorCode(
+                                                      partially &&
+                                                        partially.colorcode,
+                                                    )}
+                                                </span>
+                                              )}
+                                            </p>
+                                          </div>
+                                        );
+                                      })}
                                     </>
                                   ) : (
                                     <div
