@@ -18,6 +18,7 @@ import {
   clearData,
   requestDelegateProfile,
   requestUserlistData,
+  // requestDelegateProfile,
 } from '../../containers/ProfilePage/actions';
 import BadgeIcon from '../../images/badgeIcon.png';
 
@@ -29,6 +30,7 @@ const Header = props => {
   // eslint-disable-next-line no-unused-vars
   const [apiCall, setApiCall] = useState(false);
   const [sidebar, setSidebar] = useState(false);
+  const [delegateView, setDelegateView] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const divRef = useRef();
@@ -37,14 +39,32 @@ const Header = props => {
   const [userList, setUserList] = useState(
     props.profileUser.delegateUserList || [],
   );
-  const pathName = location.pathname;
-  let url = pathName.split('/');
-  url = url[url.length - 1];
+
   useEffect(() => {
-    props.requestUserlistData();
+    props.requestUserlistData({});
     const getAdmin = sessionStorage.getItem('Admin');
+    const getDelegate = sessionStorage.getItem('delegate');
+    const empId = sessionStorage.getItem('empid');
     !getAdmin && sessionStorage.setItem('Admin', false);
-  }, []);
+    !getDelegate && sessionStorage.setItem('delegate', false);
+    !empId &&
+      sessionStorage.setItem('empid', props.profileUser.employeeid || '');
+    // props.profileUser &&
+    //   props.profileUser.delegateUserList &&
+    //   props.profileUser.delegateUserList.length > 0 &&
+    //   sessionStorage.setItem(
+    //     'tempDel',
+
+    //     JSON.stringify(props.profileUser.delegateUserList) || [],
+    //   );
+    // const sessioDelegate = sessionStorage.getItem('tempDel');
+    if (props.delegateHeaderProfileSuccess) {
+      props.requestUserlistData({
+        empdelegatedata: sessionStorage.getItem('delegateId'),
+      });
+    }
+  }, [props.delegateHeaderProfileSuccess, props.profileUser.employeeid]);
+
   useEffect(() => {
     if (props.profileSuccess) {
       const delPro =
@@ -62,18 +82,44 @@ const Header = props => {
       document.removeEventListener('mousedown', handleClickOutside, false);
     };
   }, [props.profileSuccess]);
+
   const handleClickOutside = event => {
     if (divRef && divRef.current && !divRef.current.contains(event.target)) {
       setEditProfile(false);
     }
   };
+  const pathName = location.pathname;
+  let url = pathName.split('/');
+  url = url[url.length - 1];
+  const userProfileData = async id => {
+    if (id === sessionStorage.getItem('empid')) {
+      sessionStorage.removeItem('delegateId');
+      props.requestUserlistData({
+        employeeid: sessionStorage.getItem('empid'),
+        // empdelegatedata: sessionStorage.getItem('delegateId'),
+      });
+    } else {
+      props.requestUserlistData({
+        // employeeid: sessionStorage.getItem('empId'),
+        empdelegatedata: sessionStorage.getItem('delegateId'),
+        employeeid: sessionStorage.getItem('empid'),
+      });
+    }
 
-  const userProfileData = id => {
+    console.log('delegateView11', delegateView, id);
+    sessionStorage.setItem('delegateId', id);
     const delPro = props.profileUser.delegateUserList.filter(
       i => i.employeeid.toString() !== id.toString(),
     );
+    history.push(`/profile/${id}`);
     setUserList(delPro);
-    history.push(`/profile/delegate/${id}`);
+
+    console.log('delegateViewafter', delegateView);
+    props.requestDelegateProfile({
+      empId: id,
+      subb: sessionStorage.getItem('delegate'),
+    });
+    // window.location.reload();
   };
 
   const handleBadgeRedirect = () => {
@@ -238,7 +284,7 @@ const Header = props => {
             {pathName !== '/auth' && (
               <div className="right-menus" ref={divRef}>
                 {/* /////////////////// header heading for popup  */}
-                {pathName !== '/' && pathName.includes('/profile/delegate') ? (
+                {/* {pathName !== '/' && pathName.includes('/profile/delegate') ? (
                   <div
                     aria-hidden="true"
                     onClick={() => setEditProfile(!editProfile)}
@@ -265,45 +311,75 @@ const Header = props => {
                       alt=""
                     />
                   </div>
-                ) : (
-                  !props.profileUserLoading && (
-                    <div
-                      aria-hidden="true"
-                      onClick={() => setEditProfile(!editProfile)}
-                      onHide={() => setEditProfile(false)}
-                      className={
-                        // eslint-disable-next-line no-nested-ternary
-                        props.profileUser &&
-                        props.profileUser.isFirstTime === true &&
-                        pathName !== '/'
-                          ? `username has-dropdown ${editProfile && 'toggled'}`
-                          : props.profileUser &&
-                            props.profileUser.isFirstTime === true
-                          ? `username ${editProfile && 'toggled'}`
-                          : `username has-dropdown ${editProfile && 'toggled'}`
-                      }
-                    >
-                      <span>
-                        {sessionStorage.getItem('manageAdmin') === 'true' && (
+                ) : ( */}
+                {!props.profileUserLoading && (
+                  <div
+                    aria-hidden="true"
+                    onClick={() => setEditProfile(!editProfile)}
+                    onHide={() => setEditProfile(false)}
+                    className={
+                      // eslint-disable-next-line no-nested-ternary
+                      props.profileUser &&
+                      props.profileUser.isFirstTime === true &&
+                      pathName !== '/'
+                        ? `username has-dropdown ${editProfile && 'toggled'}`
+                        : props.profileUser &&
+                          props.profileUser.isFirstTime === true
+                        ? `username ${editProfile && 'toggled'}`
+                        : `username has-dropdown ${editProfile && 'toggled'}`
+                    }
+                  >
+                    <span>
+                      {sessionStorage.getItem('manageAdmin') === 'true' &&
+                      sessionStorage.getItem('delegate') === 'false' ? (
+                        <>
                           <span style={{ color: '#ED8B00' }}>Admin </span>
-                        )}
-                        {props.profileUser && props.profileUser.firstname}
-                      </span>{' '}
-                      <img
-                        src={
-                          (props.profileUser && props.profileUser.photo) ||
-                          Profile
-                        }
-                        className="user-img"
-                        alt=""
-                      />
-                    </div>
-                  )
+                          {props.profileUser && props.profileUser.firstname}
+                          <img
+                            src={
+                              (props.profileUser && props.profileUser.photo) ||
+                              Profile
+                            }
+                            className="user-img"
+                            alt=""
+                          />
+                        </>
+                      ) : sessionStorage.getItem('delegate') === 'true' &&
+                        sessionStorage.getItem('manageAdmin') === 'false' ? (
+                        <>
+                          {' '}
+                          <span style={{ color: '#ed8b00' }}>
+                            On behalf of{' '}
+                          </span>
+                          {props.profileUser && props.profileUser.firstname}{' '}
+                          <img
+                            src={
+                              (props.profileUser && props.profileUser.photo) ||
+                              Profile
+                            }
+                            className="user-img"
+                            alt=""
+                          />
+                        </>
+                      ) : (
+                        <>
+                          {props.profileUser && props.profileUser.firstname}
+                          <img
+                            src={
+                              (props.profileUser && props.profileUser.photo) ||
+                              Profile
+                            }
+                            className="user-img"
+                            alt=""
+                          />
+                        </>
+                      )}
+                    </span>
+                  </div>
                 )}
                 {/* /////////////////// header heading for popup over */}
                 {/* ///////////////////popup   */}
-
-                {pathName !== '/' && pathName.includes('/profile/delegate') ? (
+                {/* {pathName !== '/' && pathName.includes('/profile/delegate') ? (
                   <div className={`profile-inner ${editProfile && 'opened'}`}>
                     <div className="head del">
                       <span style={{ color: '#ed8b00' }}>On behalf of</span>
@@ -323,7 +399,6 @@ const Header = props => {
                           props.delegateHeaderProfile.firstname}{' '}
                         {props.delegateHeaderProfile &&
                           props.delegateHeaderProfile.lastname}
-                        {/* {props.profileUser.firstname} {props.profileUser.lastname} */}
                       </h3>
                       <p>
                         {props.delegateHeaderProfile &&
@@ -351,6 +426,7 @@ const Header = props => {
                         aria-hidden="true"
                         className="popup-secondary-profile"
                         onClick={() => {
+                          sessionStorage.setItem('delegate', true);
                           setEditProfile(false);
                           sessionStorage.setItem('Admin', false);
                         }}
@@ -401,75 +477,86 @@ const Header = props => {
                       Log Out
                     </a>
                   </div>
-                ) : (
-                  ((props.profileUser &&
-                    props.profileUser.isFirstTime === false) ||
-                    (props.profileUser &&
-                      props.profileUser.isFirstTime === true &&
-                      pathName !== '/')) && (
-                    <div className={`profile-inner ${editProfile && 'opened'}`}>
-                      {sessionStorage.getItem('manageAdmin') === 'true' ? (
-                        <div className="head deladmin">
-                          <span style={{ color: '#FF8D62' }}>Admin Access</span>
-                        </div>
-                      ) : (
-                        <div className="head">
-                          <span>This is your account</span>
-                        </div>
-                      )}
-                      <div className="profile-popup-main">
-                        <img src={Profile} alt="" />
-                        <h3>
-                          {' '}
-                          {props.profileUser.firstname}{' '}
-                          {props.profileUser.lastname}
-                        </h3>
-                        {sessionStorage.getItem('Admin') === 'true' ||
-                        isAdmin ? (
-                          <p
-                            style={{
-                              color: '#FF8D62',
-                              fontSize: '16px',
-                              marginBottom: '0px',
-                            }}
-                            aria-hidden="true"
-                            onClick={sessionStorage.setItem('Admin', true)}
-                          >
-                            Admin
-                          </p>
-                        ) : (
-                          <>
-                            <p>{props.profileUser.email}</p>
-
-                            <Link
-                              className={pathName === '/profile' && 'active'}
-                              to="/profile"
-                              activeClassName="active"
-                            >
-                              <button
-                                type="button"
-                                className="w-100 blue-color-btn profile-btn"
-                                onClick={() => {
-                                  setIsAdmin(false);
-                                  setEditProfile(false);
-                                  sessionStorage.setItem('Admin', false);
-                                }}
-                              >
-                                View My Profile
-                              </button>
-                            </Link>
-                          </>
-                        )}
+                ) : ( */}
+                {((props.profileUser &&
+                  props.profileUser.isFirstTime === false) ||
+                  (props.profileUser &&
+                    props.profileUser.isFirstTime === true &&
+                    pathName !== '/')) && (
+                  <div className={`profile-inner ${editProfile && 'opened'}`}>
+                    {sessionStorage.getItem('manageAdmin') === 'true' &&
+                    sessionStorage.getItem('delegate') === 'false' ? (
+                      <div className="head deladmin">
+                        <span style={{ color: '#FF8D62' }}>Admin Access</span>
                       </div>
-                      {props.profileUser &&
-                        props.profileUser.delegateUserList &&
-                        props.profileUser.delegateUserList.map(obj => (
+                    ) : sessionStorage.getItem('delegate') === 'true' &&
+                      sessionStorage.getItem('manageAdmin') === 'false' ? (
+                      <div className="head del">
+                        <span style={{ color: '#ed8b00' }}>On behalf of</span>
+                      </div>
+                    ) : (
+                      <div className="head">
+                        <span>This is your account</span>
+                      </div>
+                    )}
+                    <div className="profile-popup-main">
+                      <img src={Profile} alt="" />
+                      <h3>
+                        {' '}
+                        {props.profileUser.firstname}{' '}
+                        {props.profileUser.lastname}
+                      </h3>
+                      {sessionStorage.getItem('Admin') === 'true' || isAdmin ? (
+                        <p
+                          style={{
+                            color: '#FF8D62',
+                            fontSize: '16px',
+                            marginBottom: '0px',
+                          }}
+                          aria-hidden="true"
+                          onClick={sessionStorage.setItem('Admin', true)}
+                        >
+                          Admin
+                        </p>
+                      ) : (
+                        <>
+                          <p>{props.profileUser.email}</p>
+
+                          <Link
+                            className={pathName === '/profile' && 'active'}
+                            to="/profile"
+                            activeClassName="active"
+                          >
+                            <button
+                              type="button"
+                              className="w-100 blue-color-btn profile-btn"
+                              onClick={() => {
+                                setIsAdmin(false);
+                                setEditProfile(false);
+                                sessionStorage.setItem('Admin', false);
+                              }}
+                            >
+                              View My Profile
+                            </button>
+                          </Link>
+                        </>
+                      )}
+                    </div>
+                    {props.profileUser &&
+                      props.profileUser.delegateUserList &&
+                      props.profileUser.delegateUserList.map(obj => (
+                        <>
                           <div
                             aria-hidden="true"
                             className="popup-secondary-profile day-pointer"
                             onClick={() => {
+                              sessionStorage.setItem('delegate', true);
+                              sessionStorage.setItem('Admin', false);
+
+                              // setDelegateView(true);
                               userProfileData(obj.employeeid);
                               setEditProfile(false);
+
                               sessionStorage.setItem('Admin', false);
                             }}
                           >
@@ -480,17 +567,51 @@ const Header = props => {
                             />
                             <div className="sec-profile-info">
                               <h4>
-                                {obj && obj.delegateUserFistname}{' '}
+                                fghfgh {obj && obj.delegateUserFistname}{' '}
                                 {obj && obj.delegateUserLastname}{' '}
                               </h4>
                               <span>{obj && obj.delegateUserEmail}</span>
                             </div>
                           </div>
-                        ))}
-                      {/* {sessionStorage.getItem('Admin') === 'false' ? ( */}
-                      {props.profileUser &&
+                        </>
+                      ))}
+                    {/* {sessionStorage.getItem('delegate') === 'true' &&
+                      sessionStorage.getItem('Admin') === 'false' && (
+                        <div
+                          aria-hidden="true"
+                          className="popup-secondary-profile"
+                          onClick={() => {
+                            sessionStorage.setItem('delegate', false);
+                            setEditProfile(false);
+                            sessionStorage.setItem('Admin', false);
+                            userProfileData(url);
+                          }}
+                        >
+                          {console.log(props.profileUser)}
+                          <img
+                            src={
+                              (props.profileUser && props.profileUser.photo) ||
+                              Profile
+                            }
+                            alt=""
+                            style={{ marginBottom: '30px' }}
+                          />
+                          <div className="sec-profile-info">
+                            <h4>
+                              {props.profileUser && props.profileUser.firstname}{' '}
+                              {props.profileUser && props.profileUser.lastname}{' '}
+                            </h4>
+                            <span>{props.profileUser.email}</span>
+                            <br />
+                            <span>You</span>
+                          </div>
+                        </div>
+                      )} */}
+
+                    {/* {sessionStorage.getItem('Admin') === 'false' ? ( */}
+                    {props.profileUser &&
                       props.profileUser.role === 'Admin' &&
-                      sessionStorage.getItem('Admin') === 'false' ? (
+                      sessionStorage.getItem('Admin') === 'false' && (
                         <div
                           aria-hidden="true"
                           className="popup-secondary-profile day-pointer"
@@ -521,51 +642,53 @@ const Header = props => {
                             </span>
                           </div>
                         </div>
-                      ) : (
-                        // <Link to="/profile">
-                        <div
-                          aria-hidden="true"
-                          className="popup-secondary-profile day-pointer"
-                          onClick={() => {
-                            setEditProfile(false);
-                            setIsAdmin(false);
-                            sessionStorage.setItem('Admin', false);
-                            sessionStorage.setItem('manageAdmin', false);
-                            history.replace('/workspot');
-                          }}
-                        >
-                          <img
-                            src={
-                              (props.profileUser && props.profileUser.photo) ||
-                              Profile
-                            }
-                            alt=""
-                            style={{ marginBottom: '10px' }}
-                          />
-                          <div className="sec-profile-info">
-                            <h4>
-                              {props.profileUser && props.profileUser.firstname}{' '}
-                              {props.profileUser && props.profileUser.lastname}{' '}
-                            </h4>
-                            <span>{props.profileUser.email}</span>
-                          </div>
-                        </div>
-                        // </Link>
-                      )}
-                      <a
-                        href
-                        className="logout day-pointer"
-                        onClick={() => {
-                          logout();
-                          setEditProfile(false);
-                        }}
-                      >
-                        Log Out
-                      </a>
-                    </div>
-                  )
+                      )
+                    // : (
+                    //   // <Link to="/profile">
+                    //   <div
+                    //     aria-hidden="true"
+                    //     className="popup-secondary-profile day-pointer"
+                    //     onClick={() => {
+                    //       setEditProfile(false);
+                    //       setIsAdmin(false);
+                    //       sessionStorage.setItem('Admin', false);
+                    //       sessionStorage.setItem('manageAdmin', false);
+                    //       history.replace('/workspot');
+                    //     }}
+                    //   >
+                    //     <img
+                    //       src={
+                    //         (props.profileUser && props.profileUser.photo) ||
+                    //         Profile
+                    //       }
+                    //       alt=""
+                    //       style={{ marginBottom: '10px' }}
+                    //     />
+                    //     <div className="sec-profile-info">
+                    //       <h4>
+                    //         last els
+                    //         {props.profileUser &&
+                    //           props.profileUser.firstname}{' '}
+                    //         {props.profileUser && props.profileUser.lastname}{' '}
+                    //       </h4>
+                    //       <span>{props.profileUser.email}</span>
+                    //     </div>
+                    //   </div>
+                    //   // </Link>
+                    // )
+                    }
+                    <a
+                      href
+                      className="logout day-pointer"
+                      onClick={() => {
+                        logout();
+                        setEditProfile(false);
+                      }}
+                    >
+                      Log Out
+                    </a>
+                  </div>
                 )}
-
                 <button
                   type="button"
                   onClick={() => setSidebar(!sidebar)}
@@ -609,6 +732,7 @@ const Header = props => {
 
 const mapStateToProps = state => {
   const { profile } = state;
+  console.log('state===>', state);
   return {
     profile,
     profileUser: profile && profile.userList && profile.userList.user,
@@ -625,7 +749,10 @@ const mapStateToProps = state => {
       profile.delegateProfile.delegateProfileList &&
       profile.delegateProfile.delegateProfileList.weeklydefaults,
     delegateHeaderProfileSuccess:
-      profile && profile.delegateProfile && profile.delegateProfile.success,
+      profile &&
+      profile.delegateProfile &&
+      profile.delegateProfile.delegateProfileList &&
+      profile.delegateProfile.delegateProfileList.success,
     badgeUpdateSuccess: profile && profile.badgeUpdate.badgeSuccess,
   };
 };
@@ -636,6 +763,8 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestDelegateProfile(payload)),
     clearData: () => dispatch(clearData()),
     requestUserlistData: payload => dispatch(requestUserlistData(payload)),
+    // requestDelegateProfile: payload =>
+    //   dispatch(requestDelegateProfile(payload)),
     dispatch,
   };
 }
@@ -648,6 +777,8 @@ Header.propTypes = {
   profileSuccess: PropTypes.bool,
   requestUserlistData: PropTypes.func,
   badgeUpdateSuccess: PropTypes.object,
+  requestDelegateProfile: PropTypes.func,
+  delegateHeaderProfileSuccess: PropTypes.bool,
 };
 
 export default compose(

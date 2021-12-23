@@ -60,11 +60,16 @@ export function* getLocationData() {
   }
 }
 
-export function* getUserListData() {
+export function* getUserListData({ payload }) {
+  console.log('payload', payload);
+  console.log('api called');
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/User/GetData?employeeid=239323`;
+  // if (payload.empdelegatedata !== undefined) {
+  const requestURL = `${API_URL}/User/GetData?dalegateEmployeeid=${payload.empdelegatedata ||
+    ''}&employeeid=${sessionStorage.getItem('empid') || ''}`;
+  // }
   try {
     const usersList = yield request({
       method: 'GET',
@@ -145,12 +150,13 @@ export function* updateBadgeData({ payload }) {
 }
 
 export function* delegateProfile({ payload }) {
+  console.log('payload ====>', payload);
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
-  const requestURL = `${API_URL}/Delegate/getDelegateUserProfile?employeeid=${
+  const requestURL = `${API_URL}/Delegate/getDelegateUserProfile?delegateEmployeeid=${
     payload.empId
-  }`;
+  }&sub=${payload.subb}`;
   try {
     const delegateProfileList = yield request({
       method: 'GET',
@@ -160,11 +166,16 @@ export function* delegateProfile({ payload }) {
       },
     });
     const { data } = delegateProfileList;
+    console.log('data', data);
     if (delegateProfileList.status === 403) {
       sessionStorage.clear();
       yield put(push('/auth'));
     } else if (data && data.success) {
-      yield put(delegateProfileSuccess(data.response));
+      sessionStorage.setItem(
+        'AccessToken',
+        `{"idtoken":"${data.delegateUserToken}"}`,
+      );
+      yield put(delegateProfileSuccess(data));
     } else {
       yield put(delegateProfileFailed(data));
     }
@@ -248,6 +259,11 @@ export function* getUpdateDelegateData() {
       sessionStorage.clear();
       yield put(push('/auth'));
     } else if (data && data.success) {
+      console.log('in success');
+      // sessionStorage.setItem(
+      //   'AccessToken',
+      //   `{'idtokens':'${data.delwgateUserToken}'`,
+      // );
       yield put(getDelegateListSuccess(data.delegateData));
     } else {
       yield put(getDelegateListFailed(data));
