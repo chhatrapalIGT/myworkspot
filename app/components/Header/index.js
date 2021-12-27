@@ -30,18 +30,22 @@ const Header = props => {
   // eslint-disable-next-line no-unused-vars
   const [apiCall, setApiCall] = useState(false);
   const [sidebar, setSidebar] = useState(false);
-  const [delegateView, setDelegateView] = useState(false);
+  // const [delegateView, setDelegateView] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [delecatecallchk, setDelecatecallchk] = useState(false);
   const divRef = useRef();
   const location = useLocation();
   const history = useHistory();
-  const [userList, setUserList] = useState(
-    props.profileUser.delegateUserList || [],
-  );
-
+  const [setUserList] = useState(props.profileUser.delegateUserList || []);
+  const [defaultapick, setDefaultapick] = useState(false);
   useEffect(() => {
-    props.requestUserlistData({});
+    if (!defaultapick) {
+      props.requestUserlistData({
+        empdelegatedata: sessionStorage.getItem('delegateId'),
+      });
+      setDefaultapick(true);
+    }
     const getAdmin = sessionStorage.getItem('Admin');
     const getDelegate = sessionStorage.getItem('delegate');
     const empId = sessionStorage.getItem('empid');
@@ -58,10 +62,12 @@ const Header = props => {
     //     JSON.stringify(props.profileUser.delegateUserList) || [],
     //   );
     // const sessioDelegate = sessionStorage.getItem('tempDel');
-    if (props.delegateHeaderProfileSuccess) {
+    if (props.delegateHeaderProfileSuccess && !delecatecallchk) {
       props.requestUserlistData({
         empdelegatedata: sessionStorage.getItem('delegateId'),
       });
+      setDelecatecallchk(true);
+      window.location.reload();
     }
   }, [props.delegateHeaderProfileSuccess, props.profileUser.employeeid]);
 
@@ -106,7 +112,6 @@ const Header = props => {
       });
     }
 
-    console.log('delegateView11', delegateView, id);
     sessionStorage.setItem('delegateId', id);
     const delPro = props.profileUser.delegateUserList.filter(
       i => i.employeeid.toString() !== id.toString(),
@@ -114,7 +119,6 @@ const Header = props => {
     history.push(`/profile/${id}`);
     setUserList(delPro);
 
-    console.log('delegateViewafter', delegateView);
     props.requestDelegateProfile({
       empId: id,
       subb: sessionStorage.getItem('delegate'),
@@ -312,7 +316,9 @@ const Header = props => {
                     />
                   </div>
                 ) : ( */}
-                {!props.profileUserLoading && (
+                {props.profileUserLoading ? (
+                  <div className="spinner-border" />
+                ) : (
                   <div
                     aria-hidden="true"
                     onClick={() => setEditProfile(!editProfile)}
@@ -772,7 +778,7 @@ export function mapDispatchToProps(dispatch) {
 Header.propTypes = {
   profileUser: PropTypes.object,
   profileUserLoading: PropTypes.bool,
-  delegateHeaderProfile: PropTypes.object,
+  // delegateHeaderProfile: PropTypes.object,
   clearData: PropTypes.func,
   profileSuccess: PropTypes.bool,
   requestUserlistData: PropTypes.func,
