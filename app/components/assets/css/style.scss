@@ -1464,8 +1464,6 @@ input[type='text'] {
             display: block;
             position: absolute;
             top: 73px;
-            // right: 319px;
-            // width: 100px;
             background-color: #526e88;
             border-radius: 8px;
             padding: 5px;
@@ -1474,8 +1472,17 @@ input[type='text'] {
             opacity: 0.8;
             // text-align: left;
           }
-
-          // margin-bottom: 8px;
+          &:hover .hover-data-month {
+            display: block;
+            position: absolute;
+            top: -30px;
+            background-color: #526e88;
+            border-radius: 8px;
+            padding: 5px;
+            color: #fff;
+            font-size: 12px;
+            opacity: 0.8;
+          }
         }
         &.half-paid-off {
           border: 1px solid #e2d2ff;

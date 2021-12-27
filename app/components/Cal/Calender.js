@@ -241,6 +241,22 @@ const Calender = ({
     return className;
   };
 
+  const halfLocationClass = loc => {
+    let className;
+    switch (loc) {
+      case 'RW':
+        className = 'half-paid-off-remote';
+        break;
+      case 'EAB':
+        className = 'has-half-paid-off';
+        break;
+
+      default:
+        className = 'has-half-paid-off';
+    }
+    return className;
+  };
+
   useEffect(() => {
     setColleagueData(colleagueWeeklyData);
   }, [colleagueWeeklyData]);
@@ -680,18 +696,21 @@ const Calender = ({
                                       {data.data.map(partially => {
                                         return (
                                           <div
-                                            className={`day-one-wrapper ${
+                                            className={`day-one-wrapper 
+                                            ${
                                               partially &&
                                               partially.locationCode === 'PTO'
                                                 ? 'half-paid-off'
-                                                : partially &&
-                                                  partially.locationCode ===
-                                                    'RW'
-                                                ? 'half-paid-off-remote'
                                                 : item.disable ||
                                                   isCurrentDate(item.date)
-                                                ? 'has-half-paid-off'
-                                                : 'has-half-paid-off day-pointer'
+                                                ? `day-one-wrapper ${halfLocationClass(
+                                                    partially &&
+                                                      partially.locationCode,
+                                                  )}`
+                                                : `day-one-wrapper ${halfLocationClass(
+                                                    partially &&
+                                                      partially.locationCode,
+                                                  )} day-pointer`
                                             }`}
                                             onClick={() => {
                                               !item.disable &&
@@ -1211,8 +1230,14 @@ const Calender = ({
                                               item.day === 'Sunday' ||
                                               item.weekend) ||
                                             isCurrentDate(item.date)
-                                          ? 'has-half-paid-off'
-                                          : 'has-half-paid-off day-pointer'
+                                          ? `day-one-wrapper ${halfLocationClass(
+                                              otherHalf &&
+                                                otherHalf.locationCode,
+                                            )}`
+                                          : `day-one-wrapper ${halfLocationClass(
+                                              otherHalf &&
+                                                otherHalf.locationCode,
+                                            )} day-pointer`
                                       }`}
                                       onClick={() => {
                                         !item.disable &&
@@ -1245,6 +1270,30 @@ const Calender = ({
                                         otherHalf.locationCode === 'PTO'
                                           ? otherHalf && otherHalf.timeofftype
                                           : otherHalf && otherHalf.locationName}
+
+                                        {((otherHalf &&
+                                          otherHalf.building !== null) ||
+                                          (otherHalf &&
+                                            otherHalf.floor !== null) ||
+                                          (otherHalf &&
+                                            otherHalf.colorcode !== '')) && (
+                                          <span className="hover-data-month">
+                                            {otherHalf &&
+                                              otherHalf.building !== null &&
+                                              `Bldg ${otherHalf &&
+                                                otherHalf.building} -`}
+                                            {otherHalf &&
+                                              otherHalf.floor !== null &&
+                                              `Fl ${otherHalf &&
+                                                otherHalf.floor} -`}
+                                            {otherHalf &&
+                                              otherHalf.colorcode !== '' &&
+                                              modalColorCode(
+                                                otherHalf &&
+                                                  otherHalf.colorcode,
+                                              )}
+                                          </span>
+                                        )}
                                       </p>
                                     </div>
                                   ))}
