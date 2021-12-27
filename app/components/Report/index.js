@@ -536,6 +536,8 @@ const Report = ({
             aria-hidden="true"
             centered
             size="lg"
+            backdrop="static"
+            keyboard={false}
           >
             <div className=" modal-dialog-centered">
               <div className="modal-content">
@@ -561,7 +563,10 @@ const Report = ({
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    onClick={() => setEmployeeLocationDetail(false)}
+                    onClick={() => {
+                      setEmployeeLocationDetail(false);
+                      handleDefault();
+                    }}
                   />
                 </div>
                 <div className="modal-body">

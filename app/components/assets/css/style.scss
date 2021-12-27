@@ -1456,13 +1456,52 @@ input[type='text'] {
         &.has-half-paid-off {
           min-height: 40px;
           height: 40px;
-          // margin-bottom: 8px;
+          // position: relative;
+          // &:hover {
+          //   cursor: pointer;
+          // }
+          &:hover .hover-data {
+            display: block;
+            position: absolute;
+            top: 73px;
+            background-color: #526e88;
+            border-radius: 8px;
+            padding: 5px;
+            color: #fff;
+            font-size: 12px;
+            opacity: 0.8;
+            // text-align: left;
+          }
+          &:hover .hover-data-month {
+            display: block;
+            position: absolute;
+            top: -30px;
+            background-color: #526e88;
+            border-radius: 8px;
+            padding: 5px;
+            color: #fff;
+            font-size: 12px;
+            opacity: 0.8;
+          }
         }
         &.half-paid-off {
           border: 1px solid #e2d2ff;
           height: 40px;
           min-height: 40px;
           background: #f4eeff url(../images/beach-trees.svg) no-repeat center
+            right;
+          background-size: 44px;
+          background-position-x: calc(100% - 10px);
+          margin-top: 6px;
+        }
+
+        &.half-paid-off-remote {
+          border: 1px solid #e2d2ff;
+          height: 40px;
+          min-height: 40px;
+          // background: #f4eeff url(../images/beach-trees.svg) no-repeat center
+          //   right;
+          background: #f5f7fa url(../images/workfromhome.png) no-repeat center
             right;
           background-size: 44px;
           background-position-x: calc(100% - 10px);
@@ -1724,6 +1763,10 @@ input[type='text'] {
         &.has-half-paid-off {
           background-position-x: calc(100% - 10px);
           background-size: 40px;
+          position: relative;
+          // &:hover {
+          //   cursor: pointer;
+          // }
         }
       }
 
@@ -2049,7 +2092,6 @@ input[type='text'] {
 }
 
 .checkbox-label {
-  margin: 20px 0;
   display: flex;
   align-items: center;
 
@@ -3244,4 +3286,9 @@ div[class*='qy-menu'] * {
   & :hover {
     cursor: pointer;
   }
+}
+
+.question {
+  margin-top: -6px;
+  filter: invert(100%) sepia(0%) saturate(7485%) hue-rotate(231deg) brightness(113%) contrast(105%);
 }

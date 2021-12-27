@@ -258,56 +258,62 @@ const OfficeWDC = ({
         <div className="container">
           <div className="office-structure mt-4">
             <div className="card office-structure-inner">
-              {officeLocationErrorHandle &&
-              officeLocationErrorHandle.loading ? (
-                <Spinner
-                  className="app-spinner"
-                  animation="grow"
-                  variant="dark"
-                />
-              ) : (
+              {imgSrc !== null ? (
                 <>
-                  {imgResource || ''}
-                  <div className="right-map">
-                    <Draggable disabled={!isDraggable} key={state.version}>
-                      <div
-                        className="drag_image"
-                        style={isDraggable ? { cursor: 'move' } : null}
-                      >
-                        <img
-                          src={imgSrc}
-                          alt=""
-                          style={imgStyle}
-                          draggable="false"
-                        />
-                      </div>
-                    </Draggable>
+                  {officeLocationErrorHandle &&
+                  officeLocationErrorHandle.loading ? (
+                    <Spinner
+                      className="app-spinner"
+                      animation="grow"
+                      variant="dark"
+                    />
+                  ) : (
+                    <>
+                      {imgResource || ''}
+                      <div className="right-map">
+                        <Draggable disabled={!isDraggable} key={state.version}>
+                          <div
+                            className="drag_image"
+                            style={isDraggable ? { cursor: 'move' } : null}
+                          >
+                            <img
+                              src={imgSrc}
+                              alt=""
+                              style={imgStyle}
+                              draggable="false"
+                            />
+                          </div>
+                        </Draggable>
 
-                    <div className="toolbar">
-                      <button
-                        className="location"
-                        type="button"
-                        onClick={() => handleDefault()}
-                      >
-                        <img src={location} alt="" />
-                      </button>
-                      <button
-                        className="zoomin"
-                        type="button"
-                        onClick={() => handleZoomIn()}
-                      >
-                        <img src={Zoomin} alt="" />
-                      </button>
-                      <button
-                        className="zoomout"
-                        type="button"
-                        onClick={() => handleZoomOut()}
-                      >
-                        <img src={Zoomout} alt="" />
-                      </button>
-                    </div>
-                  </div>
+                        <div className="toolbar">
+                          <button
+                            className="location"
+                            type="button"
+                            onClick={() => handleDefault()}
+                          >
+                            <img src={location} alt="" />
+                          </button>
+                          <button
+                            className="zoomin"
+                            type="button"
+                            onClick={() => handleZoomIn()}
+                          >
+                            <img src={Zoomin} alt="" />
+                          </button>
+                          <button
+                            className="zoomout"
+                            type="button"
+                            onClick={() => handleZoomOut()}
+                          >
+                            <img src={Zoomout} alt="" />
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </>
+              ) : (
+                <h2 style={{ margin: '5% auto' }}>No Image Found</h2>
               )}
             </div>
           </div>
