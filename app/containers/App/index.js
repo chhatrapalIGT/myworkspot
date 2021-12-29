@@ -62,7 +62,7 @@ const App = props => {
           <Switch>
             <Route exact path="/auth" component={Login} />
             <Route
-              exact
+              // exact
               path="/profile"
               Route
               component={ProfilePage}
