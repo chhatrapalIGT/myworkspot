@@ -37,7 +37,9 @@ const Header = props => {
   const divRef = useRef();
   const location = useLocation();
   const history = useHistory();
-  const [setUserList] = useState(props.profileUser.delegateUserList || []);
+  const [userList, setUserList] = useState(
+    (props.profileUser && props.profileUser.delegateUserList) || [],
+  );
   const [defaultapick, setDefaultapick] = useState(false);
   useEffect(() => {
     if (!defaultapick) {
@@ -100,6 +102,7 @@ const Header = props => {
   const userProfileData = async id => {
     if (id === sessionStorage.getItem('empid')) {
       sessionStorage.removeItem('delegateId');
+      sessionStorage.setItem('delegate', false);
       props.requestUserlistData({
         employeeid: sessionStorage.getItem('empid'),
         // empdelegatedata: sessionStorage.getItem('delegateId'),
@@ -118,10 +121,10 @@ const Header = props => {
     );
     history.push(`/profile/${id}`);
     setUserList(delPro);
-
     props.requestDelegateProfile({
       empId: id,
-      subb: sessionStorage.getItem('delegate'),
+      // eslint-disable-next-line no-unneeded-ternary
+      subb: id === sessionStorage.getItem('empid') ? false : true,
     });
     // window.location.reload();
   };
@@ -495,8 +498,7 @@ const Header = props => {
                       <div className="head deladmin">
                         <span style={{ color: '#FF8D62' }}>Admin Access</span>
                       </div>
-                    ) : sessionStorage.getItem('delegate') === 'true' &&
-                      sessionStorage.getItem('manageAdmin') === 'false' ? (
+                    ) : sessionStorage.getItem('delegate') === 'true' ? (
                       <div className="head del">
                         <span style={{ color: '#ed8b00' }}>On behalf of</span>
                       </div>
@@ -720,7 +722,7 @@ const Header = props => {
             <div className="badge_check">
               <img src={BadgeIcon} alt="bicon" />{' '}
               <span>You don't have a badge associated with your profile</span>
-              {pathName !== '/profile' && (
+              {!pathName.includes('/profile') && (
                 <button
                   type="button"
                   className="btn_badge"
