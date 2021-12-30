@@ -575,7 +575,7 @@ const Header = props => {
                             />
                             <div className="sec-profile-info">
                               <h4>
-                                fghfgh {obj && obj.delegateUserFistname}{' '}
+                                {obj && obj.delegateUserFistname}{' '}
                                 {obj && obj.delegateUserLastname}{' '}
                               </h4>
                               <span>{obj && obj.delegateUserEmail}</span>
