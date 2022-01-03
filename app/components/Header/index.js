@@ -119,7 +119,6 @@ const Header = props => {
     const delPro = props.profileUser.delegateUserList.filter(
       i => i.employeeid.toString() !== id.toString(),
     );
-    history.push(`/profile/${id}`);
     setUserList(delPro);
     props.requestDelegateProfile({
       empId: id,
