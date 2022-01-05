@@ -513,7 +513,10 @@ const Header = props => {
                         {props.profileUser.firstname}{' '}
                         {props.profileUser.lastname}
                       </h3>
-                      {sessionStorage.getItem('Admin') === 'true' || isAdmin ? (
+                      {(sessionStorage.getItem('Admin') === 'true' &&
+                        props.profileUser &&
+                        props.profileUser.role) ||
+                      isAdmin ? (
                         <p
                           style={{
                             color: '#FF8D62',
@@ -617,18 +620,54 @@ const Header = props => {
 
                     {/* {sessionStorage.getItem('Admin') === 'false' ? ( */}
                     {props.profileUser &&
-                      props.profileUser.role === 'Admin' &&
-                      sessionStorage.getItem('Admin') === 'false' && (
+                    props.profileUser.role === 'Admin' &&
+                    sessionStorage.getItem('Admin') === 'false' ? (
+                      <div
+                        aria-hidden="true"
+                        className="popup-secondary-profile day-pointer"
+                        onClick={() => {
+                          // userProfileData(obj.employeeid);
+                          setIsAdmin(true);
+                          setEditProfile(false);
+                          sessionStorage.setItem('Admin', true);
+                          sessionStorage.setItem('manageAdmin', true);
+                          history.replace('/home');
+                        }}
+                      >
+                        <img
+                          src={
+                            (props.profileUser && props.profileUser.photo) ||
+                            Profile
+                          }
+                          alt=""
+                          style={{ marginBottom: '10px' }}
+                        />
+                        <div className="sec-profile-info">
+                          <h4>
+                            {props.profileUser && props.profileUser.firstname}{' '}
+                            {props.profileUser && props.profileUser.lastname}
+                          </h4>
+                          <span style={{ color: '#FF8D62' }}>
+                            {props.profileUser && props.profileUser.role}
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      //   // <Link to="/profile">
+
+                      (sessionStorage.getItem('empid') ===
+                        sessionStorage.getItem('delegateId') ||
+                        (props.profileUser &&
+                          props.profileUser.role === 'Admin')) && (
                         <div
                           aria-hidden="true"
                           className="popup-secondary-profile day-pointer"
                           onClick={() => {
-                            // userProfileData(obj.employeeid);
-                            setIsAdmin(true);
                             setEditProfile(false);
-                            sessionStorage.setItem('Admin', true);
-                            sessionStorage.setItem('manageAdmin', true);
-                            history.replace('/home');
+                            setIsAdmin(false);
+                            sessionStorage.setItem('Admin', false);
+                            sessionStorage.setItem('manageAdmin', false);
+                            history.replace('/workspot');
                           }}
                         >
                           <img
@@ -641,49 +680,16 @@ const Header = props => {
                           />
                           <div className="sec-profile-info">
                             <h4>
-                              {props.profileUser && props.profileUser.firstname}{' '}
-                              {props.profileUser && props.profileUser.lastname}
+                              else part
+                              {props.profileUser &&
+                                props.profileUser.firstname}{' '}
+                              {props.profileUser && props.profileUser.lastname}{' '}
                             </h4>
-                            <span style={{ color: '#FF8D62' }}>
-                              {props.profileUser && props.profileUser.role}
-                            </span>
+                            <span>{props.profileUser.email}</span>
                           </div>
                         </div>
                       )
-                    // : (
-                    //   // <Link to="/profile">
-                    //   <div
-                    //     aria-hidden="true"
-                    //     className="popup-secondary-profile day-pointer"
-                    //     onClick={() => {
-                    //       setEditProfile(false);
-                    //       setIsAdmin(false);
-                    //       sessionStorage.setItem('Admin', false);
-                    //       sessionStorage.setItem('manageAdmin', false);
-                    //       history.replace('/workspot');
-                    //     }}
-                    //   >
-                    //     <img
-                    //       src={
-                    //         (props.profileUser && props.profileUser.photo) ||
-                    //         Profile
-                    //       }
-                    //       alt=""
-                    //       style={{ marginBottom: '10px' }}
-                    //     />
-                    //     <div className="sec-profile-info">
-                    //       <h4>
-                    //         last els
-                    //         {props.profileUser &&
-                    //           props.profileUser.firstname}{' '}
-                    //         {props.profileUser && props.profileUser.lastname}{' '}
-                    //       </h4>
-                    //       <span>{props.profileUser.email}</span>
-                    //     </div>
-                    //   </div>
-                    //   // </Link>
-                    // )
-                    }
+                    )}
                     <a
                       href
                       className="logout day-pointer"
