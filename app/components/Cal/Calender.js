@@ -1087,7 +1087,7 @@ const Calender = ({
                                           setEmployee(true);
                                         setDate(
                                           moment(item.date).format(
-                                            'dddd, MMMM DD, YYYY',
+                                            'dddd, MMMM D, YYYY',
                                           ),
                                         );
                                         handleDefault();
