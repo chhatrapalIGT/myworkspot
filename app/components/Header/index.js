@@ -353,7 +353,7 @@ const Header = props => {
                           />
                         </>
                       ) : sessionStorage.getItem('delegate') === 'true' &&
-                        sessionStorage.getItem('manageAdmin') === 'false' ? (
+                        sessionStorage.getItem('Admin') === 'false' ? (
                         <>
                           {' '}
                           <span style={{ color: '#ed8b00' }}>
@@ -680,9 +680,7 @@ const Header = props => {
                           />
                           <div className="sec-profile-info">
                             <h4>
-                              else part
-                              {props.profileUser &&
-                                props.profileUser.firstname}{' '}
+                              {props.profileUser && props.profileUser.firstname}{' '}
                               {props.profileUser && props.profileUser.lastname}{' '}
                             </h4>
                             <span>{props.profileUser.email}</span>
