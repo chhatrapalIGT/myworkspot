@@ -339,8 +339,14 @@
   .site-footer {
     text-align: center;
   }
-  .site-footer img {
+  /* .site-footer img {
     margin-bottom: 25px;
+  } */
+
+  .help_part > a {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px !important;
   }
   .weekly-default .weekly-default-inner .day_one {
     width: 100%;
