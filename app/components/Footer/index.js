@@ -14,7 +14,7 @@ const Footer = () => (
           <div className="col-md-6">
             <p>© {year} EAB. All Rights Reserved </p>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3 help_part">
             <a
               style={{ textDecoration: 'underline' }}
               target="_blank"
