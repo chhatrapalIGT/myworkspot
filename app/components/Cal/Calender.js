@@ -1277,7 +1277,7 @@ const Calender = ({
                                             otherHalf.floor !== null) ||
                                           (otherHalf &&
                                             otherHalf.colorcode !== '')) && (
-                                          <span className="hover-data-month">
+                                          <span className="hover-data month-hover-data">
                                             {otherHalf &&
                                               otherHalf.building !== null &&
                                               `Bldg ${otherHalf &&
