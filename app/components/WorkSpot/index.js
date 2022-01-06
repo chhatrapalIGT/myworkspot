@@ -784,6 +784,7 @@ const WorkSpot = ({
                       setModal(false);
                       // eslint-disable-next-line no-unused-expressions
                     }}
+                    disabled={!state.date}
                   >
                     Update
                   </button>
