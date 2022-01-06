@@ -55,7 +55,7 @@ function RB2(from) {
         </div>
         <div className="office-part-one black">
           <span className="informer">3</span>
-          <label htmlFor="my-spot">Founder's</label>
+          <label htmlFor="my-spot">Conference 216</label>
         </div>
         <div className="office-part-one black">
           <span className="informer">4</span>
