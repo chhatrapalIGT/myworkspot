@@ -529,10 +529,15 @@ const WorkSpot = ({
                                   {neighborhoodColor || halfdayColor}
                                 </h3>
                               </div>
-                              {neighborhoodData.workspacenumber && (
+                              {((neighborhoodData &&
+                                neighborhoodData.workspacenumber) ||
+                                (halfDayData &&
+                                  halfDayData.workspacenumber)) && (
                                 <div className="space-data">
-                                  {`Space ${neighborhoodData &&
-                                    neighborhoodData.workspacenumber}`}
+                                  {`Space ${(neighborhoodData &&
+                                    neighborhoodData.workspacenumber) ||
+                                    (halfDayData &&
+                                      halfDayData.workspacenumber)}`}
                                 </div>
                               )}
                             </>
