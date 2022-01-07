@@ -54,6 +54,8 @@ const Profile = ({
   verifyBadgeLoading,
   validateBadge,
   badgeUpdateLoading,
+  onCheckbox,
+  leadersCommittee,
 }) => {
   const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
@@ -668,6 +670,19 @@ const Profile = ({
                       Apply to all days of the week
                     </label>
                   </div>
+                  {leadersCommittee && (
+                    <div className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        name="privateSpace"
+                        id="privateSpace"
+                        onClick={() => onCheckbox()}
+                      />
+                      <label htmlFor="private-space">
+                        Private space requested
+                      </label>
+                    </div>
+                  )}
                 </form>
               </div>
               <div className="modal-footer">
@@ -812,5 +827,7 @@ Profile.propTypes = {
   validateBadge: PropTypes.bool,
   verifyBadgeLoading: PropTypes.bool,
   badgeUpdateLoading: PropTypes.bool,
+  onCheckbox: PropTypes.bool,
+  leadersCommittee: PropTypes.bool,
 };
 export default Profile;

@@ -390,7 +390,7 @@ class WorkSpotPage extends Component {
 
   onSubmit = () => {
     // eslint-disable-next-line no-unused-vars
-    const { updatingObject } = this.state;
+    const { updatingObject, privateSpace } = this.state;
     const { locationData } = this.props;
     const a =
       locationData &&
@@ -408,6 +408,7 @@ class WorkSpotPage extends Component {
         // eslint-disable-next-line radix
         locationid: a ? a.id : 'DC',
         weekofday: [moment(updatingObject.date).format('YYYY-MM-DD')],
+        privateSpace,
       },
 
       employeeid: 239323,
