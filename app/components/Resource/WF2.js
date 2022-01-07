@@ -79,7 +79,7 @@ function WF2(from) {
         </div>
         <div className="office-part-one blue">
           <span className="informer">253</span>
-          <label htmlFor="my-spot">Shenandoach</label>
+          <label htmlFor="my-spot">Shenandoah</label>
         </div>
         <div className="office-part-one blue">
           <span className="informer">254</span>
