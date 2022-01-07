@@ -498,35 +498,44 @@ const WorkSpot = ({
                           neighborhoodData.locationCode !== 'BHM' &&
                           neighborhoodData &&
                           neighborhoodData.locationCode !== 'BLM' && (
-                            <div className="block-info d-flex flex-wrap">
-                              {((neighborhoodData &&
-                                neighborhoodData.building) ||
-                                halfDayData.building) && (
-                                <h3 className="building-name">
-                                  {`Building ${(neighborhoodData &&
-                                    neighborhoodData.building) ||
-                                    halfDayData.building}`}
+                            <>
+                              <div className="block-info d-flex flex-wrap">
+                                {((neighborhoodData &&
+                                  neighborhoodData.building) ||
+                                  halfDayData.building) && (
+                                  <h3 className="building-name">
+                                    {`Building ${(neighborhoodData &&
+                                      neighborhoodData.building) ||
+                                      halfDayData.building}`}
+                                  </h3>
+                                )}
+                                {((neighborhoodData &&
+                                  neighborhoodData.floor) ||
+                                  halfDayData.floor) && (
+                                  <h3
+                                    className={
+                                      neighborhoodColor !== '' ||
+                                      halfdayColor !== ''
+                                        ? 'floor-name'
+                                        : 'floor-data-name'
+                                    }
+                                  >
+                                    {`Floor ${(neighborhoodData &&
+                                      neighborhoodData.floor) ||
+                                      halfDayData.floor}`}
+                                  </h3>
+                                )}
+                                <h3 className="color-code">
+                                  {neighborhoodColor || halfdayColor}
                                 </h3>
+                              </div>
+                              {neighborhoodData.workspacenumber && (
+                                <div className="space-data">
+                                  {`Space ${neighborhoodData &&
+                                    neighborhoodData.workspacenumber}`}
+                                </div>
                               )}
-                              {((neighborhoodData && neighborhoodData.floor) ||
-                                halfDayData.floor) && (
-                                <h3
-                                  className={
-                                    neighborhoodColor !== '' ||
-                                    halfdayColor !== ''
-                                      ? 'floor-name'
-                                      : 'floor-data-name'
-                                  }
-                                >
-                                  {`Floor ${(neighborhoodData &&
-                                    neighborhoodData.floor) ||
-                                    halfDayData.floor}`}
-                                </h3>
-                              )}
-                              <h3 className="color-code">
-                                {neighborhoodColor || halfdayColor}
-                              </h3>
-                            </div>
+                            </>
                           )}
                       </>
                     )}
@@ -614,6 +623,8 @@ const WorkSpot = ({
                 (halfDayData && halfDayData.building !== null) ||
                 ((neighborhoodData && neighborhoodData.floor !== null) ||
                   (halfDayData && halfDayData.floor !== null))) &&
+              ((neighborhoodData && neighborhoodData.image !== '') ||
+                (halfDayData && halfDayData.image !== '')) &&
               ((neighborhoodData &&
                 neighborhoodData.colorcode !== null &&
                 (neighborhoodData && neighborhoodData.colorcode !== '')) ||
@@ -647,6 +658,10 @@ const WorkSpot = ({
                         handleZoomIn={handleZoomIn}
                         handleZoomOut={handleZoomOut}
                         handleDefault={handleDefault}
+                        mapImage={
+                          (neighborhoodData && neighborhoodData.image) ||
+                          (halfDayData && halfDayData.image)
+                        }
                         colorCode={neighborhoodColor || halfdayColor}
                       />
                     )
@@ -941,7 +956,8 @@ const WorkSpot = ({
                     (employeeData &&
                       employeeData.building === null &&
                       (employeeData && employeeData.floor === null) &&
-                      (employeeData && employeeData.colorcode === '')) ? (
+                      (employeeData && employeeData.colorcode === '') &&
+                      (employeeData && employeeData.image !== '')) ? (
                       <div className="container" style={{ height: '100%' }}>
                         <h5 style={{ textAlign: 'center' }}>
                           {' '}
@@ -962,6 +978,9 @@ const WorkSpot = ({
                             handleDefault={handleDefault}
                             ColleagueUserName={ColleagueUserName}
                             from="employeeData"
+                            mapImage={
+                              (employeeData && employeeData.image) || ''
+                            }
                             colorCode={employeeMapColor}
                           />
                         )}

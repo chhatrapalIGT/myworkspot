@@ -573,6 +573,7 @@ const Report = ({
                   <div className="office-structure office-structure-modal">
                     {modalData &&
                     modalData.building === null &&
+                    (modalData && modalData.image !== '') &&
                     (modalData && modalData.floor === null) ? (
                       <div className="container" style={{ height: '100%' }}>
                         {modalData && (
@@ -593,6 +594,7 @@ const Report = ({
                           handleZoomIn={handleZoomIn}
                           handleZoomOut={handleZoomOut}
                           handleDefault={handleDefault}
+                          mapImage={(modalData && modalData.image) || ''}
                           colorCode={modalColorCode}
                         />
                       </div>
