@@ -345,6 +345,9 @@
     margin-bottom: 25px;
   } */
 
+  .toolbar {
+    display: none;
+  }
   .help_part > a {
     display: flex;
     justify-content: space-around;

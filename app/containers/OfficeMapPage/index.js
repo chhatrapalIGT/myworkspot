@@ -78,6 +78,9 @@ class OfficeMap extends Component {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
+    const dataStyle = {
+      transform: `scale(2) rotate(${this.state.rotate}deg)`,
+    };
     const { officeLocation, officeLocationErrorHandle } = this.props;
 
     return (
@@ -85,6 +88,7 @@ class OfficeMap extends Component {
         <div id="content-wrap">
           <Office
             imgStyle={imgStyle}
+            dataStyle={dataStyle}
             state={this.state}
             handleZoomIn={this.handleZoomIn}
             handleZoomOut={this.handleZoomOut}

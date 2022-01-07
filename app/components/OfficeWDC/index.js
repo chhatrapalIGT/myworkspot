@@ -22,12 +22,14 @@ import RB3F2 from '../Resource/RB3F2';
 import BRB1 from '../Resource/BRB1';
 import BLB1 from '../Resource/BLB1';
 import crossCircle from '../../images/x-circle-fill.svg';
+import useWindowSize from '../../hooks/useWindowSize';
 
 const OfficeWDC = ({
   handleZoomIn,
   handleZoomOut,
   handleDefault,
   imgStyle,
+  dataStyle,
   state,
   officeLocation,
   officeLocationErrorHandle,
@@ -39,6 +41,7 @@ const OfficeWDC = ({
   const [finalFloor, setFinalFloor] = useState('Floor 2');
   const [imgSrc, setImgSrc] = useState('');
   const [imgResource, setImgResource] = useState('');
+  const { width } = useWindowSize();
 
   const finalFloorData =
     officeLocation &&
@@ -50,7 +53,7 @@ const OfficeWDC = ({
     if (office.length) {
       setFloors(office);
     }
-  }, [officeLocation]);
+  }, [officeLocation, width]);
 
   const setFloors = value => {
     let Data = [];
@@ -271,7 +274,10 @@ const OfficeWDC = ({
                     <>
                       {imgResource || ''}
                       <div className="right-map">
-                        <Draggable disabled={!isDraggable} key={state.version}>
+                        <Draggable
+                          disabled={width < 767 ? isDraggable : !isDraggable}
+                          key={state.version}
+                        >
                           <div
                             className="drag_image"
                             style={isDraggable ? { cursor: 'move' } : null}
@@ -279,7 +285,7 @@ const OfficeWDC = ({
                             <img
                               src={imgSrc}
                               alt=""
-                              style={imgStyle}
+                              style={width < 767 ? dataStyle : imgStyle}
                               draggable="false"
                             />
                           </div>
@@ -325,6 +331,7 @@ const OfficeWDC = ({
 
 OfficeWDC.propTypes = {
   imgStyle: PropTypes.object,
+  dataStyle: PropTypes.object,
   state: PropTypes.object,
   handleZoomOut: PropTypes.func,
   handleZoomIn: PropTypes.func,
