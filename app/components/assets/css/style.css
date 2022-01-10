@@ -11,12 +11,12 @@
   }
 }
 
-@media (max-height: 901px) {
+/* @media (max-height: 901px) {
   .office-structure .office-structure-inner .left-panel .office-resource,
   .office-structure .office-structure-inner .left-panel {
     height: 100vh;
   }
-}
+} */
 
 /* @media (min-width: 1601px) {
   .office-structure-inner {
@@ -226,6 +226,7 @@
   }
   .office-structure .office-structure-inner {
     flex-wrap: wrap;
+    max-height: 100%;
   }
   .myteam_wrapper .weekly-default .weekly-default-inner > div {
     width: calc(33.33% - 10px);
