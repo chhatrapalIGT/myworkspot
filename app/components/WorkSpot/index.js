@@ -36,6 +36,7 @@ const WorkSpot = ({
   handleZoomOut,
   handleDefault,
   imgStyle,
+  dataStyle,
   locationData,
   getWorkSpots,
   handleColleageUpdate,
@@ -660,6 +661,7 @@ const WorkSpot = ({
                         }
                         state={state}
                         imgStyle={imgStyle}
+                        dataStyle={dataStyle}
                         handleZoomIn={handleZoomIn}
                         handleZoomOut={handleZoomOut}
                         handleDefault={handleDefault}
@@ -717,33 +719,8 @@ const WorkSpot = ({
                     onClick={() => setModal(false)}
                   />
                 </div>
-                <div className="modal-body">
+                <div className="modal-body" style={{ paddingTop: '0px' }}>
                   <div className="calendarpop">
-                    <div className="selection">
-                      <select
-                        name="work_place"
-                        className="dropdown_opt"
-                        onChange={onChange}
-                      >
-                        <optgroup label="EAB Office">
-                          {newArr &&
-                            newArr.map(i => (
-                              <option
-                                value={i.locationname}
-                                id="location"
-                                name="work_place"
-                                selected={state.work_place === i.locationCode}
-                              >
-                                {i && i.locationname}
-                              </option>
-                            ))}
-                        </optgroup>
-                        <hr />
-                        <option value={arr && arr.locationname}>
-                          {arr && arr.locationname}
-                        </option>
-                      </select>
-                    </div>
                     <div className="calendar_main">
                       <Datepicker
                         controls={['calendar']}
@@ -768,6 +745,40 @@ const WorkSpot = ({
                         <span className="paidoff">Paid Time Off</span>
                       </div>
                     </div>
+                    <div className="selection dropdown_opt">
+                      {' '}
+                      <label
+                        htmlFor="apply-all"
+                        className="stroke-2"
+                        style={{
+                          fonSize: '16px',
+                          fontFamily: 'Museo Sans Bold',
+                          color: '#00355f',
+                          margin: '10px 0px',
+                        }}
+                      >
+                        Select Workspot
+                      </label>
+                      <select name="work_place" onChange={onChange}>
+                        <optgroup label="EAB Office">
+                          {newArr &&
+                            newArr.map(i => (
+                              <option
+                                value={i.locationname}
+                                id="location"
+                                name="work_place"
+                                selected={state.work_place === i.locationCode}
+                              >
+                                {i && i.locationname}
+                              </option>
+                            ))}
+                        </optgroup>
+                        <hr />
+                        <option value={arr && arr.locationname}>
+                          {arr && arr.locationname}
+                        </option>
+                      </select>
+                    </div>
                     {leadersCommittee && (
                       <div
                         className="checkbox-label"
@@ -784,7 +795,7 @@ const WorkSpot = ({
                         </label>
                       </div>
                     )}
-                    <p className="notice">
+                    <p className="notice" style={{ margin: ' 18px 0' }}>
                       If you would like to update your weekly default, you can
                       update this under{' '}
                       <Link to="profile" activeClassName="active">
@@ -978,6 +989,7 @@ const WorkSpot = ({
                             locationCode={employeeData.locationCode}
                             state={state}
                             imgStyle={imgStyle}
+                            dataStyle={dataStyle}
                             handleZoomIn={handleZoomIn}
                             handleZoomOut={handleZoomOut}
                             handleDefault={handleDefault}
@@ -1169,5 +1181,6 @@ WorkSpot.propTypes = {
   monthData: PropTypes.object,
   handleClearCal: PropTypes.func,
   handleRemoveUserSelect: PropTypes.func,
+  dataStyle: PropTypes.object,
 };
 export default WorkSpot;

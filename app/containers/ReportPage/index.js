@@ -237,6 +237,9 @@ class ReportPage extends Component {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
+    const dataStyle = {
+      transform: `scale(2) rotate(${this.state.rotate}deg)`,
+    };
     return (
       <>
         <div id="content-wrap">
@@ -244,6 +247,7 @@ class ReportPage extends Component {
             state={this.state}
             handleChange={this.handleChange}
             imgStyle={imgStyle}
+            dataStyle={dataStyle}
             handleZoomIn={this.handleZoomIn}
             handleZoomOut={this.handleZoomOut}
             handleDefault={this.handleDefault}

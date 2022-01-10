@@ -24,13 +24,14 @@ import RB3F1 from './RB3F1';
 import RB3F2 from './RB3F2';
 import BLB1 from './BLB1';
 import BRB1 from './BRB1';
-
+import useWindowSize from '../../hooks/useWindowSize';
 const MapComponent = ({
   building,
   floor,
   locationCode,
   state,
   imgStyle,
+  dataStyle,
   handleZoomIn,
   handleZoomOut,
   handleDefault,
@@ -41,6 +42,7 @@ const MapComponent = ({
 }) => {
   const isDraggable = state.scale > 1;
   const [officeRest, setOfficeRest] = useState('');
+  const { width } = useWindowSize();
   useEffect(() => {
     if (
       building !== null &&
@@ -57,7 +59,7 @@ const MapComponent = ({
     } else if (colorCode === null || colorCode === '') {
       imgData(locationCode, building);
     }
-  }, []);
+  }, [width]);
 
   const imgData = async (
     neighborhoodImg,
@@ -292,7 +294,10 @@ const MapComponent = ({
           <>
             {officeRest || ''}
             <div className="right-map">
-              <Draggable disabled={!isDraggable} key={state.version}>
+              <Draggable
+                disabled={width < 767 ? isDraggable : !isDraggable}
+                key={state.version}
+              >
                 <div
                   className="drag_image"
                   style={isDraggable ? { cursor: 'move' } : null}
@@ -300,7 +305,7 @@ const MapComponent = ({
                   <img
                     src={mapImage || ''}
                     alt=""
-                    style={imgStyle}
+                    style={width < 767 ? dataStyle : imgStyle}
                     draggable="false"
                   />
                 </div>
@@ -342,6 +347,7 @@ MapComponent.propTypes = {
   locationCode: PropTypes.string,
   state: PropTypes.object,
   imgStyle: PropTypes.object,
+  dataStyle: PropTypes.object,
   handleZoomIn: PropTypes.func,
   handleZoomOut: PropTypes.func,
   handleDefault: PropTypes.func,

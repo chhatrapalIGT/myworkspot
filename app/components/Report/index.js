@@ -30,6 +30,7 @@ const Report = ({
   handleChange,
   state,
   imgStyle,
+  dataStyle,
   handleZoomIn,
   handleZoomOut,
   handleDefault,
@@ -591,6 +592,7 @@ const Report = ({
                           locationCode={modalData.locationCode}
                           state={state}
                           imgStyle={imgStyle}
+                          dataStyle={dataStyle}
                           handleZoomIn={handleZoomIn}
                           handleZoomOut={handleZoomOut}
                           handleDefault={handleDefault}

@@ -14,6 +14,7 @@ import {
   clearBoardData,
   requestVerifyBadge,
 } from './actions';
+import { requestUserlistData } from '../ProfilePage/actions';
 import Demo from '../../components/Header';
 import Boarding from '../../components/Boarding';
 import Footer from '../../components/Footer';
@@ -52,6 +53,7 @@ class BorardingPage extends Component {
           name: '',
         },
       ],
+      add: true,
     };
   }
 
@@ -126,12 +128,14 @@ class BorardingPage extends Component {
   };
 
   componentDidUpdate() {
-    const { addErrorLocation, history } = this.props;
-    const { timings } = this.state;
-    if (
-      (addErrorLocation && addErrorLocation.message) ||
-      (addErrorLocation && !addErrorLocation.success)
-    ) {
+    const { addErrorLocation, history, addErrorLocationMsg } = this.props;
+    const { timings, add } = this.state;
+    if (addErrorLocation && add) {
+      console.log(`in if`);
+      this.handleStateData();
+      this.props.requestUserlistData({});
+    }
+    if (addErrorLocationMsg || !addErrorLocation) {
       setTimeout(() => {
         this.props.clearBoardData();
       }, 5000);
@@ -143,6 +147,10 @@ class BorardingPage extends Component {
       const value = final.length >= 5 ? history.push('/workspot') : '';
     }
   }
+
+  handleStateData = () => {
+    this.setState({ add: false });
+  };
 
   handleData = () => {
     this.props.clearBoardData();
@@ -297,6 +305,7 @@ export function mapDispatchToProps(dispatch) {
     clearBoardData: () => dispatch(clearBoardData()),
     // requestBadgeData: payload => dispatch(requestBadgeData(payload)),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
+    requestUserlistData: payload => dispatch(requestUserlistData(payload)),
     dispatch,
   };
 }
@@ -323,6 +332,7 @@ BorardingPage.propTypes = {
   userName: PropTypes.string,
   profileUserLoading: PropTypes.bool,
   leadersCommittee: PropTypes.bool,
+  requestUserlistData: PropTypes.func,
 };
 
 export default compose(
