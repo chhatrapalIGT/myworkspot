@@ -45,6 +45,7 @@ class ProfilePage extends Component {
       listArray: [],
       selectedDay: '',
       selectedNames: '',
+      privateSpace: false,
       activePage: 1,
       finalval: '',
       checked: false,
@@ -223,6 +224,7 @@ class ProfilePage extends Component {
       selectedNames,
       selectedDay,
       checked,
+      privateSpace,
       finalLocationDay,
     } = this.state;
     const { location } = this.props;
@@ -266,6 +268,7 @@ class ProfilePage extends Component {
     const data = {
       data: finalLocatiopnUpdate,
       employeeid: '239323',
+      privateSpace,
     };
     this.props.requestAddOfficeLocation(data);
   };
@@ -288,6 +291,10 @@ class ProfilePage extends Component {
     if (this.props.verifyBadgeSuccess) {
       this.props.requestBadgeData(data);
     }
+  };
+
+  onCheckbox = () => {
+    this.setState({ privateSpace: true });
   };
 
   // allTabColor = type => {
@@ -333,6 +340,7 @@ class ProfilePage extends Component {
       badgeUpdateSuccess,
       verifyBadgeLoading,
       badgeUpdateLoading,
+      leadersCommittee,
     } = this.props;
     const validateBadge =
       history &&
@@ -379,6 +387,8 @@ class ProfilePage extends Component {
             verifyBadgeLoading={verifyBadgeLoading}
             badgeUpdateSuccess={badgeUpdateSuccess}
             badgeUpdateLoading={badgeUpdateLoading}
+            leadersCommittee={leadersCommittee}
+            onCheckbox={this.onCheckbox}
           />
         </div>
       </>
@@ -433,6 +443,11 @@ const mapStateToProps = state => {
       locationData &&
       locationData.verifyBadge &&
       locationData.verifyBadge.message,
+    leadersCommittee:
+      profile &&
+      profile.userList &&
+      profile.userList.user &&
+      profile.userList.user.leaderscommittee,
   };
 };
 export function mapDispatchToProps(dispatch) {
@@ -496,6 +511,7 @@ ProfilePage.propTypes = {
   verifyBadgeLoading: PropTypes.bool,
   badgeUpdateSuccess: PropTypes.bool,
   badgeUpdateLoading: PropTypes.bool,
+  leadersCommittee: PropTypes.bool,
 };
 
 export default compose(
