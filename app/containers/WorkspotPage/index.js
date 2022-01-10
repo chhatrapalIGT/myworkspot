@@ -499,6 +499,9 @@ class WorkSpotPage extends Component {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
+    const dataStyle = {
+      transform: `scale(2) rotate(${this.state.rotate}deg)`,
+    };
     const {
       locationData,
       neighborhoodData,
@@ -527,6 +530,7 @@ class WorkSpotPage extends Component {
             onDateChange={this.onDateChange}
             handleRemove={this.handleRemove}
             imgStyle={imgStyle}
+            dataStyle={dataStyle}
             handleZoomIn={this.handleZoomIn}
             handleZoomOut={this.handleZoomOut}
             handleDefault={this.handleDefault}
