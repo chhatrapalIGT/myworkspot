@@ -1074,6 +1074,22 @@ const WorkSpot = ({
                         </option>
                       </select>
                     </div>
+                    {leadersCommittee && (
+                      <div
+                        className="checkbox-label"
+                        style={{ margin: ' 10px 20px' }}
+                      >
+                        <input
+                          type="checkbox"
+                          name="privateSpace"
+                          // id="private-space"
+                          onClick={() => handleCheckbox()}
+                        />
+                        <label htmlFor="private-space">
+                          Private space requested
+                        </label>
+                      </div>
+                    )}
                     <p className="notice" style={{ padding: '0 1.5rem' }}>
                       If you would like to update your weekly default, you can
                       update this under {'   '}

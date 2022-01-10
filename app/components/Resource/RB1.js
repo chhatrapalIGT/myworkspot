@@ -54,11 +54,19 @@ function RB1(from) {
         </div>
         <div className="office-part-one black">
           <span className="informer">3</span>
-          <label htmlFor="my-spot">Sample Room</label>
+          <label htmlFor="my-spot">Building 1 Team Room</label>
         </div>
         <div className="office-part-one black">
           <span className="informer">4</span>
+          <label htmlFor="my-spot">Sameple Room</label>
+        </div>
+        <div className="office-part-one black">
+          <span className="informer">5</span>
           <label htmlFor="my-spot">Archer</label>
+        </div>
+        <div className="office-part-one black">
+          <span className="informer">6</span>
+          <label htmlFor="my-spot">Conference</label>
         </div>
         <div className="office-part-one orange">
           <span className="informer">
