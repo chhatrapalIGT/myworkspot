@@ -1918,7 +1918,7 @@ input[type='text'] {
   .office-structure-inner {
     display: flex;
     overflow: hidden;
-    max-height: calc(100vh - 250px);
+    // max-height: calc(100vh - 250px);
 
     .left-panel {
       width: 245px;
@@ -3318,6 +3318,5 @@ div[class*='qy-menu'] * {
   font-size: 24px;
   color: #00355f;
   height: 32px;
-  width: 115px;
   font-weight: 600;
 }

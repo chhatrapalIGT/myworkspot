@@ -318,7 +318,9 @@ const WorkSpot = ({
                 </p>
 
                 <div className="block-info d-flex flex-wrap">
-                  <h3 className="building-name">Enjoy the weekend!</h3>
+                  <h3 className="building-name" style={{ borderRight: '0px' }}>
+                    Enjoy the weekend!
+                  </h3>
                 </div>
                 <div className="building-location-strip d-flex flex-wrap align-items-center" />
               </div>
@@ -973,7 +975,7 @@ const WorkSpot = ({
                       employeeData.building === null &&
                       (employeeData && employeeData.floor === null) &&
                       (employeeData && employeeData.colorcode === '') &&
-                      (employeeData && employeeData.image !== '')) ? (
+                      (employeeData && employeeData.image === '')) ? (
                       <div className="container" style={{ height: '100%' }}>
                         <h5 style={{ textAlign: 'center' }}>
                           {' '}

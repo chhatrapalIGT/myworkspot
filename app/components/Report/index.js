@@ -574,7 +574,7 @@ const Report = ({
                   <div className="office-structure office-structure-modal">
                     {modalData &&
                     modalData.building === null &&
-                    (modalData && modalData.image !== '') &&
+                    (modalData && modalData.image === '') &&
                     (modalData && modalData.floor === null) ? (
                       <div className="container" style={{ height: '100%' }}>
                         {modalData && (
