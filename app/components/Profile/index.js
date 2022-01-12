@@ -10,6 +10,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
+import { useHistory } from 'react-router';
 
 import { Modal } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
@@ -67,6 +68,7 @@ const Profile = ({
   const [selectData, setselectData] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
   const [search, setSearch] = useState(false);
+  const history = useHistory();
 
   const badgeValues = userData && userData.badgeNumber;
   const value =
@@ -88,10 +90,14 @@ const Profile = ({
       setSearchName([]);
     }
   }, [show]);
-
+  console.log(`history`, history);
   useEffect(() => {
     if (validateBadge) {
+      console.log(`validateBadge`, validateBadge);
+      console.log(`openBadge`, openBadge);
       setOpenBadge(true);
+      history.replace({ pathname: '/profile', state: { badge: false } });
+      console.log(`called`);
     }
 
     if (
