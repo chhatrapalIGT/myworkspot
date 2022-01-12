@@ -602,12 +602,12 @@ const Calender = ({
                                                                 data.building !==
                                                                   null &&
                                                                 `Bldg ${data &&
-                                                                  data.building} -`}
+                                                                  data.building} -`}{' '}
                                                               {data &&
                                                                 data.floor !==
                                                                   null &&
                                                                 `Fl ${data &&
-                                                                  data.floor} -`}
+                                                                  data.floor} -`}{' '}
                                                               {data &&
                                                                 data.colorcode !==
                                                                   '' &&
@@ -758,11 +758,11 @@ const Calender = ({
                                                     partially.building !==
                                                       null &&
                                                     `Bldg ${partially &&
-                                                      partially.building} -`}
+                                                      partially.building} -`}{' '}
                                                   {partially &&
                                                     partially.floor !== null &&
                                                     `Fl ${partially &&
-                                                      partially.floor} -`}
+                                                      partially.floor} -`}{' '}
                                                   {partially &&
                                                     partially.colorcode !==
                                                       '' &&
@@ -862,11 +862,11 @@ const Calender = ({
                                                         data.building !==
                                                           null &&
                                                         `Bldg ${data &&
-                                                          data.building} -`}
+                                                          data.building} -`}{' '}
                                                       {data &&
                                                         data.floor !== null &&
                                                         `Fl ${data &&
-                                                          data.floor} -`}
+                                                          data.floor} -`}{' '}
                                                       {data &&
                                                         data.colorcode !== '' &&
                                                         modalColorCode(
@@ -1140,11 +1140,11 @@ const Calender = ({
                                                         data.building !==
                                                           null &&
                                                         `Bldg ${data &&
-                                                          data.building} -`}
+                                                          data.building} -`}{' '}
                                                       {data &&
                                                         data.floor !== null &&
                                                         `Fl ${data &&
-                                                          data.floor} -`}
+                                                          data.floor} -`}{' '}
                                                       {data &&
                                                         data.colorcode !== '' &&
                                                         modalColorCode(
@@ -1281,11 +1281,11 @@ const Calender = ({
                                             {otherHalf &&
                                               otherHalf.building !== null &&
                                               `Bldg ${otherHalf &&
-                                                otherHalf.building} -`}
+                                                otherHalf.building} -`}{' '}
                                             {otherHalf &&
                                               otherHalf.floor !== null &&
                                               `Fl ${otherHalf &&
-                                                otherHalf.floor} -`}
+                                                otherHalf.floor} -`}{' '}
                                             {otherHalf &&
                                               otherHalf.colorcode !== '' &&
                                               modalColorCode(
@@ -1374,11 +1374,11 @@ const Calender = ({
                                                   {data &&
                                                     data.building !== null &&
                                                     `Bldg ${data &&
-                                                      data.building} -`}
+                                                      data.building} -`}{' '}
                                                   {data &&
                                                     data.floor !== null &&
                                                     `Fl ${data &&
-                                                      data.floor} -`}
+                                                      data.floor} -`}{' '}
                                                   {data &&
                                                     data.colorcode !== '' &&
                                                     modalColorCode(

@@ -959,6 +959,20 @@ input[type='text'] {
         -webkit-text-stroke: 0.2px;
       }
     }
+    .update-data {
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      background: #d1dce7;
+      outline: 0;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 25px;
+      font-weight: 600;
+    }
     .disable-data {
       border: none;
       background: #d1dce7;
