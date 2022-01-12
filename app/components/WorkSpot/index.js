@@ -723,10 +723,23 @@ const WorkSpot = ({
                 </div>
                 <div className="modal-body" style={{ paddingTop: '0px' }}>
                   <div className="calendarpop">
+                    <label
+                      htmlFor="apply-all"
+                      className="stroke-2"
+                      style={{
+                        fonSize: '16px',
+                        fontFamily: 'Museo Sans Bold',
+                        color: '#00355f',
+                        margin: '0px 9px',
+                      }}
+                    >
+                      Select Date(s)
+                    </label>
                     <div className="calendar_main">
                       <Datepicker
                         controls={['calendar']}
                         display="inline"
+                        style={{ marginTop: '12px' }}
                         // returnFormat="moment"
                         min={moment().toDate()}
                         max={moment().add(3, 'months')}
@@ -811,7 +824,7 @@ const WorkSpot = ({
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn save-data"
+                    className={!state.date ? 'update-data' : 'btn save-data'}
                     onClick={() => {
                       onUpdateWorkspot();
                       setModal(false);
