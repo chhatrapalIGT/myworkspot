@@ -706,6 +706,8 @@ const WorkSpot = ({
             onHide={() => setModal(false)}
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
+            backdrop="static"
+            keyboard={false}
           >
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content">
@@ -730,7 +732,7 @@ const WorkSpot = ({
                         fonSize: '16px',
                         fontFamily: 'Museo Sans Bold',
                         color: '#00355f',
-                        margin: '0px 9px',
+                        margin: '0px 3px',
                       }}
                     >
                       Select Date(s)
@@ -739,7 +741,6 @@ const WorkSpot = ({
                       <Datepicker
                         controls={['calendar']}
                         display="inline"
-                        style={{ marginTop: '12px' }}
                         // returnFormat="moment"
                         min={moment().toDate()}
                         max={moment().add(3, 'months')}

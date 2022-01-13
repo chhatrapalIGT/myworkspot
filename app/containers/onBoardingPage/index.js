@@ -30,7 +30,6 @@ class BorardingPage extends Component {
           this.props.location[0].locationname
         : 'Washington, DC',
       checked: false,
-      privateSpace: false,
       timings: [
         {
           day: 'Monday',
@@ -131,7 +130,6 @@ class BorardingPage extends Component {
     const { addErrorLocation, history, addErrorLocationMsg } = this.props;
     const { timings, add } = this.state;
     if (addErrorLocation && add) {
-      console.log(`in if`);
       this.handleStateData();
       this.props.requestUserlistData({});
     }
@@ -167,10 +165,6 @@ class BorardingPage extends Component {
 
   handleCheckbox = () => {
     this.setState({ checked: true });
-  };
-
-  onCheckbox = () => {
-    this.setState({ privateSpace: true });
   };
 
   handleBadgeData = event => {
@@ -209,7 +203,6 @@ class BorardingPage extends Component {
       verifyBadgeMsg,
       userName,
       profileUserLoading,
-      leadersCommittee,
     } = this.props;
     return (
       <>
@@ -237,8 +230,6 @@ class BorardingPage extends Component {
             verifyBadgeMsg={verifyBadgeMsg}
             userName={userName}
             profileUserLoading={profileUserLoading}
-            leadersCommittee={leadersCommittee}
-            onCheckbox={this.onCheckbox}
           />
         </div>
         <Footer />
@@ -288,11 +279,6 @@ const mapStateToProps = state => {
       profile.userList.user &&
       profile.userList.user.firstname,
     profileUserLoading: profile && profile.userList && profile.userList.loading,
-    leadersCommittee:
-      profile &&
-      profile.userList &&
-      profile.userList.user &&
-      profile.userList.user.leaderscommittee,
   };
 };
 
@@ -331,7 +317,6 @@ BorardingPage.propTypes = {
   verifyBadgeMsg: PropTypes.string,
   userName: PropTypes.string,
   profileUserLoading: PropTypes.bool,
-  leadersCommittee: PropTypes.bool,
   requestUserlistData: PropTypes.func,
 };
 

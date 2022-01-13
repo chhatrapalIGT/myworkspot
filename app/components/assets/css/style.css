@@ -343,6 +343,9 @@
   .site-header .header_wrapper .right-menus .username span {
     display: none;
   }
+  .align_set {
+    margin-top: 10px;
+  }
 
   .space-data {
     margin-left: 23px;
