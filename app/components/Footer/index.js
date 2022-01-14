@@ -11,7 +11,7 @@ const Footer = () => (
           <div className="col-md-3">
             <img src={footerlogo} alt="" />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-6 align_set">
             <p>© {year} EAB. All Rights Reserved </p>
           </div>
           <div className="col-md-3 help_part">
