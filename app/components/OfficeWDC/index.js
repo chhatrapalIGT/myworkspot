@@ -8,6 +8,7 @@ import Spinner from 'react-bootstrap/Spinner';
 // import Office from '../../images/off.svg';
 // import Swiggy from '../../images/swiggy.png';
 // import Talabat from '../../images/talabat.png';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import location from '../../images/location.png';
 import Zoomin from '../../images/zoomin.png';
 import Zoomout from '../../images/zoomout.png';
@@ -29,7 +30,6 @@ const OfficeWDC = ({
   handleZoomOut,
   handleDefault,
   imgStyle,
-  dataStyle,
   state,
   officeLocation,
   officeLocationErrorHandle,
@@ -273,48 +273,58 @@ const OfficeWDC = ({
                   ) : (
                     <>
                       {imgResource || ''}
-                      <div className="right-map">
-                        <Draggable
-                          disabled={width < 767 ? isDraggable : !isDraggable}
-                          key={state.version}
-                        >
-                          <div
-                            className="drag_image"
-                            style={isDraggable ? { cursor: 'move' } : null}
+                      {width > 767 ? (
+                        <div className="right-map">
+                          <Draggable
+                            disabled={!isDraggable}
+                            key={state.version}
                           >
-                            <img
-                              src={imgSrc}
-                              alt=""
-                              style={width < 767 ? dataStyle : imgStyle}
-                              draggable="false"
-                            />
-                          </div>
-                        </Draggable>
+                            <div
+                              className="drag_image"
+                              style={isDraggable ? { cursor: 'move' } : null}
+                            >
+                              <img
+                                src={imgSrc}
+                                alt=""
+                                style={imgStyle}
+                                draggable="false"
+                              />
+                            </div>
+                          </Draggable>
 
-                        <div className="toolbar">
-                          <button
-                            className="location"
-                            type="button"
-                            onClick={() => handleDefault()}
-                          >
-                            <img src={location} alt="" />
-                          </button>
-                          <button
-                            className="zoomin"
-                            type="button"
-                            onClick={() => handleZoomIn()}
-                          >
-                            <img src={Zoomin} alt="" />
-                          </button>
-                          <button
-                            className="zoomout"
-                            type="button"
-                            onClick={() => handleZoomOut()}
-                          >
-                            <img src={Zoomout} alt="" />
-                          </button>
+                          <div className="toolbar">
+                            <button
+                              className="location"
+                              type="button"
+                              onClick={() => handleDefault()}
+                            >
+                              <img src={location} alt="" />
+                            </button>
+                            <button
+                              className="zoomin"
+                              type="button"
+                              onClick={() => handleZoomIn()}
+                            >
+                              <img src={Zoomin} alt="" />
+                            </button>
+                            <button
+                              className="zoomout"
+                              type="button"
+                              onClick={() => handleZoomOut()}
+                            >
+                              <img src={Zoomout} alt="" />
+                            </button>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div className="right-map">
+                          <TransformWrapper>
+                            <TransformComponent>
+                              <img src={imgSrc} alt="test" />
+                            </TransformComponent>
+                          </TransformWrapper>
+                        </div>
+                      )}
                     </>
                   )}
                 </>
@@ -331,7 +341,6 @@ const OfficeWDC = ({
 
 OfficeWDC.propTypes = {
   imgStyle: PropTypes.object,
-  dataStyle: PropTypes.object,
   state: PropTypes.object,
   handleZoomOut: PropTypes.func,
   handleZoomIn: PropTypes.func,
