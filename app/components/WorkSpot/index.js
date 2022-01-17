@@ -627,20 +627,8 @@ const WorkSpot = ({
               neighborhoodData.locationCode !== 'PTO' &&
               neighborhoodData &&
               neighborhoodData.locationCode !== 'EAB' &&
-              ((neighborhoodData && neighborhoodData.building !== null) ||
-                (halfDayData && halfDayData.building !== null) ||
-                ((neighborhoodData && neighborhoodData.floor !== null) ||
-                  (halfDayData && halfDayData.floor !== null))) &&
               ((neighborhoodData && neighborhoodData.image !== '') ||
-                (halfDayData && halfDayData.image !== '')) &&
-              ((neighborhoodData &&
-                neighborhoodData.colorcode !== null &&
-                (neighborhoodData && neighborhoodData.colorcode !== '')) ||
-                (neighborhoodData.floor === 4 && !neighborhoodData.colorcode) ||
-                ((halfDayData && halfDayData.colorcode !== '') ||
-                  (halfDayData.floor === 4 && halfDayData.colorcode !== ''))) &&
-              neighborhoodData &&
-              neighborhoodData.isAssignmentUpdate && (
+                (halfDayData && halfDayData.image !== '')) && (
                 <div className="container" style={{ height: '100%' }}>
                   {neighborhoodLoad ? (
                     <div className="card building-block-head">
