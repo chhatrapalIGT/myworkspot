@@ -347,6 +347,11 @@
     margin-top: 10px;
   }
 
+  .badge_check {
+    top: 48px;
+    position: absolute;
+  }
+
   .space-data {
     margin-left: 23px;
   }
@@ -455,6 +460,7 @@
   .building-block-head .block-info .color-code {
     font-size: 22px;
     margin-bottom: 0;
+    padding-left: 0px;
   }
 
   .neighborhood-font {
