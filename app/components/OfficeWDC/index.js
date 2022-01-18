@@ -34,6 +34,7 @@ const OfficeWDC = ({
   officeLocation,
   officeLocationErrorHandle,
   handleClearOffice,
+  dataStyle,
 }) => {
   const isDraggable = state.scale > 1;
   const [office, setOffice] = useState('Washington, DC');
@@ -319,8 +320,8 @@ const OfficeWDC = ({
                       ) : (
                         <div className="right-map">
                           <TransformWrapper>
-                            <TransformComponent>
-                              <img src={imgSrc} alt="test" />
+                            <TransformComponent doubleClickdisabled>
+                              <img src={imgSrc} alt="test" style={dataStyle} />
                             </TransformComponent>
                           </TransformWrapper>
                         </div>
@@ -348,5 +349,6 @@ OfficeWDC.propTypes = {
   officeLocationErrorHandle: PropTypes.string,
   officeLocation: PropTypes.object,
   handleClearOffice: PropTypes.func,
+  dataStyle: PropTypes.object,
 };
 export default OfficeWDC;
