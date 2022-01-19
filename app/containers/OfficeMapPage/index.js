@@ -79,7 +79,10 @@ class OfficeMap extends Component {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
     const dataStyle = {
-      transform: `translate3d(0px, 20.5px, 0px) scale(1)`,
+      display: 'inline-block',
+      transform: 'translate(16.5151px, 8.15472px) scale(0.940591)',
+      transformOrigin: ' -50px 362px',
+      height: ' 40vh',
     };
 
     const { officeLocation, officeLocationErrorHandle } = this.props;

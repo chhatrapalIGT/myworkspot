@@ -8,7 +8,7 @@ import Spinner from 'react-bootstrap/Spinner';
 // import Office from '../../images/off.svg';
 // import Swiggy from '../../images/swiggy.png';
 // import Talabat from '../../images/talabat.png';
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+import { MapInteractionCSS } from 'react-map-interaction';
 import location from '../../images/location.png';
 import Zoomin from '../../images/zoomin.png';
 import Zoomout from '../../images/zoomout.png';
@@ -273,58 +273,61 @@ const OfficeWDC = ({
                     />
                   ) : (
                     <>
-                      {imgResource || ''}
                       {width > 767 ? (
-                        <div className="right-map">
-                          <Draggable
-                            disabled={!isDraggable}
-                            key={state.version}
-                          >
-                            <div
-                              className="drag_image"
-                              style={isDraggable ? { cursor: 'move' } : null}
+                        <>
+                          {imgResource || ''}
+                          <div className="right-map">
+                            <Draggable
+                              disabled={!isDraggable}
+                              key={state.version}
                             >
-                              <img
-                                src={imgSrc}
-                                alt=""
-                                style={imgStyle}
-                                draggable="false"
-                              />
-                            </div>
-                          </Draggable>
+                              <div
+                                className="drag_image"
+                                style={isDraggable ? { cursor: 'move' } : null}
+                              >
+                                <img
+                                  src={imgSrc}
+                                  alt=""
+                                  style={imgStyle}
+                                  draggable="false"
+                                />
+                              </div>
+                            </Draggable>
 
-                          <div className="toolbar">
-                            <button
-                              className="location"
-                              type="button"
-                              onClick={() => handleDefault()}
-                            >
-                              <img src={location} alt="" />
-                            </button>
-                            <button
-                              className="zoomin"
-                              type="button"
-                              onClick={() => handleZoomIn()}
-                            >
-                              <img src={Zoomin} alt="" />
-                            </button>
-                            <button
-                              className="zoomout"
-                              type="button"
-                              onClick={() => handleZoomOut()}
-                            >
-                              <img src={Zoomout} alt="" />
-                            </button>
+                            <div className="toolbar">
+                              <button
+                                className="location"
+                                type="button"
+                                onClick={() => handleDefault()}
+                              >
+                                <img src={location} alt="" />
+                              </button>
+                              <button
+                                className="zoomin"
+                                type="button"
+                                onClick={() => handleZoomIn()}
+                              >
+                                <img src={Zoomin} alt="" />
+                              </button>
+                              <button
+                                className="zoomout"
+                                type="button"
+                                onClick={() => handleZoomOut()}
+                              >
+                                <img src={Zoomout} alt="" />
+                              </button>
+                            </div>
                           </div>
-                        </div>
+                        </>
                       ) : (
-                        <div className="right-map">
-                          <TransformWrapper>
-                            <TransformComponent doubleClickdisabled>
+                        <>
+                          <div className="right-map">
+                            <MapInteractionCSS>
                               <img src={imgSrc} alt="test" style={dataStyle} />
-                            </TransformComponent>
-                          </TransformWrapper>
-                        </div>
+                            </MapInteractionCSS>
+                          </div>
+                          {imgResource || ''}
+                        </>
                       )}
                     </>
                   )}
