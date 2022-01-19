@@ -353,7 +353,11 @@
   }
 
   .space-data {
-    margin-left: 23px;
+    font-size: 16px;
+  }
+
+  .building-block-head .block-info {
+    margin-left: -26px;
   }
   /* .office-structure .office-structure-inner {
     flex-wrap: wrap;

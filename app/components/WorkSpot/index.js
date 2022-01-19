@@ -59,6 +59,7 @@ const WorkSpot = ({
   handleCheckbox,
   handleClearCal,
   handleRemoveUserSelect,
+  handleClear,
 }) => {
   const [isModal, setModal] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -708,7 +709,10 @@ const WorkSpot = ({
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    onClick={() => setModal(false)}
+                    onClick={() => {
+                      setModal(false);
+                      handleClear();
+                    }}
                   />
                 </div>
                 <div className="modal-body" style={{ paddingTop: '0px' }}>
@@ -827,7 +831,10 @@ const WorkSpot = ({
                     type="button"
                     className="btn dismiss"
                     data-bs-dismiss="modal"
-                    onClick={() => setModal(false)}
+                    onClick={() => {
+                      setModal(false);
+                      handleClear();
+                    }}
                   >
                     Cancel
                   </button>
@@ -1186,5 +1193,6 @@ WorkSpot.propTypes = {
   handleClearCal: PropTypes.func,
   handleRemoveUserSelect: PropTypes.func,
   dataStyle: PropTypes.object,
+  handleClear: PropTypes.func,
 };
 export default WorkSpot;

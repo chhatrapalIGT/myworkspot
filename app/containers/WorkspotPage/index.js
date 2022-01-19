@@ -89,6 +89,10 @@ class WorkSpotPage extends Component {
     isIntervalWorking = intValue;
   };
 
+  handleClear = () => {
+    this.setState({ date: '' });
+  };
+
   handleZoomIn = () => {
     this.setState(state => {
       const newScale = state.scale + zoomStep;
@@ -555,6 +559,7 @@ class WorkSpotPage extends Component {
             leadersCommittee={leadersCommittee}
             handleCheckbox={this.handleCheckbox}
             handleRemoveUserSelect={this.handleRemoveUserSelect}
+            handleClear={this.handleClear}
           />
         </div>
       </>
