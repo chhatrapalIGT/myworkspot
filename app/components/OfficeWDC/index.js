@@ -286,7 +286,7 @@ const OfficeWDC = ({
                                 style={isDraggable ? { cursor: 'move' } : null}
                               >
                                 <img
-                                  src={imgSrc}
+                                  src={`https://d1ot06akw52lk2.cloudfront.net/upload_maps/${imgSrc}`}
                                   alt=""
                                   style={imgStyle}
                                   draggable="false"

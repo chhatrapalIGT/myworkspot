@@ -303,7 +303,8 @@ const MapComponent = ({
                   style={isDraggable ? { cursor: 'move' } : null}
                 >
                   <img
-                    src={mapImage || ''}
+                    src={`https://d1ot06akw52lk2.cloudfront.net/upload_maps/${mapImage ||
+                      ''}`}
                     alt=""
                     style={width < 767 ? dataStyle : imgStyle}
                     draggable="false"

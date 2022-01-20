@@ -334,7 +334,7 @@ const Office = ({
                             style={isDraggable ? { cursor: 'move' } : null}
                           >
                             <img
-                              src={
+                              src={`https://d1ot06akw52lk2.cloudfront.net/upload_maps/${
                                 // eslint-disable-next-line no-nested-ternary
                                 finalNeighbouhoodImage &&
                                 finalNeighbouhoodImage.neighborhoodImage
@@ -345,7 +345,7 @@ const Office = ({
                                   : floorData &&
                                     floorData.FloorBuilding[0] &&
                                     floorData.FloorBuilding[0].image
-                              }
+                              }`}
                               style={imgStyle}
                               draggable="false"
                               className="img-fluid"
