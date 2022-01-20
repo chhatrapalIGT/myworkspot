@@ -890,7 +890,7 @@ const Calender = ({
                                                   style={{
                                                     height: '30px',
                                                     width: '30px',
-                                                    marginLeft: '116px',
+                                                    marginLeft: '145px',
                                                     marginTop: '15px',
                                                   }}
                                                 />
@@ -1416,10 +1416,10 @@ const Calender = ({
                                               src={Space}
                                               alt=""
                                               style={{
-                                                height: '30px',
-                                                width: '30px',
-                                                marginLeft: '116px',
-                                                marginTop: '15px',
+                                                height: ' 30px',
+                                                width: '25px',
+                                                marginLeft: ' 80px',
+                                                marginTop: '10px',
                                               }}
                                             />
                                           )}
