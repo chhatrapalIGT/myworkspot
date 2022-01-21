@@ -24,7 +24,9 @@ import BRB1 from '../Resource/BRB1';
 import BLB1 from '../Resource/BLB1';
 import crossCircle from '../../images/x-circle-fill.svg';
 import useWindowSize from '../../hooks/useWindowSize';
+import { CONSTANT } from '../../enum';
 
+const { MAP_IMAGE_URL } = CONSTANT;
 const OfficeWDC = ({
   handleZoomIn,
   handleZoomOut,
@@ -286,7 +288,7 @@ const OfficeWDC = ({
                                 style={isDraggable ? { cursor: 'move' } : null}
                               >
                                 <img
-                                  src={imgSrc}
+                                  src={`${MAP_IMAGE_URL}/${imgSrc}`}
                                   alt=""
                                   style={imgStyle}
                                   draggable="false"
@@ -323,7 +325,11 @@ const OfficeWDC = ({
                         <>
                           <div className="right-map">
                             <MapInteractionCSS>
-                              <img src={imgSrc} alt="test" style={dataStyle} />
+                              <img
+                                alt="test"
+                                src={`${MAP_IMAGE_URL}/${imgSrc}`}
+                                style={dataStyle}
+                              />
                             </MapInteractionCSS>
                           </div>
                           {imgResource || ''}

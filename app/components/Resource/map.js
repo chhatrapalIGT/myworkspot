@@ -25,6 +25,9 @@ import RB3F2 from './RB3F2';
 import BLB1 from './BLB1';
 import BRB1 from './BRB1';
 import useWindowSize from '../../hooks/useWindowSize';
+import { CONSTANT } from '../../enum';
+
+const { MAP_IMAGE_URL } = CONSTANT;
 const MapComponent = ({
   building,
   floor,
@@ -303,7 +306,7 @@ const MapComponent = ({
                   style={isDraggable ? { cursor: 'move' } : null}
                 >
                   <img
-                    src={mapImage || ''}
+                    src={`${MAP_IMAGE_URL}/${mapImage || ''}`}
                     alt=""
                     style={width < 767 ? dataStyle : imgStyle}
                     draggable="false"

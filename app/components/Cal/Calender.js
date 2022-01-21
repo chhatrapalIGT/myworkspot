@@ -12,6 +12,7 @@ import moment from 'moment';
 import { isEmpty } from 'lodash';
 import Spinner from 'react-bootstrap/Spinner';
 import Vector from '../assets/images/Vector.svg';
+import Space from '../../images/private.png';
 import floorLocation from '../assets/images/floor-location.png';
 import profile from '../assets/images/profileof.png';
 import ProfileImg from '../assets/images/myprofile.png';
@@ -753,24 +754,42 @@ const Calender = ({
                                                 (partially &&
                                                   partially.colorcode !==
                                                     '')) && (
-                                                <span className="hover-data">
-                                                  {partially &&
-                                                    partially.building !==
-                                                      null &&
-                                                    `Bldg ${partially &&
-                                                      partially.building} -`}{' '}
-                                                  {partially &&
-                                                    partially.floor !== null &&
-                                                    `Fl ${partially &&
-                                                      partially.floor} -`}{' '}
-                                                  {partially &&
-                                                    partially.colorcode !==
-                                                      '' &&
-                                                    modalColorCode(
-                                                      partially &&
-                                                        partially.colorcode,
-                                                    )}
-                                                </span>
+                                                <>
+                                                  <span className="hover-data">
+                                                    {partially &&
+                                                      partially.building !==
+                                                        null &&
+                                                      `Bldg ${partially &&
+                                                        partially.building} -`}{' '}
+                                                    {partially &&
+                                                      partially.floor !==
+                                                        null &&
+                                                      `Fl ${partially &&
+                                                        partially.floor} -`}{' '}
+                                                    {partially &&
+                                                      partially.colorcode !==
+                                                        '' &&
+                                                      modalColorCode(
+                                                        partially &&
+                                                          partially.colorcode,
+                                                      )}
+                                                  </span>
+                                                  <span>
+                                                    {partially &&
+                                                      partially.isPrivateSpace && (
+                                                        <img
+                                                          src={Space}
+                                                          alt="space"
+                                                          style={{
+                                                            height: '30px',
+                                                            width: '30px',
+                                                            marginLeft: '145px',
+                                                            marginTop: '15px',
+                                                          }}
+                                                        />
+                                                      )}
+                                                  </span>
+                                                </>
                                               )}
                                             </p>
                                           </div>
@@ -841,43 +860,60 @@ const Calender = ({
                                         (data && data.locationCode !== 'PTO') &&
                                         (data &&
                                           data.locationCode !== 'EAB') && (
-                                          <span className="floor-location">
-                                            {((data && data.floor !== null) ||
-                                              (data &&
-                                                data.building !== null) ||
-                                              (data &&
-                                                data.colorcode !== '')) && (
-                                              <>
-                                                {data &&
-                                                  data.building !== undefined &&
-                                                  (data &&
-                                                    data.floor !==
-                                                      undefined) && (
-                                                    <>
-                                                      <img
-                                                        src={Vector}
-                                                        alt=""
-                                                      />
-                                                      {data &&
-                                                        data.building !==
-                                                          null &&
-                                                        `Bldg ${data &&
-                                                          data.building} -`}{' '}
-                                                      {data &&
-                                                        data.floor !== null &&
-                                                        `Fl ${data &&
-                                                          data.floor} -`}{' '}
-                                                      {data &&
-                                                        data.colorcode !== '' &&
-                                                        modalColorCode(
-                                                          data &&
-                                                            data.colorcode,
-                                                        )}
-                                                    </>
-                                                  )}
-                                              </>
-                                            )}
-                                          </span>
+                                          <>
+                                            <span className="floor-location">
+                                              {((data && data.floor !== null) ||
+                                                (data &&
+                                                  data.building !== null) ||
+                                                (data &&
+                                                  data.colorcode !== '')) && (
+                                                <>
+                                                  {data &&
+                                                    data.building !==
+                                                      undefined &&
+                                                    (data &&
+                                                      data.floor !==
+                                                        undefined) && (
+                                                      <>
+                                                        <img
+                                                          src={Vector}
+                                                          alt=""
+                                                        />
+                                                        {data &&
+                                                          data.building !==
+                                                            null &&
+                                                          `Bldg ${data &&
+                                                            data.building} -`}{' '}
+                                                        {data &&
+                                                          data.floor !== null &&
+                                                          `Fl ${data &&
+                                                            data.floor} -`}{' '}
+                                                        {data &&
+                                                          data.colorcode !==
+                                                            '' &&
+                                                          modalColorCode(
+                                                            data &&
+                                                              data.colorcode,
+                                                          )}
+                                                      </>
+                                                    )}
+                                                </>
+                                              )}
+                                            </span>
+                                            <span>
+                                              {data && data.isPrivateSpace && (
+                                                <img
+                                                  src={Space}
+                                                  alt="space"
+                                                  style={{
+                                                    height: '30px',
+                                                    float: 'right',
+                                                    marginTop: '15px',
+                                                  }}
+                                                />
+                                              )}
+                                            </span>
+                                          </>
                                         )}
 
                                       {data && data.locationCode === 'EAB' && (
@@ -1277,22 +1313,39 @@ const Calender = ({
                                             otherHalf.floor !== null) ||
                                           (otherHalf &&
                                             otherHalf.colorcode !== '')) && (
-                                          <span className="hover-data month-hover-data">
-                                            {otherHalf &&
-                                              otherHalf.building !== null &&
-                                              `Bldg ${otherHalf &&
-                                                otherHalf.building} -`}{' '}
-                                            {otherHalf &&
-                                              otherHalf.floor !== null &&
-                                              `Fl ${otherHalf &&
-                                                otherHalf.floor} -`}{' '}
-                                            {otherHalf &&
-                                              otherHalf.colorcode !== '' &&
-                                              modalColorCode(
-                                                otherHalf &&
-                                                  otherHalf.colorcode,
-                                              )}
-                                          </span>
+                                          <>
+                                            <span className="hover-data month-hover-data">
+                                              {otherHalf &&
+                                                otherHalf.building !== null &&
+                                                `Bldg ${otherHalf &&
+                                                  otherHalf.building} -`}{' '}
+                                              {otherHalf &&
+                                                otherHalf.floor !== null &&
+                                                `Fl ${otherHalf &&
+                                                  otherHalf.floor} -`}{' '}
+                                              {otherHalf &&
+                                                otherHalf.colorcode !== '' &&
+                                                modalColorCode(
+                                                  otherHalf &&
+                                                    otherHalf.colorcode,
+                                                )}
+                                            </span>
+                                            <span>
+                                              {otherHalf &&
+                                                otherHalf.isPrivateSpace && (
+                                                  <img
+                                                    src={Space}
+                                                    alt="space"
+                                                    style={{
+                                                      height: '30px',
+                                                      width: '30px',
+                                                      marginLeft: '145px',
+                                                      marginTop: '15px',
+                                                    }}
+                                                  />
+                                                )}
+                                            </span>
+                                          </>
                                         )}
                                       </p>
                                     </div>
@@ -1360,35 +1413,47 @@ const Calender = ({
                                     data.locationCode !== 'RW' &&
                                     (data && data.locationCode !== 'PTO') &&
                                     (data && data.locationCode !== 'EAB') && (
-                                      <span className="floor-location">
-                                        {((data && data.floor !== null) ||
-                                          (data && data.building !== null) ||
-                                          (data && data.colorcode !== '')) && (
-                                          <>
-                                            {data &&
-                                              data.building !== undefined &&
-                                              (data &&
-                                                data.floor !== undefined) && (
-                                                <>
-                                                  <img src={Vector} alt="" />
-                                                  {data &&
-                                                    data.building !== null &&
-                                                    `Bldg ${data &&
-                                                      data.building} -`}{' '}
-                                                  {data &&
-                                                    data.floor !== null &&
-                                                    `Fl ${data &&
-                                                      data.floor} -`}{' '}
-                                                  {data &&
-                                                    data.colorcode !== '' &&
-                                                    modalColorCode(
-                                                      data && data.colorcode,
-                                                    )}
-                                                </>
-                                              )}
-                                          </>
-                                        )}
-                                      </span>
+                                      <>
+                                        <span className="floor-location">
+                                          {((data && data.floor !== null) ||
+                                            (data && data.building !== null) ||
+                                            (data &&
+                                              data.colorcode !== '')) && (
+                                            <>
+                                              {data &&
+                                                data.building !== undefined &&
+                                                (data &&
+                                                  data.floor !== undefined) && (
+                                                  <>
+                                                    <img src={Vector} alt="" />
+                                                    {data &&
+                                                      data.building !== null &&
+                                                      `Bldg ${data &&
+                                                        data.building} -`}{' '}
+                                                    {data &&
+                                                      data.floor !== null &&
+                                                      `Fl ${data &&
+                                                        data.floor} -`}{' '}
+                                                    {data &&
+                                                      data.colorcode !== '' &&
+                                                      modalColorCode(
+                                                        data && data.colorcode,
+                                                      )}
+                                                  </>
+                                                )}
+                                            </>
+                                          )}
+                                        </span>
+                                        <span>
+                                          {data && data.isPrivateSpace && (
+                                            <img
+                                              src={Space}
+                                              alt=""
+                                              className="private_data"
+                                            />
+                                          )}
+                                        </span>
+                                      </>
                                     )}
 
                                   {data && data.locationCode === 'EAB' && (
