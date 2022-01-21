@@ -323,7 +323,11 @@ const OfficeWDC = ({
                         <>
                           <div className="right-map">
                             <MapInteractionCSS>
-                              <img src={imgSrc} alt="test" style={dataStyle} />
+                              <img
+                                alt="test"
+                                src={`https://d1ot06akw52lk2.cloudfront.net/upload_maps/${imgSrc}`}
+                                style={dataStyle}
+                              />
                             </MapInteractionCSS>
                           </div>
                           {imgResource || ''}

@@ -754,24 +754,42 @@ const Calender = ({
                                                 (partially &&
                                                   partially.colorcode !==
                                                     '')) && (
-                                                <span className="hover-data">
-                                                  {partially &&
-                                                    partially.building !==
-                                                      null &&
-                                                    `Bldg ${partially &&
-                                                      partially.building} -`}{' '}
-                                                  {partially &&
-                                                    partially.floor !== null &&
-                                                    `Fl ${partially &&
-                                                      partially.floor} -`}{' '}
-                                                  {partially &&
-                                                    partially.colorcode !==
-                                                      '' &&
-                                                    modalColorCode(
-                                                      partially &&
-                                                        partially.colorcode,
-                                                    )}
-                                                </span>
+                                                <>
+                                                  <span className="hover-data">
+                                                    {partially &&
+                                                      partially.building !==
+                                                        null &&
+                                                      `Bldg ${partially &&
+                                                        partially.building} -`}{' '}
+                                                    {partially &&
+                                                      partially.floor !==
+                                                        null &&
+                                                      `Fl ${partially &&
+                                                        partially.floor} -`}{' '}
+                                                    {partially &&
+                                                      partially.colorcode !==
+                                                        '' &&
+                                                      modalColorCode(
+                                                        partially &&
+                                                          partially.colorcode,
+                                                      )}
+                                                  </span>
+                                                  <span>
+                                                    {partially &&
+                                                      partially.isPrivateSpace && (
+                                                        <img
+                                                          src={Space}
+                                                          alt="space"
+                                                          style={{
+                                                            height: '30px',
+                                                            width: '30px',
+                                                            marginLeft: '145px',
+                                                            marginTop: '15px',
+                                                          }}
+                                                        />
+                                                      )}
+                                                  </span>
+                                                </>
                                               )}
                                             </p>
                                           </div>
@@ -889,8 +907,7 @@ const Calender = ({
                                                   alt="space"
                                                   style={{
                                                     height: '30px',
-                                                    width: '30px',
-                                                    marginLeft: '145px',
+                                                    float: 'right',
                                                     marginTop: '15px',
                                                   }}
                                                 />
@@ -1296,22 +1313,39 @@ const Calender = ({
                                             otherHalf.floor !== null) ||
                                           (otherHalf &&
                                             otherHalf.colorcode !== '')) && (
-                                          <span className="hover-data month-hover-data">
-                                            {otherHalf &&
-                                              otherHalf.building !== null &&
-                                              `Bldg ${otherHalf &&
-                                                otherHalf.building} -`}{' '}
-                                            {otherHalf &&
-                                              otherHalf.floor !== null &&
-                                              `Fl ${otherHalf &&
-                                                otherHalf.floor} -`}{' '}
-                                            {otherHalf &&
-                                              otherHalf.colorcode !== '' &&
-                                              modalColorCode(
-                                                otherHalf &&
-                                                  otherHalf.colorcode,
-                                              )}
-                                          </span>
+                                          <>
+                                            <span className="hover-data month-hover-data">
+                                              {otherHalf &&
+                                                otherHalf.building !== null &&
+                                                `Bldg ${otherHalf &&
+                                                  otherHalf.building} -`}{' '}
+                                              {otherHalf &&
+                                                otherHalf.floor !== null &&
+                                                `Fl ${otherHalf &&
+                                                  otherHalf.floor} -`}{' '}
+                                              {otherHalf &&
+                                                otherHalf.colorcode !== '' &&
+                                                modalColorCode(
+                                                  otherHalf &&
+                                                    otherHalf.colorcode,
+                                                )}
+                                            </span>
+                                            <span>
+                                              {otherHalf &&
+                                                otherHalf.isPrivateSpace && (
+                                                  <img
+                                                    src={Space}
+                                                    alt="space"
+                                                    style={{
+                                                      height: '30px',
+                                                      width: '30px',
+                                                      marginLeft: '145px',
+                                                      marginTop: '15px',
+                                                    }}
+                                                  />
+                                                )}
+                                            </span>
+                                          </>
                                         )}
                                       </p>
                                     </div>
@@ -1415,12 +1449,7 @@ const Calender = ({
                                             <img
                                               src={Space}
                                               alt=""
-                                              style={{
-                                                height: ' 30px',
-                                                width: '25px',
-                                                marginLeft: ' 80px',
-                                                marginTop: '10px',
-                                              }}
+                                              className="private_data"
                                             />
                                           )}
                                         </span>
