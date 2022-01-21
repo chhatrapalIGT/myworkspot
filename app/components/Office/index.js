@@ -8,6 +8,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
 import Spinner from 'react-bootstrap/Spinner';
+import { Modal, Form } from 'react-bootstrap';
+import Edit from '../assets/images/edit.svg';
+import Remove from '../../images/remove.png';
 
 import location from '../../images/location.png';
 import Zoomin from '../../images/zoomin.png';
@@ -38,6 +41,9 @@ const Office = ({
   const [displayColor, setDisplayColor] = useState('');
   const [setActive, setActiveState] = useState('');
   const [imageUpdateData, setImageUpdateData] = useState();
+  const [show, setShow] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [remove, setRemove] = useState(false);
 
   const content = useRef(null);
   function toggleAccordion(id) {
@@ -116,6 +122,14 @@ const Office = ({
     document.getElementById('fileUpload').click();
   };
 
+  const AddResource = () => {
+    document.getElementById('addResource').click();
+  };
+
+  const addfileResource = event => {
+    const name = event.target.files[0];
+    console.log('name', name);
+  };
   return (
     <>
       <div className="wrapper_main">
@@ -398,6 +412,378 @@ const Office = ({
                   </div>
                 </div>
               )}
+            </div>
+
+            <button
+              type="button"
+              className="blue-bg-btn d-flex align-items-center"
+              data-bs-toggle="modal"
+              onClick={() => setShow(true)}
+            >
+              <span className="material-icons me-2">add</span>Add New Resource
+            </button>
+
+            {/* add modal */}
+            <Modal
+              className="modal fade test_modal"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+              show={show}
+              // onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">
+                      Add Resource
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close "
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      onClick={() => {
+                        setShow(false);
+                      }}
+                    />
+                  </div>
+                  <div className="modal-body modal-body_myteam">
+                    <Form.Label htmlFor="inputPassword5">Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      id="inputPassword5"
+                      aria-describedby="passwordHelpBlock"
+                    />
+                  </div>
+
+                  <Form.Label
+                    htmlFor="inputPassword5"
+                    style={{ marginLeft: ' 20px' }}
+                  >
+                    Upload Image Resource
+                  </Form.Label>
+                  <div
+                    className=""
+                    style={{
+                      width: '175px',
+                      marginLeft: '24px',
+                      marginBottom: '13px',
+                    }}
+                  >
+                    <input
+                      type="file"
+                      id="addResource"
+                      accept=".png,.svg,.jpg"
+                      onChange={addfileResource}
+                    />
+                    <input
+                      type="button"
+                      id="btnUpload"
+                      onClick={AddResource}
+                      className="blue-bg-btn1"
+                      value="Upload Resources"
+                    />
+                  </div>
+                  <div className="modal-footer">
+                    {/* {!isLoading ? ( */}
+                    <button
+                      type="button"
+                      // className={
+                      //   state.selectedNames &&
+                      //   state.selectedOption &&
+                      //   state.selectedOption.length > 0 &&
+                      //   state.date
+                      //     ? 'btn save-data'
+                      //     : 'btn disable-data'
+                      // }
+                      className="btn save-data"
+                      onClick={() => {}}
+                    >
+                      Add
+                    </button>
+                    {/* ) : (
+                                <button type="button" className="btn save-data">
+                                  <div
+                                    className="spinner-border"
+                                    style={{ marginRight: '2px' }}
+                                  />
+                                  Invite
+                                </button>
+                              )} */}
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        // handleClearData();
+                        setShow(false);
+                      }}
+                      className="btn dismiss"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+
+            {/* uodate modal */}
+            <Modal
+              className="modal fade test_modal"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+              show={update}
+              // onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">
+                      Update Resource
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close "
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      onClick={() => {
+                        setUpdate(false);
+                      }}
+                    />
+                  </div>
+                  <div className="modal-body modal-body_myteam">
+                    <Form.Label htmlFor="inputPassword5">Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      id="inputPassword5"
+                      aria-describedby="passwordHelpBlock"
+                      value="Blue"
+                    />
+                  </div>
+
+                  <Form.Label
+                    htmlFor="inputPassword5"
+                    style={{ marginLeft: ' 20px' }}
+                  >
+                    Upload Image Resource
+                  </Form.Label>
+                  <div
+                    className=""
+                    style={{
+                      width: '175px',
+                      marginLeft: '24px',
+                      marginBottom: '13px',
+                    }}
+                  >
+                    <input
+                      type="file"
+                      id="fileUpload"
+                      accept=".png,.svg,.jpg"
+                      onChange={onFileUpload}
+                    />
+                    <input
+                      type="button"
+                      id="btnUpload"
+                      onClick={updateVal}
+                      className="blue-bg-btn1"
+                      value="Upload Resources"
+                    />
+                  </div>
+                  <div className="modal-footer">
+                    {/* {!isLoading ? ( */}
+                    <button
+                      type="button"
+                      // className={
+                      //   state.selectedNames &&
+                      //   state.selectedOption &&
+                      //   state.selectedOption.length > 0 &&
+                      //   state.date
+                      //     ? 'btn save-data'
+                      //     : 'btn disable-data'
+                      // }
+                      className="btn save-data"
+                      onClick={() => {
+                        // handleModalClose();
+                      }}
+                    >
+                      Update
+                    </button>
+                    {/* ) : (
+                                <button type="button" className="btn save-data">
+                                  <div
+                                    className="spinner-border"
+                                    style={{ marginRight: '2px' }}
+                                  />
+                                  Invite
+                                </button>
+                              )} */}
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        // handleClearData();
+                        setUpdate(false);
+                      }}
+                      className="btn dismiss"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+
+            {/* delete modal */}
+            <Modal
+              className="modal fade test_modal"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+              show={remove}
+              // onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">
+                      Delete Resource
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close "
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      onClick={() => {
+                        setRemove(false);
+                      }}
+                    />
+                  </div>
+                  <div className="modal-body modal-body_myteam">
+                    <span>Are you sure you want to delete your Resource ?</span>
+                  </div>
+                  <div className="modal-footer">
+                    {/* {!isLoading ? ( */}
+                    <button
+                      type="button"
+                      // className={
+                      //   state.selectedNames &&
+                      //   state.selectedOption &&
+                      //   state.selectedOption.length > 0 &&
+                      //   state.date
+                      //     ? 'btn save-data'
+                      //     : 'btn disable-data'
+                      // }
+                      className="btn save-data"
+                      onClick={() => {
+                        // handleModalClose();
+                      }}
+                    >
+                      Yes
+                    </button>
+                    {/* ) : (
+                                <button type="button" className="btn save-data">
+                                  <div
+                                    className="spinner-border"
+                                    style={{ marginRight: '2px' }}
+                                  />
+                                  Invite
+                                </button>
+                              )} */}
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        // handleClearData();
+                        setRemove(false);
+                      }}
+                      className="btn dismiss"
+                      data-bs-dismiss="modal"
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+
+            <div className="office-maps">
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Resource List</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Blue</td>
+                    <td>
+                      {' '}
+                      <img
+                        src={Edit}
+                        onClick={() => {
+                          setUpdate(true);
+                        }}
+                        style={{ height: '25px' }}
+                        aria-hidden="true"
+                        alt="Edit"
+                        className="day-pointer"
+                      />{' '}
+                      <img
+                        src={Remove}
+                        onClick={() => {
+                          setRemove(true);
+                        }}
+                        style={{ height: '30px' }}
+                        aria-hidden="true"
+                        alt="remove"
+                        className="day-pointer"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Yellow</td>
+                    <td>
+                      {' '}
+                      <img
+                        src={Edit}
+                        // onClick={() => {
+                        //   props.editEmployee(i.employeeid);
+                        //   handleShow();
+                        //   props.clearAssign();
+                        //   setchkspace(false);
+                        // }}
+                        style={{ height: '25px' }}
+                        aria-hidden="true"
+                        alt="Edit"
+                        className="day-pointer"
+                      />{' '}
+                      <img
+                        src={Remove}
+                        // onClick={() => {
+                        //   props.editEmployee(i.employeeid);
+                        //   handleShow();
+                        //   props.clearAssign();
+                        //   setchkspace(false);
+                        // }}
+                        style={{ height: '30px' }}
+                        aria-hidden="true"
+                        alt="remove"
+                        className="day-pointer"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
