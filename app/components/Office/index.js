@@ -14,6 +14,9 @@ import Zoomin from '../../images/zoomin.png';
 import Zoomout from '../../images/zoomout.png';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
+import { CONSTANT } from '../../enum';
+
+const { MAP_IMAGE_URL } = CONSTANT;
 
 const Office = ({
   handleZoomIn,
@@ -334,7 +337,7 @@ const Office = ({
                             style={isDraggable ? { cursor: 'move' } : null}
                           >
                             <img
-                              src={`https://d1ot06akw52lk2.cloudfront.net/upload_maps/${
+                              src={`${MAP_IMAGE_URL}/${
                                 // eslint-disable-next-line no-nested-ternary
                                 finalNeighbouhoodImage &&
                                 finalNeighbouhoodImage.neighborhoodImage
