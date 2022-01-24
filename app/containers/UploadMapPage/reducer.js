@@ -8,6 +8,9 @@ import {
   SUCCESS_FILE_UPLOAD,
   FAILED_FILE_UPLOAD,
   CLEAR_UPLOAD_SUCCESS,
+  REQUEST_GET_RESOURCE,
+  SUCCESS_GET_RESOURCE,
+  FAILED_GET_RESOURCE,
 } from './constants';
 
 // The initial state of the App
@@ -25,6 +28,12 @@ const initialState = {
     file: {},
     message: '',
     success: false,
+  },
+  getOfficeResource: {
+    error: '',
+    success: false,
+    message: '',
+    loading: false,
   },
   officeUpdateSuccess: false,
   officeUpdateMessage: '',
@@ -80,6 +89,25 @@ const OfficeReducer = (state = initialState, action) =>
 
       case CLEAR_UPLOAD_SUCCESS:
         draft.uploadCsv.success = false;
+        break;
+      case REQUEST_GET_RESOURCE:
+        draft.getOfficeResource.loading = true;
+        draft.getOfficeResource.error = '';
+        break;
+      case SUCCESS_GET_RESOURCE:
+        draft.getOfficeResource.loading = false;
+        draft.getOfficeResource.success = true;
+        draft.getOfficeResource = action.payload;
+        draft.getOfficeResource.error = '';
+        break;
+      case FAILED_GET_RESOURCE:
+        draft.getOfficeResource.loading = false;
+        draft.getOfficeResource.success = false;
+        draft.getOfficeResource.error = action.payload;
+        draft.getOfficeResource = {};
+        draft.officeUpdateSuccess = false;
+        draft.officeUpdateMessage = action.payload.message;
+
         break;
     }
   });

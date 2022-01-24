@@ -30,6 +30,7 @@ class UploadMap extends Component {
       rotate: defaultRotate,
       version: 0,
       selectedNames: 'DC',
+      file: [],
     };
   }
 
@@ -85,6 +86,21 @@ class UploadMap extends Component {
     this.setState({ selectedNames: value });
   };
 
+  handleAddResource = e => {
+    const { name, value } = e.target;
+    this.setState({ name: value });
+  };
+
+  addfileResource = event => {
+    const name = event.target.files[0];
+    this.setState({ name: file });
+    console.log('name', name);
+  };
+
+  handleAddUpdateResource = () => {
+    const { title, file } = this.state;
+  };
+
   render() {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
@@ -108,6 +124,9 @@ class UploadMap extends Component {
             officeLocation={officeLocation}
             handleUserSelect={this.handleUserSelect}
             handleCloseIcon={this.handleCloseIcon}
+            handleAddResource={this.handleAddResource}
+            addfileResource={this.addfileResource}
+            handleAddUpdateResource={this.handleAddUpdateResource}
             officeUpdateMessage={officeUpdateMessage}
             officeUpdateSuccess={officeUpdateSuccess}
           />{' '}

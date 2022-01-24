@@ -9,3 +9,7 @@ export const SUCCESS_FILE_UPLOAD = 'fileUploadSuccess';
 export const FAILED_FILE_UPLOAD = 'fileUploadFailed';
 
 export const CLEAR_UPLOAD_SUCCESS = 'clearUploadSuccess';
+
+export const REQUEST_GET_RESOURCE = 'requestGetResource';
+export const SUCCESS_GET_RESOURCE = 'getResourceSuccess';
+export const FAILED_GET_RESOURCE = 'getResourceFailed';

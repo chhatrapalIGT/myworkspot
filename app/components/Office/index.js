@@ -33,6 +33,9 @@ const Office = ({
   officeUpdateSuccess,
   officeUpdateMessage,
   handleCloseIcon,
+  handleAddResource,
+  addfileResource,
+  handleAddUpdateResource,
 }) => {
   const isDraggable = state.scale > 1;
 
@@ -126,10 +129,6 @@ const Office = ({
     document.getElementById('addResource').click();
   };
 
-  const addfileResource = event => {
-    const name = event.target.files[0];
-    console.log('name', name);
-  };
   return (
     <>
       <div className="wrapper_main">
@@ -453,8 +452,10 @@ const Office = ({
                     <Form.Label htmlFor="inputPassword5">Title</Form.Label>
                     <Form.Control
                       type="text"
+                      name="title"
                       id="inputPassword5"
                       aria-describedby="passwordHelpBlock"
+                      onChange={handleAddResource}
                     />
                   </div>
 
@@ -499,7 +500,7 @@ const Office = ({
                       //     : 'btn disable-data'
                       // }
                       className="btn save-data"
-                      onClick={() => {}}
+                      onClick={handleAddUpdateResource}
                     >
                       Add
                     </button>
@@ -804,5 +805,8 @@ Office.propTypes = {
   handleCloseIcon: PropTypes.func,
   officeUpdateSuccess: PropTypes.bool,
   officeUpdateMessage: PropTypes.string,
+  handleAddResource: PropTypes.func,
+  addfileResource: PropTypes.func,
+  handleAddUpdateResource: PropTypes.func,
 };
 export default Office;
