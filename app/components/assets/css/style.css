@@ -29,6 +29,9 @@
   .office-structure .office-structure-inner .left-panel {
     height: 100vh;
   }
+  .map_data {
+    max-height: 600px;
+  }
 }
 
 @media (max-width: 1601px) and (min-height: 749px) {
