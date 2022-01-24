@@ -781,10 +781,9 @@ const Calender = ({
                                                           src={Space}
                                                           alt="space"
                                                           style={{
-                                                            height: '30px',
-                                                            width: '30px',
-                                                            marginLeft: '145px',
-                                                            marginTop: '15px',
+                                                            height: '19px',
+                                                            width: '20px',
+                                                            marginTop: '-5px',
                                                           }}
                                                         />
                                                       )}
@@ -1329,18 +1328,15 @@ const Calender = ({
                                                   otherHalf &&
                                                     otherHalf.colorcode,
                                                 )}
-                                            </span>
-                                            <span>
                                               {otherHalf &&
                                                 otherHalf.isPrivateSpace && (
                                                   <img
                                                     src={Space}
                                                     alt="space"
                                                     style={{
-                                                      height: '30px',
-                                                      width: '30px',
-                                                      marginLeft: '145px',
-                                                      marginTop: '15px',
+                                                      width: '20px',
+                                                      marginTop: '-5px',
+                                                      marginLeft: '6px',
                                                     }}
                                                   />
                                                 )}

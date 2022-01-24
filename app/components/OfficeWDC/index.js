@@ -288,6 +288,7 @@ const OfficeWDC = ({
                                 style={isDraggable ? { cursor: 'move' } : null}
                               >
                                 <img
+                                  className="map_data"
                                   src={`${MAP_IMAGE_URL}/${imgSrc}`}
                                   alt=""
                                   style={imgStyle}
