@@ -7,9 +7,9 @@ import {
   SUCCESS_FILE_UPLOAD,
   FAILED_FILE_UPLOAD,
   CLEAR_UPLOAD_SUCCESS,
-  REQUEST_GET_RESOURCE,
-  SUCCESS_GET_RESOURCE,
-  FAILED_GET_RESOURCE,
+  REQUEST_ADD_UPDATE_RESOURCE,
+  SUCCESS_ADD__UPDATE_RESOURCE,
+  FAILED_ADD__UPDATE_RESOURCE,
 } from './constants';
 
 export const requestGetOfficeUpdateData = payload => ({
@@ -50,17 +50,17 @@ export const clearUploadSuccess = () => ({
   type: CLEAR_UPLOAD_SUCCESS,
 });
 
-export const requestGetResource = payload => ({
-  type: REQUEST_GET_RESOURCE,
+export const requestAddUpdateResource = payload => ({
+  type: REQUEST_ADD_UPDATE_RESOURCE,
   payload,
 });
 
-export const getResourceSuccess = payload => ({
-  type: SUCCESS_GET_RESOURCE,
+export const addUpdateResourceSuccess = payload => ({
+  type: SUCCESS_ADD__UPDATE_RESOURCE,
   payload,
 });
 
-export const getResourceFailed = error => ({
-  type: FAILED_GET_RESOURCE,
+export const addUpdateResourceFailed = error => ({
+  type: FAILED_ADD__UPDATE_RESOURCE,
   payload: error,
 });

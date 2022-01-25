@@ -13,6 +13,7 @@ import {
   requestFileUpload,
   clearOfficeData,
   clearUploadSuccess,
+  requestAddUpdateResource,
 } from './actions';
 import Office from '../../components/Office';
 
@@ -88,17 +89,12 @@ class UploadMap extends Component {
 
   handleAddResource = e => {
     const { name, value } = e.target;
-    this.setState({ name: value });
+    this.setState({ [name]: value });
   };
 
   addfileResource = event => {
     const name = event.target.files[0];
-    this.setState({ name: file });
-    console.log('name', name);
-  };
-
-  handleAddUpdateResource = () => {
-    const { title, file } = this.state;
+    this.setState({ file: name });
   };
 
   render() {
@@ -121,12 +117,12 @@ class UploadMap extends Component {
             handleZoomOut={this.handleZoomOut}
             handleDefault={this.handleDefault}
             requestFileUpload={this.props.requestFileUpload}
+            requestAddUpdateResource={this.props.requestAddUpdateResource}
             officeLocation={officeLocation}
             handleUserSelect={this.handleUserSelect}
             handleCloseIcon={this.handleCloseIcon}
             handleAddResource={this.handleAddResource}
             addfileResource={this.addfileResource}
-            handleAddUpdateResource={this.handleAddUpdateResource}
             officeUpdateMessage={officeUpdateMessage}
             officeUpdateSuccess={officeUpdateSuccess}
           />{' '}
@@ -154,6 +150,8 @@ export function mapDispatchToProps(dispatch) {
     requestGetOfficeUpdateData: payload =>
       dispatch(requestGetOfficeUpdateData(payload)),
     requestFileUpload: payload => dispatch(requestFileUpload(payload)),
+    requestAddUpdateResource: payload =>
+      dispatch(requestAddUpdateResource(payload)),
     clearOfficeData: () => dispatch(clearOfficeData()),
     clearUploadSuccess: () => dispatch(clearUploadSuccess()),
 
@@ -166,6 +164,7 @@ const withSaga = injectSaga({ key: 'uploadOffice', saga });
 UploadMap.propTypes = {
   requestGetOfficeUpdateData: PropTypes.func,
   requestFileUpload: PropTypes.func,
+  requestAddUpdateResource: PropTypes.func,
   clearOfficeData: PropTypes.func,
   clearUploadSuccess: PropTypes.func,
   officeLocation: PropTypes.object,

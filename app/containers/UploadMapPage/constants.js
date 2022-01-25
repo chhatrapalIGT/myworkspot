@@ -10,6 +10,6 @@ export const FAILED_FILE_UPLOAD = 'fileUploadFailed';
 
 export const CLEAR_UPLOAD_SUCCESS = 'clearUploadSuccess';
 
-export const REQUEST_GET_RESOURCE = 'requestGetResource';
-export const SUCCESS_GET_RESOURCE = 'getResourceSuccess';
-export const FAILED_GET_RESOURCE = 'getResourceFailed';
+export const REQUEST_ADD_UPDATE_RESOURCE = 'requestAddUpdateResource';
+export const SUCCESS_ADD__UPDATE_RESOURCE = 'addUpdateResourceSuccess';
+export const FAILED_ADD__UPDATE_RESOURCE = 'addUpdateResourceFailed';

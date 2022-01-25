@@ -34,8 +34,8 @@ const Office = ({
   officeUpdateMessage,
   handleCloseIcon,
   handleAddResource,
+  requestAddUpdateResource,
   addfileResource,
-  handleAddUpdateResource,
 }) => {
   const isDraggable = state.scale > 1;
 
@@ -47,6 +47,7 @@ const Office = ({
   const [show, setShow] = useState(false);
   const [update, setUpdate] = useState(false);
   const [remove, setRemove] = useState(false);
+  const [title, setTitle] = useState(false);
 
   const content = useRef(null);
   function toggleAccordion(id) {
@@ -81,12 +82,46 @@ const Office = ({
       img.floorAndBuilding === imageUpdateData ? img.image : '',
     );
 
+  const renderResource =
+    floorData &&
+    floorData.FloorBuilding.find(res =>
+      res.floorAndBuilding === imageUpdateData ? res.resources : '',
+    );
+
   const finalNeighbouhoodImage =
     defaultImage &&
     defaultImage.neighborhood.find(final =>
       final.colorcode === color ? final.neighborhoodImage : '',
     );
   const dataFinal = floor && floor.split(',');
+
+  const handleAddUpdateResource = () => {
+    const formData = new FormData();
+    const id = state.selectedNames;
+    // if (state.file.length && state.title.length) {
+    //   if (floor) {
+    formData.append(
+      'floor',
+      dataFinal && dataFinal[0] !== 'null' ? dataFinal[0] : '',
+    );
+    formData.append(
+      'building',
+      dataFinal && dataFinal[1] !== 'null' ? dataFinal[1] : '',
+    );
+    // }
+    formData.append('locationid', id);
+    formData.append('resource', state.title);
+    formData.append('image', state.file);
+    requestAddUpdateResource({ formData });
+    // }
+  };
+
+  const handleManageModalData = () => {
+    if (update) {
+      setUpdate(false);
+      setTitle('');
+    }
+  };
 
   const onFileUpload = event => {
     const name = event.target.files[0];
@@ -436,7 +471,7 @@ const Office = ({
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="exampleModalLabel">
-                      Add Resource
+                      {update ? 'Update Resource' : 'Add Resource'}
                     </h5>
                     <button
                       type="button"
@@ -445,6 +480,7 @@ const Office = ({
                       aria-label="Close"
                       onClick={() => {
                         setShow(false);
+                        handleManageModalData();
                       }}
                     />
                   </div>
@@ -456,6 +492,7 @@ const Office = ({
                       id="inputPassword5"
                       aria-describedby="passwordHelpBlock"
                       onChange={handleAddResource}
+                      value={update ? title : ''}
                     />
                   </div>
 
@@ -502,7 +539,7 @@ const Office = ({
                       className="btn save-data"
                       onClick={handleAddUpdateResource}
                     >
-                      Add
+                      {update ? 'Update ' : 'Add'}
                     </button>
                     {/* ) : (
                                 <button type="button" className="btn save-data">
@@ -517,117 +554,9 @@ const Office = ({
                     <button
                       type="button"
                       onClick={() => {
+                        handleManageModalData();
                         // handleClearData();
                         setShow(false);
-                      }}
-                      className="btn dismiss"
-                      data-bs-dismiss="modal"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </Modal>
-
-            {/* uodate modal */}
-            <Modal
-              className="modal fade test_modal"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-              show={update}
-              // onHide={handleClose}
-              backdrop="static"
-              keyboard={false}
-            >
-              <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="exampleModalLabel">
-                      Update Resource
-                    </h5>
-                    <button
-                      type="button"
-                      className="btn-close "
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                      onClick={() => {
-                        setUpdate(false);
-                      }}
-                    />
-                  </div>
-                  <div className="modal-body modal-body_myteam">
-                    <Form.Label htmlFor="inputPassword5">Title</Form.Label>
-                    <Form.Control
-                      type="text"
-                      id="inputPassword5"
-                      aria-describedby="passwordHelpBlock"
-                      value="Blue"
-                    />
-                  </div>
-
-                  <Form.Label
-                    htmlFor="inputPassword5"
-                    style={{ marginLeft: ' 20px' }}
-                  >
-                    Upload Image Resource
-                  </Form.Label>
-                  <div
-                    className=""
-                    style={{
-                      width: '175px',
-                      marginLeft: '24px',
-                      marginBottom: '13px',
-                    }}
-                  >
-                    <input
-                      type="file"
-                      id="fileUpload"
-                      accept=".png,.svg,.jpg"
-                      onChange={onFileUpload}
-                    />
-                    <input
-                      type="button"
-                      id="btnUpload"
-                      onClick={updateVal}
-                      className="blue-bg-btn1"
-                      value="Upload Resources"
-                    />
-                  </div>
-                  <div className="modal-footer">
-                    {/* {!isLoading ? ( */}
-                    <button
-                      type="button"
-                      // className={
-                      //   state.selectedNames &&
-                      //   state.selectedOption &&
-                      //   state.selectedOption.length > 0 &&
-                      //   state.date
-                      //     ? 'btn save-data'
-                      //     : 'btn disable-data'
-                      // }
-                      className="btn save-data"
-                      onClick={() => {
-                        // handleModalClose();
-                      }}
-                    >
-                      Update
-                    </button>
-                    {/* ) : (
-                                <button type="button" className="btn save-data">
-                                  <div
-                                    className="spinner-border"
-                                    style={{ marginRight: '2px' }}
-                                  />
-                                  Invite
-                                </button>
-                              )} */}
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        // handleClearData();
-                        setUpdate(false);
                       }}
                       className="btn dismiss"
                       data-bs-dismiss="modal"
@@ -723,66 +652,46 @@ const Office = ({
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Blue</td>
-                    <td>
-                      {' '}
-                      <img
-                        src={Edit}
-                        onClick={() => {
-                          setUpdate(true);
-                        }}
-                        style={{ height: '25px' }}
-                        aria-hidden="true"
-                        alt="Edit"
-                        className="day-pointer"
-                      />{' '}
-                      <img
-                        src={Remove}
-                        onClick={() => {
-                          setRemove(true);
-                        }}
-                        style={{ height: '30px' }}
-                        aria-hidden="true"
-                        alt="remove"
-                        className="day-pointer"
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Yellow</td>
-                    <td>
-                      {' '}
-                      <img
-                        src={Edit}
-                        // onClick={() => {
-                        //   props.editEmployee(i.employeeid);
-                        //   handleShow();
-                        //   props.clearAssign();
-                        //   setchkspace(false);
-                        // }}
-                        style={{ height: '25px' }}
-                        aria-hidden="true"
-                        alt="Edit"
-                        className="day-pointer"
-                      />{' '}
-                      <img
-                        src={Remove}
-                        // onClick={() => {
-                        //   props.editEmployee(i.employeeid);
-                        //   handleShow();
-                        //   props.clearAssign();
-                        //   setchkspace(false);
-                        // }}
-                        style={{ height: '30px' }}
-                        aria-hidden="true"
-                        alt="remove"
-                        className="day-pointer"
-                      />
-                    </td>
-                  </tr>
+                  {renderResource &&
+                    renderResource.resources.map(data => (
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>
+                          {' '}
+                          <img
+                            src={`${MAP_IMAGE_URL}/${data.image}`}
+                            alt="img"
+                            style={{ height: ' 30px', width: '40px' }}
+                          />{' '}
+                          {data.name}
+                        </td>
+                        <td>
+                          {' '}
+                          <img
+                            src={Edit}
+                            onClick={() => {
+                              setShow(true);
+                              setUpdate(true);
+                              setTitle(data.name);
+                            }}
+                            style={{ height: '25px' }}
+                            aria-hidden="true"
+                            alt="Edit"
+                            className="day-pointer"
+                          />{' '}
+                          <img
+                            src={Remove}
+                            onClick={() => {
+                              setRemove(true);
+                            }}
+                            style={{ height: '30px' }}
+                            aria-hidden="true"
+                            alt="remove"
+                            className="day-pointer"
+                          />
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -807,6 +716,6 @@ Office.propTypes = {
   officeUpdateMessage: PropTypes.string,
   handleAddResource: PropTypes.func,
   addfileResource: PropTypes.func,
-  handleAddUpdateResource: PropTypes.func,
+  requestAddUpdateResource: PropTypes.func,
 };
 export default Office;

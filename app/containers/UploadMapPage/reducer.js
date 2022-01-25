@@ -8,9 +8,9 @@ import {
   SUCCESS_FILE_UPLOAD,
   FAILED_FILE_UPLOAD,
   CLEAR_UPLOAD_SUCCESS,
-  REQUEST_GET_RESOURCE,
-  SUCCESS_GET_RESOURCE,
-  FAILED_GET_RESOURCE,
+  REQUEST_ADD_UPDATE_RESOURCE,
+  SUCCESS_ADD__UPDATE_RESOURCE,
+  FAILED_ADD__UPDATE_RESOURCE,
 } from './constants';
 
 // The initial state of the App
@@ -29,8 +29,9 @@ const initialState = {
     message: '',
     success: false,
   },
-  getOfficeResource: {
+  addUpdateOfficeResource: {
     error: '',
+    data: {},
     success: false,
     message: '',
     loading: false,
@@ -90,24 +91,23 @@ const OfficeReducer = (state = initialState, action) =>
       case CLEAR_UPLOAD_SUCCESS:
         draft.uploadCsv.success = false;
         break;
-      case REQUEST_GET_RESOURCE:
-        draft.getOfficeResource.loading = true;
-        draft.getOfficeResource.error = '';
+      case REQUEST_ADD_UPDATE_RESOURCE:
+        draft.addUpdateOfficeResource.loading = true;
+        draft.addUpdateOfficeResource.data = {};
+        draft.addUpdateOfficeResource.error = '';
         break;
-      case SUCCESS_GET_RESOURCE:
-        draft.getOfficeResource.loading = false;
-        draft.getOfficeResource.success = true;
-        draft.getOfficeResource = action.payload;
-        draft.getOfficeResource.error = '';
+      case SUCCESS_ADD__UPDATE_RESOURCE:
+        draft.addUpdateOfficeResource.loading = false;
+        draft.addUpdateOfficeResource.success = true;
+        draft.officeUpdateSuccess = action.payload.success;
+        draft.officeUpdateMessage = action.payload.message;
         break;
-      case FAILED_GET_RESOURCE:
-        draft.getOfficeResource.loading = false;
-        draft.getOfficeResource.success = false;
-        draft.getOfficeResource.error = action.payload;
-        draft.getOfficeResource = {};
+      case FAILED_ADD__UPDATE_RESOURCE:
+        draft.addUpdateOfficeResource.loading = false;
+        draft.addUpdateOfficeResource.success = false;
+        draft.addUpdateOfficeResource.error = action.payload.error;
         draft.officeUpdateSuccess = false;
         draft.officeUpdateMessage = action.payload.message;
-
         break;
     }
   });
