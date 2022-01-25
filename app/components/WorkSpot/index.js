@@ -933,7 +933,7 @@ const WorkSpot = ({
             show={isEmployee}
             onHide={() => setEmployee(false)}
             aria-labelledby="exampleModalLabel"
-            style={{ maxWidth: 'calc(100% - 10rem)' }}
+            // style={{ maxWidth: 'calc(100% - 10rem)' }}
             aria-hidden="true"
             centered
             size="lg"
@@ -985,7 +985,10 @@ const WorkSpot = ({
                       (employeeData && employeeData.floor === null) &&
                       (employeeData && employeeData.colorcode === '') &&
                       (employeeData && employeeData.image === '')) ? (
-                      <div className="container" style={{ height: '100%' }}>
+                      <div
+                        className="container px-0"
+                        style={{ height: '100%' }}
+                      >
                         <h5 style={{ textAlign: 'center' }}>
                           {' '}
                           Relevant Data is not Available
