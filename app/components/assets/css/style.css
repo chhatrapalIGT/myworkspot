@@ -29,8 +29,11 @@
   .office-structure .office-structure-inner .left-panel {
     height: 100vh;
   }
+}
+
+@media (min-width: 768px) {
   .map_data {
-    max-height: 600px;
+    max-height: calc(100vh - 100px);
   }
 }
 
@@ -138,6 +141,7 @@
     display: flex;
     align-items: center;
   }
+
   .private_data {
     height: 25px;
     float: right;
@@ -247,10 +251,15 @@
     margin-right: 5px;
     margin-left: 5px;
   }
+
   .office-structure .office-structure-inner .left-panel,
   .office-structure .office-structure-inner .right-map {
     width: 100%;
     padding: 0;
+  }
+
+  .office-structure .office-structure-inner .right-map {
+    padding: 1rem;
   }
   .office-structure .office-structure-inner .left-panel {
     border-bottom: 1px solid #ebeef1;

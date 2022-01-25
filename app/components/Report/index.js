@@ -533,7 +533,7 @@ const Report = ({
             show={employeeLocationDetail}
             onHide={() => setEmployeeLocationDetail(false)}
             aria-labelledby="exampleModalLabel"
-            style={{ maxWidth: 'calc(100% - 10rem)' }}
+            // style={{ maxWidth: 'calc(100% - 10rem)' }}
             aria-hidden="true"
             centered
             size="lg"
@@ -585,7 +585,10 @@ const Report = ({
                         )}
                       </div>
                     ) : (
-                      <div className="container" style={{ height: '100%' }}>
+                      <div
+                        className="container px-0"
+                        style={{ height: '100%' }}
+                      >
                         <MapComponent
                           building={modalData.building}
                           floor={modalData.floor}

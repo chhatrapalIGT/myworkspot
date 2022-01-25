@@ -11,6 +11,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
+import { MapInteractionCSS } from 'react-map-interaction';
 import locationMap from '../../images/location.png';
 import zoomin from '../../images/zoomin.png';
 import zoomout from '../../images/zoomout.png';
@@ -295,48 +296,63 @@ const MapComponent = ({
       <>
         <div className="card office-structure-inner" style={{ height: '100%' }}>
           <>
-            {officeRest || ''}
-            <div className="right-map">
-              <Draggable
-                disabled={width < 767 ? isDraggable : !isDraggable}
-                key={state.version}
-              >
-                <div
-                  className="drag_image"
-                  style={isDraggable ? { cursor: 'move' } : null}
-                >
-                  <img
-                    src={`${MAP_IMAGE_URL}/${mapImage || ''}`}
-                    alt=""
-                    style={width < 767 ? dataStyle : imgStyle}
-                    draggable="false"
-                  />
+            {width > 767 ? (
+              <>
+                {officeRest || ''}
+                <div className="right-map">
+                  <Draggable disabled={!isDraggable} key={state.version}>
+                    <div
+                      className="drag_image"
+                      style={isDraggable ? { cursor: 'move' } : null}
+                    >
+                      <img
+                        src={`${MAP_IMAGE_URL}/${mapImage || ''}`}
+                        alt=""
+                        className="map_data"
+                        style={imgStyle}
+                        draggable="false"
+                      />
+                    </div>
+                  </Draggable>
+                  <div className="toolbar">
+                    <button
+                      className="location"
+                      type="button"
+                      onClick={() => handleDefault()}
+                    >
+                      <img src={locationMap} alt="" />
+                    </button>
+                    <button
+                      className="zoomin"
+                      type="button"
+                      onClick={() => handleZoomIn()}
+                    >
+                      <img src={zoomin} alt="" />
+                    </button>
+                    <button
+                      className="zoomout"
+                      type="button"
+                      onClick={() => handleZoomOut()}
+                    >
+                      <img src={zoomout} alt="" />
+                    </button>
+                  </div>
                 </div>
-              </Draggable>
-              <div className="toolbar">
-                <button
-                  className="location"
-                  type="button"
-                  onClick={() => handleDefault()}
-                >
-                  <img src={locationMap} alt="" />
-                </button>
-                <button
-                  className="zoomin"
-                  type="button"
-                  onClick={() => handleZoomIn()}
-                >
-                  <img src={zoomin} alt="" />
-                </button>
-                <button
-                  className="zoomout"
-                  type="button"
-                  onClick={() => handleZoomOut()}
-                >
-                  <img src={zoomout} alt="" />
-                </button>
-              </div>
-            </div>
+              </>
+            ) : (
+              <>
+                <div className="right-map px-0">
+                  <MapInteractionCSS>
+                    <img
+                      alt="test"
+                      src={`${MAP_IMAGE_URL}/${mapImage || ''}`}
+                      style={dataStyle}
+                    />
+                  </MapInteractionCSS>
+                </div>
+                {officeRest || ''}
+              </>
+            )}
           </>
         </div>
       </>
