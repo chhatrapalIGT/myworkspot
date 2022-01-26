@@ -265,7 +265,6 @@ class ProfilePage extends Component {
 
     const data = {
       data: finalLocatiopnUpdate,
-      employeeid: '239323',
       privateSpace,
     };
     this.props.requestAddOfficeLocation(data);

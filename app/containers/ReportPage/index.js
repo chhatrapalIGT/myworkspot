@@ -74,7 +74,6 @@ class ReportPage extends Component {
 
     const finalPayload = {
       inviteid: optionData,
-      employeeid: 239323,
       invitedate: finalValue,
       invitelocation: data.id,
       message: textValue || '',
