@@ -412,9 +412,8 @@ class WorkSpotPage extends Component {
         // eslint-disable-next-line radix
         locationid: a ? a.id : 'DC',
         weekofday: [moment(updatingObject.date).format('YYYY-MM-DD')],
-        privateSpace,
       },
-
+      privateSpace,
       employeeid: 239323,
     };
     this.props.requestUpdateWorkspot(payload);
@@ -503,7 +502,6 @@ class WorkSpotPage extends Component {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
-
     const dataStyle = {
       display: 'inline-block',
       transform: 'translate(16.5151px, 8.15472px) scale(0.940591)',

@@ -41,9 +41,6 @@
   .office-structure-inner {
     max-height: calc(100vh - 250px);
   }
-  .office-structure .office-structure-inner .left-panel {
-    height: 60vh;
-  }
 }
 
 @media (max-width: 1199px) {
