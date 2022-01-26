@@ -102,7 +102,7 @@ export function* getWeeklyData() {
 export function* updateWorkspot({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const requestURL = `${API_URL}/workspot/editWorkSpot?employeeid=239323`;
+  const requestURL = `${API_URL}/workspot/editWorkSpot`;
   try {
     const updateData = yield request({
       method: 'PUT',
@@ -132,7 +132,7 @@ export function* getNeighborhood() {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   const date = moment().format('YYYY-MM-DD');
-  const requestURL = `${API_URL}/neighborhoods/getneighborhood?todayDate=${date}&employeeid=239323`;
+  const requestURL = `${API_URL}/neighborhoods/getneighborhood?todayDate=${date}`;
   try {
     const neighborhhod = yield request({
       method: 'GET',
@@ -160,7 +160,7 @@ export function* getNeighborhood() {
 export function* getColleague() {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const requestURL = `${API_URL}/Delegate/getUsersForDelegate?employeeid=239323`;
+  const requestURL = `${API_URL}/Delegate/getUsersForDelegate`;
   try {
     const colleagues = yield request({
       method: 'GET',
@@ -188,7 +188,7 @@ export function* getColleague() {
 export function* getColleagueData({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const requestURL = `${API_URL}/Colleagues/getColleaguesWorkspotdata?employeeid=239323&startdate=${
+  const requestURL = `${API_URL}/Colleagues/getColleaguesWorkspotdata?startdate=${
     payload.startdate
   }&enddate=${payload.enddate}`;
   try {
@@ -248,7 +248,7 @@ export function* searchColleagueData({ payload }) {
 export function* deleteSearchColleagueData({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const requestURL = `${API_URL}/Colleagues/deleteColleaguesUser?employeeid=239323&colleaguesid=${
+  const requestURL = `${API_URL}/Colleagues/deleteColleaguesUser?colleaguesid=${
     payload.colleaguesid
   }`;
   try {

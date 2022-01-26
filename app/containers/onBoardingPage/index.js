@@ -117,7 +117,6 @@ class BorardingPage extends Component {
 
     const data = {
       data: finalLocationDay,
-      employeeid: '239323',
       badgenumber: badge && badgedata ? `BB${badge.concat(badgedata)}` : '',
       privateSpace,
     };
@@ -175,7 +174,6 @@ class BorardingPage extends Component {
       const badgeLan2 = badgedata !== undefined ? badgedata : '';
 
       const data = {
-        employeeid: '239323',
         badgeid: badge ? `BB${badgeLan1 + badgeLan2}` : '',
       };
       if (data.badgeid.length >= 8) {

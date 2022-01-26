@@ -20,7 +20,7 @@ const { API_URL } = CONSTANT;
 export function* getTeamMember() {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const requestURL = `${API_URL}/invite/getinvitemember?employeeid=239323`;
+  const requestURL = `${API_URL}/invite/getinvitemember`;
   try {
     const locationList = yield request({
       method: 'GET',

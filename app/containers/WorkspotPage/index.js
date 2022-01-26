@@ -138,7 +138,6 @@ class WorkSpotPage extends Component {
     const sDate = moment(startDispDate).format('YYYY-MM-DD');
     const eDate = moment(endDispDate).format('YYYY-MM-DD');
     this.props.requestGetColleagueData({
-      employeeid: 239323,
       startdate: sDate,
       enddate: eDate,
     });
@@ -220,7 +219,6 @@ class WorkSpotPage extends Component {
       (deleteSearchColleague && deleteSearchColleague.success)
     ) {
       this.props.requestGetColleagueData({
-        employeeid: 239323,
         startdate: sDate,
         enddate: eDate,
       });
@@ -395,7 +393,7 @@ class WorkSpotPage extends Component {
   onSubmit = () => {
     // eslint-disable-next-line no-unused-vars
     const { updatingObject, privateSpace } = this.state;
-    const { locationData } = this.props;
+    const { locationData, employeeId } = this.props;
     const a =
       locationData &&
       locationData.find(
@@ -414,7 +412,7 @@ class WorkSpotPage extends Component {
         weekofday: [moment(updatingObject.date).format('YYYY-MM-DD')],
       },
       privateSpace,
-      employeeid: 239323,
+      employeeid: employeeId,
     };
     this.props.requestUpdateWorkspot(payload);
     this.updateWorkspotData(
@@ -427,7 +425,7 @@ class WorkSpotPage extends Component {
   onUpdateWorkspot = () => {
     const { work_place, date, privateSpace } = this.state;
     const locDate = date.split(',');
-    const { locationData } = this.props;
+    const { locationData, employeeId } = this.props;
 
     const a =
       locationData && locationData.find(obj => obj.locationname === work_place);
@@ -437,7 +435,7 @@ class WorkSpotPage extends Component {
         locationid: a ? a.id : 'DC',
         weekofday: locDate,
       },
-      employeeid: 239323,
+      employeeid: employeeId,
       privateSpace,
     };
     this.props.requestUpdateWorkspot(payload);
@@ -451,7 +449,6 @@ class WorkSpotPage extends Component {
       return employeeid;
     });
     const payload = {
-      employeeid: 239323,
       colleaguesid: data,
     };
     this.props.requestSearchColleagueData(payload);
@@ -571,6 +568,7 @@ class WorkSpotPage extends Component {
 
 const mapStateToProps = state => {
   const { workspot, profile } = state;
+
   return {
     locationData:
       workspot &&
@@ -622,6 +620,11 @@ const mapStateToProps = state => {
       profile.userList &&
       profile.userList.user &&
       profile.userList.user.leaderscommittee,
+    employeeId:
+      profile &&
+      profile.userList &&
+      profile.userList.user &&
+      profile.userList.user.employeeid,
   };
 };
 
@@ -678,6 +681,7 @@ WorkSpotPage.propTypes = {
   resetWorkspotMessage: PropTypes.func,
   monthData: PropTypes.object,
   deleteSearchColleague: PropTypes.object,
+  employeeId: PropTypes.number,
 };
 
 export default compose(

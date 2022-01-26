@@ -173,7 +173,6 @@ class ProfilePage extends Component {
       const badgeLan2 = badgedata !== undefined ? badgedata : '';
 
       const data = {
-        employeeid: '239323',
         badgeid: badge ? `BB${badgeLan1 + badgeLan2}` : '',
       };
       if (data.badgeid.length >= 8) {
@@ -266,7 +265,6 @@ class ProfilePage extends Component {
 
     const data = {
       data: finalLocatiopnUpdate,
-      employeeid: '239323',
       privateSpace,
     };
     this.props.requestAddOfficeLocation(data);
@@ -284,7 +282,6 @@ class ProfilePage extends Component {
   handleBadgeSubmit = () => {
     const { badgedata, badge } = this.state;
     const data = {
-      employeeid: '239323',
       badgeid: badge && badgedata ? `BB${badge.concat(badgedata)}` : '',
     };
     if (this.props.verifyBadgeSuccess) {

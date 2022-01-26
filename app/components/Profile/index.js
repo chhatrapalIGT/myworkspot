@@ -152,7 +152,6 @@ const Profile = ({
   const addDelegateList = () => {
     const finalValue = selectData.map(data => data.employeeid);
     const finalDataPayload = {
-      employeeid: 239323,
       delegateid: finalValue,
     };
     requestAddDelegateList(finalDataPayload);
