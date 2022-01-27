@@ -10,6 +10,9 @@ import {
   REQUEST_ADD_UPDATE_RESOURCE,
   SUCCESS_ADD__UPDATE_RESOURCE,
   FAILED_ADD__UPDATE_RESOURCE,
+  REQUEST_REMOVE_RESOURCE,
+  SUCCESS_REMOVE_RESOURCE,
+  FAILED_REMOVE_RESOURCE,
 } from './constants';
 
 export const requestGetOfficeUpdateData = payload => ({
@@ -62,5 +65,20 @@ export const addUpdateResourceSuccess = payload => ({
 
 export const addUpdateResourceFailed = error => ({
   type: FAILED_ADD__UPDATE_RESOURCE,
+  payload: error,
+});
+
+export const requestRemoveResource = payload => ({
+  type: REQUEST_REMOVE_RESOURCE,
+  payload,
+});
+
+export const removeResourceSuccess = payload => ({
+  type: SUCCESS_REMOVE_RESOURCE,
+  payload,
+});
+
+export const removeResourceFailed = error => ({
+  type: FAILED_REMOVE_RESOURCE,
   payload: error,
 });

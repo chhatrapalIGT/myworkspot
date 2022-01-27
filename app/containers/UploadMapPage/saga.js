@@ -5,6 +5,7 @@ import {
   REQUEST_GET_OFFICE_UPDATE_DATA,
   REQUEST_FILE_UPLOAD,
   REQUEST_ADD_UPDATE_RESOURCE,
+  REQUEST_REMOVE_RESOURCE,
 } from './constants';
 import {
   getOfficeDataUdateSuccess,
@@ -13,6 +14,8 @@ import {
   fileUploadFailed,
   addUpdateResourceSuccess,
   addUpdateResourceFailed,
+  removeResourceSuccess,
+  removeResourceFailed,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -104,8 +107,36 @@ export function* getResourceData({ payload }) {
   }
 }
 
+export function* removeResourceData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/officeMap/deleteResource?id=${payload.id}`;
+  try {
+    const resourceList = yield request({
+      method: 'POST',
+      url: requestURL,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+    const { data } = resourceList;
+    if (resourceList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(removeResourceSuccess(data));
+    } else {
+      yield put(removeResourceFailed(data));
+    }
+  } catch (err) {
+    yield put(removeResourceFailed(err));
+  }
+}
+
 export default function* officeMapData() {
   yield takeLatest(REQUEST_GET_OFFICE_UPDATE_DATA, getData);
   yield takeLatest(REQUEST_FILE_UPLOAD, fileUpload);
   yield takeLatest(REQUEST_ADD_UPDATE_RESOURCE, getResourceData);
+  yield takeLatest(REQUEST_REMOVE_RESOURCE, removeResourceData);
 }

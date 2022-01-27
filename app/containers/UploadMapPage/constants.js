@@ -13,3 +13,7 @@ export const CLEAR_UPLOAD_SUCCESS = 'clearUploadSuccess';
 export const REQUEST_ADD_UPDATE_RESOURCE = 'requestAddUpdateResource';
 export const SUCCESS_ADD__UPDATE_RESOURCE = 'addUpdateResourceSuccess';
 export const FAILED_ADD__UPDATE_RESOURCE = 'addUpdateResourceFailed';
+
+export const REQUEST_REMOVE_RESOURCE = 'requestRemoveResource';
+export const SUCCESS_REMOVE_RESOURCE = 'removeResourceSuccess';
+export const FAILED_REMOVE_RESOURCE = 'removeResourceFailed';

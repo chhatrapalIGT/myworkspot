@@ -36,6 +36,12 @@ const Office = ({
   handleAddResource,
   requestAddUpdateResource,
   addfileResource,
+  handleDelete,
+  OnbtnDelete,
+  handleTitle,
+  addUpdateResource,
+  clearUploadSuccess,
+  requestGetOfficeUpdateData,
 }) => {
   const isDraggable = state.scale > 1;
 
@@ -43,11 +49,10 @@ const Office = ({
   const [color, setColor] = useState('');
   const [displayColor, setDisplayColor] = useState('');
   const [setActive, setActiveState] = useState('');
-  const [imageUpdateData, setImageUpdateData] = useState();
+  const [imageUpdateData, setImageUpdateData] = useState('2');
   const [show, setShow] = useState(false);
   const [update, setUpdate] = useState(false);
-  const [remove, setRemove] = useState(false);
-  const [title, setTitle] = useState(false);
+  const [id, setId] = useState('');
 
   const content = useRef(null);
   function toggleAccordion(id) {
@@ -66,7 +71,16 @@ const Office = ({
       setFloor('');
       setDisplayColor('');
     }
-  }, [state.selectedNames]);
+    if (
+      addUpdateResource &&
+      addUpdateResource.message &&
+      addUpdateResource.success
+    ) {
+      requestGetOfficeUpdateData({});
+      setShow(false);
+      clearUploadSuccess();
+    }
+  }, [state.selectedNames, addUpdateResource]);
 
   const finalLocationVal =
     officeLocation && officeLocation.filter(obj => obj.id !== 'RW');
@@ -97,29 +111,34 @@ const Office = ({
 
   const handleAddUpdateResource = () => {
     const formData = new FormData();
-    const id = state.selectedNames;
-    // if (state.file.length && state.title.length) {
-    //   if (floor) {
-    formData.append(
-      'floor',
-      dataFinal && dataFinal[0] !== 'null' ? dataFinal[0] : '',
-    );
-    formData.append(
-      'building',
-      dataFinal && dataFinal[1] !== 'null' ? dataFinal[1] : '',
-    );
-    // }
-    formData.append('locationid', id);
-    formData.append('resource', state.title);
-    formData.append('image', state.file);
-    requestAddUpdateResource({ formData });
-    // }
+    const idVal = state.selectedNames;
+
+    if (update) {
+      formData.append('resource', state.title);
+      formData.append('id', id);
+      formData.append('image', state.file);
+      requestAddUpdateResource({ formData });
+    } else {
+      formData.append(
+        'floor',
+        dataFinal && dataFinal[0] !== 'null' ? dataFinal[0] : '',
+      );
+      formData.append(
+        'building',
+        dataFinal && dataFinal[1] !== 'null' ? dataFinal[1] : '',
+      );
+
+      formData.append('locationid', idVal);
+      formData.append('resource', state.title);
+      formData.append('image', state.file);
+      requestAddUpdateResource({ formData });
+    }
   };
 
   const handleManageModalData = () => {
     if (update) {
       setUpdate(false);
-      setTitle('');
+      state.title = '';
     }
   };
 
@@ -489,10 +508,8 @@ const Office = ({
                     <Form.Control
                       type="text"
                       name="title"
-                      id="inputPassword5"
-                      aria-describedby="passwordHelpBlock"
                       onChange={handleAddResource}
-                      value={update ? title : ''}
+                      value={state.title}
                     />
                   </div>
 
@@ -524,33 +541,35 @@ const Office = ({
                       value="Upload Resources"
                     />
                   </div>
+                  {addUpdateResource &&
+                    addUpdateResource.error &&
+                    !addUpdateResource.success && (
+                      <p style={{ color: 'red', marginLeft: '25px' }}>
+                        {officeUpdateMessage}
+                      </p>
+                    )}
                   <div className="modal-footer">
-                    {/* {!isLoading ? ( */}
-                    <button
-                      type="button"
-                      // className={
-                      //   state.selectedNames &&
-                      //   state.selectedOption &&
-                      //   state.selectedOption.length > 0 &&
-                      //   state.date
-                      //     ? 'btn save-data'
-                      //     : 'btn disable-data'
-                      // }
-                      className="btn save-data"
-                      onClick={handleAddUpdateResource}
-                    >
-                      {update ? 'Update ' : 'Add'}
-                    </button>
-                    {/* ) : (
-                                <button type="button" className="btn save-data">
-                                  <div
-                                    className="spinner-border"
-                                    style={{ marginRight: '2px' }}
-                                  />
-                                  Invite
-                                </button>
-                              )} */}
-
+                    {addUpdateResource && !addUpdateResource.loading ? (
+                      <button
+                        type="button"
+                        className={
+                          state.title && state.file
+                            ? 'btn save-data'
+                            : 'btn disable-data'
+                        }
+                        onClick={handleAddUpdateResource}
+                      >
+                        {update ? 'Update ' : 'Add'}
+                      </button>
+                    ) : (
+                      <button type="button" className="btn save-data">
+                        <div
+                          className="spinner-border"
+                          style={{ marginRight: '2px' }}
+                        />
+                        {update ? 'Update ' : 'Add'}
+                      </button>
+                    )}
                     <button
                       type="button"
                       onClick={() => {
@@ -573,7 +592,7 @@ const Office = ({
               className="modal fade test_modal"
               aria-labelledby="exampleModalLabel"
               aria-hidden="true"
-              show={remove}
+              show={state.remove}
               // onHide={handleClose}
               backdrop="static"
               keyboard={false}
@@ -589,9 +608,7 @@ const Office = ({
                       className="btn-close "
                       data-bs-dismiss="modal"
                       aria-label="Close"
-                      onClick={() => {
-                        setRemove(false);
-                      }}
+                      onClick={handleDelete}
                     />
                   </div>
                   <div className="modal-body modal-body_myteam">
@@ -610,9 +627,7 @@ const Office = ({
                       //     : 'btn disable-data'
                       // }
                       className="btn save-data"
-                      onClick={() => {
-                        // handleModalClose();
-                      }}
+                      onClick={OnbtnDelete}
                     >
                       Yes
                     </button>
@@ -628,10 +643,7 @@ const Office = ({
 
                     <button
                       type="button"
-                      onClick={() => {
-                        // handleClearData();
-                        setRemove(false);
-                      }}
+                      onClick={handleDelete}
                       className="btn dismiss"
                       data-bs-dismiss="modal"
                     >
@@ -642,11 +654,10 @@ const Office = ({
               </div>
             </Modal>
 
-            <div className="office-maps">
+            <div className="office-maps" style={{ padding: '0px 0px' }}>
               <table className="table table-bordered">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Resource List</th>
                     <th scope="col">Action</th>
                   </tr>
@@ -655,7 +666,6 @@ const Office = ({
                   {renderResource &&
                     renderResource.resources.map(data => (
                       <tr>
-                        <th scope="row">1</th>
                         <td>
                           {' '}
                           <img
@@ -665,30 +675,37 @@ const Office = ({
                           />{' '}
                           {data.name}
                         </td>
-                        <td>
+                        <td className="d-flex">
                           {' '}
-                          <img
-                            src={Edit}
-                            onClick={() => {
-                              setShow(true);
-                              setUpdate(true);
-                              setTitle(data.name);
-                            }}
-                            style={{ height: '25px' }}
-                            aria-hidden="true"
-                            alt="Edit"
-                            className="day-pointer"
-                          />{' '}
-                          <img
-                            src={Remove}
-                            onClick={() => {
-                              setRemove(true);
-                            }}
-                            style={{ height: '30px' }}
-                            aria-hidden="true"
-                            alt="remove"
-                            className="day-pointer"
-                          />
+                          <p className="set_icon">
+                            <img
+                              src={Edit}
+                              onClick={() => {
+                                setShow(true);
+                                setUpdate(true);
+                                handleTitle(data.name);
+                                setId(data.id);
+                              }}
+                              style={{ height: '25px' }}
+                              aria-hidden="true"
+                              alt="Edit"
+                              className="day-pointer"
+                            />{' '}
+                          </p>
+                          <p className="set_icon">
+                            <img
+                              src={Remove}
+                              onClick={() => handleDelete(data.id)}
+                              style={{
+                                height: '25px',
+                                filter:
+                                  'invert(13%) sepia(93%) saturate(4435%) hue-rotate(357deg) brightness(105%) contrast(122%)',
+                              }}
+                              aria-hidden="true"
+                              alt="remove"
+                              className="day-pointer"
+                            />
+                          </p>
                         </td>
                       </tr>
                     ))}
@@ -717,5 +734,11 @@ Office.propTypes = {
   handleAddResource: PropTypes.func,
   addfileResource: PropTypes.func,
   requestAddUpdateResource: PropTypes.func,
+  handleDelete: PropTypes.func,
+  OnbtnDelete: PropTypes.func,
+  handleTitle: PropTypes.func,
+  addUpdateResource: PropTypes.object,
+  clearUploadSuccess: PropTypes.func,
+  requestGetOfficeUpdateData: PropTypes.func,
 };
 export default Office;
