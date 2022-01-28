@@ -662,7 +662,7 @@ const Office = ({
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody style={{ borderTop: ' 0px' }}>
                   {renderResource &&
                     renderResource.resources.map(data => (
                       <tr>
