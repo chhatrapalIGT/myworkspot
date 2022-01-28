@@ -13,6 +13,8 @@ import {
   requestFileUpload,
   clearOfficeData,
   clearUploadSuccess,
+  requestAddUpdateResource,
+  requestRemoveResource,
 } from './actions';
 import Office from '../../components/Office';
 
@@ -30,6 +32,9 @@ class UploadMap extends Component {
       rotate: defaultRotate,
       version: 0,
       selectedNames: 'DC',
+      file: [],
+      remove: false,
+      id: '',
     };
   }
 
@@ -64,11 +69,15 @@ class UploadMap extends Component {
   }
 
   componentDidUpdate() {
-    const { officeUpdateMessage, uploadCsv } = this.props;
-    if (uploadCsv && uploadCsv.success) {
+    const { officeUpdateMessage, uploadCsv, removeResource } = this.props;
+    if (
+      (uploadCsv && uploadCsv.success) ||
+      (removeResource && removeResource.success && removeResource.message)
+    ) {
       this.props.requestGetOfficeUpdateData({});
       this.props.clearUploadSuccess();
     }
+
     if (officeUpdateMessage) {
       setTimeout(() => {
         this.props.clearOfficeData();
@@ -85,6 +94,35 @@ class UploadMap extends Component {
     this.setState({ selectedNames: value });
   };
 
+  handleAddResource = e => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
+
+  addfileResource = event => {
+    const name = event.target.files[0];
+    this.setState({ file: name });
+  };
+
+  handleTitle = getTitle => {
+    this.setState({ title: getTitle });
+  };
+
+  OnbtnDelete = () => {
+    const { id } = this.state;
+    this.setState({ remove: false }, () => {
+      this.props.requestRemoveResource({ id });
+    });
+  };
+
+  handleDelete = id => {
+    if (id) {
+      this.setState(prevState => ({ id, remove: !prevState.remove }));
+    } else {
+      this.setState(prevState => ({ remove: !prevState.remove }));
+    }
+  };
+
   render() {
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
@@ -93,6 +131,7 @@ class UploadMap extends Component {
       officeLocation,
       officeUpdateMessage,
       officeUpdateSuccess,
+      addUpdateResource,
     } = this.props;
 
     return (
@@ -105,11 +144,20 @@ class UploadMap extends Component {
             handleZoomOut={this.handleZoomOut}
             handleDefault={this.handleDefault}
             requestFileUpload={this.props.requestFileUpload}
+            requestAddUpdateResource={this.props.requestAddUpdateResource}
+            requestGetOfficeUpdateData={this.props.requestGetOfficeUpdateData}
+            clearUploadSuccess={this.props.clearUploadSuccess}
             officeLocation={officeLocation}
             handleUserSelect={this.handleUserSelect}
             handleCloseIcon={this.handleCloseIcon}
+            handleAddResource={this.handleAddResource}
+            handleTitle={this.handleTitle}
+            addfileResource={this.addfileResource}
             officeUpdateMessage={officeUpdateMessage}
             officeUpdateSuccess={officeUpdateSuccess}
+            handleDelete={this.handleDelete}
+            OnbtnDelete={this.OnbtnDelete}
+            addUpdateResource={addUpdateResource}
           />{' '}
         </div>
       </>
@@ -120,6 +168,8 @@ class UploadMap extends Component {
 const mapStateToProps = state => {
   const { uploadOffice } = state;
   return {
+    addUpdateResource: uploadOffice && uploadOffice.addUpdateOfficeResource,
+    removeResource: uploadOffice && uploadOffice.removeResource,
     officeLocation:
       uploadOffice &&
       uploadOffice.getOfficeData &&
@@ -135,6 +185,9 @@ export function mapDispatchToProps(dispatch) {
     requestGetOfficeUpdateData: payload =>
       dispatch(requestGetOfficeUpdateData(payload)),
     requestFileUpload: payload => dispatch(requestFileUpload(payload)),
+    requestRemoveResource: payload => dispatch(requestRemoveResource(payload)),
+    requestAddUpdateResource: payload =>
+      dispatch(requestAddUpdateResource(payload)),
     clearOfficeData: () => dispatch(clearOfficeData()),
     clearUploadSuccess: () => dispatch(clearUploadSuccess()),
 
@@ -147,6 +200,10 @@ const withSaga = injectSaga({ key: 'uploadOffice', saga });
 UploadMap.propTypes = {
   requestGetOfficeUpdateData: PropTypes.func,
   requestFileUpload: PropTypes.func,
+  requestRemoveResource: PropTypes.func,
+  removeResource: PropTypes.object,
+  addUpdateResource: PropTypes.object,
+  requestAddUpdateResource: PropTypes.func,
   clearOfficeData: PropTypes.func,
   clearUploadSuccess: PropTypes.func,
   officeLocation: PropTypes.object,

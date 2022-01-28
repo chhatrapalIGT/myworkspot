@@ -8,6 +8,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
 import Spinner from 'react-bootstrap/Spinner';
+import { Modal, Form } from 'react-bootstrap';
+import Edit from '../assets/images/edit.svg';
+import Remove from '../../images/remove.png';
 
 import location from '../../images/location.png';
 import Zoomin from '../../images/zoomin.png';
@@ -30,6 +33,15 @@ const Office = ({
   officeUpdateSuccess,
   officeUpdateMessage,
   handleCloseIcon,
+  handleAddResource,
+  requestAddUpdateResource,
+  addfileResource,
+  handleDelete,
+  OnbtnDelete,
+  handleTitle,
+  addUpdateResource,
+  clearUploadSuccess,
+  requestGetOfficeUpdateData,
 }) => {
   const isDraggable = state.scale > 1;
 
@@ -37,7 +49,10 @@ const Office = ({
   const [color, setColor] = useState('');
   const [displayColor, setDisplayColor] = useState('');
   const [setActive, setActiveState] = useState('');
-  const [imageUpdateData, setImageUpdateData] = useState();
+  const [imageUpdateData, setImageUpdateData] = useState('2');
+  const [show, setShow] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [id, setId] = useState('');
 
   const content = useRef(null);
   function toggleAccordion(id) {
@@ -56,7 +71,16 @@ const Office = ({
       setFloor('');
       setDisplayColor('');
     }
-  }, [state.selectedNames]);
+    if (
+      addUpdateResource &&
+      addUpdateResource.message &&
+      addUpdateResource.success
+    ) {
+      requestGetOfficeUpdateData({});
+      setShow(false);
+      clearUploadSuccess();
+    }
+  }, [state.selectedNames, addUpdateResource]);
 
   const finalLocationVal =
     officeLocation && officeLocation.filter(obj => obj.id !== 'RW');
@@ -72,12 +96,51 @@ const Office = ({
       img.floorAndBuilding === imageUpdateData ? img.image : '',
     );
 
+  const renderResource =
+    floorData &&
+    floorData.FloorBuilding.find(res =>
+      res.floorAndBuilding === imageUpdateData ? res.resources : '',
+    );
+
   const finalNeighbouhoodImage =
     defaultImage &&
     defaultImage.neighborhood.find(final =>
       final.colorcode === color ? final.neighborhoodImage : '',
     );
   const dataFinal = floor && floor.split(',');
+
+  const handleAddUpdateResource = () => {
+    const formData = new FormData();
+    const idVal = state.selectedNames;
+
+    if (update) {
+      formData.append('resource', state.title);
+      formData.append('id', id);
+      formData.append('image', state.file);
+      requestAddUpdateResource({ formData });
+    } else {
+      formData.append(
+        'floor',
+        dataFinal && dataFinal[0] !== 'null' ? dataFinal[0] : '',
+      );
+      formData.append(
+        'building',
+        dataFinal && dataFinal[1] !== 'null' ? dataFinal[1] : '',
+      );
+
+      formData.append('locationid', idVal);
+      formData.append('resource', state.title);
+      formData.append('image', state.file);
+      requestAddUpdateResource({ formData });
+    }
+  };
+
+  const handleManageModalData = () => {
+    if (update) {
+      setUpdate(false);
+      state.title = '';
+    }
+  };
 
   const onFileUpload = event => {
     const name = event.target.files[0];
@@ -114,6 +177,10 @@ const Office = ({
 
   const updateVal = () => {
     document.getElementById('fileUpload').click();
+  };
+
+  const AddResource = () => {
+    document.getElementById('addResource').click();
   };
 
   return (
@@ -399,6 +466,252 @@ const Office = ({
                 </div>
               )}
             </div>
+
+            <button
+              type="button"
+              className="blue-bg-btn d-flex align-items-center"
+              data-bs-toggle="modal"
+              onClick={() => setShow(true)}
+            >
+              <span className="material-icons me-2">add</span>Add New Resource
+            </button>
+
+            {/* add modal */}
+            <Modal
+              className="modal fade test_modal"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+              show={show}
+              // onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">
+                      {update ? 'Update Resource' : 'Add Resource'}
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close "
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      onClick={() => {
+                        setShow(false);
+                        handleManageModalData();
+                      }}
+                    />
+                  </div>
+                  <div className="modal-body modal-body_myteam">
+                    <Form.Label htmlFor="inputPassword5">Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="title"
+                      onChange={handleAddResource}
+                      value={state.title}
+                    />
+                  </div>
+
+                  <Form.Label
+                    htmlFor="inputPassword5"
+                    style={{ marginLeft: ' 20px' }}
+                  >
+                    Upload Image Resource
+                  </Form.Label>
+                  <div
+                    className=""
+                    style={{
+                      width: '175px',
+                      marginLeft: '24px',
+                      marginBottom: '13px',
+                    }}
+                  >
+                    <input
+                      type="file"
+                      id="addResource"
+                      accept=".png,.svg,.jpg"
+                      onChange={addfileResource}
+                    />
+                    <input
+                      type="button"
+                      id="btnUpload"
+                      onClick={AddResource}
+                      className="blue-bg-btn1"
+                      value="Upload Resources"
+                    />
+                  </div>
+                  {addUpdateResource &&
+                    addUpdateResource.error &&
+                    !addUpdateResource.success && (
+                      <p style={{ color: 'red', marginLeft: '25px' }}>
+                        {officeUpdateMessage}
+                      </p>
+                    )}
+                  <div className="modal-footer">
+                    {addUpdateResource && !addUpdateResource.loading ? (
+                      <button
+                        type="button"
+                        className={
+                          state.title && state.file
+                            ? 'btn save-data'
+                            : 'btn disable-data'
+                        }
+                        onClick={handleAddUpdateResource}
+                      >
+                        {update ? 'Update ' : 'Add'}
+                      </button>
+                    ) : (
+                      <button type="button" className="btn save-data">
+                        <div
+                          className="spinner-border"
+                          style={{ marginRight: '2px' }}
+                        />
+                        {update ? 'Update ' : 'Add'}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleManageModalData();
+                        // handleClearData();
+                        setShow(false);
+                      }}
+                      className="btn dismiss"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+
+            {/* delete modal */}
+            <Modal
+              className="modal fade test_modal"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+              show={state.remove}
+              // onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">
+                      Delete Resource
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close "
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      onClick={handleDelete}
+                    />
+                  </div>
+                  <div className="modal-body modal-body_myteam">
+                    <span>Are you sure you want to delete your Resource ?</span>
+                  </div>
+                  <div className="modal-footer">
+                    {/* {!isLoading ? ( */}
+                    <button
+                      type="button"
+                      // className={
+                      //   state.selectedNames &&
+                      //   state.selectedOption &&
+                      //   state.selectedOption.length > 0 &&
+                      //   state.date
+                      //     ? 'btn save-data'
+                      //     : 'btn disable-data'
+                      // }
+                      className="btn save-data"
+                      onClick={OnbtnDelete}
+                    >
+                      Yes
+                    </button>
+                    {/* ) : (
+                                <button type="button" className="btn save-data">
+                                  <div
+                                    className="spinner-border"
+                                    style={{ marginRight: '2px' }}
+                                  />
+                                  Invite
+                                </button>
+                              )} */}
+
+                    <button
+                      type="button"
+                      onClick={handleDelete}
+                      className="btn dismiss"
+                      data-bs-dismiss="modal"
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+
+            <div className="office-maps" style={{ padding: '0px 0px' }}>
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Resource List</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {renderResource &&
+                    renderResource.resources.map(data => (
+                      <tr>
+                        <td>
+                          {' '}
+                          <img
+                            src={`${MAP_IMAGE_URL}/${data.image}`}
+                            alt="img"
+                            style={{ height: ' 30px', width: '40px' }}
+                          />{' '}
+                          {data.name}
+                        </td>
+                        <td className="d-flex">
+                          {' '}
+                          <p className="set_icon">
+                            <img
+                              src={Edit}
+                              onClick={() => {
+                                setShow(true);
+                                setUpdate(true);
+                                handleTitle(data.name);
+                                setId(data.id);
+                              }}
+                              style={{ height: '25px' }}
+                              aria-hidden="true"
+                              alt="Edit"
+                              className="day-pointer"
+                            />{' '}
+                          </p>
+                          <p className="set_icon">
+                            <img
+                              src={Remove}
+                              onClick={() => handleDelete(data.id)}
+                              style={{
+                                height: '25px',
+                                filter:
+                                  'invert(13%) sepia(93%) saturate(4435%) hue-rotate(357deg) brightness(105%) contrast(122%)',
+                              }}
+                              aria-hidden="true"
+                              alt="remove"
+                              className="day-pointer"
+                            />
+                          </p>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -418,5 +731,14 @@ Office.propTypes = {
   handleCloseIcon: PropTypes.func,
   officeUpdateSuccess: PropTypes.bool,
   officeUpdateMessage: PropTypes.string,
+  handleAddResource: PropTypes.func,
+  addfileResource: PropTypes.func,
+  requestAddUpdateResource: PropTypes.func,
+  handleDelete: PropTypes.func,
+  OnbtnDelete: PropTypes.func,
+  handleTitle: PropTypes.func,
+  addUpdateResource: PropTypes.object,
+  clearUploadSuccess: PropTypes.func,
+  requestGetOfficeUpdateData: PropTypes.func,
 };
 export default Office;

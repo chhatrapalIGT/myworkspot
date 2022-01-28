@@ -8,6 +8,12 @@ import {
   SUCCESS_FILE_UPLOAD,
   FAILED_FILE_UPLOAD,
   CLEAR_UPLOAD_SUCCESS,
+  REQUEST_ADD_UPDATE_RESOURCE,
+  SUCCESS_ADD__UPDATE_RESOURCE,
+  FAILED_ADD__UPDATE_RESOURCE,
+  REQUEST_REMOVE_RESOURCE,
+  SUCCESS_REMOVE_RESOURCE,
+  FAILED_REMOVE_RESOURCE,
 } from './constants';
 
 // The initial state of the App
@@ -25,6 +31,19 @@ const initialState = {
     file: {},
     message: '',
     success: false,
+  },
+  addUpdateOfficeResource: {
+    error: '',
+    data: {},
+    success: false,
+    message: '',
+    loading: false,
+  },
+  removeResource: {
+    error: '',
+    success: false,
+    message: '',
+    loading: false,
   },
   officeUpdateSuccess: false,
   officeUpdateMessage: '',
@@ -80,6 +99,46 @@ const OfficeReducer = (state = initialState, action) =>
 
       case CLEAR_UPLOAD_SUCCESS:
         draft.uploadCsv.success = false;
+        draft.removeResource = {};
+        draft.addUpdateOfficeResource = {};
+        break;
+      case REQUEST_ADD_UPDATE_RESOURCE:
+        draft.addUpdateOfficeResource.loading = true;
+        draft.addUpdateOfficeResource.data = {};
+        draft.addUpdateOfficeResource.error = '';
+        break;
+      case SUCCESS_ADD__UPDATE_RESOURCE:
+        draft.addUpdateOfficeResource.loading = false;
+        draft.addUpdateOfficeResource.success = action.payload.success;
+        draft.addUpdateOfficeResource.message = action.payload.message;
+        draft.officeUpdateSuccess = action.payload.success;
+        draft.officeUpdateMessage = action.payload.message;
+        break;
+      case FAILED_ADD__UPDATE_RESOURCE:
+        draft.addUpdateOfficeResource.loading = false;
+        draft.addUpdateOfficeResource.success = false;
+        draft.addUpdateOfficeResource.error = action.payload.message;
+        draft.officeUpdateSuccess = false;
+        draft.officeUpdateMessage = action.payload.message;
+        break;
+
+      case REQUEST_REMOVE_RESOURCE:
+        draft.removeResource.loading = true;
+        draft.removeResource.error = '';
+        break;
+      case SUCCESS_REMOVE_RESOURCE:
+        draft.removeResource.loading = false;
+        draft.removeResource.success = action.payload.success;
+        draft.removeResource = action.payload;
+        draft.officeUpdateSuccess = action.payload.success;
+        draft.officeUpdateMessage = action.payload.message;
+        break;
+      case FAILED_REMOVE_RESOURCE:
+        draft.removeResource.loading = false;
+        draft.removeResource.success = false;
+        draft.removeResource.error = action.payload.error;
+        draft.officeUpdateSuccess = false;
+        draft.officeUpdateMessage = action.payload.error;
         break;
     }
   });
