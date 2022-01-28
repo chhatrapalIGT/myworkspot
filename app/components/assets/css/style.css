@@ -33,7 +33,7 @@
 
 @media (min-width: 768px) {
   .map_data {
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 50px);
   }
 }
 

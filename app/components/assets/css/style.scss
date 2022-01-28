@@ -2088,10 +2088,12 @@ input[type='text'] {
         max-width: 100%;
       }
       .drag_image {
+        display: flex;
+        justify-content: center;
         height: auto;
         width: 100vw;
         img {
-          width: 100%;
+          max-width: 100%;
         }
       }
       .toolbar {
