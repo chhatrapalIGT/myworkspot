@@ -898,7 +898,13 @@ const Calender = ({
                                                     )}
                                                 </>
                                               )}
-                                            </span>
+                                            </span>{' '}
+                                            {data &&
+                                              data.workspacenumber !== null && (
+                                                <span>
+                                                  {data && data.workspacenumber}
+                                                </span>
+                                              )}
                                             <span>
                                               {data && data.isPrivateSpace && (
                                                 <img
@@ -1439,7 +1445,13 @@ const Calender = ({
                                                 )}
                                             </>
                                           )}
-                                        </span>
+                                        </span>{' '}
+                                        {data &&
+                                          data.workspacenumber !== null && (
+                                            <span>
+                                              {data && data.workspacenumber}
+                                            </span>
+                                          )}
                                         <span>
                                           {data && data.isPrivateSpace && (
                                             <img

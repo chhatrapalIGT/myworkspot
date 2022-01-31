@@ -504,6 +504,7 @@ class WorkSpotPage extends Component {
       transform: 'translate(16.5151px, 8.15472px) scale(0.940591)',
       transformOrigin: ' -50px 362px',
       height: ' 40vh',
+      cursor: 'pointer',
     };
     const {
       locationData,

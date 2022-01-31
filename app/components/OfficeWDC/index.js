@@ -356,7 +356,41 @@ const OfficeWDC = ({
                               />
                             </MapInteractionCSS>
                           </div>
-                          {imgResource || ''}
+                          <div className="left-panel">
+                            <div className="office-info">
+                              <p className="name">{office}</p>
+                              {title && title.length > 1 ? (
+                                <>
+                                  <span className="floor">{title[0]}</span>
+                                  <span className="floor mr-2">{title[1]}</span>
+                                </>
+                              ) : (
+                                <span className="floor">{title}</span>
+                              )}
+                            </div>
+                            <div className="office-resource">
+                              <p>Office Resources</p>
+                              {imgResource &&
+                                imgResource.map(res => (
+                                  <>
+                                    <div className="office-part-one">
+                                      <img
+                                        src={`${MAP_IMAGE_URL}/${res.image}`}
+                                        alt="img"
+                                        style={{
+                                          height: '24px',
+                                          width: '24px',
+                                          marginRight: '13px',
+                                        }}
+                                      />{' '}
+                                      <label htmlFor="my-spot">
+                                        {res.name}
+                                      </label>
+                                    </div>
+                                  </>
+                                ))}
+                            </div>
+                          </div>
                         </>
                       )}
                     </>

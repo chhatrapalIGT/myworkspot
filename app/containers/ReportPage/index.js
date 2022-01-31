@@ -237,8 +237,13 @@ class ReportPage extends Component {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
     };
     const dataStyle = {
-      transform: `scale(2) rotate(${this.state.rotate}deg)`,
+      display: 'inline-block',
+      transform: 'translate(16.5151px, 8.15472px) scale(0.940591)',
+      transformOrigin: ' -50px 362px',
+      height: ' 40vh',
+      cursor: 'pointer',
     };
+
     return (
       <>
         <div id="content-wrap">
