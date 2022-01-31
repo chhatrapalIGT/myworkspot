@@ -69,7 +69,11 @@ const Office = ({
   useEffect(() => {
     if (state.selectedNames === 'BHM' || state.selectedNames === 'BLM') {
       setFloor('');
+      setImageUpdateData('1');
       setDisplayColor('');
+    }
+    if (state.selectedNames === 'DC') {
+      setImageUpdateData('2');
     }
     if (
       addUpdateResource &&
@@ -119,14 +123,20 @@ const Office = ({
       formData.append('image', state.file);
       requestAddUpdateResource({ formData });
     } else {
-      formData.append(
-        'floor',
-        dataFinal && dataFinal[0] !== 'null' ? dataFinal[0] : '',
-      );
-      formData.append(
-        'building',
-        dataFinal && dataFinal[1] !== 'null' ? dataFinal[1] : '',
-      );
+      if (floor) {
+        formData.append(
+          'floor',
+          dataFinal && dataFinal[0] !== 'null' ? dataFinal[0] : '',
+        );
+        formData.append(
+          'building',
+          dataFinal && dataFinal[1] !== 'null' ? dataFinal[1] : '',
+        );
+      }
+      if (idVal === 'BHM' || idVal === 'BLM') {
+        formData.append('building', 1);
+        formData.append('floor', '');
+      }
 
       formData.append('locationid', idVal);
       formData.append('resource', state.title);
@@ -662,7 +672,7 @@ const Office = ({
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody style={{ borderTop: ' 0px' }}>
                   {renderResource &&
                     renderResource.resources.map(data => (
                       <tr>

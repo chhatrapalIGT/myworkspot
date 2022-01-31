@@ -12,16 +12,7 @@ import { MapInteractionCSS } from 'react-map-interaction';
 import location from '../../images/location.png';
 import Zoomin from '../../images/zoomin.png';
 import Zoomout from '../../images/zoomout.png';
-import WF2 from '../Resource/WF2';
-import WF3 from '../Resource/WF3';
-import WF4 from '../Resource/WF4';
-import WF8 from '../Resource/WF8';
-import RB1 from '../Resource/RB1';
-import RB2 from '../Resource/RB2';
-import RB3F1 from '../Resource/RB3F1';
-import RB3F2 from '../Resource/RB3F2';
-import BRB1 from '../Resource/BRB1';
-import BLB1 from '../Resource/BLB1';
+
 import crossCircle from '../../images/x-circle-fill.svg';
 import useWindowSize from '../../hooks/useWindowSize';
 import { CONSTANT } from '../../enum';
@@ -43,6 +34,7 @@ const OfficeWDC = ({
   const [floor, setFloor] = useState();
   const [finalFloor, setFinalFloor] = useState('Floor 2');
   const [imgSrc, setImgSrc] = useState('');
+  const [title, setTitle] = useState([]);
   const [imgResource, setImgResource] = useState('');
   const { width } = useWindowSize();
 
@@ -94,27 +86,30 @@ const OfficeWDC = ({
   const Icon = (valOffice, valFinalFloor) => {
     const switchOffice = valOffice || office;
     const switchFinalFloor = valFinalFloor && valFinalFloor.building;
+    const dataVal = Array(switchFinalFloor);
+    if (dataVal && dataVal[0] && dataVal[0].includes(',')) {
+      const Val = dataVal && dataVal[0] && dataVal[0].split(',');
+      setTitle(Val);
+    } else {
+      setTitle(dataVal);
+    }
+    const imageDataResource = valFinalFloor && valFinalFloor.resources;
     let imageSrc = '';
-    let imageDataResource = '';
 
     switch (switchOffice) {
       case 'Washington, DC':
         switch (switchFinalFloor) {
           case 'Floor 2':
             imageSrc = valFinalFloor.image;
-            imageDataResource = WF2;
             break;
           case 'Floor 3':
             imageSrc = valFinalFloor.image;
-            imageDataResource = WF3;
             break;
           case 'Floor 4':
             imageSrc = valFinalFloor.image;
-            imageDataResource = WF4;
             break;
           case 'Floor 8':
             imageSrc = valFinalFloor.image;
-            imageDataResource = WF8;
             break;
         }
         break;
@@ -122,19 +117,15 @@ const OfficeWDC = ({
         switch (switchFinalFloor) {
           case 'Building 1':
             imageSrc = valFinalFloor.image;
-            imageDataResource = RB1;
             break;
           case 'Building 2':
             imageSrc = valFinalFloor.image;
-            imageDataResource = RB2;
             break;
           case 'Building 3, Floor 1':
             imageSrc = valFinalFloor.image;
-            imageDataResource = RB3F1;
             break;
           case 'Building 3, Floor 2':
             imageSrc = valFinalFloor.image;
-            imageDataResource = RB3F2;
             break;
         }
         break;
@@ -142,7 +133,6 @@ const OfficeWDC = ({
         switch (switchFinalFloor) {
           case 'Building 1':
             imageSrc = valFinalFloor.image;
-            imageDataResource = BRB1;
             break;
         }
         break;
@@ -151,7 +141,6 @@ const OfficeWDC = ({
         switch (switchFinalFloor) {
           case 'Building 1':
             imageSrc = valFinalFloor.image;
-            imageDataResource = BLB1;
             break;
         }
         break;
@@ -277,7 +266,41 @@ const OfficeWDC = ({
                     <>
                       {width > 767 ? (
                         <>
-                          {imgResource || ''}
+                          <div className="left-panel">
+                            <div className="office-info">
+                              <p className="name">{office}</p>
+                              {title && title.length > 1 ? (
+                                <>
+                                  <span className="floor">{title[0]}</span>
+                                  <span className="floor mr-2">{title[1]}</span>
+                                </>
+                              ) : (
+                                <span className="floor">{title}</span>
+                              )}
+                            </div>
+                            <div className="office-resource">
+                              <p>Office Resources</p>
+                              {imgResource &&
+                                imgResource.map(res => (
+                                  <>
+                                    <div className="office-part-one">
+                                      <img
+                                        src={`${MAP_IMAGE_URL}/${res.image}`}
+                                        alt="img"
+                                        style={{
+                                          height: '24px',
+                                          width: '24px',
+                                          marginRight: '13px',
+                                        }}
+                                      />{' '}
+                                      <label htmlFor="my-spot">
+                                        {res.name}
+                                      </label>
+                                    </div>
+                                  </>
+                                ))}
+                            </div>
+                          </div>
                           <div className="right-map">
                             <Draggable
                               disabled={!isDraggable}
@@ -333,7 +356,41 @@ const OfficeWDC = ({
                               />
                             </MapInteractionCSS>
                           </div>
-                          {imgResource || ''}
+                          <div className="left-panel">
+                            <div className="office-info">
+                              <p className="name">{office}</p>
+                              {title && title.length > 1 ? (
+                                <>
+                                  <span className="floor">{title[0]}</span>
+                                  <span className="floor mr-2">{title[1]}</span>
+                                </>
+                              ) : (
+                                <span className="floor">{title}</span>
+                              )}
+                            </div>
+                            <div className="office-resource">
+                              <p>Office Resources</p>
+                              {imgResource &&
+                                imgResource.map(res => (
+                                  <>
+                                    <div className="office-part-one">
+                                      <img
+                                        src={`${MAP_IMAGE_URL}/${res.image}`}
+                                        alt="img"
+                                        style={{
+                                          height: '24px',
+                                          width: '24px',
+                                          marginRight: '13px',
+                                        }}
+                                      />{' '}
+                                      <label htmlFor="my-spot">
+                                        {res.name}
+                                      </label>
+                                    </div>
+                                  </>
+                                ))}
+                            </div>
+                          </div>
                         </>
                       )}
                     </>
