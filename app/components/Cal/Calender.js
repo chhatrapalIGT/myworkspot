@@ -157,7 +157,8 @@ const Calender = ({
     );
     return user.data.find(
       ({ date }) =>
-        moment(date).format('DD') === moment(dateValue).format('DD'),
+        moment(date).format('DD/MM/YYYY') ===
+        moment(dateValue).format('DD/MM/YYYY'),
     );
   };
 
@@ -173,13 +174,17 @@ const Calender = ({
       user.workspotdata.find(obj => {
         if (obj.unitsapproved) {
           if (
-            moment(obj.date).format('DD') === moment(dateValue).format('DD')
+            moment(obj.date).format('DD/MM/YYYY') ===
+            moment(dateValue).format('DD/MM/YYYY')
           ) {
             return obj;
           }
         }
 
-        return moment(obj.date).format('DD') === moment(dateValue).format('DD');
+        return (
+          moment(obj.date).format('DD/MM/YYYY') ===
+          moment(dateValue).format('DD/MM/YYYY')
+        );
       });
 
     return data;
