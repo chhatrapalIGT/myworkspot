@@ -12,7 +12,6 @@
   .private_data {
     height: 25px;
     float: right;
-    margin-top: -6px;
   }
 }
 
@@ -48,10 +47,15 @@
     width: 100% !important;
   }
 
+  .month_view_private {
+    height: 25px;
+    float: right;
+    margin-top: 0;
+  }
+
   .private_data {
     height: 25px;
     float: right;
-    margin-top: -23px;
   }
   .my-profile .my-profile-inner .left-aside {
     width: 220px;
@@ -367,6 +371,12 @@
 @media (max-width: 767px) {
   .site-header .header_wrapper .right-menus .username span {
     display: none;
+  }
+  .main_card_adjust {
+    margin-top: 25px;
+  }
+  .adjust_date {
+    order: -1;
   }
   .align_set {
     margin-top: 10px;

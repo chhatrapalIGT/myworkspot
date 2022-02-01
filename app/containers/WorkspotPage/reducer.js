@@ -286,7 +286,7 @@ const workspotReducer = (state = initialState, action) =>
         draft.getMonthData.success = false;
         draft.getMonthData.message = action.payload.message;
         // draft.getMonthData.colleagueData = {};
-        draft.apiSuccess = action.payload.success;
+        draft.apiSuccess = false;
         draft.apiMessage = action.payload.message;
         break;
 

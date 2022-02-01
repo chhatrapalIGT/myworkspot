@@ -297,11 +297,12 @@ const Calender = ({
         <div className={setVisible && 'update-office-workspot mt-40'}>
           {setVisible && <p className="week-range">{title}</p>}
 
-          <div
-            className="input-button-strip w-100 mt-4 d-flex align-items-center"
-            style={{ marginTop: '25px' }}
-          >
-            <div className="change-log  me-4">
+          <div className="input-button-strip w-100 mt-4 d-flex align-items-center">
+            <div
+              className={`change-log  me-4 ${
+                !setVisible ? 'main_card_adjust' : ''
+              }`}
+            >
               <button
                 type="submit"
                 className="prev"
@@ -320,7 +321,9 @@ const Calender = ({
                 &rsaquo;
               </button>
             </div>
-            {!setVisible && <p className="week-range mb-0">{title}</p>}
+            {!setVisible && (
+              <p className="week-range mb-0 adjust_date">{title}</p>
+            )}
             {setVisible && workSpotData.length > 0 && (
               <div
                 className="week-month-toggle nav nav-tabs"
@@ -778,20 +781,28 @@ const Calender = ({
                                                         partially &&
                                                           partially.colorcode,
                                                       )}
-                                                  </span>
-                                                  <span>
                                                     {partially &&
-                                                      partially.isPrivateSpace && (
-                                                        <img
-                                                          src={Space}
-                                                          alt="space"
-                                                          style={{
-                                                            height: '19px',
-                                                            width: '20px',
-                                                            marginTop: '-5px',
-                                                          }}
-                                                        />
+                                                      partially.workspacenumber !==
+                                                        '' && (
+                                                        <span>
+                                                          {`- ${partially &&
+                                                            partially.workspacenumber}`}
+                                                        </span>
                                                       )}
+                                                    <span>
+                                                      {partially &&
+                                                        partially.isPrivateSpace && (
+                                                          <img
+                                                            src={Space}
+                                                            alt="space"
+                                                            style={{
+                                                              height: '19px',
+                                                              width: '20px',
+                                                              marginTop: '-5px',
+                                                            }}
+                                                          />
+                                                        )}
+                                                    </span>
                                                   </span>
                                                 </>
                                               )}
@@ -905,9 +916,10 @@ const Calender = ({
                                               )}
                                             </span>{' '}
                                             {data &&
-                                              data.workspacenumber !== null && (
+                                              data.workspacenumber !== '' && (
                                                 <span>
-                                                  {data && data.workspacenumber}
+                                                  {`- ${data &&
+                                                    data.workspacenumber}`}
                                                 </span>
                                               )}
                                             <span>
@@ -915,11 +927,7 @@ const Calender = ({
                                                 <img
                                                   src={Space}
                                                   alt="space"
-                                                  style={{
-                                                    height: '30px',
-                                                    float: 'right',
-                                                    marginTop: '15px',
-                                                  }}
+                                                  className="month_view_private"
                                                 />
                                               )}
                                             </span>
@@ -1340,6 +1348,14 @@ const Calender = ({
                                                     otherHalf.colorcode,
                                                 )}
                                               {otherHalf &&
+                                                otherHalf.workspacenumber !==
+                                                  '' && (
+                                                  <span>
+                                                    {`- ${otherHalf &&
+                                                      otherHalf.workspacenumber}`}
+                                                  </span>
+                                                )}
+                                              {otherHalf &&
                                                 otherHalf.isPrivateSpace && (
                                                   <img
                                                     src={Space}
@@ -1452,9 +1468,10 @@ const Calender = ({
                                           )}
                                         </span>{' '}
                                         {data &&
-                                          data.workspacenumber !== null && (
+                                          data.workspacenumber !== '' && (
                                             <span>
-                                              {data && data.workspacenumber}
+                                              {`- ${data &&
+                                                data.workspacenumber}`}
                                             </span>
                                           )}
                                         <span>
