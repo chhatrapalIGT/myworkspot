@@ -1545,6 +1545,7 @@ input[type='text'] {
   }
   .input-button-strip {
     .change-log {
+      margin-right: 30px !important;
       display: flex;
       align-items: center;
       height: 48px;
@@ -1554,7 +1555,10 @@ input[type='text'] {
 
       .prev,
       .next {
-        width: 50px;
+        @media (min-width: 768px) {
+          width: 50px;
+          font-size: 22px;
+        }
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1563,11 +1567,14 @@ input[type='text'] {
         background-color: transparent;
         font-size: 22px;
       }
+
       .what-day {
-        padding: 0px 20px;
+        @media (min-width: 768px) {
+          font-size: 16px;
+          padding: 0px 20px;
+        }
         border-left: 1px solid #d1dce7;
         border-right: 1px solid #d1dce7;
-        font-size: 16px;
         -webkit-text-stroke: 0.2px;
       }
     }
@@ -3342,7 +3349,12 @@ div[class*='qy-menu'] * {
 }
 
 .private_data {
-  height: 30px;
+  max-height: 30px;
+  float: right;
+  padding-bottom: 7px;
+}
+.month_view_private {
+  height: 25px;
   float: right;
   margin-top: 15px;
 }
