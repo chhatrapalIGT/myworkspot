@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable no-nested-ternary */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
@@ -18,14 +20,12 @@ const MapComponent = ({
   handleZoomIn,
   handleZoomOut,
   handleDefault,
-
   mapImage,
   officeResource,
   locationName,
 }) => {
   const isDraggable = state.scale > 1;
   const { width } = useWindowSize();
-
   return (
     <Fragment>
       <>
@@ -36,17 +36,21 @@ const MapComponent = ({
                 <div className="left-panel">
                   <div className="office-info">
                     <p className="name">{locationName}</p>
-                    {building !== undefined && floor === undefined && (
-                      <span className="floor">{`Building ${building}`}</span>
-                    )}
-                    {floor !== undefined && building === undefined && (
-                      <span className="floor"> {`Floor ${floor}`}</span>
-                    )}
-                    {floor !== undefined && building !== undefined && (
+
+                    {building !== null &&
+                    building !== undefined &&
+                    (floor !== null && floor !== undefined) ? (
                       <>
                         <span className="floor"> {`Building ${building}`}</span>
                         <span className="floor"> {`Floor ${floor}`}</span>
                       </>
+                    ) : building !== null && building !== undefined ? (
+                      <span className="floor">{`Building ${building}`}</span>
+                    ) : (
+                      floor !== null &&
+                      floor !== undefined && (
+                        <span className="floor"> {`Floor ${floor}`}</span>
+                      )
                     )}
                   </div>
                   <div className="office-resource">
@@ -123,17 +127,18 @@ const MapComponent = ({
                 <div className="left-panel">
                   <div className="office-info">
                     <p className="name">{locationName}</p>
-                    {building !== undefined && floor === undefined && (
-                      <span className="floor">{`Building ${building}`}</span>
-                    )}
-                    {floor !== undefined && building === undefined && (
-                      <span className="floor"> {`Floor ${floor}`}</span>
-                    )}
-                    {floor !== undefined && building !== undefined && (
+
+                    {building !== null && floor !== null ? (
                       <>
                         <span className="floor"> {`Building ${building}`}</span>
                         <span className="floor"> {`Floor ${floor}`}</span>
                       </>
+                    ) : building !== null ? (
+                      <span className="floor">{`Building ${building}`}</span>
+                    ) : (
+                      floor !== null && (
+                        <span className="floor"> {`Floor ${floor}`}</span>
+                      )
                     )}
                   </div>
                   <div className="office-resource">
