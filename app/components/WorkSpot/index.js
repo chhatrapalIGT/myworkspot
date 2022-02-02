@@ -261,11 +261,6 @@ const WorkSpot = ({
     return dates;
   };
 
-  const ColleagueUserName = employeeData
-    ? employeeData.firstName &&
-      employeeData.firstName.charAt(0).concat(' ', employeeData.lastName)
-    : '';
-
   const htmlDecode = content => {
     const e = document.createElement('div');
     e.innerHTML = content;
@@ -629,7 +624,13 @@ const WorkSpot = ({
               neighborhoodData &&
               neighborhoodData.locationCode !== 'EAB' &&
               ((neighborhoodData && neighborhoodData.image !== '') ||
-                (halfDayData && halfDayData.image !== '')) && (
+                (halfDayData && halfDayData.image !== '')) &&
+              ((neighborhoodData &&
+                neighborhoodData.resource &&
+                neighborhoodData.resource.length > 0) ||
+                (halfDayData &&
+                  halfDayData.resource &&
+                  halfDayData.resource.length > 0)) && (
                 <div className="container" style={{ height: '100%' }}>
                   {neighborhoodLoad ? (
                     <div className="card building-block-head">
@@ -646,10 +647,6 @@ const WorkSpot = ({
                           neighborhoodData.building || halfDayData.building
                         }
                         floor={neighborhoodData.floor || halfDayData.floor}
-                        locationCode={
-                          neighborhoodData.locationCode ||
-                          halfDayData.locationCode
-                        }
                         state={state}
                         imgStyle={imgStyle}
                         dataStyle={dataStyle}
@@ -660,7 +657,14 @@ const WorkSpot = ({
                           (neighborhoodData && neighborhoodData.image) ||
                           (halfDayData && halfDayData.image)
                         }
-                        colorCode={neighborhoodColor || halfdayColor}
+                        officeResource={
+                          (neighborhoodData && neighborhoodData.resource) ||
+                          (halfDayData && halfDayData.resource)
+                        }
+                        locationName={
+                          (neighborhoodData && neighborhoodData.locationName) ||
+                          (halfDayData && halfDayData.locationName)
+                        }
                       />
                     )
                   )}
@@ -984,7 +988,10 @@ const WorkSpot = ({
                       employeeData.building === null &&
                       (employeeData && employeeData.floor === null) &&
                       (employeeData && employeeData.colorcode === '') &&
-                      (employeeData && employeeData.image === '')) ? (
+                      (employeeData && employeeData.image === '') &&
+                      (employeeData &&
+                        employeeData.resource &&
+                        employeeData.resource.length === 0)) ? (
                       <div
                         className="container px-0"
                         style={{ height: '100%' }}
@@ -1000,19 +1007,21 @@ const WorkSpot = ({
                           <MapComponent
                             building={employeeData.building}
                             floor={employeeData.floor}
-                            locationCode={employeeData.locationCode}
                             state={state}
                             imgStyle={imgStyle}
                             dataStyle={dataStyle}
                             handleZoomIn={handleZoomIn}
                             handleZoomOut={handleZoomOut}
                             handleDefault={handleDefault}
-                            ColleagueUserName={ColleagueUserName}
-                            from="employeeData"
                             mapImage={
                               (employeeData && employeeData.image) || ''
                             }
-                            colorCode={employeeMapColor}
+                            officeResource={
+                              employeeData && employeeData.resource
+                            }
+                            locationName={
+                              employeeData && employeeData.locationName
+                            }
                           />
                         )}
                       </div>

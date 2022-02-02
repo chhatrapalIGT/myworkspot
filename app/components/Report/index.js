@@ -575,7 +575,10 @@ const Report = ({
                     {modalData &&
                     modalData.building === null &&
                     (modalData && modalData.image === '') &&
-                    (modalData && modalData.floor === null) ? (
+                    (modalData && modalData.floor === null) &&
+                    (modalData &&
+                      modalData.resource &&
+                      modalData.resource.length === 0) ? (
                       <div className="container" style={{ height: '100%' }}>
                         {modalData && (
                           <h5 style={{ textAlign: 'center' }}>
@@ -592,7 +595,6 @@ const Report = ({
                         <MapComponent
                           building={modalData.building}
                           floor={modalData.floor}
-                          locationCode={modalData.locationCode}
                           state={state}
                           imgStyle={imgStyle}
                           dataStyle={dataStyle}
@@ -600,7 +602,8 @@ const Report = ({
                           handleZoomOut={handleZoomOut}
                           handleDefault={handleDefault}
                           mapImage={(modalData && modalData.image) || ''}
-                          colorCode={modalColorCode}
+                          officeResource={modalData && modalData.resource}
+                          locationName={modalData && modalData.locationName}
                         />
                       </div>
                     )}
