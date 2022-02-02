@@ -48,7 +48,7 @@ const reportReducer = (state = initialState, action) =>
         draft.allTeamMemberList.member = [];
         draft.allTeamMemberList.error = action.payload;
         draft.reportApiMessage = action.payload.message;
-        draft.reportApiSuccess = action.payload.success;
+        draft.reportApiSuccess = false;
         break;
 
       case REQUEST_ADD_TEAM_MEMBER:

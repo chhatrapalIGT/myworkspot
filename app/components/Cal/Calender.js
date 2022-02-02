@@ -789,20 +789,20 @@ const Calender = ({
                                                             partially.workspacenumber}`}
                                                         </span>
                                                       )}
-                                                    <span>
-                                                      {partially &&
-                                                        partially.isPrivateSpace && (
-                                                          <img
-                                                            src={Space}
-                                                            alt="space"
-                                                            style={{
-                                                              height: '19px',
-                                                              width: '20px',
-                                                              marginTop: '-5px',
-                                                            }}
-                                                          />
-                                                        )}
-                                                    </span>
+                                                  </span>
+                                                  <span>
+                                                    {partially &&
+                                                      partially.isPrivateSpace && (
+                                                        <img
+                                                          src={Space}
+                                                          alt="space"
+                                                          style={{
+                                                            height: '19px',
+                                                            width: '20px',
+                                                            marginTop: '-5px',
+                                                          }}
+                                                        />
+                                                      )}
                                                   </span>
                                                 </>
                                               )}
