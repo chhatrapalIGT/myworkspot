@@ -74,6 +74,10 @@ const Office = ({
     }
     if (state.selectedNames === 'DC') {
       setImageUpdateData('2');
+      setFloor('2,null');
+    } else if (state.selectedNames === 'RIC') {
+      setImageUpdateData('1');
+      setFloor('null,1');
     }
     if (
       addUpdateResource &&
@@ -150,6 +154,12 @@ const Office = ({
       setUpdate(false);
       state.title = '';
     }
+  };
+  const handleDrop = () => {
+    handleDefault();
+    setDisplayColor('');
+    setActiveState('');
+    setColor('');
   };
 
   const onFileUpload = event => {
@@ -240,7 +250,7 @@ const Office = ({
                     value={state.selectedNames}
                     onChange={e => {
                       handleUserSelect(e);
-                      handleDefault();
+                      handleDrop();
                     }}
                     className="set_drop"
                   >
