@@ -128,15 +128,18 @@ const MapComponent = ({
                   <div className="office-info">
                     <p className="name">{locationName}</p>
 
-                    {building !== null && floor !== null ? (
+                    {building !== null &&
+                    building !== undefined &&
+                    (floor !== null && floor !== undefined) ? (
                       <>
                         <span className="floor"> {`Building ${building}`}</span>
                         <span className="floor"> {`Floor ${floor}`}</span>
                       </>
-                    ) : building !== null ? (
+                    ) : building !== null && building !== undefined ? (
                       <span className="floor">{`Building ${building}`}</span>
                     ) : (
-                      floor !== null && (
+                      floor !== null &&
+                      floor !== undefined && (
                         <span className="floor"> {`Floor ${floor}`}</span>
                       )
                     )}

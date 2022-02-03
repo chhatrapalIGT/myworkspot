@@ -504,6 +504,10 @@ input[type='text'] {
 .common-title {
   font-size: 24px;
 }
+.report_title {
+  margin-left: 20px;
+  font-size: 20px;
+}
 
 .card {
   border-radius: 8px;
@@ -1545,7 +1549,6 @@ input[type='text'] {
   }
   .input-button-strip {
     .change-log {
-      margin-right: 30px !important;
       display: flex;
       align-items: center;
       height: 48px;
