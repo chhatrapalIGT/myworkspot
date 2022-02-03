@@ -369,6 +369,9 @@
 }
 
 @media (max-width: 767px) {
+  .report_title {
+    margin-left: 11px;
+  }
   .site-header .header_wrapper .right-menus .username span {
     display: none;
   }
@@ -391,9 +394,6 @@
     font-size: 16px;
   }
 
-  .building-block-head .block-info {
-    margin-left: -26px;
-  }
   /* .office-structure .office-structure-inner {
     flex-wrap: wrap;
     height: 100%;
@@ -508,8 +508,7 @@
   }
   .building-block-head .block-info .floor-name,
   .building-block-head .block-info .floor-data-name {
-    padding: 0 12px;
-    margin: 0 12px;
+    margin: 0 12px 0 0;
   }
   .building-block-head .building-location-strip > div {
     margin-top: 12px;
@@ -523,7 +522,6 @@
     width: 40px;
   }
   .update-office-workspot .week-month-toggle {
-    margin-top: 10px;
     margin-left: 0px;
     width: 56%;
   }
