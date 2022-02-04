@@ -218,7 +218,13 @@ const Profile = ({
             </div>
           </div>
         )}
-        <div className="wrapper_main">
+        <div
+          className={`${
+            userData && userData.badgeNumber !== ''
+              ? 'manage_width wrapper_main'
+              : 'wrapper_main'
+          }`}
+        >
           <div className="my-profile">
             <div className="container">
               <h4 className="common-title">My Profile</h4>

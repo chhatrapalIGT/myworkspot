@@ -432,6 +432,10 @@
   .wrapper_main {
     padding: 50px 0;
   }
+
+  .manage_width {
+    padding: 0px;
+  }
   .emp_wrapper {
     padding: 50px 0 130px;
   }

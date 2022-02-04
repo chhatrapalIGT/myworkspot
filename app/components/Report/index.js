@@ -51,6 +51,7 @@ const Report = ({
   monthData,
   clearAddTeamData,
   handlecloseReportDataIcon,
+  BadgeData,
 }) => {
   const [isdata, setData] = useState(false);
   const [isDiv, setDiv] = useState(false);
@@ -351,7 +352,13 @@ const Report = ({
         </div>
       )}
 
-      <div className="wrapper_main">
+      <div
+        className={`${
+          BadgeData && BadgeData.badgeNumber !== ''
+            ? 'manage_width wrapper_main'
+            : 'wrapper_main'
+        }`}
+      >
         <div className="mt-4 weekly-default-inner d-flex flex-wrap" />
         <div className="container">
           <h4 className="report_title">My Team</h4>

@@ -200,6 +200,7 @@ class BorardingPage extends Component {
       verifyBadgeSuccess,
       verifyBadgeMsg,
       userName,
+      badgeData,
       profileUserLoading,
     } = this.props;
     return (
@@ -228,6 +229,7 @@ class BorardingPage extends Component {
             verifyBadgeMsg={verifyBadgeMsg}
             userName={userName}
             profileUserLoading={profileUserLoading}
+            badgeData={badgeData}
           />
         </div>
         <Footer />
@@ -239,6 +241,8 @@ class BorardingPage extends Component {
 const mapStateToProps = state => {
   const { locationData, profile } = state;
   return {
+    badgeData: profile && profile.userList && profile.userList.user,
+
     location:
       locationData &&
       locationData.getOfficeLocation &&
@@ -316,6 +320,7 @@ BorardingPage.propTypes = {
   userName: PropTypes.string,
   profileUserLoading: PropTypes.bool,
   requestUserlistData: PropTypes.func,
+  badgeData: PropTypes.object,
 };
 
 export default compose(

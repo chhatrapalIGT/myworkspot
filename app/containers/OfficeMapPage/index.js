@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import saga from './saga';
 import reducer from './reducer';
 import { requestGetOfficeData, clearOffice } from './actions';
+
 import Office from '../../components/OfficeWDC';
 
 const zoomStep = 1;
@@ -86,7 +87,7 @@ class OfficeMap extends Component {
       cursor: 'pointer',
     };
 
-    const { officeLocation, officeLocationErrorHandle } = this.props;
+    const { officeLocation, officeLocationErrorHandle, badgeData } = this.props;
 
     return (
       <>
@@ -103,6 +104,7 @@ class OfficeMap extends Component {
             handleMouseMove={this.handleMouseMove}
             officeLocation={officeLocation}
             officeLocationErrorHandle={officeLocationErrorHandle}
+            badgeData={badgeData}
           />{' '}
         </div>
       </>
@@ -111,8 +113,9 @@ class OfficeMap extends Component {
 }
 
 const mapStateToProps = state => {
-  const { officeData } = state;
+  const { officeData, profile } = state;
   return {
+    badgeData: profile && profile.userList && profile.userList.user,
     officeLocation:
       officeData &&
       officeData.getOfficeData &&
@@ -140,6 +143,7 @@ OfficeMap.propTypes = {
   officeLocation: PropTypes.object,
   officeLocationErrorHandle: PropTypes.string,
   clearOffice: PropTypes.func,
+  badgeData: PropTypes.object,
 };
 
 export default compose(
