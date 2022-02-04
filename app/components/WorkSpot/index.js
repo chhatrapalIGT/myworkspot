@@ -60,6 +60,7 @@ const WorkSpot = ({
   handleClearCal,
   handleRemoveUserSelect,
   handleClear,
+  badgeData,
 }) => {
   const [isModal, setModal] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -304,7 +305,13 @@ const WorkSpot = ({
       {profileUserLoading ? (
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
-        <div className="wrapper_main">
+        <div
+          className={`${
+            badgeData && badgeData.badgeNumber !== ''
+              ? 'manage_width wrapper_main'
+              : 'wrapper_main'
+          }`}
+        >
           <div className="container">
             {moment().format('ddd') === 'Sat' ||
             moment().format('ddd') === 'Sun' ? (
@@ -1206,5 +1213,6 @@ WorkSpot.propTypes = {
   handleRemoveUserSelect: PropTypes.func,
   dataStyle: PropTypes.object,
   handleClear: PropTypes.func,
+  badgeData: PropTypes.object,
 };
 export default WorkSpot;

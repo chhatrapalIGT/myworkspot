@@ -518,6 +518,7 @@ class WorkSpotPage extends Component {
       colleaguesData,
       monthData,
       leadersCommittee,
+      badgeData,
     } = this.props;
     const { errSuccess } = this.state;
 
@@ -560,6 +561,7 @@ class WorkSpotPage extends Component {
             handleCheckbox={this.handleCheckbox}
             handleRemoveUserSelect={this.handleRemoveUserSelect}
             handleClear={this.handleClear}
+            badgeData={badgeData}
           />
         </div>
       </>
@@ -571,6 +573,8 @@ const mapStateToProps = state => {
   const { workspot, profile } = state;
 
   return {
+    badgeData: profile && profile.userList && profile.userList.user,
+
     locationData:
       workspot &&
       workspot.getLocationData &&
@@ -683,6 +687,7 @@ WorkSpotPage.propTypes = {
   monthData: PropTypes.object,
   deleteSearchColleague: PropTypes.object,
   employeeId: PropTypes.number,
+  badgeData: PropTypes.object,
 };
 
 export default compose(

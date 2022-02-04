@@ -28,6 +28,7 @@ const OfficeWDC = ({
   officeLocationErrorHandle,
   handleClearOffice,
   dataStyle,
+  badgeData,
 }) => {
   const isDraggable = state.scale > 1;
   const [office, setOffice] = useState('Washington, DC');
@@ -172,7 +173,13 @@ const OfficeWDC = ({
           </div>
         )}
 
-      <div className="wrapper_main">
+      <div
+        className={`${
+          badgeData && badgeData.badgeNumber !== ''
+            ? 'manage_width wrapper_main'
+            : 'wrapper_main'
+        }`}
+      >
         <div className="office_maps">
           <div className="container">
             <div className="head d-flex align-items-center mt-4">
@@ -417,5 +424,6 @@ OfficeWDC.propTypes = {
   officeLocation: PropTypes.object,
   handleClearOffice: PropTypes.func,
   dataStyle: PropTypes.object,
+  badgeData: PropTypes.object,
 };
 export default OfficeWDC;

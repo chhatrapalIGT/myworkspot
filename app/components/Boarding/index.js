@@ -39,6 +39,7 @@ const Boarding = ({
   userName,
   profileUserLoading,
   handleData,
+  badgeData,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
@@ -89,7 +90,13 @@ const Boarding = ({
         <Spinner className="app-spinner" animation="grow" variant="dark" />
       ) : (
         <>
-          <div className="wrapper_main">
+          <div
+            className={`${
+              badgeData && badgeData.badgeNumber !== ''
+                ? 'manage_width wrapper_main'
+                : 'wrapper_main'
+            }`}
+          >
             <div className="onboarding-main">
               <div className="container">
                 <div className="top-illustration">
@@ -346,6 +353,7 @@ Boarding.propTypes = {
   userName: PropTypes.string,
   profileUserLoading: PropTypes.bool,
   handleData: PropTypes.func,
+  badgeData: PropTypes.object,
 };
 
 export default Boarding;

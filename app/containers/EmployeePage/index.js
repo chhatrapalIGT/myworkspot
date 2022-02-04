@@ -238,8 +238,8 @@ class EmployeePage extends Component {
   handleBadgeData = e => {
     const { name, value } = e.target;
 
-    const { BadgeNumber, id } = this.state;
     this.setState({ [name]: value }, () => {
+      const { BadgeNumber, id } = this.state;
       const ele = document.getElementById('badgeUpdate');
       // eslint-disable-next-line func-names
       ele.onkeyup = function(e) {
@@ -247,7 +247,6 @@ class EmployeePage extends Component {
           ele.value += '-';
         }
       };
-
       const badge = BadgeNumber.slice(0, 3).concat(BadgeNumber.slice(4, 7));
       const data = {
         employeeid: id,

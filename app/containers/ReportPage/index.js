@@ -232,6 +232,7 @@ class ReportPage extends Component {
       isLoading,
       myTeamSuccess,
       monthData,
+      BadgeData,
     } = this.props;
     const imgStyle = {
       transform: `scale(${this.state.scale}) rotate(${this.state.rotate}deg)`,
@@ -273,6 +274,7 @@ class ReportPage extends Component {
             handlecloseReportDataIcon={this.handlecloseReportDataIcon}
             monthData={monthData}
             clearAddTeamData={this.props.clearAddTeamData}
+            BadgeData={BadgeData}
           />{' '}
         </div>
       </>
@@ -280,8 +282,9 @@ class ReportPage extends Component {
   }
 }
 const mapStateToProps = state => {
-  const { locationData, myTeam, workspot } = state;
+  const { locationData, myTeam, workspot, profile } = state;
   return {
+    BadgeData: profile && profile.userList && profile.userList.user,
     location:
       locationData &&
       locationData.getOfficeLocation &&
@@ -331,6 +334,7 @@ ReportPage.propTypes = {
   isLoading: PropTypes.bool,
   history: PropTypes.object,
   monthData: PropTypes.object,
+  BadgeData: PropTypes.object,
 };
 
 export default compose(
