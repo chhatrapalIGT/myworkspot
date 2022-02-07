@@ -1487,7 +1487,7 @@ const Calender = ({
                                             <img
                                               src={Space}
                                               alt=""
-                                              className="private_data"
+                                              className="month_view_private"
                                             />
                                           )}
                                         </span>

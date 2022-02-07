@@ -9,10 +9,6 @@
   .building-block-head .block-info .color-code {
     font-size: 32px;
   }
-  .private_data {
-    height: 25px;
-    float: right;
-  }
 }
 
 /* @media (min-width: 1601px) {
@@ -53,10 +49,6 @@
     margin-top: 0;
   }
 
-  .private_data {
-    height: 25px;
-    float: right;
-  }
   .my-profile .my-profile-inner .left-aside {
     width: 220px;
   }
@@ -143,11 +135,6 @@
     align-items: center;
   }
 
-  .private_data {
-    height: 25px;
-    float: right;
-    margin-top: 20px;
-  }
   .site-header .header_wrapper .right-menus .mobile-menu-toggler {
     display: inline-block;
   }
