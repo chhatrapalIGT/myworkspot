@@ -1472,13 +1472,16 @@ const Calender = ({
                                             </>
                                           )}
                                         </span>{' '}
-                                        {data &&
-                                          data.workspacenumber !== '' && (
-                                            <span>
-                                              {`- ${data &&
-                                                data.workspacenumber}`}
-                                            </span>
-                                          )}
+                                        {item.day !== 'Saturday' ||
+                                          item.day !== 'Sunday' ||
+                                          !item.weekend ||
+                                          (data &&
+                                            data.workspacenumber !== '' && (
+                                              <span>
+                                                {`- ${data &&
+                                                  data.workspacenumber}`}
+                                              </span>
+                                            ))}
                                         <span>
                                           {data && data.isPrivateSpace && (
                                             <img
