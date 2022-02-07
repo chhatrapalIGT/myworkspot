@@ -1870,6 +1870,8 @@ input[type='text'] {
           transform: translateY(-50%) rotate(45deg);
           right: 15px;
           top: 46%;
+          pointer-events: none;
+          cursor: pointer;
         }
 
         label {
