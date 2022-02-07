@@ -112,10 +112,15 @@ const Calender = ({
   };
 
   const handleTimePeriod = periodType => {
-    const { startDate } = days;
+    const { startDate, currentDate } = days;
+
     const newDays =
       periodType === 'month'
-        ? getMonthStartEndDate(startDate)
+        ? getMonthStartEndDate(
+            moment(days.currentDate).format('MMMM') === moment().format('MMMM')
+              ? currentDate
+              : startDate,
+          )
         : getWeekStartEndDate(selectedWeek);
     callAPI(newDays.dateToDisplay, periodType);
     setDays(newDays);
