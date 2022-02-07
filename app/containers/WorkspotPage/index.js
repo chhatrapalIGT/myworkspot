@@ -202,6 +202,10 @@ class WorkSpotPage extends Component {
       if (!isIntervalWorking) {
         datas = setInterval(() => {
           this.props.requestGetNeighborhood();
+          this.getWorkSpots(
+            selectedDateRange && selectedDateRange.startDate,
+            selectedDateRange && selectedDateRange.endDate,
+          );
         }, 60000);
         this.changeInterval(true);
       }
