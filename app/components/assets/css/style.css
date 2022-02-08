@@ -362,9 +362,7 @@
   .site-header .header_wrapper .right-menus .username span {
     display: none;
   }
-  .main_card_adjust {
-    margin-top: 25px;
-  }
+
   .adjust_date {
     order: -1;
   }
@@ -569,6 +567,7 @@
   }
   .input-button-strip {
     flex-wrap: wrap;
+    margin-top: 0px !important;
   }
   .input-button-strip .updatespot {
     margin-left: 0;

@@ -590,7 +590,13 @@ const Calender = ({
                                                     'PTO') &&
                                                 (data &&
                                                   data.locationCode !==
-                                                    'EAB') && (
+                                                    'EAB') &&
+                                                (data &&
+                                                  data.locationCode !==
+                                                    'BLM') &&
+                                                (data &&
+                                                  data.locationCode !==
+                                                    'BHM') && (
                                                   <span className="floor-location">
                                                     {((data &&
                                                       data.floor !== null) ||
@@ -878,8 +884,10 @@ const Calender = ({
                                       {data &&
                                         data.locationCode !== 'RW' &&
                                         (data && data.locationCode !== 'PTO') &&
+                                        (data && data.locationCode !== 'EAB') &&
+                                        (data && data.locationCode !== 'BLM') &&
                                         (data &&
-                                          data.locationCode !== 'EAB') && (
+                                          data.locationCode !== 'BHM') && (
                                           <>
                                             <span className="floor-location">
                                               {((data && data.floor !== null) ||
@@ -1436,11 +1444,12 @@ const Calender = ({
                                       ? data.eabHolidayType
                                       : data && data.locationName}
                                   </p>
-
                                   {data &&
                                     data.locationCode !== 'RW' &&
                                     (data && data.locationCode !== 'PTO') &&
-                                    (data && data.locationCode !== 'EAB') && (
+                                    (data && data.locationCode !== 'EAB') &&
+                                    (data && data.locationCode !== 'BLM') &&
+                                    (data && data.locationCode !== 'BHM') && (
                                       <>
                                         <span className="floor-location">
                                           {((data && data.floor !== null) ||
@@ -1472,16 +1481,15 @@ const Calender = ({
                                             </>
                                           )}
                                         </span>{' '}
-                                        {item.day !== 'Saturday' ||
-                                          item.day !== 'Sunday' ||
-                                          !item.weekend ||
-                                          (data &&
-                                            data.workspacenumber !== '' && (
-                                              <span>
-                                                {`- ${data &&
-                                                  data.workspacenumber}`}
-                                              </span>
-                                            ))}
+                                        {item.day !== 'Saturday' &&
+                                          item.day !== 'Sunday' &&
+                                          data &&
+                                          data.workspacenumber !== '' && (
+                                            <span>
+                                              {`- ${data &&
+                                                data.workspacenumber}`}
+                                            </span>
+                                          )}
                                         <span>
                                           {data && data.isPrivateSpace && (
                                             <img
