@@ -135,7 +135,7 @@ class ProfilePage extends Component {
 
   handleCloseBadge = () => {
     this.setState({ badgedata: '', badge: '' });
-    document.getElementById('badgeNumber').focus();
+    document.getElementById('badgeNumVal1').focus();
   };
 
   handlecloseDataIcon = () => {
@@ -161,6 +161,9 @@ class ProfilePage extends Component {
     this.setState({ [name]: value }, () => {
       const finalValue1 = document.getElementById('badgeNumber');
       const finalValue2 = document.getElementById('badgeValue');
+      const firstInput1 = document.getElementById('badgeNumVal1');
+      const firstInput2 = document.getElementById('badgeNumVal2');
+      console.log('firstInput1.value', firstInput1.value);
       // eslint-disable-next-line func-names
       finalValue1.onkeyup = function() {
         // eslint-disable-next-line radix
@@ -175,7 +178,7 @@ class ProfilePage extends Component {
       const data = {
         badgeid: badge ? `BB${badgeLan1 + badgeLan2}` : '',
       };
-      if (data.badgeid.length >= 8) {
+      if (firstInput2.value === finalValue2.value) {
         this.props.requestVerifyBadge(data);
       }
     });
@@ -332,6 +335,7 @@ class ProfilePage extends Component {
       badgeUpdateSuccess,
       verifyBadgeLoading,
       badgeUpdateLoading,
+      verifyBadgeChk,
     } = this.props;
     const validateBadge =
       history &&
@@ -378,6 +382,7 @@ class ProfilePage extends Component {
             verifyBadgeLoading={verifyBadgeLoading}
             badgeUpdateSuccess={badgeUpdateSuccess}
             badgeUpdateLoading={badgeUpdateLoading}
+            verifyBadgeChk={verifyBadgeChk}
           />
         </div>
       </>

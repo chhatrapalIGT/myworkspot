@@ -55,6 +55,7 @@ const Profile = ({
   verifyBadgeLoading,
   validateBadge,
   badgeUpdateLoading,
+  verifyBadgeChk,
 }) => {
   const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
@@ -66,6 +67,9 @@ const Profile = ({
   const [selectData, setselectData] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
   const [search, setSearch] = useState(false);
+  const [inputSet, setInputSet] = useState('');
+  const [inputSet2, setInputSet2] = useState('');
+
   const history = useHistory();
 
   const badgeValues = userData && userData.badgeNumber;
@@ -87,6 +91,10 @@ const Profile = ({
     if (show && searchName.length) {
       setSearchName([]);
     }
+
+    if (badgeVerify === badgeConfirmVerify) {
+      handleBadgeData();
+    }
   }, [show]);
   useEffect(() => {
     if (validateBadge) {
@@ -107,7 +115,12 @@ const Profile = ({
       setUserListData(delegrateUsersList);
       setselectData(delegrateUsersList);
     }
-  }, [badgeUpdateData, delegrateUsersList]);
+
+    if (verifyBadgeChk && verifyBadgeChk.update) {
+      setInputSet2('');
+      setInputSet('');
+    }
+  }, [badgeUpdateData, delegrateUsersList, verifyBadgeChk]);
 
   let dataName = [];
   const handleUserSelect = firstname => {
@@ -183,6 +196,14 @@ const Profile = ({
     setselectData(newArr);
     requestRemoveDelegateList({ id: dataVal[0].employeeid });
   };
+
+  const badgeVerify = inputSet.concat(inputSet2);
+  console.log('badgeVerify', badgeVerify);
+  const badgeConfirmVerify =
+    state.badgedata !== undefined &&
+    state.badge &&
+    state.badge.concat(state.badgedata && state.badgedata);
+  console.log('badgeConfirmVerify', badgeConfirmVerify);
 
   return (
     <Fragment>
@@ -355,60 +376,134 @@ const Profile = ({
                                 />
                                 <div className="d-flex">
                                   <input
-                                    id="badgeNumber"
-                                    name="badge"
-                                    value={state.badge}
+                                    id="badgeNumVal1"
+                                    name="badge1"
+                                    value={inputSet}
                                     type="text"
                                     className="put-value badge_val"
                                     placeholder={inputval || 'XXX'}
                                     maxLength="3"
-                                    onChange={handleBadgeData}
+                                    onChange={e => setInputSet(e.target.value)}
                                   />
                                   <span>−</span>
                                   <input
-                                    id="badgeValue"
+                                    id="badgeNumVal2"
                                     className="put-value badge_val"
-                                    name="badgedata"
-                                    value={state.badgedata}
+                                    name="badgedata1"
+                                    value={inputSet2}
                                     type="text"
                                     placeholder={inputval2 || 'XXX'}
                                     maxLength="3"
-                                    onChange={handleBadgeData}
+                                    onChange={e => setInputSet2(e.target.value)}
                                   />
                                 </div>
                               </div>
-
-                              <div className="action-buttons">
-                                <button
-                                  type="button"
-                                  href
-                                  className={
-                                    verifyBadgeSuccess ? 'save' : 'save_btn'
-                                  }
-                                  onClick={() => {
-                                    setReplace(false);
-                                    handleBadgeSubmit();
-                                  }}
-                                >
-                                  Save
-                                  {(verifyBadgeLoading ||
-                                    badgeUpdateLoading) && (
-                                    <div className="spinner-border" />
-                                  )}
-                                </button>
-                                <button
-                                  type="button"
-                                  href
-                                  onClick={() => {
-                                    setOpenBadge(false);
-                                    handleCloseBtn();
-                                  }}
-                                  className="cancel"
-                                >
-                                  Cancel
-                                </button>
-                              </div>
                             </div>
+                          )}
+                        </div>
+                        <div className="attr_one">
+                          {openBadge && (
+                            <>
+                              <span>Confirm Badge Number</span>
+                              <div className="edit-badge-number opened">
+                                <div
+                                  className={`input-taker
+                            ${!verifyBadgeSuccess &&
+                              verifyBadgeSuccess !== '' &&
+                              'badge_err_profile'}
+                          `}
+                                >
+                                  <input
+                                    type="text"
+                                    disabled
+                                    value="BB"
+                                    style={{ height: '42px' }}
+                                  />
+                                  <div className="d-flex">
+                                    <input
+                                      id="badgeNumber"
+                                      name="badge"
+                                      value={state.badge}
+                                      type="text"
+                                      className="put-value badge_val"
+                                      placeholder={inputval || 'XXX'}
+                                      maxLength="3"
+                                      onChange={handleBadgeData}
+                                    />
+                                    <span>−</span>
+                                    <input
+                                      id="badgeValue"
+                                      className="put-value badge_val"
+                                      name="badgedata"
+                                      value={state.badgedata}
+                                      type="text"
+                                      placeholder={inputval2 || 'XXX'}
+                                      maxLength="3"
+                                      onChange={handleBadgeData}
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="action-buttons">
+                                  <button
+                                    type="button"
+                                    href
+                                    className={
+                                      verifyBadgeSuccess ? 'save' : 'save_btn'
+                                    }
+                                    onClick={() => {
+                                      setReplace(false);
+                                      handleBadgeSubmit();
+                                    }}
+                                  >
+                                    Save
+                                    {(verifyBadgeLoading ||
+                                      badgeUpdateLoading) && (
+                                      <div className="spinner-border" />
+                                    )}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    href
+                                    onClick={() => {
+                                      setOpenBadge(false);
+                                      handleCloseBtn();
+                                      setInputSet('');
+                                      setInputSet2('');
+                                    }}
+                                    className="cancel"
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </div>
+
+                              {badgeConfirmVerify !== '' &&
+                                badgeConfirmVerify &&
+                                badgeConfirmVerify.length >= 6 &&
+                                badgeConfirmVerify !== undefined &&
+                                badgeVerify !== badgeConfirmVerify && (
+                                  <span>
+                                    <div
+                                      className="d-flex"
+                                      style={{ marginTop: '10px' }}
+                                    >
+                                      <img
+                                        src={Warnning}
+                                        alt="warn"
+                                        style={{
+                                          margin: '4px 5px 0px 0px',
+                                          height: '14px',
+                                        }}
+                                      />
+                                      <div style={{ color: 'red' }}>
+                                        The Badge numbers you entered did not
+                                        match
+                                      </div>
+                                    </div>
+                                  </span>
+                                )}
+                            </>
                           )}
 
                           {verifyBadgeMsg && !verifyBadgeSuccess && (
@@ -819,5 +914,6 @@ Profile.propTypes = {
   validateBadge: PropTypes.bool,
   verifyBadgeLoading: PropTypes.bool,
   badgeUpdateLoading: PropTypes.bool,
+  verifyBadgeChk: PropTypes.object,
 };
 export default Profile;

@@ -169,6 +169,9 @@ class BorardingPage extends Component {
   handleBadgeData = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value }, () => {
+      const finalValue2 = document.getElementById('badgeValue');
+      const firstInput2 = document.getElementById('badgeNumVal2');
+
       const { badge, badgedata } = this.state;
       const badgeLan1 = badge !== undefined ? badge : '';
       const badgeLan2 = badgedata !== undefined ? badgedata : '';
@@ -176,7 +179,7 @@ class BorardingPage extends Component {
       const data = {
         badgeid: badge ? `BB${badgeLan1 + badgeLan2}` : '',
       };
-      if (data.badgeid.length >= 8) {
+      if (firstInput2.value === finalValue2.value) {
         this.props.requestVerifyBadge(data);
       }
     });
