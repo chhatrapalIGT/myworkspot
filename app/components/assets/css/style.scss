@@ -654,6 +654,7 @@ input[type='text'] {
         padding: 5px 25px;
         min-height: 88px;
         text-align: center;
+        position: relative;
         .work-station {
           font-weight: 600;
           color: #002d50;
@@ -3353,15 +3354,13 @@ div[class*='qy-menu'] * {
   height: 30vh !important;
 }
 
-.private_data {
-  max-height: 30px;
-  float: right;
-  padding-bottom: 7px;
-}
+
 .month_view_private {
   height: 25px;
   float: right;
-  margin-top: 15px;
+  right: 7px;
+  bottom: 0px;
+  position: absolute;
 }
 .set_icon {
   padding: 10px 12px;
