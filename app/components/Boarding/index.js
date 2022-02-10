@@ -40,6 +40,7 @@ const Boarding = ({
   profileUserLoading,
   handleData,
   badgeData,
+  handleManageFirstBox,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
@@ -191,7 +192,10 @@ const Boarding = ({
                           id="badgeNumVal1"
                           placeholder="XXX"
                           value={inputSet}
-                          onChange={e => setInputSet(e.target.value)}
+                          onChange={e => {
+                            setInputSet(e.target.value);
+                            handleManageFirstBox();
+                          }}
                           maxLength="3"
                           className={
                             !verifyBadgeSuccess &&
@@ -212,7 +216,10 @@ const Boarding = ({
                             verifyBadgeSuccess !== '' &&
                             'badge_err'
                           }
-                          onChange={e => setInputSet2(e.target.value)}
+                          onChange={e => {
+                            setInputSet2(e.target.value);
+                            handleManageFirstBox();
+                          }}
                         />
                       </div>
                     </div>
@@ -417,6 +424,7 @@ Boarding.propTypes = {
   profileUserLoading: PropTypes.bool,
   handleData: PropTypes.func,
   badgeData: PropTypes.object,
+  handleManageFirstBox: PropTypes.func,
 };
 
 export default Boarding;

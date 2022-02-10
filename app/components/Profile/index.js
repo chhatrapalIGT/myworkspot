@@ -56,6 +56,7 @@ const Profile = ({
   validateBadge,
   badgeUpdateLoading,
   verifyBadgeChk,
+  handleManageFirstBox,
 }) => {
   const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
@@ -383,7 +384,10 @@ const Profile = ({
                                     className="put-value badge_val"
                                     placeholder={inputval || 'XXX'}
                                     maxLength="3"
-                                    onChange={e => setInputSet(e.target.value)}
+                                    onChange={e => {
+                                      setInputSet(e.target.value);
+                                      handleManageFirstBox();
+                                    }}
                                   />
                                   <span>−</span>
                                   <input
@@ -394,7 +398,10 @@ const Profile = ({
                                     type="text"
                                     placeholder={inputval2 || 'XXX'}
                                     maxLength="3"
-                                    onChange={e => setInputSet2(e.target.value)}
+                                    onChange={e => {
+                                      setInputSet2(e.target.value);
+                                      handleManageFirstBox();
+                                    }}
                                   />
                                 </div>
                               </div>
@@ -497,7 +504,7 @@ const Profile = ({
                                         }}
                                       />
                                       <div style={{ color: 'red' }}>
-                                        The Badge numbers you entered did not
+                                        The badge numbers you entered did not
                                         match
                                       </div>
                                     </div>
@@ -915,5 +922,6 @@ Profile.propTypes = {
   verifyBadgeLoading: PropTypes.bool,
   badgeUpdateLoading: PropTypes.bool,
   verifyBadgeChk: PropTypes.object,
+  handleManageFirstBox: PropTypes.func,
 };
 export default Profile;

@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -161,9 +162,7 @@ class ProfilePage extends Component {
     this.setState({ [name]: value }, () => {
       const finalValue1 = document.getElementById('badgeNumber');
       const finalValue2 = document.getElementById('badgeValue');
-      const firstInput1 = document.getElementById('badgeNumVal1');
       const firstInput2 = document.getElementById('badgeNumVal2');
-      console.log('firstInput1.value', firstInput1.value);
       // eslint-disable-next-line func-names
       finalValue1.onkeyup = function() {
         // eslint-disable-next-line radix
@@ -171,6 +170,14 @@ class ProfilePage extends Component {
           finalValue2.focus();
         }
       };
+
+      finalValue2.onkeyup = function() {
+        // eslint-disable-next-line radix
+        if (this.value.length === 0) {
+          finalValue1.focus();
+        }
+      };
+
       const { badge, badgedata } = this.state;
       const badgeLan1 = badge !== undefined ? badge : '';
       const badgeLan2 = badgedata !== undefined ? badgedata : '';
@@ -182,6 +189,24 @@ class ProfilePage extends Component {
         this.props.requestVerifyBadge(data);
       }
     });
+  };
+
+  handleManageFirstBox = () => {
+    const firstInput1 = document.getElementById('badgeNumVal1');
+    const firstInput2 = document.getElementById('badgeNumVal2');
+    firstInput1.onkeyup = function() {
+      // eslint-disable-next-line radix
+      if (this.value.length === parseInt(this.attributes.maxlength.value)) {
+        firstInput2.focus();
+      }
+    };
+
+    firstInput2.onkeyup = function() {
+      // eslint-disable-next-line radix
+      if (this.value.length === 0) {
+        firstInput1.focus();
+      }
+    };
   };
 
   handleCloseBtn = () => {
@@ -362,6 +387,7 @@ class ProfilePage extends Component {
             location={location}
             apiMessage={apiMessage}
             handleBadgeData={this.handleBadgeData}
+            handleManageFirstBox={this.handleManageFirstBox}
             handleBadgeSubmit={this.handleBadgeSubmit}
             handleSelectedNamesChange={this.handleSelectedNamesChange}
             apiSuccess={apiSuccess}

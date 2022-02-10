@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
@@ -169,8 +170,23 @@ class BorardingPage extends Component {
   handleBadgeData = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value }, () => {
+      const finalValue1 = document.getElementById('badgeNumber');
       const finalValue2 = document.getElementById('badgeValue');
       const firstInput2 = document.getElementById('badgeNumVal2');
+      // eslint-disable-next-line func-names
+      finalValue1.onkeyup = function() {
+        // eslint-disable-next-line radix
+        if (this.value.length === parseInt(this.attributes.maxlength.value)) {
+          finalValue2.focus();
+        }
+      };
+
+      finalValue2.onkeyup = function() {
+        // eslint-disable-next-line radix
+        if (this.value.length === 0) {
+          finalValue1.focus();
+        }
+      };
 
       const { badge, badgedata } = this.state;
       const badgeLan1 = badge !== undefined ? badge : '';
@@ -183,6 +199,23 @@ class BorardingPage extends Component {
         this.props.requestVerifyBadge(data);
       }
     });
+  };
+
+  handleManageFirstBox = () => {
+    const firstInput1 = document.getElementById('badgeNumVal1');
+    const firstInput2 = document.getElementById('badgeNumVal2');
+    firstInput1.onkeyup = function() {
+      // eslint-disable-next-line radix
+      if (this.value.length === parseInt(this.attributes.maxlength.value)) {
+        firstInput2.focus();
+      }
+    };
+    firstInput2.onkeyup = function() {
+      // eslint-disable-next-line radix
+      if (this.value.length === 0) {
+        firstInput1.focus();
+      }
+    };
   };
 
   componentDidMount() {
@@ -218,6 +251,7 @@ class BorardingPage extends Component {
             handleSubmitData={this.handleSubmitData}
             handleBadgeData={this.handleBadgeData}
             handleData={this.handleData}
+            handleManageFirstBox={this.handleManageFirstBox}
             state={this.state}
             location={location}
             addErrorLocation={addErrorLocation}
