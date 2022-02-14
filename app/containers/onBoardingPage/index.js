@@ -100,8 +100,7 @@ class BorardingPage extends Component {
   // eslint-disable-next-line consistent-return
   handleSubmitData = () => {
     const { timings, badge, badgedata, privateSpace } = this.state;
-    console.log('badge,badgedata', badge, badgedata);
-    const { location } = this.props;
+    const { location, verifyBadgeSuccess } = this.props;
     const final = timings.filter(data => data.name !== '');
 
     const finalLocationDay = [];
@@ -127,7 +126,8 @@ class BorardingPage extends Component {
       firstInput1 &&
       firstInput1.value.length &&
       badgedata &&
-      final.length >= 5
+      final.length >= 5 &&
+      verifyBadgeSuccess
     ) {
       this.props.requestAddOfficeLocation(data);
     } else if (final.length >= 5 && !firstInput1.value.length && !badgedata) {
