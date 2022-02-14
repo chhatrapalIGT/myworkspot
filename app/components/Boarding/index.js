@@ -45,6 +45,7 @@ const Boarding = ({
   // eslint-disable-next-line no-unused-vars
 
   const [modal, setModal] = useState(false);
+  const [btn, setBtn] = useState(false);
   const history = useHistory();
 
   const handleChange = name => {
@@ -69,6 +70,9 @@ const Boarding = ({
     state.badgedata !== undefined &&
     state.badge &&
     state.badge.concat(state.badgedata && state.badgedata);
+
+  const firstInput1 = document.getElementById('badgeNumVal2');
+  const secondValue2 = document.getElementById('badgeNumber');
 
   return (
     <>
@@ -224,9 +228,7 @@ const Boarding = ({
                       </div>
                     </div>
                     <div className="badge-number col-md-6">
-                      <p className="title">
-                        Confirm Badge Number <span>(Optional)</span>
-                      </p>
+                      <p className="title">Confirm Badge Number</p>
                       <div className="badge-number-inner">
                         <input type="text" disabled value="BB" />
                         <input
@@ -273,6 +275,19 @@ const Boarding = ({
                           </div>
                         </span>
                       )}
+                    {firstInput1 &&
+                      firstInput1.value &&
+                      secondValue2 &&
+                      secondValue2.value === '' &&
+                      btn && (
+                        <span>
+                          <div className="d-flex" style={{ marginTop: '10px' }}>
+                            <div style={{ color: 'red' }}>
+                              Please enter the badge number again.
+                            </div>
+                          </div>
+                        </span>
+                      )}
                     {verifyBadgeMsg && !verifyBadgeSuccess && (
                       <div className="d-flex" style={{ marginTop: '10px' }}>
                         <img
@@ -294,6 +309,7 @@ const Boarding = ({
                     className={final.length >= 5 ? 'change_btn' : 'action-btn'}
                     onClick={() => {
                       handleSubmitData();
+                      setBtn(true);
                     }}
                   >
                     Confirm
