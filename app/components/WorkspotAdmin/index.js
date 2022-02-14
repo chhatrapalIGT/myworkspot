@@ -290,40 +290,46 @@ const WorkspotAdmin = ({
                     {uniqueLocation.length > 0 &&
                       uniqueLocation.map(obj => (
                         <tr>
-                          <td className="admin-loc-name">{obj.locationname}</td>
-                          {days.dateToDisplay.map(item => {
-                            const data = spaces(item, obj);
-                            return (
-                              <>
-                                <td
-                                  className={
-                                    data && data.id !== 'RW'
-                                      ? 'data-63 day-pointer'
-                                      : 'data-64'
-                                  }
-                                  style={
-                                    data && data.LocationPercentage >= '80%'
-                                      ? { color: 'red' }
-                                      : { color: '' }
-                                  }
-                                >
-                                  {`${parseFloat(
-                                    data && data.LocationPercentage,
-                                  ).toFixed(2)}%`}
-                                  {data && data.id !== 'RW' && (
-                                    <span className="hover-data">
-                                      Spaces Available{' '}
-                                      <sapn className="digit">
-                                        {`${data &&
-                                          data.LocationFillCapacity}/${data &&
-                                          data.LocationCapacity}`}
-                                      </sapn>
-                                    </span>
-                                  )}
-                                </td>
-                              </>
-                            );
-                          })}
+                          {(obj.id === 'DC' || obj.id === 'RIC') && (
+                            <>
+                              <td className="admin-loc-name">
+                                {obj.locationname}
+                              </td>
+                              {days.dateToDisplay.map(item => {
+                                const data = spaces(item, obj);
+                                return (
+                                  <>
+                                    <td
+                                      className={
+                                        data && data.id !== 'RW'
+                                          ? 'data-63 day-pointer'
+                                          : 'data-64'
+                                      }
+                                      style={
+                                        data && data.LocationPercentage >= '80%'
+                                          ? { color: 'red' }
+                                          : { color: '' }
+                                      }
+                                    >
+                                      {`${parseFloat(
+                                        data && data.LocationPercentage,
+                                      ).toFixed(2)}%`}
+                                      {data && data.id !== 'RW' && (
+                                        <span className="hover-data">
+                                          Spaces Occupied{' '}
+                                          <sapn className="digit">
+                                            {`${data &&
+                                              data.LocationFillCapacity}/${data &&
+                                              data.LocationCapacity}`}
+                                          </sapn>
+                                        </span>
+                                      )}
+                                    </td>
+                                  </>
+                                );
+                              })}
+                            </>
+                          )}
                         </tr>
                       ))}
                   </table>

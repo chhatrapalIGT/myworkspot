@@ -100,6 +100,7 @@ class BorardingPage extends Component {
   // eslint-disable-next-line consistent-return
   handleSubmitData = () => {
     const { timings, badge, badgedata, privateSpace } = this.state;
+    console.log('badge,badgedata', badge, badgedata);
     const { location } = this.props;
     const final = timings.filter(data => data.name !== '');
 
@@ -121,9 +122,17 @@ class BorardingPage extends Component {
       badgenumber: badge && badgedata ? `BB${badge.concat(badgedata)}` : '',
       privateSpace,
     };
-    // if (this.props.verifyBadgeSuccess) {
-    this.props.requestAddOfficeLocation(data);
-    // }
+    const firstInput1 = document.getElementById('badgeNumVal2');
+    if (
+      firstInput1 &&
+      firstInput1.value.length &&
+      badgedata &&
+      final.length >= 5
+    ) {
+      this.props.requestAddOfficeLocation(data);
+    } else if (final.length >= 5 && !firstInput1.value.length && !badgedata) {
+      this.props.requestAddOfficeLocation(data);
+    }
   };
 
   componentDidUpdate() {
@@ -140,7 +149,7 @@ class BorardingPage extends Component {
     }
     const final = timings.filter(data => data.name !== '');
 
-    if (addErrorLocation) {
+    if (addErrorLocation && addErrorLocationMsg) {
       // eslint-disable-next-line no-unused-vars
       const value = final.length >= 5 ? history.push('/workspot') : '';
     }
