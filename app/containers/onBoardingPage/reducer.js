@@ -83,8 +83,8 @@ const onBoardingReducer = (state = initialState, action) =>
         draft.addOfficeLocation.success = false;
         draft.getOfficeLocation.success = false;
         draft.getOfficeLocation.message = '';
-        draft.verifyBadge.message = '';
-        draft.verifyBadge.success = '';
+        // draft.verifyBadge.message = '';
+        // draft.verifyBadge.success = '';
         draft.apiMessage = '';
         draft.apiSuccess = false;
         break;
