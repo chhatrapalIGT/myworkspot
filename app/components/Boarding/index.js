@@ -270,7 +270,7 @@ const Boarding = ({
                         <span>
                           <div className="d-flex" style={{ marginTop: '10px' }}>
                             <div style={{ color: 'red' }}>
-                              The Badge numbers you entered did not match
+                              The badge numbers you entered did not match.
                             </div>
                           </div>
                         </span>
