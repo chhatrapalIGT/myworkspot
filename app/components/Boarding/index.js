@@ -263,40 +263,53 @@ const Boarding = ({
                       </div>
                     </div>
                     {badgeConfirmVerify !== '' &&
-                      badgeConfirmVerify &&
-                      badgeConfirmVerify.length >= 6 &&
-                      badgeConfirmVerify !== undefined &&
-                      badgeVerify !== badgeConfirmVerify && (
-                        <span>
-                          <div className="d-flex" style={{ marginTop: '10px' }}>
-                            <div style={{ color: 'red' }}>
-                              The badge numbers you entered did not match.
-                            </div>
+                    badgeConfirmVerify &&
+                    badgeConfirmVerify.length >= 6 &&
+                    badgeConfirmVerify !== undefined &&
+                    badgeVerify !== badgeConfirmVerify ? (
+                      <span>
+                        <div className="d-flex" style={{ marginTop: '10px' }}>
+                          <img
+                            src={Warnning}
+                            alt="warn"
+                            style={{
+                              margin: '4px 5px 0px 0px',
+                              height: '14px',
+                            }}
+                          />
+                          <div style={{ color: 'red' }}>
+                            The badge numbers you entered did not match.
                           </div>
-                        </span>
-                      )}
+                        </div>
+                      </span>
+                    ) : (
+                      verifyBadgeMsg &&
+                      !verifyBadgeSuccess && (
+                        <div className="d-flex" style={{ marginTop: '10px' }}>
+                          <img
+                            src={Warnning}
+                            alt="warn"
+                            style={{ margin: 'auto 5px' }}
+                          />
+                          <div style={{ color: 'red' }}>{verifyBadgeMsg}</div>
+                        </div>
+                      )
+                    )}
+
                     {firstInput1 &&
-                      firstInput1.value &&
-                      secondValue2 &&
-                      secondValue2.value === '' &&
-                      btn && (
-                        <span>
-                          <div className="d-flex" style={{ marginTop: '10px' }}>
-                            <div style={{ color: 'red' }}>
-                              Please enter the badge number again.
-                            </div>
+                    firstInput1.value &&
+                    secondValue2 &&
+                    secondValue2.value === '' &&
+                    btn ? (
+                      <span>
+                        <div className="d-flex" style={{ marginTop: '10px' }}>
+                          <div style={{ color: 'red' }}>
+                            Please enter the badge number again.
                           </div>
-                        </span>
-                      )}
-                    {verifyBadgeMsg && !verifyBadgeSuccess && (
-                      <div className="d-flex" style={{ marginTop: '10px' }}>
-                        <img
-                          src={Warnning}
-                          alt="warn"
-                          style={{ margin: 'auto 5px' }}
-                        />
-                        <div style={{ color: 'red' }}>{verifyBadgeMsg}</div>
-                      </div>
+                        </div>
+                      </span>
+                    ) : (
+                      ''
                     )}
                   </div>
                 </div>

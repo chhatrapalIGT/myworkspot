@@ -90,6 +90,7 @@ const onBoardingReducer = (state = initialState, action) =>
         break;
 
       case CLEAR_BADGE_SUCCESS:
+        draft.verifyBadge.message = '';
         draft.verifyBadge.update = '';
         break;
       case REQUEST_VERIFY_BADGE:
