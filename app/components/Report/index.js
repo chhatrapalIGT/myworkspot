@@ -227,7 +227,12 @@ const Report = ({
             date: ele && ele.date,
             markCssClass: 'mbsc-calendar-marks1',
           };
-        } else if (ele && ele.locationCode === 'RW') {
+        } else if (
+          (ele && ele.locationCode === 'RW') ||
+          (datas &&
+            datas.locationCode === 'RW' &&
+            (ele && ele.locationCode !== 'RW'))
+        ) {
           obj = {
             date: ele && ele.date,
             markCssClass: 'mbsc-calendar-marks2',
