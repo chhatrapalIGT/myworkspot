@@ -204,7 +204,6 @@ const Profile = ({
     state.badgedata !== undefined &&
     state.badge &&
     state.badge.concat(state.badgedata && state.badgedata);
-  console.log('badgeConfirmVerify', badgeConfirmVerify);
 
   return (
     <Fragment>
@@ -486,50 +485,51 @@ const Profile = ({
                               </div>
 
                               {badgeConfirmVerify !== '' &&
-                                badgeConfirmVerify &&
-                                badgeConfirmVerify.length >= 6 &&
-                                badgeConfirmVerify !== undefined &&
-                                badgeVerify !== badgeConfirmVerify && (
-                                  <span>
-                                    <div
-                                      className="d-flex"
-                                      style={{ marginTop: '10px' }}
-                                    >
-                                      <img
-                                        src={Warnning}
-                                        alt="warn"
-                                        style={{
-                                          margin: '4px 5px 0px 0px',
-                                          height: '14px',
-                                        }}
-                                      />
-                                      <div style={{ color: 'red' }}>
-                                        The badge numbers you entered did not
-                                        match.
-                                      </div>
+                              badgeConfirmVerify &&
+                              badgeConfirmVerify.length >= 6 &&
+                              badgeConfirmVerify !== undefined &&
+                              badgeVerify !== badgeConfirmVerify ? (
+                                <span>
+                                  <div
+                                    className="d-flex"
+                                    style={{ marginTop: '10px' }}
+                                  >
+                                    <img
+                                      src={Warnning}
+                                      alt="warn"
+                                      style={{
+                                        margin: '4px 5px 0px 0px',
+                                        height: '14px',
+                                      }}
+                                    />
+                                    <div style={{ color: 'red' }}>
+                                      The badge numbers you entered did not
+                                      match.
                                     </div>
-                                  </span>
-                                )}
+                                  </div>
+                                </span>
+                              ) : (
+                                verifyBadgeMsg &&
+                                !verifyBadgeSuccess && (
+                                  <div
+                                    className="d-flex"
+                                    style={{ marginTop: '10px' }}
+                                  >
+                                    <img
+                                      src={Warnning}
+                                      alt="warn"
+                                      style={{
+                                        margin: '4px 5px 0px 0px',
+                                        height: '14px',
+                                      }}
+                                    />
+                                    <div style={{ color: 'red' }}>
+                                      {verifyBadgeMsg}
+                                    </div>
+                                  </div>
+                                )
+                              )}
                             </>
-                          )}
-
-                          {verifyBadgeMsg && !verifyBadgeSuccess && (
-                            <div
-                              className="d-flex"
-                              style={{ marginTop: '10px' }}
-                            >
-                              <img
-                                src={Warnning}
-                                alt="warn"
-                                style={{
-                                  margin: '4px 5px 0px 0px',
-                                  height: '14px',
-                                }}
-                              />
-                              <div style={{ color: 'red' }}>
-                                {verifyBadgeMsg}
-                              </div>
-                            </div>
                           )}
                         </div>
                       </div>
