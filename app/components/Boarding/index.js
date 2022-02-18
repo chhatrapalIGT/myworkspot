@@ -278,7 +278,7 @@ const Boarding = ({
                             }}
                           />
                           <div style={{ color: 'red' }}>
-                            The badge numbers you entered did not match.
+                            The badge numbers you entered do not match.
                           </div>
                         </div>
                       </span>

@@ -503,7 +503,7 @@ const Profile = ({
                                       }}
                                     />
                                     <div style={{ color: 'red' }}>
-                                      The badge numbers you entered did not
+                                      The badge numbers you entered do not
                                       match.
                                     </div>
                                   </div>
