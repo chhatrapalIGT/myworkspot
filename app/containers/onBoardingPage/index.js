@@ -14,6 +14,7 @@ import {
   requestAddOfficeLocation,
   clearBoardData,
   requestVerifyBadge,
+  clearBadgeSuccess,
 } from './actions';
 import { requestUserlistData } from '../ProfilePage/actions';
 import Demo from '../../components/Header';
@@ -100,7 +101,7 @@ class BorardingPage extends Component {
   // eslint-disable-next-line consistent-return
   handleSubmitData = () => {
     const { timings, badge, badgedata, privateSpace } = this.state;
-    const { location, verifyBadgeSuccess } = this.props;
+    const { location, verifyBadgeSuccess, verifyBadgeMsg } = this.props;
     const final = timings.filter(data => data.name !== '');
 
     const finalLocationDay = [];
@@ -122,6 +123,17 @@ class BorardingPage extends Component {
       privateSpace,
     };
     const firstInput1 = document.getElementById('badgeNumVal2');
+    const firstInput2 = document.getElementById('badgeNumVal1');
+    const secondInput1 = document.getElementById('badgeValue');
+    const secondInput2 = document.getElementById('badgeNumber');
+    if (
+      firstInput1 !== secondInput1 &&
+      firstInput2 !== secondInput2 &&
+      verifyBadgeMsg.length
+    ) {
+      this.props.clearBadgeSuccess();
+    }
+
     if (
       firstInput1 &&
       firstInput1.value.length &&
@@ -208,6 +220,18 @@ class BorardingPage extends Component {
         this.props.requestVerifyBadge(data);
       }
     });
+
+    const firstInput1 = document.getElementById('badgeNumVal2');
+    const firstInput2 = document.getElementById('badgeNumVal1');
+    const secondInput1 = document.getElementById('badgeValue');
+    const secondInput2 = document.getElementById('badgeNumber');
+    if (
+      firstInput1 !== secondInput1 &&
+      firstInput2 !== secondInput2 &&
+      this.props.verifyBadgeMsg.length
+    ) {
+      this.props.clearBadgeSuccess();
+    }
   };
 
   handleManageFirstBox = () => {
@@ -337,6 +361,7 @@ export function mapDispatchToProps(dispatch) {
     requestAddOfficeLocation: payload =>
       dispatch(requestAddOfficeLocation(payload)),
     clearBoardData: () => dispatch(clearBoardData()),
+    clearBadgeSuccess: () => dispatch(clearBadgeSuccess()),
     // requestBadgeData: payload => dispatch(requestBadgeData(payload)),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
     requestUserlistData: payload => dispatch(requestUserlistData(payload)),
@@ -367,6 +392,7 @@ BorardingPage.propTypes = {
   profileUserLoading: PropTypes.bool,
   requestUserlistData: PropTypes.func,
   badgeData: PropTypes.object,
+  clearBadgeSuccess: PropTypes.object,
 };
 
 export default compose(

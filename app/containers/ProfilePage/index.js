@@ -14,6 +14,7 @@ import {
   requestVerifyBadge,
   clearBoardData,
   clearBadgeSuccess,
+  clearProfileBadgeSuccess,
 } from '../onBoardingPage/actions';
 
 import Profile from '../../components/Profile';
@@ -130,7 +131,7 @@ class ProfilePage extends Component {
 
     if (this.props.verifyBadgeChk && this.props.verifyBadgeChk.update) {
       this.handleCloseBadge();
-      this.props.clearBadgeSuccess();
+      this.props.clearProfileBadgeSuccess();
     }
   }
 
@@ -142,6 +143,7 @@ class ProfilePage extends Component {
   handlecloseDataIcon = () => {
     this.props.clearData();
     this.props.clearBoardData();
+    this.props.clearBadgeSuccess();
   };
 
   handleClearstate = () => {
@@ -163,6 +165,7 @@ class ProfilePage extends Component {
       const finalValue1 = document.getElementById('badgeNumber');
       const finalValue2 = document.getElementById('badgeValue');
       const firstInput2 = document.getElementById('badgeNumVal2');
+      const firstInput1 = document.getElementById('badgeNumVal1');
       // eslint-disable-next-line func-names
       finalValue1.onkeyup = function() {
         // eslint-disable-next-line radix
@@ -185,7 +188,10 @@ class ProfilePage extends Component {
       const data = {
         badgeid: badge ? `BB${badgeLan1 + badgeLan2}` : '',
       };
-      if (firstInput2.value === finalValue2.value) {
+      if (
+        firstInput2.value === finalValue2.value &&
+        firstInput1.value === finalValue1.value
+      ) {
         this.props.requestVerifyBadge(data);
       }
     });
@@ -212,6 +218,7 @@ class ProfilePage extends Component {
   handleCloseBtn = () => {
     this.props.clearBoardData();
     this.handleCloseBadge();
+    this.props.clearBadgeSuccess();
   };
 
   handleButtonData = (selectedDay, finalval) => {
@@ -478,6 +485,7 @@ export function mapDispatchToProps(dispatch) {
     clearData: () => dispatch(clearData()),
     clearBoardData: () => dispatch(clearBoardData()),
     clearBadgeSuccess: () => dispatch(clearBadgeSuccess()),
+    clearProfileBadgeSuccess: () => dispatch(clearProfileBadgeSuccess()),
     requestBadgeData: payload => dispatch(requestBadgeData(payload)),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
     requestAddDelegateList: payload =>
@@ -526,6 +534,7 @@ ProfilePage.propTypes = {
   verifyBadgeLoading: PropTypes.bool,
   badgeUpdateSuccess: PropTypes.bool,
   badgeUpdateLoading: PropTypes.bool,
+  clearProfileBadgeSuccess: PropTypes.object,
 };
 
 export default compose(
