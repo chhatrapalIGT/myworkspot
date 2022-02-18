@@ -201,11 +201,15 @@ const Boarding = ({
                             handleManageFirstBox();
                           }}
                           maxLength="3"
-                          className={
-                            !verifyBadgeSuccess &&
+                          className={`${!verifyBadgeSuccess &&
                             verifyBadgeSuccess !== '' &&
-                            'badge_err'
-                          }
+                            'badge_err'}
+                            ${badgeConfirmVerify !== '' &&
+                              badgeConfirmVerify &&
+                              badgeConfirmVerify.length >= 6 &&
+                              badgeConfirmVerify !== undefined &&
+                              badgeVerify !== badgeConfirmVerify &&
+                              'badge_err'}`}
                         />
                         <span>−</span>
                         <input
@@ -215,11 +219,15 @@ const Boarding = ({
                           value={inputSet2}
                           placeholder="XXX"
                           maxLength="3"
-                          className={
-                            !verifyBadgeSuccess &&
+                          className={`${!verifyBadgeSuccess &&
                             verifyBadgeSuccess !== '' &&
-                            'badge_err'
-                          }
+                            'badge_err'}
+                            ${badgeConfirmVerify !== '' &&
+                              badgeConfirmVerify &&
+                              badgeConfirmVerify.length >= 6 &&
+                              badgeConfirmVerify !== undefined &&
+                              badgeVerify !== badgeConfirmVerify &&
+                              'badge_err'}`}
                           onChange={e => {
                             setInputSet2(e.target.value);
                             handleManageFirstBox();
@@ -239,11 +247,15 @@ const Boarding = ({
                           onChange={handleBadgeData}
                           maxLength="3"
                           value={state.badge}
-                          className={
-                            !verifyBadgeSuccess &&
+                          className={`${!verifyBadgeSuccess &&
                             verifyBadgeSuccess !== '' &&
-                            'badge_err'
-                          }
+                            'badge_err'}
+                            ${badgeConfirmVerify !== '' &&
+                              badgeConfirmVerify &&
+                              badgeConfirmVerify.length >= 6 &&
+                              badgeConfirmVerify !== undefined &&
+                              badgeVerify !== badgeConfirmVerify &&
+                              'badge_err'}`}
                         />
                         <span>−</span>
                         <input
@@ -253,11 +265,15 @@ const Boarding = ({
                           placeholder="XXX"
                           maxLength="3"
                           value={state.badgedata}
-                          className={
-                            !verifyBadgeSuccess &&
+                          className={`${!verifyBadgeSuccess &&
                             verifyBadgeSuccess !== '' &&
-                            'badge_err'
-                          }
+                            'badge_err'}
+                            ${badgeConfirmVerify !== '' &&
+                              badgeConfirmVerify &&
+                              badgeConfirmVerify.length >= 6 &&
+                              badgeConfirmVerify !== undefined &&
+                              badgeVerify !== badgeConfirmVerify &&
+                              'badge_err'}`}
                           onChange={handleBadgeData}
                         />
                       </div>

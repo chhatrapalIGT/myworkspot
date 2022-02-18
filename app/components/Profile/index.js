@@ -363,9 +363,15 @@ const Profile = ({
                             <div className="edit-badge-number opened">
                               <div
                                 className={`input-taker
-                            ${!verifyBadgeSuccess &&
-                              verifyBadgeSuccess !== '' &&
-                              'badge_err_profile'}
+                                ${!verifyBadgeSuccess &&
+                                  verifyBadgeSuccess !== '' &&
+                                  'badge_err_profile'}
+                                  ${badgeConfirmVerify !== '' &&
+                                    badgeConfirmVerify &&
+                                    badgeConfirmVerify.length >= 6 &&
+                                    badgeConfirmVerify !== undefined &&
+                                    badgeVerify !== badgeConfirmVerify &&
+                                    'badge_err_profile'}
                           `}
                               >
                                 <input
@@ -414,9 +420,15 @@ const Profile = ({
                               <div className="edit-badge-number opened">
                                 <div
                                   className={`input-taker
-                            ${!verifyBadgeSuccess &&
-                              verifyBadgeSuccess !== '' &&
-                              'badge_err_profile'}
+                                  ${!verifyBadgeSuccess &&
+                                    verifyBadgeSuccess !== '' &&
+                                    'badge_err_profile'}
+                                    ${badgeConfirmVerify !== '' &&
+                                      badgeConfirmVerify &&
+                                      badgeConfirmVerify.length >= 6 &&
+                                      badgeConfirmVerify !== undefined &&
+                                      badgeVerify !== badgeConfirmVerify &&
+                                      'badge_err_profile'}
                           `}
                                 >
                                   <input
