@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -13,6 +14,7 @@ import {
   requestVerifyBadge,
   clearBoardData,
   clearBadgeSuccess,
+  clearProfileBadgeSuccess,
 } from '../onBoardingPage/actions';
 
 import Profile from '../../components/Profile';
@@ -129,7 +131,7 @@ class ProfilePage extends Component {
 
     if (this.props.verifyBadgeChk && this.props.verifyBadgeChk.update) {
       this.handleCloseBadge();
-      this.props.clearBadgeSuccess();
+      this.props.clearProfileBadgeSuccess();
     }
   }
 
@@ -141,6 +143,7 @@ class ProfilePage extends Component {
   handlecloseDataIcon = () => {
     this.props.clearData();
     this.props.clearBoardData();
+    this.props.clearBadgeSuccess();
   };
 
   handleClearstate = () => {
@@ -161,9 +164,8 @@ class ProfilePage extends Component {
     this.setState({ [name]: value }, () => {
       const finalValue1 = document.getElementById('badgeNumber');
       const finalValue2 = document.getElementById('badgeValue');
-      const firstInput1 = document.getElementById('badgeNumVal1');
       const firstInput2 = document.getElementById('badgeNumVal2');
-      console.log('firstInput1.value', firstInput1.value);
+      const firstInput1 = document.getElementById('badgeNumVal1');
       // eslint-disable-next-line func-names
       finalValue1.onkeyup = function() {
         // eslint-disable-next-line radix
@@ -171,6 +173,14 @@ class ProfilePage extends Component {
           finalValue2.focus();
         }
       };
+
+      finalValue2.onkeyup = function() {
+        // eslint-disable-next-line radix
+        if (this.value.length === 0) {
+          finalValue1.focus();
+        }
+      };
+
       const { badge, badgedata } = this.state;
       const badgeLan1 = badge !== undefined ? badge : '';
       const badgeLan2 = badgedata !== undefined ? badgedata : '';
@@ -178,15 +188,37 @@ class ProfilePage extends Component {
       const data = {
         badgeid: badge ? `BB${badgeLan1 + badgeLan2}` : '',
       };
-      if (firstInput2.value === finalValue2.value) {
+      if (
+        firstInput2.value === finalValue2.value &&
+        firstInput1.value === finalValue1.value
+      ) {
         this.props.requestVerifyBadge(data);
       }
     });
   };
 
+  handleManageFirstBox = () => {
+    const firstInput1 = document.getElementById('badgeNumVal1');
+    const firstInput2 = document.getElementById('badgeNumVal2');
+    firstInput1.onkeyup = function() {
+      // eslint-disable-next-line radix
+      if (this.value.length === parseInt(this.attributes.maxlength.value)) {
+        firstInput2.focus();
+      }
+    };
+
+    firstInput2.onkeyup = function() {
+      // eslint-disable-next-line radix
+      if (this.value.length === 0) {
+        firstInput1.focus();
+      }
+    };
+  };
+
   handleCloseBtn = () => {
     this.props.clearBoardData();
     this.handleCloseBadge();
+    this.props.clearBadgeSuccess();
   };
 
   handleButtonData = (selectedDay, finalval) => {
@@ -362,6 +394,7 @@ class ProfilePage extends Component {
             location={location}
             apiMessage={apiMessage}
             handleBadgeData={this.handleBadgeData}
+            handleManageFirstBox={this.handleManageFirstBox}
             handleBadgeSubmit={this.handleBadgeSubmit}
             handleSelectedNamesChange={this.handleSelectedNamesChange}
             apiSuccess={apiSuccess}
@@ -452,6 +485,7 @@ export function mapDispatchToProps(dispatch) {
     clearData: () => dispatch(clearData()),
     clearBoardData: () => dispatch(clearBoardData()),
     clearBadgeSuccess: () => dispatch(clearBadgeSuccess()),
+    clearProfileBadgeSuccess: () => dispatch(clearProfileBadgeSuccess()),
     requestBadgeData: payload => dispatch(requestBadgeData(payload)),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
     requestAddDelegateList: payload =>
@@ -500,6 +534,7 @@ ProfilePage.propTypes = {
   verifyBadgeLoading: PropTypes.bool,
   badgeUpdateSuccess: PropTypes.bool,
   badgeUpdateLoading: PropTypes.bool,
+  clearProfileBadgeSuccess: PropTypes.object,
 };
 
 export default compose(

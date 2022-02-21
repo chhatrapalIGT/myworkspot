@@ -11,6 +11,7 @@ import {
   SUCCESS_VERIFY_BADGE,
   FAILED_VERIFY_BADGE,
   CLEAR_BADGE_SUCCESS,
+  CLEAR_BADGE_PROFILE_SUCCESS,
 } from './constants';
 
 // The initial state of the App
@@ -83,13 +84,16 @@ const onBoardingReducer = (state = initialState, action) =>
         draft.addOfficeLocation.success = false;
         draft.getOfficeLocation.success = false;
         draft.getOfficeLocation.message = '';
-        draft.verifyBadge.message = '';
-        draft.verifyBadge.success = '';
+        // draft.verifyBadge.message = '';
+        // draft.verifyBadge.success = '';
         draft.apiMessage = '';
         draft.apiSuccess = false;
         break;
 
       case CLEAR_BADGE_SUCCESS:
+        draft.verifyBadge.message = '';
+        break;
+      case CLEAR_BADGE_PROFILE_SUCCESS:
         draft.verifyBadge.update = '';
         break;
       case REQUEST_VERIFY_BADGE:

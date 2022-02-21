@@ -40,10 +40,12 @@ const Boarding = ({
   profileUserLoading,
   handleData,
   badgeData,
+  handleManageFirstBox,
 }) => {
   // eslint-disable-next-line no-unused-vars
 
   const [modal, setModal] = useState(false);
+  const [btn, setBtn] = useState(false);
   const history = useHistory();
 
   const handleChange = name => {
@@ -68,6 +70,9 @@ const Boarding = ({
     state.badgedata !== undefined &&
     state.badge &&
     state.badge.concat(state.badgedata && state.badgedata);
+
+  const firstInput1 = document.getElementById('badgeNumVal2');
+  const secondValue2 = document.getElementById('badgeNumber');
 
   return (
     <>
@@ -191,13 +196,20 @@ const Boarding = ({
                           id="badgeNumVal1"
                           placeholder="XXX"
                           value={inputSet}
-                          onChange={e => setInputSet(e.target.value)}
+                          onChange={e => {
+                            setInputSet(e.target.value);
+                            handleManageFirstBox();
+                          }}
                           maxLength="3"
-                          className={
-                            !verifyBadgeSuccess &&
+                          className={`${!verifyBadgeSuccess &&
                             verifyBadgeSuccess !== '' &&
-                            'badge_err'
-                          }
+                            'badge_err'}
+                            ${badgeConfirmVerify !== '' &&
+                              badgeConfirmVerify &&
+                              badgeConfirmVerify.length >= 6 &&
+                              badgeConfirmVerify !== undefined &&
+                              badgeVerify !== badgeConfirmVerify &&
+                              'badge_err'}`}
                         />
                         <span>−</span>
                         <input
@@ -207,19 +219,24 @@ const Boarding = ({
                           value={inputSet2}
                           placeholder="XXX"
                           maxLength="3"
-                          className={
-                            !verifyBadgeSuccess &&
+                          className={`${!verifyBadgeSuccess &&
                             verifyBadgeSuccess !== '' &&
-                            'badge_err'
-                          }
-                          onChange={e => setInputSet2(e.target.value)}
+                            'badge_err'}
+                            ${badgeConfirmVerify !== '' &&
+                              badgeConfirmVerify &&
+                              badgeConfirmVerify.length >= 6 &&
+                              badgeConfirmVerify !== undefined &&
+                              badgeVerify !== badgeConfirmVerify &&
+                              'badge_err'}`}
+                          onChange={e => {
+                            setInputSet2(e.target.value);
+                            handleManageFirstBox();
+                          }}
                         />
                       </div>
                     </div>
                     <div className="badge-number col-md-6">
-                      <p className="title">
-                        Confirm Badge Number <span>(Optional)</span>
-                      </p>
+                      <p className="title">Confirm Badge Number</p>
                       <div className="badge-number-inner">
                         <input type="text" disabled value="BB" />
                         <input
@@ -230,11 +247,15 @@ const Boarding = ({
                           onChange={handleBadgeData}
                           maxLength="3"
                           value={state.badge}
-                          className={
-                            !verifyBadgeSuccess &&
+                          className={`${!verifyBadgeSuccess &&
                             verifyBadgeSuccess !== '' &&
-                            'badge_err'
-                          }
+                            'badge_err'}
+                            ${badgeConfirmVerify !== '' &&
+                              badgeConfirmVerify &&
+                              badgeConfirmVerify.length >= 6 &&
+                              badgeConfirmVerify !== undefined &&
+                              badgeVerify !== badgeConfirmVerify &&
+                              'badge_err'}`}
                         />
                         <span>−</span>
                         <input
@@ -244,37 +265,67 @@ const Boarding = ({
                           placeholder="XXX"
                           maxLength="3"
                           value={state.badgedata}
-                          className={
-                            !verifyBadgeSuccess &&
+                          className={`${!verifyBadgeSuccess &&
                             verifyBadgeSuccess !== '' &&
-                            'badge_err'
-                          }
+                            'badge_err'}
+                            ${badgeConfirmVerify !== '' &&
+                              badgeConfirmVerify &&
+                              badgeConfirmVerify.length >= 6 &&
+                              badgeConfirmVerify !== undefined &&
+                              badgeVerify !== badgeConfirmVerify &&
+                              'badge_err'}`}
                           onChange={handleBadgeData}
                         />
                       </div>
                     </div>
                     {badgeConfirmVerify !== '' &&
-                      badgeConfirmVerify &&
-                      badgeConfirmVerify.length >= 6 &&
-                      badgeConfirmVerify !== undefined &&
-                      badgeVerify !== badgeConfirmVerify && (
-                        <span>
-                          <div className="d-flex" style={{ marginTop: '10px' }}>
-                            <div style={{ color: 'red' }}>
-                              The Badge numbers you entered did not match
-                            </div>
+                    badgeConfirmVerify &&
+                    badgeConfirmVerify.length >= 6 &&
+                    badgeConfirmVerify !== undefined &&
+                    badgeVerify !== badgeConfirmVerify ? (
+                      <span>
+                        <div className="d-flex" style={{ marginTop: '10px' }}>
+                          <img
+                            src={Warnning}
+                            alt="warn"
+                            style={{
+                              margin: '4px 5px 0px 0px',
+                              height: '14px',
+                            }}
+                          />
+                          <div style={{ color: 'red' }}>
+                            The badge numbers you entered do not match.
                           </div>
-                        </span>
-                      )}
-                    {verifyBadgeMsg && !verifyBadgeSuccess && (
-                      <div className="d-flex" style={{ marginTop: '10px' }}>
-                        <img
-                          src={Warnning}
-                          alt="warn"
-                          style={{ margin: 'auto 5px' }}
-                        />
-                        <div style={{ color: 'red' }}>{verifyBadgeMsg}</div>
-                      </div>
+                        </div>
+                      </span>
+                    ) : (
+                      verifyBadgeMsg &&
+                      !verifyBadgeSuccess && (
+                        <div className="d-flex" style={{ marginTop: '10px' }}>
+                          <img
+                            src={Warnning}
+                            alt="warn"
+                            style={{ margin: 'auto 5px' }}
+                          />
+                          <div style={{ color: 'red' }}>{verifyBadgeMsg}</div>
+                        </div>
+                      )
+                    )}
+
+                    {firstInput1 &&
+                    firstInput1.value &&
+                    secondValue2 &&
+                    secondValue2.value === '' &&
+                    btn ? (
+                      <span>
+                        <div className="d-flex" style={{ marginTop: '10px' }}>
+                          <div style={{ color: 'red' }}>
+                            Please enter the badge number again.
+                          </div>
+                        </div>
+                      </span>
+                    ) : (
+                      ''
                     )}
                   </div>
                 </div>
@@ -287,6 +338,7 @@ const Boarding = ({
                     className={final.length >= 5 ? 'change_btn' : 'action-btn'}
                     onClick={() => {
                       handleSubmitData();
+                      setBtn(true);
                     }}
                   >
                     Confirm
@@ -417,6 +469,7 @@ Boarding.propTypes = {
   profileUserLoading: PropTypes.bool,
   handleData: PropTypes.func,
   badgeData: PropTypes.object,
+  handleManageFirstBox: PropTypes.func,
 };
 
 export default Boarding;

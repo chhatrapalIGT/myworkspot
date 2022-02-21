@@ -885,9 +885,9 @@ span.disabled {
 .data-63:hover > .hover-data {
   display: block;
   position: absolute;
-  top: -50px;
+  top: -54px;
   right: 10px;
-  width: 100px;
+  width: 120px;
   background-color: #526e88;
   border-radius: 8px;
   padding: 5px;

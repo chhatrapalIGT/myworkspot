@@ -207,18 +207,29 @@ const WorkSpot = ({
         //   .add(1, 'month')
         //   .format('MM');
         // const currentMonth = getMonth !== nextMonth;
+        const datas =
+          ele && ele.data
+            ? ele.data.find(obj => obj && obj.locationCode !== 'PTO')
+            : '';
+
         let obj = {};
         if (!prevDate) {
           if (
             ele.officetype === 'EAB Office' ||
-            (halfDayData.officetype === 'EAB Office' &&
+            (datas &&
+              datas.officetype === 'EAB Office' &&
               (ele && ele.locationCode !== 'EAB'))
           ) {
             obj = {
               date: ele.date,
               markCssClass: 'mbsc-calendar-marks1',
             };
-          } else if (ele.locationCode === 'RW') {
+          } else if (
+            ele.locationCode === 'RW' ||
+            (datas &&
+              datas.locationCode === 'RW' &&
+              (ele && ele.locationCode !== 'RW'))
+          ) {
             obj = {
               date: ele.date,
               markCssClass: 'mbsc-calendar-marks2',

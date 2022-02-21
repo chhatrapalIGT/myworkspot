@@ -56,6 +56,7 @@ const Profile = ({
   validateBadge,
   badgeUpdateLoading,
   verifyBadgeChk,
+  handleManageFirstBox,
 }) => {
   const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
@@ -203,7 +204,6 @@ const Profile = ({
     state.badgedata !== undefined &&
     state.badge &&
     state.badge.concat(state.badgedata && state.badgedata);
-  console.log('badgeConfirmVerify', badgeConfirmVerify);
 
   return (
     <Fragment>
@@ -363,9 +363,15 @@ const Profile = ({
                             <div className="edit-badge-number opened">
                               <div
                                 className={`input-taker
-                            ${!verifyBadgeSuccess &&
-                              verifyBadgeSuccess !== '' &&
-                              'badge_err_profile'}
+                                ${!verifyBadgeSuccess &&
+                                  verifyBadgeSuccess !== '' &&
+                                  'badge_err_profile'}
+                                  ${badgeConfirmVerify !== '' &&
+                                    badgeConfirmVerify &&
+                                    badgeConfirmVerify.length >= 6 &&
+                                    badgeConfirmVerify !== undefined &&
+                                    badgeVerify !== badgeConfirmVerify &&
+                                    'badge_err_profile'}
                           `}
                               >
                                 <input
@@ -383,7 +389,10 @@ const Profile = ({
                                     className="put-value badge_val"
                                     placeholder={inputval || 'XXX'}
                                     maxLength="3"
-                                    onChange={e => setInputSet(e.target.value)}
+                                    onChange={e => {
+                                      setInputSet(e.target.value);
+                                      handleManageFirstBox();
+                                    }}
                                   />
                                   <span>−</span>
                                   <input
@@ -394,7 +403,10 @@ const Profile = ({
                                     type="text"
                                     placeholder={inputval2 || 'XXX'}
                                     maxLength="3"
-                                    onChange={e => setInputSet2(e.target.value)}
+                                    onChange={e => {
+                                      setInputSet2(e.target.value);
+                                      handleManageFirstBox();
+                                    }}
                                   />
                                 </div>
                               </div>
@@ -408,9 +420,15 @@ const Profile = ({
                               <div className="edit-badge-number opened">
                                 <div
                                   className={`input-taker
-                            ${!verifyBadgeSuccess &&
-                              verifyBadgeSuccess !== '' &&
-                              'badge_err_profile'}
+                                  ${!verifyBadgeSuccess &&
+                                    verifyBadgeSuccess !== '' &&
+                                    'badge_err_profile'}
+                                    ${badgeConfirmVerify !== '' &&
+                                      badgeConfirmVerify &&
+                                      badgeConfirmVerify.length >= 6 &&
+                                      badgeConfirmVerify !== undefined &&
+                                      badgeVerify !== badgeConfirmVerify &&
+                                      'badge_err_profile'}
                           `}
                                 >
                                   <input
@@ -479,50 +497,51 @@ const Profile = ({
                               </div>
 
                               {badgeConfirmVerify !== '' &&
-                                badgeConfirmVerify &&
-                                badgeConfirmVerify.length >= 6 &&
-                                badgeConfirmVerify !== undefined &&
-                                badgeVerify !== badgeConfirmVerify && (
-                                  <span>
-                                    <div
-                                      className="d-flex"
-                                      style={{ marginTop: '10px' }}
-                                    >
-                                      <img
-                                        src={Warnning}
-                                        alt="warn"
-                                        style={{
-                                          margin: '4px 5px 0px 0px',
-                                          height: '14px',
-                                        }}
-                                      />
-                                      <div style={{ color: 'red' }}>
-                                        The Badge numbers you entered did not
-                                        match
-                                      </div>
+                              badgeConfirmVerify &&
+                              badgeConfirmVerify.length >= 6 &&
+                              badgeConfirmVerify !== undefined &&
+                              badgeVerify !== badgeConfirmVerify ? (
+                                <span>
+                                  <div
+                                    className="d-flex"
+                                    style={{ marginTop: '10px' }}
+                                  >
+                                    <img
+                                      src={Warnning}
+                                      alt="warn"
+                                      style={{
+                                        margin: '4px 5px 0px 0px',
+                                        height: '14px',
+                                      }}
+                                    />
+                                    <div style={{ color: 'red' }}>
+                                      The badge numbers you entered do not
+                                      match.
                                     </div>
-                                  </span>
-                                )}
+                                  </div>
+                                </span>
+                              ) : (
+                                verifyBadgeMsg &&
+                                !verifyBadgeSuccess && (
+                                  <div
+                                    className="d-flex"
+                                    style={{ marginTop: '10px' }}
+                                  >
+                                    <img
+                                      src={Warnning}
+                                      alt="warn"
+                                      style={{
+                                        margin: '4px 5px 0px 0px',
+                                        height: '14px',
+                                      }}
+                                    />
+                                    <div style={{ color: 'red' }}>
+                                      {verifyBadgeMsg}
+                                    </div>
+                                  </div>
+                                )
+                              )}
                             </>
-                          )}
-
-                          {verifyBadgeMsg && !verifyBadgeSuccess && (
-                            <div
-                              className="d-flex"
-                              style={{ marginTop: '10px' }}
-                            >
-                              <img
-                                src={Warnning}
-                                alt="warn"
-                                style={{
-                                  margin: '4px 5px 0px 0px',
-                                  height: '14px',
-                                }}
-                              />
-                              <div style={{ color: 'red' }}>
-                                {verifyBadgeMsg}
-                              </div>
-                            </div>
                           )}
                         </div>
                       </div>
@@ -915,5 +934,6 @@ Profile.propTypes = {
   verifyBadgeLoading: PropTypes.bool,
   badgeUpdateLoading: PropTypes.bool,
   verifyBadgeChk: PropTypes.object,
+  handleManageFirstBox: PropTypes.func,
 };
 export default Profile;

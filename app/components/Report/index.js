@@ -216,7 +216,7 @@ const Report = ({
           ? ele.data.find(obj => obj && obj.locationCode !== 'PTO')
           : '';
       let obj = {};
-      if (!prevDate && ele && ele.officetype !== undefined) {
+      if (!prevDate) {
         if (
           (ele && ele.officetype === 'EAB Office') ||
           (datas &&
@@ -227,7 +227,12 @@ const Report = ({
             date: ele && ele.date,
             markCssClass: 'mbsc-calendar-marks1',
           };
-        } else if (ele && ele.locationCode === 'RW') {
+        } else if (
+          (ele && ele.locationCode === 'RW') ||
+          (datas &&
+            datas.locationCode === 'RW' &&
+            (ele && ele.locationCode !== 'RW'))
+        ) {
           obj = {
             date: ele && ele.date,
             markCssClass: 'mbsc-calendar-marks2',
