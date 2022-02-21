@@ -123,16 +123,6 @@ class BorardingPage extends Component {
       privateSpace,
     };
     const firstInput1 = document.getElementById('badgeNumVal2');
-    const firstInput2 = document.getElementById('badgeNumVal1');
-    const secondInput1 = document.getElementById('badgeValue');
-    const secondInput2 = document.getElementById('badgeNumber');
-    if (
-      firstInput1 !== secondInput1 &&
-      firstInput2 !== secondInput2 &&
-      verifyBadgeMsg.length
-    ) {
-      this.props.clearBadgeSuccess();
-    }
 
     if (
       firstInput1 &&
