@@ -219,6 +219,7 @@ class ProfilePage extends Component {
     this.props.clearBoardData();
     this.handleCloseBadge();
     this.props.clearBadgeSuccess();
+    this.props.clearData();
   };
 
   handleButtonData = (selectedDay, finalval) => {

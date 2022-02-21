@@ -633,6 +633,9 @@ const Header = props => {
                           sessionStorage.setItem('Admin', true);
                           sessionStorage.setItem('manageAdmin', true);
                           history.replace('/home');
+                          props.requestUserlistData(
+                            props.profileUser && props.profileUser.employeeid,
+                          );
                         }}
                       >
                         <img
@@ -669,6 +672,9 @@ const Header = props => {
                             sessionStorage.setItem('Admin', false);
                             sessionStorage.setItem('manageAdmin', false);
                             history.replace('/workspot');
+                            props.requestUserlistData(
+                              props.profileUser && props.profileUser.employeeid,
+                            );
                           }}
                         >
                           <img
