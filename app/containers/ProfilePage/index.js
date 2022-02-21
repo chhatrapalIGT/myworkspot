@@ -129,9 +129,15 @@ class ProfilePage extends Component {
       }, 5000);
     }
 
-    if (this.props.verifyBadgeChk && this.props.verifyBadgeChk.update) {
-      this.handleCloseBadge();
-      this.props.clearProfileBadgeSuccess();
+    if (
+      this.props &&
+      this.props.verifyBadgeChk &&
+      this.props.verifyBadgeChk.update
+    ) {
+      setTimeout(() => {
+        this.handleCloseBadge();
+        this.props.clearProfileBadgeSuccess();
+      }, 1000);
     }
   }
 
