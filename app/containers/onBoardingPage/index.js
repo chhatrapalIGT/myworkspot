@@ -17,7 +17,6 @@ import {
   clearBadgeSuccess,
 } from './actions';
 import { requestUserlistData } from '../ProfilePage/actions';
-import Demo from '../../components/Header';
 import Boarding from '../../components/Boarding';
 import Footer from '../../components/Footer';
 
@@ -101,7 +100,7 @@ class BorardingPage extends Component {
   // eslint-disable-next-line consistent-return
   handleSubmitData = () => {
     const { timings, badge, badgedata, privateSpace } = this.state;
-    const { location, verifyBadgeSuccess, verifyBadgeMsg } = this.props;
+    const { location, verifyBadgeSuccess } = this.props;
     const final = timings.filter(data => data.name !== '');
 
     const finalLocationDay = [];
@@ -265,7 +264,6 @@ class BorardingPage extends Component {
     return (
       <>
         <div id="content-wrap">
-          <Demo />
           <Boarding
             handleCheckbox={this.handleCheckbox}
             handleUserSelect={this.handleUserSelect}
