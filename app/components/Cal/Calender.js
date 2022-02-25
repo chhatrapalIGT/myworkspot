@@ -1184,8 +1184,10 @@ const Calender = ({
                                       {data &&
                                         data.locationCode !== 'RW' &&
                                         (data && data.locationCode !== 'PTO') &&
+                                        (data && data.locationCode !== 'EAB') &&
+                                        (data && data.locationCode !== 'BLM') &&
                                         (data &&
-                                          data.locationCode !== 'EAB') && (
+                                          data.locationCode !== 'BHM') && (
                                           <span className="floor-location">
                                             {((data && data.floor !== null) ||
                                               (data &&
