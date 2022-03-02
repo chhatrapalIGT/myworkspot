@@ -465,7 +465,7 @@ const Calender = ({
                                             {item.value}
                                           </p>
                                           {data &&
-                                          data.unitsapproved === '0.5' ? (
+                                          data.unitsapproved === 0.5 ? (
                                             <>
                                               {data &&
                                                 data.data.map(teamPart => (
@@ -711,7 +711,7 @@ const Calender = ({
                                     {item.value}
                                   </p>
 
-                                  {data && data.unitsapproved === '0.5' ? (
+                                  {data && data.unitsapproved === 0.5 ? (
                                     <>
                                       {data.data.map(partially => {
                                         return (
@@ -1067,7 +1067,7 @@ const Calender = ({
                                     {' '}
                                     {item.value}
                                   </p>
-                                  {data && data.unitsapproved === '0.5' ? (
+                                  {data && data.unitsapproved === 0.5 ? (
                                     <>
                                       {data.data.map(partially => (
                                         <div
@@ -1286,7 +1286,7 @@ const Calender = ({
                                 {item.value}
                               </p>
 
-                              {data && data.unitsapproved === '0.5' ? (
+                              {data && data.unitsapproved === 0.5 ? (
                                 <>
                                   {data.data.map(otherHalf => (
                                     <div
