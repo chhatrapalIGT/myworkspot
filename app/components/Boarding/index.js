@@ -134,8 +134,11 @@ const Boarding = ({
                       Your weekly default will pre-populate for each week unless
                       you update <i>my</i>Workspot for a specific day. <br />
                       You can update <i>my</i>Workspot for a particular day on
-                      the homepage.
+                      the homepage. <br />
+                      <b>NOTE :</b> Add a value for each day before clicking
+                      Confirm.
                     </p>
+
                     <div className="mt-4 weekly-default-inner px-0 d-flex flex-wrap">
                       {state.timings.map(t => (
                         <div className="day_one">
