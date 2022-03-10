@@ -1496,7 +1496,8 @@ input[type='text'] {
           &:hover .hover-data {
             display: block;
             position: absolute;
-            top: 73px;
+            top: -33px;
+            right: 128px;
             background-color: #526e88;
             border-radius: 8px;
             padding: 5px;
@@ -3354,7 +3355,6 @@ div[class*='qy-menu'] * {
   height: 30vh !important;
 }
 
-
 .month_view_private {
   height: 25px;
   float: right;
@@ -3368,4 +3368,22 @@ div[class*='qy-menu'] * {
   background-color: lightgray;
   width: max-content;
   margin: 5px 5px;
+}
+
+.my-team_hover-data {
+  &:hover .hover-data {
+    display: block;
+    position: absolute;
+    top: -33px;
+    right: 95px;
+    background-color: #526e88;
+    border-radius: 8px;
+    padding: 5px;
+    color: #fff;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  .hover-data-team{
+    display: none;
+  } 
 }

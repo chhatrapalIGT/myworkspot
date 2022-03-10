@@ -511,13 +511,62 @@ const Calender = ({
                                                     aria-hidden="true"
                                                     key={`${item.value}`}
                                                   >
-                                                    <p className="work-station half-paid-off">
+                                                    <p className="work-station half-paid-off my-team_hover-data">
                                                       {teamPart.locationCode ===
                                                       'PTO'
                                                         ? teamPart &&
                                                           teamPart.timeofftype
                                                         : teamPart &&
                                                           teamPart.locationName}
+                                                      <span
+                                                        className={
+                                                          teamPart.locationCode !==
+                                                          'PTO'
+                                                            ? 'hover-data'
+                                                            : 'hover-data-team'
+                                                        }
+                                                      >
+                                                        {teamPart &&
+                                                          teamPart.building !==
+                                                            null &&
+                                                          `Bldg ${teamPart &&
+                                                            teamPart.building} -`}{' '}
+                                                        {teamPart &&
+                                                          teamPart.floor !==
+                                                            null &&
+                                                          `Fl ${teamPart &&
+                                                            teamPart.floor} -`}{' '}
+                                                        {teamPart &&
+                                                          teamPart.colorcode !==
+                                                            '' &&
+                                                          modalColorCode(
+                                                            teamPart &&
+                                                              teamPart.colorcode,
+                                                          )}
+                                                        {teamPart &&
+                                                          teamPart.workspacenumber !==
+                                                            '' && (
+                                                            <span>
+                                                              {`- ${teamPart &&
+                                                                teamPart.workspacenumber}`}
+                                                            </span>
+                                                          )}
+                                                      </span>
+                                                      <span>
+                                                        {teamPart &&
+                                                          teamPart.isPrivateSpace && (
+                                                            <img
+                                                              src={Space}
+                                                              alt="space"
+                                                              style={{
+                                                                height: '19px',
+                                                                width: '20px',
+                                                                marginTop:
+                                                                  '-5px',
+                                                              }}
+                                                            />
+                                                          )}
+                                                      </span>
                                                     </p>
                                                   </div>
                                                 ))}
@@ -597,49 +646,69 @@ const Calender = ({
                                                 (data &&
                                                   data.locationCode !==
                                                     'BHM') && (
-                                                  <span className="floor-location">
-                                                    {((data &&
-                                                      data.floor !== null) ||
-                                                      (data &&
-                                                        data.building !==
-                                                          null) ||
-                                                      (data &&
-                                                        data.colorcode !==
-                                                          '')) && (
-                                                      <>
-                                                        {data &&
+                                                  <>
+                                                    <span className="floor-location">
+                                                      {((data &&
+                                                        data.floor !== null) ||
+                                                        (data &&
                                                           data.building !==
-                                                            undefined &&
-                                                          (data &&
-                                                            data.floor !==
-                                                              undefined) && (
-                                                            <>
-                                                              <img
-                                                                src={Vector}
-                                                                alt=""
-                                                              />
-                                                              {data &&
-                                                                data.building !==
-                                                                  null &&
-                                                                `Bldg ${data &&
-                                                                  data.building} -`}{' '}
-                                                              {data &&
-                                                                data.floor !==
-                                                                  null &&
-                                                                `Fl ${data &&
-                                                                  data.floor} -`}{' '}
-                                                              {data &&
-                                                                data.colorcode !==
-                                                                  '' &&
-                                                                modalColorCode(
-                                                                  data &&
-                                                                    data.colorcode,
-                                                                )}
-                                                            </>
-                                                          )}
-                                                      </>
-                                                    )}
-                                                  </span>
+                                                            null) ||
+                                                        (data &&
+                                                          data.colorcode !==
+                                                            '')) && (
+                                                        <>
+                                                          {data &&
+                                                            data.building !==
+                                                              undefined &&
+                                                            (data &&
+                                                              data.floor !==
+                                                                undefined) && (
+                                                              <>
+                                                                <img
+                                                                  src={Vector}
+                                                                  alt=""
+                                                                />
+                                                                {data &&
+                                                                  data.building !==
+                                                                    null &&
+                                                                  `Bldg ${data &&
+                                                                    data.building} -`}{' '}
+                                                                {data &&
+                                                                  data.floor !==
+                                                                    null &&
+                                                                  `Fl ${data &&
+                                                                    data.floor} -`}{' '}
+                                                                {data &&
+                                                                  data.colorcode !==
+                                                                    '' &&
+                                                                  modalColorCode(
+                                                                    data &&
+                                                                      data.colorcode,
+                                                                  )}
+                                                              </>
+                                                            )}
+                                                        </>
+                                                      )}
+                                                    </span>
+                                                    {data &&
+                                                      data.workspacenumber !==
+                                                        '' && (
+                                                        <span>
+                                                          {`- ${data &&
+                                                            data.workspacenumber}`}
+                                                        </span>
+                                                      )}
+                                                    <span>
+                                                      {data &&
+                                                        data.isPrivateSpace && (
+                                                          <img
+                                                            src={Space}
+                                                            alt="space"
+                                                            className="month_view_private"
+                                                          />
+                                                        )}
+                                                    </span>
+                                                  </>
                                                 )}
 
                                               {data &&
@@ -1070,51 +1139,94 @@ const Calender = ({
                                   {data && data.unitsapproved === 0.5 ? (
                                     <>
                                       {data.data.map(partially => (
-                                        <div
-                                          className={`day-one-wrapper ${
-                                            partially &&
-                                            partially.locationCode === 'PTO'
-                                              ? 'half-paid-off'
-                                              : item.disable ||
-                                                isCurrentDate(item.date)
-                                              ? 'has-half-paid-off day-pointer'
-                                              : 'has-half-paid-off '
-                                          }`}
-                                          onClick={() => {
-                                            handleColleagueModal({
-                                              ...partially,
-                                              firstName:
-                                                obj.employeeidFirstname,
-                                              lastName: obj.employeeidLastname,
-                                            });
-                                            isCurrentDate(item.date) &&
+                                        <>
+                                          <div
+                                            className={`day-one-wrapper ${
                                               partially &&
-                                              partially.locationCode !== 'RW' &&
-                                              partially &&
-                                              partially.locationCode !==
-                                                'PTO' &&
-                                              partially &&
-                                              partially.locationCode !==
-                                                'EAB' &&
-                                              setEmployee(true);
-                                            setDate(
-                                              moment(item.date).format(
-                                                'dddd, MMMM DD, YYYY',
-                                              ),
-                                            );
-                                            handleDefault();
-                                          }}
-                                          aria-hidden="true"
-                                        >
-                                          <p className="work-station half-paid-off">
-                                            {partially &&
-                                            partially.locationCode === 'PTO'
-                                              ? partially &&
-                                                partially.timeofftype
-                                              : partially &&
-                                                partially.locationName}
-                                          </p>
-                                        </div>
+                                              partially.locationCode === 'PTO'
+                                                ? 'half-paid-off'
+                                                : item.disable ||
+                                                  isCurrentDate(item.date)
+                                                ? 'has-half-paid-off day-pointer'
+                                                : 'has-half-paid-off '
+                                            }`}
+                                            onClick={() => {
+                                              handleColleagueModal({
+                                                ...partially,
+                                                firstName:
+                                                  obj.employeeidFirstname,
+                                                lastName:
+                                                  obj.employeeidLastname,
+                                              });
+                                              isCurrentDate(item.date) &&
+                                                partially &&
+                                                partially.locationCode !==
+                                                  'RW' &&
+                                                partially &&
+                                                partially.locationCode !==
+                                                  'PTO' &&
+                                                partially &&
+                                                partially.locationCode !==
+                                                  'EAB' &&
+                                                setEmployee(true);
+                                              setDate(
+                                                moment(item.date).format(
+                                                  'dddd, MMMM DD, YYYY',
+                                                ),
+                                              );
+                                              handleDefault();
+                                            }}
+                                            aria-hidden="true"
+                                          >
+                                            <p className="work-station half-paid-off">
+                                              {partially &&
+                                              partially.locationCode === 'PTO'
+                                                ? partially &&
+                                                  partially.timeofftype
+                                                : partially &&
+                                                  partially.locationName}
+
+                                              <span className="hover-data">
+                                                {partially &&
+                                                  partially.building !== null &&
+                                                  `Bldg ${partially &&
+                                                    partially.building} -`}{' '}
+                                                {partially &&
+                                                  partially.floor !== null &&
+                                                  `Fl ${partially &&
+                                                    partially.floor} -`}{' '}
+                                                {partially &&
+                                                  partially.colorcode !== '' &&
+                                                  modalColorCode(
+                                                    partially &&
+                                                      partially.colorcode,
+                                                  )}
+                                                {partially &&
+                                                  partially.workspacenumber !==
+                                                    '' && (
+                                                    <span>
+                                                      {`- ${partially &&
+                                                        partially.workspacenumber}`}
+                                                    </span>
+                                                  )}
+                                              </span>
+                                              <span>
+                                                {partially &&
+                                                  partially.isPrivateSpace && (
+                                                    <img
+                                                      src={Space}
+                                                      alt="space"
+                                                      style={{
+                                                        height: '19px',
+                                                        width: '20px',
+                                                        marginTop: '-5px',
+                                                      }}
+                                                    />
+                                                  )}
+                                              </span>
+                                            </p>
+                                          </div>
+                                        </>
                                       ))}
                                     </>
                                   ) : (
@@ -1188,43 +1300,63 @@ const Calender = ({
                                         (data && data.locationCode !== 'BLM') &&
                                         (data &&
                                           data.locationCode !== 'BHM') && (
-                                          <span className="floor-location">
-                                            {((data && data.floor !== null) ||
-                                              (data &&
-                                                data.building !== null) ||
-                                              (data &&
-                                                data.colorcode !== '')) && (
-                                              <>
-                                                {data &&
-                                                  data.building !== undefined &&
-                                                  (data &&
-                                                    data.floor !==
-                                                      undefined) && (
-                                                    <>
-                                                      <img
-                                                        src={Vector}
-                                                        alt=""
-                                                      />
-                                                      {data &&
-                                                        data.building !==
-                                                          null &&
-                                                        `Bldg ${data &&
-                                                          data.building} -`}{' '}
-                                                      {data &&
-                                                        data.floor !== null &&
-                                                        `Fl ${data &&
-                                                          data.floor} -`}{' '}
-                                                      {data &&
-                                                        data.colorcode !== '' &&
-                                                        modalColorCode(
-                                                          data &&
-                                                            data.colorcode,
-                                                        )}
-                                                    </>
-                                                  )}
-                                              </>
-                                            )}
-                                          </span>
+                                          <>
+                                            <span className="floor-location">
+                                              {((data && data.floor !== null) ||
+                                                (data &&
+                                                  data.building !== null) ||
+                                                (data &&
+                                                  data.colorcode !== '')) && (
+                                                <>
+                                                  {data &&
+                                                    data.building !==
+                                                      undefined &&
+                                                    (data &&
+                                                      data.floor !==
+                                                        undefined) && (
+                                                      <>
+                                                        <img
+                                                          src={Vector}
+                                                          alt=""
+                                                        />
+                                                        {data &&
+                                                          data.building !==
+                                                            null &&
+                                                          `Bldg ${data &&
+                                                            data.building} -`}{' '}
+                                                        {data &&
+                                                          data.floor !== null &&
+                                                          `Fl ${data &&
+                                                            data.floor} -`}{' '}
+                                                        {data &&
+                                                          data.colorcode !==
+                                                            '' &&
+                                                          modalColorCode(
+                                                            data &&
+                                                              data.colorcode,
+                                                          )}
+                                                      </>
+                                                    )}
+                                                </>
+                                              )}
+                                            </span>
+                                            {data &&
+                                              data.workspacenumber !== '' && (
+                                                <span>
+                                                  {`- ${data &&
+                                                    data.workspacenumber}`}
+                                                </span>
+                                              )}
+                                            <span>
+                                              {data && data.isPrivateSpace && (
+                                                <img
+                                                  src={Space}
+                                                  alt="space"
+                                                  className="month_view_private"
+                                                />
+                                              )}
+                                            </span>
+                                          </>
                                         )}
 
                                       {data && data.locationCode === 'EAB' && (
