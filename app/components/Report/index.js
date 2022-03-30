@@ -23,7 +23,6 @@ import success from '../../images/popup.png';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
 
-import '../FAQ/styles.scss';
 import MapComponent from '../Resource/map';
 
 const Report = ({
