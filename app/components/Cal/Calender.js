@@ -518,40 +518,45 @@ const Calender = ({
                                                           teamPart.timeofftype
                                                         : teamPart &&
                                                           teamPart.locationName}
-                                                      <span
-                                                        className={
-                                                          teamPart.locationCode !==
-                                                          'PTO'
-                                                            ? 'hover-data'
-                                                            : 'hover-data-team'
-                                                        }
-                                                      >
-                                                        {teamPart &&
-                                                          teamPart.building !==
-                                                            null &&
-                                                          `Bldg ${teamPart &&
-                                                            teamPart.building} -`}{' '}
-                                                        {teamPart &&
-                                                          teamPart.floor !==
-                                                            null &&
-                                                          `Fl ${teamPart &&
-                                                            teamPart.floor} -`}{' '}
-                                                        {teamPart &&
-                                                          teamPart.colorcode !==
-                                                            '' &&
-                                                          modalColorCode(
-                                                            teamPart &&
-                                                              teamPart.colorcode,
-                                                          )}
-                                                        {teamPart &&
-                                                          teamPart.workspacenumber !==
-                                                            '' && (
-                                                            <span>
-                                                              {`- ${teamPart &&
-                                                                teamPart.workspacenumber}`}
-                                                            </span>
-                                                          )}
-                                                      </span>
+                                                      {teamPart.locationCode !==
+                                                        'PTO' &&
+                                                        teamPart.locationCode !==
+                                                          'RW' && (
+                                                          <span
+                                                            className={
+                                                              teamPart.locationCode !==
+                                                              'PTO'
+                                                                ? 'hover-data'
+                                                                : 'hover-data-team'
+                                                            }
+                                                          >
+                                                            {teamPart &&
+                                                              teamPart.building !==
+                                                                null &&
+                                                              `Bldg ${teamPart &&
+                                                                teamPart.building} -`}{' '}
+                                                            {teamPart &&
+                                                              teamPart.floor !==
+                                                                null &&
+                                                              `Fl ${teamPart &&
+                                                                teamPart.floor} -`}{' '}
+                                                            {teamPart &&
+                                                              teamPart.colorcode !==
+                                                                '' &&
+                                                              modalColorCode(
+                                                                teamPart &&
+                                                                  teamPart.colorcode,
+                                                              )}
+                                                            {teamPart &&
+                                                              teamPart.workspacenumber !==
+                                                                '' && (
+                                                                <span>
+                                                                  {`- ${teamPart &&
+                                                                    teamPart.workspacenumber}`}
+                                                                </span>
+                                                              )}
+                                                          </span>
+                                                        )}
                                                       <span>
                                                         {teamPart &&
                                                           teamPart.isPrivateSpace && (
@@ -923,7 +928,7 @@ const Calender = ({
                                           );
                                         setDate(
                                           moment(item.date).format(
-                                            'dddd, MMMM DD, YYYY',
+                                            'dddd, MMMM D, YYYY',
                                           ),
                                         );
                                         setChange(false);

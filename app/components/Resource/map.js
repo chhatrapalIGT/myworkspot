@@ -55,8 +55,8 @@ const MapComponent = ({
                   </div>
                   <div className="office-resource">
                     <p>Office Resources</p>
-
-                    {officeResource.length > 0 &&
+                    {officeResource &&
+                      officeResource.length > 0 &&
                       officeResource.map(res => (
                         <div className="office-part-one teal">
                           <span>
@@ -147,7 +147,8 @@ const MapComponent = ({
                   <div className="office-resource">
                     <p>Office Resources</p>
 
-                    {officeResource.length > 0 &&
+                    {officeResource &&
+                      officeResource.length > 0 &&
                       officeResource.map(res => (
                         <div className="office-part-one teal">
                           <span>
