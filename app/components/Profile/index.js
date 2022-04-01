@@ -199,7 +199,6 @@ const Profile = ({
   };
 
   const badgeVerify = inputSet.concat(inputSet2);
-  console.log('badgeVerify', badgeVerify);
   const badgeConfirmVerify =
     state.badgedata !== undefined &&
     state.badge &&

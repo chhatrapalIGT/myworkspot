@@ -226,7 +226,6 @@ class EmployeePage extends Component {
           space: this.state.strSpace,
           sortBy: this.state.sortBy,
           limit: this.state.limit,
-          page: this.state.page,
         });
       });
     }, 1000);
@@ -279,6 +278,7 @@ class EmployeePage extends Component {
         finalRole = val;
       }
       this.setState({ finalRole });
+      this.setState({ page: 1 });
     });
     let str = '[';
     values.forEach(ev => {
@@ -295,7 +295,6 @@ class EmployeePage extends Component {
       space: this.state.strSpace,
       search: this.state.searchVal,
       limit: this.state.limit,
-      page: this.state.page,
     });
   };
 
@@ -323,13 +322,13 @@ class EmployeePage extends Component {
       const ta = str.slice(2);
       const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
       this.setState({ strSpace });
+      this.setState({ page: 1 });
 
       this.props.requestGetEmployeeDetail({
         space: strSpace,
         value: this.state.strVal,
         search: this.state.searchVal,
         limit: this.state.limit,
-        page: this.state.page,
       });
     });
   };
@@ -348,6 +347,9 @@ class EmployeePage extends Component {
     }
     this.setState({ sortBy });
     this.props.requestGetEmployeeDetail({
+      search: this.state.searchVal,
+      value: this.state.strVal,
+      space: this.state.strSpace,
       sortBy,
       limit: this.state.limit,
       page: this.state.page,

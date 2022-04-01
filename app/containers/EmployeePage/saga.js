@@ -28,7 +28,7 @@ export function* getEmployeeData({ payload }) {
   const page = get(payload, 'page', 1);
   const requestURL = `${API_URL}/adminPanel/user/getEmployeeData?searchUser=${payload.search ||
     ''}&role=${payload.value || ''}&primaryOfficeFilter=${payload.space ||
-    ''}&sortBy=${payload.sortBy || ''}&limit=${limit}&page=${page}`;
+    ''}&sortBy=${payload.sortBy || 'name-ASC'}&limit=${limit}&page=${page}`;
 
   try {
     const usersList = yield request({
