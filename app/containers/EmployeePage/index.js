@@ -348,6 +348,9 @@ class EmployeePage extends Component {
     }
     this.setState({ sortBy });
     this.props.requestGetEmployeeDetail({
+      search: this.state.searchVal,
+      value: this.state.strVal,
+      space: this.state.strSpace,
       sortBy,
       limit: this.state.limit,
       page: this.state.page,

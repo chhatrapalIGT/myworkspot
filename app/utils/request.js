@@ -6,7 +6,6 @@ const request = async options => {
     const apiCall = await axios(updateOption);
     return apiCall;
   } catch (error) {
-    console.log(`error`, error);
     return error.response;
   }
 };
