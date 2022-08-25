@@ -34,7 +34,7 @@ class EmployeePage extends Component {
       role: '',
       BadgeNumber: '',
       hasData: true,
-      permanentdeskNo: '',
+      permanentdeskId: '',
       page: 1,
       limit: 10,
       deskLocationname: '',
@@ -192,11 +192,11 @@ class EmployeePage extends Component {
     e.preventDefault();
     const { BadgeNumber, id, AssignedSpace, handleUnassign } = this.state;
     const badge = BadgeNumber.slice(0, 3).concat(BadgeNumber.slice(4, 7));
-    const permanentdeskNo = handleUnassign ? 'Unassign' : AssignedSpace;
+    const permanentdeskId = handleUnassign ? 'Unassign' : AssignedSpace;
     this.props.requestUpdateEmployeeDetail({
       role: this.state.role,
       badgeNo: badge !== '' ? `BB${badge}` : '',
-      permanentdeskNo,
+      permanentdeskId,
       emp_id: id,
     });
   };

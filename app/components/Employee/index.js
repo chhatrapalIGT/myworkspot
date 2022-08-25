@@ -95,7 +95,9 @@ const Employee = props => {
   workspace &&
     workspace.map(i => {
       if (i && i.length > 0) {
-        i.map(j => finalData.push({ officeSpace: j.workspacenumber }));
+        i.map(j =>
+          finalData.push({ officeSpace: j.workspacenumber, officeId: j.id }),
+        );
       }
     });
 
@@ -714,10 +716,7 @@ const Employee = props => {
                           </option>
                           {finalData &&
                             finalData.map(i => (
-                              <option
-                                value={i.officeSpace}
-                                name="AssignedSpace"
-                              >
+                              <option value={i.officeId} name="AssignedSpace">
                                 {' '}
                                 {i && i.officeSpace}{' '}
                               </option>
