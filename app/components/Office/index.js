@@ -49,7 +49,7 @@ const Office = ({
   const [color, setColor] = useState('');
   const [displayColor, setDisplayColor] = useState('');
   const [setActive, setActiveState] = useState('');
-  const [imageUpdateData, setImageUpdateData] = useState('2');
+  const [imageUpdateData, setImageUpdateData] = useState('');
   const [show, setShow] = useState(false);
   const [update, setUpdate] = useState(false);
   const [id, setId] = useState('');
@@ -68,15 +68,30 @@ const Office = ({
 
   useEffect(() => {
     if (state.selectedNames === 'BHM' || state.selectedNames === 'BLM') {
+      const final =
+        floorData &&
+        floorData.FloorBuilding[0] &&
+        floorData.FloorBuilding[0].id;
+
       setFloor('');
-      setImageUpdateData('1');
+      setImageUpdateData(final);
       setDisplayColor('');
     }
     if (state.selectedNames === 'DC') {
-      setImageUpdateData('2');
+      const val =
+        officeLocation &&
+        officeLocation.find(data =>
+          data.id === state.selectedNames ? data.FloorBuilding : '',
+        );
+      const final = val && val.FloorBuilding[0] && val.FloorBuilding[0].id;
+      setImageUpdateData(final);
       setFloor('2,null');
     } else if (state.selectedNames === 'RIC') {
-      setImageUpdateData('1');
+      const final =
+        floorData &&
+        floorData.FloorBuilding[0] &&
+        floorData.FloorBuilding[0].id;
+      setImageUpdateData(final);
       setFloor('null,1');
     }
     if (
@@ -101,13 +116,13 @@ const Office = ({
   const defaultImage =
     floorData &&
     floorData.FloorBuilding.find(img =>
-      img.floorAndBuilding === imageUpdateData ? img.image : '',
+      img.id === imageUpdateData ? img.image : '',
     );
 
   const renderResource =
     floorData &&
     floorData.FloorBuilding.find(res =>
-      res.floorAndBuilding === imageUpdateData ? res.resources : '',
+      res.id === imageUpdateData ? res.resources : '',
     );
 
   const finalNeighbouhoodImage =
@@ -292,15 +307,15 @@ const Office = ({
                               <div
                                 aria-hidden="true"
                                 className={`accordion pad-left-0 bg-blue ${
-                                  setActive === obj.floorAndBuilding
-                                    ? 'active'
-                                    : ''
+                                  setActive === obj.id ? 'active' : ''
                                 }`}
                                 key={obj.floor}
                                 id={obj.floor}
                                 onClick={() => {
                                   setFloor(`${obj.floor},${obj.building}`);
-                                  toggleAccordion(obj.floorAndBuilding);
+
+                                  toggleAccordion(obj.id);
+
                                   handleDefault();
                                 }}
                               >
@@ -319,9 +334,7 @@ const Office = ({
                               <div
                                 ref={content}
                                 className={`panel ${
-                                  setActive === obj.floorAndBuilding
-                                    ? ''
-                                    : 'display_acc'
+                                  setActive === obj.id ? '' : 'display_acc'
                                 }`}
                               >
                                 {obj &&

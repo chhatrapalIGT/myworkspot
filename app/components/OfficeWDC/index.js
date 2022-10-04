@@ -63,6 +63,7 @@ const OfficeWDC = ({
 
     setFloor(Data && Data.LocationHasmanybuilding);
     setFinalFloor(Data && Data.LocationHasmanybuilding[0]);
+
     Icon(
       switchValue,
       Data && Data.LocationHasmanybuilding && Data.LocationHasmanybuilding[0],
@@ -126,6 +127,9 @@ const OfficeWDC = ({
             imageSrc = valFinalFloor.image;
             break;
           case 'Building 3, Floor 2':
+            imageSrc = valFinalFloor.image;
+            break;
+          case 'Floor 2':
             imageSrc = valFinalFloor.image;
             break;
         }
