@@ -85,10 +85,9 @@ const Employee = props => {
   };
 
   const space =
-    data &&
-    data.FloorBuilding.find(
-      obj => obj && obj.floorAndBuilding === props.state.build,
-    );
+    // eslint-disable-next-line eqeqeq
+    data && data.FloorBuilding.find(obj => obj && obj.id == props.state.build);
+
   const workspace = space && space.neighborhood.map(i => i.neighborWorkspace);
   const finalData = [];
 
@@ -646,16 +645,17 @@ const Employee = props => {
                               <>
                                 <option
                                   value={
-                                    i.floor &&
-                                    i.floor !== null &&
-                                    i.building &&
-                                    i.building !== null
-                                      ? `${i.floor}${i.building}`
-                                      : i.building && i.building !== null
-                                      ? `${i.building}`
-                                      : i.floor && i.floor !== null
-                                      ? `${i.floor}`
-                                      : ''
+                                    i.id
+                                    // i.floor &&
+                                    // i.floor !== null &&
+                                    // i.building &&
+                                    // i.building !== null
+                                    //   ? `${i.floor}${i.building}`
+                                    //   : i.building && i.building !== null
+                                    //   ? `${i.building}`
+                                    //   : i.floor && i.floor !== null
+                                    //   ? `${i.floor}`
+                                    //   : ''
                                   }
                                 >
                                   {i.floor &&
