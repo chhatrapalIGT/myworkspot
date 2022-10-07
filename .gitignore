@@ -8,6 +8,11 @@ node_modules/
 dist/
 build/
 
+#firebase gitignore 
+.firebase/
+.firebaserc
+firebase.json
+
 # Compiled Java class files
 *.class
 
@@ -52,3 +57,4 @@ Thumbs.db
 yarn.lock
 package-lock.json
 .env
+.env.production
