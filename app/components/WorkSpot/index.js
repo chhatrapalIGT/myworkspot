@@ -642,13 +642,14 @@ const WorkSpot = ({
               neighborhoodData &&
               neighborhoodData.locationCode !== 'EAB' &&
               ((neighborhoodData && neighborhoodData.image !== '') ||
-                (halfDayData && halfDayData.image !== '')) &&
-              ((neighborhoodData &&
-                neighborhoodData.resource &&
-                neighborhoodData.resource.length > 0) ||
-                (halfDayData &&
-                  halfDayData.resource &&
-                  halfDayData.resource.length > 0)) && (
+                (halfDayData && halfDayData.image !== '')) && (
+                //    &&
+                // ((neighborhoodData &&
+                //   neighborhoodData.resource &&
+                //   neighborhoodData.resource.length > 0) ||
+                //   (halfDayData &&
+                //     halfDayData.resource &&
+                //     halfDayData.resource.length > 0))
                 <div className="container" style={{ height: '100%' }}>
                   {neighborhoodLoad ? (
                     <div className="card building-block-head">
