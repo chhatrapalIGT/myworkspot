@@ -228,13 +228,13 @@ const Spaces = ({
                       <div
                         aria-hidden="true"
                         className={`accordion3 line ${
-                          setActive === obj.floorAndBuilding ? 'active' : ''
+                          setActive === obj.id ? 'active' : ''
                         }`}
                         key={obj.floor}
                         id={obj.floor}
                         onClick={() => {
                           setFloor(`${obj.floor},${obj.building}`);
-                          toggleAccordion(obj.floorAndBuilding);
+                          toggleAccordion(obj.id);
                         }}
                       >
                         <span className="dash-menu-item">
@@ -254,9 +254,7 @@ const Spaces = ({
 
                       <div
                         className={`panel2 ${
-                          setActive === obj.floorAndBuilding
-                            ? ''
-                            : 'display_acc'
+                          setActive === obj.id ? '' : 'display_acc'
                         }`}
                       >
                         <div className="panel-list">
@@ -285,6 +283,7 @@ const Spaces = ({
                                       setColor(floor.neighborhoodname);
                                     }}
                                   />
+
                                   <label
                                     htmlFor={obj.floorAndBuilding.concat(
                                       floor.neighborhoodname,
@@ -319,7 +318,6 @@ const Spaces = ({
                                         />
                                       )}
                                   </label>
-
                                   <div
                                     className={`accordion2 ${
                                       updateState === floor.neighborhoodname
@@ -346,7 +344,6 @@ const Spaces = ({
                                       floor.neighborhoodTotalSpace
                                     } Locked`}</span>
                                   </div>
-
                                   <div
                                     className={`panel1 ${
                                       updateState === floor.neighborhoodname

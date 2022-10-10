@@ -18,9 +18,9 @@ export default {
         MapImageUrl: MAP_URL_LIVE,
       }
     : {
-        URL: `${PROTOCOL}://${DOMAIN}:${PORT}`,
-        ImageURL: `${PROTOCOL}://${DOMAIN}:${PORT}`,
-        InvoiceURL: `${PROTOCOL}://${DOMAIN}:${PORT}`,
+        URL: `${PROTOCOL}://${DOMAIN}`,
+        ImageURL: `${PROTOCOL}://${DOMAIN}`,
+        InvoiceURL: `${PROTOCOL}://${DOMAIN}`,
         MapImageUrl: MAP_URL,
       },
 };
