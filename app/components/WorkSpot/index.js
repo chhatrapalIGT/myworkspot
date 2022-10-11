@@ -141,7 +141,7 @@ const WorkSpot = ({
       case 'DC':
         return 'https://goo.gl/maps/wSt2HtVQ7J2vuoGy7';
       case 'RIC':
-        return 'https://goo.gl/maps/sMKpVpBFJJRUqT446';
+        return 'https://www.google.com/maps/place/11011+W+Broad+St,+Glen+Allen,+VA+23060,+USA/@37.6462337,-77.5897935,17z/data=!3m1!4b1!4m5!3m4!1s0x89b16a96fbc9edcb:0xa7c7578fa9776b6b!8m2!3d37.6462337!4d-77.5876048';
       case 'BHM':
         return 'https://goo.gl/maps/8zpk6ZWT49puXgp67';
       case 'BLM':
