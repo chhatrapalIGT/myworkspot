@@ -141,7 +141,7 @@ const WorkSpot = ({
       case 'DC':
         return 'https://goo.gl/maps/wSt2HtVQ7J2vuoGy7';
       case 'RIC':
-        return 'https://goo.gl/maps/sMKpVpBFJJRUqT446';
+        return 'https://goo.gl/maps/HTftWm2Zqm8WqUNv5';
       case 'BHM':
         return 'https://goo.gl/maps/8zpk6ZWT49puXgp67';
       case 'BLM':

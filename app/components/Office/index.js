@@ -91,8 +91,17 @@ const Office = ({
         floorData &&
         floorData.FloorBuilding[0] &&
         floorData.FloorBuilding[0].id;
+
       setImageUpdateData(final);
-      setFloor('null,1');
+      setFloor(
+        `${(floorData &&
+          floorData.FloorBuilding[0] &&
+          floorData.FloorBuilding[0].floor) ||
+          null},${(floorData &&
+          floorData.FloorBuilding[0] &&
+          floorData.FloorBuilding[0].building) ||
+          null}`,
+      );
     }
     if (
       addUpdateResource &&
