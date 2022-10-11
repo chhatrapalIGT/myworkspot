@@ -84,15 +84,33 @@ const Office = ({
           data.id === state.selectedNames ? data.FloorBuilding : '',
         );
       const final = val && val.FloorBuilding[0] && val.FloorBuilding[0].id;
+
       setImageUpdateData(final);
-      setFloor('2,null');
+      setFloor(
+        `${(floorData &&
+          floorData.FloorBuilding[0] &&
+          floorData.FloorBuilding[0].floor) ||
+          null},${(floorData &&
+          floorData.FloorBuilding[0] &&
+          floorData.FloorBuilding[0].building) ||
+          null}`,
+      );
     } else if (state.selectedNames === 'RIC') {
       const final =
         floorData &&
         floorData.FloorBuilding[0] &&
         floorData.FloorBuilding[0].id;
+
       setImageUpdateData(final);
-      setFloor('null,1');
+      setFloor(
+        `${(floorData &&
+          floorData.FloorBuilding[0] &&
+          floorData.FloorBuilding[0].floor) ||
+          null},${(floorData &&
+          floorData.FloorBuilding[0] &&
+          floorData.FloorBuilding[0].building) ||
+          null}`,
+      );
     }
     if (
       addUpdateResource &&
