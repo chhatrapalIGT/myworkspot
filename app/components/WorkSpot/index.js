@@ -135,22 +135,6 @@ const WorkSpot = ({
     handleUpdatingModalData(key, val);
   };
 
-  // eslint-disable-next-line consistent-return
-  const addressLink = address => {
-    switch (address) {
-      case 'DC':
-        return 'https://goo.gl/maps/wSt2HtVQ7J2vuoGy7';
-      case 'RIC':
-        return 'https://goo.gl/maps/HTftWm2Zqm8WqUNv5';
-      case 'BHM':
-        return 'https://goo.gl/maps/8zpk6ZWT49puXgp67';
-      case 'BLM':
-        return 'https://goo.gl/maps/7pjiEquchRcDLWac9';
-
-      default:
-    }
-  };
-
   const handleEditModalData = (
     modalState,
     date,
@@ -590,10 +574,9 @@ const WorkSpot = ({
                                 <a
                                   className="address_url"
                                   target="_blank"
-                                  href={addressLink(
-                                    neighborhoodData &&
-                                      neighborhoodData.locationCode,
-                                  )}
+                                  href={`https://www.google.com/maps/search/${(neighborhoodData &&
+                                    neighborhoodData.officeAddress) ||
+                                    halfDayData.officeAddress}`}
                                 >
                                   <img src={union} alt="" />
 
