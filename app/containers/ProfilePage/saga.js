@@ -10,6 +10,11 @@ import {
   REQUEST_ADD_DELEGATE_LIST,
   REQUEST_REMOVE_DELEGATE_LIST,
   REQUEST_GET_DELEGATE_LIST,
+  REQUEST_GET_SPIN_ICON,
+  REQUEST_ADD_SPIN_ICON,
+  REQUEST_GET_SELECT_ICON,
+  REQUEST_REMOVE_DELEGATE_USER,
+  REQUEST_REMOVE_SPIN_ICON,
 } from './constants';
 import {
   getProfileOfficeDataSuccess,
@@ -28,6 +33,17 @@ import {
   removeDelegateListFailed,
   getDelegateListSuccess,
   getDelegateListFailed,
+  getSpinIconSuccess,
+  getSpinIconFailed,
+  successAddSpinIcon,
+  failedAddSpinIcon,
+  successGetSelectIcon,
+  failedGetSelectIcon,
+  removeDelegateUserSuccess,
+  removeDelegateUserFailed,
+  successRemoveSpinIcon,
+  failedRemoveSpinIcon,
+  requestGetSelectIcon,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -235,6 +251,36 @@ export function* removeDelegateMember({ payload }) {
   }
 }
 
+export function* removeDelegateUser({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/Delegate/removeDelegateUserOfUser?delegateid=${
+    payload.id
+  }`;
+  try {
+    const delegateList = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+    const { data } = delegateList;
+    if (delegateList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(removeDelegateUserSuccess(data));
+    } else {
+      yield put(removeDelegateUserFailed(data));
+    }
+  } catch (err) {
+    yield put(removeDelegateUserFailed(err));
+  }
+}
+
 export function* getUpdateDelegateData() {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
@@ -262,6 +308,119 @@ export function* getUpdateDelegateData() {
   }
 }
 
+export function* getSpinIcon({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/icon/getAllIcon`;
+  try {
+    const delegateList = yield request({
+      method: 'GET',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+    const { data } = delegateList;
+    if (delegateList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getSpinIconSuccess(data));
+    } else {
+      yield put(getSpinIconFailed(data));
+    }
+  } catch (err) {
+    yield put(getSpinIconFailed(err));
+  }
+}
+
+export function* addEmployeePin({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/icon/addEmployeePin`;
+  try {
+    const delegateList = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+    const { data } = delegateList;
+    if (delegateList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(successAddSpinIcon(data));
+      yield put(requestGetSelectIcon());
+    } else {
+      yield put(failedAddSpinIcon(data));
+    }
+  } catch (err) {
+    yield put(failedAddSpinIcon(err));
+  }
+}
+
+export function* selectEmpIcon({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/icon/getSelectedIcon`;
+  try {
+    const delegateList = yield request({
+      method: 'GET',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+    const { data } = delegateList;
+    if (delegateList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(successGetSelectIcon(data));
+    } else {
+      yield put(failedGetSelectIcon(data));
+    }
+  } catch (err) {
+    yield put(failedGetSelectIcon(err));
+  }
+}
+
+export function* removePinIcon({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/icon/deleteEmployeePin`;
+  try {
+    const delegateList = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+    const { data } = delegateList;
+    if (delegateList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(successRemoveSpinIcon(data));
+    } else {
+      yield put(failedRemoveSpinIcon(data));
+    }
+  } catch (err) {
+    yield put(failedRemoveSpinIcon(err));
+  }
+}
+
 export default function* profileData() {
   yield takeLatest(REQUEST_GET_PROFILE_OFFICE_DATA, getLocationData);
   yield takeLatest(REQUEST_USERLIST_DATA, getUserListData);
@@ -270,5 +429,10 @@ export default function* profileData() {
   yield takeLatest(REQUEST_DELEGATE_PROFILE, delegateProfile);
   yield takeLatest(REQUEST_ADD_DELEGATE_LIST, addDelegateMember);
   yield takeLatest(REQUEST_REMOVE_DELEGATE_LIST, removeDelegateMember);
+  yield takeLatest(REQUEST_REMOVE_DELEGATE_USER, removeDelegateUser);
   yield takeLatest(REQUEST_GET_DELEGATE_LIST, getUpdateDelegateData);
+  yield takeLatest(REQUEST_GET_SPIN_ICON, getSpinIcon);
+  yield takeLatest(REQUEST_ADD_SPIN_ICON, addEmployeePin);
+  yield takeLatest(REQUEST_GET_SELECT_ICON, selectEmpIcon);
+  yield takeLatest(REQUEST_REMOVE_SPIN_ICON, removePinIcon);
 }

@@ -36,6 +36,7 @@
   color: #00355f;
   width: 100%;
   margin: 20px 0;
+  box-shadow: -1px 0px 11px #eee;
 }
 .emp-table table th {
   line-height: normal;

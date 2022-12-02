@@ -6,6 +6,7 @@ import employeeSaga from './containers/EmployeePage/saga';
 import uploadSaga from './containers/UploadMapPage/saga';
 import spaceSaga from './containers/SpacePage/saga';
 import workspotAdminSaga from './containers/WorkspotAdminPage/saga';
+import neighbourHoodSaga from './containers/NeighbourHoodPage/saga';
 // import myTeamSaga from './containers/ReportPage/saga';
 
 import getInjectors from './utils/sagaInjectors';
@@ -28,6 +29,8 @@ export function injectGlobalSagas(store) {
   injectors.injectSaga(key, { saga: spaceSaga });
   key = 'workspotAdmin';
   injectors.injectSaga(key, { saga: workspotAdminSaga });
+  key = 'neighbourHood';
+  injectors.injectSaga(key, { saga: neighbourHoodSaga });
   // key = 'myTeam';
   // injectors.injectSaga(key, { saga: myTeamSaga });
 }

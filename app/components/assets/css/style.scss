@@ -1,4 +1,4 @@
-@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/bootstrap';
 @font-face {
   font-family: 'Museo Slab Bold';
   src: url('../Fonts/Museo-Slab-All/MuseoSlab-700.eot'); /* IE9 Compat Modes */
@@ -230,6 +230,9 @@ input[type='text'] {
   margin: 0 1.5%;
   font-weight: bold;
   color: #00355f;
+}
+.custom-site-header {
+  padding: 25px 0 !important;
 }
 .site-header {
   background: #002d50;
@@ -3371,20 +3374,54 @@ div[class*='qy-menu'] * {
   margin: 5px 5px;
 }
 
-  .my-team_hover-data {
-    &:hover .hover-data {
-      display: block;
-      position: absolute;
-      top: -33px;
-      right: 95px;
-      background-color: #526e88;
-      border-radius: 8px;
-      padding: 5px;
-      color: #fff;
-      font-size: 12px;
-      opacity: 0.8;
-    }
-    .hover-data-team {
-      display: none;
-    }
+.my-team_hover-data {
+  &:hover .hover-data {
+    display: block;
+    position: absolute;
+    top: -33px;
+    right: 95px;
+    background-color: #526e88;
+    border-radius: 8px;
+    padding: 5px;
+    color: #fff;
+    font-size: 12px;
+    opacity: 0.8;
   }
+  .hover-data-team {
+    display: none;
+  }
+}
+.pins_img {
+  margin-left: 410px;
+  margin-top: -58px;
+}
+.pins_ml {
+  margin-top: 200px;
+}
+
+.heading {
+  font-family: sans-serif;
+  color: #f5f7fa !important;
+  opacity: 0.9;
+  font-size: large;
+  margin: 0;
+}
+.header_tbl {
+  padding: 0 150px;
+  margin-top: 50px;
+}
+.empTable_hdr th {
+  text-transform: none !important;
+  text-align: center;
+}
+.margin_spin {
+  margin: -6px -48px -33px -48px;
+}
+.table_center {
+  margin: 100px auto;
+}
+
+.custom-container {
+  max-width: 100%;
+  padding: 0 150px;
+}

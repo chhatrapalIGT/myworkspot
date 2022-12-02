@@ -27,6 +27,11 @@ import {
   requestAddDelegateList,
   requestRemoveDelegateList,
   requestGetDelegateList,
+  requestGetSpinIcon,
+  requestAddSpinIcon,
+  requestGetSelectIcon,
+  requestRemoveDelegateUser,
+  requestRemoveSpinIcon,
 } from './actions';
 
 class ProfilePage extends Component {
@@ -91,6 +96,8 @@ class ProfilePage extends Component {
     this.props.requestGetProfileOfficeData({});
     this.props.requestGetOfficeLocation({});
     this.props.requestDelegateData({});
+    this.props.getSpinIconRequest({});
+    this.props.getSelectIconRequest({});
   }
 
   componentWillUnmount() {
@@ -375,6 +382,13 @@ class ProfilePage extends Component {
       verifyBadgeLoading,
       badgeUpdateLoading,
       verifyBadgeChk,
+      addSpinIconRequest,
+      spinIcon,
+      selectEmpIcon,
+      removeDelegateUserRequest,
+      removeSpinIconRequest,
+      getSelectIconRequest,
+      addSpinIcon,
     } = this.props;
     const validateBadge =
       history &&
@@ -385,6 +399,13 @@ class ProfilePage extends Component {
       <>
         <div id="content-wrap">
           <Profile
+            addSpinIcon={addSpinIcon}
+            getSelectIconRequest={getSelectIconRequest}
+            requestRemoveSpinIcon={removeSpinIconRequest}
+            requestRemoveDelegateUser={removeDelegateUserRequest}
+            selectEmpIcon={selectEmpIcon}
+            spinIcon={spinIcon}
+            requestAddSpinIcon={addSpinIconRequest}
             state={this.state}
             handleCheckbox={this.handleCheckbox}
             handleUserSelect={this.handleUserSelect}
@@ -435,10 +456,11 @@ const mapStateToProps = state => {
   return {
     getProfileLocation: profile && profile.getOffice,
     userData: profile && profile.userList && profile.userList.user,
-
+    addSpinIcon: profile && profile.addSpinIcon,
     delegateList:
       profile && profile.delegateList && profile.delegateList.delegate,
-
+    spinIcon: profile && profile.spinIcon,
+    selectEmpIcon: profile && profile.selectEmpIcon,
     delegateSuccess:
       profile && profile.delegateList && profile.delegateList.success,
     getProfileLocationSuccess:
@@ -495,10 +517,16 @@ export function mapDispatchToProps(dispatch) {
     clearProfileBadgeSuccess: () => dispatch(clearProfileBadgeSuccess()),
     requestBadgeData: payload => dispatch(requestBadgeData(payload)),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
+    getSpinIconRequest: payload => dispatch(requestGetSpinIcon(payload)),
+    addSpinIconRequest: payload => dispatch(requestAddSpinIcon(payload)),
+    getSelectIconRequest: payload => dispatch(requestGetSelectIcon(payload)),
     requestAddDelegateList: payload =>
       dispatch(requestAddDelegateList(payload)),
     requestRemoveDelegateList: payload =>
       dispatch(requestRemoveDelegateList(payload)),
+    removeDelegateUserRequest: payload =>
+      dispatch(requestRemoveDelegateUser(payload)),
+    removeSpinIconRequest: payload => dispatch(requestRemoveSpinIcon(payload)),
     requestGetDelegateList: payload =>
       dispatch(requestGetDelegateList(payload)),
     dispatch,
@@ -509,6 +537,9 @@ const withSaga = injectSaga({ key: 'profile', saga });
 
 ProfilePage.propTypes = {
   requestGetProfileOfficeData: PropTypes.func,
+  addSpinIconRequest: PropTypes.func,
+  getSpinIconRequest: PropTypes.func,
+  getSelectIconRequest: PropTypes.func,
   requestGetOfficeLocation: PropTypes.func,
   requestAddOfficeLocation: PropTypes.func,
   requestBadgeData: PropTypes.func,
@@ -531,6 +562,8 @@ ProfilePage.propTypes = {
   verifyBadgeMsg: PropTypes.string,
   requestAddDelegateList: PropTypes.func,
   requestRemoveDelegateList: PropTypes.func,
+  removeDelegateUserRequest: PropTypes.func,
+  removeSpinIconRequest: PropTypes.func,
   requestGetDelegateList: PropTypes.func,
   delegrateUsersList: PropTypes.object,
   locationApiMessage: PropTypes.string,
@@ -542,12 +575,14 @@ ProfilePage.propTypes = {
   badgeUpdateSuccess: PropTypes.bool,
   badgeUpdateLoading: PropTypes.bool,
   clearProfileBadgeSuccess: PropTypes.object,
+  spinIcon: PropTypes.array,
+  selectEmpIcon: PropTypes.array,
+  addSpinIcon: PropTypes.object,
 };
 
 export default compose(
   withReducer,
   withSaga,
-  //   withSaga,
   connect(
     mapStateToProps,
     mapDispatchToProps,
