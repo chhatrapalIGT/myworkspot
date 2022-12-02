@@ -28,7 +28,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 // import Login from '../../components/Login';
 import CallBack from '../../components/Login/CallBack';
-// import Login from '../../components/Login';
+import Login from '../../components/Login';
 import EmployeePage from '../EmployeePage';
 import officeUpload from '../UploadMapPage';
 import space from '../SpacePage';
@@ -72,7 +72,7 @@ const App = props => {
         <>
           <Header />
           <Switch>
-            {/* <Route exact path="/auth" component={Login} /> */}
+            <Route exact path="/auth" component={Login} />
             <Route
               // exact
               path="/profile"

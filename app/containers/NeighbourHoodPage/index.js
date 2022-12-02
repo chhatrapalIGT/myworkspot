@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable object-shorthand */
 /* eslint-disable prefer-template */
 /* eslint-disable no-var */
@@ -34,7 +35,7 @@ class NeighBourHoodPage extends Component {
   componentDidMount() {
     const pathdata = history && history.location && history.location.pathname;
     if (pathdata === '/locationId=DC&floor=2&neighborhoodName=Blue') {
-      this.props.getOfficeAssignmentsRequest({
+      this.props.requestGetOfficeAssignments({
         locationId: 'DC',
         floor: 2,
         neighborhoodName: 'Blue' || '',
@@ -42,7 +43,7 @@ class NeighBourHoodPage extends Component {
       });
     }
     if (pathdata === '/locationId=DC&floor=3&neighborhoodName=Blue') {
-      this.props.getOfficeAssignmentsRequest({
+      this.props.requestGetOfficeAssignments({
         locationId: 'DC',
         floor: 3,
         neighborhoodName: 'Blue' || '',
@@ -50,7 +51,7 @@ class NeighBourHoodPage extends Component {
       });
     }
     if (pathdata === '/locationId=DC&floor=4&neighborhoodName=Blue') {
-      this.props.getOfficeAssignmentsRequest({
+      this.props.requestGetOfficeAssignments({
         locationId: 'DC',
         floor: 4,
         neighborhoodName: 'Blue' || '',
@@ -58,7 +59,7 @@ class NeighBourHoodPage extends Component {
       });
     }
     if (pathdata === '/locationId=DC&floor=8&neighborhoodName=Blue') {
-      this.props.getOfficeAssignmentsRequest({
+      this.props.requestGetOfficeAssignments({
         locationId: 'DC',
         floor: 8,
         neighborhoodName: 'Blue' || '',
@@ -68,7 +69,7 @@ class NeighBourHoodPage extends Component {
     if (
       pathdata === '/locationId=BLM&floor=Building_1&neighborhoodName=Yellow'
     ) {
-      this.props.getOfficeAssignmentsRequest({
+      this.props.requestGetOfficeAssignments({
         locationId: 'BLM',
         floor: 'Building-1',
         neighborhoodName: 'Yellow' || '',
@@ -76,7 +77,7 @@ class NeighBourHoodPage extends Component {
       });
     }
     if (pathdata === '/locationId=RIC&floor=Floor_2&neighborhoodName=Green') {
-      this.props.getOfficeAssignmentsRequest({
+      this.props.requestGetOfficeAssignments({
         locationId: 'RIC',
         floor: 'Floor-2',
         neighborhoodName: 'Green' || '',
@@ -87,13 +88,13 @@ class NeighBourHoodPage extends Component {
   }
 
   render() {
-    const { getOfficeAssignmentsRequest, location, neighbourHood } = this.props;
+    const { requestGetOfficeAssignments, location, neighbourHood } = this.props;
     return (
       <div>
         <BlueNeighbourHood
           neighbourHood={neighbourHood}
           location={location}
-          requestGetOfficeAssignments={getOfficeAssignmentsRequest}
+          requestGetOfficeAssignments={requestGetOfficeAssignments}
         />
       </div>
     );
@@ -113,7 +114,7 @@ const mapStateToProps = state => {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    getOfficeAssignmentsRequest: payload =>
+    requestGetOfficeAssignments: payload =>
       dispatch(requestGetOfficeAssignments(payload)),
     getOfficeLocationRequest: payload =>
       dispatch(requestGetOfficeLocation(payload)),
@@ -124,7 +125,7 @@ const withReducer = injectReducer({ key: 'neighbourHood', reducer });
 const withSaga = injectSaga({ key: 'neighbourHood', saga });
 
 NeighBourHoodPage.propTypes = {
-  getOfficeAssignmentsRequest: PropTypes.object,
+  requestGetOfficeAssignments: PropTypes.object,
   getOfficeLocationRequest: PropTypes.object,
   location: PropTypes.object,
   neighbourHood: PropTypes.object,

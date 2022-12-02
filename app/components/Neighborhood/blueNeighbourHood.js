@@ -26,6 +26,7 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
                           width: '25%',
                           fontSize: '25px',
                           textAlign: 'left',
+                          wordSpacing: '-5px',
                         }}
                       >
                         {ele.firstname}
@@ -57,6 +58,7 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
                           width: '25%',
                           fontSize: '25px',
                           textAlign: 'left',
+                          wordSpacing: '-5px',
                         }}
                       >
                         {ele.firstname}
@@ -89,6 +91,7 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
                           width: '25%',
                           fontSize: '25px',
                           textAlign: 'left',
+                          wordSpacing: '-5px',
                         }}
                       >
                         {ele.firstname}
@@ -121,6 +124,7 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
                           width: '25%',
                           fontSize: '25px',
                           textAlign: 'left',
+                          wordSpacing: '-5px',
                         }}
                       >
                         {ele.firstname}
@@ -154,6 +158,7 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
                           width: '25%',
                           fontSize: '25px',
                           textAlign: 'left',
+                          wordSpacing: '-5px',
                         }}
                       >
                         {ele.firstname}
@@ -186,6 +191,7 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
                           width: '25%',
                           fontSize: '25px',
                           textAlign: 'left',
+                          wordSpacing: '-5px',
                         }}
                       >
                         {ele.firstname}
