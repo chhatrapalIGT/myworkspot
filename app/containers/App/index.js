@@ -8,7 +8,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { connect } from 'react-redux';
@@ -28,14 +28,17 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 // import Login from '../../components/Login';
 import CallBack from '../../components/Login/CallBack';
-import Login from '../../components/Login';
+// import Login from '../../components/Login';
 import EmployeePage from '../EmployeePage';
 import officeUpload from '../UploadMapPage';
 import space from '../SpacePage';
 import WorkspotAdminPage from '../WorkspotAdminPage';
+import NeighbourHoodPage from '../NeighbourHoodPage';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
+  const location = useLocation();
+  const pathName = location.pathname;
   const history = useHistory();
 
   const requestLogin = async () => {
@@ -45,6 +48,15 @@ const App = props => {
       history.push('/auth');
     }
   };
+
+  const pathNameUrl = [
+    '/locationId=DC&floor=2&neighborhoodName=Blue',
+    '/locationId=DC&floor=3&neighborhoodName=Blue',
+    '/locationId=DC&floor=4&neighborhoodName=Blue',
+    '/locationId=DC&floor=8&neighborhoodName=Blue',
+    '/locationId=BLM&floor=Building_1&neighborhoodName=Yellow',
+    '/locationId=RIC&floor=Floor_2&neighborhoodName=Green',
+  ];
 
   useEffect(() => {
     requestLogin();
@@ -60,7 +72,7 @@ const App = props => {
         <>
           <Header />
           <Switch>
-            <Route exact path="/auth" component={Login} />
+            {/* <Route exact path="/auth" component={Login} /> */}
             <Route
               // exact
               path="/profile"
@@ -119,9 +131,45 @@ const App = props => {
               path="/home"
               component={WorkspotAdminPage}
             />
+            <Route
+              Route
+              props={props}
+              path="/locationId=DC&floor=2&neighborhoodName=Blue"
+              component={NeighbourHoodPage}
+            />
+            <Route
+              Route
+              props={props}
+              path="/locationId=DC&floor=3&neighborhoodName=Blue"
+              component={NeighbourHoodPage}
+            />
+            <Route
+              Route
+              props={props}
+              path="/locationId=DC&floor=4&neighborhoodName=Blue"
+              component={NeighbourHoodPage}
+            />
+            <Route
+              Route
+              props={props}
+              path="/locationId=DC&floor=8&neighborhoodName=Blue"
+              component={NeighbourHoodPage}
+            />
+            <Route
+              Route
+              props={props}
+              path="/locationId=BLM&floor=Building_1&neighborhoodName=Yellow"
+              component={NeighbourHoodPage}
+            />
+            <Route
+              Route
+              props={props}
+              path="/locationId=RIC&floor=Floor_2&neighborhoodName=Green"
+              component={NeighbourHoodPage}
+            />
             <Route component={NotFoundPage} />
           </Switch>
-          <Footer />
+          {pathNameUrl.includes(pathName) ? '' : <Footer />}
         </>
       )}
     </div>

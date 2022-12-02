@@ -1,7 +1,11 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-constant-condition */
+/* eslint-disable arrow-body-style */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable indent */
@@ -9,7 +13,7 @@
 
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
+import { isEmpty, result } from 'lodash';
 import { useHistory } from 'react-router';
 
 import { Modal } from 'react-bootstrap';
@@ -22,18 +26,17 @@ import Close from '../assets/images/close.svg';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
 import externalLink from '../assets/images/externalLink.png';
+import { CONSTANT } from '../../enum';
+const { SPIN_IMAGE_URL_LIVE } = CONSTANT;
 
 const Profile = ({
   handleButtonData,
-  badgeUpdateSuccess,
   state,
   handleCheckbox,
   handleUserSelectData,
   handleSubmit,
-  getProfileLocation,
   userData,
   delegateList,
-  delegateSuccess,
   location,
   apiMessage,
   apiSuccess,
@@ -57,28 +60,54 @@ const Profile = ({
   badgeUpdateLoading,
   verifyBadgeChk,
   handleManageFirstBox,
+  spinIcon,
+  requestAddSpinIcon,
+  selectEmpIcon,
+  requestRemoveDelegateUser,
+  requestRemoveSpinIcon,
+  getSelectIconRequest,
+  addSpinIcon,
 }) => {
-  const [openbadgeData, setOpenBadgeData] = useState(true);
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
   const [replace, setReplace] = useState(true);
   const [modal, setModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
+  const [delegateListData, setdelegateListData] = useState([]);
   const [selectData, setselectData] = useState([]);
+  const [empSpinData, setEmpSpinData] = useState([]);
+  const [demoData, setDemoData] = useState([]);
+  const [employee, setemployee] = useState([]);
+  const [openError, setOpenError] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
   const [search, setSearch] = useState(false);
   const [inputSet, setInputSet] = useState('');
   const [inputSet2, setInputSet2] = useState('');
-
   const history = useHistory();
-
   const badgeValues = userData && userData.badgeNumber;
   const value =
     badgeValues &&
     badgeValues.slice(0, 2) +
       badgeValues.slice(3, 7) +
       badgeValues.slice(7, 10);
+
+  const demo = [];
+  useEffect(() => {
+    setDemoData(
+      Array.from(selectEmpIcon).map(key => {
+        demo.push(key.id);
+        return key.id;
+      }),
+    );
+    setemployee(
+      Array.from(selectEmpIcon).map(key => {
+        demo.push(key);
+        return key;
+      }),
+    );
+  }, [selectEmpIcon]);
 
   const finalBadges =
     value && `${value.substring(0, 2)} ${value.substring(2, value.length)}`;
@@ -87,16 +116,18 @@ const Profile = ({
     userData && userData.badgeNumber && userData.badgeNumber.slice(3, 6);
   const inputval2 =
     userData && userData.badgeNumber && userData.badgeNumber.slice(7, 11);
-
   useEffect(() => {
     if (show && searchName.length) {
       setSearchName([]);
     }
-
+    // if (addSpinIcon.success === true) {
+    //   history.replace('/profile');
+    //   // getSelectIconRequest();
+    // }
     if (badgeVerify === badgeConfirmVerify) {
       handleBadgeData();
     }
-  }, [show]);
+  }, [show, addSpinIcon]);
   useEffect(() => {
     if (validateBadge) {
       setOpenBadge(true);
@@ -117,22 +148,54 @@ const Profile = ({
       setselectData(delegrateUsersList);
     }
 
+    // if (spinIcon && spinIcon.length > 0 && open) {
+    //   setEmpSpinData(spinIcon);
+    // }
+
+    if (
+      userData &&
+      userData.delegateUserList &&
+      userData.delegateUserList.length
+    ) {
+      setdelegateListData(userData.delegateUserList);
+    }
+
     if (verifyBadgeChk && verifyBadgeChk.update) {
       setInputSet2('');
       setInputSet('');
     }
-  }, [badgeUpdateData, delegrateUsersList, verifyBadgeChk]);
-
-  let dataName = [];
+  }, [badgeUpdateData, delegrateUsersList, verifyBadgeChk, userData]);
   const handleUserSelect = firstname => {
-    dataName = [...selectData];
-    if (dataName.includes(firstname)) {
-      const index = dataName.indexOf(firstname);
-      dataName.splice(index, 1);
+    const tempDemo = demoData;
+    const tempEmpData = employee;
+    if (open) {
+      const newDataName = [...empSpinData];
+      if (newDataName.includes(firstname.id)) {
+        const index = newDataName.indexOf(firstname.id);
+        newDataName.splice(index, 1);
+      } else {
+        if (newDataName.length > 1 || tempDemo.length > 1) {
+          newDataName.shift();
+          tempDemo.shift();
+          tempEmpData.shift();
+        }
+        newDataName.push(firstname.id);
+        tempDemo.push(firstname.id);
+        tempEmpData.push(firstname);
+      }
+      setEmpSpinData(newDataName);
     } else {
-      dataName.push(firstname);
+      const dataName = [...selectData];
+      if (dataName.includes(firstname)) {
+        const index = dataName.indexOf(firstname);
+        dataName.splice(index, 1);
+      } else {
+        dataName.push(firstname);
+      }
+      setselectData(dataName);
     }
-    setselectData(dataName);
+    setDemoData(tempDemo);
+    setemployee(tempEmpData);
   };
 
   const handleChange = event => {
@@ -187,6 +250,7 @@ const Profile = ({
   const handleRemove = name => {
     const newArr = [...userListData];
     const dataVal = newArr.filter(datas => datas.employeeid === name);
+
     if (dataVal[0].employeeid) {
       const idx = newArr.findIndex(val => val.employeeid === name);
       newArr.splice(idx, 1);
@@ -196,6 +260,47 @@ const Profile = ({
 
     setselectData(newArr);
     requestRemoveDelegateList({ id: dataVal[0].employeeid });
+  };
+
+  const handleDelegateRemove = name => {
+    const newArr = userData.delegateUserList;
+    const dataVal =
+      userData &&
+      userData.delegateUserList &&
+      userData.delegateUserList.filter(ele => ele.employeeid === name);
+    if (dataVal[0].employeeid) {
+      const idx = newArr.findIndex(val => val.employeeid === name);
+      newArr.splice(idx, 1);
+      setdelegateListData(newArr);
+    }
+
+    requestRemoveDelegateUser({ id: dataVal[0].employeeid });
+  };
+
+  const handleSpinRemove = name => {
+    const newArr = selectEmpIcon;
+    const dataVal =
+      selectEmpIcon &&
+      selectEmpIcon.length > 0 &&
+      selectEmpIcon.filter(ele => ele.pinId === name);
+    if (dataVal[0].pinId) {
+      const idx = newArr.findIndex(val => val.pinId === name);
+      newArr.splice(idx, 1);
+    }
+    setemployee(prestate =>
+      prestate.filter(ele => ele.pinId !== dataVal[0].pinId),
+    );
+    setDemoData(prestate => prestate.filter(ele => ele !== dataVal[0].pinId));
+    requestRemoveSpinIcon({ pinId: [dataVal[0].pinId] });
+  };
+  const handleAddSpinIcon = () => {
+    if (demoData && demoData.length > 0) {
+      if (demoData.length === 1 || 2) {
+        requestAddSpinIcon({ pin: demoData });
+      } else {
+        setOpenError(true);
+      }
+    }
   };
 
   const badgeVerify = inputSet.concat(inputSet2);
@@ -612,6 +717,67 @@ const Profile = ({
 
           <div className="workspot-access mt-40">
             <div className="container">
+              <h4 className="common-title">Name Plate Pins</h4>
+              <p className="w-50 stroke-2 mt-3">
+                You can select up to 2 pins to display on your name plate.
+              </p>
+
+              <div className="card mt-4 work-access-inner">
+                <div className="d-flex w-100 justify-content-between align-items-center">
+                  <h5>My Pins</h5>
+                  <button
+                    type="button"
+                    onClick={() => setOpen(true)}
+                    className="btn blue-color-btn"
+                  >
+                    Select Pins
+                  </button>
+                </div>
+                <div className="access-to">
+                  {employee && employee.length > 0
+                    ? employee.map(i => (
+                        <div className="access-one">
+                          <img
+                            src={`${SPIN_IMAGE_URL_LIVE +
+                              i.imageUrl}?bust=${new Date().getTime()}`}
+                            alt=""
+                          />
+                          {i.name}
+                          <a
+                            className="close_btn"
+                            href
+                            onClick={() => handleSpinRemove(i.pinId)}
+                          >
+                            <img src={Close} alt="" />
+                          </a>
+                        </div>
+                      ))
+                    : selectEmpIcon &&
+                      selectEmpIcon.length > 0 &&
+                      selectEmpIcon.map(i => (
+                        <div className="access-one">
+                          <img
+                            src={`${SPIN_IMAGE_URL_LIVE +
+                              i.imageUrl}?bust=${new Date().getTime()}`}
+                            alt=""
+                          />
+                          {i.name}
+                          <a
+                            className="close_btn"
+                            href
+                            onClick={() => handleSpinRemove(i.pinId)}
+                          >
+                            <img src={Close} alt="" />
+                          </a>
+                        </div>
+                      ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="workspot-access mt-40">
+            <div className="container">
               <h4 className="common-title">
                 <i>my</i>Workspot Access
               </h4>
@@ -632,13 +798,6 @@ const Profile = ({
                     Delegate <i>my</i>Workspot Access
                   </button>
                 </div>
-                {/* {userListData.length <= 0 ? (
-                  <Spinner
-                    className="app-spinner profile"
-                    animation="grow"
-                    variant="dark"
-                  />
-                ) : ( */}
                 <div className="access-to">
                   {userListData &&
                     userListData.map(i => (
@@ -655,7 +814,6 @@ const Profile = ({
                       </div>
                     ))}
                 </div>
-                {/* )} */}
               </div>
             </div>
           </div>
@@ -668,12 +826,19 @@ const Profile = ({
                     I Can Update <i>my</i>Workspot for
                   </h5>
                 </div>
-                <div className="access-to update-workshop">
-                  {userData.delegateUserList &&
-                    userData.delegateUserList.map(i => (
+                <div className="access-to">
+                  {delegateListData &&
+                    delegateListData.map(i => (
                       <div className="access-one">
                         <img src={i.delegateUserPhoto || ProfileImg} alt="" />
                         {i.delegateUserFistname} {i.delegateUserLastname}
+                        <a
+                          className="close_btn"
+                          href
+                          onClick={() => handleDelegateRemove(i.employeeid)}
+                        >
+                          <img src={Close} alt="" />
+                        </a>
                       </div>
                     ))}
                 </div>
@@ -854,7 +1019,6 @@ const Profile = ({
                         aria-hidden="true"
                         className={`${selectData.includes(i) &&
                           'checked_item'}  form-group`}
-                        // className="form-group"
                         onClick={() => handleUserSelect(i)}
                       >
                         <img src={ProfileImg} alt="" />
@@ -895,6 +1059,90 @@ const Profile = ({
             </div>
           </div>
         </Modal>
+        <Modal
+          className="modal fade test_modal"
+          show={open}
+          onHide={() => setOpen(false)}
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog">
+            <div className="modal-content pins_ml">
+              <div className="modal-header d-block">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  My Pins
+                </h5>
+                <br />
+                <div
+                  className="modal-body modal-update margin_spin"
+                  id="data_update"
+                >
+                  <form className="delegate-workspot-access" action="submit">
+                    <>
+                      <div>
+                        {spinIcon &&
+                          spinIcon.length &&
+                          spinIcon.map(elec => (
+                            <>
+                              <div
+                                aria-hidden="true"
+                                className={`${demoData.includes(elec.id) &&
+                                  'checked_item'} form-group`}
+                                onClick={() => handleUserSelect(elec)}
+                              >
+                                <img
+                                  src={`${SPIN_IMAGE_URL_LIVE +
+                                    elec.imageUrl}?bust=${new Date().getTime()}`}
+                                  alt=""
+                                />
+                                <input
+                                  id={elec.id}
+                                  type="radio"
+                                  className="checkbox"
+                                  checked={demoData.includes(elec.id)}
+                                />
+                                <label htmlFor="jane">{elec.name}</label>
+                              </div>
+                            </>
+                          ))}
+                      </div>
+                    </>
+                  </form>
+                </div>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn save-data"
+                  onClick={() => {
+                    handleAddSpinIcon();
+                    setOpen(false);
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  className="btn dismiss"
+                  data-bs-dismiss="modal"
+                  onClick={() => {
+                    setOpen(false);
+                    setEmpSpinData([]);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </Modal>
       </div>
     </Fragment>
   );
@@ -906,11 +1154,9 @@ Profile.propTypes = {
   handleCheckbox: PropTypes.func,
   state: PropTypes.object,
   handleUserSelectData: PropTypes.func,
-  getProfileLocation: PropTypes.object,
   userData: PropTypes.object,
   delegateList: PropTypes.object,
   location: PropTypes.object,
-  delegateSuccess: PropTypes.bool,
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
   locationSuccess: PropTypes.bool,
@@ -918,14 +1164,16 @@ Profile.propTypes = {
   handleBadgeData: PropTypes.func,
   handleBadgeSubmit: PropTypes.func,
   badgeUpdateData: PropTypes.object,
+  addSpinIcon: PropTypes.object,
   verifyBadgeSuccess: PropTypes.bool,
   verifyBadgeMsg: PropTypes.string,
   handleSelectedNamesChange: PropTypes.object,
   handleCloseBtn: PropTypes.func,
   requestRemoveDelegateList: PropTypes.func,
+  requestRemoveDelegateUser: PropTypes.func,
+  requestRemoveSpinIcon: PropTypes.func,
   requestAddDelegateList: PropTypes.func,
   delegrateUsersList: PropTypes.object,
-  badgeUpdateSuccess: PropTypes.bool,
   locationApiMessage: PropTypes.string,
   locationApiSuccess: PropTypes.bool,
   handlecloseDataIcon: PropTypes.func,
@@ -933,6 +1181,10 @@ Profile.propTypes = {
   verifyBadgeLoading: PropTypes.bool,
   badgeUpdateLoading: PropTypes.bool,
   verifyBadgeChk: PropTypes.object,
+  spinIcon: PropTypes.array,
+  selectEmpIcon: PropTypes.array,
   handleManageFirstBox: PropTypes.func,
+  requestAddSpinIcon: PropTypes.func,
+  getSelectIconRequest: PropTypes.func,
 };
 export default Profile;

@@ -24,6 +24,21 @@ import {
   REQUEST_GET_DELEGATE_LIST,
   SUCCESS_GET_DELEGATE_LIST,
   FAILED_GET_DELEGATE_LIST,
+  REQUEST_GET_SPIN_ICON,
+  SUCCESS_GET_SPIN_ICON,
+  FAILED_GET_SPIN_ICON,
+  REQUEST_ADD_SPIN_ICON,
+  SUCCESS_ADD_SPIN_ICON,
+  FAILED_ADD_SPIN_ICON,
+  REQUEST_GET_SELECT_ICON,
+  SUCCESS_GET_SELECT_ICON,
+  FAILED_GET_SELECT_ICON,
+  REQUEST_REMOVE_DELEGATE_USER,
+  SUCCESS_REMOVE_DELEGATE_USER,
+  FAILED_REMOVE_DELEGATE_USER,
+  SUCCESS_REMOVE_SPIN_ICON,
+  REQUEST_REMOVE_SPIN_ICON,
+  FAILED_REMOVE_SPIN_ICON,
 } from './constants';
 
 export const requestGetProfileOfficeData = payload => ({
@@ -133,6 +148,21 @@ export const removeDelegateListFailed = error => ({
   payload: error,
 });
 
+export const requestRemoveDelegateUser = payload => ({
+  type: REQUEST_REMOVE_DELEGATE_USER,
+  payload,
+});
+
+export const removeDelegateUserSuccess = payload => ({
+  type: SUCCESS_REMOVE_DELEGATE_USER,
+  payload,
+});
+
+export const removeDelegateUserFailed = error => ({
+  type: FAILED_REMOVE_DELEGATE_USER,
+  payload: error,
+});
+
 export const requestGetDelegateList = payload => ({
   type: REQUEST_GET_DELEGATE_LIST,
   payload,
@@ -145,5 +175,65 @@ export const getDelegateListSuccess = payload => ({
 
 export const getDelegateListFailed = error => ({
   type: FAILED_GET_DELEGATE_LIST,
+  payload: error,
+});
+
+export const requestGetSpinIcon = payload => ({
+  type: REQUEST_GET_SPIN_ICON,
+  payload,
+});
+
+export const getSpinIconSuccess = payload => ({
+  type: SUCCESS_GET_SPIN_ICON,
+  payload,
+});
+
+export const getSpinIconFailed = error => ({
+  type: FAILED_GET_SPIN_ICON,
+  payload: error,
+});
+
+export const requestAddSpinIcon = payload => ({
+  type: REQUEST_ADD_SPIN_ICON,
+  payload,
+});
+
+export const successAddSpinIcon = payload => ({
+  type: SUCCESS_ADD_SPIN_ICON,
+  payload,
+});
+
+export const failedAddSpinIcon = error => ({
+  type: FAILED_ADD_SPIN_ICON,
+  payload: error,
+});
+
+export const requestGetSelectIcon = payload => ({
+  type: REQUEST_GET_SELECT_ICON,
+  payload,
+});
+
+export const successGetSelectIcon = payload => ({
+  type: SUCCESS_GET_SELECT_ICON,
+  payload,
+});
+
+export const failedGetSelectIcon = error => ({
+  type: FAILED_GET_SELECT_ICON,
+  payload: error,
+});
+
+export const requestRemoveSpinIcon = payload => ({
+  type: REQUEST_REMOVE_SPIN_ICON,
+  payload,
+});
+
+export const successRemoveSpinIcon = payload => ({
+  type: SUCCESS_REMOVE_SPIN_ICON,
+  payload,
+});
+
+export const failedRemoveSpinIcon = error => ({
+  type: FAILED_REMOVE_SPIN_ICON,
   payload: error,
 });

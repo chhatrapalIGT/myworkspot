@@ -7,6 +7,7 @@ export const MAP_URL = process.env.IMAGE_SRC;
 export const PROTOCOL_LIVE = process.env.API_PROTOCOL_LIVE;
 export const DOMAIN_LIVE = process.env.API_DOMAIN_LIVE;
 export const MAP_URL_LIVE = process.env.IMAGE_SRC_LIVE;
+export const SPIN_IMAGE_URL_LIVE = process.env.IMAGE_SRC_SPIN;
 
 const IS_LIVE = process.env.IS_LIVE === 'true';
 export default {
@@ -16,11 +17,13 @@ export default {
         ImageURL: `${PROTOCOL_LIVE}://${DOMAIN_LIVE}`,
         InvoiceURL: `${PROTOCOL_LIVE}://${DOMAIN_LIVE}`,
         MapImageUrl: MAP_URL_LIVE,
+        SpinImageUrl: SPIN_IMAGE_URL_LIVE,
       }
     : {
         URL: `${PROTOCOL}://${DOMAIN}`,
         ImageURL: `${PROTOCOL}://${DOMAIN}`,
         InvoiceURL: `${PROTOCOL}://${DOMAIN}`,
         MapImageUrl: MAP_URL,
+        SpinImageUrl: SPIN_IMAGE_URL_LIVE,
       },
 };

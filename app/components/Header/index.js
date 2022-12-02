@@ -1,3 +1,5 @@
+/* eslint-disable no-constant-condition */
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable indent */
@@ -25,6 +27,28 @@ import BadgeIcon from '../../images/badgeIcon.png';
 import { CONSTANT } from '../../enum';
 
 const { API_URL } = CONSTANT;
+
+const pathNameUrl = [
+  '/locationId=DC&floor=2&neighborhoodName=Blue',
+  '/locationId=DC&floor=3&neighborhoodName=Blue',
+  '/locationId=DC&floor=4&neighborhoodName=Blue',
+  '/locationId=DC&floor=8&neighborhoodName=Blue',
+  '/locationId=BLM&floor=Building_1&neighborhoodName=Yellow',
+  '/locationId=RIC&floor=Floor_2&neighborhoodName=Green',
+];
+
+const WashingtonArr = [
+  '/locationId=DC&floor=2&neighborhoodName=Blue',
+  '/locationId=DC&floor=3&neighborhoodName=Blue',
+  '/locationId=DC&floor=4&neighborhoodName=Blue',
+  '/locationId=DC&floor=8&neighborhoodName=Blue',
+];
+
+const BloomingtonArr = [
+  '/locationId=BLM&floor=Building_1&neighborhoodName=Yellow',
+];
+
+const RichmondArr = ['/locationId=RIC&floor=Floor_2&neighborhoodName=Green'];
 
 const Header = props => {
   // eslint-disable-next-line no-unused-vars
@@ -155,8 +179,14 @@ const Header = props => {
 
   return (
     <div>
-      <header className="site-header">
-        <div className="container">
+      <header
+        className={`${
+          pathNameUrl.includes(pathName)
+            ? 'site-header custom-site-header'
+            : 'site-header'
+        }`}
+      >
+        <div className="custom-container">
           <div className="header_wrapper d-flex align-items-center justify-content-between">
             <div className="logo_wrapper">
               {pathName === '/' ? (
@@ -177,93 +207,119 @@ const Header = props => {
                 </Link>
               )}
             </div>
-            {((pathName !== '/' && pathName !== '/auth') ||
-              (props.profileUser &&
-                props.profileUser.isFirstTime === false &&
-                pathName !== '/auth')) && (
-              <div className={`${sidebar && 'show'} main-menu`}>
-                <ul>
-                  {sessionStorage.getItem('manageAdmin') === 'true' ? (
-                    <>
-                      {' '}
-                      <li onClick={() => setSidebar(false)} aria-hidden="true">
-                        <Link to="/home" activeClassName="active">
-                          <a
-                            className={pathName === '/home' && 'active'}
-                            href="true"
+            {!pathNameUrl.includes(pathName) ? (
+              <>
+                {((pathName !== '/' && pathName !== '/auth') ||
+                  (props.profileUser &&
+                    props.profileUser.isFirstTime === false &&
+                    pathName !== '/auth')) && (
+                  <div className={`${sidebar && 'show'} main-menu`}>
+                    <ul>
+                      {sessionStorage.getItem('manageAdmin') === 'true' ? (
+                        <>
+                          {' '}
+                          <li
+                            onClick={() => setSidebar(false)}
+                            aria-hidden="true"
                           >
-                            Home
-                          </a>
-                        </Link>
-                      </li>
-                      <li onClick={() => setSidebar(false)} aria-hidden="true">
-                        <Link to="/space" activeClassName="active">
-                          <a
-                            className={pathName === '/space' && 'active'}
-                            href="true"
+                            <Link to="/home" activeClassName="active">
+                              <a
+                                className={pathName === '/home' && 'active'}
+                                href="true"
+                              >
+                                Home
+                              </a>
+                            </Link>
+                          </li>
+                          <li
+                            onClick={() => setSidebar(false)}
+                            aria-hidden="true"
                           >
-                            Spaces
-                          </a>
-                        </Link>
-                      </li>
-                      <li onClick={() => setSidebar(false)} aria-hidden="true">
-                        <Link to="/employee" activeClassName="active">
-                          <a
-                            className={pathName === '/employee' && 'active'}
-                            href="true"
+                            <Link to="/space" activeClassName="active">
+                              <a
+                                className={pathName === '/space' && 'active'}
+                                href="true"
+                              >
+                                Spaces
+                              </a>
+                            </Link>
+                          </li>
+                          <li
+                            onClick={() => setSidebar(false)}
+                            aria-hidden="true"
                           >
-                            Employees
-                          </a>
-                        </Link>
-                      </li>
-                      <li onClick={() => setSidebar(false)} aria-hidden="true">
-                        <Link to="/officemap" activeClassName="active">
-                          <a
-                            className={pathName === '/officemap' && 'active'}
-                            href="true"
+                            <Link to="/employee" activeClassName="active">
+                              <a
+                                className={pathName === '/employee' && 'active'}
+                                href="true"
+                              >
+                                Employees
+                              </a>
+                            </Link>
+                          </li>
+                          <li
+                            onClick={() => setSidebar(false)}
+                            aria-hidden="true"
                           >
-                            Office Maps
-                          </a>
-                        </Link>
-                      </li>
-                    </>
-                  ) : (
-                    <>
-                      <li onClick={() => setSidebar(false)} aria-hidden="true">
-                        <Link to="/workspot" activeClassName="active">
-                          <a
-                            className={
-                              (pathName === '/workspot' || pathName === '/') &&
-                              'active'
-                            }
-                            href="true"
+                            <Link to="/officemap" activeClassName="active">
+                              <a
+                                className={
+                                  pathName === '/officemap' && 'active'
+                                }
+                                href="true"
+                              >
+                                Office Maps
+                              </a>
+                            </Link>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li
+                            onClick={() => setSidebar(false)}
+                            aria-hidden="true"
                           >
-                            Home
-                          </a>
-                        </Link>
-                      </li>
-                      <li onClick={() => setSidebar(false)} aria-hidden="true">
-                        <Link to="/report" activeClassName="active">
-                          <a
-                            className={pathName === '/report' && 'active'}
-                            href="true"
+                            <Link to="/workspot" activeClassName="active">
+                              <a
+                                className={
+                                  (pathName === '/workspot' ||
+                                    pathName === '/') &&
+                                  'active'
+                                }
+                                href="true"
+                              >
+                                Home
+                              </a>
+                            </Link>
+                          </li>
+                          <li
+                            onClick={() => setSidebar(false)}
+                            aria-hidden="true"
                           >
-                            My Team
-                          </a>
-                        </Link>
-                      </li>
-                      <li onClick={() => setSidebar(false)} aria-hidden="true">
-                        <Link to="/office" activeClassName="active">
-                          <a
-                            className={pathName === '/office' && 'active'}
-                            href="true"
+                            <Link to="/report" activeClassName="active">
+                              <a
+                                className={pathName === '/report' && 'active'}
+                                href="true"
+                              >
+                                My Team
+                              </a>
+                            </Link>
+                          </li>
+                          <li
+                            onClick={() => setSidebar(false)}
+                            aria-hidden="true"
                           >
-                            Office Maps
-                          </a>
-                        </Link>
-                      </li>
-                      <li>
-                        {/* <Link to="/faq">
+                            <Link to="/office" activeClassName="active">
+                              <a
+                                className={pathName === '/office' && 'active'}
+                                href="true"
+                              >
+                                Office Maps
+                              </a>
+                            </Link>
+                          </li>
+                          <li>
+                            {/* <Link to="/faq">
                           <a
                             href="true"
                             className={pathName === '/faq' && 'active'}
@@ -271,302 +327,352 @@ const Header = props => {
                             Help
                           </a>
                         </Link> */}
-                      </li>
-                    </>
-                  )}
-                </ul>
-              </div>
-            )}
-
-            {pathName !== '/auth' && (
-              <div className="right-menus" ref={divRef}>
-                {props.profileUserLoading ? (
-                  <div className="spinner-border" />
-                ) : (
-                  <div
-                    aria-hidden="true"
-                    onClick={() => setEditProfile(!editProfile)}
-                    onHide={() => setEditProfile(false)}
-                    className={
-                      // eslint-disable-next-line no-nested-ternary
-                      props.profileUser &&
-                      props.profileUser.isFirstTime === true &&
-                      pathName !== '/'
-                        ? `username has-dropdown ${editProfile && 'toggled'}`
-                        : props.profileUser &&
-                          props.profileUser.isFirstTime === true
-                        ? `username ${editProfile && 'toggled'}`
-                        : `username has-dropdown ${editProfile && 'toggled'}`
-                    }
-                  >
-                    <span>
-                      {sessionStorage.getItem('manageAdmin') === 'true' &&
-                      sessionStorage.getItem('delegate') === 'false' ? (
-                        <>
-                          <span style={{ color: '#ED8B00' }}>Admin </span>
-                          {props.profileUser && props.profileUser.firstname}
-                          <img
-                            src={
-                              (props.profileUser && props.profileUser.photo) ||
-                              Profile
-                            }
-                            className="user-img"
-                            alt=""
-                          />
-                        </>
-                      ) : sessionStorage.getItem('delegate') === 'true' &&
-                        sessionStorage.getItem('Admin') === 'false' ? (
-                        <>
-                          {' '}
-                          <span style={{ color: '#ed8b00' }}>
-                            On behalf of{' '}
-                          </span>
-                          {props.profileUser && props.profileUser.firstname}{' '}
-                          <img
-                            src={
-                              (props.profileUser && props.profileUser.photo) ||
-                              Profile
-                            }
-                            className="user-img"
-                            alt=""
-                          />
-                        </>
-                      ) : (
-                        <>
-                          {props.profileUser && props.profileUser.firstname}
-                          <img
-                            src={
-                              (props.profileUser && props.profileUser.photo) ||
-                              Profile
-                            }
-                            className="user-img"
-                            alt=""
-                          />
+                          </li>
                         </>
                       )}
-                    </span>
+                    </ul>
                   </div>
                 )}
-
-                {((props.profileUser &&
-                  props.profileUser.isFirstTime === false) ||
-                  (props.profileUser &&
-                    props.profileUser.isFirstTime === true &&
-                    pathName !== '/')) && (
-                  <div className={`profile-inner ${editProfile && 'opened'}`}>
-                    {sessionStorage.getItem('manageAdmin') === 'true' &&
-                    sessionStorage.getItem('delegate') === 'false' ? (
-                      <div className="head deladmin">
-                        <span style={{ color: '#FF8D62' }}>Admin Access</span>
-                      </div>
-                    ) : sessionStorage.getItem('delegate') === 'true' ? (
-                      <div className="head del">
-                        <span style={{ color: '#ed8b00' }}>On behalf of</span>
-                      </div>
+              </>
+            ) : (
+              <div>
+                {WashingtonArr.includes(pathName) ? (
+                  <h2 className="heading">Washington Office</h2>
+                ) : (
+                  ''
+                )}
+                {BloomingtonArr.includes(pathName) ? (
+                  <h2 className="heading">Bloomington Office</h2>
+                ) : (
+                  ''
+                )}
+                {RichmondArr.includes(pathName) ? (
+                  <h2 className="heading">Richmond Office</h2>
+                ) : (
+                  ''
+                )}
+              </div>
+            )}
+            {!pathNameUrl.includes(pathName) && (
+              <>
+                {pathName !== '/auth' && (
+                  <div className="right-menus" ref={divRef}>
+                    {props.profileUserLoading ? (
+                      <div className="spinner-border" />
                     ) : (
-                      <div className="head">
-                        <span>This is your account</span>
+                      <div
+                        aria-hidden="true"
+                        onClick={() => setEditProfile(!editProfile)}
+                        onHide={() => setEditProfile(false)}
+                        className={
+                          // eslint-disable-next-line no-nested-ternary
+                          props.profileUser &&
+                          props.profileUser.isFirstTime === true &&
+                          pathName !== '/'
+                            ? `username has-dropdown ${editProfile &&
+                                'toggled'}`
+                            : props.profileUser &&
+                              props.profileUser.isFirstTime === true
+                            ? `username ${editProfile && 'toggled'}`
+                            : `username has-dropdown ${editProfile &&
+                                'toggled'}`
+                        }
+                      >
+                        <span>
+                          {sessionStorage.getItem('manageAdmin') === 'true' &&
+                          sessionStorage.getItem('delegate') === 'false' ? (
+                            <>
+                              <span style={{ color: '#ED8B00' }}>Admin </span>
+                              {props.profileUser && props.profileUser.firstname}
+                              <img
+                                src={
+                                  (props.profileUser &&
+                                    props.profileUser.photo) ||
+                                  Profile
+                                }
+                                className="user-img"
+                                alt=""
+                              />
+                            </>
+                          ) : sessionStorage.getItem('delegate') === 'true' &&
+                            sessionStorage.getItem('Admin') === 'false' ? (
+                            <>
+                              {' '}
+                              <span style={{ color: '#ed8b00' }}>
+                                On behalf of{' '}
+                              </span>
+                              {props.profileUser && props.profileUser.firstname}{' '}
+                              <img
+                                src={
+                                  (props.profileUser &&
+                                    props.profileUser.photo) ||
+                                  Profile
+                                }
+                                className="user-img"
+                                alt=""
+                              />
+                            </>
+                          ) : (
+                            <>
+                              {props.profileUser && props.profileUser.firstname}
+                              <img
+                                src={
+                                  (props.profileUser &&
+                                    props.profileUser.photo) ||
+                                  Profile
+                                }
+                                className="user-img"
+                                alt=""
+                              />
+                            </>
+                          )}
+                        </span>
                       </div>
                     )}
-                    <div className="profile-popup-main">
-                      <img src={Profile} alt="" />
-                      <h3>
-                        {' '}
-                        {props.profileUser.firstname}{' '}
-                        {props.profileUser.lastname}
-                      </h3>
-                      {(sessionStorage.getItem('Admin') === 'true' &&
-                        props.profileUser &&
-                        props.profileUser.role) ||
-                      isAdmin ? (
-                        <p
-                          style={{
-                            color: '#FF8D62',
-                            fontSize: '16px',
-                            marginBottom: '0px',
-                          }}
-                          aria-hidden="true"
-                          onClick={sessionStorage.setItem('Admin', true)}
-                        >
-                          Admin
-                        </p>
-                      ) : (
-                        <>
-                          <p>{props.profileUser.email}</p>
 
-                          <Link
-                            className={pathName === '/profile' && 'active'}
-                            to="/profile"
-                            activeClassName="active"
-                          >
-                            <button
-                              type="button"
-                              className="w-100 blue-color-btn profile-btn"
-                              onClick={() => {
-                                setIsAdmin(false);
-                                setEditProfile(false);
-                                sessionStorage.setItem('Admin', false);
+                    {((props.profileUser &&
+                      props.profileUser.isFirstTime === false) ||
+                      (props.profileUser &&
+                        props.profileUser.isFirstTime === true &&
+                        pathName !== '/')) && (
+                      <div
+                        className={`profile-inner ${editProfile && 'opened'}`}
+                      >
+                        {sessionStorage.getItem('manageAdmin') === 'true' &&
+                        sessionStorage.getItem('delegate') === 'false' ? (
+                          <div className="head deladmin">
+                            <span style={{ color: '#FF8D62' }}>
+                              Admin Access
+                            </span>
+                          </div>
+                        ) : sessionStorage.getItem('delegate') === 'true' ? (
+                          <div className="head del">
+                            <span style={{ color: '#ed8b00' }}>
+                              On behalf of
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="head">
+                            <span>This is your account</span>
+                          </div>
+                        )}
+                        <div className="profile-popup-main">
+                          <img src={Profile} alt="" />
+                          <h3>
+                            {' '}
+                            {props.profileUser.firstname}{' '}
+                            {props.profileUser.lastname}
+                          </h3>
+                          {(sessionStorage.getItem('Admin') === 'true' &&
+                            props.profileUser &&
+                            props.profileUser.role) ||
+                          isAdmin ? (
+                            <p
+                              style={{
+                                color: '#FF8D62',
+                                fontSize: '16px',
+                                marginBottom: '0px',
                               }}
+                              aria-hidden="true"
+                              onClick={sessionStorage.setItem('Admin', true)}
                             >
-                              View My Profile
-                            </button>
-                          </Link>
-                        </>
-                      )}
-                    </div>
-                    {props.profileUser &&
-                      props.profileUser.delegateUserList &&
-                      props.profileUser.delegateUserList.map(obj => (
-                        <>
+                              Admin
+                            </p>
+                          ) : (
+                            <>
+                              <p>{props.profileUser.email}</p>
+
+                              <Link
+                                className={pathName === '/profile' && 'active'}
+                                to="/profile"
+                                activeClassName="active"
+                              >
+                                <button
+                                  type="button"
+                                  className="w-100 blue-color-btn profile-btn"
+                                  onClick={() => {
+                                    setIsAdmin(false);
+                                    setEditProfile(false);
+                                    sessionStorage.setItem('Admin', false);
+                                  }}
+                                >
+                                  View My Profile
+                                </button>
+                              </Link>
+                            </>
+                          )}
+                        </div>
+                        {props.profileUser &&
+                          props.profileUser.delegateUserList &&
+                          props.profileUser.delegateUserList.map(obj => (
+                            <>
+                              <div
+                                aria-hidden="true"
+                                className="popup-secondary-profile day-pointer"
+                                onClick={() => {
+                                  sessionStorage.setItem('delegate', true);
+                                  sessionStorage.setItem('Admin', false);
+                                  userProfileData(obj.employeeid);
+                                  setEditProfile(false);
+
+                                  sessionStorage.setItem('Admin', false);
+                                }}
+                              >
+                                <img
+                                  src={
+                                    (obj && obj.delegateUserPhoto) || Profile
+                                  }
+                                  alt=""
+                                  style={{ marginBottom: '10px' }}
+                                />
+                                <div className="sec-profile-info">
+                                  <h4>
+                                    {obj && obj.delegateUserFistname}{' '}
+                                    {obj && obj.delegateUserLastname}{' '}
+                                  </h4>
+                                  <span>{obj && obj.delegateUserEmail}</span>
+                                </div>
+                              </div>
+                            </>
+                          ))}
+
+                        {props.profileUser &&
+                        props.profileUser.role === 'Admin' &&
+                        sessionStorage.getItem('Admin') === 'false' ? (
                           <div
                             aria-hidden="true"
                             className="popup-secondary-profile day-pointer"
                             onClick={() => {
-                              sessionStorage.setItem('delegate', true);
-                              sessionStorage.setItem('Admin', false);
-                              userProfileData(obj.employeeid);
+                              setIsAdmin(true);
                               setEditProfile(false);
-
-                              sessionStorage.setItem('Admin', false);
+                              sessionStorage.setItem('Admin', true);
+                              sessionStorage.setItem('manageAdmin', true);
+                              history.replace('/home');
+                              props.requestUserlistData(
+                                props.profileUser &&
+                                  props.profileUser.employeeid,
+                              );
                             }}
                           >
                             <img
-                              src={(obj && obj.delegateUserPhoto) || Profile}
+                              src={
+                                (props.profileUser &&
+                                  props.profileUser.photo) ||
+                                Profile
+                              }
                               alt=""
                               style={{ marginBottom: '10px' }}
                             />
                             <div className="sec-profile-info">
                               <h4>
-                                {obj && obj.delegateUserFistname}{' '}
-                                {obj && obj.delegateUserLastname}{' '}
+                                {props.profileUser &&
+                                  props.profileUser.firstname}{' '}
+                                {props.profileUser &&
+                                  props.profileUser.lastname}
                               </h4>
-                              <span>{obj && obj.delegateUserEmail}</span>
+                              <span style={{ color: '#FF8D62' }}>
+                                {props.profileUser && props.profileUser.role}
+                              </span>
                             </div>
                           </div>
-                        </>
-                      ))}
-
-                    {props.profileUser &&
-                    props.profileUser.role === 'Admin' &&
-                    sessionStorage.getItem('Admin') === 'false' ? (
-                      <div
-                        aria-hidden="true"
-                        className="popup-secondary-profile day-pointer"
-                        onClick={() => {
-                          setIsAdmin(true);
-                          setEditProfile(false);
-                          sessionStorage.setItem('Admin', true);
-                          sessionStorage.setItem('manageAdmin', true);
-                          history.replace('/home');
-                          props.requestUserlistData(
-                            props.profileUser && props.profileUser.employeeid,
-                          );
-                        }}
-                      >
-                        <img
-                          src={
-                            (props.profileUser && props.profileUser.photo) ||
-                            Profile
-                          }
-                          alt=""
-                          style={{ marginBottom: '10px' }}
-                        />
-                        <div className="sec-profile-info">
-                          <h4>
-                            {props.profileUser && props.profileUser.firstname}{' '}
-                            {props.profileUser && props.profileUser.lastname}
-                          </h4>
-                          <span style={{ color: '#FF8D62' }}>
-                            {props.profileUser && props.profileUser.role}
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      (sessionStorage.getItem('empid') ===
-                        sessionStorage.getItem('delegateId') ||
-                        (props.profileUser &&
-                          props.profileUser.role === 'Admin')) && (
-                        <div
-                          aria-hidden="true"
-                          className="popup-secondary-profile day-pointer"
+                        ) : (
+                          (sessionStorage.getItem('empid') ===
+                            sessionStorage.getItem('delegateId') ||
+                            (props.profileUser &&
+                              props.profileUser.role === 'Admin')) && (
+                            <div
+                              aria-hidden="true"
+                              className="popup-secondary-profile day-pointer"
+                              onClick={() => {
+                                setEditProfile(false);
+                                setIsAdmin(false);
+                                sessionStorage.setItem('Admin', false);
+                                sessionStorage.setItem('manageAdmin', false);
+                                history.replace('/workspot');
+                                props.requestUserlistData(
+                                  props.profileUser &&
+                                    props.profileUser.employeeid,
+                                );
+                              }}
+                            >
+                              <img
+                                src={
+                                  (props.profileUser &&
+                                    props.profileUser.photo) ||
+                                  Profile
+                                }
+                                alt=""
+                                style={{ marginBottom: '10px' }}
+                              />
+                              <div className="sec-profile-info">
+                                <h4>
+                                  {props.profileUser &&
+                                    props.profileUser.firstname}{' '}
+                                  {props.profileUser &&
+                                    props.profileUser.lastname}{' '}
+                                </h4>
+                                <span>{props.profileUser.email}</span>
+                              </div>
+                            </div>
+                          )
+                        )}
+                        <a
+                          href
+                          className="logout day-pointer"
                           onClick={() => {
+                            logout();
                             setEditProfile(false);
-                            setIsAdmin(false);
-                            sessionStorage.setItem('Admin', false);
-                            sessionStorage.setItem('manageAdmin', false);
-                            history.replace('/workspot');
-                            props.requestUserlistData(
-                              props.profileUser && props.profileUser.employeeid,
-                            );
                           }}
                         >
-                          <img
-                            src={
-                              (props.profileUser && props.profileUser.photo) ||
-                              Profile
-                            }
-                            alt=""
-                            style={{ marginBottom: '10px' }}
-                          />
-                          <div className="sec-profile-info">
-                            <h4>
-                              {props.profileUser && props.profileUser.firstname}{' '}
-                              {props.profileUser && props.profileUser.lastname}{' '}
-                            </h4>
-                            <span>{props.profileUser.email}</span>
-                          </div>
-                        </div>
-                      )
+                          Log Out
+                        </a>
+                      </div>
                     )}
-                    <a
-                      href
-                      className="logout day-pointer"
-                      onClick={() => {
-                        logout();
-                        setEditProfile(false);
-                      }}
+                    <button
+                      type="button"
+                      onClick={() => setSidebar(!sidebar)}
+                      className="mobile-menu-toggler"
                     >
-                      Log Out
-                    </a>
+                      <span className={`${sidebar && 'close-btn'}`} />
+                      <span className={`${sidebar && 'close-btn'}`} />
+                      <span className={`${sidebar && 'close-btn'}`} />
+                    </button>
                   </div>
                 )}
-                <button
-                  type="button"
-                  onClick={() => setSidebar(!sidebar)}
-                  className="mobile-menu-toggler"
-                >
-                  <span className={`${sidebar && 'close-btn'}`} />
-                  <span className={`${sidebar && 'close-btn'}`} />
-                  <span className={`${sidebar && 'close-btn'}`} />
-                </button>
-              </div>
+              </>
             )}
           </div>
         </div>
       </header>
-      {props.profileUser &&
-        props.profileUser.badgeNumber === '' &&
-        !props.badgeUpdateSuccess &&
-        (props.profileUser &&
-          props.profileUser.isFirstTime === false &&
-          !pathName.includes('/profile/delegate') &&
-          props.profileUser &&
-          props.profileUser.badgeNumber === '' && (
-            <div className="badge_check">
-              <img src={BadgeIcon} alt="bicon" />{' '}
-              <span>You don't have a badge associated with your profile</span>
-              {!pathName.includes('/profile') && (
-                <button
-                  type="button"
-                  className="btn_badge"
-                  onClick={() => handleBadgeRedirect()}
-                >
-                  {' '}
-                  Add My Badge
-                </button>
-              )}
-            </div>
-          ))}
+      {!pathNameUrl.includes(pathName) && (
+        <>
+          {props.profileUser &&
+            props.profileUser.badgeNumber === '' &&
+            !props.badgeUpdateSuccess &&
+            (props.profileUser &&
+              props.profileUser.isFirstTime === false &&
+              !pathName.includes('/profile/delegate') &&
+              props.profileUser &&
+              props.profileUser.badgeNumber === '' && (
+                <div className="badge_check">
+                  <img src={BadgeIcon} alt="bicon" />{' '}
+                  <span>
+                    You don't have a badge associated with your profile
+                  </span>
+                  {!pathName.includes('/profile') && (
+                    <button
+                      type="button"
+                      className="btn_badge"
+                      onClick={() => handleBadgeRedirect()}
+                    >
+                      {' '}
+                      Add My Badge
+                    </button>
+                  )}
+                </div>
+              ))}
+        </>
+      )}
     </div>
   );
 };
