@@ -28,34 +28,13 @@ import { CONSTANT } from '../../enum';
 
 const { API_URL } = CONSTANT;
 
-const pathNameUrl = [
-  '/locationId=DC&floor=2&neighborhoodName=Blue',
-  '/locationId=DC&floor=3&neighborhoodName=Blue',
-  '/locationId=DC&floor=4&neighborhoodName=Blue',
-  '/locationId=DC&floor=8&neighborhoodName=Blue',
-  '/locationId=BLM&floor=Building_1&neighborhoodName=Yellow',
-  '/locationId=RIC&floor=Floor_2&neighborhoodName=Green',
-];
-
-const WashingtonArr = [
-  '/locationId=DC&floor=2&neighborhoodName=Blue',
-  '/locationId=DC&floor=3&neighborhoodName=Blue',
-  '/locationId=DC&floor=4&neighborhoodName=Blue',
-  '/locationId=DC&floor=8&neighborhoodName=Blue',
-];
-
-const BloomingtonArr = [
-  '/locationId=BLM&floor=Building_1&neighborhoodName=Yellow',
-];
-
-const RichmondArr = ['/locationId=RIC&floor=Floor_2&neighborhoodName=Green'];
-
 const Header = props => {
   // eslint-disable-next-line no-unused-vars
   const [apiCall, setApiCall] = useState(false);
   const [sidebar, setSidebar] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [neighborData, setneighborData] = useState('');
   const [delecatecallchk, setDelecatecallchk] = useState(false);
   const divRef = useRef();
   const location = useLocation();
@@ -71,6 +50,7 @@ const Header = props => {
       });
       setDefaultapick(true);
     }
+
     const getAdmin = sessionStorage.getItem('Admin');
     const getDelegate = sessionStorage.getItem('delegate');
     const empId = sessionStorage.getItem('empid');
@@ -87,6 +67,12 @@ const Header = props => {
       window.location.reload();
     }
   }, [props.delegateHeaderProfileSuccess, props.profileUser.employeeid]);
+
+  useEffect(() => {
+    if (sessionStorage.getItem('neighborData')) {
+      setneighborData(JSON.parse(sessionStorage.getItem('neighborData')));
+    }
+  }, [sessionStorage.getItem('neighborData')]);
 
   useEffect(() => {
     if (props.profileSuccess) {
@@ -179,13 +165,7 @@ const Header = props => {
 
   return (
     <div>
-      <header
-        className={`${
-          pathNameUrl.includes(pathName)
-            ? 'site-header custom-site-header'
-            : 'site-header'
-        }`}
-      >
+      <header className="site-header">
         <div className="custom-container">
           <div className="header_wrapper d-flex align-items-center justify-content-between">
             <div className="logo_wrapper">
@@ -207,7 +187,11 @@ const Header = props => {
                 </Link>
               )}
             </div>
-            {!pathNameUrl.includes(pathName) ? (
+            {pathName !==
+            `/NeighBorhoodLocation/${neighborData &&
+              neighborData.locId}/${neighborData &&
+              neighborData.flor}/${neighborData &&
+              neighborData.neighborhood}` ? (
               <>
                 {((pathName !== '/' && pathName !== '/auth') ||
                   (props.profileUser &&
@@ -336,24 +320,28 @@ const Header = props => {
               </>
             ) : (
               <div>
-                {WashingtonArr.includes(pathName) ? (
+                {neighborData && neighborData.locId === 'DC' ? (
                   <h2 className="heading">Washington Office</h2>
                 ) : (
                   ''
                 )}
-                {BloomingtonArr.includes(pathName) ? (
-                  <h2 className="heading">Bloomington Office</h2>
+                {neighborData && neighborData.locId === 'RIC' ? (
+                  <h2 className="heading">Richmond Office</h2>
                 ) : (
                   ''
                 )}
-                {RichmondArr.includes(pathName) ? (
-                  <h2 className="heading">Richmond Office</h2>
+                {neighborData && neighborData.locId === 'BLM' ? (
+                  <h2 className="heading">Bloomington Office</h2>
                 ) : (
                   ''
                 )}
               </div>
             )}
-            {!pathNameUrl.includes(pathName) && (
+            {pathName !==
+              `/NeighBorhoodLocation/${neighborData &&
+                neighborData.locId}/${neighborData &&
+                neighborData.flor}/${neighborData &&
+                neighborData.neighborhood}` && (
               <>
                 {pathName !== '/auth' && (
                   <div className="right-menus" ref={divRef}>
@@ -644,7 +632,10 @@ const Header = props => {
           </div>
         </div>
       </header>
-      {!pathNameUrl.includes(pathName) && (
+      {pathName !==
+        `/NeighBorhoodLocation/${neighborData &&
+          neighborData.locId}/${neighborData &&
+          neighborData.flor}/${neighborData && neighborData.neighborhood}` && (
         <>
           {props.profileUser &&
             props.profileUser.badgeNumber === '' &&
