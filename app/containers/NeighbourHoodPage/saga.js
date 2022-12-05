@@ -10,8 +10,6 @@ import { CONSTANT } from '../../enum';
 
 const { API_URL } = CONSTANT;
 export function* getAllOfficeLocation({ payload }) {
-  let token = sessionStorage.getItem('AccessToken');
-  token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const { locationId, floor, neighborhoodName, todayDate } = payload;
 
@@ -27,9 +25,6 @@ export function* getAllOfficeLocation({ payload }) {
       method: 'GET',
       url: requestURL,
       data: payload,
-      headers: {
-        Authorization: `Bearer ${token.idtoken}`,
-      },
     });
     const { data } = delegateList;
     if (delegateList.status === 403) {
