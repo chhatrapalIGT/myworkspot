@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+/* eslint-disable react/prop-types */
 /* eslint-disable object-shorthand */
 /* eslint-disable prefer-template */
 /* eslint-disable no-var */
@@ -11,7 +12,6 @@ import injectSaga from 'utils/injectSaga';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { compose } from 'redux';
-import history from '../../utils/history';
 import saga from './saga';
 import reducer from './reducer';
 import { requestGetOfficeAssignments } from './action';
@@ -33,57 +33,13 @@ class NeighBourHoodPage extends Component {
   }
 
   componentDidMount() {
-    const pathdata = history && history.location && history.location.pathname;
-    if (pathdata === '/locationId=DC&floor=2&neighborhoodName=Blue') {
-      this.props.requestGetOfficeAssignments({
-        locationId: 'DC',
-        floor: 2,
-        neighborhoodName: 'Blue' || '',
-        todayDate: this.state.date,
-      });
-    }
-    if (pathdata === '/locationId=DC&floor=3&neighborhoodName=Blue') {
-      this.props.requestGetOfficeAssignments({
-        locationId: 'DC',
-        floor: 3,
-        neighborhoodName: 'Blue' || '',
-        todayDate: this.state.date,
-      });
-    }
-    if (pathdata === '/locationId=DC&floor=4&neighborhoodName=Blue') {
-      this.props.requestGetOfficeAssignments({
-        locationId: 'DC',
-        floor: 4,
-        neighborhoodName: 'Blue' || '',
-        todayDate: this.state.date,
-      });
-    }
-    if (pathdata === '/locationId=DC&floor=8&neighborhoodName=Blue') {
-      this.props.requestGetOfficeAssignments({
-        locationId: 'DC',
-        floor: 8,
-        neighborhoodName: 'Blue' || '',
-        todayDate: this.state.date,
-      });
-    }
-    if (
-      pathdata === '/locationId=BLM&floor=Building_1&neighborhoodName=Yellow'
-    ) {
-      this.props.requestGetOfficeAssignments({
-        locationId: 'BLM',
-        floor: 'Building-1',
-        neighborhoodName: 'Yellow' || '',
-        todayDate: this.state.date,
-      });
-    }
-    if (pathdata === '/locationId=RIC&floor=Floor_2&neighborhoodName=Green') {
-      this.props.requestGetOfficeAssignments({
-        locationId: 'RIC',
-        floor: 'Floor-2',
-        neighborhoodName: 'Green' || '',
-        todayDate: this.state.date,
-      });
-    }
+    this.props.requestGetOfficeAssignments({
+      locationId: this.props.match.params.locationId,
+      floor: this.props.match.params.floor,
+      neighborhoodName: this.props.match.params.neighborhoodName,
+      todayDate: this.state.date,
+    });
+
     this.props.getOfficeLocationRequest({});
   }
 
@@ -125,8 +81,8 @@ const withReducer = injectReducer({ key: 'neighbourHood', reducer });
 const withSaga = injectSaga({ key: 'neighbourHood', saga });
 
 NeighBourHoodPage.propTypes = {
-  requestGetOfficeAssignments: PropTypes.object,
-  getOfficeLocationRequest: PropTypes.object,
+  requestGetOfficeAssignments: PropTypes.func,
+  getOfficeLocationRequest: PropTypes.func,
   location: PropTypes.object,
   neighbourHood: PropTypes.object,
 };

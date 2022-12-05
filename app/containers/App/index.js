@@ -1,24 +1,19 @@
-/**
- *
- * App.js
- *
- * This component is the skeleton around the actual pages, and should only
- * contain code that should be seen on all pages. (e.g. navigation bar)
- *
- */
-
+/* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
-import { Switch, Route, withRouter, useLocation } from 'react-router-dom';
+import {
+  Switch,
+  Route,
+  withRouter,
+  useLocation,
+  useHistory,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { connect } from 'react-redux';
-
 // import HomePage from 'containers/HomePage/Loadable';
 import Spinner from 'react-bootstrap/Spinner';
-import { useHistory } from 'react-router';
 import ProfilePage from '../ProfilePage';
 import Washington from '../OfficeMapPage';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import Faq from '../../components/FAQ';
 import delegateProfile from '../../components/Profile/delegateProfile';
 import Report from '../ReportPage';
@@ -26,7 +21,6 @@ import Boarding from '../onBoardingPage';
 import WorkSpot from '../WorkspotPage';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-// import Login from '../../components/Login';
 import CallBack from '../../components/Login/CallBack';
 import Login from '../../components/Login';
 import EmployeePage from '../EmployeePage';
@@ -34,11 +28,20 @@ import officeUpload from '../UploadMapPage';
 import space from '../SpacePage';
 import WorkspotAdminPage from '../WorkspotAdminPage';
 import NeighbourHoodPage from '../NeighbourHoodPage';
+import { requestGetOfficeAssignments } from '../NeighbourHoodPage/action';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
+  const [neighborData, setneighborData] = useState();
   const location = useLocation();
   const pathName = location.pathname;
+
+  useEffect(() => {
+    if (sessionStorage.getItem('neighborData')) {
+      setneighborData(JSON.parse(sessionStorage.getItem('neighborData')));
+    }
+  }, [sessionStorage.getItem('neighborData')]);
+
   const history = useHistory();
 
   const requestLogin = async () => {
@@ -49,21 +52,13 @@ const App = props => {
     }
   };
 
-  const pathNameUrl = [
-    '/locationId=DC&floor=2&neighborhoodName=Blue',
-    '/locationId=DC&floor=3&neighborhoodName=Blue',
-    '/locationId=DC&floor=4&neighborhoodName=Blue',
-    '/locationId=DC&floor=8&neighborhoodName=Blue',
-    '/locationId=BLM&floor=Building_1&neighborhoodName=Yellow',
-    '/locationId=RIC&floor=Floor_2&neighborhoodName=Green',
-  ];
-
   useEffect(() => {
     requestLogin();
     setTimeout(() => {
       setPageLoading(false);
     }, 1000);
   }, []);
+
   return (
     <div>
       {pageLoading ? (
@@ -74,7 +69,6 @@ const App = props => {
           <Switch>
             <Route exact path="/auth" component={Login} />
             <Route
-              // exact
               path="/profile"
               Route
               component={ProfilePage}
@@ -134,42 +128,19 @@ const App = props => {
             <Route
               Route
               props={props}
-              path="/locationId=DC&floor=2&neighborhoodName=Blue"
-              component={NeighbourHoodPage}
-            />
-            <Route
-              Route
-              props={props}
-              path="/locationId=DC&floor=3&neighborhoodName=Blue"
-              component={NeighbourHoodPage}
-            />
-            <Route
-              Route
-              props={props}
-              path="/locationId=DC&floor=4&neighborhoodName=Blue"
-              component={NeighbourHoodPage}
-            />
-            <Route
-              Route
-              props={props}
-              path="/locationId=DC&floor=8&neighborhoodName=Blue"
-              component={NeighbourHoodPage}
-            />
-            <Route
-              Route
-              props={props}
-              path="/locationId=BLM&floor=Building_1&neighborhoodName=Yellow"
-              component={NeighbourHoodPage}
-            />
-            <Route
-              Route
-              props={props}
-              path="/locationId=RIC&floor=Floor_2&neighborhoodName=Green"
+              path="/NeighBorhoodLocation/:locationId/:floor/:neighborhoodName"
               component={NeighbourHoodPage}
             />
             <Route component={NotFoundPage} />
           </Switch>
-          {pathNameUrl.includes(pathName) ? '' : <Footer />}
+          {pathName ===
+          `/NeighBorhoodLocation/${neighborData &&
+            neighborData.locId}/${neighborData &&
+            neighborData.flor}/${neighborData && neighborData.neighborhood}` ? (
+            ''
+          ) : (
+            <Footer />
+          )}
         </>
       )}
     </div>
@@ -183,6 +154,14 @@ const mapStateToProps = state => {
     profileUser: profile && profile.userList && profile.userList.user,
   };
 };
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    getOfficeAssignmentsRequest: payload =>
+      dispatch(requestGetOfficeAssignments(payload)),
+    dispatch,
+  };
+}
 
 App.propTypes = {
   profileUser: PropTypes.object,
