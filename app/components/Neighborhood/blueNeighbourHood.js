@@ -32,7 +32,7 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
     <>
       {pathName === url && (
         <div className="header_tbl">
-          <div className="emp-table">
+          <div className="new-emp-table">
             <h3>
               Floor {floor} | {neighborhoodName} Neighborhood{' '}
             </h3>

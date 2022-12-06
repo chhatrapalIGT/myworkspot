@@ -383,7 +383,7 @@ const profilePageReducer = (state = initialState, action) =>
         draft.removeSpinIcon.loading = false;
         draft.removeSpinIcon.success = true;
         draft.apiSuccess = true;
-        draft.removeSpinIcon = action.payload.data;
+        draft.removeSpinIcon = action.payload;
         draft.removeSpinIcon.message = action.payload.message;
         break;
       case FAILED_REMOVE_SPIN_ICON:

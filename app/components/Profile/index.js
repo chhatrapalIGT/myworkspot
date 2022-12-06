@@ -15,7 +15,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty, result } from 'lodash';
 import { useHistory } from 'react-router';
-
+import classNames from 'classnames';
 import { Modal } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import ProfileImg from '../assets/images/myprofile.png';
@@ -80,7 +80,6 @@ const Profile = ({
   const [empSpinData, setEmpSpinData] = useState([]);
   const [demoData, setDemoData] = useState([]);
   const [employee, setemployee] = useState([]);
-  const [openError, setOpenError] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
   const [search, setSearch] = useState(false);
   const [inputSet, setInputSet] = useState('');
@@ -94,6 +93,7 @@ const Profile = ({
       badgeValues.slice(7, 10);
 
   const demo = [];
+  const newDemo = [];
   useEffect(() => {
     setDemoData(
       Array.from(selectEmpIcon).map(key => {
@@ -103,7 +103,7 @@ const Profile = ({
     );
     setemployee(
       Array.from(selectEmpIcon).map(key => {
-        demo.push(key);
+        newDemo.push(key);
         return key;
       }),
     );
@@ -120,20 +120,18 @@ const Profile = ({
     if (show && searchName.length) {
       setSearchName([]);
     }
-    // if (addSpinIcon.success === true) {
-    //   history.replace('/profile');
-    //   // getSelectIconRequest();
-    // }
+    if (addSpinIcon.success) {
+      getSelectIconRequest();
+    }
     if (badgeVerify === badgeConfirmVerify) {
       handleBadgeData();
     }
-  }, [show, addSpinIcon]);
+  }, [show]);
   useEffect(() => {
     if (validateBadge) {
       setOpenBadge(true);
       history.replace({ pathname: '/profile', state: { badge: false } });
     }
-
     if (
       badgeUpdateData &&
       badgeUpdateData.success &&
@@ -148,10 +146,6 @@ const Profile = ({
       setselectData(delegrateUsersList);
     }
 
-    // if (spinIcon && spinIcon.length > 0 && open) {
-    //   setEmpSpinData(spinIcon);
-    // }
-
     if (
       userData &&
       userData.delegateUserList &&
@@ -165,6 +159,7 @@ const Profile = ({
       setInputSet('');
     }
   }, [badgeUpdateData, delegrateUsersList, verifyBadgeChk, userData]);
+
   const handleUserSelect = firstname => {
     const tempDemo = demoData;
     const tempEmpData = employee;
@@ -174,7 +169,11 @@ const Profile = ({
         const index = newDataName.indexOf(firstname.id);
         newDataName.splice(index, 1);
       } else {
-        if (newDataName.length > 1 || tempDemo.length > 1) {
+        if (
+          newDataName.length > 1 ||
+          tempDemo.length > 1 ||
+          tempEmpData.length > 2
+        ) {
           newDataName.shift();
           tempDemo.shift();
           tempEmpData.shift();
@@ -184,6 +183,8 @@ const Profile = ({
         tempEmpData.push(firstname);
       }
       setEmpSpinData(newDataName);
+      setDemoData(tempDemo);
+      setemployee(tempEmpData);
     } else {
       const dataName = [...selectData];
       if (dataName.includes(firstname)) {
@@ -194,8 +195,6 @@ const Profile = ({
       }
       setselectData(dataName);
     }
-    setDemoData(tempDemo);
-    setemployee(tempEmpData);
   };
 
   const handleChange = event => {
@@ -278,28 +277,23 @@ const Profile = ({
   };
 
   const handleSpinRemove = name => {
-    const newArr = selectEmpIcon;
+    const newArr = employee;
     const dataVal =
       selectEmpIcon &&
       selectEmpIcon.length > 0 &&
-      selectEmpIcon.filter(ele => ele.pinId === name);
-    if (dataVal[0].pinId) {
-      const idx = newArr.findIndex(val => val.pinId === name);
+      selectEmpIcon.filter(ele => ele.id === name);
+
+    if (dataVal[0].id) {
+      const idx = newArr.findIndex(val => val.id === name);
       newArr.splice(idx, 1);
     }
-    setemployee(prestate =>
-      prestate.filter(ele => ele.pinId !== dataVal[0].pinId),
-    );
-    setDemoData(prestate => prestate.filter(ele => ele !== dataVal[0].pinId));
-    requestRemoveSpinIcon({ pinId: [dataVal[0].pinId] });
+    setemployee(prestate => prestate.filter(ele => ele.id !== dataVal[0].id));
+    // setDemoData(prestate => prestate.filter(ele => ele !== dataVal[0].pinId));
+    requestRemoveSpinIcon({ pinId: [dataVal[0].id] });
   };
   const handleAddSpinIcon = () => {
     if (demoData && demoData.length > 0) {
-      if (demoData.length === 1 || 2) {
-        requestAddSpinIcon({ pin: demoData });
-      } else {
-        setOpenError(true);
-      }
+      requestAddSpinIcon({ pin: demoData });
     }
   };
 
@@ -734,43 +728,25 @@ const Profile = ({
                   </button>
                 </div>
                 <div className="access-to">
-                  {employee && employee.length > 0
-                    ? employee.map(i => (
-                        <div className="access-one">
-                          <img
-                            src={`${SPIN_IMAGE_URL_LIVE +
-                              i.imageUrl}?bust=${new Date().getTime()}`}
-                            alt=""
-                          />
-                          {i.name}
-                          <a
-                            className="close_btn"
-                            href
-                            onClick={() => handleSpinRemove(i.pinId)}
-                          >
-                            <img src={Close} alt="" />
-                          </a>
-                        </div>
-                      ))
-                    : selectEmpIcon &&
-                      selectEmpIcon.length > 0 &&
-                      selectEmpIcon.map(i => (
-                        <div className="access-one">
-                          <img
-                            src={`${SPIN_IMAGE_URL_LIVE +
-                              i.imageUrl}?bust=${new Date().getTime()}`}
-                            alt=""
-                          />
-                          {i.name}
-                          <a
-                            className="close_btn"
-                            href
-                            onClick={() => handleSpinRemove(i.pinId)}
-                          >
-                            <img src={Close} alt="" />
-                          </a>
-                        </div>
-                      ))}
+                  {employee &&
+                    employee.length > 0 &&
+                    employee.map(i => (
+                      <div className="access-one">
+                        <img
+                          src={`${SPIN_IMAGE_URL_LIVE +
+                            i.imageUrl}?bust=${new Date().getTime()}`}
+                          alt=""
+                        />
+                        {i.name}
+                        <a
+                          className="close_btn"
+                          href
+                          onClick={() => handleSpinRemove(i.pinId)}
+                        >
+                          <img src={Close} alt="" />
+                        </a>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -1101,6 +1077,7 @@ const Profile = ({
                                   className="checkbox"
                                   checked={demoData.includes(elec.id)}
                                 />
+
                                 <label htmlFor="jane">{elec.name}</label>
                               </div>
                             </>
