@@ -120,9 +120,7 @@ const Profile = ({
     if (show && searchName.length) {
       setSearchName([]);
     }
-    if (addSpinIcon.success) {
-      getSelectIconRequest();
-    }
+
     if (badgeVerify === badgeConfirmVerify) {
       handleBadgeData();
     }
@@ -169,11 +167,7 @@ const Profile = ({
         const index = newDataName.indexOf(firstname.id);
         newDataName.splice(index, 1);
       } else {
-        if (
-          newDataName.length > 1 ||
-          tempDemo.length > 1 ||
-          tempEmpData.length > 2
-        ) {
+        if (newDataName.length > 1 || tempDemo.length > 1) {
           newDataName.shift();
           tempDemo.shift();
           tempEmpData.shift();
@@ -184,7 +178,6 @@ const Profile = ({
       }
       setEmpSpinData(newDataName);
       setDemoData(tempDemo);
-      setemployee(tempEmpData);
     } else {
       const dataName = [...selectData];
       if (dataName.includes(firstname)) {
@@ -728,25 +721,43 @@ const Profile = ({
                   </button>
                 </div>
                 <div className="access-to">
-                  {employee &&
-                    employee.length > 0 &&
-                    employee.map(i => (
-                      <div className="access-one">
-                        <img
-                          src={`${SPIN_IMAGE_URL_LIVE +
-                            i.imageUrl}?bust=${new Date().getTime()}`}
-                          alt=""
-                        />
-                        {i.name}
-                        <a
-                          className="close_btn"
-                          href
-                          onClick={() => handleSpinRemove(i.pinId)}
-                        >
-                          <img src={Close} alt="" />
-                        </a>
-                      </div>
-                    ))}
+                  {employee && employee.length > 0
+                    ? employee.map(i => (
+                        <div className="access-one">
+                          <img
+                            src={`${SPIN_IMAGE_URL_LIVE +
+                              i.imageUrl}?bust=${new Date().getTime()}`}
+                            alt=""
+                          />
+                          {i.name}
+                          <a
+                            className="close_btn"
+                            href
+                            onClick={() => handleSpinRemove(i.pinId)}
+                          >
+                            <img src={Close} alt="" />
+                          </a>
+                        </div>
+                      ))
+                    : selectEmpIcon &&
+                      selectEmpIcon.length > 0 &&
+                      selectEmpIcon.map(i => (
+                        <div className="access-one">
+                          <img
+                            src={`${SPIN_IMAGE_URL_LIVE +
+                              i.imageUrl}?bust=${new Date().getTime()}`}
+                            alt=""
+                          />
+                          {i.name}
+                          <a
+                            className="close_btn"
+                            href
+                            onClick={() => handleSpinRemove(i.pinId)}
+                          >
+                            <img src={Close} alt="" />
+                          </a>
+                        </div>
+                      ))}
                 </div>
               </div>
             </div>
@@ -1110,8 +1121,8 @@ const Profile = ({
                   className="btn dismiss"
                   data-bs-dismiss="modal"
                   onClick={() => {
+                    setemployee([]);
                     setOpen(false);
-                    setEmpSpinData([]);
                   }}
                 >
                   Cancel

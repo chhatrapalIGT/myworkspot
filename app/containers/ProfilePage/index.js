@@ -460,7 +460,8 @@ const mapStateToProps = state => {
     delegateList:
       profile && profile.delegateList && profile.delegateList.delegate,
     spinIcon: profile && profile.spinIcon,
-    selectEmpIcon: profile && profile.selectEmpIcon,
+    selectEmpIcon:
+      (profile && profile.selectEmpIcon && profile.selectEmpIcon.data) || [],
     delegateSuccess:
       profile && profile.delegateList && profile.delegateList.success,
     getProfileLocationSuccess:

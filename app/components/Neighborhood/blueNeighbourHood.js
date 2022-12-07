@@ -46,7 +46,7 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
                           width: '25%',
                           fontSize: '25px',
                           textAlign: 'left',
-                          wordSpacing: '-2px',
+                          wordSpacing: '-4px',
                         }}
                       >
                         {ele.firstname}
