@@ -155,8 +155,7 @@ const profilePageReducer = (state = initialState, action) =>
       case FAILED_GET_PROFILE_OFFICE_DATA:
         draft.getOffice.loading = false;
         draft.getOffice.success = false;
-        // draft.getOffice.weeklyLocation = [];
-        draft.getOffice.error = action.payload;
+        draft.getOffice.error = action.payload.message;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;
@@ -175,22 +174,19 @@ const profilePageReducer = (state = initialState, action) =>
       case FAILED_USERLIST_DATA:
         draft.userList.loading = false;
         draft.userList.success = false;
-        // draft.userList.user = [];
-        draft.userList.error = action.payload;
+        draft.userList.error = action.payload.message;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;
       case REQUEST_DELEGATE_DATA:
         draft.delegateList.loading = true;
-        draft.delegateList.error = '';
-        draft.delegateList.delegate = [];
         break;
       case SUCCESS_DELEGATE_DATA:
         draft.delegateList.loading = false;
         draft.delegateList.success = true;
         draft.delegateList.delegate = action.payload.userData;
         draft.delegateList.totalPage = action.payload.totalPages;
-        draft.delegateList.error = '';
+        draft.delegateList.message = '';
 
         break;
       case FAILED_DELEGATE_DATA:
@@ -246,8 +242,7 @@ const profilePageReducer = (state = initialState, action) =>
       case FAILED_DELEGATE_PROFILE:
         draft.delegateProfile.loading = false;
         draft.delegateProfile.success = false;
-        // draft.delegateProfile.delegateProfileList = [];
-        draft.delegateProfile.error = action.payload;
+        draft.delegateProfile.error = action.payload.error;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;
@@ -267,7 +262,7 @@ const profilePageReducer = (state = initialState, action) =>
       case FAILED_ADD_DELEGATE_LIST:
         draft.delegateAddMember.loading = false;
         draft.delegateAddMember.success = action.payload.success;
-        draft.delegateAddMember.message = action.payload.message;
+        draft.delegateAddMember.error = action.payload.message;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;
@@ -287,7 +282,7 @@ const profilePageReducer = (state = initialState, action) =>
       case FAILED_REMOVE_DELEGATE_LIST:
         draft.removeDelegateMember.loading = false;
         draft.removeDelegateMember.success = action.payload.success;
-        draft.removeDelegateMember.message = action.payload.message;
+        draft.removeDelegateMember.error = action.payload.message;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;
@@ -305,7 +300,6 @@ const profilePageReducer = (state = initialState, action) =>
       case FAILED_GET_DELEGATE_LIST:
         draft.getUpdatedelegateListData.loading = false;
         draft.getUpdatedelegateListData.success = false;
-        // draft.getUpdatedelegateListData.delegateUpdate = [];
         draft.getUpdatedelegateListData.error = action.payload;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
@@ -347,7 +341,7 @@ const profilePageReducer = (state = initialState, action) =>
       case SUCCESS_GET_SELECT_ICON:
         draft.selectEmpIcon.loading = false;
         draft.selectEmpIcon.success = true;
-        draft.selectEmpIcon = action.payload.data;
+        draft.selectEmpIcon = action.payload;
         draft.selectEmpIcon.message = action.payload.message;
         break;
       case FAILED_GET_SELECT_ICON:
@@ -381,14 +375,14 @@ const profilePageReducer = (state = initialState, action) =>
         break;
       case SUCCESS_REMOVE_SPIN_ICON:
         draft.removeSpinIcon.loading = false;
-        draft.removeSpinIcon.success = true;
+        draft.removeSpinIcon.success = action.payload.success;
         draft.apiSuccess = true;
-        draft.removeSpinIcon = action.payload.data;
+        draft.removeSpinIcon = action.payload;
         draft.removeSpinIcon.message = action.payload.message;
         break;
       case FAILED_REMOVE_SPIN_ICON:
         draft.removeSpinIcon.loading = false;
-        draft.removeSpinIcon.success = false;
+        draft.removeSpinIcon.success = action.payload.success;
         draft.apiSuccess = false;
         draft.removeSpinIcon.error = action.payload.message;
         break;

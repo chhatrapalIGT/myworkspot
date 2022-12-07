@@ -356,7 +356,7 @@ export function* addEmployeePin({ payload }) {
       yield put(push('/auth'));
     } else if (data && data.success) {
       yield put(successAddSpinIcon(data));
-      yield put(requestGetSelectIcon());
+      yield put(requestGetSelectIcon({}));
     } else {
       yield put(failedAddSpinIcon(data));
     }
@@ -413,6 +413,7 @@ export function* removePinIcon({ payload }) {
       yield put(push('/auth'));
     } else if (data && data.success) {
       yield put(successRemoveSpinIcon(data));
+      yield put(requestGetSelectIcon({}));
     } else {
       yield put(failedRemoveSpinIcon(data));
     }
