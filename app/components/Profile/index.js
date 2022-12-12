@@ -77,12 +77,6 @@ const Profile = ({
   const [inputSet, setInputSet] = useState('');
   const [inputSet2, setInputSet2] = useState('');
   const history = useHistory();
-  // const badgeValues = userData && userData.badgeNumber;
-  // const value =
-  //   badgeValues &&
-  //   badgeValues.slice(0, 2) +
-  //     badgeValues.slice(3, 7) +
-  //     badgeValues.slice(7, 10);
 
   const demo = [];
   const newDemo = [];
@@ -100,10 +94,11 @@ const Profile = ({
         return key;
       }),
     );
-  }, [selectEmpIcon]);
 
-  // const finalBadges =
-  //   value && `${value.substring(0, 2)} ${value.substring(2, value.length)}`;
+    if (selectEmpIcon && selectEmpIcon.length > 0) {
+      setemployee(selectEmpIcon);
+    }
+  }, [selectEmpIcon]);
 
   const inputval =
     userData && userData.badgeNumber && userData.badgeNumber.slice(3, 6);
