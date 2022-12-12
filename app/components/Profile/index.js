@@ -1,21 +1,15 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable no-constant-condition */
-/* eslint-disable arrow-body-style */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-unused-expressions */
+/* eslint-disable no-lonely-if */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, result } from 'lodash';
+import { isEmpty } from 'lodash';
 import { useHistory } from 'react-router';
-import classNames from 'classnames';
 import { Modal } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import ProfileImg from '../assets/images/myprofile.png';
@@ -65,19 +59,17 @@ const Profile = ({
   selectEmpIcon,
   requestRemoveDelegateUser,
   requestRemoveSpinIcon,
-  getSelectIconRequest,
-  addSpinIcon,
 }) => {
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
   const [replace, setReplace] = useState(true);
   const [modal, setModal] = useState(false);
   const [open, setOpen] = useState(false);
+  const [empOpen, setEmpOpen] = useState(false);
   const [searchName, setSearchName] = useState([]);
   const [userListData, setUserListData] = useState([]);
   const [delegateListData, setdelegateListData] = useState([]);
   const [selectData, setselectData] = useState([]);
-  const [empSpinData, setEmpSpinData] = useState([]);
   const [demoData, setDemoData] = useState([]);
   const [employee, setemployee] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
@@ -85,15 +77,16 @@ const Profile = ({
   const [inputSet, setInputSet] = useState('');
   const [inputSet2, setInputSet2] = useState('');
   const history = useHistory();
-  const badgeValues = userData && userData.badgeNumber;
-  const value =
-    badgeValues &&
-    badgeValues.slice(0, 2) +
-      badgeValues.slice(3, 7) +
-      badgeValues.slice(7, 10);
+  // const badgeValues = userData && userData.badgeNumber;
+  // const value =
+  //   badgeValues &&
+  //   badgeValues.slice(0, 2) +
+  //     badgeValues.slice(3, 7) +
+  //     badgeValues.slice(7, 10);
 
   const demo = [];
   const newDemo = [];
+  const empData = [];
   useEffect(() => {
     setDemoData(
       Array.from(selectEmpIcon).map(key => {
@@ -109,8 +102,8 @@ const Profile = ({
     );
   }, [selectEmpIcon]);
 
-  const finalBadges =
-    value && `${value.substring(0, 2)} ${value.substring(2, value.length)}`;
+  // const finalBadges =
+  //   value && `${value.substring(0, 2)} ${value.substring(2, value.length)}`;
 
   const inputval =
     userData && userData.badgeNumber && userData.badgeNumber.slice(3, 6);
@@ -158,36 +151,37 @@ const Profile = ({
     }
   }, [badgeUpdateData, delegrateUsersList, verifyBadgeChk, userData]);
 
-  const handleUserSelect = firstname => {
+  const handleSpinSelect = name => {
+    const dataName = [...employee];
     const tempDemo = demoData;
-    const tempEmpData = employee;
-    if (open) {
-      const newDataName = [...empSpinData];
-      if (newDataName.includes(firstname.id)) {
-        const index = newDataName.indexOf(firstname.id);
-        newDataName.splice(index, 1);
-      } else {
-        if (newDataName.length > 1 || tempDemo.length > 1) {
-          newDataName.shift();
-          tempDemo.shift();
-          tempEmpData.shift();
-        }
-        newDataName.push(firstname.id);
-        tempDemo.push(firstname.id);
-        tempEmpData.push(firstname);
-      }
-      setEmpSpinData(newDataName);
-      setDemoData(tempDemo);
+    if (dataName.includes(name) || tempDemo.includes(name.id)) {
+      const index = dataName.indexOf(name);
+      const indexOne = tempDemo.indexOf(name.id);
+      dataName.splice(index, 1);
+      tempDemo.splice(indexOne, 1);
+      setEmpOpen(false);
     } else {
-      const dataName = [...selectData];
-      if (dataName.includes(firstname)) {
-        const index = dataName.indexOf(firstname);
-        dataName.splice(index, 1);
+      if (dataName.length !== 2 || tempDemo.length !== 2) {
+        dataName.push(name);
+        tempDemo.push(name.id);
+        setEmpOpen(false);
       } else {
-        dataName.push(firstname);
+        setEmpOpen(true);
       }
-      setselectData(dataName);
     }
+    setemployee(dataName);
+    setDemoData(tempDemo);
+  };
+
+  const handleUserSelect = firstname => {
+    const dataName = [...selectData];
+    if (dataName.includes(firstname)) {
+      const index = dataName.indexOf(firstname);
+      dataName.splice(index, 1);
+    } else {
+      dataName.push(firstname);
+    }
+    setselectData(dataName);
   };
 
   const handleChange = event => {
@@ -285,9 +279,24 @@ const Profile = ({
     requestRemoveSpinIcon({ pinId: [dataVal[0].id] });
   };
   const handleAddSpinIcon = () => {
-    if (demoData && demoData.length > 0) {
-      requestAddSpinIcon({ pin: demoData });
-    }
+    requestAddSpinIcon({ pin: demoData });
+  };
+
+  const handleCancle = () => {
+    setOpen(false);
+    setEmpOpen(false);
+    setemployee(
+      Array.from(selectEmpIcon).map(key => {
+        empData.push(key);
+        return key;
+      }),
+    );
+    setDemoData(
+      Array.from(selectEmpIcon).map(key => {
+        empData.push(key.id);
+        return key.id;
+      }),
+    );
   };
 
   const badgeVerify = inputSet.concat(inputSet2);
@@ -684,6 +693,7 @@ const Profile = ({
                                 }`}
                               >
                                 <label
+                                  aria-hidden
                                   value={t.day}
                                   onClick={() => {
                                     handleButtonData(t.day);
@@ -714,50 +724,35 @@ const Profile = ({
                   <h5>My Pins</h5>
                   <button
                     type="button"
-                    onClick={() => setOpen(true)}
+                    onClick={() => {
+                      setOpen(true);
+                    }}
                     className="btn blue-color-btn"
                   >
                     Select Pins
                   </button>
                 </div>
                 <div className="access-to">
-                  {employee && employee.length > 0
-                    ? employee.map(i => (
-                        <div className="access-one">
-                          <img
-                            src={`${SPIN_IMAGE_URL_LIVE +
-                              i.imageUrl}?bust=${new Date().getTime()}`}
-                            alt=""
-                          />
-                          {i.name}
-                          <a
-                            className="close_btn"
-                            href
-                            onClick={() => handleSpinRemove(i.pinId)}
-                          >
-                            <img src={Close} alt="" />
-                          </a>
-                        </div>
-                      ))
-                    : selectEmpIcon &&
-                      selectEmpIcon.length > 0 &&
-                      selectEmpIcon.map(i => (
-                        <div className="access-one">
-                          <img
-                            src={`${SPIN_IMAGE_URL_LIVE +
-                              i.imageUrl}?bust=${new Date().getTime()}`}
-                            alt=""
-                          />
-                          {i.name}
-                          <a
-                            className="close_btn"
-                            href
-                            onClick={() => handleSpinRemove(i.pinId)}
-                          >
-                            <img src={Close} alt="" />
-                          </a>
-                        </div>
-                      ))}
+                  {selectEmpIcon &&
+                    selectEmpIcon.length > 0 &&
+                    selectEmpIcon.map(i => (
+                      <div className="access-one">
+                        <img
+                          src={`${SPIN_IMAGE_URL_LIVE +
+                            i.imageUrl}?bust=${new Date().getTime()}`}
+                          alt=""
+                        />
+                        {i.name}&nbsp;<span className="head_eab">@</span>
+                        &nbsp;EAB
+                        <a
+                          className="close_btn"
+                          href
+                          onClick={() => handleSpinRemove(i.pinId)}
+                        >
+                          <img src={Close} alt="" />
+                        </a>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -1059,7 +1054,11 @@ const Profile = ({
                 <h5 className="modal-title" id="exampleModalLabel">
                   My Pins
                 </h5>
-                <br />
+                {empOpen && (
+                  <span style={{ color: 'red' }}>
+                    You can select up to 2 pins to display on your name plate.
+                  </span>
+                )}
                 <div
                   className="modal-body modal-update margin_spin"
                   id="data_update"
@@ -1075,7 +1074,7 @@ const Profile = ({
                                 aria-hidden="true"
                                 className={`${demoData.includes(elec.id) &&
                                   'checked_item'} form-group`}
-                                onClick={() => handleUserSelect(elec)}
+                                onClick={() => handleSpinSelect(elec)}
                               >
                                 <img
                                   src={`${SPIN_IMAGE_URL_LIVE +
@@ -1089,7 +1088,10 @@ const Profile = ({
                                   checked={demoData.includes(elec.id)}
                                 />
 
-                                <label htmlFor="jane">{elec.name}</label>
+                                <label htmlFor="jane">
+                                  {elec.name}&nbsp;
+                                  <span className="head_eab">@</span>&nbsp;EAB
+                                </label>
                               </div>
                             </>
                           ))}
@@ -1102,7 +1104,7 @@ const Profile = ({
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                  onClick={() => setOpen(false)}
+                  onClick={handleCancle}
                 />
               </div>
               <div className="modal-footer">
@@ -1120,10 +1122,7 @@ const Profile = ({
                   type="button"
                   className="btn dismiss"
                   data-bs-dismiss="modal"
-                  onClick={() => {
-                    setemployee([]);
-                    setOpen(false);
-                  }}
+                  onClick={handleCancle}
                 >
                   Cancel
                 </button>
@@ -1152,7 +1151,6 @@ Profile.propTypes = {
   handleBadgeData: PropTypes.func,
   handleBadgeSubmit: PropTypes.func,
   badgeUpdateData: PropTypes.object,
-  addSpinIcon: PropTypes.object,
   verifyBadgeSuccess: PropTypes.bool,
   verifyBadgeMsg: PropTypes.string,
   handleSelectedNamesChange: PropTypes.object,
@@ -1173,6 +1171,5 @@ Profile.propTypes = {
   selectEmpIcon: PropTypes.array,
   handleManageFirstBox: PropTypes.func,
   requestAddSpinIcon: PropTypes.func,
-  getSelectIconRequest: PropTypes.func,
 };
 export default Profile;
