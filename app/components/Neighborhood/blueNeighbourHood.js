@@ -44,9 +44,9 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
                       <th
                         style={{
                           width: '25%',
-                          fontSize: '25px',
+                          fontSize: '20px',
                           textAlign: 'left',
-                          wordSpacing: '-4px',
+                          wordSpacing: '-2px',
                         }}
                       >
                         {ele.firstname}

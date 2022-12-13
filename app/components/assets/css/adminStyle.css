@@ -61,7 +61,7 @@
 .new-emp-table table th {
   line-height: normal;
   text-transform: uppercase;
-  padding: 18px 15px 15px;
+  padding: 15px 15px 10px 20px;
   font-size: 14px;
 }
 .emp-table table td {

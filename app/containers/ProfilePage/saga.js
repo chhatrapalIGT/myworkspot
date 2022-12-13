@@ -256,13 +256,12 @@ export function* removeDelegateUser({ payload }) {
   token = JSON.parse(token);
   // eslint-disable-next-line no-underscore-dangle
   const requestURL = `${API_URL}/Delegate/removeDelegateUserOfUser?delegateid=${
-    payload.id
+    payload.delegateid
   }`;
   try {
     const delegateList = yield request({
       method: 'POST',
       url: requestURL,
-      data: payload,
       headers: {
         Authorization: `Bearer ${token.idtoken}`,
       },

@@ -389,6 +389,7 @@ class ProfilePage extends Component {
       removeSpinIconRequest,
       getSelectIconRequest,
       addSpinIcon,
+      isLoading,
     } = this.props;
     const validateBadge =
       history &&
@@ -399,6 +400,7 @@ class ProfilePage extends Component {
       <>
         <div id="content-wrap">
           <Profile
+            isLoading={isLoading}
             addSpinIcon={addSpinIcon}
             getSelectIconRequest={getSelectIconRequest}
             requestRemoveSpinIcon={removeSpinIconRequest}
@@ -457,6 +459,7 @@ const mapStateToProps = state => {
     getProfileLocation: profile && profile.getOffice,
     userData: profile && profile.userList && profile.userList.user,
     addSpinIcon: profile && profile.addSpinIcon,
+    isLoading: profile && profile.loading,
     delegateList:
       profile && profile.delegateList && profile.delegateList.delegate,
     spinIcon: profile && profile.spinIcon,
@@ -579,6 +582,7 @@ ProfilePage.propTypes = {
   spinIcon: PropTypes.array,
   selectEmpIcon: PropTypes.array,
   addSpinIcon: PropTypes.object,
+  isLoading: PropTypes.bool,
 };
 
 export default compose(
