@@ -116,7 +116,6 @@ const initialState = {
   selectEmpIcon: {
     error: '',
     success: false,
-    loading: false,
     message: '',
   },
 
@@ -129,10 +128,9 @@ const initialState = {
   addSpinIcon: {
     error: '',
     success: false,
-    loading: false,
     message: '',
   },
-
+  loading: false,
   apiSuccess: false,
   apiMessage: '',
 };
@@ -321,31 +319,31 @@ const profilePageReducer = (state = initialState, action) =>
         break;
 
       case REQUEST_ADD_SPIN_ICON:
-        draft.addSpinIcon.loading = true;
+        draft.loading = true;
         break;
       case SUCCESS_ADD_SPIN_ICON:
-        draft.addSpinIcon.loading = false;
+        draft.loading = false;
         draft.addSpinIcon.success = action.payload.success;
         draft.addSpinIcon = action.payload;
         draft.addSpinIcon.message = action.payload.message;
         break;
       case FAILED_ADD_SPIN_ICON:
-        draft.addSpinIcon.loading = false;
+        draft.loading = false;
         draft.addSpinIcon.success = action.payload.success;
         draft.addSpinIcon.error = action.payload.message;
         break;
 
       case REQUEST_GET_SELECT_ICON:
-        draft.selectEmpIcon.loading = true;
+        draft.loading = true;
         break;
       case SUCCESS_GET_SELECT_ICON:
-        draft.selectEmpIcon.loading = false;
+        draft.loading = false;
         draft.selectEmpIcon.success = true;
         draft.selectEmpIcon = action.payload;
         draft.selectEmpIcon.message = action.payload.message;
         break;
       case FAILED_GET_SELECT_ICON:
-        draft.selectEmpIcon.loading = false;
+        draft.loading = false;
         draft.selectEmpIcon.success = false;
         draft.selectEmpIcon.error = action.payload.message;
         break;

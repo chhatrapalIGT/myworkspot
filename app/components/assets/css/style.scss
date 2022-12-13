@@ -2524,6 +2524,17 @@ input[type='text'] {
 
 // second design over
 
+.test_modal_pins > .modal-dialog {
+height: 100%;
+margin: 0 auto;
+}
+
+.test_modal_pins > .modal-dialog > .modal-content {
+  transform: translateY(-50%);
+  top: 50%;
+  position: absolute;
+}
+
 .test_modal > .modal-dialog > .modal-content {
   border: none;
   background: transparent;
