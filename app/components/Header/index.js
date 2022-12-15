@@ -321,7 +321,7 @@ const Header = props => {
             ) : (
               <div>
                 {neighborData && neighborData.locId === 'DC' ? (
-                  <h2 className="heading">Washington Office</h2>
+                  <h2 className="heading">DC Office</h2>
                 ) : (
                   ''
                 )}

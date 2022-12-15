@@ -37,6 +37,9 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
               Floor {floor} | {neighborhoodName} Neighborhood{' '}
             </h3>
             <table>
+              <tr>
+                <td style={{ padding: '5px' }} />
+              </tr>
               <tr className="empTable_hdr d-flex flex-wrap">
                 {neighbourHood && neighbourHood.length > 0 ? (
                   neighbourHood.map(ele => (
@@ -59,6 +62,9 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
                     <h2>No Data Found</h2>
                   </div>
                 )}
+              </tr>
+              <tr>
+                <td style={{ padding: '8px' }} />
               </tr>
             </table>
           </div>
