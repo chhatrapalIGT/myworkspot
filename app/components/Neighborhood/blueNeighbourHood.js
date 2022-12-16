@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
@@ -41,8 +42,10 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
                 <td style={{ padding: '5px' }} />
               </tr>
               <tr className="empTable_hdr d-flex flex-wrap">
-                {neighbourHood && neighbourHood.length > 0 ? (
-                  neighbourHood.map(ele => (
+                {neighbourHood &&
+                neighbourHood.data &&
+                neighbourHood.data.length > 0 ? (
+                  neighbourHood.data.map(ele => (
                     <>
                       <th
                         style={{
