@@ -187,7 +187,9 @@ const OfficeWDC = ({
         <div className="office_maps">
           <div className="container">
             <div className="head d-flex align-items-center mt-4">
-              <h4 className="common-title">Office Maps</h4>
+              <h4 className="report_title" style={{ marginTop: '20px' }}>
+                Office Maps
+              </h4>
               <div className="office-selections">
                 <div className="selction_one">
                   <label htmlFor="Office">Office</label>
