@@ -1116,6 +1116,7 @@ const Profile = ({
               onClick={() => {
                 handleAddSpinIcon();
                 setOpen(false);
+                setEmpOpen(false);
               }}
             >
               Save

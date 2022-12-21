@@ -2525,8 +2525,8 @@ input[type='text'] {
 // second design over
 
 .test_modal_pins > .modal-dialog {
-height: 100%;
-margin: 0 auto;
+  height: 100%;
+  margin: 0 auto;
 }
 
 .test_modal_pins > .modal-dialog > .modal-content {
@@ -3439,4 +3439,16 @@ div[class*='qy-menu'] * {
 .head_eab {
   font-family: sans-serif;
   margin-bottom: 3px;
+}
+.empTable_hdr ul li {
+  padding: 10px 0;
+}
+
+.common-th-width{
+  width: 25%;
+  padding-left: 30px;
+}
+.last-th-width{
+  width: auto;
+  padding-right: 30px !important;
 }
