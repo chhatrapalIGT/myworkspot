@@ -37,7 +37,6 @@ const DelegateProfile = props => {
       }, 5000);
     }
   }, [props.delegateMessage]);
-
   return (
     <Fragment>
       <>
@@ -222,17 +221,9 @@ const mapStateToProps = state => {
   const { profile } = state;
   return {
     delegateUserProfile:
-      profile &&
-      profile.delegateProfile &&
-      profile.delegateProfile.delegateProfileList &&
-      profile.delegateProfile.delegateProfileList.profile,
-    delegateUserWeek:
-      profile &&
-      profile.delegateProfile &&
-      profile.delegateProfile.delegateProfileList &&
-      profile.delegateProfile.delegateProfileList.weeklydefaults,
-    isLoading:
-      profile && profile.delegateProfile && profile.delegateProfile.loading,
+      profile && profile.delegateProfile && profile.delegateProfile.profile,
+    delegateUserWeek: profile && profile.delegateProfile,
+    isLoading: profile && profile.loading,
     delegateSuccess: profile && profile.apiSuccess,
     delegateMessage: profile && profile.apiMessage,
   };

@@ -299,7 +299,7 @@ class BorardingPage extends Component {
 const mapStateToProps = state => {
   const { locationData, profile } = state;
   return {
-    badgeData: profile && profile.userList && profile.userList.user,
+    badgeData: profile && profile.userList,
 
     location:
       locationData &&
@@ -333,12 +333,8 @@ const mapStateToProps = state => {
       locationData &&
       locationData.verifyBadge &&
       locationData.verifyBadge.message,
-    userName:
-      profile &&
-      profile.userList &&
-      profile.userList.user &&
-      profile.userList.user.firstname,
-    profileUserLoading: profile && profile.userList && profile.userList.loading,
+    userName: profile && profile.userList && profile.userList.firstname,
+    profileUserLoading: profile && profile.loading,
   };
 };
 

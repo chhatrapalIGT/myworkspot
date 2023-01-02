@@ -115,7 +115,7 @@ class OfficeMap extends Component {
 const mapStateToProps = state => {
   const { officeData, profile } = state;
   return {
-    badgeData: profile && profile.userList && profile.userList.user,
+    badgeData: profile && profile.userList,
     officeLocation:
       officeData &&
       officeData.getOfficeData &&

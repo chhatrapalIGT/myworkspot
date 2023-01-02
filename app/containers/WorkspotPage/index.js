@@ -577,7 +577,7 @@ const mapStateToProps = state => {
   const { workspot, profile } = state;
 
   return {
-    badgeData: profile && profile.userList && profile.userList.user,
+    badgeData: profile && profile.userList,
 
     locationData:
       workspot &&
@@ -621,19 +621,12 @@ const mapStateToProps = state => {
     colleagueListData: workspot && workspot.getColleagueData,
     searchColleague: workspot && workspot.searchColleague,
     deleteSearchColleague: workspot && workspot.deleteSearchColleague,
-    profileUserLoading: profile && profile.userList && profile.userList.loading,
+    profileUserLoading: profile && profile.loading,
     monthData:
       workspot && workspot.getMonthData && workspot.getMonthData.monthData,
     leadersCommittee:
-      profile &&
-      profile.userList &&
-      profile.userList.user &&
-      profile.userList.user.leaderscommittee,
-    employeeId:
-      profile &&
-      profile.userList &&
-      profile.userList.user &&
-      profile.userList.user.employeeid,
+      profile && profile.userList && profile.userList.leaderscommittee,
+    employeeId: profile && profile.userList && profile.userList.employeeid,
   };
 };
 
