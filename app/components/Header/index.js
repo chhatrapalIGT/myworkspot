@@ -672,24 +672,17 @@ const mapStateToProps = state => {
   const { profile } = state;
   return {
     profile,
-    profileUser: profile && profile.userList && profile.userList.user,
-    profileUserLoading: profile && profile.userList && profile.userList.loading,
-    profileSuccess: profile && profile.userList && profile.userList.success,
+    profileUser: profile && profile.userList,
+    profileUserLoading: profile && profile.loading,
+    profileSuccess: profile && profile.success,
     delegateHeaderProfile:
-      profile &&
-      profile.delegateProfile &&
-      profile.delegateProfile.delegateProfileList &&
-      profile.delegateProfile.delegateProfileList.profile,
+      profile && profile.delegateProfile && profile.delegateProfile.profile,
     delegateHeaderWeek:
       profile &&
       profile.delegateProfile &&
-      profile.delegateProfile.delegateProfileList &&
-      profile.delegateProfile.delegateProfileList.weeklydefaults,
+      profile.delegateProfile.weeklydefaults,
     delegateHeaderProfileSuccess:
-      profile &&
-      profile.delegateProfile &&
-      profile.delegateProfile.delegateProfileList &&
-      profile.delegateProfile.delegateProfileList.success,
+      profile && profile.delegateProfile && profile.delegateProfile.success,
     badgeUpdateSuccess: profile && profile.badgeUpdate.badgeSuccess,
   };
 };

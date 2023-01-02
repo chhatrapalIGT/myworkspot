@@ -10,7 +10,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import profile from '../../images/myprofile.png';
+import Profile from '../../images/myprofile.png';
 import Report from '../../components/Report';
 import allImage from '../../images/icon.svg';
 import reducer from './reducer';
@@ -137,8 +137,10 @@ class ReportPage extends Component {
 
   fetchMoreData = () => {
     let newArr = [];
-
-    if (this.state.allUsers.length >= this.state.allUser.length) {
+    if (
+      this.state.allUsers &&
+      this.state.allUsers.length >= this.state.allUser.length
+    ) {
       const page = Math.ceil(
         this.state.allUsers.length - this.state.itemPerPage,
       );
@@ -189,7 +191,7 @@ class ReportPage extends Component {
         value: obj.firstname,
         label: obj.firstname,
         labelData: obj.lastname,
-        flag: obj.photo ? allImage : profile,
+        flag: obj.photo ? allImage : Profile,
       }))
     );
   };
@@ -284,7 +286,7 @@ class ReportPage extends Component {
 const mapStateToProps = state => {
   const { locationData, myTeam, workspot, profile } = state;
   return {
-    BadgeData: profile && profile.userList && profile.userList.user,
+    BadgeData: profile && profile.userList,
     location:
       locationData &&
       locationData.getOfficeLocation &&

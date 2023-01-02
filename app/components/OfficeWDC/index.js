@@ -38,7 +38,6 @@ const OfficeWDC = ({
   const [title, setTitle] = useState([]);
   const [imgResource, setImgResource] = useState('');
   const { width } = useWindowSize();
-
   const finalFloorData =
     officeLocation &&
     officeLocation[0] &&
@@ -187,7 +186,7 @@ const OfficeWDC = ({
         <div className="office_maps">
           <div className="container">
             <div className="head d-flex align-items-center mt-4">
-              <h4 className="report_title" style={{ marginTop: '20px' }}>
+              <h4 className="common-title" style={{ marginTop: '20px' }}>
                 Office Maps
               </h4>
               <div className="office-selections">

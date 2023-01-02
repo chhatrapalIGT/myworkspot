@@ -457,18 +457,15 @@ const mapStateToProps = state => {
   const { profile, locationData } = state;
   return {
     getProfileLocation: profile && profile.getOffice,
-    userData: profile && profile.userList && profile.userList.user,
+    userData: profile && profile.userList,
     addSpinIcon: profile && profile.addSpinIcon,
-    isLoading: profile && profile.loading,
-    delegateList:
-      profile && profile.delegateList && profile.delegateList.delegate,
+    isLoading: profile && profile.getOffice && profile.getOffice.loading,
+    delegateList: profile && profile.delegateList && profile.delegateList,
     spinIcon: profile && profile.spinIcon,
     selectEmpIcon:
       (profile && profile.selectEmpIcon && profile.selectEmpIcon.data) || [],
-    delegateSuccess:
-      profile && profile.delegateList && profile.delegateList.success,
-    getProfileLocationSuccess:
-      profile && profile.getOffice && profile.getOffice.success,
+    delegateSuccess: profile && profile.success,
+    getProfileLocationSuccess: profile && profile.success,
     location:
       locationData &&
       locationData.getOfficeLocation &&
@@ -484,10 +481,7 @@ const mapStateToProps = state => {
       profile && profile.badgeUpdate && profile.badgeUpdate.success,
     badgeUpdateLoading:
       profile && profile.badgeUpdate && profile.badgeUpdate.loading,
-    delegrateUsersList:
-      profile &&
-      profile.getUpdatedelegateListData &&
-      profile.getUpdatedelegateListData.delegateUpdate,
+    delegrateUsersList: profile && profile.getUpdatedelegateListData,
 
     verifyBadgeSuccess:
       locationData &&

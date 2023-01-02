@@ -365,7 +365,7 @@ const Report = ({
       >
         <div className="mt-4 weekly-default-inner d-flex flex-wrap" />
         <div className="container">
-          <h4 className="report_title">My Team</h4>
+          <h4 className="common-title">My Team</h4>
 
           <InfiniteScroll
             dataLength={state.allUser.length}
