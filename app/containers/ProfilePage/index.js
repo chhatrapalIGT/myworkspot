@@ -459,7 +459,7 @@ const mapStateToProps = state => {
     getProfileLocation: profile && profile.getOffice,
     userData: profile && profile.userList,
     addSpinIcon: profile && profile.addSpinIcon,
-    isLoading: profile && profile.getOffice && profile.getOffice.loading,
+    isLoading: profile && profile.loading,
     delegateList: profile && profile.delegateList && profile.delegateList,
     spinIcon: profile && profile.spinIcon,
     selectEmpIcon:
