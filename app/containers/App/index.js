@@ -151,7 +151,7 @@ const mapStateToProps = state => {
   const { profile } = state;
   return {
     profile,
-    profileUser: profile && profile.userList && profile.userList.user,
+    profileUser: profile && profile.userList,
   };
 };
 
