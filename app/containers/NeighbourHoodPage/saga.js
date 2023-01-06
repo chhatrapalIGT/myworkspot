@@ -1,6 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
-import { push } from 'react-router-redux';
 import { REQUEST_GET_OFFICE_ASSIGNMENTS } from './constants';
 import {
   successGetOfficeAssignments,
@@ -29,7 +28,6 @@ export function* getAllOfficeLocation({ payload }) {
     const { data } = delegateList;
     if (delegateList.status === 403) {
       sessionStorage.clear();
-      yield put(push('/'));
     } else if (data && data.success) {
       yield put(successGetOfficeAssignments(data));
     } else {
