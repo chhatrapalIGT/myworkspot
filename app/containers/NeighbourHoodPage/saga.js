@@ -26,9 +26,7 @@ export function* getAllOfficeLocation({ payload }) {
       data: payload,
     });
     const { data } = delegateList;
-    if (delegateList.status === 403) {
-      sessionStorage.clear();
-    } else if (data && data.success) {
+    if (data && data.success) {
       yield put(successGetOfficeAssignments(data));
     } else {
       yield put(failedGetOfficeAssignments(data));

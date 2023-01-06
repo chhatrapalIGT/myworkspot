@@ -657,9 +657,7 @@ const Profile = ({
               </p>
               <div className="on-boarding-inner p-0">
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
-                  {state &&
-                  state.finalLocationDay &&
-                  !state.finalLocationDay.length ? (
+                  {state.finalLocationDay && !state.finalLocationDay.length ? (
                     <Spinner
                       className="app-spinner profile"
                       animation="grow"
