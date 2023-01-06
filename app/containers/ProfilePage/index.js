@@ -96,8 +96,8 @@ class ProfilePage extends Component {
     this.props.requestGetProfileOfficeData({});
     this.props.requestGetOfficeLocation({});
     this.props.requestDelegateData({});
-    this.props.getSpinIconRequest({});
-    this.props.getSelectIconRequest({});
+    // this.props.getSpinIconRequest({});
+    // this.props.getSelectIconRequest({});
   }
 
   componentWillUnmount() {
