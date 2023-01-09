@@ -47,7 +47,11 @@ const App = props => {
   const requestLogin = async () => {
     const session = sessionStorage.getItem('AccessToken');
     const { hash } = history.location;
-    if (session === null && hash === '') {
+    if (
+      session === null &&
+      hash === '' &&
+      !pathName.includes('/NeighBorhoodLocation')
+    ) {
       history.push('/auth');
     }
   };
