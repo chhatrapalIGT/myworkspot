@@ -657,7 +657,9 @@ const Profile = ({
               </p>
               <div className="on-boarding-inner p-0">
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
-                  {state.finalLocationDay && !state.finalLocationDay.length ? (
+                  {state &&
+                  state.finalLocationDay &&
+                  !state.finalLocationDay.length ? (
                     <Spinner
                       className="app-spinner profile"
                       animation="grow"
@@ -707,7 +709,7 @@ const Profile = ({
             </div>
           </div>
 
-          <div className="workspot-access mt-40">
+          {/* <div className="workspot-access mt-40">
             <div className="container">
               <h4 className="common-title">Name Plate Pins</h4>
               <p className="w-50 stroke-2 mt-3">
@@ -760,7 +762,7 @@ const Profile = ({
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
           <div className="workspot-access mt-40">
             <div className="container">
               <h4 className="common-title">
