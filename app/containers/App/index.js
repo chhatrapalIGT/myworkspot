@@ -5,7 +5,7 @@ import {
   Route,
   withRouter,
   useLocation,
-  useHistory,
+  // useHistory,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -26,6 +26,7 @@ import Login from '../../components/Login';
 import EmployeePage from '../EmployeePage';
 import officeUpload from '../UploadMapPage';
 import space from '../SpacePage';
+import assignments from '../../components/Assignments/index';
 import WorkspotAdminPage from '../WorkspotAdminPage';
 import NeighbourHoodPage from '../NeighbourHoodPage';
 import { requestGetOfficeAssignments } from '../NeighbourHoodPage/action';
@@ -42,22 +43,22 @@ const App = props => {
     }
   }, [sessionStorage.getItem('neighborData')]);
 
-  const history = useHistory();
+  // const history = useHistory();
 
-  const requestLogin = async () => {
-    const session = sessionStorage.getItem('AccessToken');
-    const { hash } = history.location;
-    if (
-      session === null &&
-      hash === '' &&
-      !pathName.includes('/NeighBorhoodLocation')
-    ) {
-      history.push('/auth');
-    }
-  };
+  // const requestLogin = async () => {
+  //   const session = sessionStorage.getItem('AccessToken');
+  //   const { hash } = history.location;
+  //   if (
+  //     session === null &&
+  //     hash === '' &&
+  //     !pathName.includes('/NeighBorhoodLocation')
+  //   ) {
+  //     history.push('/auth');
+  //   }
+  // };
 
   useEffect(() => {
-    requestLogin();
+    // requestLogin();
     setTimeout(() => {
       setPageLoading(false);
     }, 1000);
@@ -82,6 +83,7 @@ const App = props => {
             <Route exact path="/faq" component={Faq} />
             <Route exact path="/officemap" component={officeUpload} />
             <Route exact path="/space" component={space} />
+            <Route exact path="/assignments" component={assignments} />
             <Route
               exact
               path="/report"
