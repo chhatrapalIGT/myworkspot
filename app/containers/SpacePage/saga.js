@@ -1,8 +1,17 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import { get } from 'lodash';
 import { push } from 'react-router-redux';
-import { REQUEST_UPDATE_ACTIVE_STATUS } from './constants';
-import { updateActiveStatusSuccess, updateActiveStatusFailed } from './actions';
+import {
+  REQUEST_UPDATE_ACTIVE_STATUS,
+  REQUEST_GET_MANAGE_SPACE,
+} from './constants';
+import {
+  updateActiveStatusSuccess,
+  updateActiveStatusFailed,
+  getManageSpaceSuccess,
+  getManageSpaceFailed,
+} from './actions';
 import { CONSTANT } from '../../enum';
 
 const { API_URL } = CONSTANT;
@@ -36,6 +45,38 @@ export function* statusUpdate({ payload }) {
   }
 }
 
+export function* getManageSpaceData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const limit = get(payload, 'limit', 10);
+  const page = get(payload, 'page', 1);
+  const requestURL = `${API_URL}/adminPanel/spaces/getManageSpace?searchFilter=&officeSearch&floorSearch&neighborhoodSearch&sort_column&sort_order&limit=${limit}&page=${page}`;
+  try {
+    const response = yield request({
+      method: 'GET',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getManageSpaceSuccess(data));
+    } else {
+      yield put(getManageSpaceFailed(data));
+    }
+  } catch (error) {
+    yield put(getManageSpaceFailed(error));
+  }
+}
+
 export default function* spaceMapData() {
   yield takeLatest(REQUEST_UPDATE_ACTIVE_STATUS, statusUpdate);
+  yield takeLatest(REQUEST_GET_MANAGE_SPACE, getManageSpaceData);
 }

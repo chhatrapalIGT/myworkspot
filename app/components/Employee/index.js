@@ -33,6 +33,7 @@ const optionsLocation = [
 ];
 const Employee = props => {
   const { state, employeeData } = props;
+  console.log('props:::', props);
   const currentTableData = useMemo(() => {
     const firstPageIndex = (state.page - 1) * state.limit;
     const lastPageIndex = firstPageIndex + state.limit;

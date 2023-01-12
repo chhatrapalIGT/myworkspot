@@ -2,6 +2,9 @@ import {
   REQUEST_UPDATE_ACTIVE_STATUS,
   SUCCESS_UPDATE_ACTIVE_STATUS,
   FAILED_UPDATE_ACTIVE_STATUS,
+  REQUEST_GET_MANAGE_SPACE,
+  SUCCESS_GET_MANAGE_SPACE,
+  FAILED_GET_MANAGE_SPACE,
   CLEAR_UPDATE_STATUS,
   CLEAR_MESSAGE,
 } from './constants';
@@ -18,6 +21,20 @@ export const updateActiveStatusSuccess = payload => ({
 
 export const updateActiveStatusFailed = error => ({
   type: FAILED_UPDATE_ACTIVE_STATUS,
+  payload: error,
+});
+export const requestGetManageSpace = payload => ({
+  type: REQUEST_GET_MANAGE_SPACE,
+  payload,
+});
+
+export const getManageSpaceSuccess = payload => ({
+  type: SUCCESS_GET_MANAGE_SPACE,
+  payload,
+});
+
+export const getManageSpaceFailed = error => ({
+  type: FAILED_GET_MANAGE_SPACE,
   payload: error,
 });
 export const clearUpdateStatus = () => ({

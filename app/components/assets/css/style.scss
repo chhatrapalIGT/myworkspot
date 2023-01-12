@@ -999,6 +999,61 @@ input[type='text'] {
   }
 }
 
+.model-content{
+  color: #01213A;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  padding-top: 20px;
+    display: block;
+}
+
+.mycheckbox {
+  padding-top: 5px;
+}
+.mycheckbox .form-check {
+  margin-top: 12px;
+}
+.mycheckbox input[type="checkbox"]{
+  width: 18px;
+  height: 18px;
+}
+.mycheckbox label {
+  color: #01213A;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  padding-left: 7px;
+  padding-top: 3px;
+}
+.mycheckbox1 {
+  padding-top: 0px;
+}
+.mycheckbox1 .form-check {
+  margin-top: 12px;
+}
+.mycheckbox1 input[type="checkbox"]{
+  width: 18px;
+  height: 18px;
+}
+.mycheckbox1 label {
+  color: #01213A;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  padding-left: 7px;
+  padding-top: 3px;
+}
+.mypadlr{
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+}
+.mypt-3{padding-top: 30px !important;}
+.mypb-3{ padding-bottom: 30px !important;}
+
 #delegate_workspot,
 #set_location {
   .modal-body {
