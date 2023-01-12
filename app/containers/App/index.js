@@ -26,10 +26,10 @@ import Login from '../../components/Login';
 import EmployeePage from '../EmployeePage';
 import officeUpload from '../UploadMapPage';
 import space from '../SpacePage';
-import assignments from '../../components/Assignments/index';
 import WorkspotAdminPage from '../WorkspotAdminPage';
 import NeighbourHoodPage from '../NeighbourHoodPage';
 import { requestGetOfficeAssignments } from '../NeighbourHoodPage/action';
+import AssignmentPage from '../AssignmentPage';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
@@ -83,7 +83,7 @@ const App = props => {
             <Route exact path="/faq" component={Faq} />
             <Route exact path="/officemap" component={officeUpload} />
             <Route exact path="/space" component={space} />
-            <Route exact path="/assignments" component={assignments} />
+            <Route exact path="/assignments" component={AssignmentPage} />
             <Route
               exact
               path="/report"
