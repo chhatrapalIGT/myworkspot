@@ -1,9 +1,19 @@
 import produce from 'immer';
 
 import {
+  CLEAR_OFFICE,
   FAILED_GET_ASSIGNMENT_DETAIL,
+  FAILED_GET_EXPORT_DATA,
+  FAILED_GET_OFFICE_FLOOR,
+  FAILED_GET_OFFICE_NEIGHBORHOOD,
   REQUEST_GET_ASSIGNMENT_DETAIL,
+  REQUEST_GET_EXPORT_DATA,
+  REQUEST_GET_OFFICE_FLOOR,
+  REQUEST_GET_OFFICE_NEIGHBORHOOD,
   SUCCESS_GET_ASSIGNMENT_DETAIL,
+  SUCCESS_GET_EXPORT_DATA,
+  SUCCESS_GET_OFFICE_FLOOR,
+  SUCCESS_GET_OFFICE_NEIGHBORHOOD,
 } from './constants';
 
 // The initial state of the App
@@ -14,6 +24,27 @@ const initialState = {
     message: '',
     loading: false,
     assignment: [],
+  },
+  officeFloor: {
+    error: '',
+    success: false,
+    message: '',
+    loading: false,
+    floors: [],
+  },
+  officeNeighbourhood: {
+    error: '',
+    success: false,
+    message: '',
+    loading: false,
+    neighbourhood: [],
+  },
+  exportAssignmentDetails: {
+    error: '',
+    success: false,
+    message: '',
+    loading: false,
+    exportAssignment: [],
   },
   apiMessage: '',
   apiSuccess: false,
@@ -26,7 +57,6 @@ const AssignmentReducer = (state = initialState, action) =>
       case REQUEST_GET_ASSIGNMENT_DETAIL:
         draft.assignmentDetail.loading = true;
         draft.assignmentDetail.error = '';
-        // draft.singleLocation = [];
         break;
       case SUCCESS_GET_ASSIGNMENT_DETAIL:
         draft.assignmentDetail.loading = false;
@@ -36,12 +66,67 @@ const AssignmentReducer = (state = initialState, action) =>
         break;
       case FAILED_GET_ASSIGNMENT_DETAIL:
         draft.assignmentDetail.loading = false;
-        draft.assignmentDetail.assignment = [];
         draft.assignmentDetail.success = action.payload.success;
         draft.assignmentDetail.message = action.payload;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;
+      case REQUEST_GET_EXPORT_DATA:
+        draft.exportAssignmentDetails.loading = true;
+        draft.exportAssignmentDetails.error = '';
+        break;
+      case SUCCESS_GET_EXPORT_DATA:
+        draft.exportAssignmentDetails.loading = false;
+        draft.exportAssignmentDetails.success = true;
+        draft.exportAssignmentDetails.exportAssignment = action.payload;
+        draft.exportAssignmentDetails.error = '';
+        break;
+      case FAILED_GET_EXPORT_DATA:
+        draft.exportAssignmentDetails.loading = false;
+        draft.exportAssignmentDetails.exportAssignment = [];
+        draft.exportAssignmentDetails.success = action.payload.success;
+        draft.exportAssignmentDetails.message = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case REQUEST_GET_OFFICE_FLOOR:
+        draft.officeFloor.loading = true;
+        draft.officeFloor.error = '';
+        break;
+      case SUCCESS_GET_OFFICE_FLOOR:
+        draft.officeFloor.loading = false;
+        draft.officeFloor.success = true;
+        draft.officeFloor.floors = action.payload;
+        draft.officeFloor.error = '';
+        break;
+      case FAILED_GET_OFFICE_FLOOR:
+        draft.officeFloor.loading = false;
+        // draft.officeFloor.floors = [];
+        draft.officeFloor.success = action.payload.success;
+        draft.officeFloor.message = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case REQUEST_GET_OFFICE_NEIGHBORHOOD:
+        draft.officeNeighbourhood.loading = true;
+        draft.officeNeighbourhood.error = '';
+        break;
+      case SUCCESS_GET_OFFICE_NEIGHBORHOOD:
+        draft.officeNeighbourhood.loading = false;
+        draft.officeNeighbourhood.success = true;
+        draft.officeNeighbourhood.neighbourhood = action.payload;
+        draft.officeNeighbourhood.error = '';
+        break;
+      case FAILED_GET_OFFICE_NEIGHBORHOOD:
+        draft.officeNeighbourhood.loading = false;
+        draft.officeNeighbourhood.success = action.payload.success;
+        draft.officeNeighbourhood.message = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case CLEAR_OFFICE:
+        draft.getOfficeData.error = '';
+        draft.getOfficeData.success = false;
     }
   });
 export default AssignmentReducer;

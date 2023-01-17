@@ -1,67 +1,145 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/jsx-curly-brace-presence */
-/* eslint-disable func-names */
-/* eslint-disable react/no-this-in-sfc */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable indent */
+/* eslint-disable react/no-this-in-sfc */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-nested-ternary */
-import React, { useMemo, useState } from 'react';
+/* eslint-disable indent */
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Modal, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import Select, { components } from 'react-select';
 import createClass from 'create-react-class';
+import Select, { components } from 'react-select';
 import Pagination from '../Employee/Pagination';
 import Menu from '../assets/images/admin/menu.png';
 import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
-import checkedCircle from '../../images/check-circle-fill.svg';
-import crossCircle from '../../images/x-circle-fill.svg';
-import Warnning from '../../images/officeImage/Warnning.png';
 import Profile from '../assets/images/profileof.png';
-
-const optionsLocation = [
-  { label: 'Washington, DC', name: 'Washington, DC', value: 'DC' },
-  { label: 'Richmond, VA', name: 'Richmond, VA', value: 'RIC' },
-  { label: 'Not Assigned', name: 'Not Assigned', value: 'Not Assigned' },
-];
-const optionsFloor = [{ label: 'All', name: 'All', value: 'All' }];
-const optionsNabourhood = [{ label: 'All', name: 'All', value: 'All' }];
+import generateCSV from '../Common/generateCSV';
 
 const Assignments = props => {
-  const { state, assignmentData } = props;
+  const {
+    state,
+    assignmentData,
+    exportAssignmentData,
+    officeLocation,
+    officeFloor,
+    officeNeighborhood,
+  } = props;
   const [open, setOpen] = useState(false);
-  const updatedAssignData = optionsLocation.map(item => {
+  const [officeLocations, setOfficeLocations] = useState([]);
+  const [officeFloors, setOfficeFloors] = useState([]);
+  const [officeBuildings, setOfficeBuildings] = useState([]);
+  const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
+
+  useEffect(() => {
+    officeLocation &&
+      officeLocation.map(obj => {
+        if (obj.id !== 'RW') {
+          officeLocations.push({
+            label: obj.locationname,
+            name: obj.locationname,
+            value: obj.id,
+          });
+        }
+      });
+  }, [officeLocation]);
+
+  useEffect(() => {
+    officeFloor &&
+      officeFloor.map(obj => {
+        if (obj.floor !== '') {
+          officeFloors.push({
+            label: obj.floor,
+            name: obj.floor,
+            value: obj.id,
+          });
+        }
+      });
+  }, [officeFloor]);
+
+  useEffect(() => {
+    officeNeighborhood &&
+      officeNeighborhood.map(obj => {
+        if (obj.floor !== '') {
+          officeNeighborhoods.push({
+            label: obj.floor,
+            name: obj.floor,
+            value: obj.id,
+          });
+        }
+      });
+  }, [officeNeighborhood]);
+
+  const [userinfo, setUserInfo] = useState({
+    offices: [],
+  });
+
+  useEffect(() => {
+    if (exportAssignmentData && exportAssignmentData.length > 0) {
+      const header = Object.keys(exportAssignmentData[0]);
+      generateCSV(
+        state.exportType,
+        header,
+        exportAssignmentData,
+        'Assignments',
+      );
+    }
+  }, [exportAssignmentData]);
+
+  const handleChange = e => {
+    // Destructuring
+    const { value, checked } = e.target;
+    const { offices } = userinfo;
+
+    // Case 1 : The user checks the box
+    if (checked) {
+      setUserInfo({
+        offices: [...offices, value],
+      });
+    }
+    // Case 2  : The user unchecks the box
+    else {
+      setUserInfo({
+        offices: offices.filter(i => i !== value),
+      });
+    }
+  };
+
+  const updatedLocation = officeLocations.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_emp">
-          {props.state.finalOffice
-            ? props.state.finalOffice
+          {props.state.finalOfficeVal
+            ? props.state.finalOfficeVal
             : 'Washington, DC +2'}
         </div>
       </>
     );
     return item;
   });
-  const updatedFloorData = optionsFloor.map(item => {
+
+  const updatedFloors = officeFloors.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_emp">
-          {props.state.finalFloor ? props.state.finalFloor : 'All'}
+          {props.state.finalFloorVal ? props.state.finalFloorVal : 'Floors, +2'}
         </div>
       </>
     );
     return item;
   });
-  const updatedNabourData = optionsNabourhood.map(item => {
+
+  const updatedNeighborhood = officeNeighborhoods.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_emp">
-          {props.state.finalNabour ? props.state.finalNabour : 'All'}
+          {props.state.selectedNeighbor
+            ? props.state.selectedNeighbor
+            : 'color, +2'}
         </div>
       </>
     );
@@ -75,7 +153,7 @@ const Assignments = props => {
           <div style={{ display: 'flex' }}>
             <div style={{ flex: '1' }}>
               <label style={{ cursor: 'pointer' }}>
-                {`${this.props.data.name} ${this.props.data.labelData || ''}`}
+                {this.props.data.name}
               </label>
               <input
                 className="select_checkbox"
@@ -119,31 +197,6 @@ const Assignments = props => {
 
   return (
     <>
-      {props.apiMessage && (
-        <div
-          className={`"alert fade show mx-auto ${
-            props.apiSuccess ? 'alert alert-success' : 'alert alert-danger '
-          } "`}
-        >
-          <div>
-            <img
-              src={props.apiSuccess ? checkedCircle : crossCircle}
-              alt=""
-              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
-            />
-
-            {props.apiMessage}
-          </div>
-          <div
-            style={{ float: 'right', fontSize: 'large', marginLeft: '10px' }}
-            // onClick={props.handleData}
-            className="day-pointer"
-            aria-hidden="true"
-          >
-            &#10006;
-          </div>
-        </div>
-      )}
       <div className="wrapper_main emp_wrapper">
         <div className="office_maps" style={{ marginBottom: '95px' }}>
           <div className="container">
@@ -164,8 +217,7 @@ const Assignments = props => {
                 <div className="menu-img">
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
-
-                <span htmlFor="role" className="role">
+                <span htmlFor="space" className="space">
                   <p
                     style={{
                       height: '15px',
@@ -180,9 +232,10 @@ const Assignments = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    defaultValue={optionsLocation}
-                    onChange={props.handleOfficeChange}
-                    options={updatedAssignData}
+                    defaultValue={officeLocations}
+                    onChange={props.handleSelectedoffice}
+                    options={updatedLocation}
+                    closeMenuOnSelect
                     hideSelectedOptions={false}
                     onMenuClose={false}
                     className=" admin-employee"
@@ -206,14 +259,14 @@ const Assignments = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    defaultValue={optionsFloor}
-                    onChange={props.handleChangeFloor}
-                    options={updatedFloorData}
+                    defaultValue={officeFloor}
+                    onChange={props.handleSelectedFloor}
+                    options={updatedFloors}
                     closeMenuOnSelect
                     hideSelectedOptions={false}
                     onMenuClose={false}
-                    className="admin-employee"
-                    name="building/floor"
+                    className=" admin-employee"
+                    name="floor"
                     styles={colourStyles}
                     label="Building/Floor"
                   />
@@ -233,9 +286,9 @@ const Assignments = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    defaultValue={optionsNabourhood}
-                    onChange={props.handleChangeNeighborhood}
-                    options={updatedNabourData}
+                    defaultValue={officeNeighborhood}
+                    onChange={props.handleSelectedNeighbor}
+                    options={updatedNeighborhood}
                     closeMenuOnSelect
                     hideSelectedOptions={false}
                     onMenuClose={false}
@@ -441,43 +494,64 @@ const Assignments = props => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-header d-block mypadlr mypt-3">
-          <div>
-            <h5 className="modal-title" id="exampleModalLabel">
-              Create a New Export
-            </h5>
-            <span className="model-content">
-              What data do you want to export?
-            </span>
+        {!props.exportAssignmentLoading ? (
+          <div className="modal-header d-block mypadlr mypt-3">
+            <div>
+              <h5 className="modal-title" id="exampleModalLabel">
+                Create a New Export
+              </h5>
+              <span className="model-content">
+                What data do you want to export?
+              </span>
+            </div>
+
+            <form
+              className="delegate-workspot-access mycheckbox"
+              action="submit"
+            >
+              <>
+                <Form.Check
+                  label="Washington, DC"
+                  value="DC"
+                  name="group1"
+                  onChange={e => handleChange(e)}
+                />
+                <Form.Check
+                  label="Richmond, VA"
+                  value="RIC"
+                  name="group1"
+                  onChange={e => handleChange(e)}
+                />
+              </>
+            </form>
+
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              onClick={() => setOpen(false)}
+            />
           </div>
-
-          <form className="delegate-workspot-access mycheckbox" action="submit">
-            <>
-              <Form.Check label="Washington, DC" name="group1" />
-              <Form.Check label="Richmond, VA" name="group1" />
-            </>
-          </form>
-
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            onClick={() => setOpen(false)}
-          />
-        </div>
+        ) : (
+          <Spinner className="app-spinner" animation="grow" variant="dark" />
+        )}
         <div className="modal-footer justify-content-between border-0 mypadlr mypb-3 pt-0">
           <Button
             variant="primary"
             className="btn csv-modal cust-model-btn"
             data-bs-dismiss="modal"
+            onClick={() => {
+              props.handleExportCSV(userinfo);
+            }}
           >
             .CSV Export
           </Button>
           <Button
             variant="primary"
             className="btn xlsx-modal cust-model-btn"
-            data-bs-dismiss="mo dal"
+            data-bs-dismiss="modal"
+            onClick={() => props.handleExportXLSX(userinfo)}
           >
             .XLSX Export
           </Button>
@@ -496,29 +570,24 @@ const Assignments = props => {
 };
 
 Assignments.propTypes = {
-  assignmentData: PropTypes.object,
+  assignmentData: PropTypes.array,
+  exportAssignmentData: PropTypes.object,
+  officeLocation: PropTypes.object,
+  officeFloor: PropTypes.object,
+  officeNeighborhood: PropTypes.object,
   state: PropTypes.object,
-  handleOfficeChange: PropTypes.func,
-  handleChangeFloor: PropTypes.func,
-  handleChangeNeighborhood: PropTypes.func,
+  handleSelectedoffice: PropTypes.func,
+  handleSelectedFloor: PropTypes.func,
+  handleSelectedNeighbor: PropTypes.func,
   handleLimitChange: PropTypes.func,
   handlePageChange: PropTypes.func,
   handleClickSort: PropTypes.func,
   handleSearcha: PropTypes.func,
+  handleExportCSV: PropTypes.func,
+  handleExportXLSX: PropTypes.func,
   assignmentLoading: PropTypes.bool,
+  exportAssignmentLoading: PropTypes.bool,
   assignmentCount: PropTypes.number,
-  apiSuccess: PropTypes.bool,
-  apiMessage: PropTypes.string,
 };
 
 export default Assignments;
-
-document.addEventListener(
-  'invalid',
-  (function() {
-    return function(e) {
-      e.preventDefault();
-    };
-  })(),
-  true,
-);

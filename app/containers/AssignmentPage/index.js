@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -8,7 +9,13 @@ import { compose } from 'redux';
 import saga from './saga';
 import reducer from './reducer';
 import Assignments from '../../components/Assignments';
-import { requestGetAssignmentDetail } from './action';
+import {
+  requestGetAssignmentDetail,
+  requestGetExportData,
+  requestGetOfficeFloor,
+  requestGetOfficeNeighborhood,
+} from './action';
+import { requestGetOfficeLocation } from '../onBoardingPage/actions';
 
 class AssignmentPage extends Component {
   constructor(props) {
@@ -16,8 +23,10 @@ class AssignmentPage extends Component {
     this.state = {
       page: 1,
       limit: 10,
-      selectedoffice: [],
+      search: '',
+      selectedOffice: [],
       selectedFloor: [],
+      selectedBuilding: [],
       selectedNeighbor: [],
       sortOrder: {
         name: true,
@@ -32,18 +41,20 @@ class AssignmentPage extends Component {
 
   getAssignData = (
     searchKeyword,
-    officeLocation,
-    stroffice,
-    strNeighbor,
+    office,
+    floor,
+    building,
+    neighborhood,
     sortBy,
     page,
     limit,
   ) => {
     const finalPayload = {
       searchKeyword,
-      officeLocation,
-      stroffice,
-      strNeighbor,
+      office,
+      floor,
+      building,
+      neighborhood,
       sortBy,
       page,
       limit,
@@ -51,21 +62,21 @@ class AssignmentPage extends Component {
     this.props.requestGetAssignmentDetail(finalPayload);
   };
 
-  handleOfficeChange = option => {
+  handleSelectedoffice = option => {
     const space = option.map(i => i.value);
-    let finalOffice;
-    this.setState({ selectedoffice: option }, () => {
-      const val = this.state.selectedoffice.length
-        ? this.state.selectedoffice[0].name
+    let finalOfficeVal;
+    this.setState({ selectedOffice: option }, () => {
+      const val = this.state.selectedOffice.length
+        ? this.state.selectedOffice[0].name
         : '';
-      if (this.state.selectedoffice.length > 1) {
-        const length = `, +${this.state.selectedoffice.length - 1}`;
-        finalOffice = val.concat(length);
-        this.setState({ finalOffice });
-      } else if (this.state.selectedoffice.length > 0) {
-        finalOffice = val;
+      if (this.state.selectedOffice.length > 1) {
+        const length = `, +${this.state.selectedOffice.length - 1}`;
+        finalOfficeVal = val.concat(length);
+        this.setState({ finalOfficeVal });
+      } else if (this.state.selectedOffice.length > 0) {
+        finalOfficeVal = val;
       }
-      this.setState({ finalOffice });
+      this.setState({ finalOfficeVal });
       let str = '[';
       space.forEach(ev => {
         str += `,"${ev}"`;
@@ -73,113 +84,106 @@ class AssignmentPage extends Component {
       str += ']';
       const da = str.slice(0, 1);
       const ta = str.slice(2);
-      const officeLocation = space.length !== 0 ? da && da.concat(ta) : '';
-      this.setState({ officeLocation });
+      const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
+      this.setState({ srcOffice: strSpace });
       this.setState({ page: 1 });
-
-      this.props.requestGetAssignmentDetail({
-        searchKeyword: this.state.searchVal,
-        officeLocation: this.state.officeLocation,
-        strFloor: this.state.strFloor,
-        strNeighbor: this.state.strNeighbor,
-        sortBy: this.state.sortBy,
-        page: this.state.page,
-        limit: this.state.limit,
-      });
+      this.getAssignData(
+        this.state.search,
+        strSpace,
+        this.state.selectedFloor,
+        this.state.selectedBuilding,
+        this.state.selectedNeighbor,
+        this.state.sortBy,
+        this.state.page,
+        this.state.limit,
+      );
     });
   };
 
-  handleChangeFloor = option => {
-    const values = option.map(i => i.value);
+  handleSelectedFloor = option => {
+    const space = option.map(i => i.value);
+    let finalFloorVal;
     this.setState({ selectedFloor: option }, () => {
-      let finalFloor;
       const val = this.state.selectedFloor.length
         ? this.state.selectedFloor[0].name
         : '';
       if (this.state.selectedFloor.length > 1) {
-        finalFloor = val.concat(
-          `; ${
-            this.state.selectedFloor ? this.state.selectedFloor[1].name : ''
-          }`,
-        );
-        this.setState({ finalFloor });
+        const length = `, +${this.state.selectedFloor.length - 1}`;
+        finalFloorVal = val.concat(length);
+        this.setState({ finalFloorVal });
       } else if (this.state.selectedFloor.length > 0) {
-        finalFloor = val;
+        finalFloorVal = val;
       }
-      this.setState({ finalFloor });
+      this.setState({ finalFloorVal });
+      let str = '[';
+      space.forEach(ev => {
+        str += `,"${ev}"`;
+      });
+      str += ']';
+      const da = str.slice(0, 1);
+      const ta = str.slice(2);
+      const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
+      this.setState({ srcFloor: strSpace });
       this.setState({ page: 1 });
-    });
-    let str = '[';
-    values.forEach(ev => {
-      str += `,"${ev}"`;
-    });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const strFloor = values.length !== 0 ? da && da.concat(ta) : '';
-    this.setState({ strFloor });
-
-    this.props.requestGetAssignmentDetail({
-      searchKeyword: this.state.searchVal,
-      officeLocation: this.state.officeLocation,
-      strFloor: this.state.strFloor,
-      strNeighbor: this.state.strNeighbor,
-      sortBy: this.state.sortBy,
-      page: this.state.page,
-      limit: this.state.limit,
+      this.getAssignData(
+        this.state.search,
+        this.state.srcOffice,
+        '',
+        '',
+        this.state.selectedNeighbor,
+        this.state.sortBy,
+        this.state.page,
+        this.state.limit,
+      );
     });
   };
 
-  handleChangeNeighborhood = option => {
-    const values = option.map(i => i.value);
+  handleSelectedNeighbor = option => {
+    const space = option.map(i => i.value);
+    let finalNeighborhoodVal;
     this.setState({ selectedNeighbor: option }, () => {
-      let finalNeighbor;
       const val = this.state.selectedNeighbor.length
         ? this.state.selectedNeighbor[0].name
         : '';
       if (this.state.selectedNeighbor.length > 1) {
-        finalNeighbor = val.concat(
-          `; ${
-            this.state.selectedNeighbor
-              ? this.state.selectedNeighbor[1].name
-              : ''
-          }`,
-        );
-        this.setState({ finalNeighbor });
+        const length = `, +${this.state.selectedNeighbor.length - 1}`;
+        finalNeighborhoodVal = val.concat(length);
+        this.setState({ finalNeighborhoodVal });
       } else if (this.state.selectedNeighbor.length > 0) {
-        finalNeighbor = val;
+        finalNeighborhoodVal = val;
       }
-      this.setState({ finalNeighbor });
+      this.setState({ finalNeighborhoodVal });
+      let str = '[';
+      space.forEach(ev => {
+        str += `,"${ev}"`;
+      });
+      str += ']';
+      const da = str.slice(0, 1);
+      const ta = str.slice(2);
+      const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
+      this.setState({ srcNeighborhood: strSpace });
       this.setState({ page: 1 });
-    });
-    let str = '[';
-    values.forEach(ev => {
-      str += `,"${ev}"`;
-    });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const strNeighbor = values.length !== 0 ? da && da.concat(ta) : '';
-    this.setState({ strNeighbor });
-
-    this.props.requestGetAssignmentDetail({
-      searchKeyword: this.state.searchVal,
-      officeLocation: this.state.officeLocation,
-      strFloor: this.state.strFloor,
-      strNeighbor: this.state.strNeighbor,
-      sortBy: this.state.sortBy,
-      page: this.state.page,
-      limit: this.state.limit,
+      this.getAssignData(
+        this.state.search,
+        this.state.srcOffice,
+        this.state.selectedFloor,
+        this.state.selectedBuilding,
+        strSpace,
+        this.state.sortBy,
+        this.state.page,
+        this.state.limit,
+      );
     });
   };
 
   handleLimitChange = e => {
     this.setState({ limit: e, page: 1 });
     this.getAssignData(
-      this.state.searchVal,
-      this.state.officeLocation,
-      this.state.strFloor,
-      this.state.strNeighbor,
+      this.state.search,
+      this.state.selectedoffice,
+      this.state.selectedFloor,
+      this.state.selectedBuilding,
+      this.state.selectedNeighbor,
       this.state.sortBy,
       1,
       e,
@@ -190,10 +194,11 @@ class AssignmentPage extends Component {
     const { limit } = this.state;
     this.setState({ page: e });
     this.getAssignData(
-      this.state.searchVal,
-      this.state.officeLocation,
-      this.state.strFloor,
-      this.state.strNeighbor,
+      this.state.search,
+      this.state.selectedoffice,
+      this.state.selectedFloor,
+      this.state.selectedBuilding,
+      this.state.selectedNeighbor,
       this.state.sortBy,
       e,
       limit,
@@ -201,17 +206,18 @@ class AssignmentPage extends Component {
   };
 
   handleSearcha = e => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     if (this.state.typingTimeout) {
       clearTimeout(this.state.typingTimeout);
     }
     const timeoutId = setTimeout(() => {
-      this.setState({ [name]: value }, () => {
+      this.setState({ search: value }, () => {
         this.props.requestGetAssignmentDetail({
-          searchKeyword: this.state.searchVal,
-          officeLocation: this.state.officeLocation,
-          strFloor: this.state.strFloor,
-          strNeighbor: this.state.strNeighbor,
+          searchKeyword: this.state.search,
+          office: this.state.selectedoffice,
+          floor: this.state.selectedFloor,
+          building: this.state.selectedBuilding,
+          neighborhood: this.state.selectedNeighbor,
           sortBy: this.state.sortBy,
           page: this.state.page,
           limit: this.state.limit,
@@ -233,28 +239,56 @@ class AssignmentPage extends Component {
     }
     this.setState({ sortBy });
     this.props.requestGetAssignmentDetail({
-      searchKeyword: this.state.searchVal,
-      officeLocation: this.state.officeLocation,
-      strFloor: this.state.strFloor,
-      strNeighbor: this.state.strNeighbor,
+      searchKeyword: this.state.search,
+      office: this.state.selectedoffice,
+      floor: this.state.selectedFloor,
+      building: this.state.selectedBuilding,
+      neighborhood: this.state.selectedNeighbor,
       sortBy,
       page: this.state.page,
       limit: this.state.limit,
     });
   };
 
+  handleExportCSV = data => {
+    this.props.requestGetExportData({
+      office: data.offices,
+    });
+    this.state({ exportType: 'CSV' });
+  };
+
+  handleExportXLSX = data => {
+    this.props.requestGetExportData({
+      office: data.offices,
+    });
+    this.state({ exportType: 'XLSX' });
+  };
+
   componentDidMount() {
+    this.props.requestGetOfficeLocation({});
+    this.props.requestGetOfficeFloor();
+    this.props.requestGetOfficeNeighborhood();
     this.props.requestGetAssignmentDetail({
       page: this.state.page,
       limit: this.state.limit,
     });
   }
 
+  componentDidUpdate() {
+    const { apiMessage } = this.props;
+    const { srcFloor, srcNeighborhood, srcOffice, sortBy, search } = this.state;
+  }
+
   render() {
     const {
       assignmentData,
+      officeLocation,
+      officeFloor,
+      officeNeighborhood,
       assignmentLoading,
+      exportAssignmentLoading,
       assignmentCount,
+      exportAssignmentData,
       apiMessage,
       apiSuccess,
     } = this.props;
@@ -262,16 +296,23 @@ class AssignmentPage extends Component {
       <div>
         <Assignments
           assignmentData={assignmentData}
+          exportAssignmentData={exportAssignmentData}
+          officeLocation={officeLocation}
+          officeFloor={officeFloor}
+          officeNeighborhood={officeNeighborhood}
           state={this.state}
-          handleOfficeChange={this.handleOfficeChange}
-          handleChangeFloor={this.handleChangeFloor}
-          handleChangeNeighborhood={this.handleChangeNeighborhood}
+          handleSelectedoffice={this.handleSelectedoffice}
+          handleSelectedFloor={this.handleSelectedFloor}
+          handleSelectedNeighbor={this.handleSelectedNeighbor}
           handleLimitChange={this.handleLimitChange}
           handlePageChange={this.handlePageChange}
           handleClickSort={this.handleClickSort}
           handleSearcha={this.handleSearcha}
+          handleExportCSV={this.handleExportCSV}
+          handleExportXLSX={this.handleExportXLSX}
           handleData={this.handleData}
           assignmentLoading={assignmentLoading}
+          exportAssignmentLoading={exportAssignmentLoading}
           assignmentCount={assignmentCount}
           apiSuccess={apiSuccess}
           apiMessage={apiMessage}
@@ -282,17 +323,38 @@ class AssignmentPage extends Component {
 }
 
 const mapStateToProps = state => {
-  const { assignment } = state;
+  const { assignment, locationData } = state;
   return {
     assignmentData:
       assignment &&
       assignment.assignmentDetail &&
       assignment.assignmentDetail.assignment &&
       assignment.assignmentDetail.assignment.assignmentsData,
+    exportAssignmentData:
+      assignment &&
+      assignment.exportAssignmentDetails &&
+      assignment.exportAssignmentDetails.exportAssignment &&
+      assignment.exportAssignmentDetails.exportAssignment.assignmentsData,
+    officeLocation:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.location,
+    officeFloor:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.floors,
+    officeNeighborhood:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.neighborhood,
     assignmentLoading:
       assignment &&
       assignment.assignmentDetail &&
       assignment.assignmentDetail.loading,
+    exportAssignmentLoading:
+      assignment &&
+      assignment.exportAssignmentDetails &&
+      assignment.exportAssignmentDetails.loading,
     assignmentCount:
       assignment &&
       assignment.assignmentDetail &&
@@ -307,6 +369,12 @@ export function mapDispatchToProps(dispatch) {
   return {
     requestGetAssignmentDetail: payload =>
       dispatch(requestGetAssignmentDetail(payload)),
+    requestGetExportData: payload => dispatch(requestGetExportData(payload)),
+    requestGetOfficeLocation: payload =>
+      dispatch(requestGetOfficeLocation(payload)),
+    requestGetOfficeFloor: payload => dispatch(requestGetOfficeFloor(payload)),
+    requestGetOfficeNeighborhood: payload =>
+      dispatch(requestGetOfficeNeighborhood(payload)),
     dispatch,
   };
 }
@@ -314,9 +382,18 @@ const withReducer = injectReducer({ key: 'assignment', reducer });
 const withSaga = injectSaga({ key: 'assignment', saga });
 
 AssignmentPage.propTypes = {
-  requestGetAssignmentDetail: PropTypes.object,
+  requestGetAssignmentDetail: PropTypes.func,
+  requestGetExportData: PropTypes.func,
+  requestGetOfficeLocation: PropTypes.func,
+  requestGetOfficeFloor: PropTypes.func,
+  requestGetOfficeNeighborhood: PropTypes.func,
+  officeLocation: PropTypes.object,
+  officeFloor: PropTypes.object,
+  officeNeighborhood: PropTypes.object,
   assignmentData: PropTypes.object,
+  exportAssignmentData: PropTypes.object,
   assignmentLoading: PropTypes.bool,
+  exportAssignmentLoading: PropTypes.bool,
   assignmentCount: PropTypes.number,
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
