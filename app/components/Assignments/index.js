@@ -18,6 +18,7 @@ import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
 import Profile from '../assets/images/profileof.png';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
+
 const Option = createClass({
   render() {
     return (
@@ -38,6 +39,7 @@ const Option = createClass({
     );
   },
 });
+
 const Assignments = props => {
   const {
     state,
@@ -50,19 +52,15 @@ const Assignments = props => {
   } = props;
   const [open, setOpen] = useState(false);
   const [exportType, setExportType] = useState('');
-  const [officeLocations, setOfficeLocations] = useState([
-    { label: 'All', name: 'All', value: 'All' },
-  ]);
-  const [officeFloors, setOfficeFloors] = useState([
-    { label: 'All', name: 'All', value: 'All' },
-  ]);
-  const [officeNeighborhoods, setOfficeNeighborhoods] = useState([
-    { label: 'All', name: 'All', value: 'All' },
-  ]);
+  const [officeLocations, setOfficeLocations] = useState([]);
+  const [officeFloors, setOfficeFloors] = useState([]);
+  const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
   const [userinfo, setUserInfo] = useState({ offices: [] });
 
   useEffect(() => {
-    const tempArr = [{ label: 'All', name: 'All', value: 'All' }];
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
+    ];
     officeLocation &&
       officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
@@ -70,6 +68,7 @@ const Assignments = props => {
             label: obj.locationname,
             name: obj.locationname,
             value: obj.id,
+            isSelected: true,
           });
         }
       });
@@ -77,7 +76,7 @@ const Assignments = props => {
   }, [officeLocation]);
 
   useEffect(() => {
-    const tempArr = [{ label: 'All', name: 'All', value: 'All' }];
+    const tempArr = [];
     officeFloor &&
       officeFloor.map(obj => {
         if (obj.floor !== null) {
@@ -99,7 +98,7 @@ const Assignments = props => {
   }, [officeFloor]);
 
   useEffect(() => {
-    const tempArr = [{ label: 'All', name: 'All', value: 'All' }];
+    const tempArr = [];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
         tempArr.push({
@@ -133,7 +132,7 @@ const Assignments = props => {
         });
 
       if (exportType === 'CSV') {
-        const header = Object.keys(exportAssignmentData[0]);
+        const header = Object.keys(customArr[0]);
         generateCSV(exportType, header, customArr, 'Assignments');
         setUserInfo({ offices: [] });
         setExportType('');
@@ -228,6 +227,46 @@ const Assignments = props => {
     }),
   };
 
+  const handleSelectedList = (index, status) => {
+    let officeList = [];
+    officeList =
+      officeLocations &&
+      officeLocations.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.name,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.name,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (officeList.length) {
+      const isAllChecked =
+        officeList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        officeList.length - 1;
+      if (isAllChecked) {
+        officeList = officeList.map(ele => ({
+          ...ele,
+          isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+        }));
+      }
+    }
+    setOfficeLocations(officeList);
+    props.handleSelectedoffice(officeList);
+  };
+
   return (
     <>
       <div className="wrapper_main emp_wrapper">
@@ -250,6 +289,36 @@ const Assignments = props => {
                 <div className="menu-img">
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
+                <div className="custom-filter-dropdown">
+                  <span>Office</span>
+                  <div className="dropdown">
+                    <input
+                      type="input"
+                      className="dropdown-toggle"
+                      value=""
+                      placeholder="Select..."
+                      data-bs-toggle="dropdown"
+                    />
+                    <ul className="dropdown-menu">
+                      {officeLocations &&
+                        officeLocations.map((item, index) => (
+                          <li
+                            aria-hidden
+                            onClick={() =>
+                              handleSelectedList(index, !item.isSelected)
+                            }
+                          >
+                            <span>{item.name}</span>
+                            <div
+                              className={
+                                item.isSelected ? 'selected_val float-end' : ''
+                              }
+                            />
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
                 <span htmlFor="space" className="space">
                   <p
                     style={{
@@ -265,7 +334,7 @@ const Assignments = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    defaultValue={officeLocations[0]}
+                    defaultValue={officeLocations}
                     onChange={props.handleSelectedoffice}
                     options={updatedLocation}
                     closeMenuOnSelect

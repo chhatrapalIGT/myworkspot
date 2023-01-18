@@ -64,9 +64,16 @@ class AssignmentPage extends Component {
   };
 
   handleSelectedoffice = option => {
-    const space = option.map(i => i.value);
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
+      }
+      return true;
+    });
+    const selectOfficeList = option.filter(item => item.isSelected === true);
     let finalOfficeVal;
-    this.setState({ selectedOffice: option }, () => {
+    this.setState({ selectedOffice: selectOfficeList }, () => {
       const val = this.state.selectedOffice.length
         ? this.state.selectedOffice[0].name
         : '';
@@ -78,10 +85,7 @@ class AssignmentPage extends Component {
         finalOfficeVal = val;
       }
       this.setState({ finalOfficeVal });
-      const strArr = [];
-      space.forEach(ev => {
-        strArr.push(ev);
-      });
+      const strArr = space.filter(i => i !== 'All');
       this.setState({ page: 1 });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
