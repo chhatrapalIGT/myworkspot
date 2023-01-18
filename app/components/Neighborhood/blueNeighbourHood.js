@@ -54,7 +54,7 @@ const BlueNeighbourHood = ({ neighbourHood, requestGetOfficeAssignments }) => {
       neighbourHood.data &&
       neighbourHood.data.data &&
       neighbourHood.data.data.length > 4
-        ? Math.ceil(neighbourHood.data.data.length / 4)
+        ? Math.floor(neighbourHood.data.data.length / 4)
         : 1;
     if (
       neighbourHood &&
