@@ -26,7 +26,7 @@ const NeighbourHoodReducer = (state = initialState, action) =>
       case SUCCESS_GET_OFFICE_ASSIGNMENTS:
         draft.getOfficeLocation.loading = false;
         draft.getOfficeLocation.success = true;
-        draft.getOfficeLocation = action.payload.data;
+        draft.getOfficeLocation = action.payload;
         draft.getOfficeLocation.message = action.payload.message;
         break;
       case FAILED_GET_OFFICE_ASSIGNMENTS:

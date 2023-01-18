@@ -16,6 +16,7 @@ import uploadReducer from './containers/UploadMapPage/reducer';
 import spaceReducer from './containers/SpacePage/reducer';
 import workspotAdminReducer from './containers/WorkspotAdminPage/reducer';
 import NeighbourHoodReducer from './containers/NeighbourHoodPage/reducer';
+import AssignmentReducer from './containers/AssignmentPage/reducer';
 // import myTeamReducer from './containers/ReportPage/reducer';
 
 /**
@@ -35,6 +36,7 @@ export default function createReducer(injectedReducers = {}) {
     employee: employeeReducer,
     workspotAdmin: workspotAdminReducer,
     neighbourHood: NeighbourHoodReducer,
+    assignment: AssignmentReducer,
     ...injectedReducers,
   });
 

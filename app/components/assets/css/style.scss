@@ -999,14 +999,14 @@ input[type='text'] {
   }
 }
 
-.model-content{
-  color: #01213A;
+.model-content {
+  color: #01213a;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
   padding-top: 20px;
-    display: block;
+  display: block;
 }
 
 .mycheckbox {
@@ -1015,12 +1015,12 @@ input[type='text'] {
 .mycheckbox .form-check {
   margin-top: 12px;
 }
-.mycheckbox input[type="checkbox"]{
+.mycheckbox input[type='checkbox'] {
   width: 18px;
   height: 18px;
 }
 .mycheckbox label {
-  color: #01213A;
+  color: #01213a;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -1034,12 +1034,12 @@ input[type='text'] {
 .mycheckbox1 .form-check {
   margin-top: 12px;
 }
-.mycheckbox1 input[type="checkbox"]{
+.mycheckbox1 input[type='checkbox'] {
   width: 18px;
   height: 18px;
 }
 .mycheckbox1 label {
-  color: #01213A;
+  color: #01213a;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -1047,12 +1047,16 @@ input[type='text'] {
   padding-left: 7px;
   padding-top: 3px;
 }
-.mypadlr{
+.mypadlr {
   padding-left: 30px !important;
   padding-right: 30px !important;
 }
-.mypt-3{padding-top: 30px !important;}
-.mypb-3{ padding-bottom: 30px !important;}
+.mypt-3 {
+  padding-top: 30px !important;
+}
+.mypb-3 {
+  padding-bottom: 30px !important;
+}
 
 #delegate_workspot,
 #set_location {
@@ -3474,7 +3478,7 @@ div[class*='qy-menu'] * {
 }
 .header_tbl {
   padding: 0 150px;
-  margin-top: 50px;
+  margin-top: -15px;
 }
 .empTable_hdr th {
   text-transform: none !important;
@@ -3499,11 +3503,21 @@ div[class*='qy-menu'] * {
   padding: 10px 0;
 }
 
-.common-th-width{
+.common-th-width {
   width: 25%;
   padding-left: 30px;
 }
-.last-th-width{
+.last-th-width {
   width: auto;
   padding-right: 30px !important;
+}
+
+.cust-model-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 135px;
+  height: 48px;
 }

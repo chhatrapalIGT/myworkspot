@@ -256,6 +256,21 @@ const Header = props => {
                               </a>
                             </Link>
                           </li>
+                          <li
+                            onClick={() => setSidebar(false)}
+                            aria-hidden="true"
+                          >
+                            <Link to="/assignments" activeClassName="active">
+                              <a
+                                className={
+                                  pathName === '/assignments' && 'active'
+                                }
+                                href="true"
+                              >
+                                Assignments
+                              </a>
+                            </Link>
+                          </li>
                         </>
                       ) : (
                         <>
