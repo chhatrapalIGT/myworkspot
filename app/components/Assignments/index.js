@@ -19,27 +19,6 @@ import Search from '../assets/images/admin/search.png';
 import Profile from '../assets/images/profileof.png';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
 
-const Option = createClass({
-  render() {
-    return (
-      <components.Option {...this.props}>
-        <div style={{ display: 'flex' }}>
-          <div style={{ flex: '1' }}>
-            <label style={{ cursor: 'pointer' }}>{this.props.data.name}</label>
-            <input
-              className="select_checkbox"
-              type="checkbox"
-              checked={this.props.isSelected}
-              onChange={e => null}
-            />
-          </div>
-          <div className={this.props.isSelected ? 'selected_val' : ''} />
-        </div>
-      </components.Option>
-    );
-  },
-});
-
 const Assignments = props => {
   const {
     state,
@@ -172,41 +151,6 @@ const Assignments = props => {
       });
     }
   };
-
-  const updatedLocation = officeLocations.map(item => {
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {props.state.finalOfficeVal ? props.state.finalOfficeVal : `All`}
-        </div>
-      </>
-    );
-    return item;
-  });
-
-  const updatedFloors = officeFloors.map(item => {
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {props.state.finalFloorVal ? props.state.finalFloorVal : `All`}
-        </div>
-      </>
-    );
-    return item;
-  });
-
-  const updatedNeighborhood = officeNeighborhoods.map(item => {
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {props.state.finalNeighborhoodVal
-            ? props.state.finalNeighborhoodVal
-            : `All`}
-        </div>
-      </>
-    );
-    return item;
-  });
 
   const colourStyles = {
     control: styles => ({
@@ -423,8 +367,8 @@ const Assignments = props => {
                       className="dropdown-menu"
                       aria-labelledby="dropdownMenuButton2"
                     >
-                      {updatedFloors &&
-                        updatedFloors.map((item, index) => (
+                      {officeFloors &&
+                        officeFloors.map((item, index) => (
                           <li
                             aria-hidden
                             onClick={() =>
@@ -457,8 +401,8 @@ const Assignments = props => {
                       className="dropdown-menu"
                       aria-labelledby="dropdownMenuButton3"
                     >
-                      {updatedNeighborhood &&
-                        updatedNeighborhood.map((item, index) => (
+                      {officeNeighborhoods &&
+                        officeNeighborhoods.map((item, index) => (
                           <li
                             aria-hidden
                             onClick={() =>

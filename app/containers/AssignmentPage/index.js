@@ -29,6 +29,9 @@ class AssignmentPage extends Component {
       selectedFloor: [],
       selectedBuilding: [],
       selectedNeighbor: [],
+      finalOfficeVal: 'All',
+      finalFloorVal: 'All',
+      finalNeighborhoodVal: 'All',
       sortOrder: {
         name: true,
         department: true,
@@ -83,6 +86,8 @@ class AssignmentPage extends Component {
         this.setState({ finalOfficeVal });
       } else if (this.state.selectedOffice.length > 0) {
         finalOfficeVal = val;
+      } else if (!this.state.selectedOffice.length) {
+        finalOfficeVal = '';
       }
       this.setState({ finalOfficeVal });
       const strArr = space.filter(i => i !== 'All');
@@ -130,6 +135,8 @@ class AssignmentPage extends Component {
         this.setState({ finalFloorVal });
       } else if (this.state.selectedFloor.length > 0) {
         finalFloorVal = val;
+      } else if (!this.state.selectedFloor.length) {
+        finalFloorVal = '';
       }
       this.setState({ finalFloorVal });
       const strFloorArr = [];
@@ -192,6 +199,8 @@ class AssignmentPage extends Component {
         this.setState({ finalNeighborhoodVal });
       } else if (this.state.selectedNeighbor.length > 0) {
         finalNeighborhoodVal = val;
+      } else if (!this.state.selectedNeighbor.length) {
+        finalNeighborhoodVal = '';
       }
       this.setState({ finalNeighborhoodVal });
       const strArr = space.filter(i => i !== 'All');
