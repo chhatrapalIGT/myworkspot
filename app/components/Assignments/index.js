@@ -15,22 +15,25 @@ import Menu from '../assets/images/admin/menu.png';
 import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
 import Profile from '../assets/images/profileof.png';
-import generateCSV from '../Common/generateCSV';
+import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
 
 const Assignments = props => {
   const {
     state,
     assignmentData,
     exportAssignmentData,
+    exportAssignmentLoading,
     officeLocation,
     officeFloor,
     officeNeighborhood,
   } = props;
   const [open, setOpen] = useState(false);
+  const [exportType, setExportType] = useState('');
   const [officeLocations, setOfficeLocations] = useState([]);
   const [officeFloors, setOfficeFloors] = useState([]);
   const [officeBuildings, setOfficeBuildings] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
+  const [userinfo, setUserInfo] = useState({ offices: [] });
 
   useEffect(() => {
     officeLocation &&
@@ -55,37 +58,44 @@ const Assignments = props => {
             value: obj.id,
           });
         }
+        // if (obj.building !== '') {
+        //   officeFloors.push({
+        //     label: obj.building,
+        //     name: obj.building,
+        //     value: obj.building,
+        //   });
+        // }
       });
   }, [officeFloor]);
 
   useEffect(() => {
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
-        if (obj.floor !== '') {
-          officeNeighborhoods.push({
-            label: obj.floor,
-            name: obj.floor,
-            value: obj.id,
-          });
-        }
+        officeNeighborhoods.push({
+          label: obj.name,
+          name: obj.name,
+          value: obj.name,
+        });
       });
   }, [officeNeighborhood]);
 
-  const [userinfo, setUserInfo] = useState({
-    offices: [],
-  });
-
   useEffect(() => {
-    if (exportAssignmentData && exportAssignmentData.length > 0) {
-      const header = Object.keys(exportAssignmentData[0]);
-      generateCSV(
-        state.exportType,
-        header,
-        exportAssignmentData,
-        'Assignments',
-      );
+    if (
+      exportAssignmentLoading === false &&
+      exportAssignmentData &&
+      exportAssignmentData.length > 0
+    ) {
+      if (exportType === 'CSV') {
+        const header = Object.keys(exportAssignmentData[0]);
+        generateCSV(exportType, header, exportAssignmentData, 'Assignments');
+      }
+      if (exportType === 'XLSX') {
+        exportToSpreadsheet(exportAssignmentData);
+      }
+      setUserInfo({ offices: [] });
+      setExportType('');
     }
-  }, [exportAssignmentData]);
+  }, [exportAssignmentData, exportAssignmentLoading]);
 
   const handleChange = e => {
     // Destructuring
@@ -137,9 +147,9 @@ const Assignments = props => {
     item.label = (
       <>
         <div className="drop_emp">
-          {props.state.selectedNeighbor
-            ? props.state.selectedNeighbor
-            : 'color, +2'}
+          {props.state.finalNeighborhoodVal
+            ? props.state.finalNeighborhoodVal
+            : 'neighborhood, +2'}
         </div>
       </>
     );
@@ -286,7 +296,7 @@ const Assignments = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    defaultValue={officeNeighborhood}
+                    defaultValue={officeNeighborhoods}
                     onChange={props.handleSelectedNeighbor}
                     options={updatedNeighborhood}
                     closeMenuOnSelect
@@ -542,8 +552,10 @@ const Assignments = props => {
             className="btn csv-modal cust-model-btn"
             data-bs-dismiss="modal"
             onClick={() => {
-              props.handleExportCSV(userinfo);
+              setExportType('CSV');
+              props.handleExport(userinfo);
             }}
+            disabled={exportAssignmentLoading}
           >
             .CSV Export
           </Button>
@@ -551,7 +563,11 @@ const Assignments = props => {
             variant="primary"
             className="btn xlsx-modal cust-model-btn"
             data-bs-dismiss="modal"
-            onClick={() => props.handleExportXLSX(userinfo)}
+            onClick={() => {
+              setExportType('XLSX');
+              props.handleExport(userinfo);
+            }}
+            disabled={exportAssignmentLoading}
           >
             .XLSX Export
           </Button>
@@ -560,6 +576,7 @@ const Assignments = props => {
             className="btn cust-model-btn"
             data-bs-dismiss="modal"
             onClick={() => setOpen(false)}
+            disabled={exportAssignmentLoading}
           >
             Cancel
           </Button>
@@ -583,8 +600,7 @@ Assignments.propTypes = {
   handlePageChange: PropTypes.func,
   handleClickSort: PropTypes.func,
   handleSearcha: PropTypes.func,
-  handleExportCSV: PropTypes.func,
-  handleExportXLSX: PropTypes.func,
+  handleExport: PropTypes.func,
   assignmentLoading: PropTypes.bool,
   exportAssignmentLoading: PropTypes.bool,
   assignmentCount: PropTypes.number,

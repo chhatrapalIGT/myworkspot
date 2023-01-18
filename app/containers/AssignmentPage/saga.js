@@ -110,14 +110,15 @@ export function* getOfficeNeighbourhood({ payload }) {
 }
 
 export function* getExportData({ payload }) {
+  console.log('payload', payload);
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const requestURL = `${API_URL}/adminPanel/assignments/getAssigmentsData?office=${payload.office ||
-    ''}&export=true`;
+  const requestURL = `${API_URL}/adminPanel/assignments/getAssigmentsData`;
   try {
     const assignmentList = yield request({
       method: 'GET',
       url: requestURL,
+      data: { payload },
       headers: {
         Authorization: `Bearer ${token.idtoken}`,
       },

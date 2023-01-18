@@ -32,12 +32,12 @@ const initialState = {
     loading: false,
     floors: [],
   },
-  officeNeighbourhood: {
+  officeNeighborhood: {
     error: '',
     success: false,
     message: '',
     loading: false,
-    neighbourhood: [],
+    neighborhood: [],
   },
   exportAssignmentDetails: {
     error: '',
@@ -108,19 +108,19 @@ const AssignmentReducer = (state = initialState, action) =>
         draft.apiSuccess = action.payload.success;
         break;
       case REQUEST_GET_OFFICE_NEIGHBORHOOD:
-        draft.officeNeighbourhood.loading = true;
-        draft.officeNeighbourhood.error = '';
+        draft.officeNeighborhood.loading = true;
+        draft.officeNeighborhood.error = '';
         break;
       case SUCCESS_GET_OFFICE_NEIGHBORHOOD:
-        draft.officeNeighbourhood.loading = false;
-        draft.officeNeighbourhood.success = true;
-        draft.officeNeighbourhood.neighbourhood = action.payload;
-        draft.officeNeighbourhood.error = '';
+        draft.officeNeighborhood.loading = false;
+        draft.officeNeighborhood.success = true;
+        draft.officeNeighborhood.neighborhood = action.payload.data;
+        draft.officeNeighborhood.error = '';
         break;
       case FAILED_GET_OFFICE_NEIGHBORHOOD:
-        draft.officeNeighbourhood.loading = false;
-        draft.officeNeighbourhood.success = action.payload.success;
-        draft.officeNeighbourhood.message = action.payload;
+        draft.officeNeighborhood.loading = false;
+        draft.officeNeighborhood.success = action.payload.success;
+        draft.officeNeighborhood.message = action.payload;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;

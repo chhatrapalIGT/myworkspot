@@ -85,18 +85,28 @@ class AssignmentPage extends Component {
       const da = str.slice(0, 1);
       const ta = str.slice(2);
       const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
-      this.setState({ srcOffice: strSpace });
       this.setState({ page: 1 });
-      this.getAssignData(
-        this.state.search,
-        strSpace,
-        this.state.selectedFloor,
-        this.state.selectedBuilding,
-        this.state.selectedNeighbor,
-        this.state.sortBy,
-        this.state.page,
-        this.state.limit,
-      );
+      //  this.setState({ srcOffice: strSpace });
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const timeoutId = setTimeout(() => {
+        this.setState({ srcOffice: strSpace }, () => {
+          this.getAssignData(
+            this.state.search,
+            strSpace,
+            this.state.selectedFloor,
+            this.state.selectedBuilding,
+            this.state.srcNeighborhood,
+            this.state.sortBy,
+            this.state.page,
+            this.state.limit,
+          );
+        });
+      }, 1000);
+      this.setState({
+        typingTimeout: timeoutId,
+      });
     });
   };
 
@@ -161,18 +171,27 @@ class AssignmentPage extends Component {
       const da = str.slice(0, 1);
       const ta = str.slice(2);
       const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
-      this.setState({ srcNeighborhood: strSpace });
       this.setState({ page: 1 });
-      this.getAssignData(
-        this.state.search,
-        this.state.srcOffice,
-        this.state.selectedFloor,
-        this.state.selectedBuilding,
-        strSpace,
-        this.state.sortBy,
-        this.state.page,
-        this.state.limit,
-      );
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const timeoutId = setTimeout(() => {
+        this.setState({ srcNeighborhood: strSpace }, () => {
+          this.getAssignData(
+            this.state.search,
+            this.state.srcOffice,
+            this.state.selectedFloor,
+            this.state.selectedBuilding,
+            strSpace,
+            this.state.sortBy,
+            this.state.page,
+            this.state.limit,
+          );
+        });
+      }, 1000);
+      this.setState({
+        typingTimeout: timeoutId,
+      });
     });
   };
 
@@ -250,18 +269,21 @@ class AssignmentPage extends Component {
     });
   };
 
-  handleExportCSV = data => {
-    this.props.requestGetExportData({
-      office: data.offices,
+  handleExport = data => {
+    let str = '[';
+    // eslint-disable-next-line array-callback-return
+    data.offices.map(ev => {
+      str += `,"${ev}"`;
     });
-    this.state({ exportType: 'CSV' });
-  };
-
-  handleExportXLSX = data => {
-    this.props.requestGetExportData({
-      office: data.offices,
-    });
-    this.state({ exportType: 'XLSX' });
+    str += ']';
+    const da = str.slice(0, 1);
+    const ta = str.slice(2);
+    const locations = data.offices.length !== 0 ? da && da.concat(ta) : '[]';
+    const payload = {
+      office: locations,
+      newExport: true,
+    };
+    this.props.requestGetExportData(payload);
   };
 
   componentDidMount() {
@@ -276,7 +298,6 @@ class AssignmentPage extends Component {
 
   componentDidUpdate() {
     const { apiMessage } = this.props;
-    const { srcFloor, srcNeighborhood, srcOffice, sortBy, search } = this.state;
   }
 
   render() {
@@ -308,8 +329,7 @@ class AssignmentPage extends Component {
           handlePageChange={this.handlePageChange}
           handleClickSort={this.handleClickSort}
           handleSearcha={this.handleSearcha}
-          handleExportCSV={this.handleExportCSV}
-          handleExportXLSX={this.handleExportXLSX}
+          handleExport={this.handleExport}
           handleData={this.handleData}
           assignmentLoading={assignmentLoading}
           exportAssignmentLoading={exportAssignmentLoading}
@@ -330,27 +350,25 @@ const mapStateToProps = state => {
       assignment.assignmentDetail &&
       assignment.assignmentDetail.assignment &&
       assignment.assignmentDetail.assignment.assignmentsData,
+    officeFloor:
+      assignment && assignment.officeFloor && assignment.officeFloor.floors,
+    officeNeighborhood:
+      assignment &&
+      assignment.officeNeighborhood &&
+      assignment.officeNeighborhood.neighborhood,
+    officeLocation:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.location,
+    assignmentLoading:
+      assignment &&
+      assignment.assignmentDetail &&
+      assignment.assignmentDetail.loading,
     exportAssignmentData:
       assignment &&
       assignment.exportAssignmentDetails &&
       assignment.exportAssignmentDetails.exportAssignment &&
       assignment.exportAssignmentDetails.exportAssignment.assignmentsData,
-    officeLocation:
-      locationData &&
-      locationData.getOfficeLocation &&
-      locationData.getOfficeLocation.location,
-    officeFloor:
-      locationData &&
-      locationData.getOfficeLocation &&
-      locationData.getOfficeLocation.floors,
-    officeNeighborhood:
-      locationData &&
-      locationData.getOfficeLocation &&
-      locationData.getOfficeLocation.neighborhood,
-    assignmentLoading:
-      assignment &&
-      assignment.assignmentDetail &&
-      assignment.assignmentDetail.loading,
     exportAssignmentLoading:
       assignment &&
       assignment.exportAssignmentDetails &&

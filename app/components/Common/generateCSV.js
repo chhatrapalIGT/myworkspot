@@ -1,4 +1,7 @@
 /* eslint-disable no-restricted-syntax */
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
 // Function to convert the JSON(Array of objects) to CSV.
 const arrayToCsv = (headers, data) => {
   const csvRows = [];
@@ -51,15 +54,27 @@ const download = (data, fileName, exportType) => {
   }
 };
 
-const generateCSV = (exportType, header, data, filename) => {
+export const generateCSV = (exportType, header, data, filename) => {
   if (exportType === 'CSV') {
     const csvData = arrayToCsv(header, data);
     download(csvData, filename, exportType);
-  }
-  if (exportType === 'XLSX') {
-    const xlsData = arrayToCsv(header, data);
-    download(xlsData, filename, exportType);
+  } else {
+    download(data, filename, exportType);
   }
 };
 
-export default generateCSV;
+const fileType =
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const fileExtension = '.xlsx';
+
+export const exportToSpreadsheet = async data => {
+  const fileName = 'WorkspotData';
+  const workSheet = XLSX.utils.json_to_sheet(data);
+  const workBook = {
+    Sheets: { data: workSheet, cols: [] },
+    SheetNames: ['data'],
+  };
+  const excelBuffer = XLSX.write(workBook, { bookType: 'xlsx', type: 'array' });
+  const fileData = new Blob([excelBuffer], { type: fileType });
+  FileSaver.saveAs(fileData, fileName + fileExtension);
+};
