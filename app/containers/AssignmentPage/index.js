@@ -29,6 +29,9 @@ class AssignmentPage extends Component {
       selectedFloor: [],
       selectedBuilding: [],
       selectedNeighbor: [],
+      finalOfficeVal: 'All',
+      finalFloorVal: 'All',
+      finalNeighborhoodVal: 'All',
       sortOrder: {
         name: true,
         department: true,
@@ -64,9 +67,16 @@ class AssignmentPage extends Component {
   };
 
   handleSelectedoffice = option => {
-    const space = option.map(i => i.value);
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
+      }
+      return true;
+    });
+    const selectOfficeList = option.filter(item => item.isSelected === true);
     let finalOfficeVal;
-    this.setState({ selectedOffice: option }, () => {
+    this.setState({ selectedOffice: selectOfficeList }, () => {
       const val = this.state.selectedOffice.length
         ? this.state.selectedOffice[0].name
         : '';
@@ -76,12 +86,11 @@ class AssignmentPage extends Component {
         this.setState({ finalOfficeVal });
       } else if (this.state.selectedOffice.length > 0) {
         finalOfficeVal = val;
+      } else if (!this.state.selectedOffice.length) {
+        finalOfficeVal = '';
       }
       this.setState({ finalOfficeVal });
-      const strArr = [];
-      space.forEach(ev => {
-        strArr.push(ev);
-      });
+      const strArr = space.filter(i => i !== 'All');
       this.setState({ page: 1 });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
@@ -107,9 +116,16 @@ class AssignmentPage extends Component {
   };
 
   handleSelectedFloor = option => {
-    const space = option.map(i => i.value);
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
+      }
+      return true;
+    });
+    const selectedFloorList = option.filter(item => item.isSelected === true);
     let finalFloorVal;
-    this.setState({ selectedFloor: option }, () => {
+    this.setState({ selectedFloor: selectedFloorList }, () => {
       const val = this.state.selectedFloor.length
         ? this.state.selectedFloor[0].name
         : '';
@@ -119,11 +135,14 @@ class AssignmentPage extends Component {
         this.setState({ finalFloorVal });
       } else if (this.state.selectedFloor.length > 0) {
         finalFloorVal = val;
+      } else if (!this.state.selectedFloor.length) {
+        finalFloorVal = '';
       }
       this.setState({ finalFloorVal });
       const strFloorArr = [];
       const strBuildingArr = [];
-      space.forEach(ev => {
+      const removeAfterAll = space.filter(i => i !== 'All');
+      removeAfterAll.forEach(ev => {
         const spiltData = ev.split(' ');
         if (spiltData[0] === 'floor') {
           strFloorArr.push(spiltData[1]);
@@ -159,9 +178,18 @@ class AssignmentPage extends Component {
   };
 
   handleSelectedNeighbor = option => {
-    const space = option.map(i => i.value);
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
+      }
+      return true;
+    });
+    const selectedNeighborList = option.filter(
+      item => item.isSelected === true,
+    );
     let finalNeighborhoodVal;
-    this.setState({ selectedNeighbor: option }, () => {
+    this.setState({ selectedNeighbor: selectedNeighborList }, () => {
       const val = this.state.selectedNeighbor.length
         ? this.state.selectedNeighbor[0].name
         : '';
@@ -171,12 +199,11 @@ class AssignmentPage extends Component {
         this.setState({ finalNeighborhoodVal });
       } else if (this.state.selectedNeighbor.length > 0) {
         finalNeighborhoodVal = val;
+      } else if (!this.state.selectedNeighbor.length) {
+        finalNeighborhoodVal = '';
       }
       this.setState({ finalNeighborhoodVal });
-      const strArr = [];
-      space.forEach(ev => {
-        strArr.push(ev);
-      });
+      const strArr = space.filter(i => i !== 'All');
       this.setState({ page: 1 });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
