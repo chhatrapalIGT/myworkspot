@@ -111,9 +111,16 @@ class AssignmentPage extends Component {
   };
 
   handleSelectedFloor = option => {
-    const space = option.map(i => i.value);
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
+      }
+      return true;
+    });
+    const selectedFloorList = option.filter(item => item.isSelected === true);
     let finalFloorVal;
-    this.setState({ selectedFloor: option }, () => {
+    this.setState({ selectedFloor: selectedFloorList }, () => {
       const val = this.state.selectedFloor.length
         ? this.state.selectedFloor[0].name
         : '';
@@ -127,7 +134,8 @@ class AssignmentPage extends Component {
       this.setState({ finalFloorVal });
       const strFloorArr = [];
       const strBuildingArr = [];
-      space.forEach(ev => {
+      const removeAfterAll = space.filter(i => i !== 'All');
+      removeAfterAll.forEach(ev => {
         const spiltData = ev.split(' ');
         if (spiltData[0] === 'floor') {
           strFloorArr.push(spiltData[1]);
@@ -163,9 +171,18 @@ class AssignmentPage extends Component {
   };
 
   handleSelectedNeighbor = option => {
-    const space = option.map(i => i.value);
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
+      }
+      return true;
+    });
+    const selectedNeighborList = option.filter(
+      item => item.isSelected === true,
+    );
     let finalNeighborhoodVal;
-    this.setState({ selectedNeighbor: option }, () => {
+    this.setState({ selectedNeighbor: selectedNeighborList }, () => {
       const val = this.state.selectedNeighbor.length
         ? this.state.selectedNeighbor[0].name
         : '';
@@ -177,10 +194,7 @@ class AssignmentPage extends Component {
         finalNeighborhoodVal = val;
       }
       this.setState({ finalNeighborhoodVal });
-      const strArr = [];
-      space.forEach(ev => {
-        strArr.push(ev);
-      });
+      const strArr = space.filter(i => i !== 'All');
       this.setState({ page: 1 });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);

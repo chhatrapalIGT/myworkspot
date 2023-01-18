@@ -76,7 +76,9 @@ const Assignments = props => {
   }, [officeLocation]);
 
   useEffect(() => {
-    const tempArr = [];
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
+    ];
     officeFloor &&
       officeFloor.map(obj => {
         if (obj.floor !== null) {
@@ -84,6 +86,7 @@ const Assignments = props => {
             label: `floor ${obj.floor}`,
             name: `floor ${obj.floor}`,
             value: `floor ${obj.floor}`,
+            isSelected: true,
           });
         }
         if (obj.building !== null) {
@@ -91,6 +94,7 @@ const Assignments = props => {
             label: `building ${obj.building}`,
             name: `building ${obj.building}`,
             value: `building ${obj.building}`,
+            isSelected: true,
           });
         }
       });
@@ -98,13 +102,16 @@ const Assignments = props => {
   }, [officeFloor]);
 
   useEffect(() => {
-    const tempArr = [];
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
+    ];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
         tempArr.push({
           label: obj.name,
           name: obj.name,
           value: obj.name,
+          isSelected: true,
         });
       });
     setOfficeNeighborhoods(tempArr);
@@ -236,7 +243,7 @@ const Assignments = props => {
           return {
             label: item.name,
             name: item.name,
-            value: item.name,
+            value: item.value,
             isSelected: status,
           };
         }
@@ -244,7 +251,7 @@ const Assignments = props => {
           return {
             label: item.name,
             name: item.name,
-            value: item.name,
+            value: item.value,
             isSelected: status,
           };
         }
@@ -256,15 +263,91 @@ const Assignments = props => {
         officeList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
           .length ===
         officeList.length - 1;
-      if (isAllChecked) {
-        officeList = officeList.map(ele => ({
-          ...ele,
-          isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
-        }));
-      }
+
+      officeList = officeList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
     }
     setOfficeLocations(officeList);
     props.handleSelectedoffice(officeList);
+  };
+
+  const handleSelectedFloorList = (index, status) => {
+    let floorList = [];
+    floorList =
+      officeFloors &&
+      officeFloors.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (floorList.length) {
+      const isAllChecked =
+        floorList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        floorList.length - 1;
+      floorList = floorList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeFloors(floorList);
+    props.handleSelectedFloor(floorList);
+  };
+
+  const handleSelectedNeighborList = (index, status) => {
+    let neighborList = [];
+    neighborList =
+      officeNeighborhoods &&
+      officeNeighborhoods.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (neighborList.length) {
+      const isAllChecked =
+        neighborList.filter(
+          ele => ele.name !== 'All' && ele.isSelected === true,
+        ).length ===
+        neighborList.length - 1;
+      neighborList = neighborList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeNeighborhoods(neighborList);
+    props.handleSelectedNeighbor(neighborList);
   };
 
   return (
@@ -295,11 +378,17 @@ const Assignments = props => {
                     <input
                       type="input"
                       className="dropdown-toggle"
-                      value=""
+                      value={state.finalOfficeVal}
                       placeholder="Select..."
                       data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton1"
+                      // id="dropdownMenuButton1"
                     />
-                    <ul className="dropdown-menu">
+                    <ul
+                      className="dropdown-menu"
+                      id="dropdownMenuButton1"
+                      aria-labelledby="dropdownMenuButton1"
+                    >
                       {officeLocations &&
                         officeLocations.map((item, index) => (
                           <li
@@ -319,87 +408,77 @@ const Assignments = props => {
                     </ul>
                   </div>
                 </div>
-                <span htmlFor="space" className="space">
-                  <p
-                    style={{
-                      height: '15px',
-                      marginBottom: '0px',
-                      fontSize: '12px',
-                      marginLeft: '16px',
-                    }}
-                  >
-                    Office
-                  </p>
-                  <Select
-                    components={{ Option }}
-                    isMulti
-                    isClearable={false}
-                    defaultValue={officeLocations}
-                    onChange={props.handleSelectedoffice}
-                    options={updatedLocation}
-                    closeMenuOnSelect
-                    hideSelectedOptions={false}
-                    onMenuClose={false}
-                    className=" admin-employee"
-                    name="office"
-                    styles={colourStyles}
-                    label="Office"
-                  />
-                </span>
-                <span htmlFor="space" className="space">
-                  <p
-                    style={{
-                      height: '15px',
-                      marginBottom: '0px',
-                      fontSize: '12px',
-                      marginLeft: '16px',
-                    }}
-                  >
-                    Building/Floor
-                  </p>
-                  <Select
-                    components={{ Option }}
-                    isMulti
-                    isClearable={false}
-                    defaultValue={updatedFloors[0]}
-                    onChange={props.handleSelectedFloor}
-                    options={updatedFloors}
-                    closeMenuOnSelect
-                    hideSelectedOptions={false}
-                    onMenuClose={false}
-                    className=" admin-employee"
-                    name="floor"
-                    styles={colourStyles}
-                    label="Building/Floor"
-                  />
-                </span>
-                <span htmlFor="space" className="space">
-                  <p
-                    style={{
-                      height: '15px',
-                      marginBottom: '0px',
-                      fontSize: '12px',
-                      marginLeft: '16px',
-                    }}
-                  >
-                    Neighborhood
-                  </p>
-                  <Select
-                    components={{ Option }}
-                    isMulti
-                    isClearable={false}
-                    defaultValue={officeNeighborhoods[0]}
-                    onChange={props.handleSelectedNeighbor}
-                    options={updatedNeighborhood}
-                    closeMenuOnSelect
-                    hideSelectedOptions={false}
-                    onMenuClose={false}
-                    className=" admin-employee"
-                    name="Neighborhood"
-                    styles={colourStyles}
-                    label="Neighborhood"
-                  />
-                </span>
+                <div className="custom-filter-dropdown">
+                  <span>Building/Floor</span>
+                  <div className="dropdown">
+                    <input
+                      type="input"
+                      className="dropdown-toggle"
+                      value={state.finalFloorVal}
+                      placeholder="Select..."
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton2"
+                    />
+                    <ul
+                      className="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton2"
+                    >
+                      {updatedFloors &&
+                        updatedFloors.map((item, index) => (
+                          <li
+                            aria-hidden
+                            onClick={() =>
+                              handleSelectedFloorList(index, !item.isSelected)
+                            }
+                          >
+                            <span>{item.name}</span>
+                            <div
+                              className={
+                                item.isSelected ? 'selected_val float-end' : ''
+                              }
+                            />
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
+                <div className="custom-filter-dropdown">
+                  <span>Neighborhood</span>
+                  <div className="dropdown">
+                    <input
+                      type="input"
+                      className="dropdown-toggle"
+                      value={state.finalNeighborhoodVal}
+                      placeholder="Select..."
+                      data-bs-toggle="dropdown"
+                      id="dropdownMenuButton3"
+                    />
+                    <ul
+                      className="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton3"
+                    >
+                      {updatedNeighborhood &&
+                        updatedNeighborhood.map((item, index) => (
+                          <li
+                            aria-hidden
+                            onClick={() =>
+                              handleSelectedNeighborList(
+                                index,
+                                !item.isSelected,
+                              )
+                            }
+                          >
+                            <span>{item.name}</span>
+                            <div
+                              className={
+                                item.isSelected ? 'selected_val float-end' : ''
+                              }
+                            />
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
               <div className="search-box">
                 <div className="pos-rela">
