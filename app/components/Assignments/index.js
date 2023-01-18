@@ -322,6 +322,7 @@ const Assignments = props => {
                   <div className="dropdown">
                     <input
                       type="input"
+                      style={{ cursor: 'alias' }}
                       className="dropdown-toggle"
                       value={state.finalOfficeVal}
                       placeholder="Select..."
@@ -329,7 +330,12 @@ const Assignments = props => {
                       data-target="#dropdownMenuButton1"
                       // id="dropdownMenuButton1"
                     />
-                    <Image className="img_select" src={SelectDownArrow} />
+                    <Image
+                      className="img_select"
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton1"
+                      src={SelectDownArrow}
+                    />
                     <ul
                       className="dropdown-menu"
                       id="dropdownMenuButton1"
@@ -359,15 +365,22 @@ const Assignments = props => {
                   <div className="dropdown">
                     <input
                       type="input"
+                      style={{ cursor: 'alias' }}
                       className="dropdown-toggle"
                       value={state.finalFloorVal}
                       placeholder="Select..."
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton2"
                     />
-                    <Image className="img_select" src={SelectDownArrow} />
+                    <Image
+                      className="img_select"
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton2"
+                      src={SelectDownArrow}
+                    />
                     <ul
                       className="dropdown-menu"
+                      id="dropdownMenuButton2"
                       aria-labelledby="dropdownMenuButton2"
                     >
                       {officeFloors &&
@@ -394,15 +407,22 @@ const Assignments = props => {
                   <div className="dropdown">
                     <input
                       type="input"
+                      style={{ cursor: 'alias' }}
                       className="dropdown-toggle"
                       value={state.finalNeighborhoodVal}
                       placeholder="Select..."
                       data-bs-toggle="dropdown"
-                      id="dropdownMenuButton3"
+                      data-target="#dropdownMenuButton3"
                     />
-                    <Image className="img_select" src={SelectDownArrow} />
+                    <Image
+                      className="img_select"
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton3"
+                      src={SelectDownArrow}
+                    />
                     <ul
                       className="dropdown-menu"
+                      id="dropdownMenuButton3"
                       aria-labelledby="dropdownMenuButton3"
                     >
                       {officeNeighborhoods &&
