@@ -6,14 +6,13 @@ import '../assets/css/style.scss';
 import '../assets/css/adminStyle.css';
 import '../assets/css/style.css';
 import { useParams } from 'react-router';
+import moment from 'moment';
 // import PropTypes from 'prop-types';
+import sliceIntoChunks from '../../utils/sliceIntoChunks';
 
-const BlueNeighbourHood = ({ neighbourHood }) => {
-  const [firstData, setFirstData] = useState([]);
-  const [secondData, setSecondData] = useState([]);
-  const [thirdData, setThirdData] = useState([]);
-  const [fourthData, setFourthData] = useState([]);
-
+const BlueNeighbourHood = ({ neighbourHood, requestGetOfficeAssignments }) => {
+  const [splittedData, setSplittedData] = useState([]);
+  const current = new Date();
   const location = useLocation();
   const pathName = location.pathname;
   const { locationId, floor, neighborhoodName } = useParams();
@@ -35,17 +34,39 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
   }, []);
 
   useEffect(() => {
-    if (neighbourHood && neighbourHood.data && neighbourHood.data.length) {
-      setFirstData(neighbourHood.data.splice(0, 14));
-    }
-    if (neighbourHood && neighbourHood.data && neighbourHood.data.length) {
-      setSecondData(neighbourHood.data.splice(0, 14));
-    }
-    if (neighbourHood && neighbourHood.data && neighbourHood.data.length) {
-      setThirdData(neighbourHood.data.splice(0, 14));
-    }
-    if (neighbourHood && neighbourHood.data && neighbourHood.data.length) {
-      setFourthData(neighbourHood.data.splice(0, 14));
+    const interval = setInterval(() => {
+      requestGetOfficeAssignments({
+        locationId: neighborData.locId,
+        floor: neighborData.flor,
+        neighborhoodName: neighborData.neighborhood,
+        todayDate: moment(current).format('yyyy-MM-D'),
+      });
+    }, 120000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    const dividedData =
+      neighbourHood &&
+      neighbourHood.data &&
+      neighbourHood.data.data &&
+      neighbourHood.data.data.length > 4
+        ? Math.ceil(neighbourHood.data.data.length / 4)
+        : 1;
+    if (
+      neighbourHood &&
+      neighbourHood.data &&
+      neighbourHood.data.data &&
+      neighbourHood.data.data.length > 0
+    ) {
+      const splittedDataTemp = sliceIntoChunks(
+        neighbourHood.data.data,
+        dividedData,
+      );
+      setSplittedData(splittedDataTemp);
     }
   }, [neighbourHood]);
 
@@ -54,102 +75,48 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
       {pathName === url && (
         <div className="header_tbl">
           <div className="new-emp-table">
-            <h3>
+            <h3 style={{ fontSize: '20px' }}>
               Floor {floor} | {neighborhoodName} Neighborhood{' '}
             </h3>
             <table>
-              <tr className="empTable_hdr d-flex flex-wrap justify-content-between">
-                {firstData.length > 0 ||
-                secondData.length > 0 ||
-                thirdData.length > 0 ||
-                fourthData.length > 0 ? (
-                  <>
-                    <th
-                      className="common-th-width"
-                      style={{
-                        fontSize: '20px',
-                        textAlign: 'left',
-                        wordSpacing: '-2px',
-                      }}
-                    >
-                      {firstData &&
-                        firstData.length > 0 &&
-                        firstData.map(ele => (
-                          <ul>
-                            <li>
-                              {ele.firstname}
-                              &nbsp; {ele.lastname}
-                            </li>
-                          </ul>
-                        ))}
-                    </th>
-                    <th
-                      className="common-th-width"
-                      style={{
-                        fontSize: '20px',
-                        textAlign: 'left',
-                        wordSpacing: '-2px',
-                      }}
-                    >
-                      {secondData &&
-                        secondData.length > 0 &&
-                        secondData.map(ele => (
-                          <ul>
-                            <li>
-                              {ele.firstname}
-                              &nbsp; {ele.lastname}
-                            </li>
-                          </ul>
-                        ))}
-                    </th>
-                    <th
-                      className="common-th-width"
-                      style={{
-                        fontSize: '20px',
-                        textAlign: 'left',
-                        wordSpacing: '-2px',
-                      }}
-                    >
-                      {thirdData &&
-                        thirdData.length > 0 &&
-                        thirdData.map(ele => (
-                          <ul>
-                            <li>
-                              {ele.firstname}
-                              &nbsp; {ele.lastname}
-                            </li>
-                          </ul>
-                        ))}
-                    </th>
-                    <th
-                      className="last-th-width"
-                      style={{
-                        fontSize: '20px',
-                        textAlign: 'left',
-                        wordSpacing: '-2px',
-                      }}
-                    >
-                      {fourthData &&
-                        fourthData.length > 0 &&
-                        fourthData.map(ele => (
-                          <ul>
-                            <li>
-                              {ele.firstname}
-                              &nbsp; {ele.lastname}
-                            </li>
-                          </ul>
-                        ))}
-                    </th>
-                  </>
-                ) : (
-                  <div className="table_center">
-                    <h2>No Data Found</h2>
-                  </div>
-                )}
-              </tr>
-              <tr>
-                <td style={{ padding: '8px' }} />
-              </tr>
+              <tbody>
+                <tr className="empTable_hdr d-flex flex-wrap justify-content-between">
+                  {splittedData && splittedData.length > 0 ? (
+                    <>
+                      {splittedData.map(arrEle => (
+                        <th
+                          className="common-th-width"
+                          style={{
+                            fontSize: '12px',
+                            textAlign: 'left',
+                            wordSpacing: '-2px',
+                            marginRight: '-74px',
+                          }}
+                        >
+                          {arrEle &&
+                            arrEle.length > 0 &&
+                            arrEle.map(ele => (
+                              <ul>
+                                <li>
+                                  {ele.firstname}
+                                  &nbsp; {ele.lastname}
+                                </li>
+                              </ul>
+                            ))}
+                        </th>
+                      ))}
+                    </>
+                  ) : (
+                    <div className="table_center">
+                      <h2>No Data Found</h2>
+                    </div>
+                  )}
+                </tr>
+
+                <tr>
+                  <td style={{ padding: '8px' }} />
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -159,6 +126,7 @@ const BlueNeighbourHood = ({ neighbourHood }) => {
 };
 BlueNeighbourHood.propTypes = {
   neighbourHood: PropTypes.object,
+  requestGetOfficeAssignments: PropTypes.func,
 };
 
 export default BlueNeighbourHood;
