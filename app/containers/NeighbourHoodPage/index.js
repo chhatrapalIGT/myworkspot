@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 /* eslint-disable object-shorthand */
@@ -39,8 +40,6 @@ class NeighBourHoodPage extends Component {
       neighborhoodName: this.props.match.params.neighborhoodName,
       todayDate: this.state.date,
     });
-
-    this.props.getOfficeLocationRequest({});
   }
 
   render() {
@@ -82,7 +81,6 @@ const withSaga = injectSaga({ key: 'neighbourHood', saga });
 
 NeighBourHoodPage.propTypes = {
   requestGetOfficeAssignments: PropTypes.func,
-  getOfficeLocationRequest: PropTypes.func,
   location: PropTypes.object,
   neighbourHood: PropTypes.object,
 };
