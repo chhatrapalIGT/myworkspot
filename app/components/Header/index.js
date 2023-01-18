@@ -658,6 +658,11 @@ const Header = props => {
             (props.profileUser &&
               props.profileUser.isFirstTime === false &&
               !pathName.includes('/profile/delegate') &&
+              !pathName.includes('/home') &&
+              !pathName.includes('/space') &&
+              !pathName.includes('/employee') &&
+              !pathName.includes('/officemap') &&
+              !pathName.includes('/assignments') &&
               props.profileUser &&
               props.profileUser.badgeNumber === '' && (
                 <div className="badge_check">
