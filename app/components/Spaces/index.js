@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
 import { Button, Form, Modal } from 'react-bootstrap';
 import Select, { components } from 'react-select';
+import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
 import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
 import Menu from '../assets/images/admin/menu.png';
@@ -28,11 +29,19 @@ const Spaces = ({
   officeSuccess,
   requestUpdateActiveStatus,
   manageSpace,
+  manageLoading,
+  exportManage,
+  exportLoading,
+  exportSuccess,
   handleLimitChange,
   handlePageChange,
   dataCount,
+  handleClickSort,
+  handleSearcha,
+  requestGetManageExport,
 }) => {
-  console.log('first:::', manageSpace, dataCount);
+  console.log('first:::', exportManage);
+  console.log('second:::', exportLoading, exportSuccess);
   console.log('state::::::>', state);
   const [floor, setFloor] = useState();
   const [color, setColor] = useState();
@@ -42,6 +51,9 @@ const Spaces = ({
   const [manageData, setManageData] = useState({});
   const [spaceData, setSpaceData] = useState('');
   const [open, setOpen] = useState(false);
+  const [userinfo, setUserInfo] = useState({
+    offices: [],
+  });
 
   console.log('manageData<<:::::::', manageData);
 
@@ -55,6 +67,19 @@ const Spaces = ({
     }
   }
 
+  useEffect(() => {
+    if (!exportLoading && exportSuccess) {
+      if (exportManage && exportManage.length > 0) {
+        console.log('exportManage', exportManage);
+        const header = Object.keys(exportManage[0]);
+        generateCSV('CSV', header, exportManage, 'MailedReport');
+      } else {
+        // exportToSpreadsheet(exportManage);
+      }
+      setUserInfo({ offices: [] });
+    }
+  }, [exportLoading, exportSuccess, exportManage]);
+
   function toggleSecondAccordion(id) {
     if (id === updateState) {
       setUpdateState('');
@@ -62,6 +87,59 @@ const Spaces = ({
       setUpdateState(id);
     }
   }
+  function handleExportXLSX() {
+    let str = '[';
+    // eslint-disable-next-line array-callback-return
+    userinfo.offices.map(ev => {
+      str += `,"${ev}"`;
+    });
+    str += ']';
+    const da = str.slice(0, 1);
+    const ta = str.slice(2);
+    const locations =
+      userinfo.offices.length !== 0 ? da && da.concat(ta) : '[]';
+    requestGetManageExport({
+      newExport: true,
+      officeSearch: locations,
+    });
+  }
+  function handleExportCSV() {
+    let str = '[';
+    // eslint-disable-next-line array-callback-return
+    userinfo.offices.map(ev => {
+      str += `,"${ev}"`;
+    });
+    str += ']';
+    const da = str.slice(0, 1);
+    const ta = str.slice(2);
+    const locations =
+      userinfo.offices.length !== 0 ? da && da.concat(ta) : '[]';
+    console.log('locations:><><:', locations);
+    requestGetManageExport({
+      newExport: true,
+      officeSearch: locations,
+    });
+  }
+
+  const handleChange = e => {
+    alert('handle change');
+    // Destructuring
+    const { value, checked } = e.target;
+    const { offices } = userinfo;
+    console.log('checked', userinfo);
+    // Case 1 : The user checks the box
+    if (checked) {
+      setUserInfo({
+        offices: [...offices, value],
+      });
+    }
+    // Case 2  : The user unchecks the box
+    else {
+      setUserInfo({
+        offices: offices.filter(i => i !== value),
+      });
+    }
+  };
 
   const handleCheckbox = (data, val, final) => {
     const dataFinal = floor && floor.split(',');
@@ -155,6 +233,7 @@ const Spaces = ({
               className="px-4 py-3"
               onClick={() => {
                 setOpen(true);
+                setUserInfo({ offices: [] });
               }}
             >
               New Export
@@ -247,7 +326,7 @@ const Spaces = ({
               <div className="pos-rela">
                 <input
                   type="text"
-                  // onChange={props.handleSearcha}
+                  onChange={handleSearcha}
                   name="searchVal"
                   placeholder="Search"
                 />
@@ -272,9 +351,15 @@ const Spaces = ({
                     name="floor"
                     aria-hidden="true"
                     value={manageData.floor}
+                    onClick={() =>
+                      handleClickSort(
+                        'building_floor',
+                        state.sortOrder.building_floor,
+                      )
+                    }
                   />
                 </th>
-                <th style={{ width: '15%' }}>
+                <th style={{ width: '16%' }}>
                   Neighborhood{' '}
                   <img
                     src={Sort}
@@ -282,10 +367,16 @@ const Spaces = ({
                     name="neighborhood"
                     alt=""
                     aria-hidden="true"
-                    // value={props.state.floor}
+                    value={manageData.neighborhood}
+                    onClick={() =>
+                      handleClickSort(
+                        'neighborhood',
+                        state.sortOrder.neighborhood,
+                      )
+                    }
                   />
                 </th>
-                <th style={{ width: '15%' }}>
+                <th style={{ width: '13%' }}>
                   Space{' '}
                   <img
                     src={Sort}
@@ -293,7 +384,10 @@ const Spaces = ({
                     alt=""
                     aria-hidden="true"
                     name="space"
-                    // value={props.state.floor}
+                    value={manageData.space}
+                    onClick={() =>
+                      handleClickSort('space', state.sortOrder.space)
+                    }
                   />
                 </th>
                 <th style={{ width: '16%' }}>
@@ -304,7 +398,10 @@ const Spaces = ({
                     alt=""
                     aria-hidden="true"
                     name="type"
-                    // value={props.state.floor}
+                    value={manageData.type}
+                    onClick={() =>
+                      handleClickSort('space_type', state.sortOrder.space_type)
+                    }
                   />
                 </th>
                 <th style={{ width: '16%' }}>
@@ -315,7 +412,10 @@ const Spaces = ({
                     alt=""
                     aria-hidden="true"
                     name="assigned"
-                    // value={props.state.floor}
+                    value={manageData.assigned}
+                    onClick={() =>
+                      handleClickSort('assigned', state.sortOrder.assigned)
+                    }
                   />
                 </th>
                 <th style={{ width: '17%' }}>
@@ -326,22 +426,32 @@ const Spaces = ({
                     alt=""
                     name="status"
                     aria-hidden="true"
-                    // value={props.state.floor}
+                    value={manageData.status}
+                    onClick={() =>
+                      handleClickSort(
+                        'algorithm_status',
+                        state.sortOrder.algorithm_status,
+                      )
+                    }
                   />
                 </th>
               </tr>
-              {manageSpace && !manageSpace.length ? (
-                <td colSpan="5">
-                  <Spinner
-                    className="app-spinner"
-                    animation="grow"
-                    variant="dark"
-                  />
-                </td>
+              {manageLoading ? (
+                <tr>
+                  <td colSpan="7">
+                    <Spinner
+                      className="app-spinner"
+                      animation="grow"
+                      variant="dark"
+                    />
+                  </td>
+                </tr>
               ) : manageSpace && manageSpace.length === 0 ? (
-                <td colSpan="5">
-                  <div className="employee-norecord">No record found</div>
-                </td>
+                <tr>
+                  <td colSpan="7">
+                    <div className="employee-norecord">No record found</div>
+                  </td>
+                </tr>
               ) : (
                 manageSpace &&
                 manageSpace.map(i => (
@@ -413,49 +523,68 @@ const Spaces = ({
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-header d-block mypadlr mypt-3">
-          <div>
-            <h5 className="modal-title" id="exampleModalLabel">
-              Create a New Export
-            </h5>
-            <span className="model-content">
-              What data do you want to export?
-            </span>
+        {!exportLoading ? (
+          <div className="modal-header d-block mypadlr mypt-3">
+            <div>
+              <h5 className="modal-title" id="exampleModalLabel">
+                Create a New Export
+              </h5>
+              <span className="model-content">
+                What data do you want to export?
+              </span>
+            </div>
+
+            <form
+              className="delegate-workspot-access mycheckbox"
+              action="submit"
+            >
+              <>
+                <Form.Check
+                  label="Washington, DC"
+                  value="DC"
+                  name="group1"
+                  onChange={e => handleChange(e)}
+                />
+                <Form.Check
+                  label="Richmond, VA"
+                  value="RIC"
+                  name="group1"
+                  onChange={e => handleChange(e)}
+                />
+              </>
+            </form>
+
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              onClick={() => setOpen(false)}
+            />
           </div>
-
-          <form className="delegate-workspot-access mycheckbox" action="submit">
-            <>
-              <Form.Check label="Washington, DC" name="group1" />
-              <Form.Check label="Richmond, VA" name="group1" />
-            </>
-          </form>
-
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            onClick={() => setOpen(false)}
-          />
-        </div>
+        ) : (
+          <Spinner className="app-spinner" animation="grow" variant="dark" />
+        )}
         <div className="modal-footer justify-content-between border-0 mypadlr mypb-3 pt-0">
           <Button
             variant="primary"
-            className="btn csv-modal"
+            className="btn csv-modal cust-model-btn"
             data-bs-dismiss="modal"
+            // onClick={() => handleExportCSV(userinfo)}
           >
             .CSV Export
           </Button>
           <Button
             variant="primary"
-            className="btn xlsx-modal"
-            data-bs-dismiss="mo dal"
+            className="btn xlsx-modal cust-model-btn"
+            data-bs-dismiss="modal"
+            // onClick={() => handleExportXLSX(userinfo)}
           >
             .XLSX Export
           </Button>
           <Button
             variant="outline-secondary"
-            className="btn dismiss"
+            className="btn cust-model-btn"
             data-bs-dismiss="modal"
             onClick={() => setOpen(false)}
           >
@@ -539,7 +668,7 @@ const Spaces = ({
                         htmlFor={obj.floorAndBuilding}
                         style={{ display: 'block', height: '0px' }}
                       >
-                        <img
+                        {/* <img
                           src={
                             obj.lockedWorkspaceNumber === obj.totalWorkspace
                               ? lock
@@ -552,7 +681,7 @@ const Spaces = ({
                           }
                           className="lock"
                           alt=""
-                        />
+                        /> */}
                         {spaceUpdate &&
                           spaceUpdate.loading &&
                           manageLoader === 'FloorClick' && (
@@ -629,7 +758,7 @@ const Spaces = ({
                                       floor.neighborhoodname,
                                     )}
                                   >
-                                    <img
+                                    {/* <img
                                       src={
                                         floor.neighborhoodLockedSpace ===
                                         floor.neighborhoodTotalSpace
@@ -644,7 +773,7 @@ const Spaces = ({
                                       }
                                       className="lock2"
                                       alt=""
-                                    />
+                                    /> */}
 
                                     {spaceUpdate &&
                                       spaceUpdate.loading &&
@@ -715,7 +844,7 @@ const Spaces = ({
                                           />
                                           <div className="dash-menu-data">
                                             <label htmlFor={space.id}>
-                                              <img
+                                              {/* <img
                                                 src={
                                                   space.active ? unLock : lock
                                                 }
@@ -726,7 +855,7 @@ const Spaces = ({
                                                 }
                                                 className="lock3"
                                                 alt=""
-                                              />
+                                              /> */}
                                               {spaceUpdate &&
                                                 spaceUpdate.loading &&
                                                 manageLoader ===
@@ -777,8 +906,15 @@ Spaces.propTypes = {
   officeSuccess: PropTypes.object,
   setSpaceUpdate: PropTypes.object,
   manageSpace: PropTypes.object,
+  exportManage: PropTypes.object,
+  exportLoading: PropTypes.bool,
+  manageLoading: PropTypes.bool,
+  exportSuccess: PropTypes.bool,
   dataCount: PropTypes.object,
   handleLimitChange: PropTypes.func,
   handlePageChange: PropTypes.func,
+  handleClickSort: PropTypes.func,
+  handleSearcha: PropTypes.func,
+  requestGetManageExport: PropTypes.func,
 };
 export default Spaces;

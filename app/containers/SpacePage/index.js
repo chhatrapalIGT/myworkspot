@@ -15,6 +15,7 @@ import {
   clearUpdateStatus,
   clearMessage,
   requestGetManageSpace,
+  requestGetManageExport,
 } from './actions';
 import Spaces from '../../components/Spaces';
 
@@ -25,13 +26,14 @@ class OfficeMap extends Component {
       selectedNames: 'DC',
       page: 1,
       limit: 10,
+      newExport: false,
       sortOrder: {
-        floor: true,
+        building_floor: true,
         neighborhood: true,
         space: true,
-        type: true,
+        space_type: true,
         assigned: true,
-        status: true,
+        algorithm_status: true,
       },
     };
   }
@@ -41,15 +43,49 @@ class OfficeMap extends Component {
     this.props.requestGetManageSpace({});
   }
 
-  getManageData = (id, search, value, space, sortOrder, page, limit) => {
+  handleSearcha = e => {
+    const { name, value } = e.target;
+    if (this.state.typingTimeout) {
+      clearTimeout(this.state.typingTimeout);
+    }
+    const timeoutId = setTimeout(() => {
+      this.setState({ [name]: value }, () => {
+        this.props.requestGetManageSpace({
+          search: this.state.searchVal,
+          officeSearch: this.state.officeSearch,
+          floor: this.state.floorSearch,
+          neighbor: this.state.neighborhoodSearch,
+          sortBy: this.state.sortBy,
+          limit: this.state.limit,
+        });
+      });
+    }, 1000);
+    this.setState({
+      typingTimeout: timeoutId,
+    });
+  };
+
+  getManageData = (
+    id,
+    search,
+    officeSearch,
+    neighbor,
+    floor,
+    sortBy,
+    page,
+    limit,
+    newExport,
+  ) => {
     const finalPayload = {
       id,
       search,
-      value,
-      space,
-      sortOrder,
+      officeSearch,
+      neighbor,
+      floor,
+      sortBy,
       page,
       limit,
+      newExport,
     };
     this.props.requestGetManageSpace(finalPayload);
   };
@@ -59,9 +95,10 @@ class OfficeMap extends Component {
     this.getManageData(
       '',
       this.state.searchVal,
-      this.state.strVal,
-      this.state.strSpace,
-      this.state.sortOrder,
+      this.state.officeSearch,
+      this.state.neighborhoodSearch,
+      this.state.floorSearch,
+      this.state.sortBy,
       1,
       e,
     );
@@ -73,9 +110,10 @@ class OfficeMap extends Component {
     this.getManageData(
       '',
       this.state.searchVal,
-      this.state.strVal,
-      this.state.strSpace,
-      this.state.sortOrder,
+      this.state.officeSearch,
+      this.state.neighborhoodSearch,
+      this.state.floorSearch,
+      this.state.sortBy,
       e,
       limit,
     );
@@ -85,18 +123,19 @@ class OfficeMap extends Component {
     this.setState(prev => ({
       sortOrder: { ...prev.sortOrder, [key]: !val },
     }));
-    let sortOrder;
+    let sortBy;
     if (val) {
-      sortOrder = `${[key]} ASC`;
+      sortBy = `${[key]}-ASC`;
     } else {
-      sortOrder = `${[key]} DESC`;
+      sortBy = `${[key]}-DESC`;
     }
-    this.setState({ sortOrder });
+    this.setState({ sortBy });
     this.props.requestGetManageSpace({
       search: this.state.searchVal,
-      value: this.state.strVal,
-      space: this.state.strSpace,
-      sortOrder,
+      officeSearch: this.state.officeSearch,
+      neighbor: this.state.neighborhoodSearch,
+      floor: this.state.floorSearch,
+      sortBy,
       limit: this.state.limit,
       page: this.state.page,
     });
@@ -131,6 +170,11 @@ class OfficeMap extends Component {
       officeSuccess,
       setSpaceUpdate,
       manageSpace,
+      exportManage,
+      exportLoading,
+      manageLoading,
+      manageSuccess,
+      exportSuccess,
       dataCount,
     } = this.props;
     return (
@@ -138,6 +182,11 @@ class OfficeMap extends Component {
         <div id="content-wrap">
           <Spaces
             manageSpace={manageSpace}
+            exportManage={exportManage}
+            exportLoading={exportLoading}
+            manageLoading={manageLoading}
+            manageSuccess={manageSuccess}
+            exportSuccess={exportSuccess}
             dataCount={dataCount}
             state={this.state}
             officeLocation={officeLocation}
@@ -146,6 +195,9 @@ class OfficeMap extends Component {
             handleClickSort={this.handleClickSort}
             handleUserSelect={this.handleUserSelect}
             handleCloseUpdate={this.handleCloseUpdate}
+            handleSearcha={this.handleSearcha}
+            requestGetManageSpace={this.props.requestGetManageSpace}
+            requestGetManageExport={this.props.requestGetManageExport}
             requestUpdateActiveStatus={this.props.requestUpdateActiveStatus}
             spaceUpdate={spaceUpdate}
             setSpaceUpdate={setSpaceUpdate}
@@ -159,11 +211,15 @@ class OfficeMap extends Component {
 
 const mapStateToProps = state => {
   const { uploadOffice, space } = state;
-  console.log('state:::', state);
   return {
     dataCount:
       space && space.manageSpace && space.manageSpace.getWorkSpaceDataPage,
     manageSpace: space && space.manageSpace && space.manageSpace.data,
+    manageLoading: space && space.manageSpace && space.manageSpace.loading,
+    manageSuccess: space && space.manageSpace && space.manageSpace.success,
+    exportManage: space && space.manageExport && space.manageExport.data,
+    exportLoading: space && space.manageExport && space.manageExport.loading,
+    exportSuccess: space && space.manageExport && space.manageExport.success,
     officeLocation:
       uploadOffice &&
       uploadOffice.getOfficeData &&
@@ -182,6 +238,8 @@ export function mapDispatchToProps(dispatch) {
     requestUpdateActiveStatus: payload =>
       dispatch(requestUpdateActiveStatus(payload)),
     requestGetManageSpace: payload => dispatch(requestGetManageSpace(payload)),
+    requestGetManageExport: payload =>
+      dispatch(requestGetManageExport(payload)),
     clearUpdateStatus: () => dispatch(clearUpdateStatus()),
     clearMessage: () => dispatch(clearMessage()),
     dispatch,
@@ -193,12 +251,18 @@ const withSaga = injectSaga({ key: 'space', saga });
 OfficeMap.propTypes = {
   requestGetOfficeUpdateData: PropTypes.func,
   requestGetManageSpace: PropTypes.func,
+  requestGetManageExport: PropTypes.func,
   officeLocation: PropTypes.object,
   requestUpdateActiveStatus: PropTypes.func,
   clearUpdateStatus: PropTypes.func,
   clearMessage: PropTypes.func,
   spaceUpdate: PropTypes.object,
   manageSpace: PropTypes.object,
+  exportManage: PropTypes.object,
+  exportLoading: PropTypes.object,
+  manageLoading: PropTypes.object,
+  manageSuccess: PropTypes.object,
+  exportSuccess: PropTypes.object,
   dataCount: PropTypes.object,
   officeSuccess: PropTypes.object,
   setSpaceUpdate: PropTypes.object,

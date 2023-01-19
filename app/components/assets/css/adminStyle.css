@@ -1539,7 +1539,7 @@ div[class*='qy-menu'] * {
   /* line-height: 26px; */
 }
 
-.accordion2.active::before {
+/* .accordion2.active::before {
   position: absolute;
   content: '';
   height: 105px;
@@ -1548,13 +1548,13 @@ div[class*='qy-menu'] * {
   top: 26%;
   left: 14px;
   z-index: 0;
-}
+} */
 
 .accordion2.active.line {
   position: relative;
 }
 
-.accordion2 .line::before {
+/* .accordion2 .line::before {
   position: absolute;
   content: '';
   width: 20px;
@@ -1564,7 +1564,7 @@ div[class*='qy-menu'] * {
   border-bottom: 1px solid #63baff;
   border-bottom-left-radius: 8px;
   background-color: transparent;
-}
+} */
 
 .accordion3 {
   position: relative;
@@ -1574,13 +1574,13 @@ div[class*='qy-menu'] * {
   cursor: pointer;
   font-weight: bold;
   color: #002d50;
-  padding-left: 30px;
-  margin-left: 36px;
+  margin-left: 15px;
   margin-top: 10px;
 }
 
-.accordion3::after {
-  position: absolute;
+/* .accordion3::after {
+  position: absolute;}
+
   top: 57%;
   left: 0px;
   transform: translateY(-60%);
@@ -1594,9 +1594,9 @@ div[class*='qy-menu'] * {
   border-radius: 5px;
   transition: 0.5s all ease;
   line-height: 28px;
-}
+} */
 
-.accordion3.active::after {
+/* .accordion3.active::after {
   position: absolute;
   top: 16%;
   left: 0px;
@@ -1612,7 +1612,7 @@ div[class*='qy-menu'] * {
   margin: 0 auto;
   line-height: 28px;
   z-index: 99;
-}
+} */
 
 .panel2 {
   background-color: #fff;
@@ -1626,10 +1626,10 @@ div[class*='qy-menu'] * {
   cursor: pointer;
   padding-left: 80px;
   color: #00355f;
-  margin-left: 17px;
+  margin-left: 0px;
 }
 
-.panel2 .dash-menu-list::before {
+/* .panel2 .dash-menu-list::before {
   position: absolute;
   content: '';
   height: calc(100% - 38px);
@@ -1637,7 +1637,7 @@ div[class*='qy-menu'] * {
   background-color: #63baff;
   left: 34px;
   z-index: 9;
-}
+} */
 
 .panel2 .dash-menu-item {
   color: #00355f;
