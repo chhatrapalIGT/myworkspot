@@ -508,6 +508,25 @@ input[type='text'] {
 .common-title {
   font-size: 24px;
 }
+.common-title-capacity {
+  font-size: 18px;
+  font-family: 'Museo Sans bold';
+  color: #00355f;
+}
+.Expectd-title-capacity {
+  font-size: 18px;
+  font-family: 'Museo Sans bold';
+  color: #00355f;
+  margin-top: 23px;
+}
+.office-title-capacity {
+  font-size: 17px;
+  font-family: 'Museo Sans bold';
+  color: #526e88;
+}
+.capacity_top {
+  margin-top: 2.0rem !important;
+}
 .report_title {
   margin-left: 20px;
   font-size: 20px;
@@ -525,6 +544,9 @@ input[type='text'] {
 .wrapper_main {
   // padding: 90px 0;
   padding: 50px 0;
+  min-height: calc(100vh - 175px);
+}
+.wrapper_main_head {
   min-height: calc(100vh - 175px);
 }
 
@@ -3478,7 +3500,7 @@ div[class*='qy-menu'] * {
 }
 .header_tbl {
   padding: 0 150px;
-  margin-top: -15px;
+  margin-top: -20px;
 }
 .empTable_hdr th {
   text-transform: none !important;
@@ -3520,4 +3542,47 @@ div[class*='qy-menu'] * {
   gap: 10px;
   width: 135px;
   height: 48px;
+}
+.ml_img {
+  margin-bottom: 0.4rem !important;
+}
+.export_btn {
+  padding: 13px;
+  margin-left: 17px;
+  background: #0072ce;
+  font-size: 13px;
+}
+.date_range {
+  margin-bottom: 20px;
+}
+.mycheckbox {
+  font-family: 'Museo Sans Medium';
+  font-weight: 500;
+  color: #01213a;
+}
+.checkedBox input {
+  padding: 7px !important;
+  border-radius: 0 !important;
+}
+.checkedBox label {
+  margin-left: 5px !important;
+}
+.csv-modal {
+  padding: 10px;
+  width: 30%;
+  font-style: inherit;
+  margin-left: 0px;
+  margin-top: 10px;
+}
+.datePicker {
+  width: 60%;
+}
+.expected_img:hover + span {
+  display: block;
+  position: absolute;
+  width: auto;
+  top: 100%;
+}
+.common-img{
+  margin-bottom: 0.30rem !important;
 }
