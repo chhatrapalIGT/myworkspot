@@ -114,13 +114,17 @@ const Assignments = props => {
       if (exportType === 'CSV') {
         const header = Object.keys(exportAssignmentData[0]);
         generateCSV(exportType, header, exportAssignmentData, 'Assignments');
+        setUserInfo({ offices: [] });
+        setExportType('');
+        setOpen(false);
       }
       if (exportType === 'XLSX') {
         exportToSpreadsheet(exportAssignmentData);
+        setUserInfo({ offices: [] });
+        setExportType('');
+        setOpen(false);
       }
     }
-    setUserInfo({ offices: [] });
-    setExportType('');
   }, [exportAssignmentData, exportAssignmentLoading]);
 
   const handleChange = e => {
@@ -343,7 +347,7 @@ const Assignments = props => {
                     type="text"
                     onChange={props.handleSearcha}
                     name="searchVal"
-                    placeholder="Search"
+                    placeholder="Search for name, badge"
                   />
                   <div className="search-img">
                     <img src={Search} className="img-fluid" alt="" />
@@ -355,7 +359,7 @@ const Assignments = props => {
               <table>
                 <tr>
                   <th style={{ width: '20%' }}>
-                    Name
+                    Name{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -371,7 +375,7 @@ const Assignments = props => {
                     />
                   </th>
                   <th style={{ width: '16%' }}>
-                    Department
+                    Department{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -387,7 +391,7 @@ const Assignments = props => {
                     />
                   </th>
                   <th style={{ width: '16%' }}>
-                    Building/Floor
+                    Building/Floor{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -403,7 +407,7 @@ const Assignments = props => {
                     />
                   </th>
                   <th style={{ width: '16%' }}>
-                    Neighborhood
+                    Neighborhood{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -419,7 +423,7 @@ const Assignments = props => {
                     />
                   </th>
                   <th style={{ width: '16%' }}>
-                    Assigned Space
+                    Assigned Space{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -435,7 +439,7 @@ const Assignments = props => {
                     />
                   </th>
                   <th style={{ width: '16%' }}>
-                    Badge
+                    Badge{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -475,7 +479,11 @@ const Assignments = props => {
                   assignmentData.length > 0 &&
                   assignmentData.map((i, index) => (
                     <tr key={index + 1}>
-                      <td>
+                      <td
+                        style={{
+                          display: 'flex',
+                        }}
+                      >
                         <img
                           src={i.photo || Profile}
                           className="img-fluid user-img"
@@ -485,7 +493,10 @@ const Assignments = props => {
                         {i.name}
                       </td>
                       <td>{i.department}</td>
-                      <td>{i.buildingFloor}</td>
+                      <td>
+                        {i.floor !== null ? `Floor ${i.floor}` : ''}{' '}
+                        {i.building !== null ? `Building ${i.building}` : ''}
+                      </td>
                       <td>{i.neighborhood}</td>
                       <td>{i.assignedspace}</td>
                       <td>{i.badge}</td>
@@ -577,7 +588,7 @@ const Assignments = props => {
         <div className="modal-footer justify-content-between border-0 mypadlr mypb-3 pt-0">
           <Button
             variant="primary"
-            className="btn csv-modal cust-model-btn"
+            className="btn ass-csv-modal cust-model-btn"
             data-bs-dismiss="modal"
             onClick={() => {
               setExportType('CSV');
