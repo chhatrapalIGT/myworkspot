@@ -34,11 +34,12 @@ const Assignments = props => {
   const [officeFloors, setOfficeFloors] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
   const [userinfo, setUserInfo] = useState({ offices: [] });
-  let updatedLocation = '';
-  let updatedFloors = '';
-  let updatedNeighborhood = '';
+  let updatedLocation = [];
+  let updatedFloors = [];
+  let updatedNeighborhood = [];
 
   useEffect(() => {
+    updatedLocation = [];
     officeLocation &&
       officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
@@ -57,6 +58,7 @@ const Assignments = props => {
   }, [officeLocation]);
 
   useEffect(() => {
+    updatedFloors = [];
     officeFloor &&
       officeFloor.map(obj => {
         if (obj.floor !== null) {
@@ -87,6 +89,7 @@ const Assignments = props => {
   }, [officeFloor]);
 
   useEffect(() => {
+    updatedNeighborhood = [];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
         const isDuplicate = officeLocations.includes(obj);
@@ -115,9 +118,9 @@ const Assignments = props => {
       if (exportType === 'XLSX') {
         exportToSpreadsheet(exportAssignmentData);
       }
-      setUserInfo({ offices: [] });
-      setExportType('');
     }
+    setUserInfo({ offices: [] });
+    setExportType('');
   }, [exportAssignmentData, exportAssignmentLoading]);
 
   const handleChange = e => {
@@ -180,71 +183,6 @@ const Assignments = props => {
     );
     return item;
   });
-
-  // useEffect(() => {
-  //   if (updatedLocation.length > 0) {
-  //     updatedLocation &&
-  //       updatedLocation.map(obj => {
-  //         const isDuplicate = updatedLocation.includes(obj);
-  //         if (!isDuplicate) {
-  //           updatedLocation.push({
-  //             label: obj.name,
-  //             name: obj.name,
-  //             value: obj.name,
-  //           });
-  //           return true;
-  //         }
-  //         return false;
-  //       });
-  //   }
-
-  //   if (updatedNeighborhood.length > 0) {
-  //     updatedNeighborhood &&
-  //       updatedNeighborhood.map(obj => {
-  //         const isDuplicate = updatedNeighborhood.includes(obj);
-  //         if (!isDuplicate) {
-  //           updatedNeighborhood.push({
-  //             label: obj.name,
-  //             name: obj.name,
-  //             value: obj.name,
-  //           });
-  //           return true;
-  //         }
-  //       });
-  //     return false;
-  //   }
-
-  //   if (updatedFloors.length > 0) {
-  //     updatedFloors &&
-  //       updatedFloors.map(obj => {
-  //         if (obj.floor !== null) {
-  //           const isDuplicate = updatedFloors.includes(obj);
-  //           if (!isDuplicate) {
-  //             updatedFloors.push({
-  //               label: `floor ${obj.floor}`,
-  //               name: `floor ${obj.floor}`,
-  //               value: `floor ${obj.floor}`,
-  //             });
-  //             return true;
-  //           }
-  //           return false;
-  //         }
-  //         if (obj.building !== null) {
-  //           const isDuplicate = updatedFloors.includes(obj);
-  //           if (!isDuplicate) {
-  //             updatedFloors.push({
-  //               label: `building ${obj.building}`,
-  //               name: `building ${obj.building}`,
-  //               value: `building ${obj.building}`,
-  //             });
-  //             return true;
-  //           }
-  //           return false;
-  //         }
-  //       });
-  //     return false;
-  //   }
-  // }, [updatedLocation, updatedFloors, updatedNeighborhood]);
 
   const Option = createClass({
     render() {
