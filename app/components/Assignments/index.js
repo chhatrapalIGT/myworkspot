@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-vars */
@@ -31,19 +32,26 @@ const Assignments = props => {
   const [exportType, setExportType] = useState('');
   const [officeLocations, setOfficeLocations] = useState([]);
   const [officeFloors, setOfficeFloors] = useState([]);
-  const [officeBuildings, setOfficeBuildings] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
   const [userinfo, setUserInfo] = useState({ offices: [] });
+  let updatedLocation = '';
+  let updatedFloors = '';
+  let updatedNeighborhood = '';
 
   useEffect(() => {
     officeLocation &&
       officeLocation.map(obj => {
-        if (obj.id !== 'RW') {
-          officeLocations.push({
-            label: obj.locationname,
-            name: obj.locationname,
-            value: obj.id,
-          });
+        if (obj.id === 'DC' || obj.id === 'RIC') {
+          const isDuplicate = officeLocations.includes(obj);
+          if (!isDuplicate) {
+            officeLocations.push({
+              label: obj.locationname,
+              name: obj.locationname,
+              value: obj.id,
+            });
+            return true;
+          }
+          return false;
         }
       });
   }, [officeLocation]);
@@ -51,31 +59,46 @@ const Assignments = props => {
   useEffect(() => {
     officeFloor &&
       officeFloor.map(obj => {
-        if (obj.floor !== '') {
-          officeFloors.push({
-            label: obj.floor,
-            name: obj.floor,
-            value: obj.id,
-          });
+        if (obj.floor !== null) {
+          const isDuplicate = officeFloors.includes(obj);
+          if (!isDuplicate) {
+            officeFloors.push({
+              label: `floor ${obj.floor}`,
+              name: `floor ${obj.floor}`,
+              value: `floor ${obj.floor}`,
+            });
+            return true;
+          }
+          return false;
         }
-        // if (obj.building !== '') {
-        //   officeFloors.push({
-        //     label: obj.building,
-        //     name: obj.building,
-        //     value: obj.building,
-        //   });
-        // }
+        if (obj.building !== null) {
+          const isDuplicate = officeFloors.includes(obj);
+          if (!isDuplicate) {
+            officeFloors.push({
+              label: `building ${obj.building}`,
+              name: `building ${obj.building}`,
+              value: `building ${obj.building}`,
+            });
+            return true;
+          }
+          return false;
+        }
       });
   }, [officeFloor]);
 
   useEffect(() => {
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
-        officeNeighborhoods.push({
-          label: obj.name,
-          name: obj.name,
-          value: obj.name,
-        });
+        const isDuplicate = officeLocations.includes(obj);
+        if (!isDuplicate) {
+          officeNeighborhoods.push({
+            label: obj.name,
+            name: obj.name,
+            value: obj.name,
+          });
+          return true;
+        }
+        return false;
       });
   }, [officeNeighborhood]);
 
@@ -116,45 +139,112 @@ const Assignments = props => {
     }
   };
 
-  const updatedLocation = officeLocations.map(item => {
+  updatedLocation = officeLocations.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_emp">
           {props.state.finalOfficeVal
             ? props.state.finalOfficeVal
-            : 'Washington, DC +2'}
+            : `Washington, DC +${officeLocations.length - 1}`}
         </div>
       </>
     );
     return item;
   });
 
-  const updatedFloors = officeFloors.map(item => {
+  updatedFloors = officeFloors.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_emp">
-          {props.state.finalFloorVal ? props.state.finalFloorVal : 'Floors, +2'}
+          {props.state.finalFloorVal
+            ? props.state.finalFloorVal
+            : `Floors, +${officeFloors.length - 1}`}
         </div>
       </>
     );
     return item;
   });
 
-  const updatedNeighborhood = officeNeighborhoods.map(item => {
+  updatedNeighborhood = officeNeighborhoods.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_emp">
           {props.state.finalNeighborhoodVal
             ? props.state.finalNeighborhoodVal
-            : 'neighborhood, +2'}
+            : `Blue, +${officeNeighborhoods.length - 1}`}
         </div>
       </>
     );
     return item;
   });
+
+  // useEffect(() => {
+  //   if (updatedLocation.length > 0) {
+  //     updatedLocation &&
+  //       updatedLocation.map(obj => {
+  //         const isDuplicate = updatedLocation.includes(obj);
+  //         if (!isDuplicate) {
+  //           updatedLocation.push({
+  //             label: obj.name,
+  //             name: obj.name,
+  //             value: obj.name,
+  //           });
+  //           return true;
+  //         }
+  //         return false;
+  //       });
+  //   }
+
+  //   if (updatedNeighborhood.length > 0) {
+  //     updatedNeighborhood &&
+  //       updatedNeighborhood.map(obj => {
+  //         const isDuplicate = updatedNeighborhood.includes(obj);
+  //         if (!isDuplicate) {
+  //           updatedNeighborhood.push({
+  //             label: obj.name,
+  //             name: obj.name,
+  //             value: obj.name,
+  //           });
+  //           return true;
+  //         }
+  //       });
+  //     return false;
+  //   }
+
+  //   if (updatedFloors.length > 0) {
+  //     updatedFloors &&
+  //       updatedFloors.map(obj => {
+  //         if (obj.floor !== null) {
+  //           const isDuplicate = updatedFloors.includes(obj);
+  //           if (!isDuplicate) {
+  //             updatedFloors.push({
+  //               label: `floor ${obj.floor}`,
+  //               name: `floor ${obj.floor}`,
+  //               value: `floor ${obj.floor}`,
+  //             });
+  //             return true;
+  //           }
+  //           return false;
+  //         }
+  //         if (obj.building !== null) {
+  //           const isDuplicate = updatedFloors.includes(obj);
+  //           if (!isDuplicate) {
+  //             updatedFloors.push({
+  //               label: `building ${obj.building}`,
+  //               name: `building ${obj.building}`,
+  //               value: `building ${obj.building}`,
+  //             });
+  //             return true;
+  //           }
+  //           return false;
+  //         }
+  //       });
+  //     return false;
+  //   }
+  // }, [updatedLocation, updatedFloors, updatedNeighborhood]);
 
   const Option = createClass({
     render() {
@@ -269,7 +359,7 @@ const Assignments = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    defaultValue={officeFloor}
+                    defaultValue={officeFloors}
                     onChange={props.handleSelectedFloor}
                     options={updatedFloors}
                     closeMenuOnSelect
@@ -425,7 +515,7 @@ const Assignments = props => {
                 </tr>
                 {props.assignmentLoading ? (
                   <tr>
-                    <td colSpan="5">
+                    <td colSpan="6">
                       <Spinner
                         className="app-spinner"
                         animation="grow"
@@ -436,7 +526,7 @@ const Assignments = props => {
                 ) : props.assignmentData &&
                   props.assignmentData.length === 0 ? (
                   <tr>
-                    <td colSpan="5">
+                    <td colSpan="6">
                       <div className="employee-norecord">
                         {'No record found'}
                       </div>
@@ -576,7 +666,6 @@ const Assignments = props => {
             className="btn cust-model-btn"
             data-bs-dismiss="modal"
             onClick={() => setOpen(false)}
-            disabled={exportAssignmentLoading}
           >
             Cancel
           </Button>

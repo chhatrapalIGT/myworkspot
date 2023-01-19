@@ -2,6 +2,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
 import { push } from 'react-router-redux';
 import { get } from 'lodash';
+import moment from 'moment';
 import {
   REQUEST_GET_ASSIGNMENT_DETAIL,
   REQUEST_GET_EXPORT_DATA,
@@ -26,17 +27,24 @@ export function* getAssignmentData({ payload }) {
   token = JSON.parse(token);
   const limit = get(payload, 'limit', 10);
   const page = get(payload, 'page', 1);
-
-  const requestURL = `${API_URL}/adminPanel/assignments/getAssigmentsData?searchKeyword=${payload.searchKeyword ||
-    ''}&sortBy=${payload.sortBy ||
-    ''}&limit=${limit}&page=${page}&office=${payload.office ||
-    ''}&floor=${payload.floor || ''}&building=${payload.building ||
-    ''}&neighborhood=${payload.neighborhood || ''}&newExport=false`;
-
+  const pay = {
+    searchKeyword: payload.searchKeyword,
+    sortBy: payload.sortBy,
+    limit,
+    page,
+    office: payload.office,
+    floor: payload.floor,
+    building: payload.building,
+    neighborhood: payload.neighborhood,
+    newExport: false,
+    todayDate: moment().format('YYYY-MM-DD'),
+  };
+  const requestURL = `${API_URL}/adminPanel/assignments/getAssigmentsData`;
   try {
     const assignmentList = yield request({
-      method: 'GET',
+      method: 'POST',
       url: requestURL,
+      data: pay,
       headers: {
         Authorization: `Bearer ${token.idtoken}`,
       },
@@ -110,15 +118,14 @@ export function* getOfficeNeighbourhood({ payload }) {
 }
 
 export function* getExportData({ payload }) {
-  console.log('payload', payload);
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   const requestURL = `${API_URL}/adminPanel/assignments/getAssigmentsData`;
   try {
     const assignmentList = yield request({
-      method: 'GET',
+      method: 'POST',
       url: requestURL,
-      data: { payload },
+      data: payload,
       headers: {
         Authorization: `Bearer ${token.idtoken}`,
       },

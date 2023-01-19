@@ -96,7 +96,7 @@ const AssignmentReducer = (state = initialState, action) =>
       case SUCCESS_GET_OFFICE_FLOOR:
         draft.officeFloor.loading = false;
         draft.officeFloor.success = true;
-        draft.officeFloor.floors = action.payload;
+        draft.officeFloor.floors = action.payload.data;
         draft.officeFloor.error = '';
         break;
       case FAILED_GET_OFFICE_FLOOR:
