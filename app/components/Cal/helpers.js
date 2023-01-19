@@ -162,7 +162,7 @@ export const getWeekTitle = dateObj => {
     .subtract(2, 'days')
     .toDate();
   if (startMonth === endMonth) {
-    return `${endMonth} ${dateObj.firstDay} - ${endDate.getDate()}, ${moment(
+    return `${endMonth} ${dateObj.firstDay} – ${endDate.getDate()}, ${moment(
       dateObj.startDate,
     ).year()}`;
   } else {

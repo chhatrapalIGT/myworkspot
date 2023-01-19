@@ -48,7 +48,6 @@ const WorkspotAdmin = ({
   const [officeCapacity, setOfficeCapacity] = useState(false);
   const [expectedCapacity, setExpectedCapacity] = useState(false);
   const [confirmCapacity, setConfirmCapacity] = useState(false);
-  const [wholeDataExport, setWholeDataExport] = useState(false);
 
   const uniqueLocation = [];
   getCapacity &&
@@ -74,6 +73,9 @@ const WorkspotAdmin = ({
   const [selectedWeek, setSelectedWeek] = useState(new Date());
   const [days, setDays] = useState(() => getWeekStartEndDate(new Date()));
   const [dateValue, setDateValue] = useState([]);
+  const [errorData, setErrorData] = useState(false);
+  const [checkedError, setCheckedError] = useState(false);
+
   const isDateSelected = useCallback(
     date => {
       return date && date.startOf('day').isSame(days.currentDate.startOf('day'))
@@ -139,13 +141,32 @@ const WorkspotAdmin = ({
   };
 
   const handleExportCSV = () => {
-    const startdate = moment(
-      dateValue && dateValue.length && dateValue && dateValue[0],
-    ).format('YYYY-MM-DD');
-    const enddate = moment(
-      dateValue && dateValue.length && dateValue && dateValue[1],
-    ).format('YYYY-MM-DD');
-    requestExportLocationCapacity({ startdate, enddate });
+    if (dateValue.length === 0) {
+      setErrorData(true);
+    } else {
+      const startdate = moment(
+        dateValue && dateValue.length && dateValue && dateValue[0],
+      ).format('YYYY-MM-DD');
+      const enddate = moment(
+        dateValue && dateValue.length && dateValue && dateValue[1],
+      ).format('YYYY-MM-DD');
+      requestExportLocationCapacity({ startdate, enddate });
+      setErrorData(false);
+      setDateValue([]);
+    }
+    if (!officeCapacity && !expectedCapacity && !confirmCapacity) {
+      setCheckedError(true);
+    } else {
+      const startdate = moment(
+        dateValue && dateValue.length && dateValue && dateValue[0],
+      ).format('YYYY-MM-DD');
+      const enddate = moment(
+        dateValue && dateValue.length && dateValue && dateValue[1],
+      ).format('YYYY-MM-DD');
+      requestExportLocationCapacity({ startdate, enddate });
+      setCheckedError(false);
+      setDateValue([]);
+    }
   };
 
   const selectedChange = ev => {
@@ -158,11 +179,9 @@ const WorkspotAdmin = ({
       getExportData &&
       getExportData.length > 0 &&
       exportCapacitySuccess &&
-      officeCapacity &&
-      !expectedCapacity &&
-      !confirmCapacity
+      officeCapacity
     ) {
-      const finaldata = [];
+      const finaldataOffice = [];
       getExportData.filter(obj => {
         obj &&
           obj.data &&
@@ -172,7 +191,7 @@ const WorkspotAdmin = ({
               officeId: arr.id,
               Date: obj.date,
               officeCapacity: `${parseFloat(
-                Math.floor(arr && arr.officeCapacity),
+                arr && arr.officeCapacity,
               ).toFixed()}%`,
               worksStationSpaceCapacity: `${parseFloat(
                 Math.floor(arr && arr.workstationsSpacesOfficeCapacity),
@@ -181,22 +200,15 @@ const WorkspotAdmin = ({
                 Math.floor(arr && arr.privateSpacesOfficeCapacity),
               ).toFixed()}%`,
             };
-            finaldata.push(objData);
+            finaldataOffice.push(objData);
           });
       });
-      let header = [
-        { id: 'Office Id' },
-        { id: 'Date' },
-        { id: 'Office Capacity' },
-        { id: 'Workstation Capacity' },
-        { id: 'Private Spaces Capacity' },
-      ];
 
-      header = Object.keys(finaldata[0]);
+      const header = Object.keys(finaldataOffice[0]);
       if (excelDataOpen) {
-        generateCSV('CSV', header, finaldata, 'WorkspotData');
+        generateCSV('CSV', header, finaldataOffice, 'WorkspotData');
       } else {
-        exportToSpreadsheet(finaldata);
+        exportToSpreadsheet(finaldataOffice);
       }
       setOpen(false);
     }
@@ -204,11 +216,9 @@ const WorkspotAdmin = ({
       getExportData &&
       getExportData.length > 0 &&
       exportCapacitySuccess &&
-      expectedCapacity &&
-      !officeCapacity &&
-      !confirmCapacity
+      expectedCapacity
     ) {
-      const finaldata = [];
+      const finaldataExpected = [];
       getExportData.filter(obj => {
         obj &&
           obj.data &&
@@ -219,34 +229,26 @@ const WorkspotAdmin = ({
               Date: obj.date,
               expectedAttendance: arr.expectedAttendance,
             };
-            finaldata.push(objData);
+            finaldataExpected.push(objData);
           });
       });
-      let header = [
-        { id: 'Office Id' },
-        { id: 'Date' },
-        { id: 'Office Capacity' },
-        { id: 'Workstation Capacity' },
-        { id: 'Private Spaces Capacity' },
-      ];
 
-      header = Object.keys(finaldata[0]);
+      const header = Object.keys(finaldataExpected[0]);
       if (excelDataOpen) {
-        generateCSV('CSV', header, finaldata, 'WorkspotData');
+        generateCSV('CSV', header, finaldataExpected, 'WorkspotData');
+        setOpen(false);
       } else {
-        exportToSpreadsheet(finaldata);
+        exportToSpreadsheet(finaldataExpected);
+        setOpen(false);
       }
-      setOpen(false);
     }
     if (
       getExportData &&
       getExportData.length > 0 &&
       exportCapacitySuccess &&
-      confirmCapacity &&
-      !expectedCapacity &&
-      !officeCapacity
+      confirmCapacity
     ) {
-      const finaldata = [];
+      const finaldataConfirmed = [];
       getExportData.filter(obj => {
         obj &&
           obj.data &&
@@ -257,23 +259,15 @@ const WorkspotAdmin = ({
               Date: obj.date,
               confirmAttendance: arr.confirmAttendance,
             };
-            finaldata.push(objData);
+            finaldataConfirmed.push(objData);
           });
       });
 
-      let header = [
-        { id: 'Office Id' },
-        { id: 'Date' },
-        { id: 'Office Capacity' },
-        { id: 'Workstation Capacity' },
-        { id: 'Private Spaces Capacity' },
-      ];
-
-      header = Object.keys(finaldata[0]);
+      const header = Object.keys(finaldataConfirmed[0]);
       if (excelDataOpen) {
-        generateCSV('CSV', header, finaldata, 'WorkspotData');
+        generateCSV('CSV', header, finaldataConfirmed, 'WorkspotData');
       } else {
-        exportToSpreadsheet(finaldata);
+        exportToSpreadsheet(finaldataConfirmed);
       }
       setOpen(false);
     }
@@ -399,9 +393,10 @@ const WorkspotAdmin = ({
                             Expected Attendance
                           </span>
                           <span className="ps-1 ml-1">
+                            &nbsp;
                             <Image
                               src={GreyInfo}
-                              className="ml_img expected_img"
+                              className="ml_img expected_img hover-data-cursor"
                             />
                             <span
                               className="hover-data expected_hover"
@@ -410,8 +405,8 @@ const WorkspotAdmin = ({
                                 height: 'auto',
                                 zIndex: '999',
                                 padding: '10px',
-                                top: '170px',
-                                left: '137px',
+                                top: '120px',
+                                left: 'auto',
                                 fontSize: '12px',
                               }}
                             >
@@ -480,28 +475,11 @@ const WorkspotAdmin = ({
                                         Office Capacity
                                       </span>
                                       <span className="ps-1 ml-1">
+                                        &nbsp;
                                         <Image
                                           src={GreyInfo}
-                                          className="ml_img expected_img"
+                                          className="ml_img expected_img hover-data-cursor"
                                         />
-                                        <span
-                                          className="hover-data expected_hover"
-                                          style={{
-                                            background: '#01213A',
-                                            height: 'auto',
-                                            zIndex: '999',
-                                            padding: '10px',
-                                            top: '193px',
-                                            left: '660px',
-                                            fontSize: '12px',
-                                          }}
-                                        >
-                                          <div className="d-flex justify-content-around">
-                                            <span>
-                                              Office capacity for flex spaces.
-                                            </span>
-                                          </div>
-                                        </span>
                                       </span>
                                     </div>
                                     <div className="chart-title">
@@ -539,6 +517,7 @@ const WorkspotAdmin = ({
                                               <div
                                                 style={{
                                                   width: '100%',
+                                                  marginLeft: '10px',
                                                 }}
                                               >
                                                 <div
@@ -548,7 +527,7 @@ const WorkspotAdmin = ({
                                                   }}
                                                 >
                                                   <p
-                                                    className="bar bar_hover"
+                                                    className="bar bar_hover hover-data-cursor"
                                                     style={{
                                                       backgroundColor:
                                                         '#FF8D62',
@@ -574,30 +553,36 @@ const WorkspotAdmin = ({
                                                         <span>
                                                           Workstations
                                                           <Image
-                                                            className="d-block w-100"
+                                                            className="d-block w-100 hover-data-cursor"
                                                             src={Workstation}
                                                           />
                                                         </span>
                                                         <span className="digit">
                                                           {`${Math.floor(
                                                             fl &&
-                                                              fl.workstationsSpacesOfficeCapacity,
-                                                          )}/100`}
+                                                              fl.workstationsAssignment,
+                                                          )}/${Math.floor(
+                                                            fl &&
+                                                              fl.workstationsSpaces,
+                                                          )}`}
                                                         </span>
                                                       </div>
                                                       <div className="d-flex justify-content-around">
                                                         <span>
                                                           Private Spaces
                                                           <Image
-                                                            className="d-block w-100"
+                                                            className="d-block w-100 hover-data-cursor"
                                                             src={PrivateSpace}
                                                           />
                                                         </span>
                                                         <span className="digit">
                                                           {`${Math.floor(
                                                             fl &&
-                                                              fl.privateSpacesOfficeCapacity,
-                                                          )}/100`}
+                                                              fl.privateAssignment,
+                                                          )}/${Math.floor(
+                                                            fl &&
+                                                              fl.privateSpaces,
+                                                          )}`}
                                                         </span>
                                                       </div>
                                                     </span>
@@ -609,10 +594,8 @@ const WorkspotAdmin = ({
                                                     }}
                                                   >
                                                     {`${parseFloat(
-                                                      Math.floor(
-                                                        fl &&
-                                                          fl.workstationsSpacesOfficeCapacity,
-                                                      ),
+                                                      fl &&
+                                                        fl.workstationsSpacesOfficeCapacity,
                                                     ).toFixed()}%`}
                                                   </div>
                                                 </div>
@@ -623,7 +606,7 @@ const WorkspotAdmin = ({
                                                   }}
                                                 >
                                                   <p
-                                                    className="bar bar_hover"
+                                                    className="bar bar_hover hover-data-cursor"
                                                     style={{
                                                       backgroundColor:
                                                         '#00B1B0',
@@ -649,30 +632,36 @@ const WorkspotAdmin = ({
                                                         <span>
                                                           Workstations
                                                           <Image
-                                                            className="d-block w-100"
+                                                            className="d-block w-100 hover-data-cursor"
                                                             src={Workstation}
                                                           />
                                                         </span>
                                                         <span className="digit">
                                                           {`${Math.floor(
                                                             fl &&
-                                                              fl.workstationsSpacesOfficeCapacity,
-                                                          )}/100`}
+                                                              fl.workstationsAssignment,
+                                                          )}/${Math.floor(
+                                                            fl &&
+                                                              fl.workstationsSpaces,
+                                                          )}`}
                                                         </span>
                                                       </div>
                                                       <div className="d-flex justify-content-around">
                                                         <span>
                                                           Private Spaces
                                                           <Image
-                                                            className="d-block w-100"
+                                                            className="d-block w-100 hover-data-cursor"
                                                             src={PrivateSpace}
                                                           />
                                                         </span>
                                                         <span className="digit">
                                                           {`${Math.floor(
                                                             fl &&
-                                                              fl.privateSpacesOfficeCapacity,
-                                                          )}/100`}
+                                                              fl.privateAssignment,
+                                                          )}/${Math.floor(
+                                                            fl &&
+                                                              fl.privateSpaces,
+                                                          )}`}
                                                         </span>
                                                       </div>
                                                     </span>
@@ -698,7 +687,10 @@ const WorkspotAdmin = ({
                                         <div className="per-line1">
                                           <div
                                             className="test d-flex"
-                                            style={{ width: '100%' }}
+                                            style={{
+                                              width: '100%',
+                                              marginLeft: '21px',
+                                            }}
                                           >
                                             <div className="per-bar">0</div>
                                             <div className="per-bar">20%</div>
@@ -731,8 +723,18 @@ const WorkspotAdmin = ({
                                         obj.officeCapacity,
                                       ).toFixed()}%`}
                                     </div>
-                                    <div className="bar-chart">
-                                      <div className="bar-graph bar-graph-horizontal bar-graph-one">
+                                    <div
+                                      className="bar-chart"
+                                      style={{ height: '100%' }}
+                                    >
+                                      <div
+                                        className="bar-graph bar-graph-horizontal bar-graph-one"
+                                        style={{
+                                          height: '86%',
+                                          display: 'flex',
+                                          flexDirection: 'column',
+                                        }}
+                                      >
                                         {obj.FloorBuilding &&
                                           obj.FloorBuilding.map(fl => (
                                             <div className="bar-one d-flex">
@@ -756,6 +758,7 @@ const WorkspotAdmin = ({
                                               <div
                                                 style={{
                                                   width: '100%',
+                                                  marginLeft: '10px',
                                                 }}
                                               >
                                                 <div
@@ -765,7 +768,7 @@ const WorkspotAdmin = ({
                                                   }}
                                                 >
                                                   <p
-                                                    className="bar bar_hover"
+                                                    className="bar bar_hover hover-data-cursor"
                                                     style={{
                                                       backgroundColor:
                                                         '#FF8D62',
@@ -791,30 +794,36 @@ const WorkspotAdmin = ({
                                                         <span>
                                                           Workstations
                                                           <Image
-                                                            className="d-block w-100"
+                                                            className="d-block w-100 hover-data-cursor"
                                                             src={Workstation}
                                                           />
                                                         </span>
                                                         <span className="digit">
                                                           {`${Math.floor(
                                                             fl &&
-                                                              fl.workstationsSpacesOfficeCapacity,
-                                                          )}/100`}
+                                                              fl.workstationsAssignment,
+                                                          )}/${Math.floor(
+                                                            fl &&
+                                                              fl.workstationsSpaces,
+                                                          )}`}
                                                         </span>
                                                       </div>
                                                       <div className="d-flex justify-content-around">
                                                         <span>
                                                           Private Spaces
                                                           <Image
-                                                            className="d-block w-100"
+                                                            className="d-block w-100 hover-data-cursor"
                                                             src={PrivateSpace}
                                                           />
                                                         </span>
                                                         <span className="digit">
                                                           {`${Math.floor(
                                                             fl &&
-                                                              fl.privateSpacesOfficeCapacity,
-                                                          )}/100`}
+                                                              fl.privateAssignment,
+                                                          )}/${Math.floor(
+                                                            fl &&
+                                                              fl.privateSpaces,
+                                                          )}`}
                                                         </span>
                                                       </div>
                                                     </span>
@@ -840,7 +849,7 @@ const WorkspotAdmin = ({
                                                   }}
                                                 >
                                                   <p
-                                                    className="bar bar_hover"
+                                                    className="bar bar_hover hover-data-cursor"
                                                     style={{
                                                       backgroundColor:
                                                         '#00B1B0',
@@ -866,30 +875,36 @@ const WorkspotAdmin = ({
                                                         <span>
                                                           Workstations
                                                           <Image
-                                                            className="d-block w-100"
+                                                            className="d-block w-100 hover-data-cursor"
                                                             src={Workstation}
                                                           />
                                                         </span>
                                                         <span className="digit">
                                                           {`${Math.floor(
                                                             fl &&
-                                                              fl.workstationsSpacesOfficeCapacity,
-                                                          )}/100`}
+                                                              fl.workstationsAssignment,
+                                                          )}/${Math.floor(
+                                                            fl &&
+                                                              fl.workstationsSpaces,
+                                                          )}`}
                                                         </span>
                                                       </div>
                                                       <div className="d-flex justify-content-around">
                                                         <span>
                                                           Private Spaces
                                                           <Image
-                                                            className="d-block w-100"
+                                                            className="d-block w-100 hover-data-cursor"
                                                             src={PrivateSpace}
                                                           />
                                                         </span>
                                                         <span className="digit">
                                                           {`${Math.floor(
                                                             fl &&
-                                                              fl.privateSpacesOfficeCapacity,
-                                                          )}/100`}
+                                                              fl.privateAssignment,
+                                                          )}/${Math.floor(
+                                                            fl &&
+                                                              fl.privateSpaces,
+                                                          )}`}
                                                         </span>
                                                       </div>
                                                     </span>
@@ -912,10 +927,16 @@ const WorkspotAdmin = ({
                                             </div>
                                           ))}
 
-                                        <div className="per-line1">
+                                        <div
+                                          className="per-line1"
+                                          style={{ marginTop: 'auto' }}
+                                        >
                                           <div
                                             className="test d-flex"
-                                            style={{ width: '100%' }}
+                                            style={{
+                                              width: '100%',
+                                              marginLeft: '21px',
+                                            }}
                                           >
                                             <div className="per-bar">0</div>
                                             <div className="per-bar">20%</div>
@@ -969,6 +990,9 @@ const WorkspotAdmin = ({
                       className="export_btn"
                       onClick={() => {
                         setOpen(true);
+                        setOfficeCapacity(false);
+                        setExpectedCapacity(false);
+                        setConfirmCapacity(false);
                       }}
                     >
                       Export Report
@@ -978,10 +1002,33 @@ const WorkspotAdmin = ({
 
                 {/*Office Attendance */}
 
-                <div className="d-flex align-items-center mt-3">
+                <div
+                  className="d-flex align-items-center mt-3"
+                  style={{ position: 'relative' }}
+                >
                   <span className="common-title-capacity">Office Capacity</span>
                   <span className="common-img ps-1">
-                    <Image src={info} />
+                    &nbsp;
+                    <Image
+                      src={info}
+                      className="expected_img_office hover-data-cursor"
+                    />
+                    <span
+                      className="hover-data expected_hover"
+                      style={{
+                        background: '#01213A',
+                        height: '41px',
+                        zIndex: '999',
+                        padding: '9px',
+                        top: '-40px',
+                        left: '0px',
+                        fontSize: '12px',
+                      }}
+                    >
+                      <div className="d-flex justify-content-around">
+                        <span>Office capacity for flex spaces.</span>
+                      </div>
+                    </span>
                   </span>
                 </div>
 
@@ -1031,7 +1078,6 @@ const WorkspotAdmin = ({
                                 const data = spaces(item, obj);
                                 return (
                                   <>
-                                    {console.log('data>>>>', data)}
                                     <td
                                       className={
                                         data && data.id !== 'RW'
@@ -1086,8 +1132,9 @@ const WorkspotAdmin = ({
                     <span className="common-title-capacity">
                       Expected Attendance
                     </span>
+                    &nbsp;
                     <div className="common-img ps-1">
-                      <Image src={info} />
+                      <Image src={info} className="hover-data-cursor" />
                     </div>
                   </div>
                 </div>
@@ -1188,12 +1235,37 @@ const WorkspotAdmin = ({
                 {/*Confirmed Attendance */}
 
                 <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between">
-                  <div className="d-flex align-items-center mt-3">
+                  <div
+                    className="d-flex align-items-center mt-3"
+                    style={{ position: 'relative' }}
+                  >
                     <span className="common-title-capacity">
                       Confirmed Attendance
                     </span>
                     <span className="common-img ps-1">
-                      <Image src={info} />
+                      &nbsp;
+                      <Image
+                        src={info}
+                        className="expected_img_confirmed hover-data-cursor"
+                      />
+                      <span
+                        className="hover-data expected_hover"
+                        style={{
+                          background: '#01213A',
+                          height: '41px',
+                          zIndex: '999',
+                          padding: '9px',
+                          top: '-40px',
+                          left: '0px',
+                          fontSize: '12px',
+                        }}
+                      >
+                        <div className="d-flex justify-content-around">
+                          <span>
+                            Number of employees who badged into the office.
+                          </span>
+                        </div>
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -1308,77 +1380,94 @@ const WorkspotAdmin = ({
         aria-hidden="true"
       >
         <div className="modal-header d-block mypadlr mypt-3">
-          <div>
-            <h5 className="modal-title date_range" id="exampleModalLabel">
-              Export Report
-            </h5>
-          </div>
-          <span className="mycheckbox">Select date range</span>
-          <div className="invite-team-wrapp choose-date mt-2 w-75">
-            <div className="access-to">
-              <span className="material-icons-outlined">calendar_today</span>
-            </div>
-            <Datepicker
-              controls={['calendar']}
-              select="range"
-              dateFormat="MMM D YYYY"
-              value={dateValue}
-              onChange={selectedChange}
-            />
-          </div>
-
-          <form
-            className="delegate-workspot-access mycheckbox mt-3 ml-2"
-            action="submit"
-          >
-            <span>What data do you want to export?</span>
+          {exportCapacityLoading ? (
+            <Spinner className="app-spinner" animation="grow" variant="dark" />
+          ) : (
             <>
-              <Form.Check
-                className="mt-2 checkedBox"
-                label="Weekly Office Capacity"
-                name="group1"
-                onClick={() => {
-                  setOfficeCapacity(true);
-                  setExpectedCapacity(false);
-                  setConfirmCapacity(false);
-                }}
-              />
-              <Form.Check
-                className="mt-2 checkedBox"
-                label="Weekly Expected Attendance"
-                name="group1"
-                onClick={() => {
-                  setOfficeCapacity(false);
-                  setExpectedCapacity(true);
-                  setConfirmCapacity(false);
-                }}
-              />
-              {!officeCapacity && !expectedCapacity ? (
-                <Form.Check
-                  className="mt-2 checkedBox"
-                  label="Weekly Confirmed Attendance"
-                  name="group1"
-                  onClick={() => {
-                    setOfficeCapacity(true);
-                    setExpectedCapacity(true);
-                    setConfirmCapacity(true);
-                  }}
+              <div>
+                <h5 className="modal-title date_range" id="exampleModalLabel">
+                  Export Report
+                </h5>
+                {errorData && (
+                  <p
+                    style={{
+                      color: 'red',
+                      marginTop: '10px',
+                      marginBottom: '10px',
+                    }}
+                  >
+                    Please Select Date
+                  </p>
+                )}
+              </div>
+              <span className="mycheckbox">Select date range</span>
+              <div
+                className="invite-team-wrapp choose-date mt-2"
+                style={{ width: '85%' }}
+              >
+                <div className="access-to">
+                  <span className="material-icons-outlined">
+                    calendar_today
+                  </span>
+                </div>
+                <Datepicker
+                  controls={['calendar']}
+                  select="range"
+                  dateFormat="MMM D YYYY"
+                  value={dateValue}
+                  onChange={selectedChange}
                 />
-              ) : (
-                <Form.Check
-                  className="mt-2 checkedBox"
-                  label="Weekly Confirmed Attendance"
-                  name="group1"
-                  onClick={() => {
-                    setOfficeCapacity(false);
-                    setExpectedCapacity(false);
-                    setConfirmCapacity(true);
-                  }}
-                />
-              )}
-            </>
-          </form>
+              </div>
 
+              {checkedError && (
+                <p
+                  style={{
+                    color: 'red',
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                  }}
+                >
+                  Please Checked Any One Data
+                </p>
+              )}
+
+              <form
+                className="delegate-workspot-access mycheckbox mt-3 ml-2"
+                action="submit"
+              >
+                <span>What data do you want to export?</span>
+                <>
+                  <Form.Check
+                    className="mt-2 checkedBox"
+                    label="Weekly Office Capacity"
+                    name="group1"
+                    onClick={() => {
+                      setOfficeCapacity(true);
+                      setCheckedError(false);
+                    }}
+                  />
+                  <Form.Check
+                    className="mt-2 checkedBox"
+                    label="Weekly Expected Attendance"
+                    name="group2"
+                    onClick={() => {
+                      setExpectedCapacity(true);
+                      setCheckedError(false);
+                    }}
+                  />
+                  <Form.Check
+                    className="mt-2 checkedBox"
+                    label="Weekly Confirmed Attendance"
+                    name="group3"
+                    onClick={() => {
+                      setConfirmCapacity(true);
+                      setCheckedError(false);
+                    }}
+                  />
+                </>
+              </form>
+            </>
+          )}
           <button
             type="button"
             className="btn-close"
@@ -1386,13 +1475,16 @@ const WorkspotAdmin = ({
             aria-label="Close"
             onClick={() => {
               setOpen(false);
+              setErrorData(false);
+              setCheckedError(false);
+              setDateValue([]);
             }}
           />
         </div>
         <div className="modal-footer justify-content-between border-0 mypadlr mypb-3 pt-0">
           <Button
             variant="primary"
-            className="btn csv-modal"
+            className="btn csv-btn-modal"
             data-bs-dismiss="modal"
             onClick={() => {
               handleExportCSV();
@@ -1404,7 +1496,7 @@ const WorkspotAdmin = ({
           </Button>
           <Button
             variant="primary"
-            className="btn csv-modal"
+            className="btn csv-btn-modal"
             data-bs-dismiss="mo dal"
             onClick={() => {
               handleExportCSV();
@@ -1415,9 +1507,14 @@ const WorkspotAdmin = ({
           </Button>
           <Button
             variant="outline-secondary"
-            className="btn dismiss csv-modal"
+            className="btn dismiss-cancle"
             data-bs-dismiss="modal"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              setErrorData(false);
+              setCheckedError(false);
+              setDateValue([]);
+            }}
           >
             Cancel
           </Button>
