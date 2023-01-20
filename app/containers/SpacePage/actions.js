@@ -5,6 +5,9 @@ import {
   REQUEST_GET_MANAGE_SPACE,
   SUCCESS_GET_MANAGE_SPACE,
   FAILED_GET_MANAGE_SPACE,
+  REQUEST_GET_MANAGE_EXPORT,
+  SUCCESS_GET_MANAGE_EXPORT,
+  FAILED_GET_MANAGE_EXPORT,
   CLEAR_UPDATE_STATUS,
   CLEAR_MESSAGE,
 } from './constants';
@@ -35,6 +38,20 @@ export const getManageSpaceSuccess = payload => ({
 
 export const getManageSpaceFailed = error => ({
   type: FAILED_GET_MANAGE_SPACE,
+  payload: error,
+});
+export const requestGetManageExport = payload => ({
+  type: REQUEST_GET_MANAGE_EXPORT,
+  payload,
+});
+
+export const getManageExportSuccess = payload => ({
+  type: SUCCESS_GET_MANAGE_EXPORT,
+  payload,
+});
+
+export const getManageExportFailed = error => ({
+  type: FAILED_GET_MANAGE_EXPORT,
   payload: error,
 });
 export const clearUpdateStatus = () => ({
