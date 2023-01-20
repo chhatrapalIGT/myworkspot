@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
@@ -18,6 +19,11 @@ import {
   requestGetManageExport,
 } from './actions';
 import Spaces from '../../components/Spaces';
+import { requestGetOfficeLocation } from '../onBoardingPage/actions';
+import {
+  requestGetOfficeFloor,
+  requestGetOfficeNeighborhood,
+} from '../AssignmentPage/action';
 
 class OfficeMap extends Component {
   constructor(props) {
@@ -26,6 +32,11 @@ class OfficeMap extends Component {
       selectedNames: 'DC',
       page: 1,
       limit: 10,
+      searchFilter: '',
+      selectedOffice: [],
+      selectedFloor: [],
+      selectedBuilding: [],
+      neighborhoodSearch: [],
       newExport: false,
       sortOrder: {
         building_floor: true,
@@ -41,6 +52,9 @@ class OfficeMap extends Component {
   componentDidMount() {
     this.props.requestGetOfficeUpdateData({});
     this.props.requestGetManageSpace({});
+    this.props.requestGetOfficeLocation({});
+    this.props.requestGetOfficeFloor({});
+    this.props.requestGetOfficeNeighborhood({});
   }
 
   handleSearcha = e => {
@@ -51,12 +65,13 @@ class OfficeMap extends Component {
     const timeoutId = setTimeout(() => {
       this.setState({ [name]: value }, () => {
         this.props.requestGetManageSpace({
-          search: this.state.searchVal,
+          searchFilter: this.state.searchVal,
           officeSearch: this.state.officeSearch,
-          floor: this.state.floorSearch,
-          neighbor: this.state.neighborhoodSearch,
-          sortBy: this.state.sortBy,
+          floorSearch: this.state.floorSearch,
+          neighborhoodSearch: this.state.neighborhoodSearch,
+          sort_column: this.state.sort_column,
           limit: this.state.limit,
+          page: this.state.page,
         });
       });
     }, 1000);
@@ -66,41 +81,185 @@ class OfficeMap extends Component {
   };
 
   getManageData = (
-    id,
-    search,
+    searchFilter,
     officeSearch,
-    neighbor,
-    floor,
-    sortBy,
-    page,
+    floorSearch,
+    bulidingSearch,
+    neighborhoodSearch,
+    sort_column,
     limit,
+    page,
     newExport,
   ) => {
     const finalPayload = {
-      id,
-      search,
+      searchFilter,
       officeSearch,
-      neighbor,
-      floor,
-      sortBy,
-      page,
+      floorSearch,
+      bulidingSearch,
+      neighborhoodSearch,
+      sort_column,
       limit,
+      page,
       newExport,
     };
     this.props.requestGetManageSpace(finalPayload);
+    console.log('finalPayload', finalPayload);
+  };
+
+  handleSelectedoffice = option => {
+    const space = option.map(i => i.value);
+    let finalOfficeVal;
+    this.setState({ selectedOffice: option }, () => {
+      const val = this.state.selectedOffice.length
+        ? this.state.selectedOffice[0].name
+        : '';
+      if (this.state.selectedOffice.length > 1) {
+        const length = `, +${this.state.selectedOffice.length - 1}`;
+        finalOfficeVal = val.concat(length);
+        this.setState({ finalOfficeVal });
+      } else if (this.state.selectedOffice.length > 0) {
+        finalOfficeVal = val;
+      }
+      this.setState({ finalOfficeVal });
+      const strArr = [];
+      space.forEach(ev => {
+        strArr.push(ev);
+      });
+      this.setState({ page: 1 });
+      //  this.setState({ srcOffice: strSpace });
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const timeoutId = setTimeout(() => {
+        this.setState({ srcOffice: strArr }, () => {
+          this.getManageData(
+            this.state.searchVal,
+            strArr,
+            this.state.srcFloor,
+            this.state.srcBuilding,
+            this.state.neighborhoodSearch,
+            this.state.sort_column,
+            this.state.limit,
+            this.state.page,
+            this.state.newExport,
+          );
+        });
+      }, 1000);
+      this.setState({
+        typingTimeout: timeoutId,
+      });
+    });
+  };
+
+  handleSelectedFloor = option => {
+    const space = option.map(i => i.value);
+    let finalFloorVal;
+    this.setState({ selectedFloor: option }, () => {
+      const val = this.state.selectedFloor.length
+        ? this.state.selectedFloor[0].name
+        : '';
+      if (this.state.selectedFloor.length > 1) {
+        const length = `, +${this.state.selectedFloor.length - 1}`;
+        finalFloorVal = val.concat(length);
+        this.setState({ finalFloorVal });
+      } else if (this.state.selectedFloor.length > 0) {
+        finalFloorVal = val;
+      }
+      this.setState({ finalFloorVal });
+      const strFloorArr = [];
+      const strBuildingArr = [];
+      space.forEach(ev => {
+        const spiltData = ev.split(' ');
+        if (spiltData[0] === 'floor') {
+          strFloorArr.push(spiltData[1]);
+        } else {
+          strBuildingArr.push(spiltData[1]);
+        }
+      });
+      this.setState({ page: 1 });
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const timeoutId = setTimeout(() => {
+        this.setState(
+          { srcFloor: strFloorArr, srcBuilding: strBuildingArr },
+          () => {
+            this.getManageData(
+              this.state.searchVal,
+              this.state.srcOffice,
+              strFloorArr,
+              strBuildingArr,
+              this.state.neighborhoodSearch,
+              this.state.sort_column,
+              this.state.limit,
+              this.state.page,
+              this.state.newExport,
+            );
+          },
+        );
+      }, 1000);
+      this.setState({
+        typingTimeout: timeoutId,
+      });
+    });
+  };
+
+  handleSelectedNeighbor = option => {
+    const space = option.map(i => i.value);
+    let finalNeighborhoodVal;
+    this.setState({ selectedNeighbor: option }, () => {
+      const val = this.state.selectedNeighbor.length
+        ? this.state.selectedNeighbor[0].name
+        : '';
+      if (this.state.selectedNeighbor.length > 1) {
+        const length = `, +${this.state.selectedNeighbor.length - 1}`;
+        finalNeighborhoodVal = val.concat(length);
+        this.setState({ finalNeighborhoodVal });
+      } else if (this.state.selectedNeighbor.length > 0) {
+        finalNeighborhoodVal = val;
+      }
+      this.setState({ finalNeighborhoodVal });
+      const strArr = [];
+      space.forEach(ev => {
+        strArr.push(ev);
+      });
+      this.setState({ page: 1 });
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const timeoutId = setTimeout(() => {
+        this.setState({ srcNeighborhood: strArr }, () => {
+          this.getManageData(
+            this.state.searchVal,
+            this.state.srcOffice,
+            this.state.strFloorArr,
+            this.state.strBuildingArr,
+            strArr,
+            this.state.sort_column,
+            this.state.limit,
+            this.state.page,
+            this.state.newExport,
+          );
+        });
+      }, 1000);
+      this.setState({
+        typingTimeout: timeoutId,
+      });
+    });
   };
 
   handleLimitChange = e => {
     this.setState({ limit: e, page: 1 });
     this.getManageData(
-      '',
       this.state.searchVal,
-      this.state.officeSearch,
+      this.state.srcOffice,
+      this.state.strFloorArr,
+      this.state.strBuildingArr,
       this.state.neighborhoodSearch,
-      this.state.floorSearch,
-      this.state.sortBy,
+      this.state.sort_column,
       1,
       e,
+      this.state.newExport,
     );
   };
 
@@ -108,14 +267,15 @@ class OfficeMap extends Component {
     const { limit } = this.state;
     this.setState({ page: e });
     this.getManageData(
-      '',
       this.state.searchVal,
-      this.state.officeSearch,
+      this.state.srcOffice,
+      this.state.strFloorArr,
+      this.state.strBuildingArr,
       this.state.neighborhoodSearch,
-      this.state.floorSearch,
-      this.state.sortBy,
+      this.state.sort_column,
       e,
       limit,
+      this.state.newExport,
     );
   };
 
@@ -123,19 +283,19 @@ class OfficeMap extends Component {
     this.setState(prev => ({
       sortOrder: { ...prev.sortOrder, [key]: !val },
     }));
-    let sortBy;
+    let sort_column;
     if (val) {
-      sortBy = `${[key]}-ASC`;
+      sort_column = `${[key]}-ASC`;
     } else {
-      sortBy = `${[key]}-DESC`;
+      sort_column = `${[key]}-DESC`;
     }
-    this.setState({ sortBy });
+    this.setState({ sort_column });
     this.props.requestGetManageSpace({
-      search: this.state.searchVal,
+      searchFilter: this.state.searchVal,
       officeSearch: this.state.officeSearch,
-      neighbor: this.state.neighborhoodSearch,
-      floor: this.state.floorSearch,
-      sortBy,
+      neighborhoodSearch: this.state.neighborhoodSearch,
+      floorSearch: this.state.floorSearch,
+      sort_column,
       limit: this.state.limit,
       page: this.state.page,
     });
@@ -176,6 +336,9 @@ class OfficeMap extends Component {
       manageSuccess,
       exportSuccess,
       dataCount,
+      officeSrcLocation,
+      officeFloor,
+      officeNeighborhood,
     } = this.props;
     return (
       <>
@@ -188,6 +351,9 @@ class OfficeMap extends Component {
             manageSuccess={manageSuccess}
             exportSuccess={exportSuccess}
             dataCount={dataCount}
+            officeSrcLocation={officeSrcLocation}
+            officeNeighborhood={officeNeighborhood}
+            officeFloor={officeFloor}
             state={this.state}
             officeLocation={officeLocation}
             handleLimitChange={this.handleLimitChange}
@@ -196,6 +362,9 @@ class OfficeMap extends Component {
             handleUserSelect={this.handleUserSelect}
             handleCloseUpdate={this.handleCloseUpdate}
             handleSearcha={this.handleSearcha}
+            handleofficeSearch={this.handleSelectedoffice}
+            handleSelectedFloor={this.handleSelectedFloor}
+            handleSelectedNeighbor={this.handleSelectedNeighbor}
             requestGetManageSpace={this.props.requestGetManageSpace}
             requestGetManageExport={this.props.requestGetManageExport}
             requestUpdateActiveStatus={this.props.requestUpdateActiveStatus}
@@ -210,7 +379,7 @@ class OfficeMap extends Component {
 }
 
 const mapStateToProps = state => {
-  const { uploadOffice, space } = state;
+  const { uploadOffice, space, assignment, locationData } = state;
   return {
     dataCount:
       space && space.manageSpace && space.manageSpace.getWorkSpaceDataPage,
@@ -220,6 +389,16 @@ const mapStateToProps = state => {
     exportManage: space && space.manageExport && space.manageExport.data,
     exportLoading: space && space.manageExport && space.manageExport.loading,
     exportSuccess: space && space.manageExport && space.manageExport.success,
+    officeFloor:
+      assignment && assignment.officeFloor && assignment.officeFloor.floors,
+    officeNeighborhood:
+      assignment &&
+      assignment.officeNeighborhood &&
+      assignment.officeNeighborhood.neighborhood,
+    officeSrcLocation:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.location,
     officeLocation:
       uploadOffice &&
       uploadOffice.getOfficeData &&
@@ -240,6 +419,11 @@ export function mapDispatchToProps(dispatch) {
     requestGetManageSpace: payload => dispatch(requestGetManageSpace(payload)),
     requestGetManageExport: payload =>
       dispatch(requestGetManageExport(payload)),
+    requestGetOfficeLocation: payload =>
+      dispatch(requestGetOfficeLocation(payload)),
+    requestGetOfficeFloor: payload => dispatch(requestGetOfficeFloor(payload)),
+    requestGetOfficeNeighborhood: payload =>
+      dispatch(requestGetOfficeNeighborhood(payload)),
     clearUpdateStatus: () => dispatch(clearUpdateStatus()),
     clearMessage: () => dispatch(clearMessage()),
     dispatch,
@@ -252,6 +436,9 @@ OfficeMap.propTypes = {
   requestGetOfficeUpdateData: PropTypes.func,
   requestGetManageSpace: PropTypes.func,
   requestGetManageExport: PropTypes.func,
+  requestGetOfficeLocation: PropTypes.func,
+  requestGetOfficeFloor: PropTypes.func,
+  requestGetOfficeNeighborhood: PropTypes.func,
   officeLocation: PropTypes.object,
   requestUpdateActiveStatus: PropTypes.func,
   clearUpdateStatus: PropTypes.func,
@@ -266,6 +453,9 @@ OfficeMap.propTypes = {
   dataCount: PropTypes.object,
   officeSuccess: PropTypes.object,
   setSpaceUpdate: PropTypes.object,
+  officeSrcLocation: PropTypes.object,
+  officeFloor: PropTypes.object,
+  officeNeighborhood: PropTypes.object,
 };
 
 export default compose(

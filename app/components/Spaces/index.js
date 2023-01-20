@@ -1,3 +1,7 @@
+/* eslint-disable consistent-return */
+/* eslint-disable react/no-this-in-sfc */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable array-callback-return */
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
@@ -7,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
 import { Button, Form, Modal } from 'react-bootstrap';
+import createClass from 'create-react-class';
 import Select, { components } from 'react-select';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
 import Sort from '../assets/images/sort.png';
@@ -39,6 +44,12 @@ const Spaces = ({
   handleClickSort,
   handleSearcha,
   requestGetManageExport,
+  handleofficeSearch,
+  officeSrcLocation,
+  officeFloor,
+  officeNeighborhood,
+  handleSelectedFloor,
+  handleSelectedNeighbor,
 }) => {
   console.log('first:::', exportManage);
   console.log('second:::', exportLoading, exportSuccess);
@@ -51,11 +62,85 @@ const Spaces = ({
   const [manageData, setManageData] = useState({});
   const [spaceData, setSpaceData] = useState('');
   const [open, setOpen] = useState(false);
+  const [csvOpen, setCsvOpen] = useState('');
   const [userinfo, setUserInfo] = useState({
     offices: [],
   });
+  const [officeLocations, setOfficeLocations] = useState([]);
+  const [officeFloors, setOfficeFloors] = useState([]);
+  const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
+  let updatedLocation = [];
+  let updatedFloors = [];
+  let updatedNeighborhood = [];
 
-  console.log('manageData<<:::::::', manageData);
+  useEffect(() => {
+    updatedLocation = [];
+    officeSrcLocation &&
+      officeSrcLocation.map(obj => {
+        if (obj.id === 'DC' || obj.id === 'RIC') {
+          const isDuplicate = officeLocations.includes(obj);
+          if (!isDuplicate) {
+            officeLocations.push({
+              label: obj.locationname,
+              name: obj.locationname,
+              value: obj.id,
+            });
+            return true;
+          }
+          return false;
+        }
+      });
+  }, [officeSrcLocation]);
+
+  useEffect(() => {
+    updatedFloors = [];
+    officeFloor &&
+      officeFloor.map(obj => {
+        if (obj.floor !== null) {
+          const isDuplicate = officeFloors.includes(obj);
+          if (!isDuplicate) {
+            officeFloors.push({
+              label: `floor ${obj.floor}`,
+              name: `floor ${obj.floor}`,
+              value: `floor ${obj.floor}`,
+            });
+            return true;
+          }
+          return false;
+        }
+        if (obj.building !== null) {
+          const isDuplicate = officeFloors.includes(obj);
+          if (!isDuplicate) {
+            officeFloors.push({
+              label: `building ${obj.building}`,
+              name: `building ${obj.building}`,
+              value: `building ${obj.building}`,
+            });
+            return true;
+          }
+          return false;
+        }
+      });
+
+    console.log('officeFloors:::>', officeFloors);
+  }, [officeFloor]);
+
+  useEffect(() => {
+    updatedNeighborhood = [];
+    officeNeighborhood &&
+      officeNeighborhood.map(obj => {
+        const isDuplicate = officeLocations.includes(obj);
+        if (!isDuplicate) {
+          officeNeighborhoods.push({
+            label: obj.name,
+            name: obj.name,
+            value: obj.name,
+          });
+          return true;
+        }
+        return false;
+      });
+  }, [officeNeighborhood]);
 
   function toggleAccordion(id) {
     setColor('');
@@ -68,17 +153,30 @@ const Spaces = ({
   }
 
   useEffect(() => {
-    if (!exportLoading && exportSuccess) {
-      if (exportManage && exportManage.length > 0) {
-        console.log('exportManage', exportManage);
+    if (
+      !exportLoading &&
+      exportSuccess &&
+      exportManage &&
+      exportManage.length > 0
+    ) {
+      if (csvOpen === 'CSV') {
+        alert('csv');
         const header = Object.keys(exportManage[0]);
-        generateCSV('CSV', header, exportManage, 'MailedReport');
-      } else {
-        // exportToSpreadsheet(exportManage);
+        generateCSV(csvOpen, header, exportManage, 'MailedReport');
+        setUserInfo({ offices: [] });
+        setCsvOpen('');
+        setOpen(false);
+      }
+      if (csvOpen === 'XLSX') {
+        alert('xlsx');
+        exportToSpreadsheet(exportManage);
+        setUserInfo({ offices: [] });
+        setCsvOpen('');
+        setOpen(false);
       }
       setUserInfo({ offices: [] });
     }
-  }, [exportLoading, exportSuccess, exportManage]);
+  }, [exportManage, exportLoading, exportSuccess]);
 
   function toggleSecondAccordion(id) {
     if (id === updateState) {
@@ -87,46 +185,27 @@ const Spaces = ({
       setUpdateState(id);
     }
   }
-  function handleExportXLSX() {
-    let str = '[';
-    // eslint-disable-next-line array-callback-return
-    userinfo.offices.map(ev => {
-      str += `,"${ev}"`;
+
+  function handleExport(data) {
+    const arr = [];
+    data.offices.map(ev => {
+      const isDuplicate = arr.includes(ev);
+      if (!isDuplicate) {
+        arr.push(ev);
+        return true;
+      }
+      return false;
     });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const locations =
-      userinfo.offices.length !== 0 ? da && da.concat(ta) : '[]';
     requestGetManageExport({
       newExport: true,
-      officeSearch: locations,
-    });
-  }
-  function handleExportCSV() {
-    let str = '[';
-    // eslint-disable-next-line array-callback-return
-    userinfo.offices.map(ev => {
-      str += `,"${ev}"`;
-    });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const locations =
-      userinfo.offices.length !== 0 ? da && da.concat(ta) : '[]';
-    console.log('locations:><><:', locations);
-    requestGetManageExport({
-      newExport: true,
-      officeSearch: locations,
+      officeSearch: arr.length > 0 ? arr : ['DC', 'RIC'],
     });
   }
 
   const handleChange = e => {
-    alert('handle change');
     // Destructuring
     const { value, checked } = e.target;
     const { offices } = userinfo;
-    console.log('checked', userinfo);
     // Case 1 : The user checks the box
     if (checked) {
       setUserInfo({
@@ -140,6 +219,42 @@ const Spaces = ({
       });
     }
   };
+
+  updatedLocation = officeLocations.map(item => {
+    // eslint-disable-next-line no-param-reassign
+    item.label = (
+      <>
+        <div className="drop_emp">
+          {state.finalOfficeVal ? state.finalOfficeVal : 'All'}
+        </div>
+      </>
+    );
+    return item;
+  });
+
+  updatedFloors = officeFloors.map(item => {
+    // eslint-disable-next-line no-param-reassign
+    item.label = (
+      <>
+        <div className="drop_emp">
+          {state.finalFloorVal ? state.finalFloorVal : 'All'}
+        </div>
+      </>
+    );
+    return item;
+  });
+
+  updatedNeighborhood = officeNeighborhoods.map(item => {
+    // eslint-disable-next-line no-param-reassign
+    item.label = (
+      <>
+        <div className="drop_emp">
+          {state.finalNeighborhoodVal ? state.finalNeighborhoodVal : 'All'}
+        </div>
+      </>
+    );
+    return item;
+  });
 
   const handleCheckbox = (data, val, final) => {
     const dataFinal = floor && floor.split(',');
@@ -187,6 +302,55 @@ const Spaces = ({
     officeLocation.filter(
       obj => obj.id !== 'BHM' && obj.id !== 'RW' && obj.id !== 'BLM',
     );
+
+  const Option = createClass({
+    render() {
+      return (
+        <components.Option {...this.props}>
+          <div style={{ display: 'flex' }}>
+            <div style={{ flex: '1' }}>
+              <label style={{ cursor: 'pointer' }}>
+                {this.props.data.name}
+              </label>
+              <input
+                className="select_checkbox"
+                type="checkbox"
+                checked={this.props.isSelected}
+                onChange={e => null}
+              />
+            </div>
+            <div className={this.props.isSelected ? 'selected_val' : ''} />
+          </div>
+        </components.Option>
+      );
+    },
+  });
+
+  const colourStyles = {
+    control: styles => ({
+      ...styles,
+      backgroundColor: 'white',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      border: '1px solid #d1dce7',
+    }),
+
+    option: (styles, { isFocused, isSelected, isVisited }) => ({
+      ...styles,
+      cursor: isFocused ? 'pointer' : '',
+
+      backgroundColor: isSelected
+        ? '#f8f8f8'
+        : '' || isFocused
+        ? '#EbEEF1'
+        : '' || isVisited
+        ? '#f8f8f8'
+        : '#fffff',
+      paddingRight: isSelected ? '25px' : '',
+      boxShadow: ' 0px 8px 16px rgba(0, 45, 80, 0.12) !important',
+      color: '#000',
+    }),
+  };
 
   return (
     <div className="wrapper_main">
@@ -260,14 +424,15 @@ const Spaces = ({
                   components={{ Option }}
                   isMulti
                   isClearable={false}
-                  // defaultValue={options}
-                  // value={props.state.selectedOption}
-                  // onChange={props.handleChangeBox}
+                  defaultValue={officeLocations}
+                  onChange={handleofficeSearch}
+                  options={updatedLocation}
                   closeMenuOnSelect
                   hideSelectedOptions={false}
                   onMenuClose={false}
                   className=" admin-employee"
                   name="office"
+                  styles={colourStyles}
                   label="Office"
                 />
               </span>
@@ -286,13 +451,15 @@ const Spaces = ({
                   components={{ Option }}
                   isMulti
                   isClearable={false}
-                  // defaultValue={optionsLocation}
-                  // onChange={props.handleChangeSpace}
+                  defaultValue={officeFloors}
+                  onChange={handleSelectedFloor}
+                  options={updatedFloors}
                   closeMenuOnSelect
                   hideSelectedOptions={false}
                   onMenuClose={false}
                   className=" admin-employee"
-                  name="building/floor"
+                  name="floor"
+                  styles={colourStyles}
                   label="Building/Floor"
                 />
               </span>
@@ -311,13 +478,15 @@ const Spaces = ({
                   components={{ Option }}
                   isMulti
                   isClearable={false}
-                  // defaultValue={optionsLocation}
-                  // onChange={props.handleChangeSpace}
+                  defaultValue={officeNeighborhoods}
+                  onChange={handleSelectedNeighbor}
+                  options={updatedNeighborhood}
                   closeMenuOnSelect
                   hideSelectedOptions={false}
                   onMenuClose={false}
                   className=" admin-employee"
                   name="Neighborhood"
+                  styles={colourStyles}
                   label="Neighborhood"
                 />
               </span>
@@ -459,7 +628,10 @@ const Spaces = ({
                     <td>
                       <Form.Check className="mycheckbox1" name="group2" />
                     </td>
-                    <td>{i.floor}</td>
+                    <td>
+                      {i.floor}
+                      {i.building}
+                    </td>
                     <td>{i.neighborhoodname}</td>
                     <td>{i.workspacename}</td>
                     <td>{i.type}</td>
@@ -568,9 +740,13 @@ const Spaces = ({
         <div className="modal-footer justify-content-between border-0 mypadlr mypb-3 pt-0">
           <Button
             variant="primary"
-            className="btn csv-modal cust-model-btn"
+            className="btn ass-csv-modal cust-model-btn"
             data-bs-dismiss="modal"
-            // onClick={() => handleExportCSV(userinfo)}
+            onClick={() => {
+              handleExport(userinfo);
+              setCsvOpen('CSV');
+            }}
+            disabled={exportLoading}
           >
             .CSV Export
           </Button>
@@ -578,7 +754,11 @@ const Spaces = ({
             variant="primary"
             className="btn xlsx-modal cust-model-btn"
             data-bs-dismiss="modal"
-            // onClick={() => handleExportXLSX(userinfo)}
+            onClick={() => {
+              handleExport(userinfo);
+              setCsvOpen('XLSX');
+            }}
+            disabled={exportLoading}
           >
             .XLSX Export
           </Button>
@@ -907,6 +1087,9 @@ Spaces.propTypes = {
   setSpaceUpdate: PropTypes.object,
   manageSpace: PropTypes.object,
   exportManage: PropTypes.object,
+  officeSrcLocation: PropTypes.object,
+  officeNeighborhood: PropTypes.object,
+  officeFloor: PropTypes.object,
   exportLoading: PropTypes.bool,
   manageLoading: PropTypes.bool,
   exportSuccess: PropTypes.bool,
@@ -916,5 +1099,8 @@ Spaces.propTypes = {
   handleClickSort: PropTypes.func,
   handleSearcha: PropTypes.func,
   requestGetManageExport: PropTypes.func,
+  handleofficeSearch: PropTypes.func,
+  handleSelectedFloor: PropTypes.func,
+  handleSelectedNeighbor: PropTypes.func,
 };
 export default Spaces;
