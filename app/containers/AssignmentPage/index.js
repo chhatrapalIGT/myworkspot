@@ -83,7 +83,6 @@ class AssignmentPage extends Component {
         strArr.push(ev);
       });
       this.setState({ page: 1 });
-      //  this.setState({ srcOffice: strSpace });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
@@ -174,14 +173,6 @@ class AssignmentPage extends Component {
         finalNeighborhoodVal = val;
       }
       this.setState({ finalNeighborhoodVal });
-      // let str = '[';
-      // space.forEach(ev => {
-      //   str += `,"${ev}"`;
-      // });
-      // str += ']';
-      // const da = str.slice(0, 1);
-      // const ta = str.slice(2);
-      // const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
       const strArr = [];
       space.forEach(ev => {
         strArr.push(ev);
@@ -214,10 +205,10 @@ class AssignmentPage extends Component {
     this.setState({ limit: e, page: 1 });
     this.getAssignData(
       this.state.search,
-      this.state.selectedoffice,
-      this.state.selectedFloor,
-      this.state.selectedBuilding,
-      this.state.selectedNeighbor,
+      this.state.srcOffice,
+      this.state.srcFloor,
+      this.state.srcBuilding,
+      this.state.srcNeighborhood,
       this.state.sortBy,
       1,
       e,
@@ -229,10 +220,10 @@ class AssignmentPage extends Component {
     this.setState({ page: e });
     this.getAssignData(
       this.state.search,
-      this.state.selectedoffice,
-      this.state.selectedFloor,
-      this.state.selectedBuilding,
-      this.state.selectedNeighbor,
+      this.state.srcOffice,
+      this.state.srcFloor,
+      this.state.srcBuilding,
+      this.state.srcNeighborhood,
       this.state.sortBy,
       e,
       limit,
@@ -248,10 +239,10 @@ class AssignmentPage extends Component {
       this.setState({ search: value }, () => {
         this.props.requestGetAssignmentDetail({
           searchKeyword: this.state.search,
-          office: this.state.selectedoffice,
-          floor: this.state.selectedFloor,
-          building: this.state.selectedBuilding,
-          neighborhood: this.state.selectedNeighbor,
+          office: this.state.srcOffice,
+          floor: this.state.srcFloor,
+          building: this.state.srcBuilding,
+          neighborhood: this.state.srcNeighborhood,
           sortBy: this.state.sortBy,
           page: this.state.page,
           limit: this.state.limit,
@@ -274,10 +265,10 @@ class AssignmentPage extends Component {
     this.setState({ sortBy });
     this.props.requestGetAssignmentDetail({
       searchKeyword: this.state.search,
-      office: this.state.selectedoffice,
-      floor: this.state.selectedFloor,
-      building: this.state.selectedBuilding,
-      neighborhood: this.state.selectedNeighbor,
+      office: this.state.srcOffice,
+      floor: this.state.srcFloor,
+      building: this.state.srcBuilding,
+      neighborhood: this.state.srcNeighborhood,
       sortBy,
       page: this.state.page,
       limit: this.state.limit,
@@ -286,16 +277,19 @@ class AssignmentPage extends Component {
 
   handleExport = data => {
     const locArr = [];
-    // eslint-disable-next-line array-callback-return
-    data.offices.map(ev => {
-      locArr.push(ev);
+    data.offices.map(obj => {
+      const isDuplicate = locArr.includes(obj);
+      if (!isDuplicate) {
+        locArr.push(obj);
+        return true;
+      }
+      return false;
     });
-    const payload = {
-      office: locArr,
+    this.props.requestGetExportData({
+      office: locArr.length > 0 ? locArr : ['DC', 'RIC'],
       newExport: true,
       todayDate: moment().format('YYYY-MM-DD'),
-    };
-    this.props.requestGetExportData(payload);
+    });
   };
 
   componentDidMount() {
