@@ -47,7 +47,9 @@ const Assignments = props => {
           });
         }
       });
+  }, [officeLocation]);
 
+  useEffect(() => {
     officeFloor &&
       officeFloor.map(obj => {
         if (obj.floor !== null) {
@@ -65,7 +67,9 @@ const Assignments = props => {
           });
         }
       });
+  }, [officeFloor]);
 
+  useEffect(() => {
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
         officeNeighborhoods.push({
@@ -74,7 +78,7 @@ const Assignments = props => {
           value: obj.name,
         });
       });
-  }, []);
+  }, [officeNeighborhood]);
 
   useEffect(() => {
     if (
