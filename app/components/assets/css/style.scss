@@ -88,6 +88,10 @@
 button {
   outline: none;
 }
+
+.btn-primary {
+  background: #0072ce !important;
+}
 textarea {
   outline: none;
 }
@@ -3559,12 +3563,20 @@ div[class*='qy-menu'] * {
 }
 
 .cust-model-btn {
+  background: #0072ce;
+  font-family: 'Museo Sans Regular';
+  font-weight: 600;
+  font-size: 16px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  width: 135px;
+  width: 150px !important;
+  height: 48px;
+}
+.cust-model-cancel-btn {
+  width: 110px;
   height: 48px;
 }
 .ml_img {
@@ -3705,14 +3717,15 @@ div[class*='qy-menu'] * {
   border: 1px solid #d1dce7;
   border-radius: 10px;
   width: 224px;
-  padding: 0px 10px 0px 10px;
+  padding: 2px 0 0 0;
   height: 50px;
   font-family: 'Museo Sans Regular';
-  margin-left: 10px;
+  margin-right: 10px;
   span {
     font-size: 12px !important;
     position: relative;
     top: -3px;
+    padding-left: 15px;
   }
   input {
     border: 0;
@@ -3723,6 +3736,8 @@ div[class*='qy-menu'] * {
     font-family: 'Museo Sans Regular';
     position: relative;
     top: -5px;
+    width: 100%;
+    padding: 0 10px 0 15px;
     &::placeholder {
       font-weight: 400 !important;
       color: #808080 !important;
@@ -3749,6 +3764,12 @@ div[class*='qy-menu'] * {
   }
 }
 .img_select {
+  top: -4px;
   position: absolute !important;
-  right: 0 !important;
+  right: 15px !important;
+}
+
+.custom-sort-img {
+  top: 3px !important;
+  position: relative !important;
 }
