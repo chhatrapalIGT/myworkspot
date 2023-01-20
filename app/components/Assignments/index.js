@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
@@ -34,76 +35,46 @@ const Assignments = props => {
   const [officeFloors, setOfficeFloors] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
   const [userinfo, setUserInfo] = useState({ offices: [] });
-  let updatedLocation = [];
-  let updatedFloors = [];
-  let updatedNeighborhood = [];
 
   useEffect(() => {
-    updatedLocation = [];
     officeLocation &&
       officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
-          const isDuplicate = officeLocations.includes(obj);
-          if (!isDuplicate) {
-            officeLocations.push({
-              label: obj.locationname,
-              name: obj.locationname,
-              value: obj.id,
-            });
-            return true;
-          }
-          return false;
+          officeLocations.push({
+            label: obj.locationname,
+            name: obj.locationname,
+            value: obj.id,
+          });
         }
       });
-  }, [officeLocation]);
 
-  useEffect(() => {
-    updatedFloors = [];
     officeFloor &&
       officeFloor.map(obj => {
         if (obj.floor !== null) {
-          const isDuplicate = officeFloors.includes(obj);
-          if (!isDuplicate) {
-            officeFloors.push({
-              label: `floor ${obj.floor}`,
-              name: `floor ${obj.floor}`,
-              value: `floor ${obj.floor}`,
-            });
-            return true;
-          }
-          return false;
+          officeFloors.push({
+            label: `floor ${obj.floor}`,
+            name: `floor ${obj.floor}`,
+            value: `floor ${obj.floor}`,
+          });
         }
         if (obj.building !== null) {
-          const isDuplicate = officeFloors.includes(obj);
-          if (!isDuplicate) {
-            officeFloors.push({
-              label: `building ${obj.building}`,
-              name: `building ${obj.building}`,
-              value: `building ${obj.building}`,
-            });
-            return true;
-          }
-          return false;
+          officeFloors.push({
+            label: `building ${obj.building}`,
+            name: `building ${obj.building}`,
+            value: `building ${obj.building}`,
+          });
         }
       });
-  }, [officeFloor]);
 
-  useEffect(() => {
-    updatedNeighborhood = [];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
-        const isDuplicate = officeLocations.includes(obj);
-        if (!isDuplicate) {
-          officeNeighborhoods.push({
-            label: obj.name,
-            name: obj.name,
-            value: obj.name,
-          });
-          return true;
-        }
-        return false;
+        officeNeighborhoods.push({
+          label: obj.name,
+          name: obj.name,
+          value: obj.name,
+        });
       });
-  }, [officeNeighborhood]);
+  }, []);
 
   useEffect(() => {
     if (
@@ -146,42 +117,35 @@ const Assignments = props => {
     }
   };
 
-  updatedLocation = officeLocations.map(item => {
-    // eslint-disable-next-line no-param-reassign
+  const updatedLocation = officeLocations.map(item => {
     item.label = (
       <>
         <div className="drop_emp">
-          {props.state.finalOfficeVal
-            ? props.state.finalOfficeVal
-            : `Washington, DC +${officeLocations.length - 1}`}
+          {props.state.finalOfficeVal ? props.state.finalOfficeVal : `All`}
         </div>
       </>
     );
     return item;
   });
 
-  updatedFloors = officeFloors.map(item => {
-    // eslint-disable-next-line no-param-reassign
+  const updatedFloors = officeFloors.map(item => {
     item.label = (
       <>
         <div className="drop_emp">
-          {props.state.finalFloorVal
-            ? props.state.finalFloorVal
-            : `Floors, +${officeFloors.length - 1}`}
+          {props.state.finalFloorVal ? props.state.finalFloorVal : `All`}
         </div>
       </>
     );
     return item;
   });
 
-  updatedNeighborhood = officeNeighborhoods.map(item => {
-    // eslint-disable-next-line no-param-reassign
+  const updatedNeighborhood = officeNeighborhoods.map(item => {
     item.label = (
       <>
         <div className="drop_emp">
           {props.state.finalNeighborhoodVal
             ? props.state.finalNeighborhoodVal
-            : `Blue, +${officeNeighborhoods.length - 1}`}
+            : `All`}
         </div>
       </>
     );
@@ -482,6 +446,7 @@ const Assignments = props => {
                       <td
                         style={{
                           display: 'flex',
+                          alignItems: 'center',
                         }}
                       >
                         <img
@@ -490,7 +455,7 @@ const Assignments = props => {
                           alt=""
                           style={{ height: '32px' }}
                         />{' '}
-                        {i.name}
+                        <span>{i.name}</span>
                       </td>
                       <td>{i.department}</td>
                       <td>
@@ -498,7 +463,7 @@ const Assignments = props => {
                         {i.building !== null ? `Building ${i.building}` : ''}
                       </td>
                       <td>{i.neighborhood}</td>
-                      <td>{i.assignedspace}</td>
+                      <td>{i.assignedSpace}</td>
                       <td>{i.badge}</td>
                     </tr>
                   ))
