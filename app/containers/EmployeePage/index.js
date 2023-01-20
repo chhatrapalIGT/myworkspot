@@ -27,6 +27,7 @@ import {
   clearBoardData,
   requestGetOfficeLocation,
 } from '../onBoardingPage/actions';
+import Profile from '../../components/assets/images/profileof.png';
 
 class EmployeePage extends Component {
   constructor(props) {
@@ -48,6 +49,8 @@ class EmployeePage extends Component {
       floor: '',
       build: '',
       AssignedSpace: '',
+      finalOfficeVal: 'All',
+      finalRoleVal: 'All',
       selectedOption: [],
       selectedRole: [],
       EditModel: false,
@@ -79,11 +82,11 @@ class EmployeePage extends Component {
           data.deskFloor !== null && data.deskBuilding !== null
             ? data.deskFloor.concat(data.deskBuilding)
             : data.deskBuilding !== null
-            ? data.deskBuilding
+            ? Number(data.deskBuilding)
             : data.deskFloor !== null
-            ? data.deskFloor
+            ? Number(data.deskFloor)
             : '',
-        AssignedSpace: data.AssignedSpace,
+        AssignedSpace: data.AssignedSpaceId,
         hasData: false,
       };
     }
@@ -215,9 +218,15 @@ class EmployeePage extends Component {
 
   handleChange = event => {
     const { value, name } = event.target;
-    this.setState({
-      [name]: value,
-    });
+    if (name === 'floor') {
+      this.setState({
+        [name]: value,
+      });
+    } else {
+      this.setState({
+        [name]: Number(value),
+      });
+    }
   };
 
   handleSearcha = e => {
@@ -305,10 +314,62 @@ class EmployeePage extends Component {
     });
   };
 
-  handleChangeSpace = option => {
-    const space = option.map(i => i.value);
+  handleSelectedRole = option => {
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
+      }
+      return true;
+    });
+    const selectRoleList = option.filter(item => item.isSelected === true);
+    let finalRoleVal;
+    this.setState({ selectedRole: selectRoleList }, () => {
+      const val = this.state.selectedRole.length
+        ? this.state.selectedRole[0].name
+        : '';
+      if (this.state.selectedRole.length > 1) {
+        const length = `, +${this.state.selectedRole.length - 1}`;
+        finalRoleVal = val.concat(length);
+        this.setState({ finalRoleVal });
+      } else if (this.state.selectedRole.length > 0) {
+        finalRoleVal = val;
+      } else if (!this.state.selectedRole.length) {
+        finalRoleVal = '';
+      }
+      this.setState({ finalRoleVal });
+      const strArr = space.filter(i => i !== 'All');
+      this.setState({ page: 1 });
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const timeoutId = setTimeout(() => {
+        this.setState({ strVal: strArr }, () => {
+          this.props.requestGetEmployeeDetail({
+            value: strArr,
+            space: this.state.strSpace,
+            search: this.state.searchVal,
+            limit: this.state.limit,
+          });
+        });
+      }, 1000);
+      this.setState({
+        typingTimeout: timeoutId,
+      });
+    });
+  };
+
+  handleSelectedoffice = option => {
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
+      }
+      return true;
+    });
+    const selectOfficeList = option.filter(item => item.isSelected === true);
     let finalOfficeVal;
-    this.setState({ selectedOffice: option }, () => {
+    this.setState({ selectedOffice: selectOfficeList }, () => {
       const val = this.state.selectedOffice.length
         ? this.state.selectedOffice[0].name
         : '';
@@ -318,18 +379,17 @@ class EmployeePage extends Component {
         this.setState({ finalOfficeVal });
       } else if (this.state.selectedOffice.length > 0) {
         finalOfficeVal = val;
+      } else if (!this.state.selectedOffice.length) {
+        finalOfficeVal = '';
       }
       this.setState({ finalOfficeVal });
-      const strArr = [];
-      space.forEach(ev => {
-        strArr.push(ev);
-      });
+      const strArr = space.filter(i => i !== 'All');
       this.setState({ page: 1 });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
       const timeoutId = setTimeout(() => {
-        this.setState({ srcOffice: strArr }, () => {
+        this.setState({ strSpace: strArr }, () => {
           this.props.requestGetEmployeeDetail({
             search: this.state.searchVal,
             value: this.state.strVal,
@@ -369,6 +429,11 @@ class EmployeePage extends Component {
     });
   };
 
+  replaceImage = error => {
+    // eslint-disable-next-line no-param-reassign
+    error.target.src = Profile;
+  };
+
   render() {
     const {
       employeeData,
@@ -402,7 +467,8 @@ class EmployeePage extends Component {
           handleLimitChange={this.handleLimitChange}
           handlePageChange={this.handlePageChange}
           employeeCount={employeeCount}
-          handleSelectChange={this.handleSelectChange}
+          handleSelectedoffice={this.handleSelectedoffice}
+          handleSelectedRole={this.handleSelectedRole}
           handleChangeBox={this.handleChangeBox}
           handleBadgeData={this.handleBadgeData}
           handleData={this.handleData}
@@ -421,6 +487,7 @@ class EmployeePage extends Component {
           handleUnassignedSpace={this.handleUnassignedSpace}
           clearAssign={this.clearAssign}
           onCancel={this.onCancel}
+          replaceImage={this.replaceImage}
         />
       </div>
     );

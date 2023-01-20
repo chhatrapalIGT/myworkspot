@@ -41,7 +41,7 @@ export function* getEmployeeData({ payload }) {
 
   try {
     const usersList = yield request({
-      method: 'GET',
+      method: 'POST',
       url: requestURL,
       data: pay,
       headers: {

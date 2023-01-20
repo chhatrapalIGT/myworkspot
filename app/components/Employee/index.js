@@ -7,7 +7,7 @@
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useMemo, useEffect } from 'react';
-import { Modal, Spinner } from 'react-bootstrap';
+import { Image, Modal, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import createClass from 'create-react-class';
 import Select, { components } from 'react-select';
@@ -16,18 +16,21 @@ import Menu from '../assets/images/admin/menu.png';
 import Profile from '../assets/images/profileof.png';
 import Edit from '../assets/images/edit.svg';
 import Sort from '../assets/images/sort.png';
+import SelectDownArrow from '../assets/images/down-arrow.svg';
 import Search from '../assets/images/admin/search.png';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
 import Warnning from '../../images/officeImage/Warnning.png';
-
-const options = [
-  { label: 'Admin', value: 'Admin', name: 'Admin' },
-  { label: 'User', value: 'User', name: 'User' },
-];
-
+import { CONSTANT } from '../../enum';
+const { SPIN_IMAGE_URL_LIVE } = CONSTANT;
 const Employee = props => {
-  const { state, employeeData, officeLocation, userRoles } = props;
+  const {
+    state,
+    singleEmployeeData,
+    employeeData,
+    officeLocation,
+    userRoles,
+  } = props;
   const currentTableData = useMemo(() => {
     const firstPageIndex = (state.page - 1) * state.limit;
     const lastPageIndex = firstPageIndex + state.limit;
@@ -36,15 +39,20 @@ const Employee = props => {
       : [];
   }, [employeeData]);
   const [show, setShow] = useState(false);
-  const [build, setBuild] = useState(false);
   const [chkSpace, setchkspace] = useState(false);
-  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [officeLocations, setOfficeLocations] = useState([]);
-  const [userRole, setUserRole] = useState([]);
+  const [officeLocations, setOfficeLocations] = useState([
+    { label: 'All', name: 'All', value: 'All' },
+  ]);
+  const [userRole, setUserRole] = useState([
+    { label: 'All', name: 'All', value: 'All' },
+  ]);
+  const [role, setRole] = useState([]);
 
   useEffect(() => {
-    const tempArr = [];
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
+    ];
     officeLocation &&
       officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
@@ -52,6 +60,7 @@ const Employee = props => {
             label: obj.locationname,
             name: obj.locationname,
             value: obj.id,
+            isSelected: true,
           });
         }
       });
@@ -59,63 +68,40 @@ const Employee = props => {
   }, [officeLocation]);
 
   useEffect(() => {
-    const tempArr = [];
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
+    ];
     userRoles &&
       userRoles.map(obj => {
         tempArr.push({
           label: obj.role,
           name: obj.role,
           value: obj.id,
+          isSelected: true,
         });
       });
+    const FilterArr = tempArr.filter(ele => ele.name !== 'All');
+    setRole(FilterArr);
     setUserRole(tempArr);
   }, [userRoles]);
-
   const data =
     props.workSpace &&
     props.workSpace.find(i =>
       props.state.floor === i.id ? i.FloorBuilding : '',
     );
-
   const finalValData =
     props.workSpace &&
     props.workSpace.filter(
       obj => obj.id !== 'RW' && obj.id !== 'BHM' && obj.id !== 'BLM',
     );
-
-  const colourStyles = {
-    control: styles => ({
-      ...styles,
-      backgroundColor: 'white',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      border: '1px solid #d1dce7',
-    }),
-
-    option: (styles, { isFocused, isSelected, isVisited }) => ({
-      ...styles,
-      cursor: isFocused ? 'pointer' : '',
-
-      backgroundColor: isSelected
-        ? '#f8f8f8'
-        : '' || isFocused
-        ? '#EbEEF1'
-        : '' || isVisited
-        ? '#f8f8f8'
-        : '#fffff',
-      paddingRight: isSelected ? '25px' : '',
-      boxShadow: ' 0px 8px 16px rgba(0, 45, 80, 0.12) !important',
-      color: '#000',
-    }),
-  };
-
   const space =
     // eslint-disable-next-line eqeqeq
-    data && data.FloorBuilding.find(obj => obj && obj.id == props.state.build);
-
+    data &&
+    data.FloorBuilding.find(
+      obj => obj && Number(obj.floor) === props.state.build,
+    );
   const workspace = space && space.neighborhood.map(i => i.neighborWorkspace);
   const finalData = [];
-
   workspace &&
     workspace.map(i => {
       if (i && i.length > 0) {
@@ -124,61 +110,89 @@ const Employee = props => {
         );
       }
     });
-
   useEffect(() => {
     if (props.updateEmployee && props.updateEmployee.success) {
       setShow(!show);
     }
   }, [props.updateEmployee.success]);
 
-  const updatedEmpData = officeLocations.map(item => {
-    // eslint-disable-next-line no-param-reassign
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {props.state.finalOfficeVal
-            ? props.state.finalOfficeVal
-            : 'Washington, DC +2'}
-        </div>
-      </>
-    );
-    return item;
-  });
+  const handleSelectedRoleList = (index, status) => {
+    let roleList = [];
+    roleList =
+      userRole &&
+      userRole.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
 
-  const updatedRole = userRole.map(item => {
-    // eslint-disable-next-line no-param-reassign
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {props.state.finalRole ? props.state.finalRole : 'Admin; User'}
-        </div>
-      </>
-    );
-    return item;
-  });
+    if (roleList.length) {
+      const isAllChecked =
+        roleList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        roleList.length - 1;
 
-  const Option = createClass({
-    render() {
-      return (
-        <components.Option {...this.props}>
-          <div style={{ display: 'flex' }}>
-            <div style={{ flex: '1' }}>
-              <label style={{ cursor: 'pointer' }}>
-                {this.props.data.name}
-              </label>
-              <input
-                className="select_checkbox"
-                type="checkbox"
-                checked={this.props.isSelected}
-                onChange={e => null}
-              />
-            </div>
-            <div className={this.props.isSelected ? 'selected_val' : ''} />
-          </div>
-        </components.Option>
-      );
-    },
-  });
+      roleList = roleList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setUserRole(roleList);
+    props.handleSelectedRole(roleList);
+  };
+
+  const handleSelectedList = (index, status) => {
+    let officeList = [];
+    officeList =
+      officeLocations &&
+      officeLocations.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (officeList.length) {
+      const isAllChecked =
+        officeList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        officeList.length - 1;
+
+      officeList = officeList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeLocations(officeList);
+    props.handleSelectedoffice(officeList);
+  };
 
   return (
     <>
@@ -216,62 +230,90 @@ const Employee = props => {
                 <div className="menu-img">
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
-
-                <span htmlFor="role" className="role">
-                  <p
-                    style={{
-                      height: '15px',
-                      marginBottom: '0px',
-                      fontSize: '12px',
-                      marginLeft: '16px',
-                    }}
-                  >
-                    Role{' '}
-                  </p>
-                  <Select
-                    components={{ Option }}
-                    isMulti
-                    isClearable={false}
-                    defaultValue={userRole}
-                    onChange={props.handleChangeBox}
-                    options={updatedRole}
-                    closeMenuOnSelect
-                    hideSelectedOptions={false}
-                    onMenuClose={false}
-                    className=" admin-employee"
-                    name="role"
-                    styles={colourStyles}
-                    label="Role"
-                  />
-                </span>
-                <span htmlFor="space" className="space">
-                  <p
-                    style={{
-                      height: '15px',
-                      marginBottom: '0px',
-                      fontSize: '12px',
-                      marginLeft: '16px',
-                    }}
-                  >
-                    {' '}
-                    Permanent Space{' '}
-                  </p>
-                  <Select
-                    components={{ Option }}
-                    isMulti
-                    isClearable={false}
-                    defaultValue={officeLocations}
-                    onChange={props.handleChangeSpace}
-                    options={updatedEmpData}
-                    closeMenuOnSelect
-                    hideSelectedOptions={false}
-                    onMenuClose={false}
-                    className=" admin-employee"
-                    name="office"
-                    styles={colourStyles}
-                    label="office"
-                  />
-                </span>
+                <div className="custom-filter-dropdown">
+                  <span>Role</span>
+                  <div className="dropdown">
+                    <input
+                      type="input"
+                      style={{ cursor: 'alias' }}
+                      className="dropdown-toggle"
+                      value={state.finalRoleVal}
+                      placeholder="Select..."
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton1"
+                    />
+                    <Image
+                      className="img_select"
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton1"
+                      src={SelectDownArrow}
+                    />
+                    <ul
+                      className="dropdown-menu"
+                      id="dropdownMenuButton1"
+                      aria-labelledby="dropdownMenuButton1"
+                    >
+                      {userRole &&
+                        userRole.map((item, index) => (
+                          <li
+                            aria-hidden
+                            onClick={() =>
+                              handleSelectedRoleList(index, !item.isSelected)
+                            }
+                          >
+                            <span>{item.name}</span>
+                            <div
+                              className={
+                                item.isSelected ? 'selected_val float-end' : ''
+                              }
+                            />
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
+                <div className="custom-filter-dropdown">
+                  <span>Office</span>
+                  <div className="dropdown">
+                    <input
+                      type="input"
+                      style={{ cursor: 'alias' }}
+                      className="dropdown-toggle"
+                      value={state.finalOfficeVal}
+                      placeholder="Select..."
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton1"
+                    />
+                    <Image
+                      className="img_select"
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton2"
+                      src={SelectDownArrow}
+                    />
+                    <ul
+                      className="dropdown-menu"
+                      id="dropdownMenuButton1"
+                      aria-labelledby="dropdownMenuButton2"
+                    >
+                      {officeLocations &&
+                        officeLocations.map((item, index) => (
+                          <li
+                            aria-hidden
+                            onClick={() =>
+                              handleSelectedList(index, !item.isSelected)
+                            }
+                          >
+                            <span>{item.name}</span>
+                            <div
+                              className={
+                                item.isSelected ? 'selected_val float-end' : ''
+                              }
+                            />
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
               <div className="search-box">
                 <div className="pos-rela">
@@ -396,10 +438,15 @@ const Employee = props => {
                     <tr>
                       <td>
                         <img
-                          src={i.photo || Profile}
-                          className="img-fluid user-img"
+                          src={`${SPIN_IMAGE_URL_LIVE}${i.employeeid}.wiki.jpg`}
+                          className="img-fluid table-user-img"
                           alt=""
-                          style={{ height: '32px' }}
+                          onError={props.replaceImage}
+                          style={{
+                            borderRadius: '50%',
+                            height: '32px',
+                            width: '32px',
+                          }}
                         />{' '}
                         {i.firstname}
                         {''} {i.lastname}
@@ -503,12 +550,13 @@ const Employee = props => {
                   <div className="prof-flex">
                     <div className="mar-4">
                       <img
-                        src={
-                          (props.singleEmployeeData &&
-                            props.singleEmployeeData.photo) ||
-                          Profile
-                        }
+                        src={`${SPIN_IMAGE_URL_LIVE}${props.state.id}.wiki.jpg`}
                         className="img-fluid"
+                        style={{
+                          borderRadius: '50%',
+                          height: '120px',
+                          width: '120px',
+                        }}
                         alt=""
                       />
                     </div>
@@ -550,9 +598,14 @@ const Employee = props => {
                         onChange={props.handleChange}
                         value={props.state.role}
                         name="role"
+                        placeholder="Select role"
                       >
-                        <option value="User">User</option>
-                        <option value="Admin">Admin</option>
+                        {role &&
+                          role.map(ele => (
+                            <option key={ele.name} value={ele.name}>
+                              {ele.name}
+                            </option>
+                          ))}
                       </select>
                     </div>
 
@@ -590,7 +643,6 @@ const Employee = props => {
 
                     <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
                       <div className="pro-title1">Permanent Space</div>
-
                       {props.state.AssignedSpace !== null &&
                         props.state.AssignedSpace !== '' &&
                         !props.state.handleUnassign && (
@@ -670,17 +722,17 @@ const Employee = props => {
                               <>
                                 <option
                                   value={
-                                    i.id
-                                    // i.floor &&
-                                    // i.floor !== null &&
-                                    // i.building &&
-                                    // i.building !== null
-                                    //   ? `${i.floor}${i.building}`
-                                    //   : i.building && i.building !== null
-                                    //   ? `${i.building}`
-                                    //   : i.floor && i.floor !== null
-                                    //   ? `${i.floor}`
-                                    //   : ''
+                                    // i.id
+                                    i.floor &&
+                                    i.floor !== null &&
+                                    i.building &&
+                                    i.building !== null
+                                      ? `${i.floor}${i.building}`
+                                      : i.building && i.building !== null
+                                      ? `${i.building}`
+                                      : i.floor && i.floor !== null
+                                      ? `${i.floor}`
+                                      : ''
                                   }
                                 >
                                   {i.floor &&
@@ -741,10 +793,11 @@ const Employee = props => {
                           </option>
                           {finalData &&
                             finalData.map(i => (
-                              <option value={i.officeId} name="AssignedSpace">
-                                {' '}
-                                {i && i.officeSpace}{' '}
-                              </option>
+                              <>
+                                <option value={i.officeId}>
+                                  {i && i.officeSpace}{' '}
+                                </option>
+                              </>
                             ))}
                         </select>
                         {chkSpace &&
@@ -779,7 +832,7 @@ const Employee = props => {
                         }}
                         value="Save"
                       >
-                        Save
+                        Save{' '}
                         {props.updateEmployeeLoading && (
                           <div className="spinner-border" />
                         )}
@@ -815,7 +868,6 @@ const Employee = props => {
                           alt=""
                           style={{ paddingRight: '5px', marginBottom: ' 4px' }}
                         />
-
                         {props.apiMessage}
                       </div>
                       <div
@@ -856,11 +908,11 @@ Employee.propTypes = {
   handlePageChange: PropTypes.func,
   handleLimitChange: PropTypes.func,
   handleSearcha: PropTypes.func,
-  handleChangeBox: PropTypes.func,
   handleBadgeData: PropTypes.func,
   updateEmployee: PropTypes.object,
   handleData: PropTypes.func,
-  handleChangeSpace: PropTypes.func,
+  handleSelectedoffice: PropTypes.func,
+  handleSelectedRole: PropTypes.func,
   verifyBadgeMsg: PropTypes.string,
   verifyBadgeSuccess: PropTypes.bool,
   handleStateClear: PropTypes.func,
@@ -873,6 +925,7 @@ Employee.propTypes = {
   handleUnassignedSpace: PropTypes.func,
   clearAssign: PropTypes.func,
   onCancel: PropTypes.func,
+  replaceImage: PropTypes.func,
 };
 
 export default Employee;
