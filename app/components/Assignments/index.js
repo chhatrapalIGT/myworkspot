@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-vars */
@@ -31,51 +32,76 @@ const Assignments = props => {
   const [exportType, setExportType] = useState('');
   const [officeLocations, setOfficeLocations] = useState([]);
   const [officeFloors, setOfficeFloors] = useState([]);
-  const [officeBuildings, setOfficeBuildings] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
   const [userinfo, setUserInfo] = useState({ offices: [] });
+  let updatedLocation = [];
+  let updatedFloors = [];
+  let updatedNeighborhood = [];
 
   useEffect(() => {
+    updatedLocation = [];
     officeLocation &&
       officeLocation.map(obj => {
-        if (obj.id !== 'RW') {
-          officeLocations.push({
-            label: obj.locationname,
-            name: obj.locationname,
-            value: obj.id,
-          });
+        if (obj.id === 'DC' || obj.id === 'RIC') {
+          const isDuplicate = officeLocations.includes(obj);
+          if (!isDuplicate) {
+            officeLocations.push({
+              label: obj.locationname,
+              name: obj.locationname,
+              value: obj.id,
+            });
+            return true;
+          }
+          return false;
         }
       });
   }, [officeLocation]);
 
   useEffect(() => {
+    updatedFloors = [];
     officeFloor &&
       officeFloor.map(obj => {
-        if (obj.floor !== '') {
-          officeFloors.push({
-            label: obj.floor,
-            name: obj.floor,
-            value: obj.id,
-          });
+        if (obj.floor !== null) {
+          const isDuplicate = officeFloors.includes(obj);
+          if (!isDuplicate) {
+            officeFloors.push({
+              label: `floor ${obj.floor}`,
+              name: `floor ${obj.floor}`,
+              value: `floor ${obj.floor}`,
+            });
+            return true;
+          }
+          return false;
         }
-        // if (obj.building !== '') {
-        //   officeFloors.push({
-        //     label: obj.building,
-        //     name: obj.building,
-        //     value: obj.building,
-        //   });
-        // }
+        if (obj.building !== null) {
+          const isDuplicate = officeFloors.includes(obj);
+          if (!isDuplicate) {
+            officeFloors.push({
+              label: `building ${obj.building}`,
+              name: `building ${obj.building}`,
+              value: `building ${obj.building}`,
+            });
+            return true;
+          }
+          return false;
+        }
       });
   }, [officeFloor]);
 
   useEffect(() => {
+    updatedNeighborhood = [];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
-        officeNeighborhoods.push({
-          label: obj.name,
-          name: obj.name,
-          value: obj.name,
-        });
+        const isDuplicate = officeLocations.includes(obj);
+        if (!isDuplicate) {
+          officeNeighborhoods.push({
+            label: obj.name,
+            name: obj.name,
+            value: obj.name,
+          });
+          return true;
+        }
+        return false;
       });
   }, [officeNeighborhood]);
 
@@ -88,12 +114,16 @@ const Assignments = props => {
       if (exportType === 'CSV') {
         const header = Object.keys(exportAssignmentData[0]);
         generateCSV(exportType, header, exportAssignmentData, 'Assignments');
+        setUserInfo({ offices: [] });
+        setExportType('');
+        setOpen(false);
       }
       if (exportType === 'XLSX') {
         exportToSpreadsheet(exportAssignmentData);
+        setUserInfo({ offices: [] });
+        setExportType('');
+        setOpen(false);
       }
-      setUserInfo({ offices: [] });
-      setExportType('');
     }
   }, [exportAssignmentData, exportAssignmentLoading]);
 
@@ -116,40 +146,42 @@ const Assignments = props => {
     }
   };
 
-  const updatedLocation = officeLocations.map(item => {
+  updatedLocation = officeLocations.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_emp">
           {props.state.finalOfficeVal
             ? props.state.finalOfficeVal
-            : 'Washington, DC +2'}
+            : `Washington, DC +${officeLocations.length - 1}`}
         </div>
       </>
     );
     return item;
   });
 
-  const updatedFloors = officeFloors.map(item => {
+  updatedFloors = officeFloors.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_emp">
-          {props.state.finalFloorVal ? props.state.finalFloorVal : 'Floors, +2'}
+          {props.state.finalFloorVal
+            ? props.state.finalFloorVal
+            : `Floors, +${officeFloors.length - 1}`}
         </div>
       </>
     );
     return item;
   });
 
-  const updatedNeighborhood = officeNeighborhoods.map(item => {
+  updatedNeighborhood = officeNeighborhoods.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_emp">
           {props.state.finalNeighborhoodVal
             ? props.state.finalNeighborhoodVal
-            : 'neighborhood, +2'}
+            : `Blue, +${officeNeighborhoods.length - 1}`}
         </div>
       </>
     );
@@ -269,7 +301,7 @@ const Assignments = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    defaultValue={officeFloor}
+                    defaultValue={officeFloors}
                     onChange={props.handleSelectedFloor}
                     options={updatedFloors}
                     closeMenuOnSelect
@@ -315,7 +347,7 @@ const Assignments = props => {
                     type="text"
                     onChange={props.handleSearcha}
                     name="searchVal"
-                    placeholder="Search"
+                    placeholder="Search for name, badge"
                   />
                   <div className="search-img">
                     <img src={Search} className="img-fluid" alt="" />
@@ -327,7 +359,7 @@ const Assignments = props => {
               <table>
                 <tr>
                   <th style={{ width: '20%' }}>
-                    Name
+                    Name{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -343,7 +375,7 @@ const Assignments = props => {
                     />
                   </th>
                   <th style={{ width: '16%' }}>
-                    Department
+                    Department{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -359,7 +391,7 @@ const Assignments = props => {
                     />
                   </th>
                   <th style={{ width: '16%' }}>
-                    Building/Floor
+                    Building/Floor{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -375,7 +407,7 @@ const Assignments = props => {
                     />
                   </th>
                   <th style={{ width: '16%' }}>
-                    Neighborhood
+                    Neighborhood{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -391,7 +423,7 @@ const Assignments = props => {
                     />
                   </th>
                   <th style={{ width: '16%' }}>
-                    Assigned Space
+                    Assigned Space{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -407,7 +439,7 @@ const Assignments = props => {
                     />
                   </th>
                   <th style={{ width: '16%' }}>
-                    Badge
+                    Badge{' '}
                     <img
                       src={Sort}
                       className="img-fluid sort-img"
@@ -425,7 +457,7 @@ const Assignments = props => {
                 </tr>
                 {props.assignmentLoading ? (
                   <tr>
-                    <td colSpan="5">
+                    <td colSpan="6">
                       <Spinner
                         className="app-spinner"
                         animation="grow"
@@ -436,7 +468,7 @@ const Assignments = props => {
                 ) : props.assignmentData &&
                   props.assignmentData.length === 0 ? (
                   <tr>
-                    <td colSpan="5">
+                    <td colSpan="6">
                       <div className="employee-norecord">
                         {'No record found'}
                       </div>
@@ -447,7 +479,11 @@ const Assignments = props => {
                   assignmentData.length > 0 &&
                   assignmentData.map((i, index) => (
                     <tr key={index + 1}>
-                      <td>
+                      <td
+                        style={{
+                          display: 'flex',
+                        }}
+                      >
                         <img
                           src={i.photo || Profile}
                           className="img-fluid user-img"
@@ -457,7 +493,10 @@ const Assignments = props => {
                         {i.name}
                       </td>
                       <td>{i.department}</td>
-                      <td>{i.buildingFloor}</td>
+                      <td>
+                        {i.floor !== null ? `Floor ${i.floor}` : ''}{' '}
+                        {i.building !== null ? `Building ${i.building}` : ''}
+                      </td>
                       <td>{i.neighborhood}</td>
                       <td>{i.assignedspace}</td>
                       <td>{i.badge}</td>
@@ -549,7 +588,7 @@ const Assignments = props => {
         <div className="modal-footer justify-content-between border-0 mypadlr mypb-3 pt-0">
           <Button
             variant="primary"
-            className="btn csv-modal cust-model-btn"
+            className="btn ass-csv-modal cust-model-btn"
             data-bs-dismiss="modal"
             onClick={() => {
               setExportType('CSV');
@@ -576,7 +615,6 @@ const Assignments = props => {
             className="btn cust-model-btn"
             data-bs-dismiss="modal"
             onClick={() => setOpen(false)}
-            disabled={exportAssignmentLoading}
           >
             Cancel
           </Button>

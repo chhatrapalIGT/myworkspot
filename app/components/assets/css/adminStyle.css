@@ -1046,6 +1046,9 @@ span.disabled {
   display: none;
   cursor: pointer;
 }
+.hover-data-cursor {
+  cursor: pointer;
+}
 
 .data-63:hover>.hover-data {
   display: block;
@@ -1192,7 +1195,7 @@ span.hover-data::after {
 }
 
 .per-line1 {
-  border-top: 1px solid #edf0f3;
+  /* border-top: 1px solid #edf0f3; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1202,6 +1205,7 @@ span.hover-data::after {
   /* margin-left: 102px; */
   margin-top: 5px;
   /* width: 70% !important; */
+  position: relative;
 }
 
 .bar-graph-one .year {
@@ -1217,9 +1221,18 @@ span.hover-data::after {
   content: '';
   width: 2px;
   top: -9px;
-  height: 45px;
+  height: 52px;
   right: -10px;
   background-color: #edf0f3;
+}
+.per-line1:before {
+  position: absolute;
+  content: '';
+  width: 85%;
+  height: 1px;
+  background-color: #edf0f3;
+  right: -7px;
+  top: 0;
 }
 
 .bar-graph-one .bar-one .bar {

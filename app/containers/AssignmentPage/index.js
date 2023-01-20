@@ -6,6 +6,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import moment from 'moment';
 import saga from './saga';
 import reducer from './reducer';
 import Assignments from '../../components/Assignments';
@@ -77,24 +78,20 @@ class AssignmentPage extends Component {
         finalOfficeVal = val;
       }
       this.setState({ finalOfficeVal });
-      let str = '[';
+      const strArr = [];
       space.forEach(ev => {
-        str += `,"${ev}"`;
+        strArr.push(ev);
       });
-      str += ']';
-      const da = str.slice(0, 1);
-      const ta = str.slice(2);
-      const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
       this.setState({ page: 1 });
       //  this.setState({ srcOffice: strSpace });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
       const timeoutId = setTimeout(() => {
-        this.setState({ srcOffice: strSpace }, () => {
+        this.setState({ srcOffice: strArr }, () => {
           this.getAssignData(
             this.state.search,
-            strSpace,
+            strArr,
             this.state.selectedFloor,
             this.state.selectedBuilding,
             this.state.srcNeighborhood,
@@ -125,26 +122,40 @@ class AssignmentPage extends Component {
         finalFloorVal = val;
       }
       this.setState({ finalFloorVal });
-      let str = '[';
+      const strFloorArr = [];
+      const strBuildingArr = [];
       space.forEach(ev => {
-        str += `,"${ev}"`;
+        const spiltData = ev.split(' ');
+        if (spiltData[0] === 'floor') {
+          strFloorArr.push(spiltData[1]);
+        } else {
+          strBuildingArr.push(spiltData[1]);
+        }
       });
-      str += ']';
-      const da = str.slice(0, 1);
-      const ta = str.slice(2);
-      const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
-      this.setState({ srcFloor: strSpace });
       this.setState({ page: 1 });
-      this.getAssignData(
-        this.state.search,
-        this.state.srcOffice,
-        '',
-        '',
-        this.state.selectedNeighbor,
-        this.state.sortBy,
-        this.state.page,
-        this.state.limit,
-      );
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const timeoutId = setTimeout(() => {
+        this.setState(
+          { srcFloor: strFloorArr, srcBuilding: strBuildingArr },
+          () => {
+            this.getAssignData(
+              this.state.search,
+              this.state.srcOffice,
+              strFloorArr,
+              strBuildingArr,
+              this.srcNeighborhood,
+              this.state.sortBy,
+              this.state.page,
+              this.state.limit,
+            );
+          },
+        );
+      }, 1000);
+      this.setState({
+        typingTimeout: timeoutId,
+      });
     });
   };
 
@@ -163,26 +174,30 @@ class AssignmentPage extends Component {
         finalNeighborhoodVal = val;
       }
       this.setState({ finalNeighborhoodVal });
-      let str = '[';
+      // let str = '[';
+      // space.forEach(ev => {
+      //   str += `,"${ev}"`;
+      // });
+      // str += ']';
+      // const da = str.slice(0, 1);
+      // const ta = str.slice(2);
+      // const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
+      const strArr = [];
       space.forEach(ev => {
-        str += `,"${ev}"`;
+        strArr.push(ev);
       });
-      str += ']';
-      const da = str.slice(0, 1);
-      const ta = str.slice(2);
-      const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
       this.setState({ page: 1 });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
       const timeoutId = setTimeout(() => {
-        this.setState({ srcNeighborhood: strSpace }, () => {
+        this.setState({ srcNeighborhood: strArr }, () => {
           this.getAssignData(
             this.state.search,
             this.state.srcOffice,
-            this.state.selectedFloor,
-            this.state.selectedBuilding,
-            strSpace,
+            this.state.srcFloor,
+            this.state.srcBuilding,
+            strArr,
             this.state.sortBy,
             this.state.page,
             this.state.limit,
@@ -270,26 +285,23 @@ class AssignmentPage extends Component {
   };
 
   handleExport = data => {
-    let str = '[';
+    const locArr = [];
     // eslint-disable-next-line array-callback-return
     data.offices.map(ev => {
-      str += `,"${ev}"`;
+      locArr.push(ev);
     });
-    str += ']';
-    const da = str.slice(0, 1);
-    const ta = str.slice(2);
-    const locations = data.offices.length !== 0 ? da && da.concat(ta) : '[]';
     const payload = {
-      office: locations,
+      office: locArr,
       newExport: true,
+      todayDate: moment().format('YYYY-MM-DD'),
     };
     this.props.requestGetExportData(payload);
   };
 
   componentDidMount() {
     this.props.requestGetOfficeLocation({});
-    this.props.requestGetOfficeFloor();
-    this.props.requestGetOfficeNeighborhood();
+    this.props.requestGetOfficeFloor({});
+    this.props.requestGetOfficeNeighborhood({});
     this.props.requestGetAssignmentDetail({
       page: this.state.page,
       limit: this.state.limit,
@@ -298,6 +310,7 @@ class AssignmentPage extends Component {
 
   componentDidUpdate() {
     const { apiMessage } = this.props;
+    const { strVal, strSpace, sortBy, search } = this.state;
   }
 
   render() {

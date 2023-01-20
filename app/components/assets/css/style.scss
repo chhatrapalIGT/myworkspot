@@ -525,7 +525,7 @@ input[type='text'] {
   color: #526e88;
 }
 .capacity_top {
-  margin-top: 2.0rem !important;
+  margin-top: 2rem !important;
 }
 .report_title {
   margin-left: 20px;
@@ -969,6 +969,20 @@ input[type='text'] {
         background: #526e88;
         color: #fff;
       }
+    }
+    .dismiss-cancle {
+      border: 1px solid #526e88;
+      border-radius: 8px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      font-size: 16px;
+      color: #526e88;
+      font-weight: 600;
+      margin-top: 9px;
+      margin-left: -1px;
     }
     .save-data {
       border: 1px solid #0072ce;
@@ -3547,10 +3561,11 @@ div[class*='qy-menu'] * {
   margin-bottom: 0.4rem !important;
 }
 .export_btn {
-  padding: 13px;
+  padding: 14px;
   margin-left: 17px;
   background: #0072ce;
   font-size: 13px;
+  width: 140px;
 }
 .date_range {
   margin-bottom: 20px;
@@ -3574,6 +3589,20 @@ div[class*='qy-menu'] * {
   margin-left: 0px;
   margin-top: 10px;
 }
+.ass-csv-modal {
+  padding: 10px;
+  width: 30%;
+  font-style: inherit;
+  margin-left: 0px;
+}
+.csv-btn-modal {
+  padding: 10px;
+  width: 35%;
+  font-style: inherit;
+  margin-left: 0px;
+  margin-right: 6px;
+  margin-top: 10px;
+}
 .datePicker {
   width: 60%;
 }
@@ -3583,6 +3612,16 @@ div[class*='qy-menu'] * {
   width: auto;
   top: 100%;
 }
-.common-img{
-  margin-bottom: 0.30rem !important;
+.expected_img_office:hover + span {
+  display: block;
+  position: absolute;
+  width: 243px;
+}
+.expected_img_confirmed:hover + span {
+  display: block;
+  position: absolute;
+  width: 379px;
+}
+.common-img {
+  margin-bottom: 0.3rem !important;
 }
