@@ -537,18 +537,7 @@ const WorkspotAdmin = ({
                                                       }%`,
                                                     }}
                                                   >
-                                                    <span
-                                                      className="hover-data"
-                                                      style={{
-                                                        background: '#01213A',
-                                                        minWidth: '159px',
-                                                        height: 'auto',
-                                                        zIndex: '999',
-                                                        padding: '10px',
-                                                        top: '-67px',
-                                                        fontSize: '12px',
-                                                      }}
-                                                    >
+                                                    <span className="hover-data hover_pop-up">
                                                       <div className="d-flex justify-content-around">
                                                         <span>
                                                           Workstations
@@ -616,18 +605,7 @@ const WorkspotAdmin = ({
                                                       }%`,
                                                     }}
                                                   >
-                                                    <span
-                                                      className="hover-data"
-                                                      style={{
-                                                        background: '#01213A',
-                                                        minWidth: '159px',
-                                                        height: 'auto',
-                                                        zIndex: '999',
-                                                        padding: '10px',
-                                                        top: '-67px',
-                                                        fontSize: '12px',
-                                                      }}
-                                                    >
+                                                    <span className="hover-data hover_pop-up">
                                                       <div className="d-flex justify-content-around">
                                                         <span>
                                                           Workstations
@@ -778,18 +756,7 @@ const WorkspotAdmin = ({
                                                       }%`,
                                                     }}
                                                   >
-                                                    <span
-                                                      className="hover-data"
-                                                      style={{
-                                                        background: '#01213A',
-                                                        minWidth: '159px',
-                                                        height: 'auto',
-                                                        zIndex: '999',
-                                                        padding: '10px',
-                                                        top: '-67px',
-                                                        fontSize: '12px',
-                                                      }}
-                                                    >
+                                                    <span className="hover-data hover_pop-up">
                                                       <div className="d-flex justify-content-around">
                                                         <span>
                                                           Workstations
@@ -859,18 +826,7 @@ const WorkspotAdmin = ({
                                                       }%`,
                                                     }}
                                                   >
-                                                    <span
-                                                      className="hover-data"
-                                                      style={{
-                                                        background: '#01213A',
-                                                        minWidth: '159px',
-                                                        height: 'auto',
-                                                        zIndex: '999',
-                                                        padding: '10px',
-                                                        top: '-67px',
-                                                        fontSize: '12px',
-                                                      }}
-                                                    >
+                                                    <span className="hover-data hover_pop-up">
                                                       <div className="d-flex justify-content-around">
                                                         <span>
                                                           Workstations
@@ -1042,7 +998,7 @@ const WorkspotAdmin = ({
                             <td className="admin-day-name">
                               <p
                                 style={{
-                                  textAlign: 'right',
+                                  textAlign: 'center',
                                   marginBottom: '5px',
                                   marginTop: '13px',
                                   fontSize: '14px',
@@ -1092,7 +1048,7 @@ const WorkspotAdmin = ({
                                     >
                                       {`${parseFloat(
                                         data && data.officeCapacity,
-                                      ).toFixed(2)}%`}
+                                      ).toFixed()}%`}
                                       {data &&
                                       data.id !== 'RW' &&
                                       item.date > new Date() ? (
@@ -1149,7 +1105,7 @@ const WorkspotAdmin = ({
                             <td className="admin-day-name">
                               <p
                                 style={{
-                                  textAlign: 'right',
+                                  textAlign: 'center',
                                   marginBottom: '5px',
                                   marginTop: '13px',
                                   fontSize: '14px',
@@ -1199,7 +1155,7 @@ const WorkspotAdmin = ({
                                     >
                                       {parseFloat(
                                         data && data.expectedAttendance,
-                                      ).toFixed(2)}
+                                      ).toFixed()}
                                       {/* {data &&
                                       data.id !== 'RW' &&
                                       item.date > days.startDate ? (
@@ -1279,7 +1235,7 @@ const WorkspotAdmin = ({
                             <td className="admin-day-name">
                               <p
                                 style={{
-                                  textAlign: 'right',
+                                  textAlign: 'center',
                                   marginBottom: '5px',
                                   marginTop: '13px',
                                   fontSize: '14px',
@@ -1329,7 +1285,7 @@ const WorkspotAdmin = ({
                                     >
                                       {parseFloat(
                                         data && data.confirmAttendance,
-                                      ).toFixed(2)}
+                                      ).toFixed()}
                                       {/* {data &&
                                       data.id !== 'RW' &&
                                       item.date > days.startDate ? (

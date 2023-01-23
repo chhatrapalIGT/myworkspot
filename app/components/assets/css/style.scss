@@ -973,7 +973,7 @@ input[type='text'] {
     .dismiss-cancle {
       border: 1px solid #526e88;
       border-radius: 8px;
-      height: 48px;
+      height: 46px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -3561,11 +3561,12 @@ div[class*='qy-menu'] * {
   margin-bottom: 0.4rem !important;
 }
 .export_btn {
-  padding: 14px;
+  padding: 12px;
   margin-left: 17px;
   background: #0072ce;
-  font-size: 13px;
+  font-size: 15px;
   width: 140px;
+  border-radius: 8px;
 }
 .date_range {
   margin-bottom: 20px;
@@ -3602,6 +3603,8 @@ div[class*='qy-menu'] * {
   margin-left: 0px;
   margin-right: 6px;
   margin-top: 10px;
+  border-radius: 8px;
+  font-size: 16px;
 }
 .datePicker {
   width: 60%;
