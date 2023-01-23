@@ -475,7 +475,13 @@ const Header = props => {
                             <span>Admin Access</span>
                           </div>
                         ) : sessionStorage.getItem('delegate') === 'true' ? (
-                          <div className="head del">
+                          <div
+                            className="head"
+                            style={{
+                              backgroundColor: '#7FCFCF',
+                              color: '#000',
+                            }}
+                          >
                             <span>On behalf of</span>
                           </div>
                         ) : (
