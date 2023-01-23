@@ -22,7 +22,7 @@ import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
 import Warnning from '../../images/officeImage/Warnning.png';
 import { CONSTANT } from '../../enum';
-const { SPIN_IMAGE_URL_LIVE } = CONSTANT;
+const { USER_IMAGE_SRC_LIVE } = CONSTANT;
 const Employee = props => {
   const {
     state,
@@ -438,7 +438,7 @@ const Employee = props => {
                     <tr>
                       <td>
                         <img
-                          src={`${SPIN_IMAGE_URL_LIVE}${i.employeeid}.wiki.jpg`}
+                          src={`${USER_IMAGE_SRC_LIVE}${i.employeeid}.wiki.jpg`}
                           className="img-fluid table-user-img"
                           alt=""
                           onError={props.replaceImage}
@@ -550,7 +550,7 @@ const Employee = props => {
                   <div className="prof-flex">
                     <div className="mar-4">
                       <img
-                        src={`${SPIN_IMAGE_URL_LIVE}${props.state.id}.wiki.jpg`}
+                        src={`${USER_IMAGE_SRC_LIVE}${props.state.id}.wiki.jpg`}
                         className="img-fluid"
                         onError={props.replaceImage}
                         style={{

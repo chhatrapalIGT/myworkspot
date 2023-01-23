@@ -20,7 +20,7 @@ import SelectDownArrow from '../assets/images/down-arrow.svg';
 import Profile from '../assets/images/profileof.png';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
 import { CONSTANT } from '../../enum';
-const { SPIN_IMAGE_URL_LIVE } = CONSTANT;
+const { USER_IMAGE_SRC_LIVE } = CONSTANT;
 const Assignments = props => {
   const {
     state,
@@ -575,7 +575,7 @@ const Assignments = props => {
                       >
                         <img
                           onError={props.replaceImage}
-                          src={`${SPIN_IMAGE_URL_LIVE}${i.employeeid}.wiki.jpg`}
+                          src={`${USER_IMAGE_SRC_LIVE}${i.employeeid}.wiki.jpg`}
                           className="img-fluid table-user-img"
                           alt=""
                           style={{ height: '32px' }}
