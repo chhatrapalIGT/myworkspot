@@ -422,10 +422,9 @@ const Header = props => {
                             sessionStorage.getItem('Admin') === 'false' ? (
                             <>
                               {' '}
-                              <span style={{ color: '#ed8b00' }}>
-                                On behalf of{' '}
-                              </span>
-                              {props.profileUser && props.profileUser.firstname}{' '}
+                              <span>On behalf of </span>
+                              {props.profileUser &&
+                                props.profileUser.firstname}{' '}
                               <img
                                 src={
                                   (props.profileUser &&
@@ -467,27 +466,21 @@ const Header = props => {
                         sessionStorage.getItem('delegate') === 'false' &&
                         sessionStorage.getItem('Admin') === 'false' ? (
                           <div className="head deladmin">
-                            <span style={{ color: '#FF8D62' }}>
-                              Admin Access
-                            </span>
+                            <span>Admin Access</span>
                           </div>
                         ) : sessionStorage.getItem('manageAdmin') === 'true' &&
                           sessionStorage.getItem('delegate') === 'false' &&
                           sessionStorage.getItem('Admin') === 'true' ? (
                           <div className="head deladmin">
-                            <span style={{ color: '#FF8D62' }}>
-                              Admin Access
-                            </span>
+                            <span>Admin Access</span>
                           </div>
                         ) : sessionStorage.getItem('delegate') === 'true' ? (
                           <div className="head del">
-                            <span style={{ color: '#ed8b00' }}>
-                              On behalf of
-                            </span>
+                            <span>On behalf of</span>
                           </div>
                         ) : (
                           <div className="head">
-                            <span>This is your account</span>
+                            <span>Your Account</span>
                           </div>
                         )}
 

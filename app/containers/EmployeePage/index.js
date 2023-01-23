@@ -450,6 +450,8 @@ class EmployeePage extends Component {
       userRoles,
       apiMessage,
       apiSuccess,
+      userMessage,
+      userMessageStatus,
     } = this.props;
     return (
       <div>
@@ -484,6 +486,8 @@ class EmployeePage extends Component {
           officeLocation={officeLocation}
           apiSuccess={apiSuccess}
           apiMessage={apiMessage}
+          userMessage={userMessage}
+          userMessageStatus={userMessageStatus}
           handleUnassignedSpace={this.handleUnassignedSpace}
           clearAssign={this.clearAssign}
           onCancel={this.onCancel}
@@ -503,6 +507,9 @@ const mapStateToProps = state => {
       employee.EmployeeDetail.employee &&
       employee.EmployeeDetail.employee.userData,
     userRoles: employee && employee.userRole && employee.userRole.userRoles,
+    userMessage: employee && employee.userRole && employee.userRole.apiMessage,
+    userMessageStatus:
+      employee && employee.userRole && employee.userRole.apiSuccess,
     singleEmployeeData:
       employee &&
       employee.EditEmployeeDetail &&
@@ -590,6 +597,8 @@ EmployeePage.propTypes = {
   employeeLoading: PropTypes.bool,
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
+  userMessage: PropTypes.string,
+  userMessageStatus: PropTypes.bool,
   clearEmp: PropTypes.func,
 };
 

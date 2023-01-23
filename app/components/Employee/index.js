@@ -888,6 +888,41 @@ const Employee = props => {
                       </div>
                     </div>
                   )}
+                  {props.userMessage && (
+                    <div
+                      className={`"alert fade show mx-auto ${
+                        props.apiSuccess
+                          ? 'alert alert-success'
+                          : 'alert alert-danger '
+                      } "`}
+                      style={{ position: 'revert' }}
+                    >
+                      <div>
+                        <img
+                          src={
+                            props.userMessageStatus
+                              ? checkedCircle
+                              : crossCircle
+                          }
+                          alt=""
+                          style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+                        />
+                        {props.userMessage}
+                      </div>
+                      <div
+                        style={{
+                          float: 'right',
+                          fontSize: 'large',
+                          marginLeft: '10px',
+                        }}
+                        onClick={props.handleData}
+                        className="day-pointer"
+                        aria-hidden="true"
+                      >
+                        &#10006;
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -930,6 +965,8 @@ Employee.propTypes = {
   clearAssign: PropTypes.func,
   onCancel: PropTypes.func,
   replaceImage: PropTypes.func,
+  userMessage: PropTypes.string,
+  userMessageStatus: PropTypes.bool,
 };
 
 export default Employee;
