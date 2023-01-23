@@ -409,6 +409,7 @@ const Spaces = ({
             <Button
               variant="primary"
               className="px-4 py-3"
+              style={{ borderRadius: '8px' }}
               onClick={() => {
                 setOpen(true);
                 setUserInfo({ offices: [] });
