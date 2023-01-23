@@ -84,22 +84,22 @@ class OfficeMap extends Component {
     searchFilter,
     officeSearch,
     floorSearch,
-    bulidingSearch,
+    buldingSearch,
     neighborhoodSearch,
     sort_column,
-    limit,
     page,
+    limit,
     newExport,
   ) => {
     const finalPayload = {
       searchFilter,
       officeSearch,
       floorSearch,
-      bulidingSearch,
+      buldingSearch,
       neighborhoodSearch,
       sort_column,
-      limit,
       page,
+      limit,
       newExport,
     };
     this.props.requestGetManageSpace(finalPayload);
@@ -139,8 +139,8 @@ class OfficeMap extends Component {
             this.state.srcBuilding,
             this.state.neighborhoodSearch,
             this.state.sort_column,
-            this.state.limit,
             this.state.page,
+            this.state.limit,
             this.state.newExport,
           );
         });
@@ -191,8 +191,8 @@ class OfficeMap extends Component {
               strBuildingArr,
               this.state.neighborhoodSearch,
               this.state.sort_column,
-              this.state.limit,
               this.state.page,
+              this.state.limit,
               this.state.newExport,
             );
           },
@@ -236,8 +236,8 @@ class OfficeMap extends Component {
             this.state.strBuildingArr,
             strArr,
             this.state.sort_column,
-            this.state.limit,
             this.state.page,
+            this.state.limit,
             this.state.newExport,
           );
         });

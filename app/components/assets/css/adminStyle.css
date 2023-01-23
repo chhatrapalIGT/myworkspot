@@ -16,7 +16,7 @@
   margin: 0;
   position: absolute;
   top: 50%;
-  left: 10px;
+  left: 14px;
   transform: translateY(-60%);
 }
 
@@ -44,7 +44,7 @@
   background-color: #fff;
   border-radius: 10px;
   padding: 10px 15px;
-  color: #00355f;
+  color: #00223c;
   width: 100%;
   margin: 20px 0;
   box-shadow: -1px 0px 11px #eee;
@@ -96,7 +96,7 @@
 
 .sort-img {
   vertical-align: unset;
-  margin-left: 5px;
+  margin-left: 7px;
   cursor: pointer;
 }
 
@@ -616,6 +616,9 @@
 
 .panel1 {
   margin-left: -5px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .accordion_box .panel p:first-child {
@@ -1729,6 +1732,7 @@ div[class*='qy-menu'] * {
   border-bottom: 1px solid #d1dce7;
   border-bottom-left-radius: 8px;
   background-color: transparent;
+  /* display: none; */
 }
 
 .lock2 {
@@ -1796,9 +1800,9 @@ div[class*='qy-menu'] * {
 .panel1::before {
   position: absolute;
   content: '';
-  height: calc(100% - 194px);
+  height: 40px;
   width: 1px;
-  background-color: #d1dce7;
+  background-color: #63BAFF;
   left: 74px;
   z-index: 9;
 }

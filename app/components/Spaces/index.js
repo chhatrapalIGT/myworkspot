@@ -159,17 +159,30 @@ const Spaces = ({
       exportManage &&
       exportManage.length > 0
     ) {
+      const cstarr = [];
+      exportManage &&
+        exportManage.map(obj => {
+          cstarr.push({
+            active: obj.active || '-',
+            assigned: obj.assigned || '-',
+            attributes: obj.attributes || '-',
+            building: obj.building || '-',
+            floor: obj.floor || '-',
+            id: obj.id || '-',
+            neighborhoodname: obj.neighborhoodname || '-',
+            type: obj.type || '-',
+            workspacename: obj.workspacename || '-',
+          });
+        });
       if (csvOpen === 'CSV') {
-        alert('csv');
-        const header = Object.keys(exportManage[0]);
-        generateCSV(csvOpen, header, exportManage, 'MailedReport');
+        const header = Object.keys(cstarr[0]);
+        generateCSV(csvOpen, header, cstarr, 'MailedReport');
         setUserInfo({ offices: [] });
         setCsvOpen('');
         setOpen(false);
       }
       if (csvOpen === 'XLSX') {
-        alert('xlsx');
-        exportToSpreadsheet(exportManage);
+        exportToSpreadsheet(cstarr);
         setUserInfo({ offices: [] });
         setCsvOpen('');
         setOpen(false);
@@ -297,6 +310,7 @@ const Spaces = ({
     officeLocation.find(data =>
       data.id === state.selectedNames ? data.FloorBuilding : '',
     );
+  console.log('floorData::>><>', officeLocation);
   const finalLocate =
     officeLocation &&
     officeLocation.filter(
@@ -628,15 +642,25 @@ const Spaces = ({
                     <td>
                       <Form.Check className="mycheckbox1" name="group2" />
                     </td>
-                    <td>
+                    <td className="assigned_text">
                       {i.floor}
                       {i.building}
                     </td>
-                    <td>{i.neighborhoodname}</td>
-                    <td>{i.workspacename}</td>
-                    <td>{i.type}</td>
-                    <td>{i.assigned}</td>
-                    <td>{i.active === true ? 'Active' : 'Inactive'}</td>
+                    <td className="assigned_text">{i.neighborhoodname}</td>
+                    <td className="assigned_text">{i.workspacename}</td>
+                    <td className="assigned_text">{i.type}</td>
+                    <td
+                      className={`${
+                        i.assigned === 'Not assigned'
+                          ? 'notAssign_text'
+                          : 'assigned_text'
+                      }`}
+                    >
+                      {i.assigned}
+                    </td>
+                    <td className="assigned_text">
+                      {i.active === true ? 'Active' : 'Inactive'}
+                    </td>
                     <td>
                       {' '}
                       {/* <img
@@ -848,20 +872,6 @@ const Spaces = ({
                         htmlFor={obj.floorAndBuilding}
                         style={{ display: 'block', height: '0px' }}
                       >
-                        {/* <img
-                          src={
-                            obj.lockedWorkspaceNumber === obj.totalWorkspace
-                              ? lock
-                              : unLock
-                          }
-                          title={
-                            obj.lockedWorkspaceNumber === obj.totalWorkspace
-                              ? 'unLock'
-                              : 'lock'
-                          }
-                          className="lock"
-                          alt=""
-                        /> */}
                         {spaceUpdate &&
                           spaceUpdate.loading &&
                           manageLoader === 'FloorClick' && (
@@ -938,23 +948,6 @@ const Spaces = ({
                                       floor.neighborhoodname,
                                     )}
                                   >
-                                    {/* <img
-                                      src={
-                                        floor.neighborhoodLockedSpace ===
-                                        floor.neighborhoodTotalSpace
-                                          ? lock
-                                          : unLock
-                                      }
-                                      title={
-                                        floor.neighborhoodLockedSpace ===
-                                        floor.neighborhoodTotalSpace
-                                          ? 'unLock'
-                                          : 'lock'
-                                      }
-                                      className="lock2"
-                                      alt=""
-                                    /> */}
-
                                     {spaceUpdate &&
                                       spaceUpdate.loading &&
                                       manageLoader === 'colorCLick' && (
@@ -1024,18 +1017,6 @@ const Spaces = ({
                                           />
                                           <div className="dash-menu-data">
                                             <label htmlFor={space.id}>
-                                              {/* <img
-                                                src={
-                                                  space.active ? unLock : lock
-                                                }
-                                                title={
-                                                  space.active
-                                                    ? 'lock'
-                                                    : 'Unlock'
-                                                }
-                                                className="lock3"
-                                                alt=""
-                                              /> */}
                                               {spaceUpdate &&
                                                 spaceUpdate.loading &&
                                                 manageLoader ===
