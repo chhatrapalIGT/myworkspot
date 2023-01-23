@@ -26,14 +26,8 @@ const options = [
   { label: 'User', value: 'User', name: 'User' },
 ];
 
-const optionsLocation = [
-  { label: 'Washington, DC', name: 'Washington, DC', value: 'DC' },
-  { label: 'Richmond, VA', name: 'Richmond, VA', value: 'RIC' },
-  { label: 'Not Assigned', name: 'Not Assigned', value: 'Not Assigned' },
-];
 const Employee = props => {
-  const { state, employeeData } = props;
-  console.log('props:::', props);
+  const { state, employeeData, officeLocation, userRoles } = props;
   const currentTableData = useMemo(() => {
     const firstPageIndex = (state.page - 1) * state.limit;
     const lastPageIndex = firstPageIndex + state.limit;
@@ -46,7 +40,37 @@ const Employee = props => {
   const [chkSpace, setchkspace] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // const [build, setBuild] = useState(8);
+  const [officeLocations, setOfficeLocations] = useState([]);
+  const [userRole, setUserRole] = useState([]);
+
+  useEffect(() => {
+    const tempArr = [];
+    officeLocation &&
+      officeLocation.map(obj => {
+        if (obj.id === 'DC' || obj.id === 'RIC') {
+          tempArr.push({
+            label: obj.locationname,
+            name: obj.locationname,
+            value: obj.id,
+          });
+        }
+      });
+    setOfficeLocations(tempArr);
+  }, [officeLocation]);
+
+  useEffect(() => {
+    const tempArr = [];
+    userRoles &&
+      userRoles.map(obj => {
+        tempArr.push({
+          label: obj.role,
+          name: obj.role,
+          value: obj.id,
+        });
+      });
+    setUserRole(tempArr);
+  }, [userRoles]);
+
   const data =
     props.workSpace &&
     props.workSpace.find(i =>
@@ -107,19 +131,21 @@ const Employee = props => {
     }
   }, [props.updateEmployee.success]);
 
-  const updatedEmpData = optionsLocation.map(item => {
+  const updatedEmpData = officeLocations.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
         <div className="drop_emp">
-          {props.state.finalVal ? props.state.finalVal : 'Washington, DC +2'}
+          {props.state.finalOfficeVal
+            ? props.state.finalOfficeVal
+            : 'Washington, DC +2'}
         </div>
       </>
     );
     return item;
   });
 
-  const updatedRole = options.map(item => {
+  const updatedRole = userRole.map(item => {
     // eslint-disable-next-line no-param-reassign
     item.label = (
       <>
@@ -138,14 +164,14 @@ const Employee = props => {
           <div style={{ display: 'flex' }}>
             <div style={{ flex: '1' }}>
               <label style={{ cursor: 'pointer' }}>
-                {`${this.props.data.name} ${this.props.data.labelData || ''}`}{' '}
+                {this.props.data.name}
               </label>
               <input
                 className="select_checkbox"
                 type="checkbox"
                 checked={this.props.isSelected}
                 onChange={e => null}
-              />{' '}
+              />
             </div>
             <div className={this.props.isSelected ? 'selected_val' : ''} />
           </div>
@@ -206,8 +232,7 @@ const Employee = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    defaultValue={options}
-                    // value={props.state.selectedOption}
+                    defaultValue={userRole}
                     onChange={props.handleChangeBox}
                     options={updatedRole}
                     closeMenuOnSelect
@@ -235,17 +260,16 @@ const Employee = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    // value={props.state.selectedOption}
-                    defaultValue={optionsLocation}
+                    defaultValue={officeLocations}
                     onChange={props.handleChangeSpace}
                     options={updatedEmpData}
                     closeMenuOnSelect
                     hideSelectedOptions={false}
                     onMenuClose={false}
                     className=" admin-employee"
-                    name="space"
+                    name="office"
                     styles={colourStyles}
-                    label="Permanent Space"
+                    label="office"
                   />
                 </span>
               </div>
@@ -255,7 +279,7 @@ const Employee = props => {
                     type="text"
                     onChange={props.handleSearcha}
                     name="searchVal"
-                    placeholder="Search"
+                    placeholder="Search for name, email, badge"
                   />
                   <div className="search-img">
                     <img src={Search} className="img-fluid" alt="" />
@@ -826,6 +850,8 @@ Employee.propTypes = {
   handleChange: PropTypes.func,
   workSpace: PropTypes.object,
   state: PropTypes.object,
+  userRoles: PropTypes.object,
+  officeLocation: PropTypes.object,
   employeeCount: PropTypes.number,
   handlePageChange: PropTypes.func,
   handleLimitChange: PropTypes.func,

@@ -19,9 +19,14 @@ import {
   requestGetWorkspace,
   resetDataEmp,
   clearEmp,
+  requestgetUserRole,
 } from './action';
 
-import { requestVerifyBadge, clearBoardData } from '../onBoardingPage/actions';
+import {
+  requestVerifyBadge,
+  clearBoardData,
+  requestGetOfficeLocation,
+} from '../onBoardingPage/actions';
 
 class EmployeePage extends Component {
   constructor(props) {
@@ -144,6 +149,8 @@ class EmployeePage extends Component {
   };
 
   componentDidMount() {
+    this.props.requestGetOfficeLocation({});
+    this.props.requestgetUserRole();
     this.props.requestGetEmployeeDetail({ search: '', role: '' });
     this.props.requestGetWorkspace();
   }
@@ -300,35 +307,41 @@ class EmployeePage extends Component {
 
   handleChangeSpace = option => {
     const space = option.map(i => i.value);
-    let finalVal;
-    this.setState({ selectedOption: option }, () => {
-      const val = this.state.selectedOption.length
-        ? this.state.selectedOption[0].name
+    let finalOfficeVal;
+    this.setState({ selectedOffice: option }, () => {
+      const val = this.state.selectedOffice.length
+        ? this.state.selectedOffice[0].name
         : '';
-      if (this.state.selectedOption.length > 1) {
-        const length = `, +${this.state.selectedOption.length - 1}`;
-        finalVal = val.concat(length);
-        this.setState({ finalVal });
-      } else if (this.state.selectedOption.length > 0) {
-        finalVal = val;
+      if (this.state.selectedOffice.length > 1) {
+        const length = `, +${this.state.selectedOffice.length - 1}`;
+        finalOfficeVal = val.concat(length);
+        this.setState({ finalOfficeVal });
+      } else if (this.state.selectedOffice.length > 0) {
+        finalOfficeVal = val;
       }
-      this.setState({ finalVal });
-      let str = '[';
+      this.setState({ finalOfficeVal });
+      const strArr = [];
       space.forEach(ev => {
-        str += `,"${ev}"`;
+        strArr.push(ev);
       });
-      str += ']';
-      const da = str.slice(0, 1);
-      const ta = str.slice(2);
-      const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
-      this.setState({ strSpace });
       this.setState({ page: 1 });
-
-      this.props.requestGetEmployeeDetail({
-        space: strSpace,
-        value: this.state.strVal,
-        search: this.state.searchVal,
-        limit: this.state.limit,
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const timeoutId = setTimeout(() => {
+        this.setState({ srcOffice: strArr }, () => {
+          this.props.requestGetEmployeeDetail({
+            search: this.state.searchVal,
+            value: this.state.strVal,
+            space: strArr,
+            sortBy: this.state.sortBy,
+            limit: this.state.limit,
+            page: this.state.page,
+          });
+        });
+      }, 1000);
+      this.setState({
+        typingTimeout: timeoutId,
       });
     });
   };
@@ -368,6 +381,8 @@ class EmployeePage extends Component {
       singleEmployeeLoading,
       updateEmployeeLoading,
       employeeLoading,
+      officeLocation,
+      userRoles,
       apiMessage,
       apiSuccess,
     } = this.props;
@@ -377,6 +392,7 @@ class EmployeePage extends Component {
           editEmployee={this.handleEdit}
           handleSubmit={this.handleSubmit}
           employeeData={employeeData}
+          userRoles={userRoles}
           handleSearch={this.handleSearch}
           handleSearcha={this.handleSearcha}
           workSpace={workSpace}
@@ -399,6 +415,7 @@ class EmployeePage extends Component {
           handleClickSort={this.handleClickSort}
           updateEmployeeLoading={updateEmployeeLoading}
           employeeLoading={employeeLoading}
+          officeLocation={officeLocation}
           apiSuccess={apiSuccess}
           apiMessage={apiMessage}
           handleUnassignedSpace={this.handleUnassignedSpace}
@@ -418,6 +435,7 @@ const mapStateToProps = state => {
       employee.EmployeeDetail &&
       employee.EmployeeDetail.employee &&
       employee.EmployeeDetail.employee.userData,
+    userRoles: employee && employee.userRole && employee.userRole.userRoles,
     singleEmployeeData:
       employee &&
       employee.EditEmployeeDetail &&
@@ -437,6 +455,10 @@ const mapStateToProps = state => {
       employee.EmployeeDetail.employee.count,
     updateEmployee: employee && employee.UpdateEmployee,
     verifyBadge: locationData && locationData.verifyBadge,
+    officeLocation:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.location,
     verifyBadgeSuccess:
       locationData &&
       locationData.verifyBadge &&
@@ -458,10 +480,13 @@ export function mapDispatchToProps(dispatch) {
   return {
     requestGetEmployeeDetail: payload =>
       dispatch(requestGetEmployeeDetail(payload)),
+    requestgetUserRole: payload => dispatch(requestgetUserRole(payload)),
     requestEditEmployeeDetail: payload =>
       dispatch(requestEditEmployeeDetail(payload)),
     requestUpdateEmployeeDetail: payload =>
       dispatch(requestUpdateEmployeeDetail(payload)),
+    requestGetOfficeLocation: payload =>
+      dispatch(requestGetOfficeLocation(payload)),
     requestGetWorkspace: payload => dispatch(requestGetWorkspace(payload)),
     clearBoardData: () => dispatch(clearBoardData()),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
@@ -475,6 +500,8 @@ const withSaga = injectSaga({ key: 'employee', saga });
 
 EmployeePage.propTypes = {
   requestGetEmployeeDetail: PropTypes.object,
+  requestgetUserRole: PropTypes.func,
+  userRoles: PropTypes.object,
   employeeData: PropTypes.object,
   requestEditEmployeeDetail: PropTypes.object,
   singleEmployeeData: PropTypes.object,
@@ -484,7 +511,8 @@ EmployeePage.propTypes = {
   employeeCount: PropTypes.number,
   requestVerifyBadge: PropTypes.object,
   updateEmployee: PropTypes.object,
-  // handleData: PropTypes.func,
+  requestGetOfficeLocation: PropTypes.func,
+  officeLocation: PropTypes.object,
   resetDataEmp: PropTypes.object,
   // verifyBadge: PropTypes.object,
   verifyBadgeMsg: PropTypes.string,

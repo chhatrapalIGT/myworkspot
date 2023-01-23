@@ -18,7 +18,26 @@ import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
 import Profile from '../assets/images/profileof.png';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
-
+const Option = createClass({
+  render() {
+    return (
+      <components.Option {...this.props}>
+        <div style={{ display: 'flex' }}>
+          <div style={{ flex: '1' }}>
+            <label style={{ cursor: 'pointer' }}>{this.props.data.name}</label>
+            <input
+              className="select_checkbox"
+              type="checkbox"
+              checked={this.props.isSelected}
+              onChange={e => null}
+            />
+          </div>
+          <div className={this.props.isSelected ? 'selected_val' : ''} />
+        </div>
+      </components.Option>
+    );
+  },
+});
 const Assignments = props => {
   const {
     state,
@@ -31,53 +50,65 @@ const Assignments = props => {
   } = props;
   const [open, setOpen] = useState(false);
   const [exportType, setExportType] = useState('');
-  const [officeLocations, setOfficeLocations] = useState([]);
-  const [officeFloors, setOfficeFloors] = useState([]);
-  const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
+  const [officeLocations, setOfficeLocations] = useState([
+    { label: 'All', name: 'All', value: 'All' },
+  ]);
+  const [officeFloors, setOfficeFloors] = useState([
+    { label: 'All', name: 'All', value: 'All' },
+  ]);
+  const [officeNeighborhoods, setOfficeNeighborhoods] = useState([
+    { label: 'All', name: 'All', value: 'All' },
+  ]);
   const [userinfo, setUserInfo] = useState({ offices: [] });
 
   useEffect(() => {
+    const tempArr = [{ label: 'All', name: 'All', value: 'All' }];
     officeLocation &&
       officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
-          officeLocations.push({
+          tempArr.push({
             label: obj.locationname,
             name: obj.locationname,
             value: obj.id,
           });
         }
       });
+    setOfficeLocations(tempArr);
   }, [officeLocation]);
 
   useEffect(() => {
+    const tempArr = [{ label: 'All', name: 'All', value: 'All' }];
     officeFloor &&
       officeFloor.map(obj => {
         if (obj.floor !== null) {
-          officeFloors.push({
+          tempArr.push({
             label: `floor ${obj.floor}`,
             name: `floor ${obj.floor}`,
             value: `floor ${obj.floor}`,
           });
         }
         if (obj.building !== null) {
-          officeFloors.push({
+          tempArr.push({
             label: `building ${obj.building}`,
             name: `building ${obj.building}`,
             value: `building ${obj.building}`,
           });
         }
       });
+    setOfficeFloors(tempArr);
   }, [officeFloor]);
 
   useEffect(() => {
+    const tempArr = [{ label: 'All', name: 'All', value: 'All' }];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
-        officeNeighborhoods.push({
+        tempArr.push({
           label: obj.name,
           name: obj.name,
           value: obj.name,
         });
       });
+    setOfficeNeighborhoods(tempArr);
   }, [officeNeighborhood]);
 
   useEffect(() => {
@@ -86,15 +117,30 @@ const Assignments = props => {
       exportAssignmentData &&
       exportAssignmentData.length > 0
     ) {
+      const customArr = [];
+      exportAssignmentData &&
+        exportAssignmentData.map(obj => {
+          customArr.push({
+            name: obj.name || '-',
+            employeeid: obj.employeeid || '-',
+            department: obj.department || '-',
+            floor: obj.floor || '-',
+            building: obj.building || '-',
+            neighborhood: obj.neighborhood || '-',
+            assignedSpace: obj.assignedSpace || '-',
+            badge: obj.badge || '-',
+          });
+        });
+
       if (exportType === 'CSV') {
         const header = Object.keys(exportAssignmentData[0]);
-        generateCSV(exportType, header, exportAssignmentData, 'Assignments');
+        generateCSV(exportType, header, customArr, 'Assignments');
         setUserInfo({ offices: [] });
         setExportType('');
         setOpen(false);
       }
       if (exportType === 'XLSX') {
-        exportToSpreadsheet(exportAssignmentData);
+        exportToSpreadsheet(customArr);
         setUserInfo({ offices: [] });
         setExportType('');
         setOpen(false);
@@ -154,29 +200,6 @@ const Assignments = props => {
       </>
     );
     return item;
-  });
-
-  const Option = createClass({
-    render() {
-      return (
-        <components.Option {...this.props}>
-          <div style={{ display: 'flex' }}>
-            <div style={{ flex: '1' }}>
-              <label style={{ cursor: 'pointer' }}>
-                {this.props.data.name}
-              </label>
-              <input
-                className="select_checkbox"
-                type="checkbox"
-                checked={this.props.isSelected}
-                onChange={e => null}
-              />
-            </div>
-            <div className={this.props.isSelected ? 'selected_val' : ''} />
-          </div>
-        </components.Option>
-      );
-    },
   });
 
   const colourStyles = {
@@ -242,7 +265,7 @@ const Assignments = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    defaultValue={officeLocations}
+                    defaultValue={officeLocations[0]}
                     onChange={props.handleSelectedoffice}
                     options={updatedLocation}
                     closeMenuOnSelect
@@ -269,7 +292,7 @@ const Assignments = props => {
                     components={{ Option }}
                     isMulti
                     isClearable={false}
-                    defaultValue={officeFloors}
+                    defaultValue={updatedFloors[0]}
                     onChange={props.handleSelectedFloor}
                     options={updatedFloors}
                     closeMenuOnSelect
