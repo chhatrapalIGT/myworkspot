@@ -19,7 +19,8 @@ import Search from '../assets/images/admin/search.svg';
 import SelectDownArrow from '../assets/images/down-arrow.svg';
 import Profile from '../assets/images/profileof.png';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
-
+import { CONSTANT } from '../../enum';
+const { SPIN_IMAGE_URL_LIVE } = CONSTANT;
 const Assignments = props => {
   const {
     state,
@@ -32,9 +33,15 @@ const Assignments = props => {
   } = props;
   const [open, setOpen] = useState(false);
   const [exportType, setExportType] = useState('');
-  const [officeLocations, setOfficeLocations] = useState([]);
-  const [officeFloors, setOfficeFloors] = useState([]);
-  const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
+  const [officeLocations, setOfficeLocations] = useState([
+    { label: 'All', name: 'All', value: 'All' },
+  ]);
+  const [officeFloors, setOfficeFloors] = useState([
+    { label: 'All', name: 'All', value: 'All' },
+  ]);
+  const [officeNeighborhoods, setOfficeNeighborhoods] = useState([
+    { label: 'All', name: 'All', value: 'All' },
+  ]);
   const [userinfo, setUserInfo] = useState({ offices: [] });
 
   useEffect(() => {
@@ -151,32 +158,6 @@ const Assignments = props => {
         offices: offices.filter(i => i !== value),
       });
     }
-  };
-
-  const colourStyles = {
-    control: styles => ({
-      ...styles,
-      backgroundColor: 'white',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      border: '1px solid #d1dce7',
-    }),
-
-    option: (styles, { isFocused, isSelected, isVisited }) => ({
-      ...styles,
-      cursor: isFocused ? 'pointer' : '',
-
-      backgroundColor: isSelected
-        ? '#f8f8f8'
-        : '' || isFocused
-        ? '#EbEEF1'
-        : '' || isVisited
-        ? '#f8f8f8'
-        : '#fffff',
-      paddingRight: isSelected ? '25px' : '',
-      boxShadow: ' 0px 8px 16px rgba(0, 45, 80, 0.12) !important',
-      color: '#000',
-    }),
   };
 
   const handleSelectedList = (index, status) => {
@@ -593,8 +574,9 @@ const Assignments = props => {
                         }}
                       >
                         <img
-                          src={i.photo || Profile}
-                          className="img-fluid user-img"
+                          onError={props.replaceImage}
+                          src={`${SPIN_IMAGE_URL_LIVE}${i.employeeid}.wiki.jpg`}
+                          className="img-fluid table-user-img"
                           alt=""
                           style={{ height: '32px' }}
                         />{' '}
@@ -750,6 +732,7 @@ Assignments.propTypes = {
   assignmentLoading: PropTypes.bool,
   exportAssignmentLoading: PropTypes.bool,
   assignmentCount: PropTypes.number,
+  replaceImage: PropTypes.func,
 };
 
 export default Assignments;

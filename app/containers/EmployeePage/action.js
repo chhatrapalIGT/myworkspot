@@ -13,6 +13,9 @@ import {
   FAILED_GET_WORKSPACE,
   RESET_DATA_EMP,
   CLEAR_EMP,
+  REQUEST_GET_USER_ROLE,
+  FAILED_GET_USER_ROLE,
+  SUCCESS_GET_USER_ROLE,
 } from './constants';
 
 export const requestGetEmployeeDetail = payload => ({
@@ -72,6 +75,21 @@ export const getWorkspaceSuccess = payload => ({
 
 export const getWorkspaceFailed = error => ({
   type: FAILED_GET_WORKSPACE,
+  payload: error,
+});
+
+export const requestgetUserRole = payload => ({
+  type: REQUEST_GET_USER_ROLE,
+  payload,
+});
+
+export const getUserRoleSuccess = payload => ({
+  type: SUCCESS_GET_USER_ROLE,
+  payload,
+});
+
+export const getUserRoleFailed = error => ({
+  type: FAILED_GET_USER_ROLE,
   payload: error,
 });
 

@@ -19,9 +19,15 @@ import {
   requestGetWorkspace,
   resetDataEmp,
   clearEmp,
+  requestgetUserRole,
 } from './action';
 
-import { requestVerifyBadge, clearBoardData } from '../onBoardingPage/actions';
+import {
+  requestVerifyBadge,
+  clearBoardData,
+  requestGetOfficeLocation,
+} from '../onBoardingPage/actions';
+import Profile from '../../components/assets/images/profileof.png';
 
 class EmployeePage extends Component {
   constructor(props) {
@@ -43,6 +49,8 @@ class EmployeePage extends Component {
       floor: '',
       build: '',
       AssignedSpace: '',
+      finalOfficeVal: 'All',
+      finalRoleVal: 'All',
       selectedOption: [],
       selectedRole: [],
       EditModel: false,
@@ -74,11 +82,11 @@ class EmployeePage extends Component {
           data.deskFloor !== null && data.deskBuilding !== null
             ? data.deskFloor.concat(data.deskBuilding)
             : data.deskBuilding !== null
-            ? data.deskBuilding
+            ? Number(data.deskBuilding)
             : data.deskFloor !== null
-            ? data.deskFloor
+            ? Number(data.deskFloor)
             : '',
-        AssignedSpace: data.AssignedSpace,
+        AssignedSpace: data.AssignedSpaceId,
         hasData: false,
       };
     }
@@ -144,6 +152,8 @@ class EmployeePage extends Component {
   };
 
   componentDidMount() {
+    this.props.requestGetOfficeLocation({});
+    this.props.requestgetUserRole();
     this.props.requestGetEmployeeDetail({ search: '', role: '' });
     this.props.requestGetWorkspace();
   }
@@ -208,9 +218,15 @@ class EmployeePage extends Component {
 
   handleChange = event => {
     const { value, name } = event.target;
-    this.setState({
-      [name]: value,
-    });
+    if (name === 'floor') {
+      this.setState({
+        [name]: value,
+      });
+    } else {
+      this.setState({
+        [name]: Number(value),
+      });
+    }
   };
 
   handleSearcha = e => {
@@ -298,37 +314,94 @@ class EmployeePage extends Component {
     });
   };
 
-  handleChangeSpace = option => {
-    const space = option.map(i => i.value);
-    let finalVal;
-    this.setState({ selectedOption: option }, () => {
-      const val = this.state.selectedOption.length
-        ? this.state.selectedOption[0].name
-        : '';
-      if (this.state.selectedOption.length > 1) {
-        const length = `, +${this.state.selectedOption.length - 1}`;
-        finalVal = val.concat(length);
-        this.setState({ finalVal });
-      } else if (this.state.selectedOption.length > 0) {
-        finalVal = val;
+  handleSelectedRole = option => {
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
       }
-      this.setState({ finalVal });
-      let str = '[';
-      space.forEach(ev => {
-        str += `,"${ev}"`;
-      });
-      str += ']';
-      const da = str.slice(0, 1);
-      const ta = str.slice(2);
-      const strSpace = space.length !== 0 ? da && da.concat(ta) : '';
-      this.setState({ strSpace });
+      return true;
+    });
+    const selectRoleList = option.filter(item => item.isSelected === true);
+    let finalRoleVal;
+    this.setState({ selectedRole: selectRoleList }, () => {
+      const val = this.state.selectedRole.length
+        ? this.state.selectedRole[0].name
+        : '';
+      if (this.state.selectedRole.length > 1) {
+        const length = `, +${this.state.selectedRole.length - 1}`;
+        finalRoleVal = val.concat(length);
+        this.setState({ finalRoleVal });
+      } else if (this.state.selectedRole.length > 0) {
+        finalRoleVal = val;
+      } else if (!this.state.selectedRole.length) {
+        finalRoleVal = '';
+      }
+      this.setState({ finalRoleVal });
+      const strArr = space.filter(i => i !== 'All');
       this.setState({ page: 1 });
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const timeoutId = setTimeout(() => {
+        this.setState({ strVal: strArr }, () => {
+          this.props.requestGetEmployeeDetail({
+            value: strArr,
+            space: this.state.strSpace,
+            search: this.state.searchVal,
+            limit: this.state.limit,
+          });
+        });
+      }, 1000);
+      this.setState({
+        typingTimeout: timeoutId,
+      });
+    });
+  };
 
-      this.props.requestGetEmployeeDetail({
-        space: strSpace,
-        value: this.state.strVal,
-        search: this.state.searchVal,
-        limit: this.state.limit,
+  handleSelectedoffice = option => {
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
+      }
+      return true;
+    });
+    const selectOfficeList = option.filter(item => item.isSelected === true);
+    let finalOfficeVal;
+    this.setState({ selectedOffice: selectOfficeList }, () => {
+      const val = this.state.selectedOffice.length
+        ? this.state.selectedOffice[0].name
+        : '';
+      if (this.state.selectedOffice.length > 1) {
+        const length = `, +${this.state.selectedOffice.length - 1}`;
+        finalOfficeVal = val.concat(length);
+        this.setState({ finalOfficeVal });
+      } else if (this.state.selectedOffice.length > 0) {
+        finalOfficeVal = val;
+      } else if (!this.state.selectedOffice.length) {
+        finalOfficeVal = '';
+      }
+      this.setState({ finalOfficeVal });
+      const strArr = space.filter(i => i !== 'All');
+      this.setState({ page: 1 });
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const timeoutId = setTimeout(() => {
+        this.setState({ strSpace: strArr }, () => {
+          this.props.requestGetEmployeeDetail({
+            search: this.state.searchVal,
+            value: this.state.strVal,
+            space: strArr,
+            sortBy: this.state.sortBy,
+            limit: this.state.limit,
+            page: this.state.page,
+          });
+        });
+      }, 1000);
+      this.setState({
+        typingTimeout: timeoutId,
       });
     });
   };
@@ -356,6 +429,11 @@ class EmployeePage extends Component {
     });
   };
 
+  replaceImage = error => {
+    // eslint-disable-next-line no-param-reassign
+    error.target.src = Profile;
+  };
+
   render() {
     const {
       employeeData,
@@ -368,6 +446,8 @@ class EmployeePage extends Component {
       singleEmployeeLoading,
       updateEmployeeLoading,
       employeeLoading,
+      officeLocation,
+      userRoles,
       apiMessage,
       apiSuccess,
     } = this.props;
@@ -377,6 +457,7 @@ class EmployeePage extends Component {
           editEmployee={this.handleEdit}
           handleSubmit={this.handleSubmit}
           employeeData={employeeData}
+          userRoles={userRoles}
           handleSearch={this.handleSearch}
           handleSearcha={this.handleSearcha}
           workSpace={workSpace}
@@ -386,7 +467,8 @@ class EmployeePage extends Component {
           handleLimitChange={this.handleLimitChange}
           handlePageChange={this.handlePageChange}
           employeeCount={employeeCount}
-          handleSelectChange={this.handleSelectChange}
+          handleSelectedoffice={this.handleSelectedoffice}
+          handleSelectedRole={this.handleSelectedRole}
           handleChangeBox={this.handleChangeBox}
           handleBadgeData={this.handleBadgeData}
           handleData={this.handleData}
@@ -399,11 +481,13 @@ class EmployeePage extends Component {
           handleClickSort={this.handleClickSort}
           updateEmployeeLoading={updateEmployeeLoading}
           employeeLoading={employeeLoading}
+          officeLocation={officeLocation}
           apiSuccess={apiSuccess}
           apiMessage={apiMessage}
           handleUnassignedSpace={this.handleUnassignedSpace}
           clearAssign={this.clearAssign}
           onCancel={this.onCancel}
+          replaceImage={this.replaceImage}
         />
       </div>
     );
@@ -418,6 +502,7 @@ const mapStateToProps = state => {
       employee.EmployeeDetail &&
       employee.EmployeeDetail.employee &&
       employee.EmployeeDetail.employee.userData,
+    userRoles: employee && employee.userRole && employee.userRole.userRoles,
     singleEmployeeData:
       employee &&
       employee.EditEmployeeDetail &&
@@ -437,6 +522,10 @@ const mapStateToProps = state => {
       employee.EmployeeDetail.employee.count,
     updateEmployee: employee && employee.UpdateEmployee,
     verifyBadge: locationData && locationData.verifyBadge,
+    officeLocation:
+      locationData &&
+      locationData.getOfficeLocation &&
+      locationData.getOfficeLocation.location,
     verifyBadgeSuccess:
       locationData &&
       locationData.verifyBadge &&
@@ -458,10 +547,13 @@ export function mapDispatchToProps(dispatch) {
   return {
     requestGetEmployeeDetail: payload =>
       dispatch(requestGetEmployeeDetail(payload)),
+    requestgetUserRole: payload => dispatch(requestgetUserRole(payload)),
     requestEditEmployeeDetail: payload =>
       dispatch(requestEditEmployeeDetail(payload)),
     requestUpdateEmployeeDetail: payload =>
       dispatch(requestUpdateEmployeeDetail(payload)),
+    requestGetOfficeLocation: payload =>
+      dispatch(requestGetOfficeLocation(payload)),
     requestGetWorkspace: payload => dispatch(requestGetWorkspace(payload)),
     clearBoardData: () => dispatch(clearBoardData()),
     requestVerifyBadge: payload => dispatch(requestVerifyBadge(payload)),
@@ -475,6 +567,8 @@ const withSaga = injectSaga({ key: 'employee', saga });
 
 EmployeePage.propTypes = {
   requestGetEmployeeDetail: PropTypes.object,
+  requestgetUserRole: PropTypes.func,
+  userRoles: PropTypes.object,
   employeeData: PropTypes.object,
   requestEditEmployeeDetail: PropTypes.object,
   singleEmployeeData: PropTypes.object,
@@ -484,7 +578,8 @@ EmployeePage.propTypes = {
   employeeCount: PropTypes.number,
   requestVerifyBadge: PropTypes.object,
   updateEmployee: PropTypes.object,
-  // handleData: PropTypes.func,
+  requestGetOfficeLocation: PropTypes.func,
+  officeLocation: PropTypes.object,
   resetDataEmp: PropTypes.object,
   // verifyBadge: PropTypes.object,
   verifyBadgeMsg: PropTypes.string,

@@ -15,6 +15,9 @@ import {
   FAILED_GET_WORKSPACE,
   RESET_DATA_EMP,
   CLEAR_EMP,
+  REQUEST_GET_USER_ROLE,
+  SUCCESS_GET_USER_ROLE,
+  FAILED_GET_USER_ROLE,
 } from './constants';
 
 // The initial state of the App
@@ -45,6 +48,13 @@ const initialState = {
     message: '',
     loading: false,
     workspotData: [],
+  },
+  userRole: {
+    error: '',
+    success: false,
+    message: '',
+    loading: false,
+    userRoles: [],
   },
   apiMessage: '',
   apiSuccess: false,
@@ -130,6 +140,25 @@ const EmployeeReducer = (state = initialState, action) =>
         draft.workspotDetail.workspotData = [];
         draft.workspotDetail.success = action.payload.success;
         draft.workspotDetail.message = action.payload;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+
+        break;
+      case REQUEST_GET_USER_ROLE:
+        draft.userRole.loading = true;
+        draft.userRole.error = '';
+        break;
+      case SUCCESS_GET_USER_ROLE:
+        draft.userRole.loading = false;
+        draft.userRole.success = true;
+        draft.userRole.userRoles = action.payload;
+        draft.userRole.error = '';
+        break;
+      case FAILED_GET_USER_ROLE:
+        draft.userRole.loading = false;
+        draft.userRole.userRoles = [];
+        draft.userRole.success = action.payload.success;
+        draft.userRole.message = action.payload;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
 
