@@ -10,7 +10,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Image, Modal } from 'react-bootstrap';
 import createClass from 'create-react-class';
 import Select, { components } from 'react-select';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
@@ -18,7 +18,8 @@ import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
 import Menu from '../assets/images/admin/menu.png';
 import checkedCircle from '../../images/check-circle-fill.svg';
-import vector from '../assets/images/Vector1.svg';
+// import vector from '../assets/images/Vector1.svg';
+import vector from '../../images/InfoOne.png';
 import crossCircle from '../../images/x-circle-fill.svg';
 import lock from '../../images/lock.png';
 import unLock from '../../images/unlock.png';
@@ -50,10 +51,8 @@ const Spaces = ({
   officeNeighborhood,
   handleSelectedFloor,
   handleSelectedNeighbor,
+  lockSpaceData,
 }) => {
-  console.log('first:::', exportManage);
-  console.log('second:::', exportLoading, exportSuccess);
-  console.log('state::::::>', state);
   const [floor, setFloor] = useState();
   const [color, setColor] = useState();
   const [setActive, setActiveState] = useState('');
@@ -121,8 +120,6 @@ const Spaces = ({
           return false;
         }
       });
-
-    console.log('officeFloors:::>', officeFloors);
   }, [officeFloor]);
 
   useEffect(() => {
@@ -306,11 +303,10 @@ const Spaces = ({
   };
 
   const floorData =
-    officeLocation &&
-    officeLocation.find(data =>
-      data.id === state.selectedNames ? data.FloorBuilding : '',
+    lockSpaceData &&
+    lockSpaceData.find(data =>
+      data.id === state.selectedNames ? data.buildingFloor : '',
     );
-  console.log('floorData::>><>', officeLocation);
   const finalLocate =
     officeLocation &&
     officeLocation.filter(
@@ -800,14 +796,19 @@ const Spaces = ({
       <div className="office_maps">
         <div className="container">
           <div className="head d-flex align-items-center">
-            <div className="d-flex align-items-center hover-data">
+            <div className="d-flex align-items-center">
               <h4 className="common-title mb-0 me-2">Locked Spaces</h4>
-              <img
-                src={vector}
-                alt=""
-                aria-hidden="true"
-                name="Building/Floor"
-              />
+              <div className="data-63">
+                <img
+                  src={vector}
+                  alt=""
+                  aria-hidden="true"
+                  name="Building/Floor"
+                />
+                <span className="hover-data expected_hover-span">
+                  <span>Inactive workstations and offices</span>
+                </span>
+              </div>
             </div>
             <div className="office-selections wrap">
               <div className="selction_one ww-100">
@@ -848,61 +849,27 @@ const Spaces = ({
             ) : (
               <>
                 {floorData &&
-                  floorData.FloorBuilding &&
-                  floorData.FloorBuilding.map(obj => (
+                  floorData.buildingFloor &&
+                  floorData.buildingFloor.map(obj => (
                     <div className="accordion_box">
-                      <input
-                        type="checkbox"
-                        id={obj.floorAndBuilding}
-                        name="checkedItem"
-                        value="add"
-                        checked={
-                          obj.lockedWorkspaceNumber === obj.totalWorkspace
-                        }
-                        className="lock invisible"
-                        onChange={e => {
-                          handleCheckbox(
-                            `${obj.floor},${obj.building}`,
-                            e.target.checked,
-                            'FloorClick',
-                          );
-                          setFloor(`${obj.floor},${obj.building}`);
-                        }}
-                      />
-                      <label
-                        htmlFor={obj.floorAndBuilding}
-                        style={{ display: 'block', height: '0px' }}
-                      >
-                        {spaceUpdate &&
-                          spaceUpdate.loading &&
-                          manageLoader === 'FloorClick' && (
-                            <div
-                              className={
-                                `${obj.floor},${obj.building}` === floor
-                                  ? 'spinner-border load_space'
-                                  : ''
-                              }
-                            />
-                          )}
-                      </label>
                       <div
                         aria-hidden="true"
                         className={`accordion3 line ${
-                          setActive === obj.id ? 'active' : ''
+                          setActive === obj.floorId ? 'active' : ''
                         }`}
                         key={obj.floor}
                         id={obj.floor}
                         onClick={() => {
-                          setFloor(`${obj.floor},${obj.building}`);
-                          toggleAccordion(obj.id);
+                          setFloor(`${obj.floor}`);
+                          toggleAccordion(obj.floorId);
                         }}
                       >
                         <span className="dash-menu-item">
                           {obj.building !== null && obj.floor !== null
-                            ? `Building ${obj.building},
+                            ? `Building ${obj.building || null},
                                     Floor ${obj.floor}`
                             : obj.building !== null
-                            ? `Building ${obj.building}`
+                            ? `Building ${obj.building || null}`
                             : obj.floor !== null
                             ? `Floor ${obj.floor}`
                             : ''}
@@ -914,7 +881,7 @@ const Spaces = ({
 
                       <div
                         className={`panel2 ${
-                          setActive === obj.id ? '' : 'display_acc'
+                          setActive === obj.floorId ? '' : 'display_acc'
                         }`}
                       >
                         <div className="panel-list">
@@ -924,9 +891,7 @@ const Spaces = ({
                                 <>
                                   <input
                                     type="checkbox"
-                                    id={obj.floorAndBuilding.concat(
-                                      floor.neighborhoodname,
-                                    )}
+                                    id={obj.floor.concat(floor.name)}
                                     checked={
                                       floor.neighborhoodLockedSpace ===
                                       floor.neighborhoodTotalSpace
@@ -940,21 +905,17 @@ const Spaces = ({
                                         e.target.checked,
                                         'colorCLick',
                                       );
-                                      setColor(floor.neighborhoodname);
+                                      setColor(floor.name);
                                     }}
                                   />
 
-                                  <label
-                                    htmlFor={obj.floorAndBuilding.concat(
-                                      floor.neighborhoodname,
-                                    )}
-                                  >
+                                  <label htmlFor={obj.floor.concat(floor.name)}>
                                     {spaceUpdate &&
                                       spaceUpdate.loading &&
                                       manageLoader === 'colorCLick' && (
                                         <div
                                           className={
-                                            floor.neighborhoodname === color
+                                            floor.name === color
                                               ? 'spinner-border space_loading'
                                               : ''
                                           }
@@ -963,23 +924,19 @@ const Spaces = ({
                                   </label>
                                   <div
                                     className={`accordion2 ${
-                                      updateState === floor.neighborhoodname
-                                        ? 'active'
-                                        : ''
+                                      updateState === floor.name ? 'active' : ''
                                     }`}
                                     aria-hidden="true"
                                     onClick={() => {
-                                      setColor(floor.neighborhoodname);
-                                      toggleSecondAccordion(
-                                        floor.neighborhoodname,
-                                      );
+                                      setColor(floor.name);
+                                      toggleSecondAccordion(floor.name);
                                     }}
                                   >
                                     <span className="dash-menu-item1 line">
                                       <span
-                                        className={`sq-${floor.neighborhoodname.toLowerCase()}`}
+                                        className={`sq-${floor.name.toLowerCase()}`}
                                       />{' '}
-                                      {floor.neighborhoodname}{' '}
+                                      {floor.name}{' '}
                                     </span>
                                     <span className="acc-small">{`${
                                       floor.neighborhoodLockedSpace
@@ -989,14 +946,14 @@ const Spaces = ({
                                   </div>
                                   <div
                                     className={`panel1 ${
-                                      updateState === floor.neighborhoodname
+                                      updateState === floor.name
                                         ? ''
                                         : 'display_acc'
                                     }`}
                                   >
                                     {floor &&
-                                      floor.neighborWorkspace &&
-                                      floor.neighborWorkspace.map(space => (
+                                      floor.workspaces &&
+                                      floor.workspaces.map(space => (
                                         <>
                                           <input
                                             type="checkbox"
@@ -1011,9 +968,7 @@ const Spaces = ({
                                                 e.target.checked,
                                                 'neighborhoodClick',
                                               );
-                                              setSpaceData(
-                                                space.workspacenumber,
-                                              );
+                                              setSpaceData(space.workspacename);
                                             }}
                                           />
                                           <div className="dash-menu-data">
@@ -1024,7 +979,7 @@ const Spaces = ({
                                                   'neighborhoodClick' && (
                                                   <div
                                                     className={
-                                                      space.workspacenumber ===
+                                                      space.workspacename ===
                                                       spaceData
                                                         ? 'spinner-border space_Update_load'
                                                         : ''
@@ -1034,9 +989,9 @@ const Spaces = ({
                                             </label>
                                             <div
                                               className="dash-menu-list2"
-                                              value={space.workspacenumber}
+                                              value={space.workspacename}
                                             >
-                                              {space.workspacenumber}{' '}
+                                              {space.workspacename}{' '}
                                             </div>
                                           </div>
                                         </>
@@ -1069,6 +1024,7 @@ Spaces.propTypes = {
   setSpaceUpdate: PropTypes.object,
   manageSpace: PropTypes.object,
   exportManage: PropTypes.object,
+  lockSpaceData: PropTypes.object,
   officeSrcLocation: PropTypes.object,
   officeNeighborhood: PropTypes.object,
   officeFloor: PropTypes.object,

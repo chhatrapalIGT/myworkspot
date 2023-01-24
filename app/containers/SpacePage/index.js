@@ -17,6 +17,7 @@ import {
   clearMessage,
   requestGetManageSpace,
   requestGetManageExport,
+  requestGetLockSpace,
 } from './actions';
 import Spaces from '../../components/Spaces';
 import { requestGetOfficeLocation } from '../onBoardingPage/actions';
@@ -55,6 +56,7 @@ class OfficeMap extends Component {
     this.props.requestGetOfficeLocation({});
     this.props.requestGetOfficeFloor({});
     this.props.requestGetOfficeNeighborhood({});
+    this.props.requestGetLockSpace({});
   }
 
   handleSearcha = e => {
@@ -103,7 +105,6 @@ class OfficeMap extends Component {
       newExport,
     };
     this.props.requestGetManageSpace(finalPayload);
-    console.log('finalPayload', finalPayload);
   };
 
   handleSelectedoffice = option => {
@@ -331,6 +332,7 @@ class OfficeMap extends Component {
       setSpaceUpdate,
       manageSpace,
       exportManage,
+      lockSpaceData,
       exportLoading,
       manageLoading,
       manageSuccess,
@@ -346,6 +348,7 @@ class OfficeMap extends Component {
           <Spaces
             manageSpace={manageSpace}
             exportManage={exportManage}
+            lockSpaceData={lockSpaceData}
             exportLoading={exportLoading}
             manageLoading={manageLoading}
             manageSuccess={manageSuccess}
@@ -367,6 +370,7 @@ class OfficeMap extends Component {
             handleSelectedNeighbor={this.handleSelectedNeighbor}
             requestGetManageSpace={this.props.requestGetManageSpace}
             requestGetManageExport={this.props.requestGetManageExport}
+            requestGetLockSpace={this.props.requestGetLockSpace}
             requestUpdateActiveStatus={this.props.requestUpdateActiveStatus}
             spaceUpdate={spaceUpdate}
             setSpaceUpdate={setSpaceUpdate}
@@ -389,6 +393,7 @@ const mapStateToProps = state => {
     exportManage: space && space.manageExport && space.manageExport.data,
     exportLoading: space && space.manageExport && space.manageExport.loading,
     exportSuccess: space && space.manageExport && space.manageExport.success,
+    lockSpaceData: space && space.lockSpace && space.lockSpace.data,
     officeFloor:
       assignment && assignment.officeFloor && assignment.officeFloor.floors,
     officeNeighborhood:
@@ -424,6 +429,7 @@ export function mapDispatchToProps(dispatch) {
     requestGetOfficeFloor: payload => dispatch(requestGetOfficeFloor(payload)),
     requestGetOfficeNeighborhood: payload =>
       dispatch(requestGetOfficeNeighborhood(payload)),
+    requestGetLockSpace: payload => dispatch(requestGetLockSpace(payload)),
     clearUpdateStatus: () => dispatch(clearUpdateStatus()),
     clearMessage: () => dispatch(clearMessage()),
     dispatch,
@@ -436,6 +442,7 @@ OfficeMap.propTypes = {
   requestGetOfficeUpdateData: PropTypes.func,
   requestGetManageSpace: PropTypes.func,
   requestGetManageExport: PropTypes.func,
+  requestGetLockSpace: PropTypes.func,
   requestGetOfficeLocation: PropTypes.func,
   requestGetOfficeFloor: PropTypes.func,
   requestGetOfficeNeighborhood: PropTypes.func,
@@ -446,6 +453,7 @@ OfficeMap.propTypes = {
   spaceUpdate: PropTypes.object,
   manageSpace: PropTypes.object,
   exportManage: PropTypes.object,
+  lockSpaceData: PropTypes.object,
   exportLoading: PropTypes.object,
   manageLoading: PropTypes.object,
   manageSuccess: PropTypes.object,

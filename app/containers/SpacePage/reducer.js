@@ -9,6 +9,9 @@ import {
   REQUEST_GET_MANAGE_EXPORT,
   SUCCESS_GET_MANAGE_EXPORT,
   FAILED_GET_MANAGE_EXPORT,
+  REQUEST_GET_LOCK_SPACE,
+  SUCCESS_GET_LOCK_SPACE,
+  FAILED_GET_LOCK_SPACE,
   CLEAR_UPDATE_STATUS,
   CLEAR_MESSAGE,
 } from './constants';
@@ -28,6 +31,12 @@ const initialState = {
     success: false,
   },
   manageExport: {
+    loading: false,
+    error: '',
+    message: '',
+    success: false,
+  },
+  lockSpace: {
     loading: false,
     error: '',
     message: '',
@@ -88,6 +97,21 @@ const spaceReducer = (state = initialState, action) =>
         draft.manageExport.loading = false;
         draft.manageExport.success = false;
         draft.manageExport.error = action.payload.Error;
+        break;
+      case REQUEST_GET_LOCK_SPACE:
+        draft.lockSpace.loading = true;
+        draft.lockSpace.error = '';
+        break;
+      case SUCCESS_GET_LOCK_SPACE:
+        draft.lockSpace.loading = false;
+        draft.lockSpace.success = action.payload.success;
+        draft.lockSpace = action.payload;
+        draft.lockSpace.message = action.payload.message;
+        break;
+      case FAILED_GET_LOCK_SPACE:
+        draft.lockSpace.loading = false;
+        draft.lockSpace.success = false;
+        draft.lockSpace.error = action.payload.Error;
         break;
       case CLEAR_UPDATE_STATUS:
         draft.updateStatus.success = false;

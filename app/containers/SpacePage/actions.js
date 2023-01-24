@@ -10,6 +10,9 @@ import {
   FAILED_GET_MANAGE_EXPORT,
   CLEAR_UPDATE_STATUS,
   CLEAR_MESSAGE,
+  REQUEST_GET_LOCK_SPACE,
+  SUCCESS_GET_LOCK_SPACE,
+  FAILED_GET_LOCK_SPACE,
 } from './constants';
 
 export const requestUpdateActiveStatus = payload => ({
@@ -52,6 +55,20 @@ export const getManageExportSuccess = payload => ({
 
 export const getManageExportFailed = error => ({
   type: FAILED_GET_MANAGE_EXPORT,
+  payload: error,
+});
+export const requestGetLockSpace = payload => ({
+  type: REQUEST_GET_LOCK_SPACE,
+  payload,
+});
+
+export const getLockSpaceSuccess = payload => ({
+  type: SUCCESS_GET_LOCK_SPACE,
+  payload,
+});
+
+export const getLockSpaceFailed = error => ({
+  type: FAILED_GET_LOCK_SPACE,
   payload: error,
 });
 export const clearUpdateStatus = () => ({
