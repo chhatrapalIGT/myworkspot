@@ -1375,7 +1375,7 @@ const WorkspotAdmin = ({
                 className="invite-team-wrapp choose-date mt-2"
                 style={{ width: '85%', height: '48px' }}
               >
-                <label>
+                <label style={{ width: '100%' }}>
                   <Datepicker
                     controls={['calendar']}
                     select="range"
