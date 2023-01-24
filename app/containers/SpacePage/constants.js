@@ -18,5 +18,13 @@ export const REQUEST_GET_NEIGBOR_NAME = 'requestGetNeighborName';
 export const SUCCESS_GET_NEIGBOR_NAME = 'getNeighborNameSuccess';
 export const FAILED_GET_NEIGBOR_NAME = 'getNeighborNameFailed';
 
+export const REQUEST_GET_FLOOR_BY_NAME = 'requestGetFloorByName';
+export const SUCCESS_GET_FLOOR_BY_NAME = 'getFloorByNameSuccess';
+export const FAILED_GET_FLOOR_BY_NAME = 'getFloorByNameFailed';
+
+export const REQUEST_GET_OFFICES_TYPE = 'requestGetOfficesType';
+export const SUCCESS_GET_OFFICES_TYPE = 'getOfficesTypeSuccess';
+export const FAILED_GET_OFFICES_TYPE = 'getOfficesTypeFailed';
+
 export const CLEAR_UPDATE_STATUS = 'clearUpdateStatus';
 export const CLEAR_MESSAGE = 'clearMessage';

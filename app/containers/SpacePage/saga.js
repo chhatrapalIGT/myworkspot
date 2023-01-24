@@ -8,6 +8,8 @@ import {
   REQUEST_GET_MANAGE_EXPORT,
   REQUEST_GET_LOCK_SPACE,
   REQUEST_GET_NEIGBOR_NAME,
+  REQUEST_GET_OFFICES_TYPE,
+  REQUEST_GET_FLOOR_BY_NAME,
 } from './constants';
 import {
   updateActiveStatusSuccess,
@@ -20,6 +22,10 @@ import {
   getLockSpaceFailed,
   getNeighborNameSuccess,
   getNeighborNameFailed,
+  getOfficesTypeFailed,
+  getOfficesTypeSuccess,
+  getFloorByNameFailed,
+  getFloorByNameSuccess,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -170,10 +176,70 @@ export function* getNeighborhoodData({ payload }) {
   }
 }
 
+export function* getfloorNameData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const requestURL = `${API_URL}/Building/getFloorByName`;
+  try {
+    const response = yield request({
+      method: 'GET',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getFloorByNameSuccess(data));
+    } else {
+      yield put(getFloorByNameFailed(data));
+    }
+  } catch (error) {
+    yield put(getFloorByNameFailed(error));
+  }
+}
+
+export function* getOfficeTypeData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const requestURL = `${API_URL}/spaces/getOfficesType`;
+  try {
+    const response = yield request({
+      method: 'GET',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getOfficesTypeSuccess(data));
+    } else {
+      yield put(getOfficesTypeFailed(data));
+    }
+  } catch (error) {
+    yield put(getOfficesTypeFailed(error));
+  }
+}
+
 export default function* spaceMapData() {
   yield takeLatest(REQUEST_UPDATE_ACTIVE_STATUS, statusUpdate);
   yield takeLatest(REQUEST_GET_MANAGE_SPACE, getManageSpaceData);
   yield takeLatest(REQUEST_GET_MANAGE_EXPORT, getExportManageData);
   yield takeLatest(REQUEST_GET_LOCK_SPACE, getLockSpaceData);
   yield takeLatest(REQUEST_GET_NEIGBOR_NAME, getNeighborhoodData);
+  yield takeLatest(REQUEST_GET_OFFICES_TYPE, getOfficeTypeData);
+  yield takeLatest(REQUEST_GET_FLOOR_BY_NAME, getfloorNameData);
 }

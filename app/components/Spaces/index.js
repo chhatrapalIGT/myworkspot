@@ -75,6 +75,8 @@ const Spaces = ({
   const [spaceValue, setSpaceValue] = useState([]);
   const [spaceAllChecked, setSpaceAllChecked] = useState([]);
   const [updatedData, setUpdatedData] = useState([]);
+  const [floorbuildData, setFloorbuildData] = useState([]);
+  const [officeTypeData, setOfficeTypeData] = useState([]);
   const [open, setOpen] = useState(false);
   const [checkOpen, setCheckOpen] = useState(false);
   const [isEditing, setisEditing] = useState(false);
@@ -98,6 +100,8 @@ const Spaces = ({
   const inputValue = e => {
     setEditedText(e.target.value);
   };
+
+  console.log('spaceAllChecked::::>M<>', spaceAllChecked);
 
   const handleClear = () => {
     const allChecked = spaceValue.map(el => {
@@ -571,6 +575,32 @@ const Spaces = ({
     }
     setOfficeNeighborhoods(neighborList);
     handleSelectedNeighbor(neighborList);
+  };
+
+  const handleNeibourUpdateSelect = data => {
+    setUpdatedData({
+      name: data.name,
+    });
+  };
+
+  const handleFloorUpdateSelect = (data, rowId, col) => {
+    const dataName = [];
+    dataName.push({
+      name: data.name,
+      rowId,
+      col,
+    });
+    setFloorbuildData(dataName);
+  };
+
+  const handleOfficeUpdateSelect = (data, rowId, col) => {
+    const dataName = [];
+    dataName.push({
+      name: data.name,
+      rowId,
+      col,
+    });
+    setOfficeTypeData(dataName);
   };
 
   return (
