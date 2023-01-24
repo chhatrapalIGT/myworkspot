@@ -3874,6 +3874,7 @@ tr.exited {
       border: 1px solid #d1dce7;
       box-shadow: 4px 0px 12px rgba(0, 45, 80, 0.06);
       border-radius: 8px;
+      z-index: 999;
       ul {
         width: 100%;
         padding: 10px;
@@ -3963,6 +3964,7 @@ tr.exited {
     border: 1px solid #d1dce7;
     box-shadow: 4px 0px 12px rgba(0, 45, 80, 0.06);
     border-radius: 8px;
+    z-index: 999;
     .drop-footer {
       display: block;
       width: 100% !important;

@@ -24,6 +24,17 @@ import SelectDownArrow from '../assets/images/down-arrow.svg';
 import GreyPencil from '../../images/GreyPencil.png';
 import CheckboxInput from '../assets/images/Checkbox_input.svg';
 import Pagination from '../Employee/Pagination';
+import CheckedItem from '../assets/images/Checked.svg';
+const algoStatus = [
+  {
+    name: 'Active',
+    value: 'Active',
+  },
+  {
+    name: 'Inactive',
+    value: 'Inactive',
+  },
+];
 
 const Spaces = ({
   state,
@@ -79,6 +90,8 @@ const Spaces = ({
   const [updatedNeibour, setUpdatedNeibour] = useState([]);
   const [isShowDropdown, setIsShowDropdown] = useState(false);
   const [isShowColDropdown, setIsShowColDropdown] = useState('');
+  const [isShowRowDropdown, setIsShowRowDropdown] = useState(null);
+  const [currentCheckedValue, setCurrentCheckedValue] = useState('');
 
   let updatedFloors = [];
   const updatedNeighborhood = [];
@@ -560,20 +573,6 @@ const Spaces = ({
     handleSelectedNeighbor(neighborList);
   };
 
-  const handleNeibourUpdateSelect = data => {
-    setUpdatedData({
-      name: data.name,
-    });
-  };
-  const enableEdit = () => {
-    // setShowEditIcons(true);
-    console.log('focused');
-  };
-  const disableEdit = () => {
-    console.log('onBlur');
-    // setShowEditIcons(false);
-  };
-
   return (
     <div className="wrapper_main">
       {setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage && (
@@ -922,6 +921,13 @@ const Spaces = ({
                         onChange={e => {
                           onCheckbox(e, i.id);
                         }}
+                        onClick={() => {
+                          setIsShowDropdown(false);
+                          setIsShowColDropdown('');
+                          setIsShowRowDropdown(idx);
+                          setCurrentCheckedValue('');
+                          setEditedText('');
+                        }}
                       />
                     </td>
                     <td className="assigned_text">
@@ -934,12 +940,19 @@ const Spaces = ({
                               onClick={() => {
                                 setIsShowDropdown(true);
                                 setIsShowColDropdown('floor');
+                                setIsShowRowDropdown(idx);
+                                setCurrentCheckedValue('');
                               }}
                             >
                               <input
                                 type="input"
                                 style={{ cursor: 'alias' }}
-                                value={`${i.floor}`}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowColDropdown === 'floor'
+                                    ? currentCheckedValue
+                                    : i.floor
+                                }
                                 placeholder="Select..."
                                 className="drop-input"
                               />
@@ -948,7 +961,9 @@ const Spaces = ({
                                 src={SelectDownArrow}
                               />
                             </div>
-                            {isShowDropdown && isShowColDropdown === 'floor' ? (
+                            {isShowDropdown &&
+                            isShowRowDropdown === idx &&
+                            isShowColDropdown === 'floor' ? (
                               <div className="dropdown-list-group">
                                 <ul>
                                   {updatedOfficeFloor &&
@@ -957,38 +972,54 @@ const Spaces = ({
                                         key={item.name}
                                         aria-hidden
                                         onClick={() => {
-                                          handleNeibourUpdateSelect(
-                                            item,
-                                            index,
-                                          );
+                                          setCurrentCheckedValue(item.name);
                                         }}
                                       >
-                                        {/* <div className="list-items isChecked"> */}
-                                        <div className="list-items">
-                                          <span>{item.name}</span>
-                                          {/* <img
-                                          src={CheckedItem}
-                                          alt=""
-                                          className="float-end"
-                                        /> */}
-                                        </div>
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
                                       </li>
                                     ))}
                                 </ul>
                                 <div className="drop-footer">
-                                  <input
-                                    type="checkbox"
-                                    className="getAll"
-                                    name="all"
-                                  />
-                                  <small className="getAll_text">
-                                    {' '}
-                                    Update 2 selected items
-                                  </small>
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
                                   <div className="footer-button-group right">
                                     <span
                                       aria-hidden
-                                      onClick={() => setIsShowDropdown(false)}
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                      }}
                                     >
                                       Cancel
                                     </span>{' '}
@@ -1020,12 +1051,19 @@ const Spaces = ({
                               onClick={() => {
                                 setIsShowDropdown(true);
                                 setIsShowColDropdown('neighbor');
+                                setIsShowRowDropdown(idx);
+                                setCurrentCheckedValue('');
                               }}
                             >
                               <input
                                 type="input"
                                 style={{ cursor: 'alias' }}
-                                value={`${i.neighborhoodname}`}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowColDropdown === 'neighbor'
+                                    ? currentCheckedValue
+                                    : i.neighborhoodname
+                                }
                                 placeholder="Select..."
                                 className="drop-input"
                               />
@@ -1035,6 +1073,7 @@ const Spaces = ({
                               />
                             </div>
                             {isShowDropdown &&
+                            isShowRowDropdown === idx &&
                             isShowColDropdown === 'neighbor' ? (
                               <div className="dropdown-list-group">
                                 <ul>
@@ -1044,38 +1083,54 @@ const Spaces = ({
                                         key={item.name}
                                         aria-hidden
                                         onClick={() => {
-                                          handleNeibourUpdateSelect(
-                                            item,
-                                            index,
-                                          );
+                                          setCurrentCheckedValue(item.name);
                                         }}
                                       >
-                                        {/* <div className="list-items isChecked"> */}
-                                        <div className="list-items">
-                                          <span>{item.name}</span>
-                                          {/* <img
-                                         src={CheckedItem}
-                                         alt=""
-                                         className="float-end"
-                                       /> */}
-                                        </div>
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
                                       </li>
                                     ))}
                                 </ul>
                                 <div className="drop-footer">
-                                  <input
-                                    type="checkbox"
-                                    className="getAll"
-                                    name="all"
-                                  />
-                                  <small className="getAll_text">
-                                    {' '}
-                                    Update 2 selected items
-                                  </small>
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
                                   <div className="footer-button-group right">
                                     <span
                                       aria-hidden
-                                      onClick={() => setIsShowDropdown(false)}
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                      }}
                                     >
                                       Cancel
                                     </span>{' '}
@@ -1094,31 +1149,69 @@ const Spaces = ({
                         <>{i.neighborhoodname}</>
                       )}
                     </td>
-
-                    {i.isInput ? (
-                      <td className="assigned_text">
+                    <td className="assigned_text">
+                      {i.isInput ? (
                         <div className="table-input-group">
-                          <input
-                            type="text"
-                            value={editedText}
-                            onKeyDown={event => {
-                              handleKeydown(event);
-                            }}
+                          <div
+                            className=""
+                            aria-hidden
                             onClick={() => {
                               setIsShowDropdown(true);
                               setIsShowColDropdown('space');
+                              setIsShowRowDropdown(idx);
+                              setCurrentCheckedValue('');
                             }}
-                            className="updateSpace"
-                            onChange={e => inputValue(e)}
-                            onBlur={onEditEnd}
-                          />
-                          {isShowDropdown && isShowColDropdown === 'space' ? (
+                          >
+                            {currentCheckedValue !== '' ? (
+                              <input
+                                type="text"
+                                defaultValue={
+                                  currentCheckedValue !== '' &&
+                                  isShowColDropdown === 'space'
+                                    ? currentCheckedValue
+                                    : i.workspacename
+                                }
+                                onKeyDown={event => {
+                                  handleKeydown(event);
+                                }}
+                                className="updateSpace"
+                                onChange={e => {
+                                  setCurrentCheckedValue(e.target.value);
+                                  inputValue(e);
+                                }}
+                                onBlur={onEditEnd}
+                              />
+                            ) : (
+                              <input
+                                type="text"
+                                value={i.workspacename}
+                                onKeyDown={event => {
+                                  handleKeydown(event);
+                                }}
+                                className="updateSpace"
+                                onChange={e => {
+                                  setCurrentCheckedValue(e.target.value);
+                                  inputValue(e);
+                                }}
+                                onBlur={onEditEnd}
+                              />
+                            )}
+                          </div>
+                          {isShowDropdown &&
+                          isShowRowDropdown === idx &&
+                          isShowColDropdown === 'space' ? (
                             <div className="list-group">
                               <div className="drop-footer">
                                 <div className="footer-button-group right">
                                   <span
                                     aria-hidden
-                                    onClick={() => setIsShowDropdown(false)}
+                                    onClick={() => {
+                                      setIsShowColDropdown('');
+                                      setIsShowRowDropdown(null);
+                                      setCurrentCheckedValue('');
+                                      setIsShowDropdown(false);
+                                      setEditedText('');
+                                    }}
                                   >
                                     Cancel
                                   </span>{' '}
@@ -1132,9 +1225,7 @@ const Spaces = ({
                             ''
                           )}
                         </div>
-                      </td>
-                    ) : (
-                      <td className="assigned_text">
+                      ) : (
                         <div className="select-none">
                           {i.workspacename || editedText}
                           {i.isPen && (
@@ -1147,30 +1238,113 @@ const Spaces = ({
                             />
                           )}
                         </div>
-                      </td>
-                    )}
+                      )}
+                    </td>
                     <td className="assigned_text">
                       {i.spaceType ? (
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            variant="success"
-                            id="dropdown-basic"
-                          >
-                            {i.type}
-                          </Dropdown.Toggle>
-
-                          <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">
-                              Action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">
-                              Another action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">
-                              Something else
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('spaceType');
+                                setIsShowRowDropdown(idx);
+                                setCurrentCheckedValue('');
+                              }}
+                            >
+                              <input
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowColDropdown === 'spaceType'
+                                    ? currentCheckedValue
+                                    : i.assigned
+                                }
+                                placeholder="Select..."
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                              />
+                            </div>
+                            {isShowDropdown &&
+                            isShowRowDropdown === idx &&
+                            isShowColDropdown === 'spaceType' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {updatedNeibour &&
+                                    updatedNeibour.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          setCurrentCheckedValue(item.name);
+                                        }}
+                                      >
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
+                                  <div className="footer-button-group right">
+                                    <span
+                                      aria-hidden
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                        setEditedText('');
+                                      }}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button className="btn apply-btn">
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </div>
                       ) : (
                         <>{i.type}</>
                       )}
@@ -1186,26 +1360,111 @@ const Spaces = ({
                     </td>
                     <td className="assigned_text">
                       {i.algorithm ? (
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            variant="success"
-                            id="dropdown-basic"
-                          >
-                            {i.active === true ? 'Active' : 'Inactive'}
-                          </Dropdown.Toggle>
-
-                          <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">
-                              Action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">
-                              Another action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">
-                              Something else
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('status');
+                                setIsShowRowDropdown(idx);
+                                setCurrentCheckedValue('');
+                              }}
+                            >
+                              <input
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowColDropdown === 'status'
+                                    ? currentCheckedValue
+                                    : i.active === true
+                                    ? 'Active'
+                                    : 'Inactive'
+                                }
+                                placeholder="Select..."
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                              />
+                            </div>
+                            {isShowDropdown &&
+                            isShowRowDropdown === idx &&
+                            isShowColDropdown === 'status' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {algoStatus &&
+                                    algoStatus.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          setCurrentCheckedValue(item.name);
+                                        }}
+                                      >
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
+                                  <div className="footer-button-group right">
+                                    <span
+                                      aria-hidden
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                        setEditedText('');
+                                      }}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button className="btn apply-btn">
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </div>
                       ) : (
                         <>{i.active === true ? 'Active' : 'Inactive'}</>
                       )}
