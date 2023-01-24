@@ -600,6 +600,9 @@ const Employee = props => {
                         value={props.state.role}
                         name="role"
                         placeholder="Select role"
+                        disabled={
+                          sessionStorage.getItem('Admin_Owner') === 'false'
+                        }
                       >
                         {role &&
                           role.map(ele => (
