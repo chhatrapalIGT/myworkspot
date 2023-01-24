@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable spaced-comment */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-unescaped-entities */
@@ -28,6 +29,7 @@ import info from '../../images/InfoOne.png';
 import Workstation from '../../images/Workstation.png';
 import PrivateSpace from '../../images/PrivateSpace.png';
 import GreyInfo from '../../images/GreyInfo.png';
+import Calender from '../../images/Calender.png';
 
 const WorkspotAdmin = ({
   getCapacity,
@@ -75,6 +77,8 @@ const WorkspotAdmin = ({
   const [dateValue, setDateValue] = useState([]);
   const [errorData, setErrorData] = useState(false);
   const [checkedError, setCheckedError] = useState(false);
+  const [dateOpen, setDateOpen] = useState(false);
+  const [floorCapacityData, setFloorCapacityData] = useState();
 
   const isDateSelected = useCallback(
     date => {
@@ -127,8 +131,19 @@ const WorkspotAdmin = ({
         moment(ele.date).format('MM/DD/YYYY') === moment().format('MM/DD/YYYY')
       ) {
         floorCapacity = ele;
+        sessionStorage.setItem('floorCapacity', JSON.stringify(floorCapacity));
       }
     });
+  useEffect(() => {
+    if (
+      sessionStorage.getItem('floorCapacity') &&
+      sessionStorage.getItem('floorCapacity') !== '' &&
+      sessionStorage.getItem('floorCapacity') !== undefined
+    ) {
+      setFloorCapacityData(JSON.parse(sessionStorage.getItem('floorCapacity')));
+    }
+  }, [sessionStorage.getItem('floorCapacity')]);
+
   const spaces = (item, obj) => {
     return getCapacity
       .find(
@@ -368,16 +383,15 @@ const WorkspotAdmin = ({
                   </div>
                 ),
             )}
-
           <div className="wrapper_main_head cal_wrapper">
             <div className="myteam_wrapper">
               <div className="container">
                 <div className="chart-data">
                   <div className="row">
                     {/*Today's Drafts*/}
-                    {floorCapacity &&
-                      floorCapacity.data &&
-                      floorCapacity.data.map(
+                    {floorCapacityData &&
+                      floorCapacityData.data &&
+                      floorCapacityData.data.map(
                         obj =>
                           obj.locationname === 'Washington, DC' && (
                             <div className="chart-para">
@@ -420,9 +434,9 @@ const WorkspotAdmin = ({
                             </span>
                           </span>
                         </div>
-                        {floorCapacity &&
-                          floorCapacity.data &&
-                          floorCapacity.data.map(obj =>
+                        {floorCapacityData &&
+                          floorCapacityData.data &&
+                          floorCapacityData.data.map(obj =>
                             obj.locationname === 'Washington, DC' ? (
                               <>
                                 <div className="Expectd-title-capacity">
@@ -464,9 +478,9 @@ const WorkspotAdmin = ({
                     <div className="col-lg-8 pl-0">
                       <div className="d-flex">
                         <div className="capacity_title w-50">
-                          {floorCapacity &&
-                            floorCapacity.data &&
-                            floorCapacity.data.map(
+                          {floorCapacityData &&
+                            floorCapacityData.data &&
+                            floorCapacityData.data.map(
                               obj =>
                                 obj.locationname === 'Washington, DC' && (
                                   <div className="bg-w">
@@ -686,9 +700,9 @@ const WorkspotAdmin = ({
                             )}
                         </div>
                         <div className="capacity_title w-50">
-                          {floorCapacity &&
-                            floorCapacity.data &&
-                            floorCapacity.data.map(
+                          {floorCapacityData &&
+                            floorCapacityData.data &&
+                            floorCapacityData.data.map(
                               obj =>
                                 obj.locationname === 'Richmond, VA' && (
                                   <div className="bg-w">
@@ -1359,20 +1373,21 @@ const WorkspotAdmin = ({
               <span className="mycheckbox">Select date range</span>
               <div
                 className="invite-team-wrapp choose-date mt-2"
-                style={{ width: '85%' }}
+                style={{ width: '85%', height: '48px' }}
               >
-                <div className="access-to">
-                  <span className="material-icons-outlined">
-                    calendar_today
-                  </span>
-                </div>
-                <Datepicker
-                  controls={['calendar']}
-                  select="range"
-                  dateFormat="MMM D YYYY"
-                  value={dateValue}
-                  onChange={selectedChange}
-                />
+                <label>
+                  <Datepicker
+                    controls={['calendar']}
+                    select="range"
+                    dateFormat="MMM D YYYY"
+                    value={dateValue}
+                    onChange={selectedChange}
+                  />
+                  <Image
+                    src={Calender}
+                    className="material-icons-outlined-image"
+                  />
+                </label>
               </div>
 
               {checkedError && (
@@ -1462,8 +1477,7 @@ const WorkspotAdmin = ({
             .XLSX Export
           </Button>
           <Button
-            variant="outline-secondary"
-            className="btn dismiss-cancle"
+            className="dismiss-cancle"
             data-bs-dismiss="modal"
             onClick={() => {
               setOpen(false);

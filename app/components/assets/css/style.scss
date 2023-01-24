@@ -852,6 +852,15 @@ input[type='text'] {
       font-size: 18px;
       color: #95a7b8;
     }
+    .material-icons-outlined-image {
+      position: absolute;
+      right: 15px;
+      top: 48%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: #95a7b8;
+      cursor: pointer;
+    }
   }
 
   .access-to {
@@ -983,6 +992,7 @@ input[type='text'] {
       font-weight: 600;
       margin-top: 9px;
       margin-left: -1px;
+      background-color: #FFFFFF !important;
     }
     .save-data {
       border: 1px solid #0072ce;
