@@ -67,7 +67,7 @@ const Spaces = ({
   const [manageData, setManageData] = useState({});
   const [spaceData, setSpaceData] = useState('');
   const [spaceValue, setSpaceValue] = useState([]);
-  const [updatedData, setUpdatedData] = useState([]);
+  const [updatedData, setUpdatedData] = useState({});
   const [open, setOpen] = useState(false);
   const [checkOpen, setCheckOpen] = useState(false);
   const [isEditing, setisEditing] = useState(false);
@@ -81,6 +81,9 @@ const Spaces = ({
   const [updatedOfficeFloor, setUpdatedOfficeFloor] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
   const [updatedNeibour, setUpdatedNeibour] = useState([]);
+  const [isShowDropdown, setIsShowDropdown] = useState(false);
+  const [isShowColDropdown, setIsShowColDropdown] = useState('');
+
   let updatedFloors = [];
   const updatedNeighborhood = [];
   const inputValue = e => {
@@ -163,7 +166,6 @@ const Spaces = ({
         }
       });
     updatedFloors = tempArr.filter(i => i.value !== 'All');
-    console.log('updatedFloors>>>>>>>>', updatedFloors);
     setOfficeFloors(tempArr);
     setUpdatedOfficeFloor(updatedFloors);
   }, [officeFloor]);
@@ -186,7 +188,6 @@ const Spaces = ({
           value: obj.name,
         });
       });
-    console.log('updatedNeighborhood', updatedNeighborhood);
     setOfficeNeighborhoods(tempArr);
     setUpdatedNeibour(updatedNeighborhood);
   }, [officeNeighborhood]);
@@ -329,28 +330,6 @@ const Spaces = ({
       obj => obj.id !== 'BHM' && obj.id !== 'RW' && obj.id !== 'BLM',
     );
 
-  const Option = createClass({
-    render() {
-      return (
-        <components.Option {...this.props}>
-          <div style={{ display: 'flex' }}>
-            <div style={{ flex: '1' }}>
-              <label style={{ cursor: 'pointer' }}>
-                {this.props.data.name}
-              </label>
-              <input
-                className="select_checkbox"
-                type="checkbox"
-                checked={this.props.isSelected}
-                onChange={e => null}
-              />
-            </div>
-            <div className={this.props.isSelected ? 'selected_val' : ''} />
-          </div>
-        </components.Option>
-      );
-    },
-  });
   const handlePane = id => {
     const spaceInp =
       spaceValue &&
@@ -367,29 +346,6 @@ const Spaces = ({
       });
     setSpaceValue(spaceInp);
   };
-
-  const table = document.getElementById('tableData');
-  let hoverTimer = 0;
-
-  table.addEventListener('mouseenter', () => {
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(() => table.classList.add('active'), 500);
-  });
-
-  table.addEventListener('mouseleave', evt => {
-    [...table.children[0].children].forEach(tr => {
-      tr.classList.remove('exited');
-      if (
-        evt.offsetY >= tr.offsetTop &&
-        evt.offsetY <= tr.offsetTop + tr.clientHeight
-      ) {
-        tr.classList.add('exited');
-      }
-    });
-
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(() => table.classList.remove('active'), 500);
-  });
 
   const onCheckbox = (e, idx) => {
     const { value, checked } = e.target;
@@ -422,48 +378,6 @@ const Spaces = ({
         return el;
       });
     setSpaceValue(spaceInp);
-  };
-  const onDubleFloor = idx => {
-    console.log('idx', idx);
-    // const spaceInp =
-    //   spaceValue &&
-    //   spaceValue.length > 0 &&
-    //   spaceValue.map(el => {
-    //     if (el.id === idx) {
-    //       const val = {
-    //         ...el,
-    //         isFloor: true,
-    //       };
-    //       return val;
-    //     }
-    //     return el;
-    //   });
-    // setSpaceValue(spaceInp);
-  };
-  const colourStyles = {
-    control: styles => ({
-      ...styles,
-      backgroundColor: 'white',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      border: '1px solid #d1dce7',
-    }),
-
-    option: (styles, { isFocused, isSelected, isVisited }) => ({
-      ...styles,
-      cursor: isFocused ? 'pointer' : '',
-
-      backgroundColor: isSelected
-        ? '#f8f8f8'
-        : '' || isFocused
-        ? '#EbEEF1'
-        : '' || isVisited
-        ? '#f8f8f8'
-        : '#fffff',
-      paddingRight: isSelected ? '25px' : '',
-      boxShadow: ' 0px 8px 16px rgba(0, 45, 80, 0.12) !important',
-      color: '#000',
-    }),
   };
 
   const handleSelectedList = (index, status) => {
@@ -582,14 +496,18 @@ const Spaces = ({
     handleSelectedNeighbor(neighborList);
   };
 
-  const handleNeibourUpdateSelect = (data, rowId, col) => {
-    const dataName = [];
-    dataName.push({
+  const handleNeibourUpdateSelect = data => {
+    setUpdatedData({
       name: data.name,
-      rowId,
-      col,
     });
-    setUpdatedData(dataName);
+  };
+  const enableEdit = () => {
+    // setShowEditIcons(true);
+    console.log('focused');
+  };
+  const disableEdit = () => {
+    console.log('onBlur');
+    // setShowEditIcons(false);
   };
 
   return (
@@ -921,148 +839,168 @@ const Spaces = ({
                     </td>
                     <td className="assigned_text">
                       {i.isNeighborh ? (
-                        <div className="custom-filter-dropdown">
-                          <div className="dropdown">
-                            <input
-                              type="input"
-                              style={{ cursor: 'alias' }}
-                              className="dropdown-toggle"
-                              value={
-                                (updatedData &&
-                                  updatedData.length > 0 &&
-                                  updatedData.map(ele =>
-                                    ele.rowId === idx
-                                      ? ele.name
-                                      : `${i.floor}
-                                    ${i.building}`,
-                                  )) ||
-                                `${i.floor}
-                                  ${i.building}`
-                              }
-                              placeholder="Select..."
-                              data-bs-toggle="dropdown"
-                              data-target="#dropdownMenuButton3"
-                            />
-                            <Image
-                              className="img_select"
-                              data-bs-toggle="dropdown"
-                              data-target="#dropdownMenuButton3"
-                              src={SelectDownArrow}
-                            />
-                            <ul
-                              className="dropdown-menu"
-                              id="dropdownMenuButton3"
-                              aria-labelledby="dropdownMenuButton3"
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('floor');
+                              }}
                             >
-                              {updatedOfficeFloor &&
-                                updatedOfficeFloor.map((item, index) => (
-                                  <li
-                                    aria-hidden
-                                    onClick={() =>
-                                      handleNeibourUpdateSelect(
-                                        item,
-                                        idx,
-                                        'floor',
-                                      )
-                                    }
-                                  >
-                                    <span>{item.name}</span>
-                                    <div
-                                      className={
-                                        (updatedData &&
-                                          updatedData.length > 0 &&
-                                          updatedData.map(ele =>
-                                            ele.rowId === idx &&
-                                            ele.col === 'floor' &&
-                                            ele.name === item.name
-                                              ? 'selected_val float-end'
-                                              : '',
-                                          )) ||
-                                        (updatedOfficeFloor &&
-                                          updatedOfficeFloor.length > 0 &&
-                                          updatedOfficeFloor.map(ele =>
-                                            ele.name === item.name
-                                              ? 'selected_val float-end'
-                                              : '',
-                                          ))
-                                      }
-                                    />
-                                  </li>
-                                ))}
-                            </ul>
+                              <input
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={`${i.floor}`}
+                                placeholder="Select..."
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                              />
+                            </div>
+                            {isShowDropdown && isShowColDropdown === 'floor' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {updatedOfficeFloor &&
+                                    updatedOfficeFloor.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          handleNeibourUpdateSelect(
+                                            item,
+                                            index,
+                                          );
+                                        }}
+                                      >
+                                        {/* <div className="list-items isChecked"> */}
+                                        <div className="list-items">
+                                          <span>{item.name}</span>
+                                          {/* <img
+                                          src={CheckedItem}
+                                          alt=""
+                                          className="float-end"
+                                        /> */}
+                                        </div>
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  <input
+                                    type="checkbox"
+                                    className="getAll"
+                                    name="all"
+                                  />
+                                  <small className="getAll_text">
+                                    {' '}
+                                    Update 2 selected items
+                                  </small>
+                                  <div className="footer-button-group right">
+                                    <span
+                                      aria-hidden
+                                      onClick={() => setIsShowDropdown(false)}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button className="btn apply-btn">
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
                           </div>
                         </div>
                       ) : (
-                        <>
+                        <span aria-hidden>
                           {i.floor}
                           {i.building}
-                        </>
+                        </span>
                       )}
                     </td>
                     <td className="assigned_text">
                       {i.isNeighborh ? (
-                        <div className="custom-filter-dropdown">
-                          <div className="dropdown">
-                            <input
-                              type="input"
-                              style={{ cursor: 'alias' }}
-                              className="dropdown-toggle"
-                              value={
-                                (updatedData &&
-                                  updatedData.length > 0 &&
-                                  updatedData.map(ele =>
-                                    ele.rowId === idx
-                                      ? ele.name
-                                      : i.neighborhoodname,
-                                  )) ||
-                                i.neighborhoodname
-                              }
-                              placeholder="Select..."
-                              data-bs-toggle="dropdown"
-                              data-target="#dropdownMenuButton3"
-                            />
-                            <Image
-                              className="img_select"
-                              data-bs-toggle="dropdown"
-                              data-target="#dropdownMenuButton3"
-                              src={SelectDownArrow}
-                            />
-                            <ul
-                              className="dropdown-menu"
-                              id="dropdownMenuButton3"
-                              aria-labelledby="dropdownMenuButton3"
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('neighbor');
+                              }}
                             >
-                              {updatedNeibour &&
-                                updatedNeibour.map((item, index) => (
-                                  <li
-                                    aria-hidden
-                                    onClick={() =>
-                                      handleNeibourUpdateSelect(item, idx)
-                                    }
-                                  >
-                                    <span>{item.name}</span>
-                                    <div
-                                      className={
-                                        (updatedData &&
-                                          updatedData.length > 0 &&
-                                          updatedData.map(ele =>
-                                            ele.rowId === idx &&
-                                            ele.name === item.name
-                                              ? 'selected_val float-end'
-                                              : '',
-                                          )) ||
-                                        (updatedNeibour &&
-                                          updatedNeibour.length > 0 &&
-                                          updatedNeibour.map(ele =>
-                                            ele.name === item.name
-                                              ? 'selected_val float-end'
-                                              : '',
-                                          ))
-                                      }
-                                    />
-                                  </li>
-                                ))}
-                            </ul>
+                              <input
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={`${i.neighborhoodname}`}
+                                placeholder="Select..."
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                              />
+                            </div>
+                            {isShowDropdown &&
+                            isShowColDropdown === 'neighbor' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {updatedNeibour &&
+                                    updatedNeibour.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          handleNeibourUpdateSelect(
+                                            item,
+                                            index,
+                                          );
+                                        }}
+                                      >
+                                        {/* <div className="list-items isChecked"> */}
+                                        <div className="list-items">
+                                          <span>{item.name}</span>
+                                          {/* <img
+                                         src={CheckedItem}
+                                         alt=""
+                                         className="float-end"
+                                       /> */}
+                                        </div>
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  <input
+                                    type="checkbox"
+                                    className="getAll"
+                                    name="all"
+                                  />
+                                  <small className="getAll_text">
+                                    {' '}
+                                    Update 2 selected items
+                                  </small>
+                                  <div className="footer-button-group right">
+                                    <span
+                                      aria-hidden
+                                      onClick={() => setIsShowDropdown(false)}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button className="btn apply-btn">
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
                           </div>
                         </div>
                       ) : (
@@ -1071,19 +1009,46 @@ const Spaces = ({
                     </td>
 
                     {i.isInput ? (
-                      <Form.Control
-                        style={{ width: '100%' }}
-                        value={editedText}
-                        className="bg-transparent border-2 border-black border-solid"
-                        onKeyDown={event => {
-                          handleKeydown(event);
-                        }}
-                        onChange={e => inputValue(e)}
-                        onBlur={onEditEnd}
-                      />
+                      <td className="assigned_text">
+                        <div className="table-input-group">
+                          <input
+                            type="text"
+                            value={editedText}
+                            onKeyDown={event => {
+                              handleKeydown(event);
+                            }}
+                            onClick={() => {
+                              setIsShowDropdown(true);
+                              setIsShowColDropdown('space');
+                            }}
+                            className="updateSpace"
+                            onChange={e => inputValue(e)}
+                            onBlur={onEditEnd}
+                          />
+                          {isShowDropdown && isShowColDropdown === 'space' ? (
+                            <div className="list-group">
+                              <div className="drop-footer">
+                                <div className="footer-button-group right">
+                                  <span
+                                    aria-hidden
+                                    onClick={() => setIsShowDropdown(false)}
+                                  >
+                                    Cancel
+                                  </span>{' '}
+                                  <Button className="btn apply-btn">
+                                    Apply
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            ''
+                          )}
+                        </div>
+                      </td>
                     ) : (
-                      <div className="select-none">
-                        <td className="assigned_text">
+                      <td className="assigned_text">
+                        <div className="select-none">
                           {i.workspacename || editedText}
                           {i.isPen && (
                             <Image
@@ -1094,8 +1059,8 @@ const Spaces = ({
                               }}
                             />
                           )}
-                        </td>
-                      </div>
+                        </div>
+                      </td>
                     )}
                     <td className="assigned_text">
                       {i.spaceType ? (
