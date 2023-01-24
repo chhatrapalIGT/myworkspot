@@ -552,6 +552,7 @@ const Employee = props => {
                       <img
                         src={`${SPIN_IMAGE_URL_LIVE}${props.state.id}.wiki.jpg`}
                         className="img-fluid"
+                        onError={props.replaceImage}
                         style={{
                           borderRadius: '50%',
                           height: '120px',
