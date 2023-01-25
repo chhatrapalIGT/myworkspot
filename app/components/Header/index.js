@@ -15,14 +15,19 @@ import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { Modal } from 'react-bootstrap';
 import Headerlogo from '../assets/images/logo_mains.svg';
 import Profile from '../assets/images/profileof.png';
 import {
   clearData,
   requestDelegateProfile,
   requestUserlistData,
+  requestgetAdminOwner,
+  requestDelegateData,
 } from '../../containers/ProfilePage/actions';
+import ProfileImg from '../assets/images/myprofile.png';
 import BadgeIcon from '../../images/badgeIcon.png';
+import searchicon from '../assets/images/search-blue.svg';
 
 import { CONSTANT } from '../../enum';
 
@@ -30,6 +35,10 @@ const { API_URL } = CONSTANT;
 
 const Header = props => {
   // eslint-disable-next-line no-unused-vars
+  const [show, setShow] = useState(false);
+  const [search, setSearch] = useState(false);
+  const [searchName, setSearchName] = useState([]);
+  const [selectData, setselectData] = useState([]);
   const [apiCall, setApiCall] = useState(false);
   const [sidebar, setSidebar] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
@@ -44,6 +53,53 @@ const Header = props => {
     (props.profileUser && props.profileUser.delegateUserList) || [],
   );
   const [defaultapick, setDefaultapick] = useState(false);
+
+  const handleClose = () => {
+    const data = [...selectData];
+    function unique(dataVal, key) {
+      return [...new Map(dataVal.map(x => [key(x), x])).values()];
+    }
+    setShow(false);
+  };
+
+  const addDelegateList = async () => {
+    const finalValue = selectData.map(data => data.employeeid);
+    const finalDataPayload = {
+      delegateid: finalValue,
+    };
+    console.log(finalDataPayload);
+    props.requestgetAdminOwner(finalDataPayload);
+    await props.requestUserlistData({});
+  };
+
+  const handleUserSelect = firstname => {
+    const dataName = [...selectData];
+    if (dataName.includes(firstname)) {
+      const index = dataName.indexOf(firstname);
+      dataName.splice(index, 1);
+    } else {
+      dataName.push(firstname);
+    }
+    setselectData(dataName);
+  };
+
+  const handleChange = event => {
+    let newList = [];
+    if (event.target.value !== '' && props.delegateList.length) {
+      setSearch(true);
+      newList = props.delegateList.filter(({ firstname, lastname }) => {
+        const first = firstname.toLowerCase();
+        const last = lastname.toLowerCase();
+        const finalDataList = first.concat(' ', last);
+        const filter = event.target.value.toLowerCase().trim();
+        return finalDataList.includes(filter);
+      });
+    } else {
+      setSearch(false);
+      newList = [];
+    }
+    setSearchName(newList);
+  };
   useEffect(() => {
     if (!defaultapick) {
       props.requestUserlistData({
@@ -711,8 +767,122 @@ const Header = props => {
                             </div>
                           )
                         )}
+                        {props.profileUser &&
+                          props.profileUser.role === 'Admin Owner' &&
+                          sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <div
+                              onClick={() => {
+                                props.requestDelegateData({});
+                                setShow(true);
+                              }}
+                              aria-hidden="true"
+                              className="popup-secondary-profile day-pointer"
+                            >
+                              <img
+                                src={searchicon}
+                                alt=""
+                                style={{
+                                  marginBottom: '2px',
+                                  background: '#C8E9FF',
+                                  objectFit: 'none',
+                                }}
+                                color="blue"
+                              />
+                              <div className="sec-profile-info">
+                                <h4>Search for User</h4>
+                              </div>
+                            </div>
+                          )}
+                        <Modal
+                          className="modal fade test_modal"
+                          show={show}
+                          onHide={() => {
+                            setShow(false);
+                          }}
+                          aria-labelledby="exampleModalLabel"
+                          aria-hidden="true"
+                          id="set_location"
+                        >
+                          <div className="modal-dialog">
+                            <div className="modal-content">
+                              <div className="modal-header">
+                                <h5
+                                  className="modal-title"
+                                  id="exampleModalLabel"
+                                >
+                                  Search of User
+                                </h5>
+                                <button
+                                  type="button"
+                                  className="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                  onClick={() => {
+                                    setShow(false);
+                                  }}
+                                />
+                              </div>
+                              <input
+                                type="search"
+                                placeholder="Search..."
+                                className="searchbox"
+                                name="searchValue"
+                                onChange={handleChange}
+                              />
+                              <div
+                                className="modal-body modal-update"
+                                id="data_update"
+                              >
+                                <form
+                                  className="delegate-workspot-access"
+                                  action="submit"
+                                >
+                                  {searchName &&
+                                    searchName.map(i => (
+                                      <div
+                                        aria-hidden="true"
+                                        className={`${selectData.includes(i) &&
+                                          'checked_item'}  form-group`}
+                                        onClick={() => handleUserSelect(i)}
+                                      >
+                                        <img src={ProfileImg} alt="" />
+                                        <input
+                                          id={i.employeeid}
+                                          type="radio"
+                                          className="checkbox"
+                                          checked={selectData.includes(i)}
+                                        />
+                                        <label htmlFor="jane">
+                                          {i.firstname} {i.lastname}
+                                        </label>
+                                      </div>
+                                    ))}
+                                </form>
+                              </div>
 
-                        {/* logout template */}
+                              <div className="modal-footer">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    addDelegateList();
+                                    handleClose();
+                                  }}
+                                  className="btn save-data"
+                                >
+                                  Log In
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setShow(false)}
+                                  className="btn dismiss"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </Modal>
                         <a
                           href
                           className="logout day-pointer"
@@ -786,6 +956,7 @@ const mapStateToProps = state => {
   const { profile } = state;
   return {
     profile,
+    delegateList: profile && profile.delegateList && profile.delegateList,
     profileUser: profile && profile.userList,
     profileUserLoading: profile && profile.loading,
     profileSuccess: profile && profile.success,
@@ -807,6 +978,8 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestDelegateProfile(payload)),
     clearData: () => dispatch(clearData()),
     requestUserlistData: payload => dispatch(requestUserlistData(payload)),
+    requestgetAdminOwner: payload => dispatch(requestgetAdminOwner(payload)),
+    requestDelegateData: payload => dispatch(requestDelegateData(payload)),
 
     dispatch,
   };
@@ -819,8 +992,11 @@ Header.propTypes = {
   profileSuccess: PropTypes.bool,
   requestUserlistData: PropTypes.func,
   badgeUpdateSuccess: PropTypes.object,
+  delegateList: PropTypes.array,
   requestDelegateProfile: PropTypes.func,
   delegateHeaderProfileSuccess: PropTypes.bool,
+  requestgetAdminOwner: PropTypes.func,
+  requestDelegateData: PropTypes.array,
 };
 
 export default compose(

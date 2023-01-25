@@ -41,6 +41,9 @@ import {
   REQUEST_REMOVE_SPIN_ICON,
   SUCCESS_REMOVE_SPIN_ICON,
   FAILED_REMOVE_SPIN_ICON,
+  REQUEST_GET_ADMIN_OWNER,
+  SUCCESS_GET_ADMIN_OWNER,
+  FAILED_GET_ADMIN_OWNER,
 } from './constants';
 
 // The initial state of the App
@@ -317,6 +320,26 @@ const profilePageReducer = (state = initialState, action) =>
         draft.success = action.payload.success;
         draft.apiSuccess = false;
         draft.error = action.payload.message;
+        break;
+
+      case REQUEST_GET_ADMIN_OWNER:
+        draft.loading = true;
+        draft.error = '';
+        draft.success = false;
+        break;
+      case SUCCESS_GET_ADMIN_OWNER:
+        draft.loading = false;
+        draft.success = action.payload.success;
+        draft.message = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
+        break;
+      case FAILED_GET_ADMIN_OWNER:
+        draft.loading = false;
+        draft.success = action.payload.success;
+        draft.error = action.payload.message;
+        draft.apiMessage = action.payload.message;
+        draft.apiSuccess = action.payload.success;
         break;
       default:
     }
