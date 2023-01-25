@@ -8,7 +8,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Modal, Spinner } from 'react-bootstrap';
+import { Button, Form, Image, Modal, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import createClass from 'create-react-class';
 import Select, { components } from 'react-select';
@@ -16,6 +16,7 @@ import Pagination from '../Employee/Pagination';
 import Menu from '../assets/images/admin/menu.png';
 import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
+import SelectDownArrow from '../../images/SelectDownArrow.png';
 import Profile from '../assets/images/profileof.png';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
 
@@ -328,6 +329,7 @@ const Assignments = props => {
                       data-target="#dropdownMenuButton1"
                       // id="dropdownMenuButton1"
                     />
+                    <Image className="img_select" src={SelectDownArrow} />
                     <ul
                       className="dropdown-menu"
                       id="dropdownMenuButton1"
@@ -363,6 +365,7 @@ const Assignments = props => {
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton2"
                     />
+                    <Image className="img_select" src={SelectDownArrow} />
                     <ul
                       className="dropdown-menu"
                       aria-labelledby="dropdownMenuButton2"
@@ -397,6 +400,7 @@ const Assignments = props => {
                       data-bs-toggle="dropdown"
                       id="dropdownMenuButton3"
                     />
+                    <Image className="img_select" src={SelectDownArrow} />
                     <ul
                       className="dropdown-menu"
                       aria-labelledby="dropdownMenuButton3"

@@ -3699,6 +3699,7 @@ div[class*='qy-menu'] * {
 }
 .mg_pop {
   margin-left: -2px !important;
+}
 .custom-filter-dropdown {
   background: white;
   border: 1px solid #d1dce7;
@@ -3746,4 +3747,8 @@ div[class*='qy-menu'] * {
       }
     }
   }
+}
+.img_select {
+  position: absolute !important;
+  right: 0 !important;
 }
