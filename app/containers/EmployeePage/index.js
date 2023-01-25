@@ -198,6 +198,10 @@ class EmployeePage extends Component {
     this.props.requestEditEmployeeDetail(ID);
   };
 
+  handleRole = value => {
+    this.setState({ role: value });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     const { BadgeNumber, id, AssignedSpace, handleUnassign } = this.state;
@@ -457,6 +461,7 @@ class EmployeePage extends Component {
       <div>
         <Employee
           editEmployee={this.handleEdit}
+          handleRole={this.handleRole}
           handleSubmit={this.handleSubmit}
           employeeData={employeeData}
           userRoles={userRoles}
