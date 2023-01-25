@@ -94,14 +94,13 @@ const Spaces = ({
   const [isShowColDropdown, setIsShowColDropdown] = useState('');
   const [isShowRowDropdown, setIsShowRowDropdown] = useState(null);
   const [currentCheckedValue, setCurrentCheckedValue] = useState('');
+  const [changeAll, setChangeAll] = useState(false);
 
   let updatedFloors = [];
   const updatedNeighborhood = [];
   const inputValue = e => {
     setEditedText(e.target.value);
   };
-
-  console.log('spaceAllChecked::::>M<>', spaceAllChecked);
 
   const handleClear = () => {
     const allChecked = spaceValue.map(el => {
@@ -603,6 +602,10 @@ const Spaces = ({
     setOfficeTypeData(dataName);
   };
 
+  const handleChangeAll = e => {
+    const { value, checked } = e.target;
+    setChangeAll(checked);
+  };
   return (
     <div className="wrapper_main">
       {setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage && (
@@ -957,6 +960,7 @@ const Spaces = ({
                           setIsShowRowDropdown(idx);
                           setCurrentCheckedValue('');
                           setEditedText('');
+                          setChangeAll(false);
                         }}
                       />
                     </td>
@@ -971,6 +975,7 @@ const Spaces = ({
                                 setIsShowDropdown(true);
                                 setIsShowColDropdown('floor');
                                 setIsShowRowDropdown(idx);
+                                setChangeAll(false);
                                 setCurrentCheckedValue('');
                               }}
                             >
@@ -979,6 +984,7 @@ const Spaces = ({
                                 style={{ cursor: 'alias' }}
                                 value={
                                   currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
                                   isShowColDropdown === 'floor'
                                     ? currentCheckedValue
                                     : i.floor
@@ -1030,6 +1036,7 @@ const Spaces = ({
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
+                                        onChange={e => handleChangeAll(e)}
                                       />
                                       <small className="getAll_text">
                                         Update{' '}
@@ -1082,6 +1089,7 @@ const Spaces = ({
                                 setIsShowDropdown(true);
                                 setIsShowColDropdown('neighbor');
                                 setIsShowRowDropdown(idx);
+                                setChangeAll(false);
                                 setCurrentCheckedValue('');
                               }}
                             >
@@ -1090,6 +1098,7 @@ const Spaces = ({
                                 style={{ cursor: 'alias' }}
                                 value={
                                   currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
                                   isShowColDropdown === 'neighbor'
                                     ? currentCheckedValue
                                     : i.neighborhoodname
@@ -1141,6 +1150,7 @@ const Spaces = ({
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
+                                        onChange={e => handleChangeAll(e)}
                                       />
                                       <small className="getAll_text">
                                         Update{' '}
@@ -1189,6 +1199,7 @@ const Spaces = ({
                               setIsShowDropdown(true);
                               setIsShowColDropdown('space');
                               setIsShowRowDropdown(idx);
+                              setChangeAll(false);
                               setCurrentCheckedValue('');
                             }}
                           >
@@ -1197,6 +1208,7 @@ const Spaces = ({
                                 type="text"
                                 defaultValue={
                                   currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
                                   isShowColDropdown === 'space'
                                     ? currentCheckedValue
                                     : i.workspacename
@@ -1281,6 +1293,7 @@ const Spaces = ({
                                 setIsShowDropdown(true);
                                 setIsShowColDropdown('spaceType');
                                 setIsShowRowDropdown(idx);
+                                setChangeAll(false);
                                 setCurrentCheckedValue('');
                               }}
                             >
@@ -1289,6 +1302,7 @@ const Spaces = ({
                                 style={{ cursor: 'alias' }}
                                 value={
                                   currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
                                   isShowColDropdown === 'spaceType'
                                     ? currentCheckedValue
                                     : i.assigned
@@ -1340,6 +1354,7 @@ const Spaces = ({
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
+                                        onChange={e => handleChangeAll(e)}
                                       />
                                       <small className="getAll_text">
                                         Update{' '}
@@ -1399,6 +1414,7 @@ const Spaces = ({
                                 setIsShowDropdown(true);
                                 setIsShowColDropdown('status');
                                 setIsShowRowDropdown(idx);
+                                setChangeAll(false);
                                 setCurrentCheckedValue('');
                               }}
                             >
@@ -1407,6 +1423,7 @@ const Spaces = ({
                                 style={{ cursor: 'alias' }}
                                 value={
                                   currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
                                   isShowColDropdown === 'status'
                                     ? currentCheckedValue
                                     : i.active === true
@@ -1460,6 +1477,7 @@ const Spaces = ({
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
+                                        onChange={e => handleChangeAll(e)}
                                       />
                                       <small className="getAll_text">
                                         Update{' '}
