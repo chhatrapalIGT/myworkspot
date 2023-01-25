@@ -3648,16 +3648,16 @@ div[class*='qy-menu'] * {
 .position {
   position: relative;
 }
-.expected_lower{
-  background: #01213A;
+.expected_lower {
+  background: #01213a;
   height: auto !important;
   z-index: 999;
   padding: 10px;
   top: -60px !important;
   left: -4px;
 }
-.office_lower{
-  background: #01213A;
+.office_lower {
+  background: #01213a;
   height: 41px !important;
   z-index: 999;
   padding: 9px;
@@ -3665,7 +3665,7 @@ div[class*='qy-menu'] * {
   left: 0px;
 }
 .confirm_lower {
-  background: #01213A;
+  background: #01213a;
   height: 41px !important;
   z-index: 999;
   padding: 9px;
@@ -3673,19 +3673,23 @@ div[class*='qy-menu'] * {
   left: 0px;
   font-size: 12px;
 }
-.office_upper{
-  background: #01213A;
+.office_upper {
+  background: #01213a;
   height: auto !important;
   z-index: 999;
   padding: 10px;
   top: 137px !important;
   left: auto;
 }
-.expected_upper{
-  background: #01213A;
+.expected_upper {
+  background: #01213a;
   height: auto !important;
   z-index: 999;
   padding: 10px;
   top: 110px !important;
   left: auto;
+}
+.editInput {
+  margin-bottom: 5px;
+  margin-left: 65px;
 }

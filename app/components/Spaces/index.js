@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable no-unused-expressions */
@@ -8,6 +10,7 @@
 /* eslint-disable indent */
 /* eslint-disable default-case */
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
 import { Button, Form, Image, Modal } from 'react-bootstrap';
@@ -22,7 +25,7 @@ import checkedCircle from '../../images/check-circle-fill.svg';
 import vector from '../../images/InfoOne.png';
 import crossCircle from '../../images/x-circle-fill.svg';
 import lock from '../../images/lock.png';
-import unLock from '../../images/unlock.png';
+import GreyPencil from '../../images/GreyPencil.png';
 import Pagination from '../Employee/Pagination';
 
 const Spaces = ({
@@ -61,6 +64,8 @@ const Spaces = ({
   const [manageData, setManageData] = useState({});
   const [spaceData, setSpaceData] = useState('');
   const [open, setOpen] = useState(false);
+  const [isEditing, setisEditing] = useState(false);
+  const [editedText, setEditedText] = useState('');
   const [csvOpen, setCsvOpen] = useState('');
   const [userinfo, setUserInfo] = useState({
     offices: [],
@@ -71,6 +76,25 @@ const Spaces = ({
   let updatedLocation = [];
   let updatedFloors = [];
   let updatedNeighborhood = [];
+
+  const inputValue = e => {
+    setEditedText(e.target.value);
+  };
+
+  const onEditEnd = () => {
+    setisEditing(false);
+  };
+
+  function handleKeydown(event) {
+    if (event.key == 'Enter') {
+      if (event.target.value !== '') {
+        event.preventDefault();
+        event.stopPropagation();
+        setisEditing(false);
+      }
+    }
+    return event.key === 'Enter' || event.key === 'Escape';
+  }
 
   useEffect(() => {
     updatedLocation = [];
@@ -639,12 +663,38 @@ const Spaces = ({
                     <td>
                       <Form.Check className="mycheckbox1" name="group2" />
                     </td>
+                    {console.log('manageSpace', manageSpace)}
                     <td className="assigned_text">
                       {i.floor}
                       {i.building}
                     </td>
                     <td className="assigned_text">{i.neighborhoodname}</td>
-                    <td className="assigned_text">{i.workspacename}</td>
+
+                    {isEditing ? (
+                      <Form.Control
+                        style={{ width: '100%' }}
+                        value={editedText}
+                        className="bg-transparent border-2 border-black border-solid"
+                        onKeyDown={event => {
+                          handleKeydown(event);
+                        }}
+                        onChange={e => inputValue(e)}
+                        onBlur={onEditEnd}
+                      />
+                    ) : (
+                      <div className="select-none">
+                        <td className="assigned_text">
+                          {i.workspacename || editedText}{' '}
+                          <Image
+                            className="editInput"
+                            src={GreyPencil}
+                            onClick={() => {
+                              setisEditing(true);
+                            }}
+                          />
+                        </td>
+                      </div>
+                    )}
                     <td className="assigned_text">{i.type}</td>
                     <td
                       className={`${
