@@ -1,16 +1,16 @@
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable no-else-return */
 /* eslint-disable consistent-return */
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
-/* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable indent */
-/* eslint-disable default-case */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Image, Modal, Dropdown } from 'react-bootstrap';
 import createClass from 'create-react-class';
 import Select, { components } from 'react-select';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
@@ -18,11 +18,23 @@ import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
 import Menu from '../assets/images/admin/menu.png';
 import checkedCircle from '../../images/check-circle-fill.svg';
-import vector from '../assets/images/Vector1.svg';
+import vector from '../../images/InfoOne.png';
 import crossCircle from '../../images/x-circle-fill.svg';
-import lock from '../../images/lock.png';
-import unLock from '../../images/unlock.png';
+import SelectDownArrow from '../assets/images/down-arrow.svg';
+import GreyPencil from '../../images/GreyPencil.png';
+import CheckboxInput from '../assets/images/Checkbox_input.svg';
 import Pagination from '../Employee/Pagination';
+import CheckedItem from '../assets/images/Checked.svg';
+const algoStatus = [
+  {
+    name: 'Active',
+    value: 'Active',
+  },
+  {
+    name: 'Inactive',
+    value: 'Inactive',
+  },
+];
 
 const Spaces = ({
   state,
@@ -44,97 +56,363 @@ const Spaces = ({
   handleClickSort,
   handleSearcha,
   requestGetManageExport,
-  handleofficeSearch,
-  officeSrcLocation,
+  handleSelectedoffice,
+  manageDataSuccess,
   officeFloor,
   officeNeighborhood,
   handleSelectedFloor,
   handleSelectedNeighbor,
+  lockSpaceData,
+  neighborData,
+  floorBulidingData,
+  requestManageUpdateSpace,
+  handleManagespaceUpdate,
+  officesData,
 }) => {
-  const [floor, setFloor] = useState();
+  const [flooring, setFloor] = useState();
   const [color, setColor] = useState();
   const [setActive, setActiveState] = useState('');
   const [updateState, setUpdateState] = useState('');
   const [manageLoader, setManageLoader] = useState('');
   const [manageData, setManageData] = useState({});
   const [spaceData, setSpaceData] = useState('');
+  const [spaceValue, setSpaceValue] = useState([]);
+  const [spaceAllChecked, setSpaceAllChecked] = useState([]);
+  const [updatedData, setUpdatedData] = useState([]);
+  const [floorbuildData, setFloorbuildData] = useState([]);
+  const [officeTypeData, setOfficeTypeData] = useState([]);
   const [open, setOpen] = useState(false);
+  const [checkOpen, setCheckOpen] = useState(false);
+  const [isEditing, setisEditing] = useState(false);
+  const [editedText, setEditedText] = useState('');
   const [csvOpen, setCsvOpen] = useState('');
   const [userinfo, setUserInfo] = useState({
     offices: [],
   });
   const [officeLocations, setOfficeLocations] = useState([]);
   const [officeFloors, setOfficeFloors] = useState([]);
+  const [buildFloors, setBuildFloors] = useState([]);
+  const [updatedOfficeFloor, setUpdatedOfficeFloor] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
-  let updatedLocation = [];
+  const [updatedNeibour, setUpdatedNeibour] = useState([]);
+  const [isShowDropdown, setIsShowDropdown] = useState(false);
+  const [isShowColDropdown, setIsShowColDropdown] = useState('');
+  const [isShowRowDropdown, setIsShowRowDropdown] = useState(null);
+  const [currentCheckedValue, setCurrentCheckedValue] = useState('');
+  const [changeAll, setChangeAll] = useState(false);
+  const [floorbuildingData, setFloorbuildingData] = useState([]);
+  const splitData = currentCheckedValue.split(' ');
+
   let updatedFloors = [];
-  let updatedNeighborhood = [];
+  const updatedNeighborhood = [];
+  const inputValue = e => {
+    setEditedText(e.target.value);
+  };
+
+  const handleClear = () => {
+    const allChecked = spaceValue.map(el => {
+      const alldata = {
+        ...el,
+        isChecked: false,
+        algorithm: false,
+        isFloor: false,
+        isNeighborh: false,
+        isPen: false,
+        spaceType: false,
+        isInput: false,
+      };
+      return alldata;
+    });
+    setSpaceValue(allChecked);
+  };
 
   useEffect(() => {
-    updatedLocation = [];
-    officeSrcLocation &&
-      officeSrcLocation.map(obj => {
+    if (manageDataSuccess) {
+      handleManagespaceUpdate();
+    }
+  }, [manageDataSuccess]);
+
+  const handleUpdateManageSpace = (rowData, map) => {
+    const idData = [];
+    const floorObj = [];
+    const neibourObj = [];
+    rowData &&
+      rowData.length > 0 &&
+      rowData.filter(ele => {
+        idData.push(ele.id);
+        floorObj.push({
+          id: ele.id,
+          floor: splitData[1],
+          building: ele.building || null,
+          neighborhoodname: ele.neighborhoodname || null,
+          locationid: ele.locationid || null,
+        });
+        neibourObj.push({
+          id: ele.id || null,
+          floor: ele.floor || null,
+          building: ele.building || null,
+          neighborhoodname: currentCheckedValue,
+          locationid: ele.locationid || null,
+        });
+      });
+
+    let payload = {};
+    if (map === 'flooringCols') {
+      payload = {
+        floor: floorObj,
+        neighborhoodname: null,
+        Space_No: null,
+        Space_Type: null,
+        active: null,
+        id: rowData.length > 0 ? idData : idData[0].id,
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'neibourCols') {
+      payload = {
+        neighborhoodname: neibourObj,
+        floor: null,
+        Space_No: null,
+        Space_Type: null,
+        active: null,
+        id: rowData.length > 0 ? idData : idData[0].id,
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'spaceCols') {
+      payload = {
+        floor: null,
+        Space_No: currentCheckedValue,
+        neighborhoodname: null,
+        Space_Type: null,
+        active: null,
+        id: rowData.length > 0 ? idData : idData[0].id,
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'spaceTypesCols') {
+      payload = {
+        Space_Type: currentCheckedValue,
+        neighborhoodname: null,
+        Space_No: null,
+        floor: null,
+        active: null,
+        id: rowData.length > 0 ? idData : idData[0].id,
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'algorithmCols') {
+      payload = {
+        Space_Type: null,
+        neighborhoodname: null,
+        Space_No: null,
+        floor: null,
+        active: currentCheckedValue === 'Active' ? true : false,
+        id: rowData.length > 0 ? idData : idData[0].id,
+      };
+      requestManageUpdateSpace(payload);
+    }
+  };
+
+  const handleSelectAll = event => {
+    const { checked } = event.target;
+    if (checked) {
+      setCheckOpen(true);
+      if (spaceValue && spaceValue.length > 0) {
+        const allChecked = spaceValue.map(el => {
+          const alldata = {
+            ...el,
+            isChecked: true,
+            algorithm: true,
+            isFloor: true,
+            isNeighborh: true,
+            isPen: true,
+            spaceType: true,
+          };
+          return alldata;
+        });
+        setSpaceValue(allChecked);
+      }
+    } else {
+      setCheckOpen(false);
+      if (spaceValue && spaceValue.length > 0) {
+        const allChecked = spaceValue.map(el => {
+          const alldata = {
+            ...el,
+            isChecked: false,
+            algorithm: false,
+            isInput: false,
+            isFloor: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return alldata;
+        });
+        setSpaceValue(allChecked);
+      }
+    }
+  };
+
+  const onEditEnd = () => {
+    setisEditing(false);
+  };
+
+  function handleKeydown(event) {
+    if (event.key === 'Enter') {
+      if (event.target.value !== '') {
+        event.preventDefault();
+        event.stopPropagation();
+        setisEditing(false);
+      }
+    }
+    return event.key === 'Enter' || event.key === 'Escape';
+  }
+  useEffect(() => {
+    if (manageSpace && manageSpace.length > 0) {
+      const inputData =
+        manageSpace &&
+        manageSpace.length > 0 &&
+        manageSpace.map(ele => {
+          const inputVal = {
+            ...ele,
+            isChecked: false,
+            isInput: false,
+            isFloor: false,
+            isNeighborh: false,
+            spaceType: false,
+            algorithm: false,
+            isPen: false,
+          };
+          return inputVal;
+        });
+      setSpaceValue(inputData);
+    }
+  }, [manageSpace]);
+
+  useEffect(() => {
+    if (spaceValue && spaceValue.length > 0) {
+      const data = spaceValue.filter(arr => arr.isChecked === true);
+      setSpaceAllChecked(data);
+    }
+  }, [spaceValue]);
+
+  useEffect(() => {
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
+    ];
+    officeLocation &&
+      officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
-          const isDuplicate = officeLocations.includes(obj);
-          if (!isDuplicate) {
-            officeLocations.push({
+          if (obj.id === 'DC') {
+            tempArr.push({
               label: obj.locationname,
               name: obj.locationname,
               value: obj.id,
+              isSelected: true,
             });
-            return true;
+          } else {
+            tempArr.push({
+              label: obj.locationname,
+              name: obj.locationname,
+              value: obj.id,
+              isSelected: false,
+            });
           }
-          return false;
         }
       });
-  }, [officeSrcLocation]);
+    setOfficeLocations(tempArr);
+  }, [officeLocation]);
 
   useEffect(() => {
-    updatedFloors = [];
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
+    ];
     officeFloor &&
       officeFloor.map(obj => {
         if (obj.floor !== null) {
-          const isDuplicate = officeFloors.includes(obj);
-          if (!isDuplicate) {
-            officeFloors.push({
+          if (obj.floor === 3 || obj.floor === 8) {
+            tempArr.push({
               label: `floor ${obj.floor}`,
               name: `floor ${obj.floor}`,
               value: `floor ${obj.floor}`,
+              isSelected: true,
             });
-            return true;
+          } else {
+            tempArr.push({
+              label: `floor ${obj.floor}`,
+              name: `floor ${obj.floor}`,
+              value: `floor ${obj.floor}`,
+              isSelected: false,
+            });
           }
-          return false;
         }
         if (obj.building !== null) {
-          const isDuplicate = officeFloors.includes(obj);
-          if (!isDuplicate) {
-            officeFloors.push({
-              label: `building ${obj.building}`,
-              name: `building ${obj.building}`,
-              value: `building ${obj.building}`,
-            });
-            return true;
-          }
-          return false;
+          tempArr.push({
+            label: `building ${obj.building}`,
+            name: `building ${obj.building}`,
+            value: `building ${obj.building}`,
+            isSelected: false,
+          });
         }
       });
+    updatedFloors = tempArr.filter(i => i.value !== 'All');
+    setOfficeFloors(tempArr);
+    setUpdatedOfficeFloor(updatedFloors);
   }, [officeFloor]);
 
   useEffect(() => {
-    updatedNeighborhood = [];
+    const tempArr = [];
+    floorBulidingData &&
+      floorBulidingData.map(obj => {
+        if (obj.floor !== null && obj.building !== null) {
+          tempArr.push({
+            label: `Floor ${obj.floor}  Building ${obj.building}`,
+            name: `Floor ${obj.floor}  Building ${obj.building}`,
+            value: `Floor ${obj.floor}  Building ${obj.building}`,
+            isSelected: false,
+          });
+        }
+        if (obj.floor !== null && obj.building === null) {
+          tempArr.push({
+            label: `Floor ${obj.floor}`,
+            name: `Floor ${obj.floor}`,
+            value: `Floor ${obj.floor}`,
+            isSelected: false,
+          });
+        }
+        if (obj.building !== null && obj.floor === null) {
+          tempArr.push({
+            label: `Building ${obj.building}`,
+            name: `Building ${obj.building}`,
+            value: `Building ${obj.building}`,
+            isSelected: false,
+          });
+        }
+      });
+    setFloorbuildingData(tempArr);
+  }, [floorBulidingData]);
+
+  useEffect(() => {
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
+    ];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
-        const isDuplicate = officeLocations.includes(obj);
-        if (!isDuplicate) {
-          officeNeighborhoods.push({
-            label: obj.name,
-            name: obj.name,
-            value: obj.name,
-          });
-          return true;
-        }
-        return false;
+        tempArr.push({
+          label: obj.name,
+          name: obj.name,
+          value: obj.name,
+          isSelected: true,
+        });
+        updatedNeighborhood.push({
+          label: obj.name,
+          name: obj.name,
+          value: obj.name,
+        });
       });
+    setOfficeNeighborhoods(tempArr);
+    setUpdatedNeibour(updatedNeighborhood);
   }, [officeNeighborhood]);
 
   function toggleAccordion(id) {
@@ -228,44 +506,8 @@ const Spaces = ({
     }
   };
 
-  updatedLocation = officeLocations.map(item => {
-    // eslint-disable-next-line no-param-reassign
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {state.finalOfficeVal ? state.finalOfficeVal : 'All'}
-        </div>
-      </>
-    );
-    return item;
-  });
-
-  updatedFloors = officeFloors.map(item => {
-    // eslint-disable-next-line no-param-reassign
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {state.finalFloorVal ? state.finalFloorVal : 'All'}
-        </div>
-      </>
-    );
-    return item;
-  });
-
-  updatedNeighborhood = officeNeighborhoods.map(item => {
-    // eslint-disable-next-line no-param-reassign
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {state.finalNeighborhoodVal ? state.finalNeighborhoodVal : 'All'}
-        </div>
-      </>
-    );
-    return item;
-  });
-
   const handleCheckbox = (data, val, final) => {
-    const dataFinal = floor && floor.split(',');
+    const dataFinal = flooring && flooring.split(',');
     setManageLoader(final);
     if (final === 'FloorClick') {
       const dataVal = data && data.split(',');
@@ -301,9 +543,9 @@ const Spaces = ({
   };
 
   const floorData =
-    officeLocation &&
-    officeLocation.find(data =>
-      data.id === state.selectedNames ? data.FloorBuilding : '',
+    lockSpaceData &&
+    lockSpaceData.find(data =>
+      data.id === state.selectedNames ? data.buildingFloor : '',
     );
   const finalLocate =
     officeLocation &&
@@ -311,55 +553,241 @@ const Spaces = ({
       obj => obj.id !== 'BHM' && obj.id !== 'RW' && obj.id !== 'BLM',
     );
 
-  const Option = createClass({
-    render() {
-      return (
-        <components.Option {...this.props}>
-          <div style={{ display: 'flex' }}>
-            <div style={{ flex: '1' }}>
-              <label style={{ cursor: 'pointer' }}>
-                {this.props.data.name}
-              </label>
-              <input
-                className="select_checkbox"
-                type="checkbox"
-                checked={this.props.isSelected}
-                onChange={e => null}
-              />
-            </div>
-            <div className={this.props.isSelected ? 'selected_val' : ''} />
-          </div>
-        </components.Option>
-      );
-    },
-  });
-
-  const colourStyles = {
-    control: styles => ({
-      ...styles,
-      backgroundColor: 'white',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      border: '1px solid #d1dce7',
-    }),
-
-    option: (styles, { isFocused, isSelected, isVisited }) => ({
-      ...styles,
-      cursor: isFocused ? 'pointer' : '',
-
-      backgroundColor: isSelected
-        ? '#f8f8f8'
-        : '' || isFocused
-        ? '#EbEEF1'
-        : '' || isVisited
-        ? '#f8f8f8'
-        : '#fffff',
-      paddingRight: isSelected ? '25px' : '',
-      boxShadow: ' 0px 8px 16px rgba(0, 45, 80, 0.12) !important',
-      color: '#000',
-    }),
+  const handlePane = id => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isInput: true,
+          };
+          return val;
+        }
+        return el;
+      });
+    setSpaceValue(spaceInp);
   };
 
+  const onCheckbox = (e, idx) => {
+    const { value, checked } = e.target;
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === idx && checked === true) {
+          const val = {
+            ...el,
+            isChecked: true,
+            isFloor: true,
+            isNeighborh: true,
+            spaceType: true,
+            algorithm: true,
+            isPen: true,
+          };
+          return val;
+        } else if (el.id === idx && checked === false) {
+          const val = {
+            ...el,
+            isChecked: false,
+            isInput: false,
+            isFloor: false,
+            isNeighborh: false,
+            spaceType: false,
+            algorithm: false,
+            isPen: false,
+          };
+          return val;
+        }
+        return el;
+      });
+    setSpaceValue(spaceInp);
+  };
+
+  const handleSelectedList = (index, status) => {
+    let officeList = [];
+    officeList =
+      officeLocations &&
+      officeLocations.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (officeList.length) {
+      const isAllChecked =
+        officeList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        officeList.length - 1;
+
+      officeList = officeList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeLocations(officeList);
+    handleSelectedoffice(officeList);
+  };
+
+  const handleSelectedFloorList = (index, status) => {
+    let floorList = [];
+    floorList =
+      officeFloors &&
+      officeFloors.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (floorList.length) {
+      const isAllChecked =
+        floorList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        floorList.length - 1;
+      floorList = floorList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeFloors(floorList);
+    handleSelectedFloor(floorList);
+  };
+  const handleSelectedBuildFloorList = (index, status) => {
+    let floorList = [];
+    floorList =
+      buildFloors &&
+      buildFloors.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (floorList.length) {
+      const isAllChecked =
+        floorList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        floorList.length - 1;
+      floorList = floorList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setBuildFloors(floorList);
+    handleSelectedFloor(floorList);
+  };
+
+  const handleSelectedNeighborList = (index, status) => {
+    let neighborList = [];
+    neighborList =
+      officeNeighborhoods &&
+      officeNeighborhoods.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (neighborList.length) {
+      const isAllChecked =
+        neighborList.filter(
+          ele => ele.name !== 'All' && ele.isSelected === true,
+        ).length ===
+        neighborList.length - 1;
+      neighborList = neighborList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeNeighborhoods(neighborList);
+    handleSelectedNeighbor(neighborList);
+  };
+
+  const handleNeibourUpdateSelect = data => {
+    setUpdatedData({
+      name: data.name,
+    });
+  };
+
+  const handleFloorUpdateSelect = (data, rowId, col) => {
+    const dataName = [];
+    dataName.push({
+      name: data.name,
+      rowId,
+      col,
+    });
+    setFloorbuildData(dataName);
+  };
+
+  const handleOfficeUpdateSelect = (data, rowId, col) => {
+    const dataName = [];
+    dataName.push({
+      name: data.name,
+      rowId,
+      col,
+    });
+    setOfficeTypeData(dataName);
+  };
+
+  const handleChangeAll = e => {
+    const { value, checked } = e.target;
+    setChangeAll(checked);
+  };
   return (
     <div className="wrapper_main">
       {setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage && (
@@ -417,88 +845,133 @@ const Spaces = ({
               <div className="menu-img">
                 <img src={Menu} className="img-fluid" alt="" />
               </div>
-
-              <span htmlFor="role" className="role">
-                <p
-                  style={{
-                    height: '15px',
-                    marginBottom: '0px',
-                    fontSize: '12px',
-                    marginLeft: '16px',
-                  }}
-                >
-                  Office{' '}
-                </p>
-                <Select
-                  components={{ Option }}
-                  isMulti
-                  isClearable={false}
-                  defaultValue={officeLocations}
-                  onChange={handleofficeSearch}
-                  options={updatedLocation}
-                  closeMenuOnSelect
-                  hideSelectedOptions={false}
-                  onMenuClose={false}
-                  className=" admin-employee"
-                  name="office"
-                  styles={colourStyles}
-                  label="Office"
-                />
-              </span>
-              <span htmlFor="space" className="space">
-                <p
-                  style={{
-                    height: '15px',
-                    marginBottom: '0px',
-                    fontSize: '12px',
-                    marginLeft: '16px',
-                  }}
-                >
-                  Building/Floor{' '}
-                </p>
-                <Select
-                  components={{ Option }}
-                  isMulti
-                  isClearable={false}
-                  defaultValue={officeFloors}
-                  onChange={handleSelectedFloor}
-                  options={updatedFloors}
-                  closeMenuOnSelect
-                  hideSelectedOptions={false}
-                  onMenuClose={false}
-                  className=" admin-employee"
-                  name="floor"
-                  styles={colourStyles}
-                  label="Building/Floor"
-                />
-              </span>
-              <span htmlFor="space" className="space">
-                <p
-                  style={{
-                    height: '15px',
-                    marginBottom: '0px',
-                    fontSize: '12px',
-                    marginLeft: '16px',
-                  }}
-                >
-                  Neighborhood{' '}
-                </p>
-                <Select
-                  components={{ Option }}
-                  isMulti
-                  isClearable={false}
-                  defaultValue={officeNeighborhoods}
-                  onChange={handleSelectedNeighbor}
-                  options={updatedNeighborhood}
-                  closeMenuOnSelect
-                  hideSelectedOptions={false}
-                  onMenuClose={false}
-                  className=" admin-employee"
-                  name="Neighborhood"
-                  styles={colourStyles}
-                  label="Neighborhood"
-                />
-              </span>
+              <div className="custom-filter-dropdown">
+                <span>Office</span>
+                <div className="dropdown">
+                  <input
+                    type="input"
+                    style={{ cursor: 'alias' }}
+                    className="dropdown-toggle"
+                    value={state.finalOfficeVal}
+                    placeholder="Select..."
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton1"
+                    // id="dropdownMenuButton1"
+                  />
+                  <Image
+                    className="img_select"
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton1"
+                    src={SelectDownArrow}
+                  />
+                  <ul
+                    className="dropdown-menu"
+                    id="dropdownMenuButton1"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    {officeLocations &&
+                      officeLocations.map((item, index) => (
+                        <li
+                          aria-hidden
+                          onClick={() =>
+                            handleSelectedList(index, !item.isSelected)
+                          }
+                        >
+                          <span>{item.name}</span>
+                          <div
+                            className={
+                              item.isSelected ? 'selected_val float-end' : ''
+                            }
+                          />
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="custom-filter-dropdown">
+                <span>Building/Floor</span>
+                <div className="dropdown">
+                  <input
+                    type="input"
+                    style={{ cursor: 'alias' }}
+                    className="dropdown-toggle"
+                    value={state.finalFloorVal}
+                    placeholder="Select..."
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton2"
+                  />
+                  <Image
+                    className="img_select"
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton2"
+                    src={SelectDownArrow}
+                  />
+                  <ul
+                    className="dropdown-menu"
+                    id="dropdownMenuButton2"
+                    aria-labelledby="dropdownMenuButton2"
+                  >
+                    {officeFloors &&
+                      officeFloors.map((item, index) => (
+                        <li
+                          aria-hidden
+                          onClick={() =>
+                            handleSelectedFloorList(index, !item.isSelected)
+                          }
+                        >
+                          <span>{item.name}</span>
+                          <div
+                            className={
+                              item.isSelected ? 'selected_val float-end' : ''
+                            }
+                          />
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="custom-filter-dropdown">
+                <span>Neighborhood</span>
+                <div className="dropdown">
+                  <input
+                    type="input"
+                    style={{ cursor: 'alias' }}
+                    className="dropdown-toggle"
+                    value={state.finalNeighborhoodVal}
+                    placeholder="Select..."
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton3"
+                  />
+                  <Image
+                    className="img_select"
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton3"
+                    src={SelectDownArrow}
+                  />
+                  <ul
+                    className="dropdown-menu"
+                    id="dropdownMenuButton3"
+                    aria-labelledby="dropdownMenuButton3"
+                  >
+                    {officeNeighborhoods &&
+                      officeNeighborhoods.map((item, index) => (
+                        <li
+                          aria-hidden
+                          onClick={() =>
+                            handleSelectedNeighborList(index, !item.isSelected)
+                          }
+                        >
+                          <span>{item.name}</span>
+                          <div
+                            className={
+                              item.isSelected ? 'selected_val float-end' : ''
+                            }
+                          />
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
             </div>
             <div className="search-box">
               <div className="pos-rela">
@@ -506,7 +979,7 @@ const Spaces = ({
                   type="text"
                   onChange={handleSearcha}
                   name="searchVal"
-                  placeholder="Search"
+                  placeholder="Search..."
                 />
                 <div className="search-img">
                   <img src={Search} className="img-fluid" alt="" />
@@ -515,10 +988,30 @@ const Spaces = ({
             </div>
           </div>
           <div className="emp-table">
-            <table>
+            <table id="tableData">
               <tr>
                 <th>
-                  <Form.Check className="mycheckbox1" name="group" />
+                  {spaceAllChecked.length === 0 ||
+                  spaceAllChecked.length === spaceValue.length ? (
+                    <Form.Check
+                      onChange={e => handleSelectAll(e)}
+                      className="mycheckbox1"
+                      name="group2"
+                      checked={
+                        spaceAllChecked.length !== 0 &&
+                        spaceAllChecked.length === spaceValue.length
+                      }
+                    />
+                  ) : (
+                    <>
+                      <img
+                        aria-hidden
+                        onClick={() => handleClear()}
+                        src={CheckboxInput}
+                        alt="img"
+                      />
+                    </>
+                  )}
                 </th>
                 <th style={{ width: '17%' }}>
                   Building/floor{' '}
@@ -631,19 +1124,502 @@ const Spaces = ({
                   </td>
                 </tr>
               ) : (
-                manageSpace &&
-                manageSpace.map(i => (
+                spaceValue &&
+                spaceValue.length > 0 &&
+                spaceValue.map((i, idx) => (
                   <tr>
                     <td>
-                      <Form.Check className="mycheckbox1" name="group2" />
+                      <Form.Check
+                        className="mycheckbox1"
+                        name="group2"
+                        checked={i.isChecked ? true : false}
+                        onChange={e => {
+                          onCheckbox(e, i.id);
+                        }}
+                        onClick={() => {
+                          setIsShowDropdown(false);
+                          setIsShowColDropdown('');
+                          setIsShowRowDropdown(idx);
+                          setCurrentCheckedValue('');
+                          setEditedText('');
+                          setChangeAll(false);
+                        }}
+                      />
                     </td>
                     <td className="assigned_text">
-                      {i.floor}
-                      {i.building}
+                      {i.isNeighborh ? (
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('floor');
+                                setIsShowRowDropdown(idx);
+                                setChangeAll(false);
+                                setCurrentCheckedValue('');
+                              }}
+                            >
+                              <input
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
+                                  isShowColDropdown === 'floor'
+                                    ? currentCheckedValue
+                                    : i.floor
+                                }
+                                placeholder="Select..."
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                              />
+                            </div>
+                            {isShowDropdown &&
+                            isShowRowDropdown === idx &&
+                            isShowColDropdown === 'floor' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {floorbuildingData &&
+                                    floorbuildingData.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          setCurrentCheckedValue(item.name);
+                                        }}
+                                      >
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                        onChange={e => handleChangeAll(e)}
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
+                                  <div className="footer-button-group right">
+                                    <span
+                                      aria-hidden
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                      }}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          'flooringCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                      }}
+                                      className="btn apply-btn"
+                                    >
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <span aria-hidden>
+                          {i.floor}
+                          {i.building}
+                        </span>
+                      )}
                     </td>
-                    <td className="assigned_text">{i.neighborhoodname}</td>
-                    <td className="assigned_text">{i.workspacename}</td>
-                    <td className="assigned_text">{i.type}</td>
+                    <td className="assigned_text">
+                      {i.isNeighborh ? (
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('neighbor');
+                                setIsShowRowDropdown(idx);
+                                setChangeAll(false);
+                                setCurrentCheckedValue('');
+                              }}
+                            >
+                              <input
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
+                                  isShowColDropdown === 'neighbor'
+                                    ? currentCheckedValue
+                                    : i.neighborhoodname
+                                }
+                                placeholder="Select..."
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                              />
+                            </div>
+                            {isShowDropdown &&
+                            isShowRowDropdown === idx &&
+                            isShowColDropdown === 'neighbor' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {neighborData &&
+                                    neighborData.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          setCurrentCheckedValue(item.name);
+                                        }}
+                                      >
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                        onChange={e => handleChangeAll(e)}
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
+                                  <div className="footer-button-group right">
+                                    <span
+                                      aria-hidden
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                      }}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          'neibourCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                      }}
+                                      className="btn apply-btn"
+                                    >
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <>{i.neighborhoodname}</>
+                      )}
+                    </td>
+                    <td className="assigned_text">
+                      {i.isInput ? (
+                        <div className="table-input-group">
+                          <div
+                            className=""
+                            aria-hidden
+                            onClick={() => {
+                              setIsShowDropdown(true);
+                              setIsShowColDropdown('space');
+                              setIsShowRowDropdown(idx);
+                              setChangeAll(false);
+                              setCurrentCheckedValue('');
+                            }}
+                          >
+                            {currentCheckedValue !== '' ? (
+                              <input
+                                type="text"
+                                defaultValue={
+                                  currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
+                                  isShowColDropdown === 'space'
+                                    ? currentCheckedValue
+                                    : i.workspacename
+                                }
+                                onKeyDown={event => {
+                                  handleKeydown(event);
+                                }}
+                                className="updateSpace"
+                                onChange={e => {
+                                  setCurrentCheckedValue(e.target.value);
+                                  inputValue(e);
+                                }}
+                                onBlur={onEditEnd}
+                              />
+                            ) : (
+                              <input
+                                type="text"
+                                value={i.workspacename}
+                                onKeyDown={event => {
+                                  handleKeydown(event);
+                                }}
+                                className="updateSpace"
+                                onChange={e => {
+                                  setCurrentCheckedValue(e.target.value);
+                                  inputValue(e);
+                                }}
+                                onBlur={onEditEnd}
+                              />
+                            )}
+                          </div>
+                          {isShowDropdown &&
+                          isShowRowDropdown === idx &&
+                          isShowColDropdown === 'space' ? (
+                            <div className="list-group">
+                              <div className="drop-footer">
+                                <div className="footer-button-group right">
+                                  <span
+                                    aria-hidden
+                                    onClick={() => {
+                                      setIsShowColDropdown('');
+                                      setIsShowRowDropdown(null);
+                                      setCurrentCheckedValue('');
+                                      setIsShowDropdown(false);
+                                      setEditedText('');
+                                    }}
+                                  >
+                                    Cancel
+                                  </span>{' '}
+                                  <Button
+                                    onClick={() => {
+                                      handleUpdateManageSpace(
+                                        spaceAllChecked,
+                                        'spaceCols',
+                                      );
+                                      setIsShowColDropdown('');
+                                      setIsShowRowDropdown(null);
+                                      setCurrentCheckedValue('');
+                                    }}
+                                    className="btn apply-btn"
+                                  >
+                                    Apply
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            ''
+                          )}
+                        </div>
+                      ) : (
+                        <div className="select-none">
+                          {i.workspacename || editedText}
+                          {i.isPen && (
+                            <Image
+                              className="editInput"
+                              src={GreyPencil}
+                              onClick={() => {
+                                handlePane(i.id);
+                              }}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </td>
+                    <td className="assigned_text">
+                      {i.spaceType ? (
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('spaceType');
+                                setIsShowRowDropdown(idx);
+                                setChangeAll(false);
+                                setCurrentCheckedValue('');
+                              }}
+                            >
+                              <input
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
+                                  isShowColDropdown === 'spaceType'
+                                    ? currentCheckedValue
+                                    : i.type
+                                }
+                                placeholder="Select..."
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                              />
+                            </div>
+                            {isShowDropdown &&
+                            isShowRowDropdown === idx &&
+                            isShowColDropdown === 'spaceType' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {officesData &&
+                                    officesData.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          setCurrentCheckedValue(item.name);
+                                        }}
+                                      >
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                        onChange={e => handleChangeAll(e)}
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
+                                  <div className="footer-button-group right">
+                                    <span
+                                      aria-hidden
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                        setEditedText('');
+                                      }}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          'spaceTypesCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                      }}
+                                      className="btn apply-btn"
+                                    >
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <>{i.type}</>
+                      )}
+                    </td>
                     <td
                       className={`${
                         i.assigned === 'Not assigned'
@@ -654,22 +1630,129 @@ const Spaces = ({
                       {i.assigned}
                     </td>
                     <td className="assigned_text">
-                      {i.active === true ? 'Active' : 'Inactive'}
-                    </td>
-                    <td>
-                      {' '}
-                      {/* <img
-                        src={Edit}
-                        onClick={() => {
-                          props.editEmployee(i.employeeid);
-                          handleShow();
-                          props.clearAssign();
-                          setchkspace(false);
-                        }}
-                        aria-hidden="true"
-                        alt="Edit"
-                        className="day-pointer"
-                      /> */}
+                      {i.algorithm ? (
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('status');
+                                setIsShowRowDropdown(idx);
+                                setChangeAll(false);
+                                setCurrentCheckedValue('');
+                              }}
+                            >
+                              <input
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
+                                  isShowColDropdown === 'status'
+                                    ? currentCheckedValue
+                                    : i.active === true
+                                    ? 'Active'
+                                    : 'Inactive'
+                                }
+                                placeholder="Select..."
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                              />
+                            </div>
+                            {isShowDropdown &&
+                            isShowRowDropdown === idx &&
+                            isShowColDropdown === 'status' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {algoStatus &&
+                                    algoStatus.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          setCurrentCheckedValue(item.name);
+                                        }}
+                                      >
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                        onChange={e => handleChangeAll(e)}
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
+                                  <div className="footer-button-group right">
+                                    <span
+                                      aria-hidden
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                        setEditedText('');
+                                      }}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          'algorithmCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                      }}
+                                      className="btn apply-btn"
+                                    >
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <>{i.active === true ? 'Active' : 'Inactive'}</>
+                      )}
                     </td>
                   </tr>
                 ))
@@ -783,7 +1866,7 @@ const Spaces = ({
           </Button>
           <Button
             variant="outline-secondary"
-            className="btn cust-model-btn"
+            className="btn cust-model-cancel-btn"
             data-bs-dismiss="modal"
             onClick={() => setOpen(false)}
           >
@@ -794,14 +1877,20 @@ const Spaces = ({
       <div className="office_maps">
         <div className="container">
           <div className="head d-flex align-items-center">
-            <div className="d-flex align-items-center hover-data">
+            <div className="d-flex align-items-center">
               <h4 className="common-title mb-0 me-2">Locked Spaces</h4>
-              <img
-                src={vector}
-                alt=""
-                aria-hidden="true"
-                name="Building/Floor"
-              />
+              <div className="data-63">
+                <img
+                  style={{ marginBottom: '7px' }}
+                  src={vector}
+                  alt=""
+                  aria-hidden="true"
+                  name="Building/Floor"
+                />
+                <span className="hover-data expected_hover-span">
+                  <span>Inactive workstations and offices</span>
+                </span>
+              </div>
             </div>
             <div className="office-selections wrap">
               <div className="selction_one ww-100">
@@ -842,61 +1931,27 @@ const Spaces = ({
             ) : (
               <>
                 {floorData &&
-                  floorData.FloorBuilding &&
-                  floorData.FloorBuilding.map(obj => (
+                  floorData.buildingFloor &&
+                  floorData.buildingFloor.map(obj => (
                     <div className="accordion_box">
-                      <input
-                        type="checkbox"
-                        id={obj.floorAndBuilding}
-                        name="checkedItem"
-                        value="add"
-                        checked={
-                          obj.lockedWorkspaceNumber === obj.totalWorkspace
-                        }
-                        className="lock invisible"
-                        onChange={e => {
-                          handleCheckbox(
-                            `${obj.floor},${obj.building}`,
-                            e.target.checked,
-                            'FloorClick',
-                          );
-                          setFloor(`${obj.floor},${obj.building}`);
-                        }}
-                      />
-                      <label
-                        htmlFor={obj.floorAndBuilding}
-                        style={{ display: 'block', height: '0px' }}
-                      >
-                        {spaceUpdate &&
-                          spaceUpdate.loading &&
-                          manageLoader === 'FloorClick' && (
-                            <div
-                              className={
-                                `${obj.floor},${obj.building}` === floor
-                                  ? 'spinner-border load_space'
-                                  : ''
-                              }
-                            />
-                          )}
-                      </label>
                       <div
                         aria-hidden="true"
                         className={`accordion3 line ${
-                          setActive === obj.id ? 'active' : ''
+                          setActive === obj.floorId ? 'active' : ''
                         }`}
                         key={obj.floor}
                         id={obj.floor}
                         onClick={() => {
-                          setFloor(`${obj.floor},${obj.building}`);
-                          toggleAccordion(obj.id);
+                          setFloor(`${obj.floor}`);
+                          toggleAccordion(obj.floorId);
                         }}
                       >
                         <span className="dash-menu-item">
                           {obj.building !== null && obj.floor !== null
-                            ? `Building ${obj.building},
+                            ? `Building ${obj.building || null},
                                     Floor ${obj.floor}`
                             : obj.building !== null
-                            ? `Building ${obj.building}`
+                            ? `Building ${obj.building || null}`
                             : obj.floor !== null
                             ? `Floor ${obj.floor}`
                             : ''}
@@ -908,7 +1963,7 @@ const Spaces = ({
 
                       <div
                         className={`panel2 ${
-                          setActive === obj.id ? '' : 'display_acc'
+                          setActive === obj.floorId ? '' : 'display_acc'
                         }`}
                       >
                         <div className="panel-list">
@@ -918,9 +1973,7 @@ const Spaces = ({
                                 <>
                                   <input
                                     type="checkbox"
-                                    id={obj.floorAndBuilding.concat(
-                                      floor.neighborhoodname,
-                                    )}
+                                    id={obj.floor.concat(floor.name)}
                                     checked={
                                       floor.neighborhoodLockedSpace ===
                                       floor.neighborhoodTotalSpace
@@ -934,21 +1987,17 @@ const Spaces = ({
                                         e.target.checked,
                                         'colorCLick',
                                       );
-                                      setColor(floor.neighborhoodname);
+                                      setColor(floor.name);
                                     }}
                                   />
 
-                                  <label
-                                    htmlFor={obj.floorAndBuilding.concat(
-                                      floor.neighborhoodname,
-                                    )}
-                                  >
+                                  <label htmlFor={obj.floor.concat(floor.name)}>
                                     {spaceUpdate &&
                                       spaceUpdate.loading &&
                                       manageLoader === 'colorCLick' && (
                                         <div
                                           className={
-                                            floor.neighborhoodname === color
+                                            floor.name === color
                                               ? 'spinner-border space_loading'
                                               : ''
                                           }
@@ -957,40 +2006,34 @@ const Spaces = ({
                                   </label>
                                   <div
                                     className={`accordion2 ${
-                                      updateState === floor.neighborhoodname
-                                        ? 'active'
-                                        : ''
+                                      updateState === floor.name ? 'active' : ''
                                     }`}
                                     aria-hidden="true"
                                     onClick={() => {
-                                      setColor(floor.neighborhoodname);
-                                      toggleSecondAccordion(
-                                        floor.neighborhoodname,
-                                      );
+                                      setColor(floor.name);
+                                      toggleSecondAccordion(floor.name);
                                     }}
                                   >
                                     <span className="dash-menu-item1 line">
                                       <span
-                                        className={`sq-${floor.neighborhoodname.toLowerCase()}`}
+                                        className={`sq-${floor.name.toLowerCase()}`}
                                       />{' '}
-                                      {floor.neighborhoodname}{' '}
+                                      {floor.name}{' '}
                                     </span>
                                     <span className="acc-small">{`${
-                                      floor.neighborhoodLockedSpace
-                                    }/${
-                                      floor.neighborhoodTotalSpace
-                                    } Locked`}</span>
+                                      floor.lockedWorkspaceNumber
+                                    }/${floor.totalWorkspace} Locked`}</span>
                                   </div>
                                   <div
                                     className={`panel1 ${
-                                      updateState === floor.neighborhoodname
+                                      updateState === floor.name
                                         ? ''
                                         : 'display_acc'
                                     }`}
                                   >
                                     {floor &&
-                                      floor.neighborWorkspace &&
-                                      floor.neighborWorkspace.map(space => (
+                                      floor.workspaces &&
+                                      floor.workspaces.map(space => (
                                         <>
                                           <input
                                             type="checkbox"
@@ -1005,9 +2048,7 @@ const Spaces = ({
                                                 e.target.checked,
                                                 'neighborhoodClick',
                                               );
-                                              setSpaceData(
-                                                space.workspacenumber,
-                                              );
+                                              setSpaceData(space.workspacename);
                                             }}
                                           />
                                           <div className="dash-menu-data">
@@ -1018,7 +2059,7 @@ const Spaces = ({
                                                   'neighborhoodClick' && (
                                                   <div
                                                     className={
-                                                      space.workspacenumber ===
+                                                      space.workspacename ===
                                                       spaceData
                                                         ? 'spinner-border space_Update_load'
                                                         : ''
@@ -1028,9 +2069,9 @@ const Spaces = ({
                                             </label>
                                             <div
                                               className="dash-menu-list2"
-                                              value={space.workspacenumber}
+                                              value={space.workspacename}
                                             >
-                                              {space.workspacenumber}{' '}
+                                              {space.workspacename}{' '}
                                             </div>
                                           </div>
                                         </>
@@ -1057,15 +2098,21 @@ Spaces.propTypes = {
   officeLocation: PropTypes.object,
   handleUserSelect: PropTypes.func,
   requestUpdateActiveStatus: PropTypes.func,
+  requestManageUpdateSpace: PropTypes.func,
+  handleManagespaceUpdate: PropTypes.func,
   handleCloseUpdate: PropTypes.func,
   spaceUpdate: PropTypes.object,
   officeSuccess: PropTypes.object,
   setSpaceUpdate: PropTypes.object,
   manageSpace: PropTypes.object,
   exportManage: PropTypes.object,
-  officeSrcLocation: PropTypes.object,
+  lockSpaceData: PropTypes.object,
+  neighborData: PropTypes.object,
+  floorBulidingData: PropTypes.object,
+  manageDataSuccess: PropTypes.bool,
   officeNeighborhood: PropTypes.object,
   officeFloor: PropTypes.object,
+  officesData: PropTypes.object,
   exportLoading: PropTypes.bool,
   manageLoading: PropTypes.bool,
   exportSuccess: PropTypes.bool,
@@ -1075,7 +2122,7 @@ Spaces.propTypes = {
   handleClickSort: PropTypes.func,
   handleSearcha: PropTypes.func,
   requestGetManageExport: PropTypes.func,
-  handleofficeSearch: PropTypes.func,
+  handleSelectedoffice: PropTypes.func,
   handleSelectedFloor: PropTypes.func,
   handleSelectedNeighbor: PropTypes.func,
 };

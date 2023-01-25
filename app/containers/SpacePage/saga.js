@@ -6,6 +6,11 @@ import {
   REQUEST_UPDATE_ACTIVE_STATUS,
   REQUEST_GET_MANAGE_SPACE,
   REQUEST_GET_MANAGE_EXPORT,
+  REQUEST_GET_LOCK_SPACE,
+  REQUEST_GET_NEIGBOR_NAME,
+  REQUEST_GET_OFFICES_TYPE,
+  REQUEST_GET_FLOOR_BY_NAME,
+  REQUEST_MANAGE_UPDATE_SPACE,
 } from './constants';
 import {
   updateActiveStatusSuccess,
@@ -14,6 +19,16 @@ import {
   getManageSpaceFailed,
   getManageExportSuccess,
   getManageExportFailed,
+  getLockSpaceSuccess,
+  getLockSpaceFailed,
+  getNeighborNameSuccess,
+  getNeighborNameFailed,
+  getOfficesTypeFailed,
+  getOfficesTypeSuccess,
+  getFloorByNameFailed,
+  getFloorByNameSuccess,
+  successManageUpdateSpace,
+  failedManageUpdateSpace,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -49,7 +64,6 @@ export function* statusUpdate({ payload }) {
 }
 
 export function* getManageSpaceData({ payload }) {
-  console.log('payload:21::>>', payload);
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   const requestURL = `${API_URL}/adminPanel/spaces/getManageSpace`;
@@ -79,8 +93,6 @@ export function* getManageSpaceData({ payload }) {
 }
 
 export function* getExportManageData({ payload }) {
-  console.log('payload:::>>', payload);
-
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   const requestURL = `${API_URL}/adminPanel/spaces/getManageSpace`;
@@ -109,8 +121,158 @@ export function* getExportManageData({ payload }) {
   }
 }
 
+export function* getLockSpaceData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const requestURL = `${API_URL}/spaces/getLockSpace`;
+  try {
+    const response = yield request({
+      method: 'GET',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getLockSpaceSuccess(data));
+    } else {
+      yield put(getLockSpaceFailed(data));
+    }
+  } catch (error) {
+    yield put(getLockSpaceFailed(error));
+  }
+}
+
+export function* getNeighborhoodData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const requestURL = `${API_URL}/neighborhoods/getNeighborhoodName?floor=2&building&locationId=RIC`;
+  try {
+    const response = yield request({
+      method: 'GET',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getNeighborNameSuccess(data));
+    } else {
+      yield put(getNeighborNameFailed(data));
+    }
+  } catch (error) {
+    yield put(getNeighborNameFailed(error));
+  }
+}
+
+export function* getfloorNameData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const requestURL = `${API_URL}/Building/getFloorByName`;
+  try {
+    const response = yield request({
+      method: 'GET',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getFloorByNameSuccess(data));
+    } else {
+      yield put(getFloorByNameFailed(data));
+    }
+  } catch (error) {
+    yield put(getFloorByNameFailed(error));
+  }
+}
+
+export function* getOfficeTypeData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const requestURL = `${API_URL}/adminPanel/spaces/getOfficesType`;
+  try {
+    const response = yield request({
+      method: 'GET',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getOfficesTypeSuccess(data));
+    } else {
+      yield put(getOfficesTypeFailed(data));
+    }
+  } catch (error) {
+    yield put(getOfficesTypeFailed(error));
+  }
+}
+
+export function* updateManageSpaceData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const requestURL = `${API_URL}/adminPanel/spaces/updateManageSpace`;
+  try {
+    const response = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(successManageUpdateSpace(data));
+    } else {
+      yield put(failedManageUpdateSpace(data));
+    }
+  } catch (error) {
+    yield put(failedManageUpdateSpace(error));
+  }
+}
+
 export default function* spaceMapData() {
   yield takeLatest(REQUEST_UPDATE_ACTIVE_STATUS, statusUpdate);
   yield takeLatest(REQUEST_GET_MANAGE_SPACE, getManageSpaceData);
   yield takeLatest(REQUEST_GET_MANAGE_EXPORT, getExportManageData);
+  yield takeLatest(REQUEST_GET_LOCK_SPACE, getLockSpaceData);
+  yield takeLatest(REQUEST_GET_NEIGBOR_NAME, getNeighborhoodData);
+  yield takeLatest(REQUEST_GET_OFFICES_TYPE, getOfficeTypeData);
+  yield takeLatest(REQUEST_GET_FLOOR_BY_NAME, getfloorNameData);
+  yield takeLatest(REQUEST_MANAGE_UPDATE_SPACE, updateManageSpaceData);
 }
