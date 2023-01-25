@@ -230,13 +230,13 @@ const Employee = props => {
                 <div className="menu-img">
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
-                <div className="custom-filter-dropdown">
+                <div className="custom-filter-dropdown pointer">
                   <span>Role</span>
                   <div className="dropdown">
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle"
+                      className="dropdown-toggle pointer"
                       value={state.finalRoleVal}
                       placeholder="Select..."
                       data-bs-toggle="dropdown"
