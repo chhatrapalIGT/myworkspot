@@ -84,22 +84,26 @@ const Employee = props => {
     setRole(FilterArr);
     setUserRole(tempArr);
   }, [userRoles]);
+
   const data =
     props.workSpace &&
     props.workSpace.find(i =>
       props.state.floor === i.id ? i.FloorBuilding : '',
     );
+
   const finalValData =
     props.workSpace &&
     props.workSpace.filter(
       obj => obj.id !== 'RW' && obj.id !== 'BHM' && obj.id !== 'BLM',
     );
+
   const space =
     // eslint-disable-next-line eqeqeq
     data &&
     data.FloorBuilding.find(
       obj => obj && Number(obj.floor) === props.state.build,
     );
+
   const workspace = space && space.neighborhood.map(i => i.neighborWorkspace);
   const finalData = [];
   workspace &&
@@ -321,7 +325,7 @@ const Employee = props => {
                     type="text"
                     onChange={props.handleSearcha}
                     name="searchVal"
-                    placeholder="Search for name, email, badge"
+                    placeholder="Search..."
                   />
                   <div className="search-img">
                     <img src={Search} className="img-fluid" alt="" />
