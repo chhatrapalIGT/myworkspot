@@ -76,7 +76,7 @@ const Employee = props => {
         tempArr.push({
           label: obj.role,
           name: obj.role,
-          value: obj.id,
+          value: obj.role,
           isSelected: true,
         });
       });
@@ -272,20 +272,20 @@ const Employee = props => {
                     </ul>
                   </div>
                 </div>
-                <div className="custom-filter-dropdown">
+                <div className="custom-filter-dropdown pointer">
                   <span>Office</span>
                   <div className="dropdown">
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle"
+                      className="dropdown-toggle pointer"
                       value={state.finalOfficeVal}
                       placeholder="Select..."
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton1"
                     />
                     <Image
-                      className="img_select"
+                      className="img_select pointer"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton2"
                       src={SelectDownArrow}
