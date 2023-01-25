@@ -109,9 +109,11 @@ const Header = props => {
     }
 
     const getAdmin = sessionStorage.getItem('Admin');
+    const getAdminOwner = sessionStorage.getItem('Admin Owner');
     const getDelegate = sessionStorage.getItem('delegate');
     const empId = sessionStorage.getItem('empid');
     !getAdmin && sessionStorage.setItem('Admin', false);
+    !getAdminOwner && sessionStorage.setItem('Admin Owner', false);
     !getDelegate && sessionStorage.setItem('delegate', false);
     !empId &&
       sessionStorage.setItem('empid', props.profileUser.employeeid || '');
