@@ -992,7 +992,7 @@ input[type='text'] {
       font-weight: 600;
       margin-top: 9px;
       margin-left: -1px;
-      background-color: #FFFFFF !important;
+      background-color: #ffffff !important;
     }
     .save-data {
       border: 1px solid #0072ce;
@@ -3639,9 +3639,53 @@ div[class*='qy-menu'] * {
   margin-bottom: 0.3rem !important;
 }
 
-.assigned_text{
-  color: #00355F;
+.assigned_text {
+  color: #00355f;
 }
-.notAssign_text{
-  color: #95A7B8;
+.notAssign_text {
+  color: #95a7b8;
+}
+.position {
+  position: relative;
+}
+.expected_lower{
+  background: #01213A;
+  height: auto !important;
+  z-index: 999;
+  padding: 10px;
+  top: -60px !important;
+  left: -4px;
+}
+.office_lower{
+  background: #01213A;
+  height: 41px !important;
+  z-index: 999;
+  padding: 9px;
+  top: -40px !important;
+  left: 0px;
+}
+.confirm_lower {
+  background: #01213A;
+  height: 41px !important;
+  z-index: 999;
+  padding: 9px;
+  top: -40px !important;
+  left: 0px;
+  font-size: 12px;
+}
+.office_upper{
+  background: #01213A;
+  height: auto !important;
+  z-index: 999;
+  padding: 10px;
+  top: 137px !important;
+  left: auto;
+}
+.expected_upper{
+  background: #01213A;
+  height: auto !important;
+  z-index: 999;
+  padding: 10px;
+  top: 110px !important;
+  left: auto;
 }

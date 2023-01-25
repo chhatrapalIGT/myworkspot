@@ -242,7 +242,7 @@ const WorkspotAdmin = ({
             const objData = {
               officeId: arr.id,
               Date: obj.date,
-              expectedAttendance: arr.expectedAttendance,
+              expectedAttendance: arr.expectedAttendance || 0,
             };
             finaldataExpected.push(objData);
           });
@@ -272,7 +272,7 @@ const WorkspotAdmin = ({
             const objData = {
               officeId: arr.id,
               Date: obj.date,
-              confirmAttendance: arr.confirmAttendance,
+              confirmAttendance: arr.confirmAttendance || 0,
             };
             finaldataConfirmed.push(objData);
           });
@@ -412,18 +412,7 @@ const WorkspotAdmin = ({
                               src={GreyInfo}
                               className="ml_img expected_img hover-data-cursor"
                             />
-                            <span
-                              className="hover-data expected_hover"
-                              style={{
-                                background: '#01213A',
-                                height: 'auto',
-                                zIndex: '999',
-                                padding: '10px',
-                                top: '120px',
-                                left: 'auto',
-                                fontSize: '12px',
-                              }}
-                            >
+                            <span className="hover-data expected_hover expected_upper">
                               <div className="d-flex justify-content-around">
                                 <span>
                                   Number of employees who have selected an
@@ -450,7 +439,7 @@ const WorkspotAdmin = ({
                                     fontSize: '60px',
                                   }}
                                 >
-                                  {obj.expectedAttendance}
+                                  {obj.expectedAttendance || 0}
                                 </h1>
                               </>
                             ) : (
@@ -467,7 +456,7 @@ const WorkspotAdmin = ({
                                       fontSize: '60px',
                                     }}
                                   >
-                                    {obj.expectedAttendance}
+                                    {obj.expectedAttendance || 0}
                                   </h1>
                                 </>
                               )
@@ -494,6 +483,13 @@ const WorkspotAdmin = ({
                                           src={GreyInfo}
                                           className="ml_img expected_img hover-data-cursor"
                                         />
+                                        <span className="hover-data expected_hover office_upper">
+                                          <div className="d-flex justify-content-around">
+                                            <span>
+                                              Office capacity for flex spaces.
+                                            </span>
+                                          </div>
+                                        </span>
                                       </span>
                                     </div>
                                     <div className="chart-title">
@@ -502,7 +498,7 @@ const WorkspotAdmin = ({
                                         : obj.locationname}
                                       &nbsp;-&nbsp;
                                       {`${parseFloat(
-                                        obj.officeCapacity,
+                                        obj.officeCapacity || 0,
                                       ).toFixed()}%`}
                                     </div>
                                     <div className="bar-chart">
@@ -712,7 +708,7 @@ const WorkspotAdmin = ({
                                         : obj.locationname}
                                       &nbsp;-&nbsp;
                                       {`${parseFloat(
-                                        obj.officeCapacity,
+                                        obj.officeCapacity || 0,
                                       ).toFixed()}%`}
                                     </div>
                                     <div
@@ -983,18 +979,7 @@ const WorkspotAdmin = ({
                       src={info}
                       className="expected_img_office hover-data-cursor"
                     />
-                    <span
-                      className="hover-data expected_hover"
-                      style={{
-                        background: '#01213A',
-                        height: '41px',
-                        zIndex: '999',
-                        padding: '9px',
-                        top: '-40px',
-                        left: '0px',
-                        fontSize: '12px',
-                      }}
-                    >
+                    <span className="hover-data expected_hover office_lower">
                       <div className="d-flex justify-content-around">
                         <span>Office capacity for flex spaces.</span>
                       </div>
@@ -1061,7 +1046,7 @@ const WorkspotAdmin = ({
                                       }
                                     >
                                       {`${parseFloat(
-                                        data && data.officeCapacity,
+                                        (data && data.officeCapacity) || 0,
                                       ).toFixed()}%`}
                                       {data &&
                                       data.id !== 'RW' &&
@@ -1069,18 +1054,22 @@ const WorkspotAdmin = ({
                                         <span className="hover-data">
                                           Spaces Occupied{' '}
                                           <sapn className="digit">
-                                            {`${data &&
-                                              data.expectedAttendance}/${data &&
-                                              data.LocationCapacity}`}
+                                            {`${(data &&
+                                              data.expectedAttendance) ||
+                                              0}/${(data &&
+                                              data.LocationCapacity) ||
+                                              0}`}
                                           </sapn>
                                         </span>
                                       ) : (
                                         <span className="hover-data">
                                           Spaces Occupied{' '}
                                           <sapn className="digit">
-                                            {`${data &&
-                                              data.totalAssignment}/${data &&
-                                              data.LocationCapacity}`}
+                                            {`${(data &&
+                                              data.totalAssignment) ||
+                                              0}/${(data &&
+                                              data.LocationCapacity) ||
+                                              0}`}
                                           </sapn>
                                         </span>
                                       )}
@@ -1097,15 +1086,27 @@ const WorkspotAdmin = ({
 
                 {/*Expected Attendance */}
 
-                <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between">
+                <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between position">
                   <div className="d-flex align-items-center mt-3">
                     <span className="common-title-capacity">
                       Expected Attendance
                     </span>
-                    &nbsp;
-                    <div className="common-img ps-1">
-                      <Image src={info} className="hover-data-cursor" />
-                    </div>
+                    <span className="ps-1 ml-1">
+                      &nbsp;
+                      <Image
+                        src={info}
+                        className="ml_img expected_img hover-data-cursor"
+                      />
+                      <span className="hover-data expected_hover expected_lower">
+                        <div className="d-flex justify-content-around">
+                          <span>
+                            Number of employees who have selected an office{' '}
+                            <br />
+                            via their intent or weekly default.
+                          </span>
+                        </div>
+                      </span>
+                    </span>
                   </div>
                 </div>
 
@@ -1168,7 +1169,7 @@ const WorkspotAdmin = ({
                                       }
                                     >
                                       {parseFloat(
-                                        data && data.expectedAttendance,
+                                        (data && data.expectedAttendance) || 0,
                                       ).toFixed()}
                                       {/* {data &&
                                       data.id !== 'RW' &&
@@ -1218,18 +1219,7 @@ const WorkspotAdmin = ({
                         src={info}
                         className="expected_img_confirmed hover-data-cursor"
                       />
-                      <span
-                        className="hover-data expected_hover"
-                        style={{
-                          background: '#01213A',
-                          height: '41px',
-                          zIndex: '999',
-                          padding: '9px',
-                          top: '-40px',
-                          left: '0px',
-                          fontSize: '12px',
-                        }}
-                      >
+                      <span className="hover-data expected_hover confirm_lower">
                         <div className="d-flex justify-content-around">
                           <span>
                             Number of employees who badged into the office.
@@ -1298,7 +1288,7 @@ const WorkspotAdmin = ({
                                       }
                                     >
                                       {parseFloat(
-                                        data && data.confirmAttendance,
+                                        (data && data.confirmAttendance) || 0,
                                       ).toFixed()}
                                       {/* {data &&
                                       data.id !== 'RW' &&
