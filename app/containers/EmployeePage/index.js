@@ -224,7 +224,7 @@ class EmployeePage extends Component {
       });
     } else {
       this.setState({
-        [name]: value,
+        [name]: Number(value),
       });
     }
   };
