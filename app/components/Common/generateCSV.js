@@ -67,8 +67,8 @@ const fileType =
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const fileExtension = '.xlsx';
 
-export const exportToSpreadsheet = async data => {
-  const fileName = 'WorkspotData';
+export const exportToSpreadsheet = async (data, Name) => {
+  const fileName = Name;
   const workSheet = XLSX.utils.json_to_sheet(data);
   const workBook = {
     Sheets: { data: workSheet, cols: [] },
