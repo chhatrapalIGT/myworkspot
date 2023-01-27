@@ -1,3 +1,8 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable dot-notation */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-var */
+/* eslint-disable no-undef-init */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable spaced-comment */
 /* eslint-disable no-nested-ternary */
@@ -16,6 +21,7 @@ import PropTypes from 'prop-types';
 import { Image, Button, Form, Modal } from 'react-bootstrap';
 import { Datepicker } from '@mobiscroll/react';
 import { CSVLink } from 'react-csv';
+import axios from 'axios';
 import {
   getWeekStartEndDate,
   getWeekTitle,
@@ -30,6 +36,9 @@ import Workstation from '../../images/Workstation.png';
 import PrivateSpace from '../../images/PrivateSpace.png';
 import GreyInfo from '../../images/GreyInfo.png';
 import Calender from '../../images/Calender.png';
+import { CONSTANT } from '../../enum';
+
+const { API_URL } = CONSTANT;
 
 const WorkspotAdmin = ({
   getCapacity,
@@ -39,7 +48,6 @@ const WorkspotAdmin = ({
   apiMessage,
   handleClearCal,
   getWarningData,
-  capacitySuccess,
   exportCapacitySuccess,
   requestExportLocationCapacity,
   getExportData,
@@ -50,6 +58,7 @@ const WorkspotAdmin = ({
   const [officeCapacity, setOfficeCapacity] = useState(false);
   const [expectedCapacity, setExpectedCapacity] = useState(false);
   const [confirmCapacity, setConfirmCapacity] = useState(false);
+  const [capacitySuccess, setCapacitySuccess] = useState(false);
 
   const uniqueLocation = [];
   getCapacity &&
@@ -77,8 +86,9 @@ const WorkspotAdmin = ({
   const [dateValue, setDateValue] = useState([]);
   const [errorData, setErrorData] = useState(false);
   const [checkedError, setCheckedError] = useState(false);
-  const [dateOpen, setDateOpen] = useState(false);
+  const [newExportData, setNewExportData] = useState([]);
   const [floorCapacityData, setFloorCapacityData] = useState();
+  const [loaidng, setLoading] = useState(false);
 
   const isDateSelected = useCallback(
     date => {
@@ -161,6 +171,30 @@ const WorkspotAdmin = ({
     }
   }, [dateValue]);
 
+  const apiCall = dateObj => {
+    let token = sessionStorage.getItem('AccessToken');
+    token = JSON.parse(token);
+
+    return new Promise((resolve, reject) => {
+      axios
+        .get(
+          `${API_URL}/adminPanel/locationCapacity/LocationCapacity?startdate=${
+            dateObj.startdate
+          }&enddate=${dateObj.enddate}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.idtoken}`,
+            },
+          },
+        )
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => reject(err));
+    });
+  };
+
+  let finalResponse = undefined;
   const handleExportCSV = () => {
     if (
       dateValue.length === 0 &&
@@ -184,13 +218,63 @@ const WorkspotAdmin = ({
     ) {
       setCheckedError(true);
     } else {
-      const startdate = moment(
+      const startDate = moment(
         dateValue && dateValue.length && dateValue && dateValue[0],
       ).format('YYYY-MM-DD');
-      const enddate = moment(
+      const endDate = moment(
         dateValue && dateValue.length && dateValue && dateValue[1],
       ).format('YYYY-MM-DD');
-      requestExportLocationCapacity({ startdate, enddate });
+      const dateRangeArr = [];
+      const startdate = moment(startDate);
+      const enddate = moment(endDate);
+      let startdateLoop = startdate;
+      while (startdateLoop <= enddate) {
+        const endDateLoop = moment(startdateLoop, 'DD-MM-YYYY').add(
+          enddate.diff(startdateLoop, 'days') >= 15
+            ? 15
+            : enddate.diff(startdateLoop, 'days') === 0
+            ? 0
+            : enddate.diff(startdateLoop, 'days') % 15,
+          'days',
+        );
+        dateRangeArr.push({
+          startDateData: moment(startdateLoop).format('YYYY-MM-DD'),
+          endDateData: moment(endDateLoop).format('YYYY-MM-DD'),
+        });
+        startdateLoop = moment(endDateLoop, 'DD-MM-YYYY').add(1, 'days');
+      }
+      setLoading(true);
+      dateRangeArr &&
+        dateRangeArr.length > 0 &&
+        Promise.allSettled(
+          dateRangeArr.map(ele =>
+            apiCall({
+              startdate: ele.startDateData,
+              enddate: ele.endDateData,
+            }),
+          ),
+        ).then(results => {
+          const allRes = results
+            .filter(res => res.status === 'fulfilled')
+            .map(res => res.value);
+
+          if (allRes.length) {
+            const returnData = [];
+            finalResponse = allRes[0];
+            for (let i = 0; i < allRes.length; i++) {
+              const element = allRes[i]['data']['returndata'];
+              returnData.push(...element);
+            }
+            finalResponse['data']['returndata'] = returnData;
+            const allFinalData =
+              finalResponse.data && finalResponse.data.returndata;
+            setLoading(false);
+            setNewExportData(allFinalData);
+            const exportSuccess =
+              finalResponse.data && finalResponse.data.success;
+            setCapacitySuccess(exportSuccess);
+          }
+        });
       setCheckedError(false);
       setErrorData(false);
       setDateValue([]);
@@ -204,13 +288,13 @@ const WorkspotAdmin = ({
 
   useEffect(() => {
     if (
-      getExportData &&
-      getExportData.length > 0 &&
-      exportCapacitySuccess &&
+      newExportData &&
+      newExportData.length > 0 &&
+      capacitySuccess &&
       officeCapacity
     ) {
       const finaldataOffice = [];
-      getExportData.filter(obj => {
+      newExportData.filter(obj => {
         obj &&
           obj.data &&
           obj.data.length > 0 &&
@@ -241,13 +325,13 @@ const WorkspotAdmin = ({
       setOpen(false);
     }
     if (
-      getExportData &&
-      getExportData.length > 0 &&
-      exportCapacitySuccess &&
+      newExportData &&
+      newExportData.length > 0 &&
+      capacitySuccess &&
       expectedCapacity
     ) {
       const finaldataExpected = [];
-      getExportData.filter(obj => {
+      newExportData.filter(obj => {
         obj &&
           obj.data &&
           obj.data.length > 0 &&
@@ -271,13 +355,13 @@ const WorkspotAdmin = ({
       }
     }
     if (
-      getExportData &&
-      getExportData.length > 0 &&
-      exportCapacitySuccess &&
+      newExportData &&
+      newExportData.length > 0 &&
+      capacitySuccess &&
       confirmCapacity
     ) {
       const finaldataConfirmed = [];
-      getExportData.filter(obj => {
+      newExportData.filter(obj => {
         obj &&
           obj.data &&
           obj.data.length > 0 &&
@@ -299,7 +383,7 @@ const WorkspotAdmin = ({
       }
       setOpen(false);
     }
-  }, [getExportData, exportCapacitySuccess]);
+  }, [newExportData, capacitySuccess]);
 
   // const barColor = (fl, bldg) => {
   //   let floorBuilding;
@@ -1343,7 +1427,7 @@ const WorkspotAdmin = ({
         aria-hidden="true"
       >
         <div className="modal-header d-block mypadlr mypt-3">
-          {exportCapacityLoading ? (
+          {loaidng ? (
             <Spinner className="app-spinner" animation="grow" variant="dark" />
           ) : (
             <>
@@ -1502,7 +1586,6 @@ WorkspotAdmin.propTypes = {
   capacityLoading: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
-  capacitySuccess: PropTypes.bool,
   exportCapacitySuccess: PropTypes.bool,
   exportCapacityLoading: PropTypes.bool,
   getWarningData: PropTypes.object,

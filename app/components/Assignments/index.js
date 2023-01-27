@@ -14,9 +14,9 @@ import createClass from 'create-react-class';
 import Select, { components } from 'react-select';
 import Pagination from '../Employee/Pagination';
 import Menu from '../assets/images/admin/menu.png';
-import Sort from '../assets/images/sort.png';
-import Search from '../assets/images/admin/search.png';
-import SelectDownArrow from '../../images/SelectDownArrow.png';
+import Sort from '../assets/images/sort-icon.svg';
+import Search from '../assets/images/admin/search.svg';
+import SelectDownArrow from '../assets/images/down-arrow.svg';
 import Profile from '../assets/images/profileof.png';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
 
@@ -304,7 +304,7 @@ const Assignments = props => {
               <h4 className="common-title">Assignments</h4>
               <Button
                 variant="primary"
-                className="px-4 py-3"
+                className="px-4 py-3 fw-normal"
                 onClick={() => {
                   setOpen(true);
                 }}
@@ -469,7 +469,7 @@ const Assignments = props => {
                     Name{' '}
                     <img
                       src={Sort}
-                      className="img-fluid sort-img"
+                      className="img-fluid sort-img custom-sort-img"
                       alt=""
                       name="name"
                       aria-hidden="true"
@@ -720,7 +720,7 @@ const Assignments = props => {
           </Button>
           <Button
             variant="outline-secondary"
-            className="btn cust-model-btn"
+            className="btn cust-model-cancel-btn"
             data-bs-dismiss="modal"
             onClick={() => setOpen(false)}
           >
