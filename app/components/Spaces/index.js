@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
@@ -10,10 +11,9 @@
 /* eslint-disable indent */
 /* eslint-disable default-case */
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
-import { Button, Form, Image, Modal } from 'react-bootstrap';
+import { Button, Form, Image, Modal, Dropdown } from 'react-bootstrap';
 import createClass from 'create-react-class';
 import Select, { components } from 'react-select';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
@@ -63,7 +63,9 @@ const Spaces = ({
   const [manageLoader, setManageLoader] = useState('');
   const [manageData, setManageData] = useState({});
   const [spaceData, setSpaceData] = useState('');
+  const [spaceValue, setSpaceValue] = useState([]);
   const [open, setOpen] = useState(false);
+  const [checkOpen, setCheckOpen] = useState(false);
   const [isEditing, setisEditing] = useState(false);
   const [editedText, setEditedText] = useState('');
   const [csvOpen, setCsvOpen] = useState('');
@@ -76,7 +78,6 @@ const Spaces = ({
   let updatedLocation = [];
   let updatedFloors = [];
   let updatedNeighborhood = [];
-
   const inputValue = e => {
     setEditedText(e.target.value);
   };
@@ -95,7 +96,26 @@ const Spaces = ({
     }
     return event.key === 'Enter' || event.key === 'Escape';
   }
-
+  useEffect(() => {
+    if (manageSpace && manageSpace.length > 0) {
+      const inputData =
+        manageSpace &&
+        manageSpace.length > 0 &&
+        manageSpace.map(ele => {
+          const inputVal = {
+            ...ele,
+            isInput: false,
+            isFloor: false,
+            isNeighborh: false,
+            spaceType: false,
+            algorithm: false,
+            isPen: false,
+          };
+          return inputVal;
+        });
+      setSpaceValue(inputData);
+    }
+  }, [manageSpace]);
   useEffect(() => {
     updatedLocation = [];
     officeSrcLocation &&
@@ -359,7 +379,71 @@ const Spaces = ({
       );
     },
   });
-
+  const handlePane = id => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isInput: true,
+          };
+          return val;
+        }
+        return el;
+      });
+    setSpaceValue(spaceInp);
+  };
+  const onCheckbox = (e, idx) => {
+    const { value, checked } = e.target;
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === idx && checked === true) {
+          const val = {
+            ...el,
+            isFloor: true,
+            isNeighborh: true,
+            spaceType: true,
+            algorithm: true,
+            isPen: true,
+          };
+          return val;
+        } else if (el.id === idx && checked === false) {
+          const val = {
+            ...el,
+            isInput: false,
+            isFloor: false,
+            isNeighborh: false,
+            spaceType: false,
+            algorithm: false,
+            isPen: false,
+          };
+          return val;
+        }
+        return el;
+      });
+    setSpaceValue(spaceInp);
+  };
+  const onDubleFloor = idx => {
+    console.log('idx', idx);
+    // const spaceInp =
+    //   spaceValue &&
+    //   spaceValue.length > 0 &&
+    //   spaceValue.map(el => {
+    //     if (el.id === idx) {
+    //       const val = {
+    //         ...el,
+    //         isFloor: true,
+    //       };
+    //       return val;
+    //     }
+    //     return el;
+    //   });
+    // setSpaceValue(spaceInp);
+  };
   const colourStyles = {
     control: styles => ({
       ...styles,
@@ -657,20 +741,77 @@ const Spaces = ({
                   </td>
                 </tr>
               ) : (
-                manageSpace &&
-                manageSpace.map(i => (
+                spaceValue &&
+                spaceValue.length > 0 &&
+                spaceValue.map(i => (
                   <tr>
                     <td>
-                      <Form.Check className="mycheckbox1" name="group2" />
+                      <Form.Check
+                        className="mycheckbox1"
+                        name="group2"
+                        onChange={e => onCheckbox(e, i.id)}
+                      />
                     </td>
-                    {console.log('manageSpace', manageSpace)}
                     <td className="assigned_text">
-                      {i.floor}
-                      {i.building}
-                    </td>
-                    <td className="assigned_text">{i.neighborhoodname}</td>
+                      {i.isFloor ? (
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            variant="success"
+                            id="dropdown-basic"
+                          >
+                            <div onDoubleClick={() => setCheckOpen(true)}>
+                              {i.floor}
+                              {i.building}
+                            </div>
+                          </Dropdown.Toggle>
 
-                    {isEditing ? (
+                          <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">
+                              Action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">
+                              Another action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">
+                              Something else
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      ) : (
+                        <>
+                          {i.floor}
+                          {i.building}
+                        </>
+                      )}
+                    </td>
+                    <td className="assigned_text">
+                      {i.isNeighborh ? (
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            variant="success"
+                            id="dropdown-basic"
+                          >
+                            {i.neighborhoodname}
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">
+                              Action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">
+                              Another action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">
+                              Something else
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      ) : (
+                        <>{i.neighborhoodname}</>
+                      )}
+                    </td>
+
+                    {i.isInput ? (
                       <Form.Control
                         style={{ width: '100%' }}
                         value={editedText}
@@ -684,18 +825,45 @@ const Spaces = ({
                     ) : (
                       <div className="select-none">
                         <td className="assigned_text">
-                          {i.workspacename || editedText}{' '}
-                          <Image
-                            className="editInput"
-                            src={GreyPencil}
-                            onClick={() => {
-                              setisEditing(true);
-                            }}
-                          />
+                          {i.workspacename || editedText}
+                          {i.isPen && (
+                            <Image
+                              className="editInput"
+                              src={GreyPencil}
+                              onClick={() => {
+                                handlePane(i.id);
+                              }}
+                            />
+                          )}
                         </td>
                       </div>
                     )}
-                    <td className="assigned_text">{i.type}</td>
+                    <td className="assigned_text">
+                      {i.spaceType ? (
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            variant="success"
+                            id="dropdown-basic"
+                          >
+                            {i.type}
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">
+                              Action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">
+                              Another action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">
+                              Something else
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      ) : (
+                        <>{i.type}</>
+                      )}
+                    </td>
                     <td
                       className={`${
                         i.assigned === 'Not assigned'
@@ -706,7 +874,30 @@ const Spaces = ({
                       {i.assigned}
                     </td>
                     <td className="assigned_text">
-                      {i.active === true ? 'Active' : 'Inactive'}
+                      {i.algorithm ? (
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            variant="success"
+                            id="dropdown-basic"
+                          >
+                            {i.active === true ? 'Active' : 'Inactive'}
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">
+                              Action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">
+                              Another action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">
+                              Something else
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      ) : (
+                        <>{i.active === true ? 'Active' : 'Inactive'}</>
+                      )}
                     </td>
                     <td>
                       {' '}
