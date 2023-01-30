@@ -3777,3 +3777,13 @@ div[class*='qy-menu'] * {
   top: 3px !important;
   position: relative !important;
 }
+
+.table-user-img {
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 50%;
+  position: relative;
+  top: -2px;
+  height: 32px;
+  width: 32px;
+}
