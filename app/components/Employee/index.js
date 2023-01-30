@@ -601,7 +601,7 @@ const Employee = props => {
                         name="role"
                         placeholder="Select role"
                         disabled={
-                          sessionStorage.getItem('Admin_Owner') === 'false'
+                          sessionStorage.getItem('Admin Owner') === 'false'
                         }
                       >
                         {role &&
