@@ -1,15 +1,12 @@
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-else-return */
-/* eslint-disable eqeqeq */
-/* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
-/* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable indent */
-/* eslint-disable default-case */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
@@ -21,13 +18,11 @@ import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
 import Menu from '../assets/images/admin/menu.png';
 import checkedCircle from '../../images/check-circle-fill.svg';
-// import vector from '../assets/images/Vector1.svg';
 import vector from '../../images/InfoOne.png';
 import crossCircle from '../../images/x-circle-fill.svg';
 import SelectDownArrow from '../assets/images/down-arrow.svg';
-import CheckedItem from '../assets/images/Checked.svg';
-import lock from '../../images/lock.png';
 import GreyPencil from '../../images/GreyPencil.png';
+import CheckboxInput from '../assets/images/Checkbox_input.svg';
 import Pagination from '../Employee/Pagination';
 
 const Spaces = ({
@@ -59,7 +54,7 @@ const Spaces = ({
   lockSpaceData,
   neighborData,
 }) => {
-  const [floor, setFloor] = useState();
+  const [flooring, setFloor] = useState();
   const [color, setColor] = useState();
   const [setActive, setActiveState] = useState('');
   const [updateState, setUpdateState] = useState('');
@@ -67,6 +62,7 @@ const Spaces = ({
   const [manageData, setManageData] = useState({});
   const [spaceData, setSpaceData] = useState('');
   const [spaceValue, setSpaceValue] = useState([]);
+  const [spaceAllChecked, setSpaceAllChecked] = useState([]);
   const [updatedData, setUpdatedData] = useState([]);
   const [open, setOpen] = useState(false);
   const [checkOpen, setCheckOpen] = useState(false);
@@ -87,12 +83,69 @@ const Spaces = ({
     setEditedText(e.target.value);
   };
 
+  const handleClear = () => {
+    const allChecked = spaceValue.map(el => {
+      const alldata = {
+        ...el,
+        isChecked: false,
+        algorithm: false,
+        isFloor: false,
+        isNeighborh: false,
+        isPen: false,
+        spaceType: false,
+        isInput: false,
+      };
+      return alldata;
+    });
+    setSpaceValue(allChecked);
+  };
+
+  const handleSelectAll = event => {
+    const { checked } = event.target;
+    if (checked) {
+      setCheckOpen(true);
+      if (spaceValue && spaceValue.length > 0) {
+        const allChecked = spaceValue.map(el => {
+          const alldata = {
+            ...el,
+            isChecked: true,
+            algorithm: true,
+            isFloor: true,
+            isNeighborh: true,
+            isPen: true,
+            spaceType: true,
+          };
+          return alldata;
+        });
+        setSpaceValue(allChecked);
+      }
+    } else {
+      setCheckOpen(false);
+      if (spaceValue && spaceValue.length > 0) {
+        const allChecked = spaceValue.map(el => {
+          const alldata = {
+            ...el,
+            isChecked: false,
+            algorithm: false,
+            isInput: false,
+            isFloor: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return alldata;
+        });
+        setSpaceValue(allChecked);
+      }
+    }
+  };
+
   const onEditEnd = () => {
     setisEditing(false);
   };
 
   function handleKeydown(event) {
-    if (event.key == 'Enter') {
+    if (event.key === 'Enter') {
       if (event.target.value !== '') {
         event.preventDefault();
         event.stopPropagation();
@@ -109,6 +162,7 @@ const Spaces = ({
         manageSpace.map(ele => {
           const inputVal = {
             ...ele,
+            isChecked: false,
             isInput: false,
             isFloor: false,
             isNeighborh: false,
@@ -121,6 +175,14 @@ const Spaces = ({
       setSpaceValue(inputData);
     }
   }, [manageSpace]);
+
+  useEffect(() => {
+    if (spaceValue && spaceValue.length > 0) {
+      const data = spaceValue.filter(arr => arr.isChecked === true);
+      setSpaceAllChecked(data);
+    }
+  }, [spaceValue]);
+
   useEffect(() => {
     const tempArr = [
       { label: 'All', name: 'All', value: 'All', isSelected: true },
@@ -163,7 +225,6 @@ const Spaces = ({
         }
       });
     updatedFloors = tempArr.filter(i => i.value !== 'All');
-    console.log('updatedFloors>>>>>>>>', updatedFloors);
     setOfficeFloors(tempArr);
     setUpdatedOfficeFloor(updatedFloors);
   }, [officeFloor]);
@@ -186,7 +247,6 @@ const Spaces = ({
           value: obj.name,
         });
       });
-    console.log('updatedNeighborhood', updatedNeighborhood);
     setOfficeNeighborhoods(tempArr);
     setUpdatedNeibour(updatedNeighborhood);
   }, [officeNeighborhood]);
@@ -283,7 +343,7 @@ const Spaces = ({
   };
 
   const handleCheckbox = (data, val, final) => {
-    const dataFinal = floor && floor.split(',');
+    const dataFinal = flooring && flooring.split(',');
     setManageLoader(final);
     if (final === 'FloorClick') {
       const dataVal = data && data.split(',');
@@ -368,29 +428,6 @@ const Spaces = ({
     setSpaceValue(spaceInp);
   };
 
-  const table = document.getElementById('tableData');
-  let hoverTimer = 0;
-
-  table.addEventListener('mouseenter', () => {
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(() => table.classList.add('active'), 500);
-  });
-
-  table.addEventListener('mouseleave', evt => {
-    [...table.children[0].children].forEach(tr => {
-      tr.classList.remove('exited');
-      if (
-        evt.offsetY >= tr.offsetTop &&
-        evt.offsetY <= tr.offsetTop + tr.clientHeight
-      ) {
-        tr.classList.add('exited');
-      }
-    });
-
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(() => table.classList.remove('active'), 500);
-  });
-
   const onCheckbox = (e, idx) => {
     const { value, checked } = e.target;
     const spaceInp =
@@ -400,6 +437,7 @@ const Spaces = ({
         if (el.id === idx && checked === true) {
           const val = {
             ...el,
+            isChecked: true,
             isFloor: true,
             isNeighborh: true,
             spaceType: true,
@@ -410,6 +448,7 @@ const Spaces = ({
         } else if (el.id === idx && checked === false) {
           const val = {
             ...el,
+            isChecked: false,
             isInput: false,
             isFloor: false,
             isNeighborh: false,
@@ -423,23 +462,7 @@ const Spaces = ({
       });
     setSpaceValue(spaceInp);
   };
-  const onDubleFloor = idx => {
-    console.log('idx', idx);
-    // const spaceInp =
-    //   spaceValue &&
-    //   spaceValue.length > 0 &&
-    //   spaceValue.map(el => {
-    //     if (el.id === idx) {
-    //       const val = {
-    //         ...el,
-    //         isFloor: true,
-    //       };
-    //       return val;
-    //     }
-    //     return el;
-    //   });
-    // setSpaceValue(spaceInp);
-  };
+
   const colourStyles = {
     control: styles => ({
       ...styles,
@@ -795,7 +818,27 @@ const Spaces = ({
             <table id="tableData">
               <tr>
                 <th>
-                  <Form.Check className="mycheckbox1" name="group2" />
+                  {spaceAllChecked.length === 0 ||
+                  spaceAllChecked.length === spaceValue.length ? (
+                    <Form.Check
+                      onChange={e => handleSelectAll(e)}
+                      className="mycheckbox1"
+                      name="group2"
+                      checked={
+                        spaceAllChecked.length !== 0 &&
+                        spaceAllChecked.length === spaceValue.length
+                      }
+                    />
+                  ) : (
+                    <>
+                      <img
+                        aria-hidden
+                        onClick={() => handleClear()}
+                        src={CheckboxInput}
+                        alt="img"
+                      />
+                    </>
+                  )}
                 </th>
                 <th style={{ width: '17%' }}>
                   Building/floor{' '}
@@ -916,7 +959,10 @@ const Spaces = ({
                       <Form.Check
                         className="mycheckbox1"
                         name="group2"
-                        onChange={e => onCheckbox(e, i.id)}
+                        checked={i.isChecked ? true : false}
+                        onChange={e => {
+                          onCheckbox(e, i.id);
+                        }}
                       />
                     </td>
                     <td className="assigned_text">
