@@ -34,6 +34,7 @@ const Header = props => {
   const [sidebar, setSidebar] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdminOwner, setIsAdminOwner] = useState(false);
   const [neighborData, setneighborData] = useState('');
   const [delecatecallchk, setDelecatecallchk] = useState(false);
   const divRef = useRef();
@@ -383,7 +384,26 @@ const Header = props => {
                       >
                         <span>
                           {sessionStorage.getItem('manageAdmin') === 'true' &&
-                          sessionStorage.getItem('delegate') === 'false' ? (
+                          sessionStorage.getItem('delegate') === 'false' &&
+                          sessionStorage.getItem('Admin') === 'false' ? (
+                            <>
+                              <span style={{ color: '#ED8B00' }}>Admin </span>
+                              {props.profileUser && props.profileUser.firstname}
+                              <img
+                                src={
+                                  (props.profileUser &&
+                                    props.profileUser.photo) ||
+                                  Profile
+                                }
+                                className="user-img"
+                                alt=""
+                              />
+                            </>
+                          ) : sessionStorage.getItem('manageAdmin') ===
+                              'true' &&
+                            sessionStorage.getItem('delegate') === 'false' &&
+                            sessionStorage.getItem('Admin Owner') === 'false' &&
+                            sessionStorage.getItem('Admin') === 'true' ? (
                             <>
                               <span style={{ color: '#ED8B00' }}>Admin </span>
                               {props.profileUser && props.profileUser.firstname}
@@ -398,13 +418,13 @@ const Header = props => {
                               />
                             </>
                           ) : sessionStorage.getItem('delegate') === 'true' &&
+                            sessionStorage.getItem('Admin Owner') === 'false' &&
                             sessionStorage.getItem('Admin') === 'false' ? (
                             <>
                               {' '}
-                              <span style={{ color: '#ed8b00' }}>
-                                On behalf of{' '}
-                              </span>
-                              {props.profileUser && props.profileUser.firstname}{' '}
+                              <span>On behalf of </span>
+                              {props.profileUser &&
+                                props.profileUser.firstname}{' '}
                               <img
                                 src={
                                   (props.profileUser &&
@@ -441,24 +461,36 @@ const Header = props => {
                       <div
                         className={`profile-inner ${editProfile && 'opened'}`}
                       >
+                        {/* head template */}
                         {sessionStorage.getItem('manageAdmin') === 'true' &&
-                        sessionStorage.getItem('delegate') === 'false' ? (
+                        sessionStorage.getItem('delegate') === 'false' &&
+                        sessionStorage.getItem('Admin') === 'false' ? (
                           <div className="head deladmin">
-                            <span style={{ color: '#FF8D62' }}>
-                              Admin Access
-                            </span>
+                            <span>Admin Access</span>
+                          </div>
+                        ) : sessionStorage.getItem('manageAdmin') === 'true' &&
+                          sessionStorage.getItem('delegate') === 'false' &&
+                          sessionStorage.getItem('Admin') === 'true' ? (
+                          <div className="head deladmin">
+                            <span>Admin Access</span>
                           </div>
                         ) : sessionStorage.getItem('delegate') === 'true' ? (
-                          <div className="head del">
-                            <span style={{ color: '#ed8b00' }}>
-                              On behalf of
-                            </span>
+                          <div
+                            className="head"
+                            style={{
+                              backgroundColor: '#7FCFCF',
+                              color: '#000',
+                            }}
+                          >
+                            <span>On behalf of</span>
                           </div>
                         ) : (
                           <div className="head">
-                            <span>This is your account</span>
+                            <span>Your Account</span>
                           </div>
                         )}
+
+                        {/* profile template */}
                         <div className="profile-popup-main">
                           <img src={Profile} alt="" />
                           <h3>
@@ -466,10 +498,27 @@ const Header = props => {
                             {props.profileUser.firstname}{' '}
                             {props.profileUser.lastname}
                           </h3>
-                          {(sessionStorage.getItem('Admin') === 'true' &&
-                            props.profileUser &&
-                            props.profileUser.role) ||
-                          isAdmin ? (
+                          {sessionStorage.getItem('Admin Owner') === 'true' &&
+                          props.profileUser &&
+                          props.profileUser.role ? (
+                            <p
+                              style={{
+                                color: '#FF8D62',
+                                fontSize: '16px',
+                                marginBottom: '0px',
+                              }}
+                              aria-hidden="true"
+                              onClick={sessionStorage.setItem(
+                                'Admin Owner',
+                                true,
+                              )}
+                            >
+                              Admin Owner
+                            </p>
+                          ) : (sessionStorage.getItem('Admin') === 'true' &&
+                              props.profileUser &&
+                              props.profileUser.role) ||
+                            isAdmin ? (
                             <p
                               style={{
                                 color: '#FF8D62',
@@ -505,6 +554,7 @@ const Header = props => {
                             </>
                           )}
                         </div>
+
                         {props.profileUser &&
                           props.profileUser.delegateUserList &&
                           props.profileUser.delegateUserList.map(obj => (
@@ -538,10 +588,49 @@ const Header = props => {
                               </div>
                             </>
                           ))}
-
                         {props.profileUser &&
-                        props.profileUser.role === 'Admin' &&
-                        sessionStorage.getItem('Admin') === 'false' ? (
+                        props.profileUser.role === 'Admin Owner' &&
+                        sessionStorage.getItem('Admin Owner') === 'false' ? (
+                          <div
+                            aria-hidden="true"
+                            className="popup-secondary-profile day-pointer"
+                            onClick={() => {
+                              setIsAdminOwner(true);
+                              setEditProfile(false);
+                              sessionStorage.setItem('Admin Owner', true);
+                              sessionStorage.setItem('Admin', false);
+                              sessionStorage.setItem('manageAdmin', true);
+                              history.replace('/home');
+                              props.requestUserlistData(
+                                props.profileUser &&
+                                  props.profileUser.employeeid,
+                              );
+                            }}
+                          >
+                            <img
+                              src={
+                                (props.profileUser &&
+                                  props.profileUser.photo) ||
+                                Profile
+                              }
+                              alt=""
+                              style={{ marginBottom: '10px' }}
+                            />
+                            <div className="sec-profile-info">
+                              <h4>
+                                {props.profileUser &&
+                                  props.profileUser.firstname}{' '}
+                                {props.profileUser &&
+                                  props.profileUser.lastname}
+                              </h4>
+                              <span style={{ color: '#FF8D62' }}>
+                                {props.profileUser && props.profileUser.role}
+                              </span>
+                            </div>
+                          </div>
+                        ) : props.profileUser &&
+                          props.profileUser.role === 'Admin' &&
+                          sessionStorage.getItem('Admin') === 'false' ? (
                           <div
                             aria-hidden="true"
                             className="popup-secondary-profile day-pointer"
@@ -549,6 +638,7 @@ const Header = props => {
                               setIsAdmin(true);
                               setEditProfile(false);
                               sessionStorage.setItem('Admin', true);
+                              sessionStorage.setItem('Admin Owner', false);
                               sessionStorage.setItem('manageAdmin', true);
                               history.replace('/home');
                               props.requestUserlistData(
@@ -582,7 +672,8 @@ const Header = props => {
                           (sessionStorage.getItem('empid') ===
                             sessionStorage.getItem('delegateId') ||
                             (props.profileUser &&
-                              props.profileUser.role === 'Admin')) && (
+                              (props.profileUser.role === 'Admin' ||
+                                props.profileUser.role === 'Admin Owner'))) && (
                             <div
                               aria-hidden="true"
                               className="popup-secondary-profile day-pointer"
@@ -590,6 +681,7 @@ const Header = props => {
                                 setEditProfile(false);
                                 setIsAdmin(false);
                                 sessionStorage.setItem('Admin', false);
+                                sessionStorage.setItem('Admin Owner', false);
                                 sessionStorage.setItem('manageAdmin', false);
                                 history.replace('/workspot');
                                 props.requestUserlistData(
@@ -619,6 +711,8 @@ const Header = props => {
                             </div>
                           )
                         )}
+
+                        {/* logout template */}
                         <a
                           href
                           className="logout day-pointer"

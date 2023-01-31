@@ -393,10 +393,12 @@ input[type='text'] {
           }
         }
         .del {
-          background-color: #e4b878;
+          background-color: #F7C687;
+          color : #000
         }
         .deladmin {
-          background-color: #ffe9e0;
+          background-color: #F7C687;
+          color : #000
         }
         .profile-popup-main {
           padding: 0 30px 20px;
@@ -3808,4 +3810,14 @@ table.active tr.table-row:hover {
 
 tr.exited {
   opacity: 1;
+}
+
+.table-user-img {
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 50%;
+  position: relative;
+  top: -2px;
+  height: 32px;
+  width: 32px;
 }

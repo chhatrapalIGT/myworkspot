@@ -17,6 +17,7 @@ import {
   requestGetOfficeNeighborhood,
 } from './action';
 import { requestGetOfficeLocation } from '../onBoardingPage/actions';
+import Profile from '../../components/assets/images/profileof.png';
 
 class AssignmentPage extends Component {
   constructor(props) {
@@ -319,6 +320,11 @@ class AssignmentPage extends Component {
     });
   };
 
+  replaceImage = error => {
+    // eslint-disable-next-line no-param-reassign
+    error.target.src = Profile;
+  };
+
   componentDidMount() {
     this.props.requestGetOfficeLocation({});
     this.props.requestGetOfficeFloor({});
@@ -370,6 +376,7 @@ class AssignmentPage extends Component {
           assignmentCount={assignmentCount}
           apiSuccess={apiSuccess}
           apiMessage={apiMessage}
+          replaceImage={this.replaceImage}
         />
       </div>
     );
