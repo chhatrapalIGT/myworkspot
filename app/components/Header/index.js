@@ -769,7 +769,7 @@ const Header = props => {
                         )}
                         {props.profileUser &&
                           props.profileUser.role === 'Admin Owner' &&
-                          sessionStorage.getItem('Admin') === 'true' && (
+                          sessionStorage.getItem('Admin Owner') === 'true' && (
                             <div
                               onClick={() => {
                                 props.requestDelegateData({});

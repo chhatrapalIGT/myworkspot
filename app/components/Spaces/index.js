@@ -51,9 +51,6 @@ const Spaces = ({
   handleSelectedFloor,
   handleSelectedNeighbor,
 }) => {
-  console.log('first:::', exportManage);
-  console.log('second:::', exportLoading, exportSuccess);
-  console.log('state::::::>', state);
   const [floor, setFloor] = useState();
   const [color, setColor] = useState();
   const [setActive, setActiveState] = useState('');
@@ -121,8 +118,6 @@ const Spaces = ({
           return false;
         }
       });
-
-    console.log('officeFloors:::>', officeFloors);
   }, [officeFloor]);
 
   useEffect(() => {
@@ -310,7 +305,6 @@ const Spaces = ({
     officeLocation.find(data =>
       data.id === state.selectedNames ? data.FloorBuilding : '',
     );
-  console.log('floorData::>><>', officeLocation);
   const finalLocate =
     officeLocation &&
     officeLocation.filter(
