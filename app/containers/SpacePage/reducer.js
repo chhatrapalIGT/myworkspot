@@ -15,6 +15,12 @@ import {
   REQUEST_GET_NEIGBOR_NAME,
   SUCCESS_GET_NEIGBOR_NAME,
   FAILED_GET_NEIGBOR_NAME,
+  REQUEST_GET_OFFICES_TYPE,
+  SUCCESS_GET_OFFICES_TYPE,
+  FAILED_GET_OFFICES_TYPE,
+  REQUEST_GET_FLOOR_BY_NAME,
+  SUCCESS_GET_FLOOR_BY_NAME,
+  FAILED_GET_FLOOR_BY_NAME,
   CLEAR_UPDATE_STATUS,
   CLEAR_MESSAGE,
 } from './constants';
@@ -46,6 +52,18 @@ const initialState = {
     success: false,
   },
   neighborName: {
+    loading: false,
+    error: '',
+    message: '',
+    success: false,
+  },
+  officesType: {
+    loading: false,
+    error: '',
+    message: '',
+    success: false,
+  },
+  floorByName: {
     loading: false,
     error: '',
     message: '',
@@ -135,6 +153,36 @@ const spaceReducer = (state = initialState, action) =>
         draft.neighborName.loading = false;
         draft.neighborName.success = false;
         draft.neighborName.error = action.payload.Error;
+        break;
+      case REQUEST_GET_OFFICES_TYPE:
+        draft.officesType.loading = true;
+        draft.officesType.error = '';
+        break;
+      case SUCCESS_GET_OFFICES_TYPE:
+        draft.officesType.loading = false;
+        draft.officesType.success = action.payload.success;
+        draft.officesType = action.payload;
+        draft.officesType.message = action.payload.message;
+        break;
+      case FAILED_GET_OFFICES_TYPE:
+        draft.officesType.loading = false;
+        draft.officesType.success = false;
+        draft.officesType.error = action.payload.Error;
+        break;
+      case REQUEST_GET_FLOOR_BY_NAME:
+        draft.floorByName.loading = true;
+        draft.floorByName.error = '';
+        break;
+      case SUCCESS_GET_FLOOR_BY_NAME:
+        draft.floorByName.loading = false;
+        draft.floorByName.success = action.payload.success;
+        draft.floorByName = action.payload;
+        draft.floorByName.message = action.payload.message;
+        break;
+      case FAILED_GET_FLOOR_BY_NAME:
+        draft.floorByName.loading = false;
+        draft.floorByName.success = false;
+        draft.floorByName.error = action.payload.Error;
         break;
       case CLEAR_UPDATE_STATUS:
         draft.updateStatus.success = false;

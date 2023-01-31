@@ -64,6 +64,8 @@ const Spaces = ({
   const [spaceValue, setSpaceValue] = useState([]);
   const [spaceAllChecked, setSpaceAllChecked] = useState([]);
   const [updatedData, setUpdatedData] = useState([]);
+  const [floorbuildData, setFloorbuildData] = useState([]);
+  const [officeTypeData, setOfficeTypeData] = useState([]);
   const [open, setOpen] = useState(false);
   const [checkOpen, setCheckOpen] = useState(false);
   const [isEditing, setisEditing] = useState(false);
@@ -85,6 +87,8 @@ const Spaces = ({
   const inputValue = e => {
     setEditedText(e.target.value);
   };
+
+  console.log('spaceAllChecked::::>M<>', spaceAllChecked);
 
   const handleClear = () => {
     const allChecked = spaceValue.map(el => {
@@ -572,6 +576,26 @@ const Spaces = ({
   const disableEdit = () => {
     console.log('onBlur');
     // setShowEditIcons(false);
+  };
+
+  const handleFloorUpdateSelect = (data, rowId, col) => {
+    const dataName = [];
+    dataName.push({
+      name: data.name,
+      rowId,
+      col,
+    });
+    setFloorbuildData(dataName);
+  };
+
+  const handleOfficeUpdateSelect = (data, rowId, col) => {
+    const dataName = [];
+    dataName.push({
+      name: data.name,
+      rowId,
+      col,
+    });
+    setOfficeTypeData(dataName);
   };
 
   return (
@@ -1149,7 +1173,7 @@ const Spaces = ({
                         </div>
                       </td>
                     )}
-                    <td className="assigned_text">
+                    {/* <td className="assigned_text">
                       {i.spaceType ? (
                         <Dropdown>
                           <Dropdown.Toggle
@@ -1174,6 +1198,76 @@ const Spaces = ({
                       ) : (
                         <>{i.type}</>
                       )}
+                    </td> */}
+                    <td className="assigned_text">
+                      {i.spaceType ? (
+                        <div className="custom-update-dropdown">
+                          <div className="dropdown">
+                            <input
+                              type="input"
+                              style={{ cursor: 'alias' }}
+                              className="dropdown-toggle"
+                              value={
+                                (officeTypeData &&
+                                  officeTypeData.length > 0 &&
+                                  officeTypeData.map(ele =>
+                                    ele.rowId === idx
+                                      ? ele.name
+                                      : i.neighborhoodname,
+                                  )) ||
+                                i.neighborhoodname
+                              }
+                              placeholder="Select..."
+                              data-bs-toggle="dropdown"
+                              data-target="#dropdownMenuButton3"
+                            />
+                            <Image
+                              className="img_update"
+                              data-bs-toggle="dropdown"
+                              data-target="#dropdownMenuButton3"
+                              src={SelectDownArrow}
+                            />
+                            <ul
+                              className="dropdown-menu"
+                              id="dropdownMenuButton3"
+                              aria-labelledby="dropdownMenuButton3"
+                            >
+                              {updatedNeibour &&
+                                updatedNeibour.map((item, index) => (
+                                  <li
+                                    aria-hidden
+                                    onClick={() =>
+                                      handleOfficeUpdateSelect(item, idx)
+                                    }
+                                  >
+                                    <span>{item.name}</span>
+                                    <div
+                                      className={
+                                        (officeTypeData &&
+                                          officeTypeData.length > 0 &&
+                                          officeTypeData.map(ele =>
+                                            ele.rowId === idx &&
+                                            ele.name === item.name
+                                              ? 'selected_val float-end'
+                                              : '',
+                                          )) ||
+                                        (updatedNeibour &&
+                                          updatedNeibour.length > 0 &&
+                                          updatedNeibour.map(ele =>
+                                            ele.name === item.name
+                                              ? 'selected_val float-end'
+                                              : '',
+                                          ))
+                                      }
+                                    />
+                                  </li>
+                                ))}
+                            </ul>
+                          </div>
+                        </div>
+                      ) : (
+                        <>{i.type}</>
+                      )}
                     </td>
                     <td
                       className={`${
@@ -1184,7 +1278,7 @@ const Spaces = ({
                     >
                       {i.assigned}
                     </td>
-                    <td className="assigned_text">
+                    {/* <td className="assigned_text">
                       {i.algorithm ? (
                         <Dropdown>
                           <Dropdown.Toggle
@@ -1206,6 +1300,80 @@ const Spaces = ({
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
+                      ) : (
+                        <>{i.active === true ? 'Active' : 'Inactive'}</>
+                      )}
+                    </td> */}
+                    <td className="assigned_text">
+                      {i.algorithm ? (
+                        <div className="custom-update-dropdown">
+                          <div className="dropdown">
+                            <input
+                              type="input"
+                              style={{ cursor: 'alias' }}
+                              className="dropdown-toggle"
+                              value={
+                                (officeTypeData &&
+                                  officeTypeData.length > 0 &&
+                                  officeTypeData.map(ele =>
+                                    ele.rowId === idx
+                                      ? ele.name
+                                      : i.active === true
+                                      ? 'Active'
+                                      : 'Inactive',
+                                  )) ||
+                                i.active === true
+                                  ? 'Active'
+                                  : 'Inactive'
+                              }
+                              placeholder="Select..."
+                              data-bs-toggle="dropdown"
+                              data-target="#dropdownMenuButton3"
+                            />
+                            <Image
+                              className="img_update"
+                              data-bs-toggle="dropdown"
+                              data-target="#dropdownMenuButton3"
+                              src={SelectDownArrow}
+                            />
+                            <ul
+                              className="dropdown-menu"
+                              id="dropdownMenuButton3"
+                              aria-labelledby="dropdownMenuButton3"
+                            >
+                              {updatedNeibour &&
+                                updatedNeibour.map((item, index) => (
+                                  <li
+                                    aria-hidden
+                                    onClick={() =>
+                                      handleOfficeUpdateSelect(item, idx)
+                                    }
+                                  >
+                                    <span>{item.name}</span>
+                                    <div
+                                      className={
+                                        (officeTypeData &&
+                                          officeTypeData.length > 0 &&
+                                          officeTypeData.map(ele =>
+                                            ele.rowId === idx &&
+                                            ele.name === item.name
+                                              ? 'selected_val float-end'
+                                              : '',
+                                          )) ||
+                                        (updatedNeibour &&
+                                          updatedNeibour.length > 0 &&
+                                          updatedNeibour.map(ele =>
+                                            ele.name === item.name
+                                              ? 'selected_val float-end'
+                                              : '',
+                                          ))
+                                      }
+                                    />
+                                  </li>
+                                ))}
+                            </ul>
+                          </div>
+                        </div>
                       ) : (
                         <>{i.active === true ? 'Active' : 'Inactive'}</>
                       )}

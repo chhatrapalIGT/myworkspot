@@ -16,6 +16,12 @@ import {
   REQUEST_GET_NEIGBOR_NAME,
   SUCCESS_GET_NEIGBOR_NAME,
   FAILED_GET_NEIGBOR_NAME,
+  REQUEST_GET_OFFICES_TYPE,
+  SUCCESS_GET_OFFICES_TYPE,
+  FAILED_GET_OFFICES_TYPE,
+  REQUEST_GET_FLOOR_BY_NAME,
+  SUCCESS_GET_FLOOR_BY_NAME,
+  FAILED_GET_FLOOR_BY_NAME,
 } from './constants';
 
 export const requestUpdateActiveStatus = payload => ({
@@ -88,6 +94,36 @@ export const getNeighborNameSuccess = payload => ({
 
 export const getNeighborNameFailed = error => ({
   type: FAILED_GET_NEIGBOR_NAME,
+  payload: error,
+});
+
+export const requestGetFloorByName = payload => ({
+  type: REQUEST_GET_FLOOR_BY_NAME,
+  payload,
+});
+
+export const getFloorByNameSuccess = payload => ({
+  type: SUCCESS_GET_FLOOR_BY_NAME,
+  payload,
+});
+
+export const getFloorByNameFailed = error => ({
+  type: FAILED_GET_FLOOR_BY_NAME,
+  payload: error,
+});
+
+export const requestGetOfficesType = payload => ({
+  type: REQUEST_GET_OFFICES_TYPE,
+  payload,
+});
+
+export const getOfficesTypeSuccess = payload => ({
+  type: SUCCESS_GET_OFFICES_TYPE,
+  payload,
+});
+
+export const getOfficesTypeFailed = error => ({
+  type: FAILED_GET_OFFICES_TYPE,
   payload: error,
 });
 
