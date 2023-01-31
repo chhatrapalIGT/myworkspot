@@ -12,6 +12,9 @@ import {
   REQUEST_GET_LOCK_SPACE,
   SUCCESS_GET_LOCK_SPACE,
   FAILED_GET_LOCK_SPACE,
+  REQUEST_GET_NEIGBOR_NAME,
+  SUCCESS_GET_NEIGBOR_NAME,
+  FAILED_GET_NEIGBOR_NAME,
   CLEAR_UPDATE_STATUS,
   CLEAR_MESSAGE,
 } from './constants';
@@ -37,6 +40,12 @@ const initialState = {
     success: false,
   },
   lockSpace: {
+    loading: false,
+    error: '',
+    message: '',
+    success: false,
+  },
+  neighborName: {
     loading: false,
     error: '',
     message: '',
@@ -89,7 +98,6 @@ const spaceReducer = (state = initialState, action) =>
         break;
       case SUCCESS_GET_MANAGE_EXPORT:
         draft.manageExport.loading = false;
-        draft.manageExport.success = action.payload.success;
         draft.manageExport = action.payload;
         draft.manageExport.message = action.payload.message;
         break;
@@ -112,6 +120,21 @@ const spaceReducer = (state = initialState, action) =>
         draft.lockSpace.loading = false;
         draft.lockSpace.success = false;
         draft.lockSpace.error = action.payload.Error;
+        break;
+      case REQUEST_GET_NEIGBOR_NAME:
+        draft.neighborName.loading = true;
+        draft.neighborName.error = '';
+        break;
+      case SUCCESS_GET_NEIGBOR_NAME:
+        draft.neighborName.loading = false;
+        draft.neighborName.success = action.payload.success;
+        draft.neighborName = action.payload;
+        draft.neighborName.message = action.payload.message;
+        break;
+      case FAILED_GET_NEIGBOR_NAME:
+        draft.neighborName.loading = false;
+        draft.neighborName.success = false;
+        draft.neighborName.error = action.payload.Error;
         break;
       case CLEAR_UPDATE_STATUS:
         draft.updateStatus.success = false;

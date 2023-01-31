@@ -13,6 +13,9 @@ import {
   REQUEST_GET_LOCK_SPACE,
   SUCCESS_GET_LOCK_SPACE,
   FAILED_GET_LOCK_SPACE,
+  REQUEST_GET_NEIGBOR_NAME,
+  SUCCESS_GET_NEIGBOR_NAME,
+  FAILED_GET_NEIGBOR_NAME,
 } from './constants';
 
 export const requestUpdateActiveStatus = payload => ({
@@ -57,6 +60,7 @@ export const getManageExportFailed = error => ({
   type: FAILED_GET_MANAGE_EXPORT,
   payload: error,
 });
+
 export const requestGetLockSpace = payload => ({
   type: REQUEST_GET_LOCK_SPACE,
   payload,
@@ -71,6 +75,22 @@ export const getLockSpaceFailed = error => ({
   type: FAILED_GET_LOCK_SPACE,
   payload: error,
 });
+
+export const requestGetNeighborName = payload => ({
+  type: REQUEST_GET_NEIGBOR_NAME,
+  payload,
+});
+
+export const getNeighborNameSuccess = payload => ({
+  type: SUCCESS_GET_NEIGBOR_NAME,
+  payload,
+});
+
+export const getNeighborNameFailed = error => ({
+  type: FAILED_GET_NEIGBOR_NAME,
+  payload: error,
+});
+
 export const clearUpdateStatus = () => ({
   type: CLEAR_UPDATE_STATUS,
 });

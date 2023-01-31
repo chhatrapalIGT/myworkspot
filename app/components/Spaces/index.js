@@ -24,6 +24,8 @@ import checkedCircle from '../../images/check-circle-fill.svg';
 // import vector from '../assets/images/Vector1.svg';
 import vector from '../../images/InfoOne.png';
 import crossCircle from '../../images/x-circle-fill.svg';
+import SelectDownArrow from '../assets/images/down-arrow.svg';
+import CheckedItem from '../assets/images/Checked.svg';
 import lock from '../../images/lock.png';
 import GreyPencil from '../../images/GreyPencil.png';
 import Pagination from '../Employee/Pagination';
@@ -48,13 +50,14 @@ const Spaces = ({
   handleClickSort,
   handleSearcha,
   requestGetManageExport,
-  handleofficeSearch,
+  handleSelectedoffice,
   officeSrcLocation,
   officeFloor,
   officeNeighborhood,
   handleSelectedFloor,
   handleSelectedNeighbor,
   lockSpaceData,
+  neighborData,
 }) => {
   const [floor, setFloor] = useState();
   const [color, setColor] = useState();
@@ -64,6 +67,7 @@ const Spaces = ({
   const [manageData, setManageData] = useState({});
   const [spaceData, setSpaceData] = useState('');
   const [spaceValue, setSpaceValue] = useState([]);
+  const [updatedData, setUpdatedData] = useState([]);
   const [open, setOpen] = useState(false);
   const [checkOpen, setCheckOpen] = useState(false);
   const [isEditing, setisEditing] = useState(false);
@@ -74,10 +78,11 @@ const Spaces = ({
   });
   const [officeLocations, setOfficeLocations] = useState([]);
   const [officeFloors, setOfficeFloors] = useState([]);
+  const [updatedOfficeFloor, setUpdatedOfficeFloor] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
-  let updatedLocation = [];
+  const [updatedNeibour, setUpdatedNeibour] = useState([]);
   let updatedFloors = [];
-  let updatedNeighborhood = [];
+  const updatedNeighborhood = [];
   const inputValue = e => {
     setEditedText(e.target.value);
   };
@@ -117,70 +122,73 @@ const Spaces = ({
     }
   }, [manageSpace]);
   useEffect(() => {
-    updatedLocation = [];
-    officeSrcLocation &&
-      officeSrcLocation.map(obj => {
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
+    ];
+    officeLocation &&
+      officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
-          const isDuplicate = officeLocations.includes(obj);
-          if (!isDuplicate) {
-            officeLocations.push({
-              label: obj.locationname,
-              name: obj.locationname,
-              value: obj.id,
-            });
-            return true;
-          }
-          return false;
+          tempArr.push({
+            label: obj.locationname,
+            name: obj.locationname,
+            value: obj.id,
+            isSelected: true,
+          });
         }
       });
-  }, [officeSrcLocation]);
+    setOfficeLocations(tempArr);
+  }, [officeLocation]);
 
   useEffect(() => {
-    updatedFloors = [];
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
+    ];
     officeFloor &&
       officeFloor.map(obj => {
         if (obj.floor !== null) {
-          const isDuplicate = officeFloors.includes(obj);
-          if (!isDuplicate) {
-            officeFloors.push({
-              label: `floor ${obj.floor}`,
-              name: `floor ${obj.floor}`,
-              value: `floor ${obj.floor}`,
-            });
-            return true;
-          }
-          return false;
+          tempArr.push({
+            label: `floor ${obj.floor}`,
+            name: `floor ${obj.floor}`,
+            value: `floor ${obj.floor}`,
+            isSelected: true,
+          });
         }
         if (obj.building !== null) {
-          const isDuplicate = officeFloors.includes(obj);
-          if (!isDuplicate) {
-            officeFloors.push({
-              label: `building ${obj.building}`,
-              name: `building ${obj.building}`,
-              value: `building ${obj.building}`,
-            });
-            return true;
-          }
-          return false;
+          tempArr.push({
+            label: `building ${obj.building}`,
+            name: `building ${obj.building}`,
+            value: `building ${obj.building}`,
+            isSelected: true,
+          });
         }
       });
+    updatedFloors = tempArr.filter(i => i.value !== 'All');
+    console.log('updatedFloors>>>>>>>>', updatedFloors);
+    setOfficeFloors(tempArr);
+    setUpdatedOfficeFloor(updatedFloors);
   }, [officeFloor]);
 
   useEffect(() => {
-    updatedNeighborhood = [];
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
+    ];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
-        const isDuplicate = officeLocations.includes(obj);
-        if (!isDuplicate) {
-          officeNeighborhoods.push({
-            label: obj.name,
-            name: obj.name,
-            value: obj.name,
-          });
-          return true;
-        }
-        return false;
+        tempArr.push({
+          label: obj.name,
+          name: obj.name,
+          value: obj.name,
+          isSelected: true,
+        });
+        updatedNeighborhood.push({
+          label: obj.name,
+          name: obj.name,
+          value: obj.name,
+        });
       });
+    console.log('updatedNeighborhood', updatedNeighborhood);
+    setOfficeNeighborhoods(tempArr);
+    setUpdatedNeibour(updatedNeighborhood);
   }, [officeNeighborhood]);
 
   function toggleAccordion(id) {
@@ -274,42 +282,6 @@ const Spaces = ({
     }
   };
 
-  updatedLocation = officeLocations.map(item => {
-    // eslint-disable-next-line no-param-reassign
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {state.finalOfficeVal ? state.finalOfficeVal : 'All'}
-        </div>
-      </>
-    );
-    return item;
-  });
-
-  updatedFloors = officeFloors.map(item => {
-    // eslint-disable-next-line no-param-reassign
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {state.finalFloorVal ? state.finalFloorVal : 'All'}
-        </div>
-      </>
-    );
-    return item;
-  });
-
-  updatedNeighborhood = officeNeighborhoods.map(item => {
-    // eslint-disable-next-line no-param-reassign
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {state.finalNeighborhoodVal ? state.finalNeighborhoodVal : 'All'}
-        </div>
-      </>
-    );
-    return item;
-  });
-
   const handleCheckbox = (data, val, final) => {
     const dataFinal = floor && floor.split(',');
     setManageLoader(final);
@@ -395,6 +367,30 @@ const Spaces = ({
       });
     setSpaceValue(spaceInp);
   };
+
+  const table = document.getElementById('tableData');
+  let hoverTimer = 0;
+
+  table.addEventListener('mouseenter', () => {
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(() => table.classList.add('active'), 500);
+  });
+
+  table.addEventListener('mouseleave', evt => {
+    [...table.children[0].children].forEach(tr => {
+      tr.classList.remove('exited');
+      if (
+        evt.offsetY >= tr.offsetTop &&
+        evt.offsetY <= tr.offsetTop + tr.clientHeight
+      ) {
+        tr.classList.add('exited');
+      }
+    });
+
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(() => table.classList.remove('active'), 500);
+  });
+
   const onCheckbox = (e, idx) => {
     const { value, checked } = e.target;
     const spaceInp =
@@ -470,6 +466,132 @@ const Spaces = ({
     }),
   };
 
+  const handleSelectedList = (index, status) => {
+    let officeList = [];
+    officeList =
+      officeLocations &&
+      officeLocations.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (officeList.length) {
+      const isAllChecked =
+        officeList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        officeList.length - 1;
+
+      officeList = officeList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeLocations(officeList);
+    handleSelectedoffice(officeList);
+  };
+
+  const handleSelectedFloorList = (index, status) => {
+    let floorList = [];
+    floorList =
+      officeFloors &&
+      officeFloors.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (floorList.length) {
+      const isAllChecked =
+        floorList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        floorList.length - 1;
+      floorList = floorList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeFloors(floorList);
+    handleSelectedFloor(floorList);
+  };
+
+  const handleSelectedNeighborList = (index, status) => {
+    let neighborList = [];
+    neighborList =
+      officeNeighborhoods &&
+      officeNeighborhoods.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (neighborList.length) {
+      const isAllChecked =
+        neighborList.filter(
+          ele => ele.name !== 'All' && ele.isSelected === true,
+        ).length ===
+        neighborList.length - 1;
+      neighborList = neighborList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeNeighborhoods(neighborList);
+    handleSelectedNeighbor(neighborList);
+  };
+
+  const handleNeibourUpdateSelect = (data, rowId, col) => {
+    const dataName = [];
+    dataName.push({
+      name: data.name,
+      rowId,
+      col,
+    });
+    setUpdatedData(dataName);
+  };
+
   return (
     <div className="wrapper_main">
       {setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage && (
@@ -527,88 +649,133 @@ const Spaces = ({
               <div className="menu-img">
                 <img src={Menu} className="img-fluid" alt="" />
               </div>
-
-              <span htmlFor="role" className="role">
-                <p
-                  style={{
-                    height: '15px',
-                    marginBottom: '0px',
-                    fontSize: '12px',
-                    marginLeft: '16px',
-                  }}
-                >
-                  Office{' '}
-                </p>
-                <Select
-                  components={{ Option }}
-                  isMulti
-                  isClearable={false}
-                  defaultValue={officeLocations}
-                  onChange={handleofficeSearch}
-                  options={updatedLocation}
-                  closeMenuOnSelect
-                  hideSelectedOptions={false}
-                  onMenuClose={false}
-                  className=" admin-employee"
-                  name="office"
-                  styles={colourStyles}
-                  label="Office"
-                />
-              </span>
-              <span htmlFor="space" className="space">
-                <p
-                  style={{
-                    height: '15px',
-                    marginBottom: '0px',
-                    fontSize: '12px',
-                    marginLeft: '16px',
-                  }}
-                >
-                  Building/Floor{' '}
-                </p>
-                <Select
-                  components={{ Option }}
-                  isMulti
-                  isClearable={false}
-                  defaultValue={officeFloors}
-                  onChange={handleSelectedFloor}
-                  options={updatedFloors}
-                  closeMenuOnSelect
-                  hideSelectedOptions={false}
-                  onMenuClose={false}
-                  className=" admin-employee"
-                  name="floor"
-                  styles={colourStyles}
-                  label="Building/Floor"
-                />
-              </span>
-              <span htmlFor="space" className="space">
-                <p
-                  style={{
-                    height: '15px',
-                    marginBottom: '0px',
-                    fontSize: '12px',
-                    marginLeft: '16px',
-                  }}
-                >
-                  Neighborhood{' '}
-                </p>
-                <Select
-                  components={{ Option }}
-                  isMulti
-                  isClearable={false}
-                  defaultValue={officeNeighborhoods}
-                  onChange={handleSelectedNeighbor}
-                  options={updatedNeighborhood}
-                  closeMenuOnSelect
-                  hideSelectedOptions={false}
-                  onMenuClose={false}
-                  className=" admin-employee"
-                  name="Neighborhood"
-                  styles={colourStyles}
-                  label="Neighborhood"
-                />
-              </span>
+              <div className="custom-filter-dropdown">
+                <span>Office</span>
+                <div className="dropdown">
+                  <input
+                    type="input"
+                    style={{ cursor: 'alias' }}
+                    className="dropdown-toggle"
+                    value={state.finalOfficeVal}
+                    placeholder="Select..."
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton1"
+                    // id="dropdownMenuButton1"
+                  />
+                  <Image
+                    className="img_select"
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton1"
+                    src={SelectDownArrow}
+                  />
+                  <ul
+                    className="dropdown-menu"
+                    id="dropdownMenuButton1"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    {officeLocations &&
+                      officeLocations.map((item, index) => (
+                        <li
+                          aria-hidden
+                          onClick={() =>
+                            handleSelectedList(index, !item.isSelected)
+                          }
+                        >
+                          <span>{item.name}</span>
+                          <div
+                            className={
+                              item.isSelected ? 'selected_val float-end' : ''
+                            }
+                          />
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="custom-filter-dropdown">
+                <span>Building/Floor</span>
+                <div className="dropdown">
+                  <input
+                    type="input"
+                    style={{ cursor: 'alias' }}
+                    className="dropdown-toggle"
+                    value={state.finalFloorVal}
+                    placeholder="Select..."
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton2"
+                  />
+                  <Image
+                    className="img_select"
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton2"
+                    src={SelectDownArrow}
+                  />
+                  <ul
+                    className="dropdown-menu"
+                    id="dropdownMenuButton2"
+                    aria-labelledby="dropdownMenuButton2"
+                  >
+                    {officeFloors &&
+                      officeFloors.map((item, index) => (
+                        <li
+                          aria-hidden
+                          onClick={() =>
+                            handleSelectedFloorList(index, !item.isSelected)
+                          }
+                        >
+                          <span>{item.name}</span>
+                          <div
+                            className={
+                              item.isSelected ? 'selected_val float-end' : ''
+                            }
+                          />
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="custom-filter-dropdown">
+                <span>Neighborhood</span>
+                <div className="dropdown">
+                  <input
+                    type="input"
+                    style={{ cursor: 'alias' }}
+                    className="dropdown-toggle"
+                    value={state.finalNeighborhoodVal}
+                    placeholder="Select..."
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton3"
+                  />
+                  <Image
+                    className="img_select"
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton3"
+                    src={SelectDownArrow}
+                  />
+                  <ul
+                    className="dropdown-menu"
+                    id="dropdownMenuButton3"
+                    aria-labelledby="dropdownMenuButton3"
+                  >
+                    {officeNeighborhoods &&
+                      officeNeighborhoods.map((item, index) => (
+                        <li
+                          aria-hidden
+                          onClick={() =>
+                            handleSelectedNeighborList(index, !item.isSelected)
+                          }
+                        >
+                          <span>{item.name}</span>
+                          <div
+                            className={
+                              item.isSelected ? 'selected_val float-end' : ''
+                            }
+                          />
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
             </div>
             <div className="search-box">
               <div className="pos-rela">
@@ -616,7 +783,7 @@ const Spaces = ({
                   type="text"
                   onChange={handleSearcha}
                   name="searchVal"
-                  placeholder="Search"
+                  placeholder="Search for name, badge"
                 />
                 <div className="search-img">
                   <img src={Search} className="img-fluid" alt="" />
@@ -625,10 +792,10 @@ const Spaces = ({
             </div>
           </div>
           <div className="emp-table">
-            <table>
+            <table id="tableData">
               <tr>
                 <th>
-                  <Form.Check className="mycheckbox1" name="group" />
+                  <Form.Check className="mycheckbox1" name="group2" />
                 </th>
                 <th style={{ width: '17%' }}>
                   Building/floor{' '}
@@ -743,7 +910,7 @@ const Spaces = ({
               ) : (
                 spaceValue &&
                 spaceValue.length > 0 &&
-                spaceValue.map(i => (
+                spaceValue.map((i, idx) => (
                   <tr>
                     <td>
                       <Form.Check
@@ -753,30 +920,78 @@ const Spaces = ({
                       />
                     </td>
                     <td className="assigned_text">
-                      {i.isFloor ? (
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            variant="success"
-                            id="dropdown-basic"
-                          >
-                            <div onDoubleClick={() => setCheckOpen(true)}>
-                              {i.floor}
-                              {i.building}
-                            </div>
-                          </Dropdown.Toggle>
-
-                          <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">
-                              Action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">
-                              Another action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">
-                              Something else
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                      {i.isNeighborh ? (
+                        <div className="custom-filter-dropdown">
+                          <div className="dropdown">
+                            <input
+                              type="input"
+                              style={{ cursor: 'alias' }}
+                              className="dropdown-toggle"
+                              value={
+                                (updatedData &&
+                                  updatedData.length > 0 &&
+                                  updatedData.map(ele =>
+                                    ele.rowId === idx
+                                      ? ele.name
+                                      : `${i.floor}
+                                    ${i.building}`,
+                                  )) ||
+                                `${i.floor}
+                                  ${i.building}`
+                              }
+                              placeholder="Select..."
+                              data-bs-toggle="dropdown"
+                              data-target="#dropdownMenuButton3"
+                            />
+                            <Image
+                              className="img_select"
+                              data-bs-toggle="dropdown"
+                              data-target="#dropdownMenuButton3"
+                              src={SelectDownArrow}
+                            />
+                            <ul
+                              className="dropdown-menu"
+                              id="dropdownMenuButton3"
+                              aria-labelledby="dropdownMenuButton3"
+                            >
+                              {updatedOfficeFloor &&
+                                updatedOfficeFloor.map((item, index) => (
+                                  <li
+                                    aria-hidden
+                                    onClick={() =>
+                                      handleNeibourUpdateSelect(
+                                        item,
+                                        idx,
+                                        'floor',
+                                      )
+                                    }
+                                  >
+                                    <span>{item.name}</span>
+                                    <div
+                                      className={
+                                        (updatedData &&
+                                          updatedData.length > 0 &&
+                                          updatedData.map(ele =>
+                                            ele.rowId === idx &&
+                                            ele.col === 'floor' &&
+                                            ele.name === item.name
+                                              ? 'selected_val float-end'
+                                              : '',
+                                          )) ||
+                                        (updatedOfficeFloor &&
+                                          updatedOfficeFloor.length > 0 &&
+                                          updatedOfficeFloor.map(ele =>
+                                            ele.name === item.name
+                                              ? 'selected_val float-end'
+                                              : '',
+                                          ))
+                                      }
+                                    />
+                                  </li>
+                                ))}
+                            </ul>
+                          </div>
+                        </div>
                       ) : (
                         <>
                           {i.floor}
@@ -786,26 +1001,70 @@ const Spaces = ({
                     </td>
                     <td className="assigned_text">
                       {i.isNeighborh ? (
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            variant="success"
-                            id="dropdown-basic"
-                          >
-                            {i.neighborhoodname}
-                          </Dropdown.Toggle>
-
-                          <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">
-                              Action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">
-                              Another action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">
-                              Something else
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                        <div className="custom-filter-dropdown">
+                          <div className="dropdown">
+                            <input
+                              type="input"
+                              style={{ cursor: 'alias' }}
+                              className="dropdown-toggle"
+                              value={
+                                (updatedData &&
+                                  updatedData.length > 0 &&
+                                  updatedData.map(ele =>
+                                    ele.rowId === idx
+                                      ? ele.name
+                                      : i.neighborhoodname,
+                                  )) ||
+                                i.neighborhoodname
+                              }
+                              placeholder="Select..."
+                              data-bs-toggle="dropdown"
+                              data-target="#dropdownMenuButton3"
+                            />
+                            <Image
+                              className="img_select"
+                              data-bs-toggle="dropdown"
+                              data-target="#dropdownMenuButton3"
+                              src={SelectDownArrow}
+                            />
+                            <ul
+                              className="dropdown-menu"
+                              id="dropdownMenuButton3"
+                              aria-labelledby="dropdownMenuButton3"
+                            >
+                              {updatedNeibour &&
+                                updatedNeibour.map((item, index) => (
+                                  <li
+                                    aria-hidden
+                                    onClick={() =>
+                                      handleNeibourUpdateSelect(item, idx)
+                                    }
+                                  >
+                                    <span>{item.name}</span>
+                                    <div
+                                      className={
+                                        (updatedData &&
+                                          updatedData.length > 0 &&
+                                          updatedData.map(ele =>
+                                            ele.rowId === idx &&
+                                            ele.name === item.name
+                                              ? 'selected_val float-end'
+                                              : '',
+                                          )) ||
+                                        (updatedNeibour &&
+                                          updatedNeibour.length > 0 &&
+                                          updatedNeibour.map(ele =>
+                                            ele.name === item.name
+                                              ? 'selected_val float-end'
+                                              : '',
+                                          ))
+                                      }
+                                    />
+                                  </li>
+                                ))}
+                            </ul>
+                          </div>
+                        </div>
                       ) : (
                         <>{i.neighborhoodname}</>
                       )}
@@ -898,21 +1157,6 @@ const Spaces = ({
                       ) : (
                         <>{i.active === true ? 'Active' : 'Inactive'}</>
                       )}
-                    </td>
-                    <td>
-                      {' '}
-                      {/* <img
-                        src={Edit}
-                        onClick={() => {
-                          props.editEmployee(i.employeeid);
-                          handleShow();
-                          props.clearAssign();
-                          setchkspace(false);
-                        }}
-                        aria-hidden="true"
-                        alt="Edit"
-                        className="day-pointer"
-                      /> */}
                     </td>
                   </tr>
                 ))
@@ -1041,6 +1285,7 @@ const Spaces = ({
               <h4 className="common-title mb-0 me-2">Locked Spaces</h4>
               <div className="data-63">
                 <img
+                  style={{ marginBottom: '7px' }}
                   src={vector}
                   alt=""
                   aria-hidden="true"
@@ -1180,10 +1425,8 @@ const Spaces = ({
                                       {floor.name}{' '}
                                     </span>
                                     <span className="acc-small">{`${
-                                      floor.neighborhoodLockedSpace
-                                    }/${
-                                      floor.neighborhoodTotalSpace
-                                    } Locked`}</span>
+                                      floor.lockedWorkspaceNumber
+                                    }/${floor.totalWorkspace} Locked`}</span>
                                   </div>
                                   <div
                                     className={`panel1 ${
@@ -1266,6 +1509,7 @@ Spaces.propTypes = {
   manageSpace: PropTypes.object,
   exportManage: PropTypes.object,
   lockSpaceData: PropTypes.object,
+  neighborData: PropTypes.object,
   officeSrcLocation: PropTypes.object,
   officeNeighborhood: PropTypes.object,
   officeFloor: PropTypes.object,
@@ -1278,7 +1522,7 @@ Spaces.propTypes = {
   handleClickSort: PropTypes.func,
   handleSearcha: PropTypes.func,
   requestGetManageExport: PropTypes.func,
-  handleofficeSearch: PropTypes.func,
+  handleSelectedoffice: PropTypes.func,
   handleSelectedFloor: PropTypes.func,
   handleSelectedNeighbor: PropTypes.func,
 };

@@ -3777,3 +3777,35 @@ div[class*='qy-menu'] * {
   top: 3px !important;
   position: relative !important;
 }
+.update_table{
+  position: relative;
+  z-index: 999;
+  background: white;
+  border-radius: 5px;
+  border: 1px solid #D1DCE7;
+  .dropdown-toggle{
+    width: 100%;
+    background: white !important;
+    color: black;
+  }
+}
+tr.table-row button.action-btn {
+  pointer-events: none;
+}
+
+table.active tr.table-row:hover button.action-btn {
+  pointer-events: auto;
+}
+
+tr.table-row {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+table.active tr.table-row:hover {
+  opacity: 1;
+}
+
+tr.exited {
+  opacity: 1;
+}
