@@ -7,6 +7,7 @@ import {
   REQUEST_GET_MANAGE_SPACE,
   REQUEST_GET_MANAGE_EXPORT,
   REQUEST_GET_LOCK_SPACE,
+  REQUEST_GET_NEIGBOR_NAME,
 } from './constants';
 import {
   updateActiveStatusSuccess,
@@ -17,6 +18,8 @@ import {
   getManageExportFailed,
   getLockSpaceSuccess,
   getLockSpaceFailed,
+  getNeighborNameSuccess,
+  getNeighborNameFailed,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -138,9 +141,39 @@ export function* getLockSpaceData({ payload }) {
   }
 }
 
+export function* getNeighborhoodData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const requestURL = `${API_URL}/neighborhoods/getNeighborhoodName?floor=2&building&locationId=RIC`;
+  try {
+    const response = yield request({
+      method: 'GET',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getNeighborNameSuccess(data));
+    } else {
+      yield put(getNeighborNameFailed(data));
+    }
+  } catch (error) {
+    yield put(getNeighborNameFailed(error));
+  }
+}
+
 export default function* spaceMapData() {
   yield takeLatest(REQUEST_UPDATE_ACTIVE_STATUS, statusUpdate);
   yield takeLatest(REQUEST_GET_MANAGE_SPACE, getManageSpaceData);
   yield takeLatest(REQUEST_GET_MANAGE_EXPORT, getExportManageData);
   yield takeLatest(REQUEST_GET_LOCK_SPACE, getLockSpaceData);
+  yield takeLatest(REQUEST_GET_NEIGBOR_NAME, getNeighborhoodData);
 }

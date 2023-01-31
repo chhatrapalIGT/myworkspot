@@ -5,4 +5,5 @@ export default {
   INVOICE_URL: ENV.API.InvoiceURL,
   MAP_IMAGE_URL: ENV.API.MapImageUrl,
   SPIN_IMAGE_URL_LIVE: ENV.API.SpinImageUrl,
+  USER_IMAGE_SRC_LIVE: ENV.API.UserImageUrl,
 };

@@ -22,7 +22,7 @@ import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
 import Warnning from '../../images/officeImage/Warnning.png';
 import { CONSTANT } from '../../enum';
-const { SPIN_IMAGE_URL_LIVE } = CONSTANT;
+const { USER_IMAGE_SRC_LIVE } = CONSTANT;
 const Employee = props => {
   const {
     state,
@@ -438,7 +438,7 @@ const Employee = props => {
                     <tr>
                       <td>
                         <img
-                          src={`${SPIN_IMAGE_URL_LIVE}${i.employeeid}.wiki.jpg`}
+                          src={`${USER_IMAGE_SRC_LIVE}${i.employeeid}.wiki.jpg`}
                           className="img-fluid table-user-img"
                           alt=""
                           onError={props.replaceImage}
@@ -550,7 +550,7 @@ const Employee = props => {
                   <div className="prof-flex">
                     <div className="mar-4">
                       <img
-                        src={`${SPIN_IMAGE_URL_LIVE}${props.state.id}.wiki.jpg`}
+                        src={`${USER_IMAGE_SRC_LIVE}${props.state.id}.wiki.jpg`}
                         className="img-fluid"
                         onError={props.replaceImage}
                         style={{
@@ -601,7 +601,7 @@ const Employee = props => {
                         name="role"
                         placeholder="Select role"
                         disabled={
-                          sessionStorage.getItem('Admin_Owner') === 'false'
+                          sessionStorage.getItem('Admin Owner') === 'false'
                         }
                       >
                         {role &&
@@ -888,6 +888,41 @@ const Employee = props => {
                       </div>
                     </div>
                   )}
+                  {props.userMessage && (
+                    <div
+                      className={`"alert fade show mx-auto ${
+                        props.apiSuccess
+                          ? 'alert alert-success'
+                          : 'alert alert-danger '
+                      } "`}
+                      style={{ position: 'revert' }}
+                    >
+                      <div>
+                        <img
+                          src={
+                            props.userMessageStatus
+                              ? checkedCircle
+                              : crossCircle
+                          }
+                          alt=""
+                          style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+                        />
+                        {props.userMessage}
+                      </div>
+                      <div
+                        style={{
+                          float: 'right',
+                          fontSize: 'large',
+                          marginLeft: '10px',
+                        }}
+                        onClick={props.handleData}
+                        className="day-pointer"
+                        aria-hidden="true"
+                      >
+                        &#10006;
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -930,6 +965,8 @@ Employee.propTypes = {
   clearAssign: PropTypes.func,
   onCancel: PropTypes.func,
   replaceImage: PropTypes.func,
+  userMessage: PropTypes.string,
+  userMessageStatus: PropTypes.bool,
 };
 
 export default Employee;

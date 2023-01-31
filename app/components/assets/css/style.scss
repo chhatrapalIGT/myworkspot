@@ -393,10 +393,12 @@ input[type='text'] {
           }
         }
         .del {
-          background-color: #e4b878;
+          background-color: #F7C687;
+          color : #000
         }
         .deladmin {
-          background-color: #ffe9e0;
+          background-color: #F7C687;
+          color : #000
         }
         .profile-popup-main {
           padding: 0 30px 20px;
@@ -3776,6 +3778,38 @@ div[class*='qy-menu'] * {
 .custom-sort-img {
   top: 3px !important;
   position: relative !important;
+}
+.update_table{
+  position: relative;
+  z-index: 999;
+  background: white;
+  border-radius: 5px;
+  border: 1px solid #D1DCE7;
+  .dropdown-toggle{
+    width: 100%;
+    background: white !important;
+    color: black;
+  }
+}
+tr.table-row button.action-btn {
+  pointer-events: none;
+}
+
+table.active tr.table-row:hover button.action-btn {
+  pointer-events: auto;
+}
+
+tr.table-row {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+table.active tr.table-row:hover {
+  opacity: 1;
+}
+
+tr.exited {
+  opacity: 1;
 }
 
 .table-user-img {
