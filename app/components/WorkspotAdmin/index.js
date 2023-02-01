@@ -324,7 +324,7 @@ const WorkspotAdmin = ({
       if (excelDataOpen) {
         generateCSV('CSV', header, finaldataOffice, 'Office Capacity');
       } else {
-        exportToSpreadsheet(finaldataOffice);
+        exportToSpreadsheet(finaldataOffice, 'Office Capacity');
       }
       setOpen(false);
     }
@@ -358,7 +358,7 @@ const WorkspotAdmin = ({
         generateCSV('CSV', header, finaldataExpected, 'Expected Attendance');
         setOpen(false);
       } else {
-        exportToSpreadsheet(finaldataExpected);
+        exportToSpreadsheet(finaldataExpected, 'Expected Attendance');
         setOpen(false);
       }
     }
@@ -391,7 +391,7 @@ const WorkspotAdmin = ({
       if (excelDataOpen) {
         generateCSV('CSV', header, finaldataConfirmed, 'Confirmed Attendance');
       } else {
-        exportToSpreadsheet(finaldataConfirmed);
+        exportToSpreadsheet(finaldataConfirmed, 'Confirmed Attendance');
       }
       setOpen(false);
     }

@@ -70,17 +70,17 @@ const Assignments = props => {
       officeFloor.map(obj => {
         if (obj.floor !== null) {
           tempArr.push({
-            label: `floor ${obj.floor}`,
-            name: `floor ${obj.floor}`,
-            value: `floor ${obj.floor}`,
+            label: `Floor ${obj.floor}`,
+            name: `Floor ${obj.floor}`,
+            value: `Floor ${obj.floor}`,
             isSelected: true,
           });
         }
         if (obj.building !== null) {
           tempArr.push({
-            label: `building ${obj.building}`,
-            name: `building ${obj.building}`,
-            value: `building ${obj.building}`,
+            label: `Building ${obj.building}`,
+            name: `Building ${obj.building}`,
+            value: `Building ${obj.building}`,
             isSelected: true,
           });
         }
@@ -298,13 +298,13 @@ const Assignments = props => {
                 <div className="menu-img">
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
-                <div className="custom-filter-dropdown">
-                  <span>Office</span>
-                  <div className="dropdown">
+                <div className="custom-filter-dropdown pointer">
+                  <span className="pointer">Office</span>
+                  <div className="dropdown pointer">
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle"
+                      className="dropdown-toggle pointer"
                       value={state.finalOfficeVal}
                       placeholder="Select..."
                       data-bs-toggle="dropdown"
@@ -312,19 +312,20 @@ const Assignments = props => {
                       // id="dropdownMenuButton1"
                     />
                     <Image
-                      className="img_select"
+                      className="img_select pointer"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton1"
                       src={SelectDownArrow}
                     />
                     <ul
-                      className="dropdown-menu"
+                      className="dropdown-menu pointer"
                       id="dropdownMenuButton1"
                       aria-labelledby="dropdownMenuButton1"
                     >
                       {officeLocations &&
                         officeLocations.map((item, index) => (
                           <li
+                            className="pointer"
                             aria-hidden
                             onClick={() =>
                               handleSelectedList(index, !item.isSelected)
@@ -341,32 +342,33 @@ const Assignments = props => {
                     </ul>
                   </div>
                 </div>
-                <div className="custom-filter-dropdown">
-                  <span>Building/Floor</span>
-                  <div className="dropdown">
+                <div className="custom-filter-dropdown pointer">
+                  <span className="pointer">Building/Floor</span>
+                  <div className="dropdown pointer">
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle"
+                      className="dropdown-toggle pointer"
                       value={state.finalFloorVal}
                       placeholder="Select..."
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton2"
                     />
                     <Image
-                      className="img_select"
+                      className="img_select pointer"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton2"
                       src={SelectDownArrow}
                     />
                     <ul
-                      className="dropdown-menu"
+                      className="dropdown-menu pointer"
                       id="dropdownMenuButton2"
                       aria-labelledby="dropdownMenuButton2"
                     >
                       {officeFloors &&
                         officeFloors.map((item, index) => (
                           <li
+                            className="pointer"
                             aria-hidden
                             onClick={() =>
                               handleSelectedFloorList(index, !item.isSelected)
@@ -383,32 +385,33 @@ const Assignments = props => {
                     </ul>
                   </div>
                 </div>
-                <div className="custom-filter-dropdown">
-                  <span>Neighborhood</span>
-                  <div className="dropdown">
+                <div className="custom-filter-dropdown pointer">
+                  <span className="pointer">Neighborhood</span>
+                  <div className="dropdown pointer">
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle"
+                      className="dropdown-toggle pointer"
                       value={state.finalNeighborhoodVal}
                       placeholder="Select..."
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton3"
                     />
                     <Image
-                      className="img_select"
+                      className="img_select pointer"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton3"
                       src={SelectDownArrow}
                     />
                     <ul
-                      className="dropdown-menu"
+                      className="dropdown-menu pointer"
                       id="dropdownMenuButton3"
                       aria-labelledby="dropdownMenuButton3"
                     >
                       {officeNeighborhoods &&
                         officeNeighborhoods.map((item, index) => (
                           <li
+                            className="pointer"
                             aria-hidden
                             onClick={() =>
                               handleSelectedNeighborList(
@@ -435,7 +438,7 @@ const Assignments = props => {
                     type="text"
                     onChange={props.handleSearcha}
                     name="searchVal"
-                    placeholder="Search for name, badge"
+                    placeholder="Search..."
                   />
                   <div className="search-img">
                     <img src={Search} className="img-fluid" alt="" />

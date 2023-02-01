@@ -378,6 +378,8 @@ input[type='text'] {
         opacity: 0;
         visibility: hidden;
         z-index: 99;
+        overflow-y: auto;
+        max-height: 728px;
         .head {
           background-color: #c8e9ff;
           border-radius: 4px;
@@ -3718,6 +3720,9 @@ div[class*='qy-menu'] * {
 .mg_pop {
   margin-left: -2px !important;
 }
+.pointer {
+  cursor: pointer !important;
+}
 .custom-filter-dropdown {
   background: white;
   border: 1px solid #d1dce7;
@@ -3741,7 +3746,60 @@ div[class*='qy-menu'] * {
     background-color: transparent;
     font-family: 'Museo Sans Regular';
     position: relative;
-    top: -5px;
+    top: -25px;
+    width: 100%;
+    padding: 15px 10px 0 15px;
+    height: 50px;
+    &::placeholder {
+      font-weight: 400 !important;
+      color: #808080 !important;
+      font-size: 14px !important;
+      opacity: 1 !important;
+    }
+  }
+  .dropdown-menu.show {
+    transform: none !important;
+    top: 25px !important;
+    left: 0 !important;
+    border: 0;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px rgba(0, 45, 80, 0.12);
+    background: #fff;
+    padding: 5px 15px;
+    li {
+      padding: 5px 0;
+      span {
+        font-size: 14px !important;
+      }
+    }
+  }
+}
+
+.custom-update-dropdown {
+  background: white;
+  border: 1px solid #d1dce7;
+  border-radius: 10px;
+  width: 224px;
+  padding: 2px 0 0 0;
+  height: 50px;
+  font-family: 'Museo Sans Regular';
+  margin-right: 10px;
+  span {
+    font-size: 12px !important;
+    position: relative;
+    top: -3px;
+    padding-left: 15px;
+  }
+  input {
+    border: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    background-color: transparent;
+    font-family: 'Museo Sans Regular';
+    position: relative;
+    top: 9px;
     width: 100%;
     padding: 0 10px 0 15px;
     &::placeholder {
@@ -3753,9 +3811,9 @@ div[class*='qy-menu'] * {
   }
   .dropdown-menu.show {
     transform: none !important;
-    top: auto !important;
+    top: 50px !important;
     left: 0 !important;
-    border: 0;
+    border: 1;
     width: 100%;
     border-radius: 0;
     box-shadow: 1px 7px 5px #e7e7e7;

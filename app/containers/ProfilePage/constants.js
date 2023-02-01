@@ -38,3 +38,6 @@ export const FAILED_REMOVE_DELEGATE_USER = 'removeDelegateUserFailed';
 export const REQUEST_REMOVE_SPIN_ICON = 'requestRemoveSpinIcon';
 export const SUCCESS_REMOVE_SPIN_ICON = 'successRemoveSpinIcon';
 export const FAILED_REMOVE_SPIN_ICON = 'failedRemoveSpinIcon';
+export const REQUEST_GET_ADMIN_OWNER = 'requestgetAdminOwner';
+export const SUCCESS_GET_ADMIN_OWNER = 'getAdminOwnerSuccess';
+export const FAILED_GET_ADMIN_OWNER = 'getAdminOwnerFailed';
