@@ -62,14 +62,19 @@ const Header = props => {
     setShow(false);
   };
 
-  const addDelegateList = async () => {
+  useEffect(() => {
+    if (props.getOwnerSuccess.success === true) {
+      props.requestUserlistData({});
+    }
+  }, [props.getOwnerSuccess]);
+
+  const addDelegateList = () => {
     const finalValue = selectData.map(data => data.employeeid);
     const finalDataPayload = {
       delegateid: finalValue,
     };
-    console.log(finalDataPayload);
     props.requestgetAdminOwner(finalDataPayload);
-    await props.requestUserlistData({});
+    // props.requestUserlistData({});
   };
 
   const handleUserSelect = firstname => {
@@ -770,8 +775,7 @@ const Header = props => {
                           )
                         )}
                         {props.profileUser &&
-                          props.profileUser.role === 'Admin Owner' &&
-                          sessionStorage.getItem('Admin Owner') === 'true' && (
+                          props.profileUser.role === 'Admin Owner' && (
                             <div
                               onClick={() => {
                                 props.requestDelegateData({});
@@ -971,6 +975,7 @@ const mapStateToProps = state => {
     delegateHeaderProfileSuccess:
       profile && profile.delegateProfile && profile.delegateProfile.success,
     badgeUpdateSuccess: profile && profile.badgeUpdate.badgeSuccess,
+    getOwnerSuccess: profile && profile.getOwner,
   };
 };
 
@@ -990,6 +995,8 @@ export function mapDispatchToProps(dispatch) {
 Header.propTypes = {
   profileUser: PropTypes.object,
   profileUserLoading: PropTypes.bool,
+  // success: PropTypes.bool,
+  getOwnerSuccess: PropTypes.object,
   clearData: PropTypes.func,
   profileSuccess: PropTypes.bool,
   requestUserlistData: PropTypes.func,
