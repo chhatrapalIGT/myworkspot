@@ -40,8 +40,8 @@ class OfficeMap extends Component {
       selectedOffice: [],
       selectedFloor: [],
       selectedBuilding: [],
-      finalOfficeVal: 'All',
-      finalFloorVal: 'All',
+      finalOfficeVal: 'Washington, DC',
+      finalFloorVal: 'Floor 3, +1',
       finalNeighborhoodVal: 'All',
       neighborhoodSearch: [],
       neighborName: [],
@@ -59,7 +59,15 @@ class OfficeMap extends Component {
 
   componentDidMount() {
     this.props.requestGetOfficeUpdateData({});
-    this.props.requestGetManageSpace({});
+    this.props.requestGetManageSpace({
+      searchFilter: this.state.searchVal,
+      officeSearch: ['DC'],
+      floorSearch: ['3', '8'],
+      neighborhoodSearch: this.state.neighborhoodSearch,
+      sort_column: this.state.sort_column,
+      limit: this.state.limit,
+      page: this.state.page,
+    });
     this.props.requestGetOfficeLocation({});
     this.props.requestGetOfficeFloor({});
     this.props.requestGetOfficeNeighborhood({});

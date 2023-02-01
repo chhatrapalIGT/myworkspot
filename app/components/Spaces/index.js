@@ -64,6 +64,7 @@ const Spaces = ({
   handleSelectedNeighbor,
   lockSpaceData,
   neighborData,
+  floorBulidingData,
 }) => {
   const [flooring, setFloor] = useState();
   const [color, setColor] = useState();
@@ -87,6 +88,7 @@ const Spaces = ({
   });
   const [officeLocations, setOfficeLocations] = useState([]);
   const [officeFloors, setOfficeFloors] = useState([]);
+  const [buildFloors, setBuildFloors] = useState([]);
   const [updatedOfficeFloor, setUpdatedOfficeFloor] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
   const [updatedNeibour, setUpdatedNeibour] = useState([]);
@@ -95,6 +97,7 @@ const Spaces = ({
   const [isShowRowDropdown, setIsShowRowDropdown] = useState(null);
   const [currentCheckedValue, setCurrentCheckedValue] = useState('');
   const [changeAll, setChangeAll] = useState(false);
+  const [floorbuildingData, setFloorbuildingData] = useState([]);
 
   let updatedFloors = [];
   const updatedNeighborhood = [];
@@ -204,17 +207,26 @@ const Spaces = ({
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: true },
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
     ];
     officeLocation &&
       officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
-          tempArr.push({
-            label: obj.locationname,
-            name: obj.locationname,
-            value: obj.id,
-            isSelected: true,
-          });
+          if (obj.id === 'DC') {
+            tempArr.push({
+              label: obj.locationname,
+              name: obj.locationname,
+              value: obj.id,
+              isSelected: true,
+            });
+          } else {
+            tempArr.push({
+              label: obj.locationname,
+              name: obj.locationname,
+              value: obj.id,
+              isSelected: false,
+            });
+          }
         }
       });
     setOfficeLocations(tempArr);
@@ -222,24 +234,33 @@ const Spaces = ({
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: true },
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
     ];
     officeFloor &&
       officeFloor.map(obj => {
         if (obj.floor !== null) {
-          tempArr.push({
-            label: `floor ${obj.floor}`,
-            name: `floor ${obj.floor}`,
-            value: `floor ${obj.floor}`,
-            isSelected: true,
-          });
+          if (obj.floor === 3 || obj.floor === 8) {
+            tempArr.push({
+              label: `floor ${obj.floor}`,
+              name: `floor ${obj.floor}`,
+              value: `floor ${obj.floor}`,
+              isSelected: true,
+            });
+          } else {
+            tempArr.push({
+              label: `floor ${obj.floor}`,
+              name: `floor ${obj.floor}`,
+              value: `floor ${obj.floor}`,
+              isSelected: false,
+            });
+          }
         }
         if (obj.building !== null) {
           tempArr.push({
             label: `building ${obj.building}`,
             name: `building ${obj.building}`,
             value: `building ${obj.building}`,
-            isSelected: true,
+            isSelected: false,
           });
         }
       });
@@ -247,6 +268,38 @@ const Spaces = ({
     setOfficeFloors(tempArr);
     setUpdatedOfficeFloor(updatedFloors);
   }, [officeFloor]);
+
+  useEffect(() => {
+    const tempArr = [];
+    floorBulidingData &&
+      floorBulidingData.map(obj => {
+        if (obj.floor !== null && obj.building !== null) {
+          tempArr.push({
+            label: `Floor ${obj.floor}  Building ${obj.building}`,
+            name: `Floor ${obj.floor}  Building ${obj.building}`,
+            value: `Floor ${obj.floor}  Building ${obj.building}`,
+            isSelected: false,
+          });
+        }
+        if (obj.floor !== null && obj.building === null) {
+          tempArr.push({
+            label: `Floor ${obj.floor}`,
+            name: `Floor ${obj.floor}`,
+            value: `Floor ${obj.floor}`,
+            isSelected: false,
+          });
+        }
+        if (obj.building !== null && obj.floor === null) {
+          tempArr.push({
+            label: `Building ${obj.building}`,
+            name: `Building ${obj.building}`,
+            value: `Building ${obj.building}`,
+            isSelected: false,
+          });
+        }
+      });
+    setFloorbuildingData(tempArr);
+  }, [floorBulidingData]);
 
   useEffect(() => {
     const tempArr = [
@@ -536,6 +589,43 @@ const Spaces = ({
     setOfficeFloors(floorList);
     handleSelectedFloor(floorList);
   };
+  const handleSelectedBuildFloorList = (index, status) => {
+    let floorList = [];
+    floorList =
+      buildFloors &&
+      buildFloors.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (floorList.length) {
+      const isAllChecked =
+        floorList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        floorList.length - 1;
+      floorList = floorList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setBuildFloors(floorList);
+    handleSelectedFloor(floorList);
+  };
 
   const handleSelectedNeighborList = (index, status) => {
     let neighborList = [];
@@ -797,7 +887,7 @@ const Spaces = ({
                   type="text"
                   onChange={handleSearcha}
                   name="searchVal"
-                  placeholder="Search for name, badge"
+                  placeholder="Search..."
                 />
                 <div className="search-img">
                   <img src={Search} className="img-fluid" alt="" />
@@ -1002,8 +1092,8 @@ const Spaces = ({
                             isShowColDropdown === 'floor' ? (
                               <div className="dropdown-list-group">
                                 <ul>
-                                  {updatedOfficeFloor &&
-                                    updatedOfficeFloor.map((item, index) => (
+                                  {floorbuildingData &&
+                                    floorbuildingData.map((item, index) => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -1116,8 +1206,8 @@ const Spaces = ({
                             isShowColDropdown === 'neighbor' ? (
                               <div className="dropdown-list-group">
                                 <ul>
-                                  {updatedNeibour &&
-                                    updatedNeibour.map((item, index) => (
+                                  {neighborData &&
+                                    neighborData.map((item, index) => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -1869,6 +1959,7 @@ Spaces.propTypes = {
   exportManage: PropTypes.object,
   lockSpaceData: PropTypes.object,
   neighborData: PropTypes.object,
+  floorBulidingData: PropTypes.object,
   officeSrcLocation: PropTypes.object,
   officeNeighborhood: PropTypes.object,
   officeFloor: PropTypes.object,
