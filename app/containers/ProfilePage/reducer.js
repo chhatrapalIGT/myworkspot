@@ -67,6 +67,7 @@ const initialState = {
   selectEmpIcon: {},
   removeSpinIcon: {},
   addSpinIcon: {},
+  getOwner: {},
   error: '',
   success: false,
   loading: false,
@@ -329,17 +330,14 @@ const profilePageReducer = (state = initialState, action) =>
         break;
       case SUCCESS_GET_ADMIN_OWNER:
         draft.loading = false;
-        draft.success = action.payload.success;
-        draft.message = action.payload.message;
-        draft.apiMessage = action.payload.message;
-        draft.apiSuccess = action.payload.success;
+        draft.success = true;
+        draft.getOwner = action.payload;
         break;
       case FAILED_GET_ADMIN_OWNER:
         draft.loading = false;
-        draft.success = action.payload.success;
+        draft.success = false;
         draft.error = action.payload.message;
-        draft.apiMessage = action.payload.message;
-        draft.apiSuccess = action.payload.success;
+        draft.getOwner = action.payload;
         break;
       default:
     }
