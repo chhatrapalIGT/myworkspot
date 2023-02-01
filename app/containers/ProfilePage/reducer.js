@@ -44,6 +44,7 @@ import {
   REQUEST_GET_ADMIN_OWNER,
   SUCCESS_GET_ADMIN_OWNER,
   FAILED_GET_ADMIN_OWNER,
+  CLEAR_ADMIN_OWNER,
 } from './constants';
 
 // The initial state of the App
@@ -67,7 +68,7 @@ const initialState = {
   selectEmpIcon: {},
   removeSpinIcon: {},
   addSpinIcon: {},
-  getOwner: {},
+  // getOwner: {},
   error: '',
   success: false,
   loading: false,
@@ -76,6 +77,12 @@ const initialState = {
   apiSuccess: false,
   badgeSuccess: false,
   apiMessage: '',
+  getOwner: {
+    error: '',
+    success: false,
+    message: '',
+    loading: '',
+  },
 };
 
 const profilePageReducer = (state = initialState, action) =>
@@ -324,20 +331,24 @@ const profilePageReducer = (state = initialState, action) =>
         break;
 
       case REQUEST_GET_ADMIN_OWNER:
-        draft.loading = true;
-        draft.error = '';
-        draft.success = false;
+        draft.getOwner.loading = true;
+        draft.getOwner.error = '';
+        draft.getOwner.success = false;
         break;
       case SUCCESS_GET_ADMIN_OWNER:
-        draft.loading = false;
-        draft.success = true;
+        draft.getOwner.loading = false;
+        draft.getOwner.success = true;
         draft.getOwner = action.payload;
         break;
       case FAILED_GET_ADMIN_OWNER:
-        draft.loading = false;
-        draft.success = false;
-        draft.error = action.payload.message;
+        draft.getOwner.loading = false;
+        draft.getOwner.success = false;
+        draft.getOwner.error = action.payload.message;
         draft.getOwner = action.payload;
+        break;
+      case CLEAR_ADMIN_OWNER:
+        draft.getOwner.message = '';
+        draft.getOwner.success = false;
         break;
       default:
     }
