@@ -442,6 +442,7 @@ class OfficeMap extends Component {
       lockSpaceData,
       neighborData,
       floorBulidingData,
+      officesData,
       exportLoading,
       manageLoading,
       manageSuccess,
@@ -465,6 +466,7 @@ class OfficeMap extends Component {
             lockSpaceData={lockSpaceData}
             neighborData={neighborData}
             floorBulidingData={floorBulidingData}
+            officesData={officesData}
             exportLoading={exportLoading}
             manageLoading={manageLoading}
             manageSuccess={manageSuccess}
@@ -515,6 +517,7 @@ const mapStateToProps = state => {
     lockSpaceData: space && space.lockSpace && space.lockSpace.data,
     neighborData: space && space.neighborName && space.neighborName.data,
     floorBulidingData: space && space.floorByName && space.floorByName.data,
+    officesData: space && space.officesType && space.officesType.data,
     officeFloor:
       assignment && assignment.officeFloor && assignment.officeFloor.floors,
     officeNeighborhood:
@@ -592,6 +595,7 @@ OfficeMap.propTypes = {
   manageSuccess: PropTypes.bool,
   manageDataSuccess: PropTypes.bool,
   exportSuccess: PropTypes.bool,
+  officesData: PropTypes.object,
   dataCount: PropTypes.object,
   officeSuccess: PropTypes.bool,
   setSpaceUpdate: PropTypes.object,

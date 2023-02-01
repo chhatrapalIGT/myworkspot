@@ -67,6 +67,7 @@ const Spaces = ({
   floorBulidingData,
   requestManageUpdateSpace,
   handleManagespaceUpdate,
+  officesData,
 }) => {
   const [flooring, setFloor] = useState();
   const [color, setColor] = useState();
@@ -1519,7 +1520,7 @@ const Spaces = ({
                                   isShowRowDropdown === idx &&
                                   isShowColDropdown === 'spaceType'
                                     ? currentCheckedValue
-                                    : i.assigned
+                                    : i.type
                                 }
                                 placeholder="Select..."
                                 className="drop-input"
@@ -1534,8 +1535,8 @@ const Spaces = ({
                             isShowColDropdown === 'spaceType' ? (
                               <div className="dropdown-list-group">
                                 <ul>
-                                  {updatedNeibour &&
-                                    updatedNeibour.map((item, index) => (
+                                  {officesData &&
+                                    officesData.map((item, index) => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -1865,7 +1866,7 @@ const Spaces = ({
           </Button>
           <Button
             variant="outline-secondary"
-            className="btn cust-model-btn"
+            className="btn cust-model-cancel-btn"
             data-bs-dismiss="modal"
             onClick={() => setOpen(false)}
           >
@@ -2111,6 +2112,7 @@ Spaces.propTypes = {
   manageDataSuccess: PropTypes.bool,
   officeNeighborhood: PropTypes.object,
   officeFloor: PropTypes.object,
+  officesData: PropTypes.object,
   exportLoading: PropTypes.bool,
   manageLoading: PropTypes.bool,
   exportSuccess: PropTypes.bool,
