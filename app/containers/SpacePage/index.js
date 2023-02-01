@@ -21,6 +21,7 @@ import {
   requestGetNeighborName,
   requestGetOfficesType,
   requestGetFloorByName,
+  requestManageUpdateSpace,
 } from './actions';
 import Spaces from '../../components/Spaces';
 import { requestGetOfficeLocation } from '../onBoardingPage/actions';
@@ -76,6 +77,18 @@ class OfficeMap extends Component {
     this.props.requestGetOfficesType({});
     this.props.requestGetFloorByName({});
   }
+
+  handleManagespaceUpdate = () => {
+    this.props.requestGetManageSpace({
+      searchFilter: this.state.searchVal,
+      officeSearch: ['DC'],
+      floorSearch: ['3', '8'],
+      neighborhoodSearch: this.state.neighborhoodSearch,
+      sort_column: this.state.sort_column,
+      limit: this.state.limit,
+      page: this.state.page,
+    });
+  };
 
   handleSearcha = e => {
     const { name, value } = e.target;
@@ -437,11 +450,16 @@ class OfficeMap extends Component {
       officeSrcLocation,
       officeFloor,
       officeNeighborhood,
+      manageUpdateSpaceRequest,
+      manageDataSuccess,
     } = this.props;
     return (
       <>
         <div id="content-wrap">
           <Spaces
+            handleManagespaceUpdate={this.handleManagespaceUpdate}
+            manageDataSuccess={manageDataSuccess}
+            requestManageUpdateSpace={manageUpdateSpaceRequest}
             manageSpace={manageSpace}
             exportManage={exportManage}
             lockSpaceData={lockSpaceData}
@@ -483,7 +501,6 @@ class OfficeMap extends Component {
 
 const mapStateToProps = state => {
   const { uploadOffice, space, assignment, locationData } = state;
-  console.log('state::>>', state);
   return {
     dataCount:
       space && space.manageSpace && space.manageSpace.getWorkSpaceDataPage,
@@ -493,6 +510,8 @@ const mapStateToProps = state => {
     exportManage: space && space.manageExport && space.manageExport.data,
     exportLoading: space && space.manageExport && space.manageExport.loading,
     exportSuccess: space && space.manageExport && space.manageExport.success,
+    manageDataSuccess:
+      space && space.updateManageSpace && space.updateManageSpace.success,
     lockSpaceData: space && space.lockSpace && space.lockSpace.data,
     neighborData: space && space.neighborName && space.neighborName.data,
     floorBulidingData: space && space.floorByName && space.floorByName.data,
@@ -536,6 +555,8 @@ export function mapDispatchToProps(dispatch) {
       dispatch(requestGetNeighborName(payload)),
     requestGetFloorByName: payload => dispatch(requestGetFloorByName(payload)),
     requestGetOfficesType: payload => dispatch(requestGetOfficesType(payload)),
+    manageUpdateSpaceRequest: payload =>
+      dispatch(requestManageUpdateSpace(payload)),
     clearUpdateStatus: () => dispatch(clearUpdateStatus()),
     clearMessage: () => dispatch(clearMessage()),
     dispatch,
@@ -546,6 +567,7 @@ const withSaga = injectSaga({ key: 'space', saga });
 
 OfficeMap.propTypes = {
   requestGetOfficeUpdateData: PropTypes.func,
+  manageUpdateSpaceRequest: PropTypes.func,
   requestGetManageSpace: PropTypes.func,
   requestGetManageExport: PropTypes.func,
   requestGetLockSpace: PropTypes.func,
@@ -565,12 +587,13 @@ OfficeMap.propTypes = {
   lockSpaceData: PropTypes.object,
   neighborData: PropTypes.object,
   floorBulidingData: PropTypes.object,
-  exportLoading: PropTypes.object,
-  manageLoading: PropTypes.object,
-  manageSuccess: PropTypes.object,
-  exportSuccess: PropTypes.object,
+  exportLoading: PropTypes.bool,
+  manageLoading: PropTypes.bool,
+  manageSuccess: PropTypes.bool,
+  manageDataSuccess: PropTypes.bool,
+  exportSuccess: PropTypes.bool,
   dataCount: PropTypes.object,
-  officeSuccess: PropTypes.object,
+  officeSuccess: PropTypes.bool,
   setSpaceUpdate: PropTypes.object,
   officeSrcLocation: PropTypes.object,
   officeFloor: PropTypes.object,

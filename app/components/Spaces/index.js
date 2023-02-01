@@ -57,7 +57,7 @@ const Spaces = ({
   handleSearcha,
   requestGetManageExport,
   handleSelectedoffice,
-  officeSrcLocation,
+  manageDataSuccess,
   officeFloor,
   officeNeighborhood,
   handleSelectedFloor,
@@ -65,6 +65,8 @@ const Spaces = ({
   lockSpaceData,
   neighborData,
   floorBulidingData,
+  requestManageUpdateSpace,
+  handleManagespaceUpdate,
 }) => {
   const [flooring, setFloor] = useState();
   const [color, setColor] = useState();
@@ -98,6 +100,7 @@ const Spaces = ({
   const [currentCheckedValue, setCurrentCheckedValue] = useState('');
   const [changeAll, setChangeAll] = useState(false);
   const [floorbuildingData, setFloorbuildingData] = useState([]);
+  const splitData = currentCheckedValue.split(' ');
 
   let updatedFloors = [];
   const updatedNeighborhood = [];
@@ -120,6 +123,94 @@ const Spaces = ({
       return alldata;
     });
     setSpaceValue(allChecked);
+  };
+
+  useEffect(() => {
+    if (manageDataSuccess) {
+      handleManagespaceUpdate();
+    }
+  }, [manageDataSuccess]);
+
+  const handleUpdateManageSpace = (rowData, map) => {
+    const idData = [];
+    const floorObj = [];
+    const neibourObj = [];
+    rowData &&
+      rowData.length > 0 &&
+      rowData.filter(ele => {
+        idData.push(ele.id);
+        floorObj.push({
+          id: ele.id,
+          floor: splitData[1],
+          building: ele.building || null,
+          neighborhoodname: ele.neighborhoodname || null,
+          locationid: ele.locationid || null,
+        });
+        neibourObj.push({
+          id: ele.id || null,
+          floor: ele.floor || null,
+          building: ele.building || null,
+          neighborhoodname: currentCheckedValue,
+          locationid: ele.locationid || null,
+        });
+      });
+
+    let payload = {};
+    if (map === 'flooringCols') {
+      payload = {
+        floor: floorObj,
+        neighborhoodname: null,
+        Space_No: null,
+        Space_Type: null,
+        active: null,
+        id: rowData.length > 0 ? idData : idData[0].id,
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'neibourCols') {
+      payload = {
+        neighborhoodname: neibourObj,
+        floor: null,
+        Space_No: null,
+        Space_Type: null,
+        active: null,
+        id: rowData.length > 0 ? idData : idData[0].id,
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'spaceCols') {
+      payload = {
+        floor: null,
+        Space_No: currentCheckedValue,
+        neighborhoodname: null,
+        Space_Type: null,
+        active: null,
+        id: rowData.length > 0 ? idData : idData[0].id,
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'spaceTypesCols') {
+      payload = {
+        Space_Type: currentCheckedValue,
+        neighborhoodname: null,
+        Space_No: null,
+        floor: null,
+        active: null,
+        id: rowData.length > 0 ? idData : idData[0].id,
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'algorithmCols') {
+      payload = {
+        Space_Type: null,
+        neighborhoodname: null,
+        Space_No: null,
+        floor: null,
+        active: currentCheckedValue === 'Active' ? true : false,
+        id: rowData.length > 0 ? idData : idData[0].id,
+      };
+      requestManageUpdateSpace(payload);
+    }
   };
 
   const handleSelectAll = event => {
@@ -1150,7 +1241,18 @@ const Spaces = ({
                                     >
                                       Cancel
                                     </span>{' '}
-                                    <Button className="btn apply-btn">
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          'flooringCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                      }}
+                                      className="btn apply-btn"
+                                    >
                                       Apply
                                     </Button>
                                   </div>
@@ -1264,7 +1366,18 @@ const Spaces = ({
                                     >
                                       Cancel
                                     </span>{' '}
-                                    <Button className="btn apply-btn">
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          'neibourCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                      }}
+                                      className="btn apply-btn"
+                                    >
                                       Apply
                                     </Button>
                                   </div>
@@ -1347,7 +1460,18 @@ const Spaces = ({
                                   >
                                     Cancel
                                   </span>{' '}
-                                  <Button className="btn apply-btn">
+                                  <Button
+                                    onClick={() => {
+                                      handleUpdateManageSpace(
+                                        spaceAllChecked,
+                                        'spaceCols',
+                                      );
+                                      setIsShowColDropdown('');
+                                      setIsShowRowDropdown(null);
+                                      setCurrentCheckedValue('');
+                                    }}
+                                    className="btn apply-btn"
+                                  >
                                     Apply
                                   </Button>
                                 </div>
@@ -1469,7 +1593,18 @@ const Spaces = ({
                                     >
                                       Cancel
                                     </span>{' '}
-                                    <Button className="btn apply-btn">
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          'spaceTypesCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                      }}
+                                      className="btn apply-btn"
+                                    >
                                       Apply
                                     </Button>
                                   </div>
@@ -1592,7 +1727,18 @@ const Spaces = ({
                                     >
                                       Cancel
                                     </span>{' '}
-                                    <Button className="btn apply-btn">
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          'algorithmCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                      }}
+                                      className="btn apply-btn"
+                                    >
                                       Apply
                                     </Button>
                                   </div>
@@ -1951,6 +2097,8 @@ Spaces.propTypes = {
   officeLocation: PropTypes.object,
   handleUserSelect: PropTypes.func,
   requestUpdateActiveStatus: PropTypes.func,
+  requestManageUpdateSpace: PropTypes.func,
+  handleManagespaceUpdate: PropTypes.func,
   handleCloseUpdate: PropTypes.func,
   spaceUpdate: PropTypes.object,
   officeSuccess: PropTypes.object,
@@ -1960,7 +2108,7 @@ Spaces.propTypes = {
   lockSpaceData: PropTypes.object,
   neighborData: PropTypes.object,
   floorBulidingData: PropTypes.object,
-  officeSrcLocation: PropTypes.object,
+  manageDataSuccess: PropTypes.bool,
   officeNeighborhood: PropTypes.object,
   officeFloor: PropTypes.object,
   exportLoading: PropTypes.bool,

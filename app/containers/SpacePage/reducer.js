@@ -23,6 +23,9 @@ import {
   FAILED_GET_FLOOR_BY_NAME,
   CLEAR_UPDATE_STATUS,
   CLEAR_MESSAGE,
+  REQUEST_MANAGE_UPDATE_SPACE,
+  SUCCESS_MANAGE_UPDATE_SPACE,
+  FAILED_MANAGE_UPDATE_SPACE,
 } from './constants';
 
 // The initial state of the App
@@ -64,6 +67,12 @@ const initialState = {
     success: false,
   },
   floorByName: {
+    loading: false,
+    error: '',
+    message: '',
+    success: false,
+  },
+  updateManageSpace: {
     loading: false,
     error: '',
     message: '',
@@ -183,6 +192,21 @@ const spaceReducer = (state = initialState, action) =>
         draft.floorByName.loading = false;
         draft.floorByName.success = false;
         draft.floorByName.error = action.payload.Error;
+        break;
+      case REQUEST_MANAGE_UPDATE_SPACE:
+        draft.floorByName.loading = true;
+        draft.floorByName.error = '';
+        break;
+      case SUCCESS_MANAGE_UPDATE_SPACE:
+        draft.updateManageSpace.loading = false;
+        draft.updateManageSpace.success = action.payload.success;
+        draft.updateManageSpace = action.payload;
+        draft.updateManageSpace.message = action.payload.message;
+        break;
+      case FAILED_MANAGE_UPDATE_SPACE:
+        draft.updateManageSpace.loading = false;
+        draft.updateManageSpace.success = false;
+        draft.updateManageSpace.error = action.payload.Error;
         break;
       case CLEAR_UPDATE_STATUS:
         draft.updateStatus.success = false;

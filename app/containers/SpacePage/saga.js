@@ -10,6 +10,7 @@ import {
   REQUEST_GET_NEIGBOR_NAME,
   REQUEST_GET_OFFICES_TYPE,
   REQUEST_GET_FLOOR_BY_NAME,
+  REQUEST_MANAGE_UPDATE_SPACE,
 } from './constants';
 import {
   updateActiveStatusSuccess,
@@ -26,6 +27,8 @@ import {
   getOfficesTypeSuccess,
   getFloorByNameFailed,
   getFloorByNameSuccess,
+  successManageUpdateSpace,
+  failedManageUpdateSpace,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -208,7 +211,7 @@ export function* getfloorNameData({ payload }) {
 export function* getOfficeTypeData({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const requestURL = `${API_URL}/spaces/getOfficesType`;
+  const requestURL = `${API_URL}/adminPanel/spaces/getOfficesType`;
   try {
     const response = yield request({
       method: 'GET',
@@ -234,6 +237,35 @@ export function* getOfficeTypeData({ payload }) {
   }
 }
 
+export function* updateManageSpaceData({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  const requestURL = `${API_URL}/adminPanel/spaces/updateManageSpace`;
+  try {
+    const response = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+
+    const { data } = response;
+
+    if (data.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(successManageUpdateSpace(data));
+    } else {
+      yield put(failedManageUpdateSpace(data));
+    }
+  } catch (error) {
+    yield put(failedManageUpdateSpace(error));
+  }
+}
+
 export default function* spaceMapData() {
   yield takeLatest(REQUEST_UPDATE_ACTIVE_STATUS, statusUpdate);
   yield takeLatest(REQUEST_GET_MANAGE_SPACE, getManageSpaceData);
@@ -242,4 +274,5 @@ export default function* spaceMapData() {
   yield takeLatest(REQUEST_GET_NEIGBOR_NAME, getNeighborhoodData);
   yield takeLatest(REQUEST_GET_OFFICES_TYPE, getOfficeTypeData);
   yield takeLatest(REQUEST_GET_FLOOR_BY_NAME, getfloorNameData);
+  yield takeLatest(REQUEST_MANAGE_UPDATE_SPACE, updateManageSpaceData);
 }

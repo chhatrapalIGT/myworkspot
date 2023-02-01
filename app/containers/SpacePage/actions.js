@@ -22,6 +22,9 @@ import {
   REQUEST_GET_FLOOR_BY_NAME,
   SUCCESS_GET_FLOOR_BY_NAME,
   FAILED_GET_FLOOR_BY_NAME,
+  REQUEST_MANAGE_UPDATE_SPACE,
+  SUCCESS_MANAGE_UPDATE_SPACE,
+  FAILED_MANAGE_UPDATE_SPACE,
 } from './constants';
 
 export const requestUpdateActiveStatus = payload => ({
@@ -124,6 +127,21 @@ export const getOfficesTypeSuccess = payload => ({
 
 export const getOfficesTypeFailed = error => ({
   type: FAILED_GET_OFFICES_TYPE,
+  payload: error,
+});
+
+export const requestManageUpdateSpace = payload => ({
+  type: REQUEST_MANAGE_UPDATE_SPACE,
+  payload,
+});
+
+export const successManageUpdateSpace = payload => ({
+  type: SUCCESS_MANAGE_UPDATE_SPACE,
+  payload,
+});
+
+export const failedManageUpdateSpace = error => ({
+  type: FAILED_MANAGE_UPDATE_SPACE,
   payload: error,
 });
 
