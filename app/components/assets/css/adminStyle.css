@@ -1196,7 +1196,7 @@ span.hover-data::after {
   z-index: 999;
   padding: 7px !important;
   top: -43px !important;
-  left: 92px !important;
+  left: -90px !important;
   font-size: 92px;
 width: 245px !important;
 }

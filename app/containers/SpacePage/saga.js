@@ -208,7 +208,7 @@ export function* getfloorNameData({ payload }) {
 export function* getOfficeTypeData({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const requestURL = `${API_URL}/spaces/getOfficesType`;
+  const requestURL = `${API_URL}/adminPanel/spaces/getOfficesType`;
   try {
     const response = yield request({
       method: 'GET',

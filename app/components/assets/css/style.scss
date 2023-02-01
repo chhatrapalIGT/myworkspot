@@ -3932,10 +3932,13 @@ tr.exited {
       border: 1px solid #d1dce7;
       box-shadow: 4px 0px 12px rgba(0, 45, 80, 0.06);
       border-radius: 8px;
-      z-index: 999;
+      z-index: 98;
+      
       ul {
         width: 100%;
         padding: 10px;
+        overflow-y: auto;
+        max-height: 368px;
         li {
           .list-items {
             display: flex;
@@ -4022,7 +4025,7 @@ tr.exited {
     border: 1px solid #d1dce7;
     box-shadow: 4px 0px 12px rgba(0, 45, 80, 0.06);
     border-radius: 8px;
-    z-index: 999;
+    z-index: 98;
     .drop-footer {
       display: block;
       width: 100% !important;
