@@ -64,6 +64,12 @@ const Employee = props => {
           });
         }
       });
+    tempArr.push({
+      label: 'Not Assigned',
+      name: 'Not Assigned',
+      value: 'Not Assigned',
+      isSelected: true,
+    });
     setOfficeLocations(tempArr);
   }, [officeLocation]);
 
