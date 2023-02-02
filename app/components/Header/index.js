@@ -38,7 +38,7 @@ const { API_URL } = CONSTANT;
 
 const Header = props => {
   // eslint-disable-next-line no-unused-vars
-  const [showMessage, setShowMessage] = useState(false);
+  const [blankMessage, setBlankMessage] = useState(false);
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState(false);
   const [searchName, setSearchName] = useState([]);
@@ -71,12 +71,23 @@ const Header = props => {
     }
   }, [props.getOwnerSuccess]);
 
+  useEffect(() => {
+    if (selectData && selectData.length) {
+      setBlankMessage(false);
+    }
+  }, [selectData]);
+
   const addDelegateList = () => {
     const finalValue = selectData.map(data => data.employeeid);
     const finalDataPayload = {
       delegateid: finalValue,
     };
-    props.requestgetAdminOwner(finalDataPayload);
+    if (selectData && selectData.length === 0) {
+      setBlankMessage(true);
+    } else {
+      props.requestgetAdminOwner(finalDataPayload);
+      handleClose();
+    }
     // props.requestUserlistData({});
   };
 
@@ -230,6 +241,58 @@ const Header = props => {
         setApiCall(false);
       });
   };
+  const handleRedirect = () => {
+    setIsAdmin(true);
+    setEditProfile(false);
+    sessionStorage.setItem('Admin', true);
+    sessionStorage.setItem('Admin Owner', false);
+    sessionStorage.setItem('manageAdmin', true);
+    history.replace('/home');
+    props.requestUserlistData(
+      props.profileUser && props.profileUser.employeeid,
+    );
+  };
+  const adminowner = () => {
+    setEditProfile(false);
+    setIsAdmin(false);
+    sessionStorage.setItem('Admin', false);
+    sessionStorage.setItem('Admin Owner', false);
+    sessionStorage.setItem('manageAdmin', false);
+    history.replace('/workspot');
+    props.requestUserlistData(
+      props.profileUser && props.profileUser.employeeid,
+    );
+  };
+  const delegetuser = (id, role) => {
+    sessionStorage.setItem('delegate', true);
+    sessionStorage.setItem('Admin', false);
+    sessionStorage.setItem('manageAdmin', false);
+    sessionStorage.setItem('Admin Owner', false);
+    userProfileData(id.employeeid);
+    setEditProfile(false);
+    sessionStorage.setItem('Admin', false);
+    history.replace('/workspot');
+    props.requestUserlistData(
+      props.profileUser && props.profileUser.employeeid,
+    );
+  };
+  const dayPointer = () => {
+    setIsAdminOwner(true);
+    setEditProfile(false);
+    sessionStorage.setItem('Admin Owner', true);
+    sessionStorage.setItem('Admin', false);
+    sessionStorage.setItem('manageAdmin', true);
+    history.replace('/home');
+    props.requestUserlistData(
+      props.profileUser && props.profileUser.employeeid,
+    );
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      props.clearAdminOwner();
+    }, 3000);
+  }, [props.getOwnerSuccess]);
 
   return (
     <>
@@ -269,7 +332,6 @@ const Header = props => {
         </div>
       )}
       <div>
-        {showMessage && <p>hello</p>}
         <header className="site-header">
           <div className="custom-container">
             <div className="header_wrapper d-flex align-items-center justify-content-between">
@@ -668,7 +730,6 @@ const Header = props => {
                               </>
                             )}
                           </div>
-
                           {props.profileUser &&
                             props.profileUser.delegateUserList &&
                             props.profileUser.delegateUserList.map(obj => (
@@ -676,14 +737,9 @@ const Header = props => {
                                 <div
                                   aria-hidden="true"
                                   className="popup-secondary-profile day-pointer"
-                                  onClick={() => {
-                                    sessionStorage.setItem('delegate', true);
-                                    sessionStorage.setItem('Admin', false);
-                                    userProfileData(obj.employeeid);
-                                    setEditProfile(false);
-
-                                    sessionStorage.setItem('Admin', false);
-                                  }}
+                                  onClick={() =>
+                                    delegetuser(obj, props.profileUser.role)
+                                  }
                                 >
                                   <img
                                     src={
@@ -708,18 +764,7 @@ const Header = props => {
                             <div
                               aria-hidden="true"
                               className="popup-secondary-profile day-pointer"
-                              onClick={() => {
-                                setIsAdminOwner(true);
-                                setEditProfile(false);
-                                sessionStorage.setItem('Admin Owner', true);
-                                sessionStorage.setItem('Admin', false);
-                                sessionStorage.setItem('manageAdmin', true);
-                                history.replace('/home');
-                                props.requestUserlistData(
-                                  props.profileUser &&
-                                    props.profileUser.employeeid,
-                                );
-                              }}
+                              onClick={dayPointer}
                             >
                               <img
                                 src={
@@ -748,18 +793,7 @@ const Header = props => {
                             <div
                               aria-hidden="true"
                               className="popup-secondary-profile day-pointer"
-                              onClick={() => {
-                                setIsAdmin(true);
-                                setEditProfile(false);
-                                sessionStorage.setItem('Admin', true);
-                                sessionStorage.setItem('Admin Owner', false);
-                                sessionStorage.setItem('manageAdmin', true);
-                                history.replace('/home');
-                                props.requestUserlistData(
-                                  props.profileUser &&
-                                    props.profileUser.employeeid,
-                                );
-                              }}
+                              onClick={handleRedirect}
                             >
                               <img
                                 src={
@@ -792,18 +826,7 @@ const Header = props => {
                               <div
                                 aria-hidden="true"
                                 className="popup-secondary-profile day-pointer"
-                                onClick={() => {
-                                  setEditProfile(false);
-                                  setIsAdmin(false);
-                                  sessionStorage.setItem('Admin', false);
-                                  sessionStorage.setItem('Admin Owner', false);
-                                  sessionStorage.setItem('manageAdmin', false);
-                                  history.replace('/workspot');
-                                  props.requestUserlistData(
-                                    props.profileUser &&
-                                      props.profileUser.employeeid,
-                                  );
-                                }}
+                                onClick={() => adminowner()}
                               >
                                 <img
                                   src={
@@ -880,6 +903,16 @@ const Header = props => {
                                     }}
                                   />
                                 </div>
+                                {blankMessage && (
+                                  <span
+                                    style={{
+                                      marginLeft: '30px',
+                                      color: 'red',
+                                    }}
+                                  >
+                                    Please select any user
+                                  </span>
+                                )}
                                 <input
                                   type="search"
                                   placeholder="Search..."
@@ -924,7 +957,6 @@ const Header = props => {
                                     type="button"
                                     onClick={() => {
                                       addDelegateList();
-                                      handleClose();
                                     }}
                                     className="btn save-data"
                                   >
@@ -932,7 +964,10 @@ const Header = props => {
                                   </button>
                                   <button
                                     type="button"
-                                    onClick={() => setShow(false)}
+                                    onClick={() => {
+                                      setShow(false);
+                                      setBlankMessage(false);
+                                    }}
                                     className="btn dismiss"
                                     data-bs-dismiss="modal"
                                   >

@@ -136,7 +136,7 @@ class ProfilePage extends Component {
         this.props.clearData();
         this.props.clearAdminOwner();
         this.props.clearBoardData();
-      }, 5000);
+      }, 9000);
     }
 
     if (

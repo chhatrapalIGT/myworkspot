@@ -349,6 +349,7 @@ const profilePageReducer = (state = initialState, action) =>
       case CLEAR_ADMIN_OWNER:
         draft.getOwner.message = '';
         draft.getOwner.success = false;
+        draft.getOwner.error = '';
         break;
       default:
     }
