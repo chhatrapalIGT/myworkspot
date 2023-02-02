@@ -1936,9 +1936,7 @@ const Spaces = ({
                     <div className="accordion_box">
                       <div
                         aria-hidden="true"
-                        className={`accordion3 line ${
-                          setActive === obj.floorId ? 'active' : ''
-                        }`}
+                        className="accordion3 line"
                         key={obj.floor}
                         id={obj.floor}
                         onClick={() => {
@@ -1961,11 +1959,7 @@ const Spaces = ({
                         }/${obj.totalWorkspace} Locked`}</span>
                       </div>
 
-                      <div
-                        className={`panel2 ${
-                          setActive === obj.floorId ? '' : 'display_acc'
-                        }`}
-                      >
+                      <div className="panel2">
                         <div className="panel-list">
                           <div className="dash-menu-list">
                             {obj &&
@@ -1987,7 +1981,7 @@ const Spaces = ({
                                         e.target.checked,
                                         'colorCLick',
                                       );
-                                      setColor(floor.name);
+                                      setColor(floor.id);
                                     }}
                                   />
 
@@ -2006,12 +2000,12 @@ const Spaces = ({
                                   </label>
                                   <div
                                     className={`accordion2 ${
-                                      updateState === floor.name ? 'active' : ''
+                                      updateState === floor.id ? 'active' : ''
                                     }`}
                                     aria-hidden="true"
                                     onClick={() => {
-                                      setColor(floor.name);
-                                      toggleSecondAccordion(floor.name);
+                                      setColor(floor.id);
+                                      toggleSecondAccordion(floor.id);
                                     }}
                                   >
                                     <span className="dash-menu-item1 line">
@@ -2026,7 +2020,7 @@ const Spaces = ({
                                   </div>
                                   <div
                                     className={`panel1 ${
-                                      updateState === floor.name
+                                      updateState === floor.id
                                         ? ''
                                         : 'display_acc'
                                     }`}
