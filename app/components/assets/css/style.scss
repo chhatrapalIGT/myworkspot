@@ -3744,6 +3744,7 @@ div[class*='qy-menu'] * {
     top: -5px;
     width: 100%;
     padding: 0 10px 0 15px;
+    cursor: pointer !important;
     &::placeholder {
       font-weight: 400 !important;
       color: #808080 !important;
@@ -3825,6 +3826,7 @@ div[class*='qy-menu'] * {
   top: -4px;
   position: absolute !important;
   right: 15px !important;
+  cursor: pointer;
 }
 
 .img_update {
@@ -3908,6 +3910,7 @@ tr.exited {
       position: relative;
       min-width: 185px !important;
       padding: 5px 10px 0 15px;
+      cursor: pointer !important;
       &::placeholder {
         font-weight: 400 !important;
         color: #808080 !important;
