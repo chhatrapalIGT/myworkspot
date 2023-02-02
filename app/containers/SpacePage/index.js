@@ -41,12 +41,14 @@ class OfficeMap extends Component {
       selectedOffice: [],
       selectedFloor: [],
       selectedBuilding: [],
+      selectedNeighbor: [],
       finalOfficeVal: 'Washington, DC',
       finalFloorVal: 'Floor 3, +1',
       finalNeighborhoodVal: 'All',
       neighborhoodSearch: [],
       neighborName: [],
       newExport: false,
+      filterApplied: false,
       sortOrder: {
         building_floor: true,
         neighborhood: true,
@@ -176,6 +178,25 @@ class OfficeMap extends Component {
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
+      this.props.requestGetOfficeFloor({
+        locationId: strArr,
+      });
+      this.props.requestGetOfficeNeighborhood({
+        floor: [],
+        building: [],
+        locationId: strArr,
+      });
+      this.setState({
+        filterApplied: true,
+        selectedFloor: [],
+        selectedBuilding: [],
+        selectedNeighbor: [],
+        finalFloorVal: 'All',
+        finalNeighborhoodVal: 'All',
+        srcFloor: [],
+        srcBuilding: [],
+        srcNeighborhood: [],
+      });
       const timeoutId = setTimeout(() => {
         this.setState({ srcOffice: strArr }, () => {
           this.getManageData(
@@ -226,7 +247,7 @@ class OfficeMap extends Component {
       const removeAfterAll = space.filter(i => i !== 'All');
       removeAfterAll.forEach(ev => {
         const spiltData = ev.split(' ');
-        if (spiltData[0] === 'floor') {
+        if (spiltData[0] === 'Floor') {
           strFloorArr.push(spiltData[1]);
         } else {
           strBuildingArr.push(spiltData[1]);
@@ -236,6 +257,17 @@ class OfficeMap extends Component {
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
+      this.props.requestGetNeighborName({
+        floor: strFloorArr,
+        building: strBuildingArr,
+        locationId: this.state.srcOffice,
+      });
+      this.setState({
+        filterApplied: true,
+        selectedNeighbor: [],
+        finalNeighborhoodVal: 'All',
+        srcNeighborhood: [],
+      });
       const timeoutId = setTimeout(() => {
         this.setState(
           { srcFloor: strFloorArr, srcBuilding: strBuildingArr },

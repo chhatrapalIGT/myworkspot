@@ -96,13 +96,31 @@ class AssignmentPage extends Component {
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
+      this.props.requestGetOfficeFloor({
+        locationId: strArr,
+      });
+      this.props.requestGetOfficeNeighborhood({
+        floor: [],
+        building: [],
+        locationId: strArr,
+      });
+      this.setState({
+        selectedFloor: [],
+        selectedBuilding: [],
+        selectedNeighbor: [],
+        finalFloorVal: 'All',
+        finalNeighborhoodVal: 'All',
+        srcFloor: [],
+        srcBuilding: [],
+        srcNeighborhood: [],
+      });
       const timeoutId = setTimeout(() => {
         this.setState({ srcOffice: strArr }, () => {
           this.getAssignData(
             this.state.search,
             strArr,
-            this.state.selectedFloor,
-            this.state.selectedBuilding,
+            this.state.srcFloor,
+            this.state.srcBuilding,
             this.state.srcNeighborhood,
             this.state.sortBy,
             this.state.page,
@@ -145,13 +163,23 @@ class AssignmentPage extends Component {
       const removeAfterAll = space.filter(i => i !== 'All');
       removeAfterAll.forEach(ev => {
         const spiltData = ev.split(' ');
-        if (spiltData[0] === 'floor') {
+        if (spiltData[0] === 'Floor') {
           strFloorArr.push(spiltData[1]);
         } else {
           strBuildingArr.push(spiltData[1]);
         }
       });
       this.setState({ page: 1 });
+      this.props.requestGetOfficeNeighborhood({
+        floor: strFloorArr,
+        building: strBuildingArr,
+        locationId: this.state.srcOffice,
+      });
+      this.setState({
+        selectedNeighbor: [],
+        finalNeighborhoodVal: 'All',
+        srcNeighborhood: [],
+      });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }

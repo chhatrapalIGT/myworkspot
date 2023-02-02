@@ -69,7 +69,7 @@ export function* getOfficeFloor({ payload }) {
   const requestURL = `${API_URL}/Building/getFloorByName`;
   try {
     const floorList = yield request({
-      method: 'GET',
+      method: 'POST',
       url: requestURL,
       data: payload,
       headers: {
@@ -96,7 +96,7 @@ export function* getOfficeNeighbourhood({ payload }) {
   const requestURL = `${API_URL}/neighborhoods/getNeighborhoodName`;
   try {
     const neighborhoodList = yield request({
-      method: 'GET',
+      method: 'POST',
       url: requestURL,
       data: payload,
       headers: {

@@ -1,23 +1,16 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable consistent-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-this-in-sfc */
+/* eslint-disable indent */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Image, Modal, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import createClass from 'create-react-class';
-import Select, { components } from 'react-select';
 import Pagination from '../Employee/Pagination';
 import Menu from '../assets/images/admin/menu.png';
 import Sort from '../assets/images/sort-icon.svg';
 import Search from '../assets/images/admin/search.svg';
 import SelectDownArrow from '../assets/images/down-arrow.svg';
-import Profile from '../assets/images/profileof.png';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
 import { CONSTANT } from '../../enum';
 const { USER_IMAGE_SRC_LIVE } = CONSTANT;

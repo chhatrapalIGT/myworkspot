@@ -153,10 +153,10 @@ export function* getLockSpaceData({ payload }) {
 export function* getNeighborhoodData({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
-  const requestURL = `${API_URL}/neighborhoods/getNeighborhoodName?floor=2&building&locationId=RIC`;
+  const requestURL = `${API_URL}/neighborhoods/getNeighborhoodName`;
   try {
     const response = yield request({
-      method: 'GET',
+      method: 'POST',
       url: requestURL,
       data: payload,
       headers: {
@@ -185,7 +185,7 @@ export function* getfloorNameData({ payload }) {
   const requestURL = `${API_URL}/Building/getFloorByName`;
   try {
     const response = yield request({
-      method: 'GET',
+      method: 'POST',
       url: requestURL,
       data: payload,
       headers: {

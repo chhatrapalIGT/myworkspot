@@ -325,35 +325,67 @@ const Spaces = ({
   }, [officeLocation]);
 
   useEffect(() => {
-    const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: false },
-    ];
+    const tempArr = [];
+    if (state.filterApplied) {
+      tempArr.push({
+        label: 'All',
+        name: 'All',
+        value: 'All',
+        isSelected: true,
+      });
+    } else {
+      tempArr.push({
+        label: 'All',
+        name: 'All',
+        value: 'All',
+        isSelected: false,
+      });
+    }
     officeFloor &&
       officeFloor.map(obj => {
-        if (obj.floor !== null) {
-          if (obj.floor === 3 || obj.floor === 8) {
+        if (state.filterApplied) {
+          if (obj.floor !== null) {
             tempArr.push({
-              label: `floor ${obj.floor}`,
-              name: `floor ${obj.floor}`,
-              value: `floor ${obj.floor}`,
+              label: `Floor ${obj.floor}`,
+              name: `Floor ${obj.floor}`,
+              value: `Floor ${obj.floor}`,
               isSelected: true,
             });
-          } else {
+          }
+          if (obj.building !== null) {
             tempArr.push({
-              label: `floor ${obj.floor}`,
-              name: `floor ${obj.floor}`,
-              value: `floor ${obj.floor}`,
+              label: `Building ${obj.building}`,
+              name: `Building ${obj.building}`,
+              value: `Building ${obj.building}`,
+              isSelected: true,
+            });
+          }
+        } else {
+          if (obj.floor !== null) {
+            if (obj.floor === 3 || obj.floor === 8) {
+              tempArr.push({
+                label: `Floor ${obj.floor}`,
+                name: `Floor ${obj.floor}`,
+                value: `Floor ${obj.floor}`,
+                isSelected: true,
+              });
+            } else {
+              tempArr.push({
+                label: `Floor ${obj.floor}`,
+                name: `Floor ${obj.floor}`,
+                value: `Floor ${obj.floor}`,
+                isSelected: false,
+              });
+            }
+          }
+          if (obj.building !== null) {
+            tempArr.push({
+              label: `Building ${obj.building}`,
+              name: `Building ${obj.building}`,
+              value: `Building ${obj.building}`,
               isSelected: false,
             });
           }
-        }
-        if (obj.building !== null) {
-          tempArr.push({
-            label: `building ${obj.building}`,
-            name: `building ${obj.building}`,
-            value: `building ${obj.building}`,
-            isSelected: false,
-          });
         }
       });
     updatedFloors = tempArr.filter(i => i.value !== 'All');
@@ -365,14 +397,6 @@ const Spaces = ({
     const tempArr = [];
     floorBulidingData &&
       floorBulidingData.map(obj => {
-        if (obj.floor !== null && obj.building !== null) {
-          tempArr.push({
-            label: `Floor ${obj.floor}  Building ${obj.building}`,
-            name: `Floor ${obj.floor}  Building ${obj.building}`,
-            value: `Floor ${obj.floor}  Building ${obj.building}`,
-            isSelected: false,
-          });
-        }
         if (obj.floor !== null && obj.building === null) {
           tempArr.push({
             label: `Floor ${obj.floor}`,
