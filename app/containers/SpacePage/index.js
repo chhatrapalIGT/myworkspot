@@ -47,6 +47,10 @@ class OfficeMap extends Component {
       finalNeighborhoodVal: 'All',
       neighborhoodSearch: [],
       neighborName: [],
+      srcOffice: ['DC'],
+      srcFloor: ['3', '8'],
+      srcBuilding: [],
+      srcNeighborhood: [],
       newExport: false,
       filterApplied: false,
       sortOrder: {
@@ -71,8 +75,14 @@ class OfficeMap extends Component {
       limit: this.state.limit,
       page: this.state.page,
     });
-    this.props.requestGetOfficeLocation({});
-    this.props.requestGetOfficeFloor({});
+    this.props.requestGetOfficeLocation({
+      locationId: ['DC'],
+    });
+    this.props.requestGetOfficeFloor({
+      floor: ['3', '8'],
+      building: [],
+      locationId: ['DC'],
+    });
     this.props.requestGetOfficeNeighborhood({});
     this.props.requestGetLockSpace({});
     this.props.requestGetNeighborName({});
@@ -257,7 +267,7 @@ class OfficeMap extends Component {
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
-      this.props.requestGetNeighborName({
+      this.props.requestGetOfficeNeighborhood({
         floor: strFloorArr,
         building: strBuildingArr,
         locationId: this.state.srcOffice,
