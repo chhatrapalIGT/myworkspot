@@ -35,12 +35,27 @@
   border-radius: 10px;
 }
 
+.neibour-table {
+  margin: 20px 0;
+  border-radius: 10px;
+}
+
 .new-emp-table {
   margin: 20px 0;
   border-radius: 10px;
 }
 
 .emp-table table {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px 15px;
+  color: #00223c;
+  width: 100%;
+  margin: 20px 0;
+  box-shadow: -1px 0px 11px #eee;
+}
+
+.neibour-table table {
   background-color: #fff;
   border-radius: 10px;
   padding: 10px 15px;
@@ -68,6 +83,14 @@
   font-size: 14px;
 }
 
+.neibour-table table th {
+  line-height: normal;
+  border-bottom: 1px solid #ebeef1;
+  text-transform: uppercase;
+  padding: 18px 15px 15px;
+  font-size: 14px;
+}
+
 .new-emp-table table th {
   line-height: normal;
   text-transform: uppercase;
@@ -82,6 +105,12 @@
 .emp-table table td {
   padding: 12px 15px;
   font-weight: 600;
+}
+
+.neibour-table table td {
+  padding: 12px 15px !important;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .new-emp-table table td {
@@ -1183,6 +1212,7 @@ span.hover-data::after {
   color: #fff;
 
 }
+
 .expected_hover-span {
   font-size: 15px !important;
   border-radius: 6px;
@@ -1199,12 +1229,13 @@ span.hover-data::after {
   top: -43px !important;
   left: -90px !important;
   font-size: 92px;
-width: 245px !important;
+  width: 245px !important;
 }
 
 .expected_hover:after {
   display: none;
 }
+
 .expected_hover-span:after {
   display: none;
 }
@@ -1656,6 +1687,7 @@ div[class*='qy-menu'] * {
   color: #00355f;
   margin-left: 0px;
 }
+
 .panel2 .dash-menu-list label {
   display: none;
 }
@@ -1684,15 +1716,15 @@ div[class*='qy-menu'] * {
 
 .panel2 .dash-menu-list2 {
   position: relative;
-    background-color: #fff;
-    cursor: pointer;
-    color: #00355f;
-    font-size: 16px;
-    font-weight: bold;
-    border: 2px solid #ccc;
-    border-radius: 30px;
-    padding: 8px 16px;
-    margin: 10px 0 10px 8px;
+  background-color: #fff;
+  cursor: pointer;
+  color: #00355f;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid #ccc;
+  border-radius: 30px;
+  padding: 8px 16px;
+  margin: 10px 0 10px 8px;
 }
 
 .dash-menu-list2::before {
@@ -1795,7 +1827,8 @@ div[class*='qy-menu'] * {
   margin-left: 6px;
   font-size: 16px;
 }
-.accordion2.active{
+
+.accordion2.active {
   position: relative;
   background-color: #EBF6FF;
   padding-top: 15px;
