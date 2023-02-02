@@ -600,7 +600,10 @@ const Employee = props => {
                     <div className="selction_one ww-100 pointer">
                       <label htmlFor="role">Role</label>
                       <select
-                        onChange={props.handleChange}
+                        onChange={e => {
+                          props.handleChange;
+                          props.handleRole(e.target.value);
+                        }}
                         value={props.state.role}
                         name="role"
                         placeholder="Select role"
@@ -942,6 +945,7 @@ Employee.propTypes = {
   employeeData: PropTypes.object,
   singleEmployeeData: PropTypes.object,
   handleSubmit: PropTypes.func,
+  handleRole: PropTypes.func,
   handleChange: PropTypes.func,
   workSpace: PropTypes.object,
   state: PropTypes.object,
