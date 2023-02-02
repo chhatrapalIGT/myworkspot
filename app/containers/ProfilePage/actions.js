@@ -42,6 +42,7 @@ import {
   REQUEST_GET_ADMIN_OWNER,
   SUCCESS_GET_ADMIN_OWNER,
   FAILED_GET_ADMIN_OWNER,
+  CLEAR_ADMIN_OWNER,
 } from './constants';
 
 export const requestGetProfileOfficeData = payload => ({
@@ -254,4 +255,7 @@ export const getAdminOwnerSuccess = payload => ({
 export const getAdminOwnerFailed = error => ({
   type: FAILED_GET_ADMIN_OWNER,
   payload: error,
+});
+export const clearAdminOwner = () => ({
+  type: CLEAR_ADMIN_OWNER,
 });
