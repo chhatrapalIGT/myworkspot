@@ -295,10 +295,14 @@ const WorkspotAdmin = ({
     ) {
       const finaldataOffice = [];
       newExportData.filter(obj => {
-        obj &&
+        const data =
+          obj &&
           obj.data &&
           obj.data.length > 0 &&
-          obj.data.map(arr => {
+          obj.data.filter(arr => arr.id === 'DC' || arr.id === 'RIC');
+        data;
+        data.length > 0 &&
+          data.map(arr => {
             const objData = {
               officeId: arr.id,
               Date: obj.date,
@@ -306,10 +310,10 @@ const WorkspotAdmin = ({
                 arr && arr.officeCapacity,
               ).toFixed()}%`,
               worksStationSpaceCapacity: `${parseFloat(
-                Math.floor(arr && arr.workstationsSpacesOfficeCapacity),
+                Math.floor((arr && arr.workstationsSpacesOfficeCapacity) || 0),
               ).toFixed()}%`,
               privateSpaceCapacity: `${parseFloat(
-                Math.floor(arr && arr.privateSpacesOfficeCapacity),
+                Math.floor((arr && arr.privateSpacesOfficeCapacity) || 0),
               ).toFixed()}%`,
             };
             finaldataOffice.push(objData);
@@ -318,9 +322,9 @@ const WorkspotAdmin = ({
 
       const header = Object.keys(finaldataOffice[0]);
       if (excelDataOpen) {
-        generateCSV('CSV', header, finaldataOffice, 'WorkspotData');
+        generateCSV('CSV', header, finaldataOffice, 'Office Capacity');
       } else {
-        exportToSpreadsheet(finaldataOffice);
+        exportToSpreadsheet(finaldataOffice, 'Office Capacity');
       }
       setOpen(false);
     }
@@ -332,10 +336,14 @@ const WorkspotAdmin = ({
     ) {
       const finaldataExpected = [];
       newExportData.filter(obj => {
-        obj &&
+        const data =
+          obj &&
           obj.data &&
           obj.data.length > 0 &&
-          obj.data.map(arr => {
+          obj.data.filter(arr => arr.id === 'DC' || arr.id === 'RIC');
+        data;
+        data.length > 0 &&
+          data.map(arr => {
             const objData = {
               officeId: arr.id,
               Date: obj.date,
@@ -347,10 +355,10 @@ const WorkspotAdmin = ({
 
       const header = Object.keys(finaldataExpected[0]);
       if (excelDataOpen) {
-        generateCSV('CSV', header, finaldataExpected, 'WorkspotData');
+        generateCSV('CSV', header, finaldataExpected, 'Expected Attendance');
         setOpen(false);
       } else {
-        exportToSpreadsheet(finaldataExpected);
+        exportToSpreadsheet(finaldataExpected, 'Expected Attendance');
         setOpen(false);
       }
     }
@@ -362,10 +370,14 @@ const WorkspotAdmin = ({
     ) {
       const finaldataConfirmed = [];
       newExportData.filter(obj => {
-        obj &&
+        const data =
+          obj &&
           obj.data &&
           obj.data.length > 0 &&
-          obj.data.map(arr => {
+          obj.data.filter(arr => arr.id === 'DC' || arr.id === 'RIC');
+        data;
+        data.length > 0 &&
+          data.map(arr => {
             const objData = {
               officeId: arr.id,
               Date: obj.date,
@@ -377,9 +389,9 @@ const WorkspotAdmin = ({
 
       const header = Object.keys(finaldataConfirmed[0]);
       if (excelDataOpen) {
-        generateCSV('CSV', header, finaldataConfirmed, 'WorkspotData');
+        generateCSV('CSV', header, finaldataConfirmed, 'Confirmed Attendance');
       } else {
-        exportToSpreadsheet(finaldataConfirmed);
+        exportToSpreadsheet(finaldataConfirmed, 'Confirmed Attendance');
       }
       setOpen(false);
     }

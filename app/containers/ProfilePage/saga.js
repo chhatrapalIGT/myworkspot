@@ -15,6 +15,7 @@ import {
   REQUEST_GET_SELECT_ICON,
   REQUEST_REMOVE_DELEGATE_USER,
   REQUEST_REMOVE_SPIN_ICON,
+  REQUEST_GET_ADMIN_OWNER,
 } from './constants';
 import {
   getProfileOfficeDataSuccess,
@@ -44,6 +45,8 @@ import {
   successRemoveSpinIcon,
   failedRemoveSpinIcon,
   requestGetSelectIcon,
+  getAdminOwnerSuccess,
+  getAdminOwnerFailed,
 } from './actions';
 import { CONSTANT } from '../../enum';
 
@@ -218,6 +221,34 @@ export function* addDelegateMember({ payload }) {
     }
   } catch (err) {
     yield put(addDelegateListFailed(err));
+  }
+}
+
+export function* addAdminOwner({ payload }) {
+  let token = sessionStorage.getItem('AccessToken');
+  token = JSON.parse(token);
+  // eslint-disable-next-line no-underscore-dangle
+  const requestURL = `${API_URL}/Delegate/getAdminOwnerDelegateAccess`;
+  try {
+    const delegateList = yield request({
+      method: 'POST',
+      url: requestURL,
+      data: payload,
+      headers: {
+        Authorization: `Bearer ${token.idtoken}`,
+      },
+    });
+    const { data } = delegateList;
+    if (delegateList.status === 403) {
+      sessionStorage.clear();
+      yield put(push('/auth'));
+    } else if (data && data.success) {
+      yield put(getAdminOwnerSuccess(data));
+    } else {
+      yield put(getAdminOwnerFailed(data));
+    }
+  } catch (err) {
+    yield put(getAdminOwnerFailed(err));
   }
 }
 
@@ -435,4 +466,5 @@ export default function* profileData() {
   yield takeLatest(REQUEST_ADD_SPIN_ICON, addEmployeePin);
   yield takeLatest(REQUEST_GET_SELECT_ICON, selectEmpIcon);
   yield takeLatest(REQUEST_REMOVE_SPIN_ICON, removePinIcon);
+  yield takeLatest(REQUEST_GET_ADMIN_OWNER, addAdminOwner);
 }

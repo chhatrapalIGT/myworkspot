@@ -26,5 +26,9 @@ export const REQUEST_GET_OFFICES_TYPE = 'requestGetOfficesType';
 export const SUCCESS_GET_OFFICES_TYPE = 'getOfficesTypeSuccess';
 export const FAILED_GET_OFFICES_TYPE = 'getOfficesTypeFailed';
 
+export const REQUEST_MANAGE_UPDATE_SPACE = 'requestManageUpdateSpace';
+export const SUCCESS_MANAGE_UPDATE_SPACE = 'successManageUpdateSpace';
+export const FAILED_MANAGE_UPDATE_SPACE = 'failedManageUpdateSpace';
+
 export const CLEAR_UPDATE_STATUS = 'clearUpdateStatus';
 export const CLEAR_MESSAGE = 'clearMessage';

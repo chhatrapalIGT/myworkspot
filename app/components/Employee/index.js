@@ -76,7 +76,7 @@ const Employee = props => {
         tempArr.push({
           label: obj.role,
           name: obj.role,
-          value: obj.id,
+          value: obj.role,
           isSelected: true,
         });
       });
@@ -84,22 +84,26 @@ const Employee = props => {
     setRole(FilterArr);
     setUserRole(tempArr);
   }, [userRoles]);
+
   const data =
     props.workSpace &&
     props.workSpace.find(i =>
       props.state.floor === i.id ? i.FloorBuilding : '',
     );
+
   const finalValData =
     props.workSpace &&
     props.workSpace.filter(
       obj => obj.id !== 'RW' && obj.id !== 'BHM' && obj.id !== 'BLM',
     );
+
   const space =
     // eslint-disable-next-line eqeqeq
     data &&
     data.FloorBuilding.find(
       obj => obj && Number(obj.floor) === props.state.build,
     );
+
   const workspace = space && space.neighborhood.map(i => i.neighborWorkspace);
   const finalData = [];
   workspace &&
@@ -230,13 +234,13 @@ const Employee = props => {
                 <div className="menu-img">
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
-                <div className="custom-filter-dropdown">
+                <div className="custom-filter-dropdown pointer">
                   <span>Role</span>
                   <div className="dropdown">
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle"
+                      className="dropdown-toggle pointer"
                       value={state.finalRoleVal}
                       placeholder="Select..."
                       data-bs-toggle="dropdown"
@@ -272,20 +276,20 @@ const Employee = props => {
                     </ul>
                   </div>
                 </div>
-                <div className="custom-filter-dropdown">
+                <div className="custom-filter-dropdown pointer">
                   <span>Office</span>
                   <div className="dropdown">
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle"
+                      className="dropdown-toggle pointer"
                       value={state.finalOfficeVal}
                       placeholder="Select..."
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton1"
                     />
                     <Image
-                      className="img_select"
+                      className="img_select pointer"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton2"
                       src={SelectDownArrow}
@@ -321,7 +325,7 @@ const Employee = props => {
                     type="text"
                     onChange={props.handleSearcha}
                     name="searchVal"
-                    placeholder="Search for name, email, badge"
+                    placeholder="Search..."
                   />
                   <div className="search-img">
                     <img src={Search} className="img-fluid" alt="" />
