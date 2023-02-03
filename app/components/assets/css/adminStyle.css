@@ -210,6 +210,8 @@
   outline: none;
   font-size: 16px;
   font-family: 'Museo Sans Medium';
+  background-color: white;
+  color: #00355F;
   cursor: pointer;
 }
 
@@ -980,6 +982,10 @@
   min-width: 700px;
 }
 
+.table1_color {
+  color: #526E88 !important;
+}
+
 .table1 table tr:first-child {
   font-size: 12px;
 }
@@ -1596,6 +1602,11 @@ span.hover-data::after {
 select,
 select option {
   color: #000000;
+}
+
+.page-color {
+  background-color: #FFFFFF !important;
+  color: #00355F !important
 }
 
 select:invalid,

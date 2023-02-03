@@ -283,7 +283,7 @@ const Employee = props => {
                   </div>
                 </div>
                 <div className="custom-filter-dropdown pointer">
-                  <span>Office</span>
+                  <span>Permanent Space</span>
                   <div className="dropdown">
                     <input
                       type="input"
@@ -340,7 +340,7 @@ const Employee = props => {
               </div>
             </div>
 
-            <div className="emp-table">
+            <div className="emp-table emp-text-color">
               <table>
                 <tr>
                   <th style={{ width: '25%' }}>
@@ -483,7 +483,6 @@ const Employee = props => {
                     </tr>
                   ))
                 )}
-
                 {/* </tr> */}
               </table>
             </div>
@@ -494,7 +493,7 @@ const Employee = props => {
                     <select
                       name=""
                       id=""
-                      className="pad-manual"
+                      className="pad-manual page-color"
                       value={props.state.limit}
                       onChange={e => props.handleLimitChange(e.target.value)}
                     >
@@ -514,6 +513,7 @@ const Employee = props => {
                     totalCounts={props.employeeCount * state.limit}
                     totalCount={props.employeeCount}
                     pageSize={state.limit}
+                    totalPages={props.empTotalPage}
                     onPageChange={page => props.handlePageChange(page)}
                   />
                 </div>
@@ -979,6 +979,7 @@ Employee.propTypes = {
   clearAssign: PropTypes.func,
   onCancel: PropTypes.func,
   replaceImage: PropTypes.func,
+  empTotalPage: PropTypes.number,
   userMessage: PropTypes.string,
   userMessageStatus: PropTypes.bool,
 };

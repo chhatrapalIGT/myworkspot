@@ -9,16 +9,20 @@ const Pagination = props => {
     siblingCount = 1,
     currentPage,
     pageSize,
+    totalPages,
   } = props;
   const paginationRange = usePagination({
     currentPage,
     totalCount,
     siblingCount,
     pageSize,
+    totalPages,
   });
 
   const onNext = () => {
-    onPageChange(currentPage + 1);
+    if (currentPage !== totalPages) {
+      onPageChange(currentPage + 1);
+    }
   };
 
   const onPrevious = () => {
@@ -63,5 +67,6 @@ Pagination.propTypes = {
   siblingCount: PropTypes.number,
   currentPage: PropTypes.number,
   pageSize: PropTypes.number,
+  totalPages: PropTypes.number,
 };
 export default Pagination;

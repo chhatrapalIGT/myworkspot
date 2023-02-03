@@ -4119,13 +4119,13 @@ tr.exited {
   justify-content: space-between;
   align-items: center;
   height: 40px;
-  cursor: pointer;
 }
 .arrow-on-hover > img {
   max-width: 12px;
   max-height: 8px;
   margin-right: 15px;
   visibility: hidden;
+  cursor: pointer;
 }
 .arrow-on-hover:hover > img {
   visibility: visible;
@@ -4149,4 +4149,9 @@ tr.exited {
 }
 .img_height {
   max-height: 14px !important;
+}
+.emp-text-color table {
+  color: #00355f !important;
+  font-family: 'Museo Sans Regular';
+  font-size: 14px !important;
 }

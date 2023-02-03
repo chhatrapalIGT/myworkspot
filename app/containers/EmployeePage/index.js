@@ -456,10 +456,12 @@ class EmployeePage extends Component {
       apiSuccess,
       userMessage,
       userMessageStatus,
+      empTotalPage,
     } = this.props;
     return (
       <div>
         <Employee
+          empTotalPage={empTotalPage}
           editEmployee={this.handleEdit}
           handleRole={this.handleRole}
           handleSubmit={this.handleSubmit}
@@ -513,6 +515,11 @@ const mapStateToProps = state => {
       employee.EmployeeDetail.employee.userData,
     userRoles: employee && employee.userRole && employee.userRole.userRoles,
     userMessage: employee && employee.userRole && employee.userRole.apiMessage,
+    empTotalPage:
+      employee &&
+      employee.EmployeeDetail &&
+      employee.EmployeeDetail.employee &&
+      employee.EmployeeDetail.employee.totalPages,
     userMessageStatus:
       employee && employee.userRole && employee.userRole.apiSuccess,
     singleEmployeeData:
@@ -594,6 +601,7 @@ EmployeePage.propTypes = {
   officeLocation: PropTypes.object,
   resetDataEmp: PropTypes.object,
   // verifyBadge: PropTypes.object,
+  empTotalPage: PropTypes.number,
   verifyBadgeMsg: PropTypes.string,
   verifyBadgeSuccess: PropTypes.bool,
   clearBoardData: PropTypes.func,
