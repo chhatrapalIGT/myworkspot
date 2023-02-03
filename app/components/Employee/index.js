@@ -104,7 +104,6 @@ const Employee = props => {
     );
 
   const space =
-    // eslint-disable-next-line eqeqeq
     data &&
     data.FloorBuilding.find(
       obj => obj && Number(obj.floor) === props.state.build,
@@ -698,9 +697,11 @@ const Employee = props => {
                         value={props.state.floor}
                       >
                         <option
-                          id="spval"
+                          id="spval1"
                           value=""
                           selected
+                          disabled
+                          hidden
                           style={{ color: '#526E88' }}
                         >
                           Select Office
@@ -727,9 +728,11 @@ const Employee = props => {
                           }
                         >
                           <option
-                            id="spval"
+                            id="spval2"
                             value=""
                             selected
+                            disabled
+                            hidden
                             style={{ color: '#526E88' }}
                           >
                             Select Building/Floor
@@ -792,7 +795,7 @@ const Employee = props => {
                           onChange={props.handleChange}
                           name="AssignedSpace"
                           value={props.state.AssignedSpace}
-                          defaultValue={finalData[0]}
+                          placeholder="Select Space"
                           className="pad-manual"
                           required={
                             props.state.build !== '' ||
@@ -804,6 +807,8 @@ const Employee = props => {
                             id="spval gray-font"
                             value=""
                             selected
+                            disabled
+                            hidden
                             style={{ color: '#526E88' }}
                           >
                             Select Space
