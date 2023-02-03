@@ -99,11 +99,7 @@ const Assignments = props => {
 
   useEffect(() => {
     const customArr = [];
-    if (
-      exportAssignmentLoading === false &&
-      exportAssignmentData &&
-      exportAssignmentData.length > 0
-    ) {
+    if (exportAssignmentData && exportAssignmentData.length > 0) {
       exportAssignmentData &&
         exportAssignmentData.map(obj => {
           customArr.push({
@@ -142,7 +138,7 @@ const Assignments = props => {
       setExportType('');
       setOpen(false);
     }
-  }, [exportAssignmentData, exportAssignmentLoading]);
+  }, [exportAssignmentData]);
 
   const handleChange = e => {
     // Destructuring
