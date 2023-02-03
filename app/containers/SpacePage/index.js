@@ -111,9 +111,10 @@ class OfficeMap extends Component {
       this.setState({ [name]: value }, () => {
         this.props.requestGetManageSpace({
           searchFilter: this.state.searchVal,
-          officeSearch: this.state.officeSearch,
-          floorSearch: this.state.floorSearch,
-          neighborhoodSearch: this.state.neighborhoodSearch,
+          officeSearch: this.state.srcOffice,
+          floorSearch: this.state.srcFloor,
+          buldingSearch: this.state.srcBuilding,
+          neighborhoodSearch: this.state.srcNeighborhood,
           sort_column: this.state.sort_column,
           limit: this.state.limit,
           page: this.state.page,

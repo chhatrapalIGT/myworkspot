@@ -426,15 +426,9 @@ const Spaces = ({
       setUpdateState('');
     }
   }
-
   useEffect(() => {
     const cstarr = [];
-    if (
-      !exportLoading &&
-      exportSuccess &&
-      exportManage &&
-      exportManage.length > 0
-    ) {
+    if (exportManage && exportManage.length > 0) {
       exportManage &&
         exportManage.map(obj => {
           cstarr.push({
@@ -476,7 +470,7 @@ const Spaces = ({
       setOpen(false);
     }
     setUserInfo({ offices: [] });
-  }, [exportManage, exportLoading, exportSuccess]);
+  }, [exportManage]);
 
   function toggleSecondAccordion(id) {
     if (id === updateState) {
