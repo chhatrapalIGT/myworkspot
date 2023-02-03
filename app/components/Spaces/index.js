@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-else-return */
 /* eslint-disable consistent-return */
@@ -7,7 +8,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable indent */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
 import { Button, Form, Image, Modal, Dropdown } from 'react-bootstrap';
@@ -25,6 +26,7 @@ import GreyPencil from '../../images/GreyPencil.png';
 import CheckboxInput from '../assets/images/Checkbox_input.svg';
 import Pagination from '../Employee/Pagination';
 import CheckedItem from '../assets/images/Checked.svg';
+import hoverImage from '../assets/images/hoverImage.png';
 const algoStatus = [
   {
     name: 'Active',
@@ -78,11 +80,7 @@ const Spaces = ({
   const [spaceData, setSpaceData] = useState('');
   const [spaceValue, setSpaceValue] = useState([]);
   const [spaceAllChecked, setSpaceAllChecked] = useState([]);
-  const [updatedData, setUpdatedData] = useState([]);
-  const [floorbuildData, setFloorbuildData] = useState([]);
-  const [officeTypeData, setOfficeTypeData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [checkOpen, setCheckOpen] = useState(false);
   const [isEditing, setisEditing] = useState(false);
   const [editedText, setEditedText] = useState('');
   const [csvOpen, setCsvOpen] = useState('');
@@ -100,14 +98,14 @@ const Spaces = ({
   const [isShowRowDropdown, setIsShowRowDropdown] = useState(null);
   const [currentCheckedValue, setCurrentCheckedValue] = useState('');
   const [changeAll, setChangeAll] = useState(false);
-  const [floorbuildingData, setFloorbuildingData] = useState([]);
   const splitData = currentCheckedValue.split(' ');
-
   let updatedFloors = [];
   const updatedNeighborhood = [];
   const inputValue = e => {
     setEditedText(e.target.value);
   };
+
+  const ref = useRef();
 
   const handleClear = () => {
     const allChecked = spaceValue.map(el => {
@@ -132,30 +130,47 @@ const Spaces = ({
     }
   }, [manageDataSuccess]);
 
-  const handleUpdateManageSpace = (rowData, map) => {
+  const handleUpdateManageSpace = (rowData, cols, map) => {
     const idData = [];
     const floorObj = [];
     const neibourObj = [];
-    rowData &&
-      rowData.length > 0 &&
-      rowData.filter(ele => {
-        idData.push(ele.id);
-        floorObj.push({
-          id: ele.id,
-          floor: splitData[1],
-          building: ele.building || null,
-          neighborhoodname: ele.neighborhoodname || null,
-          locationid: ele.locationid || null,
+    if (rowData && rowData.length) {
+      rowData &&
+        rowData.length > 0 &&
+        rowData.filter(ele => {
+          idData.push(ele.id);
+          floorObj.push({
+            id: ele.id || null,
+            floor: splitData[1],
+            building: ele.building || null,
+            neighborhoodname: ele.neighborhoodname || null,
+            locationid: ele.locationid || null,
+          });
+          neibourObj.push({
+            id: ele.id || null,
+            floor: ele.floor || null,
+            building: ele.building || null,
+            neighborhoodname: currentCheckedValue,
+            locationid: ele.locationid || null,
+          });
         });
-        neibourObj.push({
-          id: ele.id || null,
-          floor: ele.floor || null,
-          building: ele.building || null,
-          neighborhoodname: currentCheckedValue,
-          locationid: ele.locationid || null,
-        });
+    } else {
+      idData.push(cols.id);
+      floorObj.push({
+        id: cols.id || null,
+        floor: splitData[1],
+        building: cols.building || null,
+        neighborhoodname: cols.neighborhoodname || null,
+        locationid: cols.locationid || null,
       });
-
+      neibourObj.push({
+        id: cols.id || null,
+        floor: cols.floor || null,
+        building: cols.building || null,
+        neighborhoodname: currentCheckedValue,
+        locationid: cols.locationid || null,
+      });
+    }
     let payload = {};
     if (map === 'flooringCols') {
       payload = {
@@ -164,7 +179,7 @@ const Spaces = ({
         Space_No: null,
         Space_Type: null,
         active: null,
-        id: rowData.length > 0 ? idData : idData[0].id,
+        id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
       requestManageUpdateSpace(payload);
     }
@@ -175,7 +190,7 @@ const Spaces = ({
         Space_No: null,
         Space_Type: null,
         active: null,
-        id: rowData.length > 0 ? idData : idData[0].id,
+        id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
       requestManageUpdateSpace(payload);
     }
@@ -186,7 +201,7 @@ const Spaces = ({
         neighborhoodname: null,
         Space_Type: null,
         active: null,
-        id: rowData.length > 0 ? idData : idData[0].id,
+        id: cols.id,
       };
       requestManageUpdateSpace(payload);
     }
@@ -197,7 +212,7 @@ const Spaces = ({
         Space_No: null,
         floor: null,
         active: null,
-        id: rowData.length > 0 ? idData : idData[0].id,
+        id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
       requestManageUpdateSpace(payload);
     }
@@ -208,7 +223,7 @@ const Spaces = ({
         Space_No: null,
         floor: null,
         active: currentCheckedValue === 'Active' ? true : false,
-        id: rowData.length > 0 ? idData : idData[0].id,
+        id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
       requestManageUpdateSpace(payload);
     }
@@ -217,40 +232,25 @@ const Spaces = ({
   const handleSelectAll = event => {
     const { checked } = event.target;
     if (checked) {
-      setCheckOpen(true);
       if (spaceValue && spaceValue.length > 0) {
         const allChecked = spaceValue.map(el => {
           const alldata = {
             ...el,
             isChecked: true,
-            algorithm: true,
-            isFloor: true,
-            isNeighborh: true,
-            isPen: true,
-            spaceType: true,
           };
           return alldata;
         });
         setSpaceValue(allChecked);
       }
-    } else {
-      setCheckOpen(false);
-      if (spaceValue && spaceValue.length > 0) {
-        const allChecked = spaceValue.map(el => {
-          const alldata = {
-            ...el,
-            isChecked: false,
-            algorithm: false,
-            isInput: false,
-            isFloor: false,
-            isNeighborh: false,
-            isPen: false,
-            spaceType: false,
-          };
-          return alldata;
-        });
-        setSpaceValue(allChecked);
-      }
+    } else if (spaceValue && spaceValue.length > 0) {
+      const allChecked = spaceValue.map(el => {
+        const alldata = {
+          ...el,
+          isChecked: false,
+        };
+        return alldata;
+      });
+      setSpaceValue(allChecked);
     }
   };
 
@@ -392,30 +392,6 @@ const Spaces = ({
     setOfficeFloors(tempArr);
     setUpdatedOfficeFloor(updatedFloors);
   }, [officeFloor]);
-
-  useEffect(() => {
-    const tempArr = [];
-    floorBulidingData &&
-      floorBulidingData.map(obj => {
-        if (obj.floor !== null && obj.building === null) {
-          tempArr.push({
-            label: `Floor ${obj.floor}`,
-            name: `Floor ${obj.floor}`,
-            value: `Floor ${obj.floor}`,
-            isSelected: false,
-          });
-        }
-        if (obj.building !== null && obj.floor === null) {
-          tempArr.push({
-            label: `Building ${obj.building}`,
-            name: `Building ${obj.building}`,
-            value: `Building ${obj.building}`,
-            isSelected: false,
-          });
-        }
-      });
-    setFloorbuildingData(tempArr);
-  }, [floorBulidingData]);
 
   useEffect(() => {
     const tempArr = [
@@ -586,6 +562,96 @@ const Spaces = ({
           const val = {
             ...el,
             isInput: true,
+            algorithm: false,
+            isFloor: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
+        }
+
+        return el;
+      });
+    setSpaceValue(spaceInp);
+  };
+  const handleFloor = id => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isFloor: true,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
+        }
+        return el;
+      });
+    setSpaceValue(spaceInp);
+  };
+  const handleNeibour = id => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: true,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
+        }
+        return el;
+      });
+    setSpaceValue(spaceInp);
+  };
+  const handleSpaceType = id => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: true,
+          };
+          return val;
+        }
+        return el;
+      });
+    setSpaceValue(spaceInp);
+  };
+  const handleAlgoridham = id => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: true,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
           };
           return val;
         }
@@ -604,23 +670,12 @@ const Spaces = ({
           const val = {
             ...el,
             isChecked: true,
-            isFloor: true,
-            isNeighborh: true,
-            spaceType: true,
-            algorithm: true,
-            isPen: true,
           };
           return val;
         } else if (el.id === idx && checked === false) {
           const val = {
             ...el,
             isChecked: false,
-            isInput: false,
-            isFloor: false,
-            isNeighborh: false,
-            spaceType: false,
-            algorithm: false,
-            isPen: false,
           };
           return val;
         }
@@ -782,38 +837,12 @@ const Spaces = ({
     handleSelectedNeighbor(neighborList);
   };
 
-  const handleNeibourUpdateSelect = data => {
-    setUpdatedData({
-      name: data.name,
-    });
-  };
-
-  const handleFloorUpdateSelect = (data, rowId, col) => {
-    const dataName = [];
-    dataName.push({
-      name: data.name,
-      rowId,
-      col,
-    });
-    setFloorbuildData(dataName);
-  };
-
-  const handleOfficeUpdateSelect = (data, rowId, col) => {
-    const dataName = [];
-    dataName.push({
-      name: data.name,
-      rowId,
-      col,
-    });
-    setOfficeTypeData(dataName);
-  };
-
   const handleChangeAll = e => {
     const { value, checked } = e.target;
     setChangeAll(checked);
   };
   return (
-    <div className="wrapper_main">
+    <div className="wrapper_main" ref={ref}>
       {setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage && (
         <div
           className={`alert fade show mx-auto ${
@@ -1011,7 +1040,7 @@ const Spaces = ({
               </div>
             </div>
           </div>
-          <div className="emp-table">
+          <div className="neibour-table">
             <table id="tableData">
               <tr>
                 <th>
@@ -1151,7 +1180,11 @@ const Spaces = ({
                 spaceValue &&
                 spaceValue.length > 0 &&
                 spaceValue.map((i, idx) => (
-                  <tr>
+                  <tr
+                    className={`${
+                      i.isChecked ? 'active-hover active-img' : ''
+                    }`}
+                  >
                     <td>
                       <Form.Check
                         className="mycheckbox1"
@@ -1171,7 +1204,7 @@ const Spaces = ({
                       />
                     </td>
                     <td className="assigned_text">
-                      {i.isNeighborh ? (
+                      {i.isFloor ? (
                         <div className="table-filter-dropdown">
                           <div className="table-filter-dropdown-group">
                             <div
@@ -1208,8 +1241,8 @@ const Spaces = ({
                             isShowColDropdown === 'floor' ? (
                               <div className="dropdown-list-group">
                                 <ul>
-                                  {floorbuildingData &&
-                                    floorbuildingData.map((item, index) => (
+                                  {updatedOfficeFloor &&
+                                    updatedOfficeFloor.map((item, index) => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -1270,6 +1303,7 @@ const Spaces = ({
                                       onClick={() => {
                                         handleUpdateManageSpace(
                                           spaceAllChecked,
+                                          i,
                                           'flooringCols',
                                         );
                                         setIsShowColDropdown('');
@@ -1289,10 +1323,16 @@ const Spaces = ({
                           </div>
                         </div>
                       ) : (
-                        <span aria-hidden>
-                          {i.floor}
-                          {i.building}
-                        </span>
+                        <div className="arrow-on-hover">
+                          <span aria-hidden>
+                            {i.floor}
+                            {i.building}
+                          </span>
+                          <Image
+                            onClick={() => handleFloor(i.id)}
+                            src={hoverImage}
+                          />
+                        </div>
                       )}
                     </td>
                     <td className="assigned_text">
@@ -1333,8 +1373,8 @@ const Spaces = ({
                             isShowColDropdown === 'neighbor' ? (
                               <div className="dropdown-list-group">
                                 <ul>
-                                  {neighborData &&
-                                    neighborData.map((item, index) => (
+                                  {updatedNeibour &&
+                                    updatedNeibour.map((item, index) => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -1395,6 +1435,7 @@ const Spaces = ({
                                       onClick={() => {
                                         handleUpdateManageSpace(
                                           spaceAllChecked,
+                                          i,
                                           'neibourCols',
                                         );
                                         setIsShowColDropdown('');
@@ -1414,7 +1455,13 @@ const Spaces = ({
                           </div>
                         </div>
                       ) : (
-                        <>{i.neighborhoodname}</>
+                        <div className="arrow-on-hover">
+                          <span>{i.neighborhoodname}</span>
+                          <Image
+                            onClick={() => handleNeibour(i.id)}
+                            src={hoverImage}
+                          />
+                        </div>
                       )}
                     </td>
                     <td className="assigned_text">
@@ -1489,6 +1536,7 @@ const Spaces = ({
                                     onClick={() => {
                                       handleUpdateManageSpace(
                                         spaceAllChecked,
+                                        i,
                                         'spaceCols',
                                       );
                                       setIsShowColDropdown('');
@@ -1507,17 +1555,15 @@ const Spaces = ({
                           )}
                         </div>
                       ) : (
-                        <div className="select-none">
+                        <div className="select-none arrow-on-hover">
                           {i.workspacename || editedText}
-                          {i.isPen && (
-                            <Image
-                              className="editInput"
-                              src={GreyPencil}
-                              onClick={() => {
-                                handlePane(i.id);
-                              }}
-                            />
-                          )}
+                          <Image
+                            className="editInput img_height"
+                            src={GreyPencil}
+                            onClick={() => {
+                              handlePane(i.id);
+                            }}
+                          />
                         </div>
                       )}
                     </td>
@@ -1622,6 +1668,7 @@ const Spaces = ({
                                       onClick={() => {
                                         handleUpdateManageSpace(
                                           spaceAllChecked,
+                                          i,
                                           'spaceTypesCols',
                                         );
                                         setIsShowColDropdown('');
@@ -1641,7 +1688,13 @@ const Spaces = ({
                           </div>
                         </div>
                       ) : (
-                        <>{i.type}</>
+                        <div className="arrow-on-hover">
+                          <span>{i.type}</span>
+                          <Image
+                            onClick={() => handleSpaceType(i.id)}
+                            src={hoverImage}
+                          />
+                        </div>
                       )}
                     </td>
                     <td
@@ -1756,6 +1809,7 @@ const Spaces = ({
                                       onClick={() => {
                                         handleUpdateManageSpace(
                                           spaceAllChecked,
+                                          i,
                                           'algorithmCols',
                                         );
                                         setIsShowColDropdown('');
@@ -1775,7 +1829,15 @@ const Spaces = ({
                           </div>
                         </div>
                       ) : (
-                        <>{i.active === true ? 'Active' : 'Inactive'}</>
+                        <div className="arrow-on-hover">
+                          <span>
+                            {i.active === true ? 'Active' : 'Inactive'}
+                          </span>
+                          <Image
+                            onClick={() => handleAlgoridham(i.id)}
+                            src={hoverImage}
+                          />
+                        </div>
                       )}
                     </td>
                   </tr>
@@ -1960,9 +2022,7 @@ const Spaces = ({
                     <div className="accordion_box">
                       <div
                         aria-hidden="true"
-                        className={`accordion3 line ${
-                          setActive === obj.floorId ? 'active' : ''
-                        }`}
+                        className="accordion3 line"
                         key={obj.floor}
                         id={obj.floor}
                         onClick={() => {
@@ -1985,11 +2045,7 @@ const Spaces = ({
                         }/${obj.totalWorkspace} Locked`}</span>
                       </div>
 
-                      <div
-                        className={`panel2 ${
-                          setActive === obj.floorId ? '' : 'display_acc'
-                        }`}
-                      >
+                      <div className="panel2">
                         <div className="panel-list">
                           <div className="dash-menu-list">
                             {obj &&
@@ -2011,7 +2067,7 @@ const Spaces = ({
                                         e.target.checked,
                                         'colorCLick',
                                       );
-                                      setColor(floor.name);
+                                      setColor(floor.id);
                                     }}
                                   />
 
@@ -2030,12 +2086,12 @@ const Spaces = ({
                                   </label>
                                   <div
                                     className={`accordion2 ${
-                                      updateState === floor.name ? 'active' : ''
+                                      updateState === floor.id ? 'active' : ''
                                     }`}
                                     aria-hidden="true"
                                     onClick={() => {
-                                      setColor(floor.name);
-                                      toggleSecondAccordion(floor.name);
+                                      setColor(floor.id);
+                                      toggleSecondAccordion(floor.id);
                                     }}
                                   >
                                     <span className="dash-menu-item1 line">
@@ -2050,7 +2106,7 @@ const Spaces = ({
                                   </div>
                                   <div
                                     className={`panel1 ${
-                                      updateState === floor.name
+                                      updateState === floor.id
                                         ? ''
                                         : 'display_acc'
                                     }`}
