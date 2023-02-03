@@ -107,10 +107,11 @@ const spaceReducer = (state = initialState, action) =>
       case REQUEST_GET_MANAGE_SPACE:
         draft.manageSpace.loading = true;
         draft.manageSpace.error = '';
+        draft.manageSpace.success = false;
         break;
       case SUCCESS_GET_MANAGE_SPACE:
         draft.manageSpace.loading = false;
-        draft.manageSpace.success = action.payload.success;
+        draft.manageSpace.success = true;
         draft.manageSpace = action.payload;
         draft.manageSpace.message = action.payload.message;
         break;
@@ -194,12 +195,13 @@ const spaceReducer = (state = initialState, action) =>
         draft.floorByName.error = action.payload.Error;
         break;
       case REQUEST_MANAGE_UPDATE_SPACE:
-        draft.floorByName.loading = true;
-        draft.floorByName.error = '';
+        draft.updateManageSpace.loading = true;
+        draft.updateManageSpace.error = '';
+        draft.updateManageSpace.success = false;
         break;
       case SUCCESS_MANAGE_UPDATE_SPACE:
         draft.updateManageSpace.loading = false;
-        draft.updateManageSpace.success = action.payload.success;
+        draft.updateManageSpace.success = true;
         draft.updateManageSpace = action.payload;
         draft.updateManageSpace.message = action.payload.message;
         break;

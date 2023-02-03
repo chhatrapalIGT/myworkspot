@@ -625,6 +625,7 @@ const Assignments = props => {
                   totalCounts={props.assignmentCount * state.limit}
                   totalCount={props.assignmentCount}
                   pageSize={state.limit}
+                  totalPages={props.assignTotalPage || ''}
                   onPageChange={page => props.handlePageChange(page)}
                 />
               </div>
@@ -738,6 +739,7 @@ Assignments.propTypes = {
   assignmentLoading: PropTypes.bool,
   exportAssignmentLoading: PropTypes.bool,
   assignmentCount: PropTypes.number,
+  assignTotalPage: PropTypes.number,
   replaceImage: PropTypes.func,
 };
 

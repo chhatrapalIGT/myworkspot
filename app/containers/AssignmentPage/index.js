@@ -380,10 +380,12 @@ class AssignmentPage extends Component {
       exportAssignmentData,
       apiMessage,
       apiSuccess,
+      assignTotalPage,
     } = this.props;
     return (
       <div>
         <Assignments
+          assignTotalPage={assignTotalPage}
           assignmentData={assignmentData}
           exportAssignmentData={exportAssignmentData}
           officeLocation={officeLocation}
@@ -447,6 +449,11 @@ const mapStateToProps = state => {
       assignment.assignmentDetail &&
       assignment.assignmentDetail.assignment &&
       assignment.assignmentDetail.assignment.count,
+    assignTotalPage:
+      assignment &&
+      assignment.assignmentDetail &&
+      assignment.assignmentDetail.assignment &&
+      assignment.assignmentDetail.assignment.count,
     apiMessage: assignment && assignment.apiMessage,
     apiSuccess: assignment && assignment.apiSuccess,
   };
@@ -482,6 +489,7 @@ AssignmentPage.propTypes = {
   assignmentLoading: PropTypes.bool,
   exportAssignmentLoading: PropTypes.bool,
   assignmentCount: PropTypes.number,
+  assignTotalPage: PropTypes.number,
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
 };

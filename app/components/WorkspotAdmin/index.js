@@ -1125,7 +1125,7 @@ const WorkspotAdmin = ({
                         <tr>
                           {(obj.id === 'DC' || obj.id === 'RIC') && (
                             <>
-                              <td className="admin-loc-name">
+                              <td className="admin-loc-name table1_color">
                                 {obj.locationname}
                               </td>
                               {days.dateToDisplay.map(item => {
@@ -1248,7 +1248,7 @@ const WorkspotAdmin = ({
                         <tr>
                           {(obj.id === 'DC' || obj.id === 'RIC') && (
                             <>
-                              <td className="admin-loc-name">
+                              <td className="admin-loc-name table1_color">
                                 {obj.locationname}
                               </td>
                               {days.dateToDisplay.map(item => {
@@ -1367,7 +1367,7 @@ const WorkspotAdmin = ({
                         <tr>
                           {(obj.id === 'DC' || obj.id === 'RIC') && (
                             <>
-                              <td className="admin-loc-name">
+                              <td className="admin-loc-name table1_color">
                                 {obj.locationname}
                               </td>
                               {days.dateToDisplay.map(item => {

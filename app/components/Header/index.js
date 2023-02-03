@@ -971,7 +971,7 @@ const Header = props => {
                                     className="btn dismiss"
                                     data-bs-dismiss="modal"
                                   >
-                                    Cancel
+                                    Close
                                   </button>
                                 </div>
                               </div>

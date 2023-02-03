@@ -1056,29 +1056,31 @@ const Spaces = ({
           <div className="neibour-table">
             <table id="tableData">
               <tr>
-                <th>
-                  {spaceAllChecked.length === 0 ||
-                  spaceAllChecked.length === spaceValue.length ? (
-                    <Form.Check
-                      onChange={e => handleSelectAll(e)}
-                      className="mycheckbox1"
-                      name="group2"
-                      checked={
-                        spaceAllChecked.length !== 0 &&
-                        spaceAllChecked.length === spaceValue.length
-                      }
-                    />
-                  ) : (
-                    <>
-                      <img
-                        aria-hidden
-                        onClick={() => handleClear()}
-                        src={CheckboxInput}
-                        alt="img"
+                {sessionStorage.getItem('Admin Owner') === 'true' && (
+                  <th>
+                    {spaceAllChecked.length === 0 ||
+                    spaceAllChecked.length === spaceValue.length ? (
+                      <Form.Check
+                        onChange={e => handleSelectAll(e)}
+                        className="mycheckbox1"
+                        name="group2"
+                        checked={
+                          spaceAllChecked.length !== 0 &&
+                          spaceAllChecked.length === spaceValue.length
+                        }
                       />
-                    </>
-                  )}
-                </th>
+                    ) : (
+                      <>
+                        <img
+                          aria-hidden
+                          onClick={() => handleClear()}
+                          src={CheckboxInput}
+                          alt="img"
+                        />
+                      </>
+                    )}
+                  </th>
+                )}
                 <th style={{ width: '15%' }}>
                   Building/floor{' '}
                   <img
@@ -1198,24 +1200,26 @@ const Spaces = ({
                       i.isChecked ? 'active-hover active-img' : ''
                     }`}
                   >
-                    <td>
-                      <Form.Check
-                        className="mycheckbox1 custom-ml"
-                        name="group2"
-                        checked={i.isChecked ? true : false}
-                        onChange={e => {
-                          onCheckbox(e, i.id);
-                        }}
-                        onClick={() => {
-                          setIsShowDropdown(false);
-                          setIsShowColDropdown('');
-                          setIsShowRowDropdown(idx);
-                          setCurrentCheckedValue('');
-                          setEditedText('');
-                          setChangeAll(false);
-                        }}
-                      />
-                    </td>
+                    {sessionStorage.getItem('Admin Owner') === 'true' && (
+                      <td>
+                        <Form.Check
+                          className="mycheckbox1 custom-ml"
+                          name="group2"
+                          checked={i.isChecked ? true : false}
+                          onChange={e => {
+                            onCheckbox(e, i.id);
+                          }}
+                          onClick={() => {
+                            setIsShowDropdown(false);
+                            setIsShowColDropdown('');
+                            setIsShowRowDropdown(idx);
+                            setCurrentCheckedValue('');
+                            setEditedText('');
+                            setChangeAll(false);
+                          }}
+                        />
+                      </td>
+                    )}
                     <td className="assigned_text">
                       {i.isFloor ? (
                         <div className="table-filter-dropdown">
@@ -1343,10 +1347,12 @@ const Spaces = ({
                             {i.floor}
                             {i.building}
                           </span>
-                          <Image
-                            onClick={() => handleFloor(i.id, true)}
-                            src={hoverImage}
-                          />
+                          {sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <Image
+                              onClick={() => handleFloor(i.id, true)}
+                              src={hoverImage}
+                            />
+                          )}
                         </div>
                       )}
                     </td>
@@ -1474,10 +1480,12 @@ const Spaces = ({
                       ) : (
                         <div className="arrow-on-hover">
                           <span>{i.neighborhoodname}</span>
-                          <Image
-                            onClick={() => handleNeibour(i.id, true)}
-                            src={hoverImage}
-                          />
+                          {sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <Image
+                              onClick={() => handleNeibour(i.id, true)}
+                              src={hoverImage}
+                            />
+                          )}
                         </div>
                       )}
                     </td>
@@ -1576,11 +1584,13 @@ const Spaces = ({
                       ) : (
                         <div className="select-none arrow-on-hover">
                           {i.workspacename || editedText}
-                          <Image
-                            className="editInput img_height"
-                            src={GreyPencil}
-                            onClick={() => handlePane(i.id, true)}
-                          />
+                          {sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <Image
+                              className="editInput img_height"
+                              src={GreyPencil}
+                              onClick={() => handlePane(i.id, true)}
+                            />
+                          )}
                         </div>
                       )}
                     </td>
@@ -1709,10 +1719,12 @@ const Spaces = ({
                       ) : (
                         <div className="arrow-on-hover">
                           <span>{i.type}</span>
-                          <Image
-                            onClick={() => handleSpaceType(i.id, true)}
-                            src={hoverImage}
-                          />
+                          {sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <Image
+                              onClick={() => handleSpaceType(i.id, true)}
+                              src={hoverImage}
+                            />
+                          )}
                         </div>
                       )}
                     </td>
@@ -1854,10 +1866,12 @@ const Spaces = ({
                           <span>
                             {i.active === true ? 'Active' : 'Inactive'}
                           </span>
-                          <Image
-                            onClick={() => handleAlgoridham(i.id, true)}
-                            src={hoverImage}
-                          />
+                          {sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <Image
+                              onClick={() => handleAlgoridham(i.id, true)}
+                              src={hoverImage}
+                            />
+                          )}
                         </div>
                       )}
                     </td>
