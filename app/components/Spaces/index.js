@@ -426,13 +426,13 @@ const Spaces = ({
   }
 
   useEffect(() => {
+    const cstarr = [];
     if (
       !exportLoading &&
       exportSuccess &&
       exportManage &&
       exportManage.length > 0
     ) {
-      const cstarr = [];
       exportManage &&
         exportManage.map(obj => {
           cstarr.push({
@@ -447,21 +447,33 @@ const Spaces = ({
             workspacename: obj.workspacename || '-',
           });
         });
-      if (csvOpen === 'CSV') {
-        const header = Object.keys(cstarr[0]);
-        generateCSV(csvOpen, header, cstarr, 'MailedReport');
-        setUserInfo({ offices: [] });
-        setCsvOpen('');
-        setOpen(false);
-      }
-      if (csvOpen === 'XLSX') {
-        exportToSpreadsheet(cstarr);
-        setUserInfo({ offices: [] });
-        setCsvOpen('');
-        setOpen(false);
-      }
-      setUserInfo({ offices: [] });
+    } else {
+      cstarr.push({
+        active: '',
+        assigned: '',
+        attributes: '',
+        building: '',
+        floor: '',
+        id: '',
+        neighborhoodname: '',
+        type: '',
+        workspacename: '',
+      });
     }
+    if (csvOpen === 'CSV') {
+      const header = Object.keys(cstarr[0]);
+      generateCSV(csvOpen, header, cstarr, 'MailedReport');
+      setUserInfo({ offices: [] });
+      setCsvOpen('');
+      setOpen(false);
+    }
+    if (csvOpen === 'XLSX') {
+      exportToSpreadsheet(cstarr, 'MailedReport');
+      setUserInfo({ offices: [] });
+      setCsvOpen('');
+      setOpen(false);
+    }
+    setUserInfo({ offices: [] });
   }, [exportManage, exportLoading, exportSuccess]);
 
   function toggleSecondAccordion(id) {
@@ -575,7 +587,7 @@ const Spaces = ({
       });
     setSpaceValue(spaceInp);
   };
-  const handleFloor = id => {
+  const handleFloor = (id, toggleStatus) => {
     const spaceInp =
       spaceValue &&
       spaceValue.length > 0 &&
@@ -583,7 +595,7 @@ const Spaces = ({
         if (el.id === id) {
           const val = {
             ...el,
-            isFloor: true,
+            isFloor: toggleStatus,
             isInput: false,
             algorithm: false,
             isNeighborh: false,
@@ -596,7 +608,7 @@ const Spaces = ({
       });
     setSpaceValue(spaceInp);
   };
-  const handleNeibour = id => {
+  const handleNeibour = (id, toggleStatus) => {
     const spaceInp =
       spaceValue &&
       spaceValue.length > 0 &&
@@ -607,7 +619,7 @@ const Spaces = ({
             isFloor: false,
             isInput: false,
             algorithm: false,
-            isNeighborh: true,
+            isNeighborh: toggleStatus,
             isPen: false,
             spaceType: false,
           };
@@ -617,7 +629,7 @@ const Spaces = ({
       });
     setSpaceValue(spaceInp);
   };
-  const handleSpaceType = id => {
+  const handleSpaceType = (id, toggleStatus) => {
     const spaceInp =
       spaceValue &&
       spaceValue.length > 0 &&
@@ -630,7 +642,7 @@ const Spaces = ({
             algorithm: false,
             isNeighborh: false,
             isPen: false,
-            spaceType: true,
+            spaceType: toggleStatus,
           };
           return val;
         }
@@ -638,7 +650,7 @@ const Spaces = ({
       });
     setSpaceValue(spaceInp);
   };
-  const handleAlgoridham = id => {
+  const handleAlgoridham = (id, toggleStatus) => {
     const spaceInp =
       spaceValue &&
       spaceValue.length > 0 &&
@@ -648,7 +660,7 @@ const Spaces = ({
             ...el,
             isFloor: false,
             isInput: false,
-            algorithm: true,
+            algorithm: toggleStatus,
             isNeighborh: false,
             isPen: false,
             spaceType: false,
@@ -841,6 +853,7 @@ const Spaces = ({
     const { value, checked } = e.target;
     setChangeAll(checked);
   };
+
   return (
     <div className="wrapper_main" ref={ref}>
       {setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage && (
@@ -1066,7 +1079,7 @@ const Spaces = ({
                     </>
                   )}
                 </th>
-                <th style={{ width: '17%' }}>
+                <th style={{ width: '15%' }}>
                   Building/floor{' '}
                   <img
                     src={Sort}
@@ -1083,7 +1096,7 @@ const Spaces = ({
                     }
                   />
                 </th>
-                <th style={{ width: '16%' }}>
+                <th style={{ width: '15%' }}>
                   Neighborhood{' '}
                   <img
                     src={Sort}
@@ -1100,7 +1113,7 @@ const Spaces = ({
                     }
                   />
                 </th>
-                <th style={{ width: '13%' }}>
+                <th style={{ width: '15%' }}>
                   Space{' '}
                   <img
                     src={Sort}
@@ -1114,7 +1127,7 @@ const Spaces = ({
                     }
                   />
                 </th>
-                <th style={{ width: '16%' }}>
+                <th style={{ width: '18%' }}>
                   Space type{' '}
                   <img
                     src={Sort}
@@ -1128,7 +1141,7 @@ const Spaces = ({
                     }
                   />
                 </th>
-                <th style={{ width: '16%' }}>
+                <th style={{ width: '18%' }}>
                   Assigned{' '}
                   <img
                     src={Sort}
@@ -1142,7 +1155,7 @@ const Spaces = ({
                     }
                   />
                 </th>
-                <th style={{ width: '17%' }}>
+                <th style={{ width: '15%' }}>
                   algorithm Status{' '}
                   <img
                     src={Sort}
@@ -1187,7 +1200,7 @@ const Spaces = ({
                   >
                     <td>
                       <Form.Check
-                        className="mycheckbox1"
+                        className="mycheckbox1 custom-ml"
                         name="group2"
                         checked={i.isChecked ? true : false}
                         onChange={e => {
@@ -1295,6 +1308,7 @@ const Spaces = ({
                                         setIsShowRowDropdown(null);
                                         setCurrentCheckedValue('');
                                         setIsShowDropdown(false);
+                                        handleFloor(i.id, false);
                                       }}
                                     >
                                       Cancel
@@ -1309,6 +1323,7 @@ const Spaces = ({
                                         setIsShowColDropdown('');
                                         setIsShowRowDropdown(null);
                                         setCurrentCheckedValue('');
+                                        handleFloor(i.id, false);
                                       }}
                                       className="btn apply-btn"
                                     >
@@ -1329,7 +1344,7 @@ const Spaces = ({
                             {i.building}
                           </span>
                           <Image
-                            onClick={() => handleFloor(i.id)}
+                            onClick={() => handleFloor(i.id, true)}
                             src={hoverImage}
                           />
                         </div>
@@ -1427,6 +1442,7 @@ const Spaces = ({
                                         setIsShowRowDropdown(null);
                                         setCurrentCheckedValue('');
                                         setIsShowDropdown(false);
+                                        handleNeibour(i.id, false);
                                       }}
                                     >
                                       Cancel
@@ -1441,6 +1457,7 @@ const Spaces = ({
                                         setIsShowColDropdown('');
                                         setIsShowRowDropdown(null);
                                         setCurrentCheckedValue('');
+                                        handleNeibour(i.id, false);
                                       }}
                                       className="btn apply-btn"
                                     >
@@ -1458,7 +1475,7 @@ const Spaces = ({
                         <div className="arrow-on-hover">
                           <span>{i.neighborhoodname}</span>
                           <Image
-                            onClick={() => handleNeibour(i.id)}
+                            onClick={() => handleNeibour(i.id, true)}
                             src={hoverImage}
                           />
                         </div>
@@ -1528,6 +1545,7 @@ const Spaces = ({
                                       setCurrentCheckedValue('');
                                       setIsShowDropdown(false);
                                       setEditedText('');
+                                      handlePane(i.id, false);
                                     }}
                                   >
                                     Cancel
@@ -1542,6 +1560,7 @@ const Spaces = ({
                                       setIsShowColDropdown('');
                                       setIsShowRowDropdown(null);
                                       setCurrentCheckedValue('');
+                                      handlePane(i.id, false);
                                     }}
                                     className="btn apply-btn"
                                   >
@@ -1560,16 +1579,14 @@ const Spaces = ({
                           <Image
                             className="editInput img_height"
                             src={GreyPencil}
-                            onClick={() => {
-                              handlePane(i.id);
-                            }}
+                            onClick={() => handlePane(i.id, true)}
                           />
                         </div>
                       )}
                     </td>
                     <td className="assigned_text">
                       {i.spaceType ? (
-                        <div className="table-filter-dropdown">
+                        <div className="table-filter-dropdown col-custom-width">
                           <div className="table-filter-dropdown-group">
                             <div
                               className=""
@@ -1660,6 +1677,7 @@ const Spaces = ({
                                         setCurrentCheckedValue('');
                                         setIsShowDropdown(false);
                                         setEditedText('');
+                                        handleSpaceType(i.id, false);
                                       }}
                                     >
                                       Cancel
@@ -1674,6 +1692,7 @@ const Spaces = ({
                                         setIsShowColDropdown('');
                                         setIsShowRowDropdown(null);
                                         setCurrentCheckedValue('');
+                                        handleSpaceType(i.id, false);
                                       }}
                                       className="btn apply-btn"
                                     >
@@ -1691,7 +1710,7 @@ const Spaces = ({
                         <div className="arrow-on-hover">
                           <span>{i.type}</span>
                           <Image
-                            onClick={() => handleSpaceType(i.id)}
+                            onClick={() => handleSpaceType(i.id, true)}
                             src={hoverImage}
                           />
                         </div>
@@ -1801,6 +1820,7 @@ const Spaces = ({
                                         setCurrentCheckedValue('');
                                         setIsShowDropdown(false);
                                         setEditedText('');
+                                        handleAlgoridham(i.id, false);
                                       }}
                                     >
                                       Cancel
@@ -1815,6 +1835,7 @@ const Spaces = ({
                                         setIsShowColDropdown('');
                                         setIsShowRowDropdown(null);
                                         setCurrentCheckedValue('');
+                                        handleAlgoridham(i.id, false);
                                       }}
                                       className="btn apply-btn"
                                     >
@@ -1834,7 +1855,7 @@ const Spaces = ({
                             {i.active === true ? 'Active' : 'Inactive'}
                           </span>
                           <Image
-                            onClick={() => handleAlgoridham(i.id)}
+                            onClick={() => handleAlgoridham(i.id, true)}
                             src={hoverImage}
                           />
                         </div>

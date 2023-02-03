@@ -91,6 +91,9 @@ button {
 
 .btn-primary {
   background: #0072ce !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  font-size: 16px;
 }
 textarea {
   outline: none;
@@ -1091,6 +1094,7 @@ input[type='text'] {
 .mycheckbox1 input[type='checkbox'] {
   width: 18px;
   height: 18px;
+  cursor: pointer;
 }
 .mycheckbox1 label {
   color: #01213a;
@@ -3582,6 +3586,8 @@ div[class*='qy-menu'] * {
 .cust-model-cancel-btn {
   width: 110px;
   height: 48px;
+  font-weight: 600;
+  font-size: 16px;
 }
 .ml_img {
   margin-bottom: 0.4rem !important;
@@ -3656,7 +3662,7 @@ div[class*='qy-menu'] * {
 }
 
 .assigned_text {
-  color: #00355f;
+  color: #00355f !important;
 }
 .notAssign_text {
   color: #95a7b8;
@@ -3742,7 +3748,7 @@ div[class*='qy-menu'] * {
     border: 0;
     font-size: 16px;
     font-weight: 600;
-    color: #000;
+    color: #00355f !important;
     background-color: transparent;
     font-family: 'Museo Sans Regular';
     position: relative;
@@ -3770,8 +3776,11 @@ div[class*='qy-menu'] * {
     padding: 5px 15px;
     li {
       padding: 5px 0;
+      height: 40px;
       span {
         font-size: 14px !important;
+        color: #00355f !important;
+        font-weight: 600;
       }
     }
   }
@@ -3796,7 +3805,7 @@ div[class*='qy-menu'] * {
     border: 0;
     font-size: 16px;
     font-weight: 600;
-    color: #000;
+    color: #00355f;
     background-color: transparent;
     font-family: 'Museo Sans Regular';
     position: relative;
@@ -3824,62 +3833,12 @@ div[class*='qy-menu'] * {
       padding: 5px 0;
       span {
         font-size: 14px !important;
+        color: #00355f !important;
       }
     }
   }
 }
 
-.custom-update-dropdown {
-  background: white;
-  border: 1px solid #d1dce7;
-  border-radius: 10px;
-  width: 224px;
-  padding: 2px 0 0 0;
-  height: 50px;
-  font-family: 'Museo Sans Regular';
-  margin-right: 10px;
-  span {
-    font-size: 12px !important;
-    position: relative;
-    top: -3px;
-    padding-left: 15px;
-  }
-  input {
-    border: 0;
-    font-size: 16px;
-    font-weight: 600;
-    color: #000;
-    background-color: transparent;
-    font-family: 'Museo Sans Regular';
-    position: relative;
-    top: 9px;
-    width: 100%;
-    padding: 0 10px 0 15px;
-    &::placeholder {
-      font-weight: 400 !important;
-      color: #808080 !important;
-      font-size: 14px !important;
-      opacity: 1 !important;
-    }
-  }
-  .dropdown-menu.show {
-    transform: none !important;
-    top: 50px !important;
-    left: 0 !important;
-    border: 1;
-    width: 100%;
-    border-radius: 0;
-    box-shadow: 1px 7px 5px #e7e7e7;
-    background: #fff;
-    padding: 5px 15px;
-    li {
-      padding: 5px 0;
-      span {
-        font-size: 14px !important;
-      }
-    }
-  }
-}
 .img_select {
   top: -4px;
   position: absolute !important;
@@ -3906,7 +3865,7 @@ div[class*='qy-menu'] * {
   .dropdown-toggle {
     width: 100%;
     background: white !important;
-    color: black;
+    color: #00355f;
   }
 }
 tr.table-row button.action-btn {
@@ -3960,9 +3919,9 @@ tr.exited {
 
     .drop-input {
       border: none;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
-      color: #000;
+      color: #00355f;
       background-color: transparent;
       font-family: 'Museo Sans Regular';
       position: relative;
@@ -3983,7 +3942,7 @@ tr.exited {
     }
     .dropdown-list-group {
       margin-top: 25px;
-      min-width: 185px !important;
+      width: 100% !important;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -4025,27 +3984,31 @@ tr.exited {
         display: block;
         width: 100% !important;
         .getAll {
-          margin: 10px 5px 10px 10px;
+          margin: 15px 5px 15px 10px;
         }
         .getAll_text {
-          margin-top: 7px;
+          margin-top: 13px;
           position: absolute;
+          color: #526e88;
         }
         .footer-button-group {
           background: #f5f7fa !important;
-          text-align: right;
           height: 45px;
-          padding: 8px 0;
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          border-bottom-left-radius: 10px;
+          border-bottom-right-radius: 10px;
 
           .apply-btn {
             display: flex;
             flex-direction: row;
             align-items: flex-start;
             border-radius: 8px;
-            font-weight: 400;
+            font-weight: 600;
             font-size: 14px;
             line-height: 16px;
-            margin: 0 10px;
+            margin: 0 10px 0 22px;
             float: right;
             height: 30px;
           }
@@ -4063,7 +4026,8 @@ tr.exited {
   height: 40px;
   font-family: 'Museo Sans Regular';
   margin-right: 10px;
-  min-width: 140px !important;
+  // min-width: 140px !important;
+  position: relative;
   .updateSpace {
     border: none;
     position: relative;
@@ -4071,13 +4035,17 @@ tr.exited {
     height: 35px;
     border: none;
     padding: 0 12px;
+    color: #00355f;
+    font-weight: 600;
+    font-size: 14px;
   }
   .updateSpace:hover {
     border: none;
   }
   .list-group {
     margin-top: 10px;
-    min-width: 140px !important;
+    // min-width: 140px !important;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -4092,19 +4060,21 @@ tr.exited {
       width: 100% !important;
       .footer-button-group {
         background: #f5f7fa !important;
-        text-align: right;
         height: 45px;
-        padding: 8px 0;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        border-radius: 10px;
 
         .apply-btn {
           display: flex;
           flex-direction: row;
           align-items: flex-start;
           border-radius: 8px;
-          font-weight: 400;
+          font-weight: 600;
           font-size: 14px;
           line-height: 16px;
-          margin: 0 10px;
+          margin: 0 10px 0 22px;
           float: right;
           height: 30px;
         }
@@ -4119,7 +4089,12 @@ tr.exited {
   justify-content: space-between;
   align-items: center;
   height: 40px;
-  cursor: pointer;
+  padding-left: 15px;
+  padding-right: 0;
+  transition: none !important;
+}
+.assigned_text div {
+  transition: none !important;
 }
 .arrow-on-hover > img {
   max-width: 12px;
@@ -4149,4 +4124,11 @@ tr.exited {
 }
 .img_height {
   max-height: 14px !important;
+}
+
+.custom-ml {
+  margin-left: 15px;
+}
+.col-custom-width {
+  width: 95%;
 }

@@ -98,12 +98,12 @@ const Assignments = props => {
   }, [officeNeighborhood]);
 
   useEffect(() => {
+    const customArr = [];
     if (
       exportAssignmentLoading === false &&
       exportAssignmentData &&
       exportAssignmentData.length > 0
     ) {
-      const customArr = [];
       exportAssignmentData &&
         exportAssignmentData.map(obj => {
           customArr.push({
@@ -117,20 +117,30 @@ const Assignments = props => {
             badge: obj.badge || '-',
           });
         });
-
-      if (exportType === 'CSV') {
-        const header = Object.keys(customArr[0]);
-        generateCSV(exportType, header, customArr, 'Assignments');
-        setUserInfo({ offices: [] });
-        setExportType('');
-        setOpen(false);
-      }
-      if (exportType === 'XLSX') {
-        exportToSpreadsheet(customArr);
-        setUserInfo({ offices: [] });
-        setExportType('');
-        setOpen(false);
-      }
+    } else {
+      customArr.push({
+        name: '',
+        employeeid: '',
+        department: '',
+        floor: '',
+        building: '',
+        neighborhood: '',
+        assignedSpace: '',
+        badge: '',
+      });
+    }
+    if (exportType === 'CSV') {
+      const header = Object.keys(customArr[0]);
+      generateCSV(exportType, header, customArr, 'Assignments');
+      setUserInfo({ offices: [] });
+      setExportType('');
+      setOpen(false);
+    }
+    if (exportType === 'XLSX') {
+      exportToSpreadsheet(customArr, 'Assignments');
+      setUserInfo({ offices: [] });
+      setExportType('');
+      setOpen(false);
     }
   }, [exportAssignmentData, exportAssignmentLoading]);
 
@@ -292,7 +302,7 @@ const Assignments = props => {
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
                 <div className="custom-filter-dropdown pointer">
-                  <span className="pointer">Office</span>
+                  <span className="pointer title">Office</span>
                   <div className="dropdown pointer">
                     <input
                       type="input"
@@ -324,7 +334,7 @@ const Assignments = props => {
                               handleSelectedList(index, !item.isSelected)
                             }
                           >
-                            <span>{item.name}</span>
+                            <span className="item-text">{item.name}</span>
                             <div
                               className={
                                 item.isSelected ? 'selected_val float-end' : ''
@@ -336,7 +346,7 @@ const Assignments = props => {
                   </div>
                 </div>
                 <div className="custom-filter-dropdown pointer">
-                  <span className="pointer">Building/Floor</span>
+                  <span className="pointer title">Building/Floor</span>
                   <div className="dropdown pointer">
                     <input
                       type="input"
@@ -367,7 +377,7 @@ const Assignments = props => {
                               handleSelectedFloorList(index, !item.isSelected)
                             }
                           >
-                            <span>{item.name}</span>
+                            <span className="item-text">{item.name}</span>
                             <div
                               className={
                                 item.isSelected ? 'selected_val float-end' : ''
@@ -379,7 +389,7 @@ const Assignments = props => {
                   </div>
                 </div>
                 <div className="custom-filter-dropdown pointer">
-                  <span className="pointer">Neighborhood</span>
+                  <span className="pointer title">Neighborhood</span>
                   <div className="dropdown pointer">
                     <input
                       type="input"
@@ -413,7 +423,7 @@ const Assignments = props => {
                               )
                             }
                           >
-                            <span>{item.name}</span>
+                            <span className="item-text">{item.name}</span>
                             <div
                               className={
                                 item.isSelected ? 'selected_val float-end' : ''
