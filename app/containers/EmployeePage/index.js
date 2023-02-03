@@ -47,7 +47,7 @@ class EmployeePage extends Component {
       deskFloor: '',
       id: '',
       floor: '',
-      build: '',
+      build: 0,
       AssignedSpace: '',
       finalOfficeVal: 'All',
       finalRoleVal: 'All',
@@ -118,7 +118,7 @@ class EmployeePage extends Component {
         ? singleEmployeeData.deskFloor
         : '';
     this.setState({
-      build: building,
+      build: Number(building),
       floor: singleEmployeeData.deskLocationId,
       AssignedSpace: singleEmployeeData.AssignedSpace,
     });
