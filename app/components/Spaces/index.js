@@ -98,7 +98,6 @@ const Spaces = ({
   const [isShowRowDropdown, setIsShowRowDropdown] = useState(null);
   const [currentCheckedValue, setCurrentCheckedValue] = useState('');
   const [changeAll, setChangeAll] = useState(false);
-  const splitData = currentCheckedValue.split(' ');
   let updatedFloors = [];
   const updatedNeighborhood = [];
   const inputValue = e => {
@@ -141,7 +140,7 @@ const Spaces = ({
           idData.push(ele.id);
           floorObj.push({
             id: ele.id || null,
-            floor: splitData[1],
+            floor: currentCheckedValue,
             building: ele.building || null,
             neighborhoodname: ele.neighborhoodname || null,
             locationid: ele.locationid || null,
@@ -158,7 +157,7 @@ const Spaces = ({
       idData.push(cols.id);
       floorObj.push({
         id: cols.id || null,
-        floor: splitData[1],
+        floor: currentCheckedValue,
         building: cols.building || null,
         neighborhoodname: cols.neighborhoodname || null,
         locationid: cols.locationid || null,
