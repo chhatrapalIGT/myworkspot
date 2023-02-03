@@ -23,6 +23,9 @@
 .search-box input {
   padding-left: 40px;
   width: 308px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #00355f;
 }
 
 .search-box input::placeholder {
@@ -81,6 +84,7 @@
   text-transform: uppercase;
   padding: 18px 15px 15px;
   font-size: 14px;
+  color: #00355f;
 }
 
 .neibour-table table th {
@@ -89,6 +93,7 @@
   text-transform: uppercase;
   padding: 18px 15px 15px;
   font-size: 14px;
+  color: #00355f;
 }
 
 .new-emp-table table th {
@@ -96,6 +101,7 @@
   text-transform: uppercase;
   padding: 15px 15px 10px 20px;
   font-size: 14px;
+  color: #00355f;
 }
 
 /* .empTable_hdr th.common-th-width:last-child {
@@ -105,10 +111,12 @@
 .emp-table table td {
   padding: 12px 15px;
   font-weight: 600;
+  color: #00355f;
 }
 
 .neibour-table table td {
-  padding: 12px 15px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
   font-weight: 600;
   white-space: nowrap;
 }
