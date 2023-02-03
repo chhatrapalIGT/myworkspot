@@ -208,7 +208,7 @@ const spaceReducer = (state = initialState, action) =>
       case FAILED_MANAGE_UPDATE_SPACE:
         draft.updateManageSpace.loading = false;
         draft.updateManageSpace.success = false;
-        draft.updateManageSpace.error = action.payload.Error;
+        draft.updateManageSpace.message = action.payload.message;
         break;
       case CLEAR_UPDATE_STATUS:
         draft.updateStatus.success = false;
@@ -217,6 +217,8 @@ const spaceReducer = (state = initialState, action) =>
       case CLEAR_MESSAGE:
         draft.showUpdateStatusSuccess = false;
         draft.showUpdateStatusMessage = '';
+        draft.updateManageSpace.success = false;
+        draft.updateManageSpace.message = '';
     }
   });
 

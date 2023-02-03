@@ -1095,7 +1095,15 @@ input[type='text'] {
   width: 18px;
   height: 18px;
   cursor: pointer;
+  color: #95a7b8 !important;
+  border: 3px solid;
+  border-radius: 2px;
 }
+
+.mycheckbox1 input:checked[type='checkbox'] {
+  border: 3px solid transparent;
+}
+
 .mycheckbox1 label {
   color: #01213a;
   font-style: normal;

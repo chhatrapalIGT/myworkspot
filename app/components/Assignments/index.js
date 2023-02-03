@@ -625,7 +625,7 @@ const Assignments = props => {
                   totalCounts={props.assignmentCount * state.limit}
                   totalCount={props.assignmentCount}
                   pageSize={state.limit}
-                  totalPages={props.assignTotalPage || ''}
+                  assignTotalPages={props.assignTotalPage || ''}
                   onPageChange={page => props.handlePageChange(page)}
                 />
               </div>
