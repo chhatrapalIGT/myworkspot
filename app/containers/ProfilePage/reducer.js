@@ -72,6 +72,7 @@ const initialState = {
   error: '',
   success: false,
   loading: false,
+  delegateLoading: false,
   message: '',
   totalPage: '',
   apiSuccess: false,
@@ -294,19 +295,19 @@ const profilePageReducer = (state = initialState, action) =>
         break;
 
       case REQUEST_REMOVE_DELEGATE_USER:
-        draft.loading = true;
+        draft.delegateLoading = true;
         draft.error = '';
         draft.success = false;
         break;
       case SUCCESS_REMOVE_DELEGATE_USER:
-        draft.loading = false;
+        draft.delegateLoading = false;
         draft.success = action.payload.success;
         draft.message = action.payload.message;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;
       case FAILED_REMOVE_DELEGATE_USER:
-        draft.loading = false;
+        draft.delegateLoading = false;
         draft.success = action.payload.success;
         draft.message = action.payload.message;
         draft.apiMessage = action.payload.message;

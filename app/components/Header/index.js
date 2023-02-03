@@ -161,7 +161,6 @@ const Header = props => {
         );
       setUserList(delPro);
       props.clearData();
-      props.clearAdminOwner();
     }
     document.addEventListener('mousedown', handleClickOutside, false);
     document.addEventListener('mousedown', handleClickOutside, false);
@@ -287,11 +286,13 @@ const Header = props => {
       props.profileUser && props.profileUser.employeeid,
     );
   };
-
+  const handleData = () => {
+    props.clearAdminOwner();
+  };
   useEffect(() => {
     setTimeout(() => {
       props.clearAdminOwner();
-    }, 3000);
+    }, 9000);
   }, [props.getOwnerSuccess]);
 
   return (
@@ -323,7 +324,7 @@ const Header = props => {
               fontSize: 'large',
               marginLeft: '10px',
             }}
-            onClick={props.handleData}
+            onClick={handleData}
             className="day-pointer"
             aria-hidden="true"
           >
@@ -900,6 +901,7 @@ const Header = props => {
                                     aria-label="Close"
                                     onClick={() => {
                                       setShow(false);
+                                      setBlankMessage(false);
                                     }}
                                   />
                                 </div>
@@ -1098,7 +1100,6 @@ Header.propTypes = {
   delegateHeaderProfileSuccess: PropTypes.bool,
   requestgetAdminOwner: PropTypes.func,
   requestDelegateData: PropTypes.array,
-  handleData: PropTypes.func,
 };
 
 export default compose(
