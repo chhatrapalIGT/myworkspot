@@ -1802,7 +1802,7 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="arrow-on-hover">
-                          {i.attributes === '' ? (
+                          {i.attributes === '' || i.attributes === null ? (
                             <span>{i.type}</span>
                           ) : (
                             <span>{`${i.type} (${i.attributes})`}</span>
