@@ -69,14 +69,15 @@ const Assignments = props => {
             isSelected: true,
           });
         }
-        if (obj.building !== null) {
-          tempArr.push({
-            label: `Building ${obj.building}`,
-            name: `Building ${obj.building}`,
-            value: `Building ${obj.building}`,
-            isSelected: true,
-          });
-        }
+        // not required now
+        // if (obj.building !== null) {
+        //   tempArr.push({
+        //     label: `Building ${obj.building}`,
+        //     name: `Building ${obj.building}`,
+        //     value: `Building ${obj.building}`,
+        //     isSelected: true,
+        //   });
+        // }
       });
     setOfficeFloors(tempArr);
   }, [officeFloor]);
@@ -87,12 +88,13 @@ const Assignments = props => {
     ];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
-        tempArr.push({
-          label: obj.name,
-          name: obj.name,
-          value: obj.name,
-          isSelected: true,
-        });
+        if (obj.name !== '4th Floor')
+          tempArr.push({
+            label: obj.name,
+            name: obj.name,
+            value: obj.name,
+            isSelected: true,
+          });
       });
     setOfficeNeighborhoods(tempArr);
   }, [officeNeighborhood]);

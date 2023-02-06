@@ -354,41 +354,40 @@ const Spaces = ({
               isSelected: true,
             });
           }
-          if (obj.building !== null) {
+          // if (obj.building !== null) {
+          //   tempArr.push({
+          //     label: `Building ${obj.building}`,
+          //     name: `Building ${obj.building}`,
+          //     value: `Building ${obj.building}`,
+          //     isSelected: true,
+          //   });
+          // }
+        } else if (obj.floor !== null) {
+          if (obj.floor === 3 || obj.floor === 8) {
             tempArr.push({
-              label: `Building ${obj.building}`,
-              name: `Building ${obj.building}`,
-              value: `Building ${obj.building}`,
+              label: `Floor ${obj.floor}`,
+              name: `Floor ${obj.floor}`,
+              value: `Floor ${obj.floor}`,
               isSelected: true,
             });
-          }
-        } else {
-          if (obj.floor !== null) {
-            if (obj.floor === 3 || obj.floor === 8) {
-              tempArr.push({
-                label: `Floor ${obj.floor}`,
-                name: `Floor ${obj.floor}`,
-                value: `Floor ${obj.floor}`,
-                isSelected: true,
-              });
-            } else {
-              tempArr.push({
-                label: `Floor ${obj.floor}`,
-                name: `Floor ${obj.floor}`,
-                value: `Floor ${obj.floor}`,
-                isSelected: false,
-              });
-            }
-          }
-          if (obj.building !== null) {
+          } else {
             tempArr.push({
-              label: `Building ${obj.building}`,
-              name: `Building ${obj.building}`,
-              value: `Building ${obj.building}`,
+              label: `Floor ${obj.floor}`,
+              name: `Floor ${obj.floor}`,
+              value: `Floor ${obj.floor}`,
               isSelected: false,
             });
           }
         }
+        // if (obj.building !== null) {
+        //   tempArr.push({
+        //     label: `Building ${obj.building}`,
+        //     name: `Building ${obj.building}`,
+        //     value: `Building ${obj.building}`,
+        //     isSelected: false,
+        //   });
+        // }
+        // }
       });
     updatedFloors = tempArr.filter(i => i.value !== 'All');
     setOfficeFloors(tempArr);
@@ -401,17 +400,19 @@ const Spaces = ({
     ];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
-        tempArr.push({
-          label: obj.name,
-          name: obj.name,
-          value: obj.name,
-          isSelected: true,
-        });
-        updatedNeighborhood.push({
-          label: obj.name,
-          name: obj.name,
-          value: obj.name,
-        });
+        if (obj.name !== '4th Floor') {
+          tempArr.push({
+            label: obj.name,
+            name: obj.name,
+            value: obj.name,
+            isSelected: true,
+          });
+          updatedNeighborhood.push({
+            label: obj.name,
+            name: obj.name,
+            value: obj.name,
+          });
+        }
       });
     setOfficeNeighborhoods(tempArr);
     setUpdatedNeibour(updatedNeighborhood);
