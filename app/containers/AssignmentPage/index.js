@@ -453,7 +453,7 @@ const mapStateToProps = state => {
       assignment &&
       assignment.assignmentDetail &&
       assignment.assignmentDetail.assignment &&
-      assignment.assignmentDetail.assignment.count,
+      assignment.assignmentDetail.assignment.totalPages,
     apiMessage: assignment && assignment.apiMessage,
     apiSuccess: assignment && assignment.apiSuccess,
   };
