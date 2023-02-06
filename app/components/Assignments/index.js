@@ -99,11 +99,7 @@ const Assignments = props => {
 
   useEffect(() => {
     const customArr = [];
-    if (
-      exportAssignmentLoading === false &&
-      exportAssignmentData &&
-      exportAssignmentData.length > 0
-    ) {
+    if (exportAssignmentData && exportAssignmentData.length > 0) {
       exportAssignmentData &&
         exportAssignmentData.map(obj => {
           customArr.push({
@@ -142,7 +138,7 @@ const Assignments = props => {
       setExportType('');
       setOpen(false);
     }
-  }, [exportAssignmentData, exportAssignmentLoading]);
+  }, [exportAssignmentData]);
 
   const handleChange = e => {
     // Destructuring
@@ -625,7 +621,7 @@ const Assignments = props => {
                   totalCounts={props.assignmentCount * state.limit}
                   totalCount={props.assignmentCount}
                   pageSize={state.limit}
-                  totalPages={props.assignTotalPage || ''}
+                  assignTotalPages={props.assignTotalPage || ''}
                   onPageChange={page => props.handlePageChange(page)}
                 />
               </div>

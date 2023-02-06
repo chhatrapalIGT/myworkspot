@@ -70,6 +70,9 @@ const Spaces = ({
   requestManageUpdateSpace,
   handleManagespaceUpdate,
   officesData,
+  handleData,
+  manageTotalPages,
+  manageDataMessage,
 }) => {
   const [flooring, setFloor] = useState();
   const [color, setColor] = useState();
@@ -423,15 +426,9 @@ const Spaces = ({
       setUpdateState('');
     }
   }
-
   useEffect(() => {
     const cstarr = [];
-    if (
-      !exportLoading &&
-      exportSuccess &&
-      exportManage &&
-      exportManage.length > 0
-    ) {
+    if (exportManage && exportManage.length > 0) {
       exportManage &&
         exportManage.map(obj => {
           cstarr.push({
@@ -473,7 +470,7 @@ const Spaces = ({
       setOpen(false);
     }
     setUserInfo({ offices: [] });
-  }, [exportManage, exportLoading, exportSuccess]);
+  }, [exportManage]);
 
   function toggleSecondAccordion(id) {
     if (id === updateState) {
@@ -564,7 +561,7 @@ const Spaces = ({
       obj => obj.id !== 'BHM' && obj.id !== 'RW' && obj.id !== 'BLM',
     );
 
-  const handlePane = id => {
+  const handlePane = (id, toggleStatus) => {
     const spaceInp =
       spaceValue &&
       spaceValue.length > 0 &&
@@ -572,7 +569,7 @@ const Spaces = ({
         if (el.id === id) {
           const val = {
             ...el,
-            isInput: true,
+            isInput: toggleStatus,
             algorithm: false,
             isFloor: false,
             isNeighborh: false,
@@ -889,6 +886,35 @@ const Spaces = ({
           </div>
         </div>
       )}
+
+      {manageDataMessage && (
+        <div
+          className={`"alert fade show mx-auto ${
+            manageDataSuccess ? 'alert alert-success' : 'alert alert-danger '
+          } "`}
+        >
+          <div>
+            <img
+              src={manageDataSuccess ? checkedCircle : crossCircle}
+              alt=""
+              style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+            />
+            {manageDataMessage}
+          </div>
+          <div
+            style={{
+              float: 'right',
+              fontSize: 'large',
+              marginLeft: '10px',
+            }}
+            onClick={handleData}
+            className="day-pointer"
+            aria-hidden="true"
+          >
+            &#10006;
+          </div>
+        </div>
+      )}
       <div className="office_maps" style={{ marginBottom: '65px' }}>
         <div className="container">
           <div className="d-flex align-items-center justify-content-between mb-4">
@@ -1071,6 +1097,7 @@ const Spaces = ({
                     ) : (
                       <>
                         <img
+                          style={{ height: '17px', width: '17px' }}
                           aria-hidden
                           onClick={() => handleClear()}
                           src={CheckboxInput}
@@ -1904,6 +1931,7 @@ const Spaces = ({
                 totalCounts={dataCount && dataCount.count * state.limit}
                 totalCount={dataCount && dataCount.count}
                 pageSize={state.limit}
+                spaceTotalPages={manageTotalPages}
                 onPageChange={page => handlePageChange(page)}
               />
             </div>
@@ -2239,5 +2267,8 @@ Spaces.propTypes = {
   handleSelectedoffice: PropTypes.func,
   handleSelectedFloor: PropTypes.func,
   handleSelectedNeighbor: PropTypes.func,
+  handleData: PropTypes.func,
+  manageTotalPages: PropTypes.number,
+  manageDataMessage: PropTypes.string,
 };
 export default Spaces;

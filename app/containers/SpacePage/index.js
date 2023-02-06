@@ -111,9 +111,10 @@ class OfficeMap extends Component {
       this.setState({ [name]: value }, () => {
         this.props.requestGetManageSpace({
           searchFilter: this.state.searchVal,
-          officeSearch: this.state.officeSearch,
-          floorSearch: this.state.floorSearch,
-          neighborhoodSearch: this.state.neighborhoodSearch,
+          officeSearch: this.state.srcOffice,
+          floorSearch: this.state.srcFloor,
+          buldingSearch: this.state.srcBuilding,
+          neighborhoodSearch: this.state.srcNeighborhood,
           sort_column: this.state.sort_column,
           limit: this.state.limit,
           page: this.state.page,
@@ -473,6 +474,10 @@ class OfficeMap extends Component {
     }
   }
 
+  handleData = () => {
+    this.props.clearMessage();
+  };
+
   render() {
     const {
       officeLocation,
@@ -495,11 +500,18 @@ class OfficeMap extends Component {
       officeNeighborhood,
       manageUpdateSpaceRequest,
       manageDataSuccess,
+      manageDataError,
+      manageDataMessage,
+      manageTotalPages,
     } = this.props;
     return (
       <>
         <div id="content-wrap">
           <Spaces
+            manageTotalPages={manageTotalPages}
+            manageDataMessage={manageDataMessage}
+            manageDataError={manageDataError}
+            handleData={this.handleData}
             handleManagespaceUpdate={this.handleManagespaceUpdate}
             manageDataSuccess={manageDataSuccess}
             requestManageUpdateSpace={manageUpdateSpaceRequest}
@@ -549,6 +561,11 @@ const mapStateToProps = state => {
     dataCount:
       space && space.manageSpace && space.manageSpace.getWorkSpaceDataPage,
     manageSpace: space && space.manageSpace && space.manageSpace.data,
+    manageTotalPages:
+      space &&
+      space.manageSpace &&
+      space.manageSpace.getWorkSpaceDataPage &&
+      space.manageSpace.getWorkSpaceDataPage.TotalPages,
     manageLoading: space && space.manageSpace && space.manageSpace.loading,
     manageSuccess: space && space.manageSpace && space.manageSpace.success,
     exportManage: space && space.manageExport && space.manageExport.data,
@@ -556,6 +573,8 @@ const mapStateToProps = state => {
     exportSuccess: space && space.manageExport && space.manageExport.success,
     manageDataSuccess:
       space && space.updateManageSpace && space.updateManageSpace.success,
+    manageDataMessage:
+      space && space.updateManageSpace && space.updateManageSpace.message,
     lockSpaceData: space && space.lockSpace && space.lockSpace.data,
     neighborData: space && space.neighborName && space.neighborName.data,
     floorBulidingData: space && space.floorByName && space.floorByName.data,
@@ -644,6 +663,9 @@ OfficeMap.propTypes = {
   officeSrcLocation: PropTypes.object,
   officeFloor: PropTypes.object,
   officeNeighborhood: PropTypes.object,
+  manageDataError: PropTypes.string,
+  manageTotalPages: PropTypes.number,
+  manageDataMessage: PropTypes.string,
 };
 
 export default compose(

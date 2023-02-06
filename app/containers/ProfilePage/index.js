@@ -395,6 +395,7 @@ class ProfilePage extends Component {
       getSelectIconRequest,
       addSpinIcon,
       isLoading,
+      userRemoveLoading,
     } = this.props;
     const validateBadge =
       history &&
@@ -406,6 +407,7 @@ class ProfilePage extends Component {
         <div id="content-wrap">
           <Profile
             isLoading={isLoading}
+            userRemoveLoading={userRemoveLoading}
             addSpinIcon={addSpinIcon}
             getSelectIconRequest={getSelectIconRequest}
             requestRemoveSpinIcon={removeSpinIconRequest}
@@ -465,6 +467,7 @@ const mapStateToProps = state => {
     userData: profile && profile.userList,
     addSpinIcon: profile && profile.addSpinIcon,
     isLoading: profile && profile.loading,
+    userRemoveLoading: profile && profile.delegateLoading,
     delegateList: profile && profile.delegateList && profile.delegateList,
     spinIcon: profile && profile.spinIcon,
     selectEmpIcon:
@@ -584,6 +587,7 @@ ProfilePage.propTypes = {
   selectEmpIcon: PropTypes.array,
   addSpinIcon: PropTypes.object,
   isLoading: PropTypes.bool,
+  userRemoveLoading: PropTypes.bool,
 };
 
 export default compose(
