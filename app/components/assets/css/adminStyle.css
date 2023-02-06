@@ -1058,8 +1058,9 @@ span.disabled {
 
 .chart-para {
   font-family: 'Museo Slab Bold';
-  font-size: 30px;
+  font-size: 24px;
   color: #00355F;
+  margin-left: -15px;
 }
 
 .bar-chart {
