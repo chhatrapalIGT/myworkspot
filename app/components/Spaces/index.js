@@ -73,6 +73,7 @@ const Spaces = ({
   handleData,
   manageTotalPages,
   manageDataMessage,
+  handleFloorByName,
 }) => {
   const [flooring, setFloor] = useState();
   const [color, setColor] = useState();
@@ -106,7 +107,6 @@ const Spaces = ({
   const inputValue = e => {
     setEditedText(e.target.value);
   };
-
   const ref = useRef();
 
   const handleClear = () => {
@@ -125,6 +125,23 @@ const Spaces = ({
     });
     setSpaceValue(allChecked);
   };
+
+  // const handleFloorByName = () => {
+  //   requestGetFloorByName();
+  // };
+
+  useEffect(() => {
+    if (!manageDataSuccess && manageDataMessage) {
+      setTimeout(() => {
+        handleData();
+      }, 7000);
+    }
+    if (manageDataSuccess && manageDataMessage) {
+      setTimeout(() => {
+        handleData();
+      }, 7000);
+    }
+  }, [manageDataSuccess, manageDataMessage]);
 
   useEffect(() => {
     if (manageDataSuccess) {
@@ -325,9 +342,9 @@ const Spaces = ({
       });
     setOfficeLocations(tempArr);
   }, [officeLocation]);
-
   useEffect(() => {
     const tempArr = [];
+
     if (state.filterApplied) {
       tempArr.push({
         label: 'All',
@@ -391,8 +408,23 @@ const Spaces = ({
       });
     updatedFloors = tempArr.filter(i => i.value !== 'All');
     setOfficeFloors(tempArr);
-    setUpdatedOfficeFloor(updatedFloors);
   }, [officeFloor]);
+
+  useEffect(() => {
+    const tempRICArr = [];
+    floorBulidingData &&
+      floorBulidingData.map(obj => {
+        if (obj.floor !== null) {
+          tempRICArr.push({
+            label: `Floor ${obj.floor}`,
+            name: `Floor ${obj.floor}`,
+            value: `Floor ${obj.floor}`,
+            isSelected: true,
+          });
+        }
+      });
+    setUpdatedOfficeFloor(tempRICArr);
+  }, [floorBulidingData]);
 
   useEffect(() => {
     const tempArr = [
@@ -1278,6 +1310,13 @@ const Spaces = ({
                               <Image
                                 className="img_select"
                                 src={SelectDownArrow}
+                                onClick={() => {
+                                  setIsShowColDropdown('');
+                                  setIsShowRowDropdown(null);
+                                  setCurrentCheckedValue('');
+                                  setIsShowDropdown(false);
+                                  handleFloor(i.id, !isShowDropdown);
+                                }}
                               />
                             </div>
                             {isShowDropdown &&
@@ -1376,7 +1415,10 @@ const Spaces = ({
                           </span>
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
-                              onClick={() => handleFloor(i.id, true)}
+                              onClick={() => {
+                                handleFloor(i.id, true);
+                                handleFloorByName(i.locationid);
+                              }}
                               src={hoverImage}
                             />
                           )}
@@ -1414,6 +1456,13 @@ const Spaces = ({
                               <Image
                                 className="img_select"
                                 src={SelectDownArrow}
+                                onClick={() => {
+                                  setIsShowColDropdown('');
+                                  setIsShowRowDropdown(null);
+                                  setCurrentCheckedValue('');
+                                  setIsShowDropdown(false);
+                                  handleNeibour(i.id, !isShowDropdown);
+                                }}
                               />
                             </div>
                             {isShowDropdown &&
@@ -1652,6 +1701,14 @@ const Spaces = ({
                               <Image
                                 className="img_select"
                                 src={SelectDownArrow}
+                                onClick={() => {
+                                  setIsShowColDropdown('');
+                                  setIsShowRowDropdown(null);
+                                  setCurrentCheckedValue('');
+                                  setIsShowDropdown(false);
+                                  setEditedText('');
+                                  handleSpaceType(i.id, !isShowDropdown);
+                                }}
                               />
                             </div>
                             {isShowDropdown &&
@@ -1745,7 +1802,11 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="arrow-on-hover">
-                          <span>{i.type}</span>
+                          {i.attributes === '' ? (
+                            <span>{i.type}</span>
+                          ) : (
+                            <span>{`${i.type} (${i.attributes})`}</span>
+                          )}
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               onClick={() => handleSpaceType(i.id, true)}
@@ -1797,6 +1858,14 @@ const Spaces = ({
                               <Image
                                 className="img_select"
                                 src={SelectDownArrow}
+                                onClick={() => {
+                                  setIsShowColDropdown('');
+                                  setIsShowRowDropdown(null);
+                                  setCurrentCheckedValue('');
+                                  setIsShowDropdown(false);
+                                  setEditedText('');
+                                  handleAlgoridham(i.id, !isShowDropdown);
+                                }}
                               />
                             </div>
                             {isShowDropdown &&
@@ -2268,6 +2337,7 @@ Spaces.propTypes = {
   handleSelectedoffice: PropTypes.func,
   handleSelectedFloor: PropTypes.func,
   handleSelectedNeighbor: PropTypes.func,
+  handleFloorByName: PropTypes.func,
   handleData: PropTypes.func,
   manageTotalPages: PropTypes.number,
   manageDataMessage: PropTypes.string,
