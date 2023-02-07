@@ -1156,7 +1156,7 @@ const Spaces = ({
                     )}
                   </th>
                 )}
-                <th style={{ width: '15%' }}>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex">
                     Building/floor{' '}
                     <span className="ms-1">
@@ -1216,7 +1216,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '18%' }}>
+                <th style={{ width: '20%' }}>
                   <span className="d-flex">
                     Space type{' '}
                     <span className="ms-1">
@@ -1237,7 +1237,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '18%' }}>
+                <th style={{ width: '14%' }}>
                   <span className="d-flex">
                     Assigned{' '}
                     <span className="ms-1">
@@ -1255,7 +1255,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '15%' }}>
+                <th style={{ width: '20%' }}>
                   <span className="d-flex">
                     algorithm Status{' '}
                     <span className="ms-1">
