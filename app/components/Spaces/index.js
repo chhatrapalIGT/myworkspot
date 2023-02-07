@@ -1177,7 +1177,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '15%' }}>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex">
                     Neighborhood{' '}
                     <span className="ms-1">
@@ -1255,7 +1255,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '20%' }}>
+                <th style={{ width: '19%' }}>
                   <span className="d-flex">
                     algorithm Status{' '}
                     <span className="ms-1">
