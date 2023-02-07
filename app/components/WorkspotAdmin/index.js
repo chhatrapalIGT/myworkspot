@@ -88,6 +88,7 @@ const WorkspotAdmin = ({
   const [checkedError, setCheckedError] = useState(false);
   const [newExportData, setNewExportData] = useState([]);
   const [floorCapacityData, setFloorCapacityData] = useState();
+  const [floorBuildings, setFloorBuildings] = useState([]);
   const [loaidng, setLoading] = useState(false);
 
   const isDateSelected = useCallback(
@@ -285,6 +286,24 @@ const WorkspotAdmin = ({
     const dateSplit = ev.valueText.split(' - ');
     setDateValue(dateSplit);
   };
+
+  useEffect(() => {
+    if (
+      floorCapacityData &&
+      floorCapacityData.data &&
+      floorCapacityData.data.length > 0
+    )
+      floorCapacityData.data.filter(arr => {
+        const data =
+          arr &&
+          arr.FloorBuilding &&
+          arr.FloorBuilding.length > 0 &&
+          arr.FloorBuilding.filter(ele => ele.floor === 3 || ele.floor === 8);
+        if (data && data.length > 0) {
+          setFloorBuildings(data);
+        }
+      });
+  }, [floorCapacityData]);
 
   useEffect(() => {
     if (
@@ -564,7 +583,7 @@ const WorkspotAdmin = ({
                       </div>
                     </div>
                     <div className="col-lg-8">
-                      <div className="d-flex">
+                      <div className="d-flex" style={{ height: '100%' }}>
                         <div className="capacity_title w-50">
                           {floorCapacityData &&
                             floorCapacityData.data &&
@@ -600,10 +619,20 @@ const WorkspotAdmin = ({
                                         obj.officeCapacity || 0,
                                       ).toFixed()}%`}
                                     </div>
-                                    <div className="bar-chart">
-                                      <div className="bar-graph bar-graph-horizontal bar-graph-one">
-                                        {obj.FloorBuilding &&
-                                          obj.FloorBuilding.map(fl => (
+                                    <div
+                                      className="bar-chart"
+                                      style={{ height: '100%' }}
+                                    >
+                                      <div
+                                        className="bar-graph bar-graph-horizontal bar-graph-one"
+                                        style={{
+                                          height: '86%',
+                                          display: 'flex',
+                                          flexDirection: 'column',
+                                        }}
+                                      >
+                                        {floorBuildings &&
+                                          floorBuildings.map(fl => (
                                             <div className="bar-one d-flex">
                                               <div
                                                 className="year"
@@ -771,7 +800,10 @@ const WorkspotAdmin = ({
                                             </div>
                                           ))}
 
-                                        <div className="per-line1">
+                                        <div
+                                          className="per-line1"
+                                          style={{ marginTop: 'auto' }}
+                                        >
                                           <div
                                             className="test d-flex"
                                             style={{

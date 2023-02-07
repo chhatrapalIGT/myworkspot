@@ -25,9 +25,9 @@ const Pagination = props => {
 
   const onNext = () => {
     if (
-      !currentPage === spaceTotalPages ||
-      !currentPage === totalPages ||
-      !currentPage === assignTotalPages
+      currentPage < spaceTotalPages ||
+      currentPage < totalPages ||
+      currentPage < assignTotalPages
     ) {
       onPageChange(currentPage + 1);
     }

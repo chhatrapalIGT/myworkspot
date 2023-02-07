@@ -87,14 +87,13 @@ class OfficeMap extends Component {
     this.props.requestGetLockSpace({});
     this.props.requestGetNeighborName({});
     this.props.requestGetOfficesType({});
-    this.props.requestGetFloorByName({});
   }
 
   handleManagespaceUpdate = () => {
     this.props.requestGetManageSpace({
       searchFilter: this.state.searchVal,
-      officeSearch: ['DC'],
-      floorSearch: ['3', '8'],
+      officeSearch: this.state.srcOffice,
+      floorSearch: this.state.srcFloor,
       neighborhoodSearch: this.state.neighborhoodSearch,
       sort_column: this.state.sort_column,
       limit: this.state.limit,
@@ -111,10 +110,13 @@ class OfficeMap extends Component {
       this.setState({ [name]: value }, () => {
         this.props.requestGetManageSpace({
           searchFilter: this.state.searchVal,
-          officeSearch: this.state.srcOffice,
-          floorSearch: this.state.srcFloor,
+          // officeSearch: this.state.srcOffice,
+          // floorSearch: this.state.srcFloor,
           buldingSearch: this.state.srcBuilding,
-          neighborhoodSearch: this.state.srcNeighborhood,
+          // neighborhoodSearch: this.state.srcNeighborhood,
+          officeSearch: this.state.srcOffice,
+          floorSearch: this.state.floorSearch,
+          neighborhoodSearch: this.state.neighborhoodSearch,
           sort_column: this.state.sort_column,
           limit: this.state.limit,
           page: this.state.page,
@@ -123,6 +125,12 @@ class OfficeMap extends Component {
     }, 1000);
     this.setState({
       typingTimeout: timeoutId,
+    });
+  };
+
+  handleFloorByName = data => {
+    this.props.requestGetFloorByName({
+      locationId: [data],
     });
   };
 
@@ -442,10 +450,11 @@ class OfficeMap extends Component {
     }
     this.setState({ sort_column });
     this.props.requestGetManageSpace({
+      officeSearch: this.state.srcOffice,
+      floorSearch: this.state.srcFloor,
+      buldingSearch: this.state.srcBuilding,
+      neighborhoodSearch: this.state.srcNeighborhood,
       searchFilter: this.state.searchVal,
-      officeSearch: this.state.officeSearch,
-      neighborhoodSearch: this.state.neighborhoodSearch,
-      floorSearch: this.state.floorSearch,
       sort_column,
       limit: this.state.limit,
       page: this.state.page,
@@ -512,7 +521,9 @@ class OfficeMap extends Component {
             manageDataMessage={manageDataMessage}
             manageDataError={manageDataError}
             handleData={this.handleData}
+            handleFloorByName={this.handleFloorByName}
             handleManagespaceUpdate={this.handleManagespaceUpdate}
+            requestGetFloorByName={this.props.requestGetFloorByName}
             manageDataSuccess={manageDataSuccess}
             requestManageUpdateSpace={manageUpdateSpaceRequest}
             manageSpace={manageSpace}
