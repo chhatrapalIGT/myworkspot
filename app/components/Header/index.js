@@ -902,6 +902,7 @@ const Header = props => {
                                     onClick={() => {
                                       setShow(false);
                                       setBlankMessage(false);
+                                      setSearchName([]);
                                     }}
                                   />
                                 </div>
@@ -969,6 +970,7 @@ const Header = props => {
                                     onClick={() => {
                                       setShow(false);
                                       setBlankMessage(false);
+                                      setSearchName([]);
                                     }}
                                     className="btn dismiss"
                                     data-bs-dismiss="modal"
