@@ -858,7 +858,7 @@ const WorkspotAdmin = ({
                                           obj.FloorBuilding.map(fl => (
                                             <div className="bar-one d-flex">
                                               <div
-                                                className="year"
+                                                className="month"
                                                 style={{
                                                   width: '18%',
                                                   margin: 'auto',

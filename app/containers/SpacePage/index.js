@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable camelcase */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
@@ -512,11 +513,13 @@ class OfficeMap extends Component {
       manageDataError,
       manageDataMessage,
       manageTotalPages,
+      requestGetOfficeUpdateData,
     } = this.props;
     return (
       <>
         <div id="content-wrap">
           <Spaces
+            requestGetOfficeUpdateData={requestGetOfficeUpdateData}
             manageTotalPages={manageTotalPages}
             manageDataMessage={manageDataMessage}
             manageDataError={manageDataError}
