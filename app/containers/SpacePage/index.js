@@ -513,13 +513,13 @@ class OfficeMap extends Component {
       manageDataError,
       manageDataMessage,
       manageTotalPages,
-      requestGetOfficeUpdateData,
+      requestGetLockSpace,
     } = this.props;
     return (
       <>
         <div id="content-wrap">
           <Spaces
-            requestGetOfficeUpdateData={requestGetOfficeUpdateData}
+            requestGetLockSpace={requestGetLockSpace}
             manageTotalPages={manageTotalPages}
             manageDataMessage={manageDataMessage}
             manageDataError={manageDataError}
@@ -556,7 +556,6 @@ class OfficeMap extends Component {
             handleSelectedNeighbor={this.handleSelectedNeighbor}
             requestGetManageSpace={this.props.requestGetManageSpace}
             requestGetManageExport={this.props.requestGetManageExport}
-            requestGetLockSpace={this.props.requestGetLockSpace}
             requestGetNeighborName={this.props.requestGetNeighborName}
             requestUpdateActiveStatus={this.props.requestUpdateActiveStatus}
             spaceUpdate={spaceUpdate}

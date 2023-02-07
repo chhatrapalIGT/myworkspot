@@ -74,7 +74,7 @@ const Spaces = ({
   manageTotalPages,
   manageDataMessage,
   handleFloorByName,
-  requestGetOfficeUpdateData,
+  requestGetLockSpace,
 }) => {
   const [flooring, setFloor] = useState();
   const [color, setColor] = useState();
@@ -127,10 +127,6 @@ const Spaces = ({
     setSpaceValue(allChecked);
   };
 
-  // const handleFloorByName = () => {
-  //   requestGetFloorByName();
-  // };
-
   useEffect(() => {
     if (!manageDataSuccess && manageDataMessage) {
       setTimeout(() => {
@@ -147,7 +143,7 @@ const Spaces = ({
   useEffect(() => {
     if (manageDataSuccess) {
       handleManagespaceUpdate();
-      requestGetOfficeUpdateData();
+      requestGetLockSpace();
     }
   }, [manageDataSuccess]);
 
@@ -2390,7 +2386,7 @@ Spaces.propTypes = {
   handleSelectedFloor: PropTypes.func,
   handleSelectedNeighbor: PropTypes.func,
   handleFloorByName: PropTypes.func,
-  requestGetOfficeUpdateData: PropTypes.func,
+  requestGetLockSpace: PropTypes.func,
   handleData: PropTypes.func,
   manageTotalPages: PropTypes.number,
   manageDataMessage: PropTypes.string,
