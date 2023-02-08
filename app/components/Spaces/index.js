@@ -103,6 +103,8 @@ const Spaces = ({
   const [isShowRowDropdown, setIsShowRowDropdown] = useState(null);
   const [currentCheckedValue, setCurrentCheckedValue] = useState('');
   const [changeAll, setChangeAll] = useState(false);
+  const [exportDC, setExportDC] = useState(true);
+  const [exportRIC, setExportRIC] = useState(true);
   let updatedFloors = [];
   const updatedNeighborhood = [];
   const inputValue = e => {
@@ -476,24 +478,51 @@ const Spaces = ({
     }
   }
   useEffect(() => {
-    const cstarr = [];
+    const DCarr = [];
+    const RICarr = [];
     if (exportManage && exportManage.length > 0) {
       exportManage &&
         exportManage.map(obj => {
-          cstarr.push({
-            active: obj.active || '-',
-            assigned: obj.assigned || '-',
-            attributes: obj.attributes || '-',
-            building: obj.building || '-',
-            floor: obj.floor || '-',
-            id: obj.id || '-',
-            neighborhoodname: obj.neighborhoodname || '-',
-            type: obj.type || '-',
-            workspacename: obj.workspacename || '-',
-          });
+          if (obj.locationid === 'DC') {
+            DCarr.push({
+              active: obj.active || '-',
+              assigned: obj.assigned || '-',
+              attributes: obj.attributes || '-',
+              building: obj.building || '-',
+              floor: obj.floor || '-',
+              id: obj.id || '-',
+              neighborhoodname: obj.neighborhoodname || '-',
+              type: obj.type || '-',
+              workspacename: obj.workspacename || '-',
+            });
+          }
+          if (obj.locationid === 'RIC') {
+            RICarr.push({
+              active: obj.active || '-',
+              assigned: obj.assigned || '-',
+              attributes: obj.attributes || '-',
+              building: obj.building || '-',
+              floor: obj.floor || '-',
+              id: obj.id || '-',
+              neighborhoodname: obj.neighborhoodname || '-',
+              type: obj.type || '-',
+              workspacename: obj.workspacename || '-',
+            });
+          }
         });
     } else {
-      cstarr.push({
+      DCarr.push({
+        active: '',
+        assigned: '',
+        attributes: '',
+        building: '',
+        floor: '',
+        id: '',
+        neighborhoodname: '',
+        type: '',
+        workspacename: '',
+      });
+      RICarr.push({
         active: '',
         assigned: '',
         attributes: '',
@@ -506,17 +535,44 @@ const Spaces = ({
       });
     }
     if (csvOpen === 'CSV') {
-      const header = Object.keys(cstarr[0]);
-      generateCSV(csvOpen, header, cstarr, 'MailedReport');
-      setUserInfo({ offices: [] });
+      if (
+        (userinfo && userinfo.offices.length > 1) ||
+        (userinfo && userinfo.offices.length === 0)
+      ) {
+        const header = Object.keys(DCarr[0]);
+        generateCSV('CSV', header, DCarr, 'DC Spaces');
+        const header1 = Object.keys(RICarr[0]);
+        generateCSV('CSV', header1, RICarr, 'Richmond Spaces');
+      } else if (userinfo && userinfo.offices.includes('DC')) {
+        const header = Object.keys(DCarr[0]);
+        generateCSV('CSV', header, DCarr, 'DC Spaces');
+      } else if (userinfo && userinfo.offices.includes('RIC')) {
+        const header = Object.keys(RICarr[0]);
+        generateCSV('CSV', header, RICarr, 'Richmond Spaces');
+      }
       setCsvOpen('');
       setOpen(false);
+      setExportDC(false);
+      setExportRIC(false);
+      setUserInfo({ offices: [] });
     }
     if (csvOpen === 'XLSX') {
-      exportToSpreadsheet(cstarr, 'MailedReport');
-      setUserInfo({ offices: [] });
+      if (
+        (userinfo && userinfo.offices.length > 1) ||
+        (userinfo && userinfo.offices.length === 0)
+      ) {
+        exportToSpreadsheet(DCarr, 'DC Spaces');
+        exportToSpreadsheet(RICarr, 'Richmond Spaces');
+      } else if (userinfo && userinfo.offices.includes('DC')) {
+        exportToSpreadsheet(DCarr, 'DC Spaces');
+      } else if (userinfo && userinfo.offices.includes('RIC')) {
+        exportToSpreadsheet(RICarr, 'Richmond Spaces');
+      }
       setCsvOpen('');
       setOpen(false);
+      setExportDC(false);
+      setExportRIC(false);
+      setUserInfo({ offices: [] });
     }
     setUserInfo({ offices: [] });
   }, [exportManage]);
