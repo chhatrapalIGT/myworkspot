@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable camelcase */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
@@ -512,11 +513,13 @@ class OfficeMap extends Component {
       manageDataError,
       manageDataMessage,
       manageTotalPages,
+      requestGetLockSpace,
     } = this.props;
     return (
       <>
         <div id="content-wrap">
           <Spaces
+            requestGetLockSpace={requestGetLockSpace}
             manageTotalPages={manageTotalPages}
             manageDataMessage={manageDataMessage}
             manageDataError={manageDataError}
@@ -553,7 +556,6 @@ class OfficeMap extends Component {
             handleSelectedNeighbor={this.handleSelectedNeighbor}
             requestGetManageSpace={this.props.requestGetManageSpace}
             requestGetManageExport={this.props.requestGetManageExport}
-            requestGetLockSpace={this.props.requestGetLockSpace}
             requestGetNeighborName={this.props.requestGetNeighborName}
             requestUpdateActiveStatus={this.props.requestUpdateActiveStatus}
             spaceUpdate={spaceUpdate}

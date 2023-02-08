@@ -32,9 +32,10 @@ const Pagination = props => {
       onPageChange(currentPage + 1);
     }
   };
-
   const onPrevious = () => {
-    onPageChange(currentPage - 1);
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
   };
 
   // const lastPage =

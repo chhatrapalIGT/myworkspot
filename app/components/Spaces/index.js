@@ -74,6 +74,7 @@ const Spaces = ({
   manageTotalPages,
   manageDataMessage,
   handleFloorByName,
+  requestGetLockSpace,
 }) => {
   const [flooring, setFloor] = useState();
   const [color, setColor] = useState();
@@ -126,10 +127,6 @@ const Spaces = ({
     setSpaceValue(allChecked);
   };
 
-  // const handleFloorByName = () => {
-  //   requestGetFloorByName();
-  // };
-
   useEffect(() => {
     if (!manageDataSuccess && manageDataMessage) {
       setTimeout(() => {
@@ -146,6 +143,7 @@ const Spaces = ({
   useEffect(() => {
     if (manageDataSuccess) {
       handleManagespaceUpdate();
+      requestGetLockSpace();
     }
   }, [manageDataSuccess]);
 
@@ -154,25 +152,43 @@ const Spaces = ({
     const floorObj = [];
     const neibourObj = [];
     if (rowData && rowData.length) {
-      rowData &&
-        rowData.length > 0 &&
-        rowData.filter(ele => {
-          idData.push(ele.id);
-          floorObj.push({
-            id: ele.id || null,
-            floor: currentCheckedValue,
-            building: ele.building || null,
-            neighborhoodname: ele.neighborhoodname || null,
-            locationid: ele.locationid || null,
+      if (changeAll) {
+        rowData &&
+          rowData.length > 0 &&
+          rowData.filter(ele => {
+            idData.push(ele.id);
+            floorObj.push({
+              id: ele.id || null,
+              floor: currentCheckedValue,
+              building: ele.building || null,
+              neighborhoodname: ele.neighborhoodname || null,
+              locationid: ele.locationid || null,
+            });
+            neibourObj.push({
+              id: ele.id || null,
+              floor: ele.floor || null,
+              building: ele.building || null,
+              neighborhoodname: currentCheckedValue,
+              locationid: ele.locationid || null,
+            });
           });
-          neibourObj.push({
-            id: ele.id || null,
-            floor: ele.floor || null,
-            building: ele.building || null,
-            neighborhoodname: currentCheckedValue,
-            locationid: ele.locationid || null,
-          });
+      } else {
+        idData.push(cols.id);
+        floorObj.push({
+          id: cols.id || null,
+          floor: currentCheckedValue,
+          building: cols.building || null,
+          neighborhoodname: cols.neighborhoodname || null,
+          locationid: cols.locationid || null,
         });
+        neibourObj.push({
+          id: cols.id || null,
+          floor: cols.floor || null,
+          building: cols.building || null,
+          neighborhoodname: currentCheckedValue,
+          locationid: cols.locationid || null,
+        });
+      }
     } else {
       idData.push(cols.id);
       floorObj.push({
@@ -1140,98 +1156,125 @@ const Spaces = ({
                     )}
                   </th>
                 )}
-                <th style={{ width: '15%' }}>
-                  Building/floor{' '}
-                  <img
-                    src={Sort}
-                    className="img-fluid sort-img"
-                    alt=""
-                    name="floor"
-                    aria-hidden="true"
-                    value={manageData.floor}
-                    onClick={() =>
-                      handleClickSort(
-                        'building_floor',
-                        state.sortOrder.building_floor,
-                      )
-                    }
-                  />
+                <th style={{ width: '16%' }}>
+                  <span className="d-flex">
+                    Building/floor{' '}
+                    <span className="ms-1">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        alt=""
+                        name="floor"
+                        aria-hidden="true"
+                        value={manageData.floor}
+                        onClick={() =>
+                          handleClickSort(
+                            'building_floor',
+                            state.sortOrder.building_floor,
+                          )
+                        }
+                      />
+                    </span>
+                  </span>
+                </th>
+                <th style={{ width: '16%' }}>
+                  <span className="d-flex">
+                    Neighborhood{' '}
+                    <span className="ms-1">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        name="neighborhood"
+                        alt=""
+                        aria-hidden="true"
+                        value={manageData.neighborhood}
+                        onClick={() =>
+                          handleClickSort(
+                            'neighborhood',
+                            state.sortOrder.neighborhood,
+                          )
+                        }
+                      />
+                    </span>
+                  </span>
                 </th>
                 <th style={{ width: '15%' }}>
-                  Neighborhood{' '}
-                  <img
-                    src={Sort}
-                    className="img-fluid sort-img"
-                    name="neighborhood"
-                    alt=""
-                    aria-hidden="true"
-                    value={manageData.neighborhood}
-                    onClick={() =>
-                      handleClickSort(
-                        'neighborhood',
-                        state.sortOrder.neighborhood,
-                      )
-                    }
-                  />
+                  <span className="d-flex">
+                    Space{' '}
+                    <span className="ms-1">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        alt=""
+                        aria-hidden="true"
+                        name="space"
+                        value={manageData.space}
+                        onClick={() =>
+                          handleClickSort('space', state.sortOrder.space)
+                        }
+                      />
+                    </span>
+                  </span>
                 </th>
-                <th style={{ width: '15%' }}>
-                  Space{' '}
-                  <img
-                    src={Sort}
-                    className="img-fluid sort-img"
-                    alt=""
-                    aria-hidden="true"
-                    name="space"
-                    value={manageData.space}
-                    onClick={() =>
-                      handleClickSort('space', state.sortOrder.space)
-                    }
-                  />
+                <th style={{ width: '20%' }}>
+                  <span className="d-flex">
+                    Space type{' '}
+                    <span className="ms-1">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        alt=""
+                        aria-hidden="true"
+                        name="type"
+                        value={manageData.type}
+                        onClick={() =>
+                          handleClickSort(
+                            'space_type',
+                            state.sortOrder.space_type,
+                          )
+                        }
+                      />
+                    </span>
+                  </span>
                 </th>
-                <th style={{ width: '18%' }}>
-                  Space type{' '}
-                  <img
-                    src={Sort}
-                    className="img-fluid sort-img"
-                    alt=""
-                    aria-hidden="true"
-                    name="type"
-                    value={manageData.type}
-                    onClick={() =>
-                      handleClickSort('space_type', state.sortOrder.space_type)
-                    }
-                  />
+                <th style={{ width: '14%' }}>
+                  <span className="d-flex">
+                    Assigned{' '}
+                    <span className="ms-1">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        alt=""
+                        aria-hidden="true"
+                        name="assigned"
+                        value={manageData.assigned}
+                        onClick={() =>
+                          handleClickSort('assigned', state.sortOrder.assigned)
+                        }
+                      />
+                    </span>
+                  </span>
                 </th>
-                <th style={{ width: '18%' }}>
-                  Assigned{' '}
-                  <img
-                    src={Sort}
-                    className="img-fluid sort-img"
-                    alt=""
-                    aria-hidden="true"
-                    name="assigned"
-                    value={manageData.assigned}
-                    onClick={() =>
-                      handleClickSort('assigned', state.sortOrder.assigned)
-                    }
-                  />
-                </th>
-                <th style={{ width: '15%' }}>
-                  algorithm Status{' '}
-                  <img
-                    src={Sort}
-                    className="img-fluid sort-img"
-                    alt=""
-                    name="status"
-                    aria-hidden="true"
-                    value={manageData.status}
-                    onClick={() =>
-                      handleClickSort(
-                        'algorithm_status',
-                        state.sortOrder.algorithm_status,
-                      )
-                    }
-                  />
+                <th style={{ width: '19%' }}>
+                  <span className="d-flex">
+                    algorithm Status{' '}
+                    <span className="ms-1">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        alt=""
+                        name="status"
+                        aria-hidden="true"
+                        value={manageData.status}
+                        onClick={() =>
+                          handleClickSort(
+                            'algorithm_status',
+                            state.sortOrder.algorithm_status,
+                          )
+                        }
+                      />
+                    </span>
+                  </span>
                 </th>
               </tr>
               {manageLoading ? (
@@ -1372,6 +1415,7 @@ const Spaces = ({
                                   )}
                                   <div className="footer-button-group right">
                                     <span
+                                      className="onHover"
                                       aria-hidden
                                       onClick={() => {
                                         setIsShowColDropdown('');
@@ -1518,6 +1562,7 @@ const Spaces = ({
                                   )}
                                   <div className="footer-button-group right">
                                     <span
+                                      className="onHover"
                                       aria-hidden
                                       onClick={() => {
                                         setIsShowColDropdown('');
@@ -1622,6 +1667,7 @@ const Spaces = ({
                               <div className="drop-footer">
                                 <div className="footer-button-group right">
                                   <span
+                                    className="onHover"
                                     aria-hidden
                                     onClick={() => {
                                       setIsShowColDropdown('');
@@ -1764,6 +1810,7 @@ const Spaces = ({
                                   )}
                                   <div className="footer-button-group right">
                                     <span
+                                      className="onHover"
                                       aria-hidden
                                       onClick={() => {
                                         setIsShowColDropdown('');
@@ -1921,6 +1968,7 @@ const Spaces = ({
                                   )}
                                   <div className="footer-button-group right">
                                     <span
+                                      className="onHover"
                                       aria-hidden
                                       onClick={() => {
                                         setIsShowColDropdown('');
@@ -2338,6 +2386,7 @@ Spaces.propTypes = {
   handleSelectedFloor: PropTypes.func,
   handleSelectedNeighbor: PropTypes.func,
   handleFloorByName: PropTypes.func,
+  requestGetLockSpace: PropTypes.func,
   handleData: PropTypes.func,
   manageTotalPages: PropTypes.number,
   manageDataMessage: PropTypes.string,

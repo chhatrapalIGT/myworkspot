@@ -1046,12 +1046,12 @@ span.disabled {
 .bg-w {
   background-color: #fff;
   border-radius: 8px;
-  padding: 15px;
-  height: 100%;
+  padding: 22px;
+  height: 87%;
 }
 
 .chart-title {
-  font-size: 16px;
+  font-size: 18px;
   color: #00355f;
   font-weight: 600;
 }
@@ -1179,6 +1179,12 @@ span.hover-data::after {
   animation: fade-in-text 2.2s 0.1s forwards;
   opacity: 0;
 }
+.bar-graph .month {
+  -webkit-animation: fade-in-text 2.2s 0.1s forwards;
+  -moz-animation: fade-in-text 2.2s 0.1s forwards;
+  animation: fade-in-text 2.2s 0.1s forwards;
+  opacity: 0;
+}
 
 .bar-graph-horizontal {
   max-width: 100%;
@@ -1192,6 +1198,10 @@ span.hover-data::after {
 }
 
 .bar-graph-horizontal .year {
+  float: left;
+  width: 50px;
+}
+.bar-graph-horizontal .month {
   float: left;
   width: 50px;
 }
@@ -1302,13 +1312,29 @@ span.hover-data::after {
   margin-top: 3px;
   white-space: nowrap;
 }
+.bar-graph-one .month {
+  position: relative;
+  margin-right: 10px;
+  font-weight: 600;
+  margin-top: 3px;
+  white-space: nowrap;
+}
 
 .bar-graph-one .year:before {
   position: absolute;
   content: '';
-  width: 2px;
+  width: 1px;
   top: -9px;
-  height: 52px;
+  height: 51px;
+  right: -10px;
+  background-color: #edf0f3;
+}
+.bar-graph-one .month:before {
+  position: absolute;
+  content: '';
+  width: 1px;
+  top: -9px;
+  height: 100px;
   right: -10px;
   background-color: #edf0f3;
 }

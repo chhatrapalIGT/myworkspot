@@ -619,10 +619,7 @@ const WorkspotAdmin = ({
                                         obj.officeCapacity || 0,
                                       ).toFixed()}%`}
                                     </div>
-                                    <div
-                                      className="bar-chart"
-                                      style={{ height: '100%' }}
-                                    >
+                                    <div style={{ height: '100%' }}>
                                       <div
                                         className="bar-graph bar-graph-horizontal bar-graph-one"
                                         style={{
@@ -842,10 +839,7 @@ const WorkspotAdmin = ({
                                         obj.officeCapacity || 0,
                                       ).toFixed()}%`}
                                     </div>
-                                    <div
-                                      className="bar-chart"
-                                      style={{ height: '100%' }}
-                                    >
+                                    <div style={{ height: '100%' }}>
                                       <div
                                         className="bar-graph bar-graph-horizontal bar-graph-one"
                                         style={{
@@ -858,7 +852,7 @@ const WorkspotAdmin = ({
                                           obj.FloorBuilding.map(fl => (
                                             <div className="bar-one d-flex">
                                               <div
-                                                className="year"
+                                                className="month"
                                                 style={{
                                                   width: '18%',
                                                   margin: 'auto',
@@ -1056,7 +1050,7 @@ const WorkspotAdmin = ({
                 </div>
 
                 {/*Weekly Report*/}
-                <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between">
+                <div className="input-button-strip w-100 d-flex align-items-center justify-content-between">
                   <div>
                     <h4 className="common-title">Weekly Report</h4>
                   </div>
