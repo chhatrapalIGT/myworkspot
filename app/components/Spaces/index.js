@@ -485,6 +485,7 @@ const Spaces = ({
         exportManage.map(obj => {
           if (obj.locationid === 'DC') {
             DCarr.push({
+              OfficeId: obj.locationid,
               active: obj.active || '-',
               assigned: obj.assigned || '-',
               attributes: obj.attributes || '-',
@@ -498,6 +499,7 @@ const Spaces = ({
           }
           if (obj.locationid === 'RIC') {
             RICarr.push({
+              OfficeId: obj.locationid,
               active: obj.active || '-',
               assigned: obj.assigned || '-',
               attributes: obj.attributes || '-',
@@ -512,6 +514,7 @@ const Spaces = ({
         });
     } else {
       DCarr.push({
+        OfficeId: '',
         active: '',
         assigned: '',
         attributes: '',
@@ -523,6 +526,7 @@ const Spaces = ({
         workspacename: '',
       });
       RICarr.push({
+        OfficeId: '',
         active: '',
         assigned: '',
         attributes: '',
