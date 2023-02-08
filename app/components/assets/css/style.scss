@@ -260,6 +260,7 @@ input[type='text'] {
       ul {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
 
         li {
           margin: 0 26px;
@@ -4142,4 +4143,7 @@ tr.exited {
 }
 .col-custom-width {
   width: 95%;
+}
+.mrgn-top {
+  margin-top: -4px;
 }

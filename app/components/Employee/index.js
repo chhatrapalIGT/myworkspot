@@ -39,7 +39,6 @@ const Employee = props => {
       : [];
   }, [employeeData]);
   const [show, setShow] = useState(false);
-  const [chkSpace, setchkspace] = useState(false);
   const handleShow = () => setShow(true);
   const [officeLocations, setOfficeLocations] = useState([
     { label: 'All', name: 'All', value: 'All' },
@@ -53,6 +52,12 @@ const Employee = props => {
     const tempArr = [
       { label: 'All', name: 'All', value: 'All', isSelected: true },
     ];
+    tempArr.push({
+      label: 'Not Assigned',
+      name: 'Not Assigned',
+      value: 'Not Assigned',
+      isSelected: true,
+    });
     officeLocation &&
       officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
@@ -64,12 +69,7 @@ const Employee = props => {
           });
         }
       });
-    tempArr.push({
-      label: 'Not Assigned',
-      name: 'Not Assigned',
-      value: 'Not Assigned',
-      isSelected: true,
-    });
+
     setOfficeLocations(tempArr);
   }, [officeLocation]);
 
@@ -77,6 +77,7 @@ const Employee = props => {
     const tempArr = [
       { label: 'All', name: 'All', value: 'All', isSelected: true },
     ];
+
     userRoles &&
       userRoles.map(obj => {
         tempArr.push({
@@ -339,93 +340,113 @@ const Employee = props => {
               </div>
             </div>
 
-            <div className="emp-table emp-text-color">
-              <table>
+            <div className="emp-table emp-text-color table-responsive">
+              <table className="table">
                 <tr>
-                  <th style={{ width: '25%' }}>
-                    Name{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      name="name"
-                      aria-hidden="true"
-                      value={props.state.name}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'name',
-                          props.state.sortOrder.name,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      <strong> Name</strong>
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          name="name"
+                          aria-hidden="true"
+                          value={props.state.name}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'name',
+                              props.state.sortOrder.name,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '10%' }}>
-                    Role{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      name="role"
-                      alt=""
-                      aria-hidden="true"
-                      value={props.state.role}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'role',
-                          props.state.sortOrder.role,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Role
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          name="role"
+                          alt=""
+                          aria-hidden="true"
+                          value={props.state.role}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'role',
+                              props.state.sortOrder.role,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '25%' }}>
-                    Permanent Space{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="primaryOffice"
-                      value={props.state.primaryOffice}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'primaryOffice',
-                          props.state.sortOrder.primaryOffice,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Permanent Space
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="primaryOffice"
+                          value={props.state.primaryOffice}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'primaryOffice',
+                              props.state.sortOrder.primaryOffice,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '25%' }}>
-                    Email{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="email"
-                      value={props.state.Email}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'email',
-                          props.state.sortOrder.email,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Email
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="email"
+                          value={props.state.Email}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'email',
+                              props.state.sortOrder.email,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '15%' }}>
-                    Badge{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      name="badge"
-                      value={props.state.badge}
-                      aria-hidden="true"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'badge',
-                          props.state.sortOrder.badge,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Badge
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          name="badge"
+                          value={props.state.badge}
+                          aria-hidden="true"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'badge',
+                              props.state.sortOrder.badge,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th />
                 </tr>
@@ -472,7 +493,6 @@ const Employee = props => {
                             props.editEmployee(i.employeeid);
                             handleShow();
                             props.clearAssign();
-                            setchkspace(false);
                           }}
                           aria-hidden="true"
                           alt="Edit"
@@ -543,7 +563,6 @@ const Employee = props => {
                   onClick={() => {
                     setShow(false);
                     props.handleStateClear();
-                    setchkspace(false);
                     props.onCancel();
                   }}
                 />
@@ -714,133 +733,94 @@ const Employee = props => {
                           ))}
                       </select>
                     </div>
-                    {props.state.floor && props.state.floor !== '' && (
-                      <div className="selction_one mat-10 ww-100 pointer">
-                        <label htmlFor>Building/Floor</label>
-                        <select
-                          onChange={props.handleChange}
-                          name="build"
-                          value={`${props.state.build}`}
-                          className="pad-manual"
-                          required={
-                            props.state.floor !== null &&
-                            props.state.floor !== ''
-                          }
+                    <div className="selction_one mat-10 ww-100 pointer">
+                      <label htmlFor>Building/Floor</label>
+                      <select
+                        onChange={props.handleChange}
+                        name="build"
+                        value={`${props.state.build}`}
+                        className="pad-manual"
+                      >
+                        <option
+                          id="spval2"
+                          value=""
+                          selected
+                          disabled
+                          hidden
+                          style={{ color: '#526E88' }}
                         >
-                          <option
-                            id="spval2"
-                            value=""
-                            selected
-                            disabled
-                            hidden
-                            style={{ color: '#526E88' }}
-                          >
-                            Select Building/Floor
-                          </option>
-                          {data &&
-                            data.FloorBuilding.map(i => (
-                              <>
-                                <option
-                                  value={
-                                    // i.id
-                                    i.floor &&
-                                    i.floor !== null &&
-                                    i.building &&
-                                    i.building !== null
-                                      ? `${i.floor}${i.building}`
-                                      : i.building && i.building !== null
-                                      ? `${i.building}`
-                                      : i.floor && i.floor !== null
-                                      ? `${i.floor}`
-                                      : ''
-                                  }
-                                >
-                                  {i.floor &&
+                          Select Building/Floor
+                        </option>
+                        {data &&
+                          data.FloorBuilding.map(i => (
+                            <>
+                              <option
+                                value={
+                                  // i.id
+                                  i.floor &&
                                   i.floor !== null &&
                                   i.building &&
                                   i.building !== null
-                                    ? `Building ${i.building}, Floor${i.floor}`
+                                    ? `${i.floor}${i.building}`
                                     : i.building && i.building !== null
-                                    ? `Building ${i.building}`
+                                    ? `${i.building}`
                                     : i.floor && i.floor !== null
-                                    ? `Floor ${i.floor}`
-                                    : ''}
-                                </option>
-                              </>
-                            ))}
-                        </select>
-                        {chkSpace && props.state.build === '' && (
-                          <div className="d-flex">
-                            <img
-                              src={Warnning}
-                              alt="warn"
-                              style={{
-                                margin: '4px 5px 0px 0px',
-                                height: '14px',
-                              }}
-                            />
-                            <p style={{ margin: '0px', color: 'red' }}>
-                              You have to fill in this field to assign a space
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {props.state && props.state.build !== '' && (
-                      <div className="selction_one ww-100 pointer">
-                        <label htmlFor style={{ color: '#526E88' }}>
-                          Space
-                        </label>
-                        <select
-                          onChange={props.handleChange}
-                          name="AssignedSpace"
-                          value={props.state.AssignedSpace}
-                          placeholder="Select Space"
-                          className="pad-manual"
-                          required={
-                            props.state.build !== '' ||
-                            (props.state.floor !== null &&
-                              props.state.floor !== '')
-                          }
+                                    ? `${i.floor}`
+                                    : ''
+                                }
+                              >
+                                {i.floor &&
+                                i.floor !== null &&
+                                i.building &&
+                                i.building !== null
+                                  ? `Building ${i.building}, Floor${i.floor}`
+                                  : i.building && i.building !== null
+                                  ? `Building ${i.building}`
+                                  : i.floor && i.floor !== null
+                                  ? `Floor ${i.floor}`
+                                  : ''}
+                              </option>
+                            </>
+                          ))}
+                      </select>
+                    </div>
+
+                    <div className="selction_one ww-100 pointer">
+                      <label htmlFor style={{ color: '#526E88' }}>
+                        Space
+                      </label>
+                      <select
+                        onChange={props.handleChange}
+                        name="AssignedSpace"
+                        value={props.state.AssignedSpace}
+                        placeholder="Select Space"
+                        className="pad-manual"
+                        // required={
+                        //   props.state.build !== '' ||
+                        //   (props.state.floor !== null &&
+                        //     props.state.floor !== '')
+                        // }
+                      >
+                        <option
+                          id="spval gray-font"
+                          value=""
+                          selected
+                          disabled
+                          hidden
+                          style={{ color: '#526E88' }}
                         >
-                          <option
-                            id="spval gray-font"
-                            value=""
-                            selected
-                            disabled
-                            hidden
-                            style={{ color: '#526E88' }}
-                          >
-                            Select Space
-                          </option>
-                          {finalData &&
-                            finalData.map(i => (
-                              <>
-                                <option value={i.officeId}>
-                                  {i && i.officeSpace}{' '}
-                                </option>
-                              </>
-                            ))}
-                        </select>
-                        {chkSpace &&
-                          (props.state.AssignedSpace === '' ||
-                            props.state.AssignedSpace === null) && (
-                            <div className="d-flex">
-                              <img
-                                src={Warnning}
-                                alt="warn"
-                                style={{
-                                  margin: '4px 5px 0px 0px',
-                                  height: '14px',
-                                }}
-                              />
-                              <p style={{ margin: '0px', color: 'red' }}>
-                                You have to fill in this field to assign a space
-                              </p>
-                            </div>
-                          )}
-                      </div>
-                    )}
+                          Select Space
+                        </option>
+                        {finalData &&
+                          finalData.map(i => (
+                            <>
+                              <option value={i.officeId}>
+                                {i && i.officeSpace}{' '}
+                              </option>
+                            </>
+                          ))}
+                      </select>
+                    </div>
 
                     <div className="modal-footer mt-2 border-none pad-0">
                       <button
@@ -850,7 +830,6 @@ const Employee = props => {
                         onClick={() => {
                           // handleClose();
                           props.handleStateClear();
-                          setchkspace(true);
                         }}
                         value="Save"
                       >
@@ -867,7 +846,6 @@ const Employee = props => {
                         onClick={() => {
                           setShow(false);
                           props.handleStateClear();
-                          setchkspace(false);
                           props.onCancel();
                         }}
                       >
