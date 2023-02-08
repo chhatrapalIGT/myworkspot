@@ -343,7 +343,7 @@ const Employee = props => {
             <div className="emp-table emp-text-color table-responsive">
               <table className="table">
                 <tr>
-                  <th>
+                  <th style={{ width: '22%' }}>
                     <span className="d-flex align-items-center">
                       <strong> Name</strong>
                       <span>
@@ -428,7 +428,7 @@ const Employee = props => {
                     </span>
                   </th>
                   <th>
-                    <span className="d-flex align-items-center">
+                    <span className="d-flex align-items-center text-nowrap  ">
                       Badge
                       <span>
                         <img
@@ -467,21 +467,30 @@ const Employee = props => {
                   employeeData.map(i => (
                     <tr>
                       <td>
-                        <img
-                          src={`${USER_IMAGE_SRC_LIVE}${i.employeeid}.wiki.jpg`}
-                          className="img-fluid table-user-img"
-                          alt=""
-                          onError={props.replaceImage}
-                          style={{
-                            borderRadius: '50%',
-                            height: '32px',
-                            width: '32px',
-                          }}
-                        />{' '}
-                        {i.firstname}
-                        {''} {i.lastname}
+                        <span className="d-flex align-items-center">
+                          <span className="me-1">
+                            <img
+                              src={`${USER_IMAGE_SRC_LIVE}${
+                                i.employeeid
+                              }.wiki.jpg`}
+                              className="img-fluid table-user-img"
+                              alt=""
+                              onError={props.replaceImage}
+                              style={{
+                                borderRadius: '50%',
+                                height: '32px',
+                                width: '32px',
+                              }}
+                            />{' '}
+                          </span>
+                          {i.firstname}
+                          {''} {i.lastname}
+                        </span>
                       </td>
-                      <td>{i.userRole}</td>
+
+                      <td>
+                        <span className="d-flex text-nowrap">{i.userRole}</span>
+                      </td>
                       <td>{i.deskDetails}</td>
                       <td>{i.email}</td>
                       <td>{i.badgeId}</td>
@@ -520,6 +529,7 @@ const Employee = props => {
                       <option value="20">20 per page</option>
                       <option value="30">30 per page</option>
                       <option value="40">40 per page</option>
+                      <option value={props.employeeCount}>View All</option>
                     </select>
                   </div>
                   <div className="">

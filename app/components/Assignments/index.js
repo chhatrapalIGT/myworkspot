@@ -611,6 +611,7 @@ const Assignments = props => {
                     <option value="20">20 per page</option>
                     <option value="30">30 per page</option>
                     <option value="40">40 per page</option>
+                    <option value={props.assignmentCount}>View All</option>
                   </select>
                 </div>
                 <div className="">
@@ -623,7 +624,7 @@ const Assignments = props => {
                   totalCounts={props.assignmentCount * state.limit}
                   totalCount={props.assignmentCount}
                   pageSize={state.limit}
-                  assignTotalPages={props.assignTotalPage || ''}
+                  assignTotalPages={props.assignTotalPage}
                   onPageChange={page => props.handlePageChange(page)}
                 />
               </div>
