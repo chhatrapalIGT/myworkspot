@@ -39,7 +39,6 @@ const Employee = props => {
       : [];
   }, [employeeData]);
   const [show, setShow] = useState(false);
-  const [chkSpace, setchkspace] = useState(false);
   const handleShow = () => setShow(true);
   const [officeLocations, setOfficeLocations] = useState([
     { label: 'All', name: 'All', value: 'All' },
@@ -53,6 +52,12 @@ const Employee = props => {
     const tempArr = [
       { label: 'All', name: 'All', value: 'All', isSelected: true },
     ];
+    tempArr.push({
+      label: 'Not Assigned',
+      name: 'Not Assigned',
+      value: 'Not Assigned',
+      isSelected: true,
+    });
     officeLocation &&
       officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
@@ -64,12 +69,7 @@ const Employee = props => {
           });
         }
       });
-    tempArr.push({
-      label: 'Not Assigned',
-      name: 'Not Assigned',
-      value: 'Not Assigned',
-      isSelected: true,
-    });
+
     setOfficeLocations(tempArr);
   }, [officeLocation]);
 
@@ -77,6 +77,7 @@ const Employee = props => {
     const tempArr = [
       { label: 'All', name: 'All', value: 'All', isSelected: true },
     ];
+
     userRoles &&
       userRoles.map(obj => {
         tempArr.push({
@@ -345,7 +346,7 @@ const Employee = props => {
                   <th>
                     <span className="d-flex align-items-center">
                       <strong> Name</strong>
-                      <span style={{ marginTop: '-7px' }}>
+                      <span>
                         <img
                           src={Sort}
                           className="img-fluid sort-img"
@@ -366,7 +367,7 @@ const Employee = props => {
                   <th>
                     <span className="d-flex align-items-center">
                       Role
-                      <span style={{ marginTop: '-7px' }}>
+                      <span>
                         <img
                           src={Sort}
                           className="img-fluid sort-img"
@@ -387,7 +388,7 @@ const Employee = props => {
                   <th>
                     <span className="d-flex align-items-center">
                       Permanent Space
-                      <span style={{ marginTop: '-7px' }}>
+                      <span>
                         <img
                           src={Sort}
                           className="img-fluid sort-img"
@@ -408,7 +409,7 @@ const Employee = props => {
                   <th>
                     <span className="d-flex align-items-center">
                       Email
-                      <span style={{ marginTop: '-7px' }}>
+                      <span>
                         <img
                           src={Sort}
                           className="img-fluid sort-img"
@@ -429,7 +430,7 @@ const Employee = props => {
                   <th>
                     <span className="d-flex align-items-center">
                       Badge
-                      <span style={{ marginTop: '-7px' }}>
+                      <span>
                         <img
                           src={Sort}
                           className="img-fluid sort-img"
@@ -492,7 +493,6 @@ const Employee = props => {
                             props.editEmployee(i.employeeid);
                             handleShow();
                             props.clearAssign();
-                            setchkspace(false);
                           }}
                           aria-hidden="true"
                           alt="Edit"
@@ -563,7 +563,6 @@ const Employee = props => {
                   onClick={() => {
                     setShow(false);
                     props.handleStateClear();
-                    setchkspace(false);
                     props.onCancel();
                   }}
                 />
@@ -734,133 +733,94 @@ const Employee = props => {
                           ))}
                       </select>
                     </div>
-                    {props.state.floor && props.state.floor !== '' && (
-                      <div className="selction_one mat-10 ww-100 pointer">
-                        <label htmlFor>Building/Floor</label>
-                        <select
-                          onChange={props.handleChange}
-                          name="build"
-                          value={`${props.state.build}`}
-                          className="pad-manual"
-                          required={
-                            props.state.floor !== null &&
-                            props.state.floor !== ''
-                          }
+                    <div className="selction_one mat-10 ww-100 pointer">
+                      <label htmlFor>Building/Floor</label>
+                      <select
+                        onChange={props.handleChange}
+                        name="build"
+                        value={`${props.state.build}`}
+                        className="pad-manual"
+                      >
+                        <option
+                          id="spval2"
+                          value=""
+                          selected
+                          disabled
+                          hidden
+                          style={{ color: '#526E88' }}
                         >
-                          <option
-                            id="spval2"
-                            value=""
-                            selected
-                            disabled
-                            hidden
-                            style={{ color: '#526E88' }}
-                          >
-                            Select Building/Floor
-                          </option>
-                          {data &&
-                            data.FloorBuilding.map(i => (
-                              <>
-                                <option
-                                  value={
-                                    // i.id
-                                    i.floor &&
-                                    i.floor !== null &&
-                                    i.building &&
-                                    i.building !== null
-                                      ? `${i.floor}${i.building}`
-                                      : i.building && i.building !== null
-                                      ? `${i.building}`
-                                      : i.floor && i.floor !== null
-                                      ? `${i.floor}`
-                                      : ''
-                                  }
-                                >
-                                  {i.floor &&
+                          Select Building/Floor
+                        </option>
+                        {data &&
+                          data.FloorBuilding.map(i => (
+                            <>
+                              <option
+                                value={
+                                  // i.id
+                                  i.floor &&
                                   i.floor !== null &&
                                   i.building &&
                                   i.building !== null
-                                    ? `Building ${i.building}, Floor${i.floor}`
+                                    ? `${i.floor}${i.building}`
                                     : i.building && i.building !== null
-                                    ? `Building ${i.building}`
+                                    ? `${i.building}`
                                     : i.floor && i.floor !== null
-                                    ? `Floor ${i.floor}`
-                                    : ''}
-                                </option>
-                              </>
-                            ))}
-                        </select>
-                        {chkSpace && props.state.build === '' && (
-                          <div className="d-flex">
-                            <img
-                              src={Warnning}
-                              alt="warn"
-                              style={{
-                                margin: '4px 5px 0px 0px',
-                                height: '14px',
-                              }}
-                            />
-                            <p style={{ margin: '0px', color: 'red' }}>
-                              You have to fill in this field to assign a space
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {props.state && props.state.build !== '' && (
-                      <div className="selction_one ww-100 pointer">
-                        <label htmlFor style={{ color: '#526E88' }}>
-                          Space
-                        </label>
-                        <select
-                          onChange={props.handleChange}
-                          name="AssignedSpace"
-                          value={props.state.AssignedSpace}
-                          placeholder="Select Space"
-                          className="pad-manual"
-                          required={
-                            props.state.build !== '' ||
-                            (props.state.floor !== null &&
-                              props.state.floor !== '')
-                          }
+                                    ? `${i.floor}`
+                                    : ''
+                                }
+                              >
+                                {i.floor &&
+                                i.floor !== null &&
+                                i.building &&
+                                i.building !== null
+                                  ? `Building ${i.building}, Floor${i.floor}`
+                                  : i.building && i.building !== null
+                                  ? `Building ${i.building}`
+                                  : i.floor && i.floor !== null
+                                  ? `Floor ${i.floor}`
+                                  : ''}
+                              </option>
+                            </>
+                          ))}
+                      </select>
+                    </div>
+
+                    <div className="selction_one ww-100 pointer">
+                      <label htmlFor style={{ color: '#526E88' }}>
+                        Space
+                      </label>
+                      <select
+                        onChange={props.handleChange}
+                        name="AssignedSpace"
+                        value={props.state.AssignedSpace}
+                        placeholder="Select Space"
+                        className="pad-manual"
+                        // required={
+                        //   props.state.build !== '' ||
+                        //   (props.state.floor !== null &&
+                        //     props.state.floor !== '')
+                        // }
+                      >
+                        <option
+                          id="spval gray-font"
+                          value=""
+                          selected
+                          disabled
+                          hidden
+                          style={{ color: '#526E88' }}
                         >
-                          <option
-                            id="spval gray-font"
-                            value=""
-                            selected
-                            disabled
-                            hidden
-                            style={{ color: '#526E88' }}
-                          >
-                            Select Space
-                          </option>
-                          {finalData &&
-                            finalData.map(i => (
-                              <>
-                                <option value={i.officeId}>
-                                  {i && i.officeSpace}{' '}
-                                </option>
-                              </>
-                            ))}
-                        </select>
-                        {chkSpace &&
-                          (props.state.AssignedSpace === '' ||
-                            props.state.AssignedSpace === null) && (
-                            <div className="d-flex">
-                              <img
-                                src={Warnning}
-                                alt="warn"
-                                style={{
-                                  margin: '4px 5px 0px 0px',
-                                  height: '14px',
-                                }}
-                              />
-                              <p style={{ margin: '0px', color: 'red' }}>
-                                You have to fill in this field to assign a space
-                              </p>
-                            </div>
-                          )}
-                      </div>
-                    )}
+                          Select Space
+                        </option>
+                        {finalData &&
+                          finalData.map(i => (
+                            <>
+                              <option value={i.officeId}>
+                                {i && i.officeSpace}{' '}
+                              </option>
+                            </>
+                          ))}
+                      </select>
+                    </div>
 
                     <div className="modal-footer mt-2 border-none pad-0">
                       <button
@@ -870,7 +830,6 @@ const Employee = props => {
                         onClick={() => {
                           // handleClose();
                           props.handleStateClear();
-                          setchkspace(true);
                         }}
                         value="Save"
                       >
@@ -887,7 +846,6 @@ const Employee = props => {
                         onClick={() => {
                           setShow(false);
                           props.handleStateClear();
-                          setchkspace(false);
                           props.onCancel();
                         }}
                       >

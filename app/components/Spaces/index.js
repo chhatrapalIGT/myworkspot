@@ -1159,7 +1159,7 @@ const Spaces = ({
                 <th>
                   <span className="d-flex text-nowrap">
                     Building/floor{' '}
-                    <span className="ms-1 mrgn-top">
+                    <span className="ms-1">
                       <img
                         src={Sort}
                         className="img-fluid sort-img"
@@ -1180,7 +1180,7 @@ const Spaces = ({
                 <th>
                   <span className="d-flex text-nowrap">
                     Neighborhood{' '}
-                    <span className="ms-1 mrgn-top">
+                    <span className="ms-1">
                       <img
                         src={Sort}
                         className="img-fluid sort-img"
@@ -1201,7 +1201,7 @@ const Spaces = ({
                 <th>
                   <span className="d-flex text-nowrap">
                     Space{' '}
-                    <span className="ms-1 mrgn-top">
+                    <span className="ms-1">
                       <img
                         src={Sort}
                         className="img-fluid sort-img"
@@ -1219,7 +1219,7 @@ const Spaces = ({
                 <th>
                   <span className="d-flex text-nowrap">
                     Space type{' '}
-                    <span className="ms-1 mrgn-top">
+                    <span className="ms-1">
                       <img
                         src={Sort}
                         className="img-fluid sort-img"
@@ -1240,7 +1240,7 @@ const Spaces = ({
                 <th>
                   <span className="d-flex text-nowrap">
                     Assigned{' '}
-                    <span className="ms-1 mrgn-top">
+                    <span className="ms-1">
                       <img
                         src={Sort}
                         className="img-fluid sort-img"
@@ -1258,7 +1258,7 @@ const Spaces = ({
                 <th>
                   <span className="d-flex text-nowrap">
                     algorithm Status{' '}
-                    <span className="ms-1 mrgn-top">
+                    <span className="ms-1">
                       <img
                         src={Sort}
                         className="img-fluid sort-img"
