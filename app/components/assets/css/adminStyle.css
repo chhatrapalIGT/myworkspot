@@ -37,6 +37,10 @@
   margin: 20px 0;
   border-radius: 10px;
 }
+.assign-table {
+  margin: 20px 0;
+  border-radius: 10px;
+}
 
 .neibour-table {
   margin: 20px 0;
@@ -49,6 +53,15 @@
 }
 
 .emp-table table {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px 15px;
+  color: #00223c;
+  width: 100%;
+  margin: 20px 0;
+  box-shadow: -1px 0px 11px #eee;
+}
+.assign-table table {
   background-color: #fff;
   border-radius: 10px;
   padding: 10px 15px;
@@ -86,6 +99,14 @@
   font-size: 14px;
   color: #00355f;
 }
+.assign-table table th {
+  line-height: normal;
+  border-bottom: 1px solid #ebeef1;
+  text-transform: uppercase;
+  padding: 18px 15px 15px;
+  font-size: 14px;
+  color: #00355f;
+}
 
 .neibour-table table th {
   line-height: normal;
@@ -110,7 +131,12 @@
 } */
 
 .emp-table table td {
-  padding: 12px 15px;
+  padding: 0px 15px;
+  font-weight: 600;
+  color: #00355f;
+}
+.assign-table table td {
+  padding: 8px 15px;
   font-weight: 600;
   color: #00355f;
 }

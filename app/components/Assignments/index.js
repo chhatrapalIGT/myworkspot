@@ -447,104 +447,128 @@ const Assignments = props => {
                 </div>
               </div>
             </div>
-            <div className="emp-table">
+            <div className="assign-table">
               <table>
                 <tr>
                   <th style={{ width: '20%' }}>
-                    Name{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img custom-sort-img"
-                      alt=""
-                      name="name"
-                      aria-hidden="true"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'name',
-                          props.state.sortOrder.name,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Name{' '}
+                      <span className="ms-1">
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img custom-sort-img"
+                          alt=""
+                          name="name"
+                          aria-hidden="true"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'name',
+                              props.state.sortOrder.name,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th style={{ width: '16%' }}>
-                    Department{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      name="department"
-                      alt=""
-                      aria-hidden="true"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'department',
-                          props.state.sortOrder.department,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Department{' '}
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          name="department"
+                          alt=""
+                          aria-hidden="true"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'department',
+                              props.state.sortOrder.department,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th style={{ width: '16%' }}>
-                    Building/Floor{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="buildingFloor"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'buildingFloor',
-                          props.state.sortOrder.buildingFloor,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Building/Floor{' '}
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="buildingFloor"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'buildingFloor',
+                              props.state.sortOrder.buildingFloor,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th style={{ width: '16%' }}>
-                    Neighborhood{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="neighborhood"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'neighborhood',
-                          props.state.sortOrder.neighborhood,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Neighborhood{' '}
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="neighborhood"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'neighborhood',
+                              props.state.sortOrder.neighborhood,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th style={{ width: '16%' }}>
-                    Assigned Space{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="assignedSpace"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'assignedSpace',
-                          props.state.sortOrder.assignedSpace,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Assigned Space{' '}
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="assignedSpace"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'assignedSpace',
+                              props.state.sortOrder.assignedSpace,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th style={{ width: '16%' }}>
-                    Badge{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      name="badge"
-                      aria-hidden="true"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'badge',
-                          props.state.sortOrder.badge,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Badge{' '}
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          name="badge"
+                          aria-hidden="true"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'badge',
+                              props.state.sortOrder.badge,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                 </tr>
                 {props.assignmentLoading ? (
