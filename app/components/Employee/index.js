@@ -604,7 +604,7 @@ const Employee = props => {
                       <p>
                         <span className="gray-font">Primary Office:</span>{' '}
                         {props.singleEmployeeData &&
-                          props.singleEmployeeData.deskLocationname}
+                          props.singleEmployeeData.PrimaryOffice}
                       </p>
                       <p>
                         <span className="gray-font">Email:</span>{' '}
