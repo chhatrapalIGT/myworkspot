@@ -339,93 +339,113 @@ const Employee = props => {
               </div>
             </div>
 
-            <div className="emp-table emp-text-color">
-              <table>
+            <div className="emp-table emp-text-color table-responsive">
+              <table className="table">
                 <tr>
-                  <th style={{ width: '25%' }}>
-                    Name{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      name="name"
-                      aria-hidden="true"
-                      value={props.state.name}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'name',
-                          props.state.sortOrder.name,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      <strong> Name</strong>
+                      <span style={{ marginTop: '-7px' }}>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          name="name"
+                          aria-hidden="true"
+                          value={props.state.name}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'name',
+                              props.state.sortOrder.name,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '10%' }}>
-                    Role{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      name="role"
-                      alt=""
-                      aria-hidden="true"
-                      value={props.state.role}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'role',
-                          props.state.sortOrder.role,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Role
+                      <span style={{ marginTop: '-7px' }}>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          name="role"
+                          alt=""
+                          aria-hidden="true"
+                          value={props.state.role}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'role',
+                              props.state.sortOrder.role,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '25%' }}>
-                    Permanent Space{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="primaryOffice"
-                      value={props.state.primaryOffice}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'primaryOffice',
-                          props.state.sortOrder.primaryOffice,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Permanent Space
+                      <span style={{ marginTop: '-7px' }}>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="primaryOffice"
+                          value={props.state.primaryOffice}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'primaryOffice',
+                              props.state.sortOrder.primaryOffice,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '25%' }}>
-                    Email{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="email"
-                      value={props.state.Email}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'email',
-                          props.state.sortOrder.email,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Email
+                      <span style={{ marginTop: '-7px' }}>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="email"
+                          value={props.state.Email}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'email',
+                              props.state.sortOrder.email,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '15%' }}>
-                    Badge{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      name="badge"
-                      value={props.state.badge}
-                      aria-hidden="true"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'badge',
-                          props.state.sortOrder.badge,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Badge
+                      <span style={{ marginTop: '-7px' }}>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          name="badge"
+                          value={props.state.badge}
+                          aria-hidden="true"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'badge',
+                              props.state.sortOrder.badge,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th />
                 </tr>
