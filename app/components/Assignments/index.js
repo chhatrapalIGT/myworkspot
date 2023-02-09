@@ -39,7 +39,7 @@ const Assignments = props => {
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: true },
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
     ];
     officeLocation &&
       officeLocation.map(obj => {
@@ -48,7 +48,7 @@ const Assignments = props => {
             label: obj.locationname,
             name: obj.locationname,
             value: obj.id,
-            isSelected: true,
+            isSelected: false,
           });
         }
       });
@@ -57,7 +57,7 @@ const Assignments = props => {
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: true },
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
     ];
     officeFloor &&
       officeFloor.map(obj => {
@@ -66,7 +66,7 @@ const Assignments = props => {
             label: `Floor ${obj.floor}`,
             name: `Floor ${obj.floor}`,
             value: `Floor ${obj.floor}`,
-            isSelected: true,
+            isSelected: false,
           });
         }
         // not required now
@@ -84,7 +84,7 @@ const Assignments = props => {
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: true },
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
     ];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
@@ -93,7 +93,7 @@ const Assignments = props => {
             label: obj.name,
             name: obj.name,
             value: obj.name,
-            isSelected: true,
+            isSelected: false,
           });
       });
     setOfficeNeighborhoods(tempArr);
@@ -307,7 +307,7 @@ const Assignments = props => {
                       style={{ cursor: 'alias' }}
                       className="dropdown-toggle pointer"
                       value={state.finalOfficeVal}
-                      placeholder="Select..."
+                      placeholder="All"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton1"
                       // id="dropdownMenuButton1"
@@ -351,7 +351,7 @@ const Assignments = props => {
                       style={{ cursor: 'alias' }}
                       className="dropdown-toggle pointer"
                       value={state.finalFloorVal}
-                      placeholder="Select..."
+                      placeholder="All"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton2"
                     />
@@ -394,7 +394,7 @@ const Assignments = props => {
                       style={{ cursor: 'alias' }}
                       className="dropdown-toggle pointer"
                       value={state.finalNeighborhoodVal}
-                      placeholder="Select..."
+                      placeholder="All"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton3"
                     />

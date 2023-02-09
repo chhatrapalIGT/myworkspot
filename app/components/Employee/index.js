@@ -50,13 +50,13 @@ const Employee = props => {
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: true },
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
     ];
     tempArr.push({
       label: 'Not Assigned',
       name: 'Not Assigned',
       value: 'Not Assigned',
-      isSelected: true,
+      isSelected: false,
     });
     officeLocation &&
       officeLocation.map(obj => {
@@ -65,7 +65,7 @@ const Employee = props => {
             label: obj.locationname,
             name: obj.locationname,
             value: obj.id,
-            isSelected: true,
+            isSelected: false,
           });
         }
       });
@@ -75,7 +75,7 @@ const Employee = props => {
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: true },
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
     ];
 
     userRoles &&
@@ -84,7 +84,7 @@ const Employee = props => {
           label: obj.role,
           name: obj.role,
           value: obj.role,
-          isSelected: true,
+          isSelected: false,
         });
       });
     const FilterArr = tempArr.filter(ele => ele.name !== 'All');
@@ -248,7 +248,7 @@ const Employee = props => {
                       style={{ cursor: 'alias' }}
                       className="dropdown-toggle pointer"
                       value={state.finalRoleVal}
-                      placeholder="Select..."
+                      placeholder="All"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton1"
                     />
@@ -290,7 +290,7 @@ const Employee = props => {
                       style={{ cursor: 'alias' }}
                       className="dropdown-toggle pointer"
                       value={state.finalOfficeVal}
-                      placeholder="Select..."
+                      placeholder="All"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton1"
                     />

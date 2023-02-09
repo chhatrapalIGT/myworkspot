@@ -3765,9 +3765,9 @@ div[class*='qy-menu'] * {
     padding: 15px 10px 0 15px;
     height: 50px;
     &::placeholder {
-      font-weight: 400 !important;
-      color: #808080 !important;
-      font-size: 14px !important;
+      color: #00355f !important;
+      font-size: 16px;
+      font-weight: 600 !important;
       opacity: 1 !important;
     }
   }
