@@ -1053,7 +1053,7 @@ const Spaces = ({
                     style={{ cursor: 'alias' }}
                     className="dropdown-toggle"
                     value={state.finalOfficeVal}
-                    placeholder="Select..."
+                    placeholder="All"
                     data-bs-toggle="dropdown"
                     data-target="#dropdownMenuButton1"
                     // id="dropdownMenuButton1"
@@ -1096,7 +1096,7 @@ const Spaces = ({
                     style={{ cursor: 'alias' }}
                     className="dropdown-toggle"
                     value={state.finalFloorVal}
-                    placeholder="Select..."
+                    placeholder="All"
                     data-bs-toggle="dropdown"
                     data-target="#dropdownMenuButton2"
                   />
@@ -1138,7 +1138,7 @@ const Spaces = ({
                     style={{ cursor: 'alias' }}
                     className="dropdown-toggle"
                     value={state.finalNeighborhoodVal}
-                    placeholder="Select..."
+                    placeholder="All"
                     data-bs-toggle="dropdown"
                     data-target="#dropdownMenuButton3"
                   />
@@ -1407,7 +1407,6 @@ const Spaces = ({
                                     ? currentCheckedValue
                                     : i.floor
                                 }
-                                placeholder="Select..."
                                 className="drop-input"
                               />
                               <Image
@@ -1554,7 +1553,6 @@ const Spaces = ({
                                     ? currentCheckedValue
                                     : i.neighborhoodname
                                 }
-                                placeholder="Select..."
                                 className="drop-input"
                               />
                               <Image
@@ -1801,7 +1799,6 @@ const Spaces = ({
                                     ? currentCheckedValue
                                     : i.type
                                 }
-                                placeholder="Select..."
                                 className="drop-input"
                               />
                               <Image
@@ -1927,10 +1924,11 @@ const Spaces = ({
                       className={`${
                         i.assigned === 'Not assigned'
                           ? 'notAssign_text'
-                          : 'assigned_text'
+                          : 'assigned_text d-flex flex-wrap'
                       }`}
+                      style={{ width: '133px', whiteSpace: 'inherit' }}
                     >
-                      {i.assigned}
+                      <span className="d-flex flex-wrap">{i.assigned}</span>
                     </td>
                     <td className="assigned_text">
                       {i.algorithm ? (
@@ -1959,7 +1957,6 @@ const Spaces = ({
                                     ? 'Active'
                                     : 'Inactive'
                                 }
-                                placeholder="Select..."
                                 className="drop-input"
                               />
                               <Image
@@ -2096,6 +2093,7 @@ const Spaces = ({
                   <option value="20">20 per page</option>
                   <option value="30">30 per page</option>
                   <option value="40">40 per page</option>
+                  <option value={dataCount && dataCount.count}>View All</option>
                 </select>
               </div>
               <div className="">

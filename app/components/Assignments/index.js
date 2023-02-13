@@ -39,7 +39,7 @@ const Assignments = props => {
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: true },
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
     ];
     officeLocation &&
       officeLocation.map(obj => {
@@ -48,7 +48,7 @@ const Assignments = props => {
             label: obj.locationname,
             name: obj.locationname,
             value: obj.id,
-            isSelected: true,
+            isSelected: false,
           });
         }
       });
@@ -57,7 +57,7 @@ const Assignments = props => {
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: true },
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
     ];
     officeFloor &&
       officeFloor.map(obj => {
@@ -66,7 +66,7 @@ const Assignments = props => {
             label: `Floor ${obj.floor}`,
             name: `Floor ${obj.floor}`,
             value: `Floor ${obj.floor}`,
-            isSelected: true,
+            isSelected: false,
           });
         }
         // not required now
@@ -84,7 +84,7 @@ const Assignments = props => {
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: true },
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
     ];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
@@ -93,7 +93,7 @@ const Assignments = props => {
             label: obj.name,
             name: obj.name,
             value: obj.name,
-            isSelected: true,
+            isSelected: false,
           });
       });
     setOfficeNeighborhoods(tempArr);
@@ -307,7 +307,7 @@ const Assignments = props => {
                       style={{ cursor: 'alias' }}
                       className="dropdown-toggle pointer"
                       value={state.finalOfficeVal}
-                      placeholder="Select..."
+                      placeholder="All"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton1"
                       // id="dropdownMenuButton1"
@@ -351,7 +351,7 @@ const Assignments = props => {
                       style={{ cursor: 'alias' }}
                       className="dropdown-toggle pointer"
                       value={state.finalFloorVal}
-                      placeholder="Select..."
+                      placeholder="All"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton2"
                     />
@@ -394,7 +394,7 @@ const Assignments = props => {
                       style={{ cursor: 'alias' }}
                       className="dropdown-toggle pointer"
                       value={state.finalNeighborhoodVal}
-                      placeholder="Select..."
+                      placeholder="All"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton3"
                     />
@@ -447,104 +447,128 @@ const Assignments = props => {
                 </div>
               </div>
             </div>
-            <div className="emp-table">
+            <div className="assign-table">
               <table>
                 <tr>
                   <th style={{ width: '20%' }}>
-                    Name{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img custom-sort-img"
-                      alt=""
-                      name="name"
-                      aria-hidden="true"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'name',
-                          props.state.sortOrder.name,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Name{' '}
+                      <span className="ms-1">
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img custom-sort-img"
+                          alt=""
+                          name="name"
+                          aria-hidden="true"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'name',
+                              props.state.sortOrder.name,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th style={{ width: '16%' }}>
-                    Department{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      name="department"
-                      alt=""
-                      aria-hidden="true"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'department',
-                          props.state.sortOrder.department,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Department{' '}
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          name="department"
+                          alt=""
+                          aria-hidden="true"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'department',
+                              props.state.sortOrder.department,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th style={{ width: '16%' }}>
-                    Building/Floor{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="buildingFloor"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'buildingFloor',
-                          props.state.sortOrder.buildingFloor,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Building/Floor{' '}
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="buildingFloor"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'buildingFloor',
+                              props.state.sortOrder.buildingFloor,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th style={{ width: '16%' }}>
-                    Neighborhood{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="neighborhood"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'neighborhood',
-                          props.state.sortOrder.neighborhood,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Neighborhood{' '}
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="neighborhood"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'neighborhood',
+                              props.state.sortOrder.neighborhood,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th style={{ width: '16%' }}>
-                    Assigned Space{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="assignedSpace"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'assignedSpace',
-                          props.state.sortOrder.assignedSpace,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Assigned Space{' '}
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="assignedSpace"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'assignedSpace',
+                              props.state.sortOrder.assignedSpace,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th style={{ width: '16%' }}>
-                    Badge{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      name="badge"
-                      aria-hidden="true"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'badge',
-                          props.state.sortOrder.badge,
-                        )
-                      }
-                    />
+                    <span className="d-flex text-nowrap">
+                      Badge{' '}
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          name="badge"
+                          aria-hidden="true"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'badge',
+                              props.state.sortOrder.badge,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                 </tr>
                 {props.assignmentLoading ? (
@@ -611,6 +635,7 @@ const Assignments = props => {
                     <option value="20">20 per page</option>
                     <option value="30">30 per page</option>
                     <option value="40">40 per page</option>
+                    <option value={props.assignmentCount}>View All</option>
                   </select>
                 </div>
                 <div className="">
@@ -623,7 +648,7 @@ const Assignments = props => {
                   totalCounts={props.assignmentCount * state.limit}
                   totalCount={props.assignmentCount}
                   pageSize={state.limit}
-                  assignTotalPages={props.assignTotalPage || ''}
+                  assignTotalPages={props.assignTotalPage}
                   onPageChange={page => props.handlePageChange(page)}
                 />
               </div>

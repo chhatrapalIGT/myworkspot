@@ -329,10 +329,10 @@ const WorkspotAdmin = ({
                 arr && arr.officeCapacity,
               ).toFixed()}%`,
               worksStationSpaceCapacity: `${parseFloat(
-                Math.floor((arr && arr.workstationsSpacesOfficeCapacity) || 0),
+                Math.round((arr && arr.workstationsSpacesOfficeCapacity) || 0),
               ).toFixed()}%`,
               privateSpaceCapacity: `${parseFloat(
-                Math.floor((arr && arr.privateSpacesOfficeCapacity) || 0),
+                Math.round((arr && arr.privateSpacesOfficeCapacity) || 0),
               ).toFixed()}%`,
             };
             finaldataOffice.push(objData);
@@ -682,10 +682,10 @@ const WorkspotAdmin = ({
                                                           />
                                                         </span>
                                                         <span className="digit">
-                                                          {`${Math.floor(
+                                                          {`${Math.round(
                                                             fl &&
                                                               fl.workstationsAssignment,
-                                                          )}/${Math.floor(
+                                                          )}/${Math.round(
                                                             fl &&
                                                               fl.workstationsSpaces,
                                                           )}`}
@@ -700,10 +700,10 @@ const WorkspotAdmin = ({
                                                           />
                                                         </span>
                                                         <span className="digit">
-                                                          {`${Math.floor(
+                                                          {`${Math.round(
                                                             fl &&
                                                               fl.privateAssignment,
-                                                          )}/${Math.floor(
+                                                          )}/${Math.round(
                                                             fl &&
                                                               fl.privateSpaces,
                                                           )}`}
@@ -717,10 +717,10 @@ const WorkspotAdmin = ({
                                                       width: '30%',
                                                     }}
                                                   >
-                                                    {`${parseFloat(
+                                                    {`${Math.round(
                                                       fl &&
                                                         fl.workstationsSpacesOfficeCapacity,
-                                                    ).toFixed()}%`}
+                                                    )}%`}
                                                   </div>
                                                 </div>
                                                 <div
@@ -750,10 +750,10 @@ const WorkspotAdmin = ({
                                                           />
                                                         </span>
                                                         <span className="digit">
-                                                          {`${Math.floor(
+                                                          {`${Math.round(
                                                             fl &&
                                                               fl.workstationsAssignment,
-                                                          )}/${Math.floor(
+                                                          )}/${Math.round(
                                                             fl &&
                                                               fl.workstationsSpaces,
                                                           )}`}
@@ -768,10 +768,10 @@ const WorkspotAdmin = ({
                                                           />
                                                         </span>
                                                         <span className="digit">
-                                                          {`${Math.floor(
+                                                          {`${Math.round(
                                                             fl &&
                                                               fl.privateAssignment,
-                                                          )}/${Math.floor(
+                                                          )}/${Math.round(
                                                             fl &&
                                                               fl.privateSpaces,
                                                           )}`}
@@ -785,12 +785,10 @@ const WorkspotAdmin = ({
                                                       width: '30%',
                                                     }}
                                                   >
-                                                    {`${parseFloat(
-                                                      Math.floor(
-                                                        fl &&
-                                                          fl.privateSpacesOfficeCapacity,
-                                                      ),
-                                                    ).toFixed()}%`}
+                                                    {`${Math.round(
+                                                      fl &&
+                                                        fl.privateSpacesOfficeCapacity,
+                                                    )}%`}
                                                   </div>
                                                 </div>
                                               </div>
@@ -901,10 +899,10 @@ const WorkspotAdmin = ({
                                                           />
                                                         </span>
                                                         <span className="digit">
-                                                          {`${Math.floor(
+                                                          {`${Math.round(
                                                             fl &&
                                                               fl.workstationsAssignment,
-                                                          )}/${Math.floor(
+                                                          )}/${Math.round(
                                                             fl &&
                                                               fl.workstationsSpaces,
                                                           )}`}
@@ -919,10 +917,10 @@ const WorkspotAdmin = ({
                                                           />
                                                         </span>
                                                         <span className="digit">
-                                                          {`${Math.floor(
+                                                          {`${Math.round(
                                                             fl &&
                                                               fl.privateAssignment,
-                                                          )}/${Math.floor(
+                                                          )}/${Math.round(
                                                             fl &&
                                                               fl.privateSpaces,
                                                           )}`}
@@ -936,12 +934,10 @@ const WorkspotAdmin = ({
                                                       width: '30%',
                                                     }}
                                                   >
-                                                    {`${parseFloat(
-                                                      Math.floor(
-                                                        fl &&
-                                                          fl.workstationsSpacesOfficeCapacity,
-                                                      ),
-                                                    ).toFixed()}%`}
+                                                    {`${Math.round(
+                                                      fl &&
+                                                        fl.workstationsSpacesOfficeCapacity,
+                                                    )}%`}
                                                   </div>
                                                 </div>
                                                 <div
@@ -971,10 +967,10 @@ const WorkspotAdmin = ({
                                                           />
                                                         </span>
                                                         <span className="digit">
-                                                          {`${Math.floor(
+                                                          {`${Math.round(
                                                             fl &&
                                                               fl.workstationsAssignment,
-                                                          )}/${Math.floor(
+                                                          )}/${Math.round(
                                                             fl &&
                                                               fl.workstationsSpaces,
                                                           )}`}
@@ -989,10 +985,10 @@ const WorkspotAdmin = ({
                                                           />
                                                         </span>
                                                         <span className="digit">
-                                                          {`${Math.floor(
+                                                          {`${Math.round(
                                                             fl &&
                                                               fl.privateAssignment,
-                                                          )}/${Math.floor(
+                                                          )}/${Math.round(
                                                             fl &&
                                                               fl.privateSpaces,
                                                           )}`}
@@ -1006,12 +1002,10 @@ const WorkspotAdmin = ({
                                                       width: '30%',
                                                     }}
                                                   >
-                                                    {`${parseFloat(
-                                                      Math.floor(
-                                                        fl &&
-                                                          fl.privateSpacesOfficeCapacity,
-                                                      ),
-                                                    ).toFixed()}%`}
+                                                    {`${Math.round(
+                                                      fl &&
+                                                        fl.privateSpacesOfficeCapacity,
+                                                    )}%`}
                                                   </div>
                                                 </div>
                                               </div>

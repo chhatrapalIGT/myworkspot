@@ -413,7 +413,7 @@ class OfficeMap extends Component {
     this.getManageData(
       this.state.searchVal,
       this.state.srcOffice,
-      this.state.strFloorArr,
+      this.state.srcFloor,
       this.state.strBuildingArr,
       this.state.neighborhoodSearch,
       this.state.sort_column,
@@ -429,7 +429,7 @@ class OfficeMap extends Component {
     this.getManageData(
       this.state.searchVal,
       this.state.srcOffice,
-      this.state.strFloorArr,
+      this.state.srcFloor,
       this.state.strBuildingArr,
       this.state.neighborhoodSearch,
       this.state.sort_column,
