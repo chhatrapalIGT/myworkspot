@@ -332,7 +332,10 @@ class EmployeePage extends Component {
       const val = this.state.selectedRole.length
         ? this.state.selectedRole[0].name
         : '';
-      if (this.state.selectedRole.length > 1) {
+
+      if (val === 'All') {
+        finalRoleVal = val;
+      } else if (this.state.selectedRole.length > 1) {
         const length = `, +${this.state.selectedRole.length - 1}`;
         finalRoleVal = val.concat(length);
         this.setState({ finalRoleVal });
@@ -377,7 +380,9 @@ class EmployeePage extends Component {
       const val = this.state.selectedOffice.length
         ? this.state.selectedOffice[0].name
         : '';
-      if (this.state.selectedOffice.length > 1) {
+      if (val === 'All') {
+        finalOfficeVal = val;
+      } else if (this.state.selectedOffice.length > 1) {
         const length = `, +${this.state.selectedOffice.length - 1}`;
         finalOfficeVal = val.concat(length);
         this.setState({ finalOfficeVal });
