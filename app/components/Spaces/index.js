@@ -491,7 +491,7 @@ const Spaces = ({
               attributes: obj.attributes || '-',
               building: obj.building || '-',
               floor: obj.floor || '-',
-              id: obj.id || '-',
+              // id: obj.id || '-',
               neighborhoodname: obj.neighborhoodname || '-',
               type: obj.type || '-',
               workspacename: obj.workspacename || '-',
@@ -505,7 +505,7 @@ const Spaces = ({
               attributes: obj.attributes || '-',
               building: obj.building || '-',
               floor: obj.floor || '-',
-              id: obj.id || '-',
+              // id: obj.id || '-',
               neighborhoodname: obj.neighborhoodname || '-',
               type: obj.type || '-',
               workspacename: obj.workspacename || '-',
@@ -520,7 +520,7 @@ const Spaces = ({
         attributes: '',
         building: '',
         floor: '',
-        id: '',
+        // id: '',
         neighborhoodname: '',
         type: '',
         workspacename: '',
@@ -532,7 +532,7 @@ const Spaces = ({
         attributes: '',
         building: '',
         floor: '',
-        id: '',
+        // id: '',
         neighborhoodname: '',
         type: '',
         workspacename: '',
@@ -600,6 +600,7 @@ const Spaces = ({
       return false;
     });
     requestGetManageExport({
+      sort_column: state.sort_column,
       newExport: true,
       officeSearch: arr.length > 0 ? arr : ['DC', 'RIC'],
     });
