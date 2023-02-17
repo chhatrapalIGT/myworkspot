@@ -491,9 +491,9 @@ const Spaces = ({
               Neighborhood: obj.neighborhoodname || '-',
               Space: obj.workspacename || '-',
               SpaceType: obj.type || '-',
+              Attributes: obj.attributes || '-',
               Assigned: obj.assigned || '-',
               AlgorithmStatus: obj.active || '-',
-              Attributes: obj.attributes || '-',
               // id: obj.id || '-',
             });
           }
@@ -505,9 +505,9 @@ const Spaces = ({
               Neighborhood: obj.neighborhoodname || '-',
               Space: obj.workspacename || '-',
               SpaceType: obj.type || '-',
+              Attributes: obj.attributes || '-',
               Assigned: obj.assigned || '-',
               AlgorithmStatus: obj.active || '-',
-              Attributes: obj.attributes || '-',
               // id: obj.id || '-',
             });
           }
@@ -520,9 +520,9 @@ const Spaces = ({
         Neighborhood: '',
         Space: '',
         SpaceType: '',
+        Attributes: '',
         Assigned: '',
         AlgorithmStatus: '',
-        Attributes: '',
         // id: '',
       });
       RICarr.push({
@@ -532,9 +532,9 @@ const Spaces = ({
         Neighborhood: '',
         Space: '',
         SpaceType: '',
+        Attributes: '',
         Assigned: '',
         AlgorithmStatus: '',
-        Attributes: '',
         // id: '',
       });
     }
