@@ -97,8 +97,8 @@ class ProfilePage extends Component {
     this.props.requestGetProfileOfficeData({});
     this.props.requestGetOfficeLocation({});
     this.props.requestDelegateData({});
-    this.props.getSpinIconRequest({});
-    this.props.getSelectIconRequest({});
+    // this.props.getSpinIconRequest({});
+    // this.props.getSelectIconRequest({});
   }
 
   componentWillUnmount() {
@@ -545,7 +545,7 @@ const withSaga = injectSaga({ key: 'profile', saga });
 ProfilePage.propTypes = {
   requestGetProfileOfficeData: PropTypes.func,
   addSpinIconRequest: PropTypes.func,
-  getSpinIconRequest: PropTypes.func,
+  // getSpinIconRequest: PropTypes.func,
   getSelectIconRequest: PropTypes.func,
   requestGetOfficeLocation: PropTypes.func,
   requestAddOfficeLocation: PropTypes.func,
