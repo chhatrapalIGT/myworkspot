@@ -486,56 +486,56 @@ const Spaces = ({
           if (obj.locationid === 'DC') {
             DCarr.push({
               OfficeId: obj.locationid,
-              active: obj.active || '-',
-              assigned: obj.assigned || '-',
-              attributes: obj.attributes || '-',
-              building: obj.building || '-',
-              floor: obj.floor || '-',
-              id: obj.id || '-',
-              neighborhoodname: obj.neighborhoodname || '-',
-              type: obj.type || '-',
-              workspacename: obj.workspacename || '-',
+              Building: obj.building || '-',
+              Floor: obj.floor || '-',
+              Neighborhood: obj.neighborhoodname || '-',
+              Space: obj.workspacename || '-',
+              SpaceType: obj.type || '-',
+              Attributes: obj.attributes || '-',
+              Assigned: obj.assigned || '-',
+              AlgorithmStatus: obj.active || '-',
+              // id: obj.id || '-',
             });
           }
           if (obj.locationid === 'RIC') {
             RICarr.push({
               OfficeId: obj.locationid,
-              active: obj.active || '-',
-              assigned: obj.assigned || '-',
-              attributes: obj.attributes || '-',
-              building: obj.building || '-',
-              floor: obj.floor || '-',
-              id: obj.id || '-',
-              neighborhoodname: obj.neighborhoodname || '-',
-              type: obj.type || '-',
-              workspacename: obj.workspacename || '-',
+              Building: obj.building || '-',
+              Floor: obj.floor || '-',
+              Neighborhood: obj.neighborhoodname || '-',
+              Space: obj.workspacename || '-',
+              SpaceType: obj.type || '-',
+              Attributes: obj.attributes || '-',
+              Assigned: obj.assigned || '-',
+              AlgorithmStatus: obj.active || '-',
+              // id: obj.id || '-',
             });
           }
         });
     } else {
       DCarr.push({
         OfficeId: '',
-        active: '',
-        assigned: '',
-        attributes: '',
-        building: '',
-        floor: '',
-        id: '',
-        neighborhoodname: '',
-        type: '',
-        workspacename: '',
+        Building: '',
+        Floor: '',
+        Neighborhood: '',
+        Space: '',
+        SpaceType: '',
+        Attributes: '',
+        Assigned: '',
+        AlgorithmStatus: '',
+        // id: '',
       });
       RICarr.push({
         OfficeId: '',
-        active: '',
-        assigned: '',
-        attributes: '',
-        building: '',
-        floor: '',
-        id: '',
-        neighborhoodname: '',
-        type: '',
-        workspacename: '',
+        Building: '',
+        Floor: '',
+        Neighborhood: '',
+        Space: '',
+        SpaceType: '',
+        Attributes: '',
+        Assigned: '',
+        AlgorithmStatus: '',
+        // id: '',
       });
     }
     if (csvOpen === 'CSV') {
@@ -600,6 +600,7 @@ const Spaces = ({
       return false;
     });
     requestGetManageExport({
+      sort_column: state.sort_column,
       newExport: true,
       officeSearch: arr.length > 0 ? arr : ['DC', 'RIC'],
     });
