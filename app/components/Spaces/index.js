@@ -1190,9 +1190,9 @@ const Spaces = ({
           </div>
           <div className="neibour-table">
             <table id="tableData">
-              <tr style={{ width: '100%' }}>
+              <tr>
                 {sessionStorage.getItem('Admin Owner') === 'true' && (
-                  <th style={{ width: '5%' }}>
+                  <th>
                     {spaceAllChecked.length === 0 ||
                     spaceAllChecked.length === spaceValue.length ? (
                       <Form.Check
@@ -1217,7 +1217,7 @@ const Spaces = ({
                     )}
                   </th>
                 )}
-                <th style={{ width: '15%' }}>
+                <th>
                   <span className="d-flex text-nowrap">
                     Building/floor{' '}
                     <span className="ms-1">
@@ -1238,7 +1238,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '15%' }}>
+                <th>
                   <span className="d-flex text-nowrap">
                     Neighborhood{' '}
                     <span className="ms-1">
@@ -1259,7 +1259,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '12%' }}>
+                <th>
                   <span className="d-flex text-nowrap">
                     Space{' '}
                     <span className="ms-1">
@@ -1277,7 +1277,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '17%' }}>
+                <th>
                   <span className="d-flex text-nowrap">
                     Space type{' '}
                     <span className="ms-1">
@@ -1298,7 +1298,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '15%' }}>
+                <th>
                   <span className="d-flex text-nowrap">
                     Assigned{' '}
                     <span className="ms-1">
@@ -1316,7 +1316,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '15%' }}>
+                <th>
                   <span className="d-flex text-nowrap">
                     algorithm Status{' '}
                     <span className="ms-1">
