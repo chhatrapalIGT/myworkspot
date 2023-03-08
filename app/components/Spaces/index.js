@@ -1798,17 +1798,15 @@ const Spaces = ({
                                   isShowRowDropdown === idx &&
                                   isShowColDropdown === 'spaceType'
                                     ? currentCheckedValue
+                                    : i.assigned === 'Not assigned' &&
+                                      (i.type === 'Workstation' ||
+                                        i.type === 'Office')
+                                    ? `${i.type} (Flex)`
+                                    : i.assigned !== 'Not assigned' &&
+                                      (i.type === 'Workstation' ||
+                                        i.type === 'Office')
+                                    ? `${i.type} (Permanent)`
                                     : i.type
-                                  // i.assigned === 'Not assigned' &&
-                                  //   (i.type === 'Workstation' ||
-                                  //     i.type === 'Office')
-                                  // ? `${i.type} (flex)`
-                                  // : i.assigned !== 'Not assigned' &&
-                                  //   (i.type === 'Workstation' ||
-                                  //     i.type === 'Office')
-                                  // ? `${i.type} (Permanent)`
-                                  // :
-                                  // i.type
                                 }
                                 className="drop-input"
                               />
