@@ -1925,7 +1925,7 @@ const Spaces = ({
                       className={`${
                         i.assigned === 'Not assigned'
                           ? 'notAssign_text'
-                          : 'assigned_text d-flex flex-wrap'
+                          : 'assigned_text'
                       }`}
                       style={{ width: '133px', whiteSpace: 'inherit' }}
                     >
