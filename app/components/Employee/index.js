@@ -7,7 +7,7 @@
 /* eslint-disable indent */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useMemo, useEffect } from 'react';
-import { Modal, Spinner } from 'react-bootstrap';
+import { Image, Modal, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import createClass from 'create-react-class';
 import Select, { components } from 'react-select';
@@ -16,23 +16,21 @@ import Menu from '../assets/images/admin/menu.png';
 import Profile from '../assets/images/profileof.png';
 import Edit from '../assets/images/edit.svg';
 import Sort from '../assets/images/sort.png';
+import SelectDownArrow from '../assets/images/down-arrow.svg';
 import Search from '../assets/images/admin/search.png';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
 import Warnning from '../../images/officeImage/Warnning.png';
-
-const options = [
-  { label: 'Admin', value: 'Admin', name: 'Admin' },
-  { label: 'User', value: 'User', name: 'User' },
-];
-
-const optionsLocation = [
-  { label: 'Washington, DC', name: 'Washington, DC', value: 'DC' },
-  { label: 'Richmond, VA', name: 'Richmond, VA', value: 'RIC' },
-  { label: 'Not Assigned', name: 'Not Assigned', value: 'Not Assigned' },
-];
+import { CONSTANT } from '../../enum';
+const { USER_IMAGE_SRC_LIVE } = CONSTANT;
 const Employee = props => {
-  const { state, employeeData } = props;
+  const {
+    state,
+    singleEmployeeData,
+    employeeData,
+    officeLocation,
+    userRoles,
+  } = props;
   const currentTableData = useMemo(() => {
     const firstPageIndex = (state.page - 1) * state.limit;
     const lastPageIndex = firstPageIndex + state.limit;
@@ -41,11 +39,59 @@ const Employee = props => {
       : [];
   }, [employeeData]);
   const [show, setShow] = useState(false);
-  const [build, setBuild] = useState(false);
-  const [chkSpace, setchkspace] = useState(false);
-  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // const [build, setBuild] = useState(8);
+  const [officeLocations, setOfficeLocations] = useState([
+    { label: 'All', name: 'All', value: 'All' },
+  ]);
+  const [userRole, setUserRole] = useState([
+    { label: 'All', name: 'All', value: 'All' },
+  ]);
+  const [role, setRole] = useState([]);
+
+  useEffect(() => {
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
+    ];
+    tempArr.push({
+      label: 'Not Assigned',
+      name: 'Not Assigned',
+      value: 'Not Assigned',
+      isSelected: false,
+    });
+    officeLocation &&
+      officeLocation.map(obj => {
+        if (obj.id === 'DC' || obj.id === 'RIC') {
+          tempArr.push({
+            label: obj.locationname,
+            name: obj.locationname,
+            value: obj.id,
+            isSelected: false,
+          });
+        }
+      });
+
+    setOfficeLocations(tempArr);
+  }, [officeLocation]);
+
+  useEffect(() => {
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: false },
+    ];
+
+    userRoles &&
+      userRoles.map(obj => {
+        tempArr.push({
+          label: obj.role,
+          name: obj.role,
+          value: obj.role,
+          isSelected: false,
+        });
+      });
+    const FilterArr = tempArr.filter(ele => ele.name !== 'All');
+    setRole(FilterArr);
+    setUserRole(tempArr);
+  }, [userRoles]);
+
   const data =
     props.workSpace &&
     props.workSpace.find(i =>
@@ -58,39 +104,14 @@ const Employee = props => {
       obj => obj.id !== 'RW' && obj.id !== 'BHM' && obj.id !== 'BLM',
     );
 
-  const colourStyles = {
-    control: styles => ({
-      ...styles,
-      backgroundColor: 'white',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      border: '1px solid #d1dce7',
-    }),
-
-    option: (styles, { isFocused, isSelected, isVisited }) => ({
-      ...styles,
-      cursor: isFocused ? 'pointer' : '',
-
-      backgroundColor: isSelected
-        ? '#f8f8f8'
-        : '' || isFocused
-        ? '#EbEEF1'
-        : '' || isVisited
-        ? '#f8f8f8'
-        : '#fffff',
-      paddingRight: isSelected ? '25px' : '',
-      boxShadow: ' 0px 8px 16px rgba(0, 45, 80, 0.12) !important',
-      color: '#000',
-    }),
-  };
-
   const space =
-    // eslint-disable-next-line eqeqeq
-    data && data.FloorBuilding.find(obj => obj && obj.id == props.state.build);
+    data &&
+    data.FloorBuilding.find(
+      obj => obj && Number(obj.floor) === props.state.build,
+    );
 
   const workspace = space && space.neighborhood.map(i => i.neighborWorkspace);
   const finalData = [];
-
   workspace &&
     workspace.map(i => {
       if (i && i.length > 0) {
@@ -99,59 +120,89 @@ const Employee = props => {
         );
       }
     });
-
   useEffect(() => {
     if (props.updateEmployee && props.updateEmployee.success) {
       setShow(!show);
     }
   }, [props.updateEmployee.success]);
 
-  const updatedEmpData = optionsLocation.map(item => {
-    // eslint-disable-next-line no-param-reassign
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {props.state.finalVal ? props.state.finalVal : 'Washington, DC +2'}
-        </div>
-      </>
-    );
-    return item;
-  });
+  const handleSelectedRoleList = (index, status) => {
+    let roleList = [];
+    roleList =
+      userRole &&
+      userRole.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
 
-  const updatedRole = options.map(item => {
-    // eslint-disable-next-line no-param-reassign
-    item.label = (
-      <>
-        <div className="drop_emp">
-          {props.state.finalRole ? props.state.finalRole : 'Admin; User'}
-        </div>
-      </>
-    );
-    return item;
-  });
+    if (roleList.length) {
+      const isAllChecked =
+        roleList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        roleList.length - 1;
 
-  const Option = createClass({
-    render() {
-      return (
-        <components.Option {...this.props}>
-          <div style={{ display: 'flex' }}>
-            <div style={{ flex: '1' }}>
-              <label style={{ cursor: 'pointer' }}>
-                {`${this.props.data.name} ${this.props.data.labelData || ''}`}{' '}
-              </label>
-              <input
-                className="select_checkbox"
-                type="checkbox"
-                checked={this.props.isSelected}
-                onChange={e => null}
-              />{' '}
-            </div>
-            <div className={this.props.isSelected ? 'selected_val' : ''} />
-          </div>
-        </components.Option>
-      );
-    },
-  });
+      roleList = roleList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setUserRole(roleList);
+    props.handleSelectedRole(roleList);
+  };
+
+  const handleSelectedList = (index, status) => {
+    let officeList = [];
+    officeList =
+      officeLocations &&
+      officeLocations.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (officeList.length) {
+      const isAllChecked =
+        officeList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
+          .length ===
+        officeList.length - 1;
+
+      officeList = officeList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeLocations(officeList);
+    props.handleSelectedoffice(officeList);
+  };
 
   return (
     <>
@@ -189,64 +240,90 @@ const Employee = props => {
                 <div className="menu-img">
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
-
-                <span htmlFor="role" className="role">
-                  <p
-                    style={{
-                      height: '15px',
-                      marginBottom: '0px',
-                      fontSize: '12px',
-                      marginLeft: '16px',
-                    }}
-                  >
-                    Role{' '}
-                  </p>
-                  <Select
-                    components={{ Option }}
-                    isMulti
-                    isClearable={false}
-                    defaultValue={options}
-                    // value={props.state.selectedOption}
-                    onChange={props.handleChangeBox}
-                    options={updatedRole}
-                    closeMenuOnSelect
-                    hideSelectedOptions={false}
-                    onMenuClose={false}
-                    className=" admin-employee"
-                    name="role"
-                    styles={colourStyles}
-                    label="Role"
-                  />
-                </span>
-                <span htmlFor="space" className="space">
-                  <p
-                    style={{
-                      height: '15px',
-                      marginBottom: '0px',
-                      fontSize: '12px',
-                      marginLeft: '16px',
-                    }}
-                  >
-                    {' '}
-                    Permanent Space{' '}
-                  </p>
-                  <Select
-                    components={{ Option }}
-                    isMulti
-                    isClearable={false}
-                    // value={props.state.selectedOption}
-                    defaultValue={optionsLocation}
-                    onChange={props.handleChangeSpace}
-                    options={updatedEmpData}
-                    closeMenuOnSelect
-                    hideSelectedOptions={false}
-                    onMenuClose={false}
-                    className=" admin-employee"
-                    name="space"
-                    styles={colourStyles}
-                    label="Permanent Space"
-                  />
-                </span>
+                <div className="custom-filter-dropdown pointer">
+                  <span>Role</span>
+                  <div className="dropdown">
+                    <input
+                      type="input"
+                      style={{ cursor: 'alias' }}
+                      className="dropdown-toggle pointer"
+                      value={state.finalRoleVal}
+                      placeholder="All"
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton1"
+                    />
+                    <Image
+                      className="img_select"
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton1"
+                      src={SelectDownArrow}
+                    />
+                    <ul
+                      className="dropdown-menu"
+                      id="dropdownMenuButton1"
+                      aria-labelledby="dropdownMenuButton1"
+                    >
+                      {userRole &&
+                        userRole.map((item, index) => (
+                          <li
+                            aria-hidden
+                            onClick={() =>
+                              handleSelectedRoleList(index, !item.isSelected)
+                            }
+                          >
+                            <span>{item.name}</span>
+                            <div
+                              className={
+                                item.isSelected ? 'selected_val float-end' : ''
+                              }
+                            />
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
+                <div className="custom-filter-dropdown pointer">
+                  <span>Permanent Space</span>
+                  <div className="dropdown">
+                    <input
+                      type="input"
+                      style={{ cursor: 'alias' }}
+                      className="dropdown-toggle pointer"
+                      value={state.finalOfficeVal}
+                      placeholder="All"
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton1"
+                    />
+                    <Image
+                      className="img_select pointer"
+                      data-bs-toggle="dropdown"
+                      data-target="#dropdownMenuButton2"
+                      src={SelectDownArrow}
+                    />
+                    <ul
+                      className="dropdown-menu"
+                      id="dropdownMenuButton1"
+                      aria-labelledby="dropdownMenuButton2"
+                    >
+                      {officeLocations &&
+                        officeLocations.map((item, index) => (
+                          <li
+                            aria-hidden
+                            onClick={() =>
+                              handleSelectedList(index, !item.isSelected)
+                            }
+                          >
+                            <span>{item.name}</span>
+                            <div
+                              className={
+                                item.isSelected ? 'selected_val float-end' : ''
+                              }
+                            />
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
               <div className="search-box">
                 <div className="pos-rela">
@@ -254,7 +331,7 @@ const Employee = props => {
                     type="text"
                     onChange={props.handleSearcha}
                     name="searchVal"
-                    placeholder="Search"
+                    placeholder="Search..."
                   />
                   <div className="search-img">
                     <img src={Search} className="img-fluid" alt="" />
@@ -263,93 +340,113 @@ const Employee = props => {
               </div>
             </div>
 
-            <div className="emp-table">
-              <table>
+            <div className="emp-table emp-text-color table-responsive">
+              <table className="table">
                 <tr>
-                  <th style={{ width: '25%' }}>
-                    Name{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      name="name"
-                      aria-hidden="true"
-                      value={props.state.name}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'name',
-                          props.state.sortOrder.name,
-                        )
-                      }
-                    />
+                  <th style={{ width: '22%' }}>
+                    <span className="d-flex align-items-center">
+                      <strong> Name</strong>
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          name="name"
+                          aria-hidden="true"
+                          value={props.state.name}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'name',
+                              props.state.sortOrder.name,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '10%' }}>
-                    Role{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      name="role"
-                      alt=""
-                      aria-hidden="true"
-                      value={props.state.role}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'role',
-                          props.state.sortOrder.role,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Role
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          name="role"
+                          alt=""
+                          aria-hidden="true"
+                          value={props.state.role}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'role',
+                              props.state.sortOrder.role,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '25%' }}>
-                    Permanent Space{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="primaryOffice"
-                      value={props.state.primaryOffice}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'primaryOffice',
-                          props.state.sortOrder.primaryOffice,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Permanent Space
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="primaryOffice"
+                          value={props.state.primaryOffice}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'primaryOffice',
+                              props.state.sortOrder.primaryOffice,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '25%' }}>
-                    Email{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      aria-hidden="true"
-                      name="email"
-                      value={props.state.Email}
-                      onClick={() =>
-                        props.handleClickSort(
-                          'email',
-                          props.state.sortOrder.email,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center">
+                      Email
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          aria-hidden="true"
+                          name="email"
+                          value={props.state.Email}
+                          onClick={() =>
+                            props.handleClickSort(
+                              'email',
+                              props.state.sortOrder.email,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
-                  <th style={{ width: '15%' }}>
-                    Badge{' '}
-                    <img
-                      src={Sort}
-                      className="img-fluid sort-img"
-                      alt=""
-                      name="badge"
-                      value={props.state.badge}
-                      aria-hidden="true"
-                      onClick={() =>
-                        props.handleClickSort(
-                          'badge',
-                          props.state.sortOrder.badge,
-                        )
-                      }
-                    />
+                  <th>
+                    <span className="d-flex align-items-center text-nowrap  ">
+                      Badge
+                      <span>
+                        <img
+                          src={Sort}
+                          className="img-fluid sort-img"
+                          alt=""
+                          name="badge"
+                          value={props.state.badge}
+                          aria-hidden="true"
+                          onClick={() =>
+                            props.handleClickSort(
+                              'badge',
+                              props.state.sortOrder.badge,
+                            )
+                          }
+                        />
+                      </span>
+                    </span>
                   </th>
                   <th />
                 </tr>
@@ -370,16 +467,30 @@ const Employee = props => {
                   employeeData.map(i => (
                     <tr>
                       <td>
-                        <img
-                          src={i.photo || Profile}
-                          className="img-fluid user-img"
-                          alt=""
-                          style={{ height: '32px' }}
-                        />{' '}
-                        {i.firstname}
-                        {''} {i.lastname}
+                        <span className="d-flex align-items-center">
+                          <span className="me-1">
+                            <img
+                              src={`${USER_IMAGE_SRC_LIVE}${
+                                i.employeeid
+                              }.wiki.jpg`}
+                              className="img-fluid table-user-img"
+                              alt=""
+                              onError={props.replaceImage}
+                              style={{
+                                borderRadius: '50%',
+                                height: '32px',
+                                width: '32px',
+                              }}
+                            />{' '}
+                          </span>
+                          {i.firstname}
+                          {''} {i.lastname}
+                        </span>
                       </td>
-                      <td>{i.userRole}</td>
+
+                      <td>
+                        <span className="d-flex text-nowrap">{i.userRole}</span>
+                      </td>
                       <td>{i.deskDetails}</td>
                       <td>{i.email}</td>
                       <td>{i.badgeId}</td>
@@ -391,7 +502,6 @@ const Employee = props => {
                             props.editEmployee(i.employeeid);
                             handleShow();
                             props.clearAssign();
-                            setchkspace(false);
                           }}
                           aria-hidden="true"
                           alt="Edit"
@@ -401,7 +511,6 @@ const Employee = props => {
                     </tr>
                   ))
                 )}
-
                 {/* </tr> */}
               </table>
             </div>
@@ -412,7 +521,7 @@ const Employee = props => {
                     <select
                       name=""
                       id=""
-                      className="pad-manual"
+                      className="pad-manual page-color"
                       value={props.state.limit}
                       onChange={e => props.handleLimitChange(e.target.value)}
                     >
@@ -420,6 +529,7 @@ const Employee = props => {
                       <option value="20">20 per page</option>
                       <option value="30">30 per page</option>
                       <option value="40">40 per page</option>
+                      <option value={props.employeeCount}>View All</option>
                     </select>
                   </div>
                   <div className="">
@@ -432,6 +542,7 @@ const Employee = props => {
                     totalCounts={props.employeeCount * state.limit}
                     totalCount={props.employeeCount}
                     pageSize={state.limit}
+                    totalPages={props.empTotalPage}
                     onPageChange={page => props.handlePageChange(page)}
                   />
                 </div>
@@ -462,7 +573,6 @@ const Employee = props => {
                   onClick={() => {
                     setShow(false);
                     props.handleStateClear();
-                    setchkspace(false);
                     props.onCancel();
                   }}
                 />
@@ -478,12 +588,14 @@ const Employee = props => {
                   <div className="prof-flex">
                     <div className="mar-4">
                       <img
-                        src={
-                          (props.singleEmployeeData &&
-                            props.singleEmployeeData.photo) ||
-                          Profile
-                        }
+                        src={`${USER_IMAGE_SRC_LIVE}${props.state.id}.wiki.jpg`}
                         className="img-fluid"
+                        onError={props.replaceImage}
+                        style={{
+                          borderRadius: '50%',
+                          height: '120px',
+                          width: '120px',
+                        }}
                         alt=""
                       />
                     </div>
@@ -502,7 +614,7 @@ const Employee = props => {
                       <p>
                         <span className="gray-font">Primary Office:</span>{' '}
                         {props.singleEmployeeData &&
-                          props.singleEmployeeData.deskLocationname}
+                          props.singleEmployeeData.PrimaryOffice}
                       </p>
                       <p>
                         <span className="gray-font">Email:</span>{' '}
@@ -522,12 +634,23 @@ const Employee = props => {
                     <div className="selction_one ww-100 pointer">
                       <label htmlFor="role">Role</label>
                       <select
-                        onChange={props.handleChange}
+                        onChange={e => {
+                          props.handleChange;
+                          props.handleRole(e.target.value);
+                        }}
                         value={props.state.role}
                         name="role"
+                        placeholder="Select role"
+                        disabled={
+                          sessionStorage.getItem('Admin Owner') === 'false'
+                        }
                       >
-                        <option value="User">User</option>
-                        <option value="Admin">Admin</option>
+                        {role &&
+                          role.map(ele => (
+                            <option key={ele.name} value={ele.name}>
+                              {ele.name}
+                            </option>
+                          ))}
                       </select>
                     </div>
 
@@ -565,7 +688,6 @@ const Employee = props => {
 
                     <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
                       <div className="pro-title1">Permanent Space</div>
-
                       {props.state.AssignedSpace !== null &&
                         props.state.AssignedSpace !== '' &&
                         !props.state.handleUnassign && (
@@ -604,9 +726,11 @@ const Employee = props => {
                         value={props.state.floor}
                       >
                         <option
-                          id="spval"
+                          id="spval1"
                           value=""
                           selected
+                          disabled
+                          hidden
                           style={{ color: '#526E88' }}
                         >
                           Select Office
@@ -619,128 +743,94 @@ const Employee = props => {
                           ))}
                       </select>
                     </div>
-                    {props.state.floor && props.state.floor !== '' && (
-                      <div className="selction_one mat-10 ww-100 pointer">
-                        <label htmlFor>Building/Floor</label>
-                        <select
-                          onChange={props.handleChange}
-                          name="build"
-                          value={`${props.state.build}`}
-                          className="pad-manual"
-                          required={
-                            props.state.floor !== null &&
-                            props.state.floor !== ''
-                          }
+                    <div className="selction_one mat-10 ww-100 pointer">
+                      <label htmlFor>Building/Floor</label>
+                      <select
+                        onChange={props.handleChange}
+                        name="build"
+                        value={`${props.state.build}`}
+                        className="pad-manual"
+                      >
+                        <option
+                          id="spval2"
+                          value=""
+                          selected
+                          disabled
+                          hidden
+                          style={{ color: '#526E88' }}
                         >
-                          <option
-                            id="spval"
-                            value=""
-                            selected
-                            style={{ color: '#526E88' }}
-                          >
-                            Select Building/Floor
-                          </option>
-                          {data &&
-                            data.FloorBuilding.map(i => (
-                              <>
-                                <option
-                                  value={
-                                    i.id
-                                    // i.floor &&
-                                    // i.floor !== null &&
-                                    // i.building &&
-                                    // i.building !== null
-                                    //   ? `${i.floor}${i.building}`
-                                    //   : i.building && i.building !== null
-                                    //   ? `${i.building}`
-                                    //   : i.floor && i.floor !== null
-                                    //   ? `${i.floor}`
-                                    //   : ''
-                                  }
-                                >
-                                  {i.floor &&
+                          Select Building/Floor
+                        </option>
+                        {data &&
+                          data.FloorBuilding.map(i => (
+                            <>
+                              <option
+                                value={
+                                  // i.id
+                                  i.floor &&
                                   i.floor !== null &&
                                   i.building &&
                                   i.building !== null
-                                    ? `Building ${i.building}, Floor${i.floor}`
+                                    ? `${i.floor}${i.building}`
                                     : i.building && i.building !== null
-                                    ? `Building ${i.building}`
+                                    ? `${i.building}`
                                     : i.floor && i.floor !== null
-                                    ? `Floor ${i.floor}`
-                                    : ''}
-                                </option>
-                              </>
-                            ))}
-                        </select>
-                        {chkSpace && props.state.build === '' && (
-                          <div className="d-flex">
-                            <img
-                              src={Warnning}
-                              alt="warn"
-                              style={{
-                                margin: '4px 5px 0px 0px',
-                                height: '14px',
-                              }}
-                            />
-                            <p style={{ margin: '0px', color: 'red' }}>
-                              You have to fill in this field to assign a space
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {props.state && props.state.build !== '' && (
-                      <div className="selction_one ww-100 pointer">
-                        <label htmlFor style={{ color: '#526E88' }}>
-                          Space
-                        </label>
-                        <select
-                          onChange={props.handleChange}
-                          name="AssignedSpace"
-                          value={props.state.AssignedSpace}
-                          defaultValue={finalData[0]}
-                          className="pad-manual"
-                          required={
-                            props.state.build !== '' ||
-                            (props.state.floor !== null &&
-                              props.state.floor !== '')
-                          }
+                                    ? `${i.floor}`
+                                    : ''
+                                }
+                              >
+                                {i.floor &&
+                                i.floor !== null &&
+                                i.building &&
+                                i.building !== null
+                                  ? `Building ${i.building}, Floor${i.floor}`
+                                  : i.building && i.building !== null
+                                  ? `Building ${i.building}`
+                                  : i.floor && i.floor !== null
+                                  ? `Floor ${i.floor}`
+                                  : ''}
+                              </option>
+                            </>
+                          ))}
+                      </select>
+                    </div>
+
+                    <div className="selction_one ww-100 pointer">
+                      <label htmlFor style={{ color: '#526E88' }}>
+                        Space
+                      </label>
+                      <select
+                        onChange={props.handleChange}
+                        name="AssignedSpace"
+                        value={props.state.AssignedSpace}
+                        placeholder="Select Space"
+                        className="pad-manual"
+                        // required={
+                        //   props.state.build !== '' ||
+                        //   (props.state.floor !== null &&
+                        //     props.state.floor !== '')
+                        // }
+                      >
+                        <option
+                          id="spval gray-font"
+                          value=""
+                          selected
+                          disabled
+                          hidden
+                          style={{ color: '#526E88' }}
                         >
-                          <option
-                            id="spval gray-font"
-                            value=""
-                            selected
-                            style={{ color: '#526E88' }}
-                          >
-                            Select Space
-                          </option>
-                          {finalData &&
-                            finalData.map(i => (
-                              <option value={i.officeId} name="AssignedSpace">
-                                {' '}
+                          Select Space
+                        </option>
+                        {finalData &&
+                          finalData.map(i => (
+                            <>
+                              <option value={i.officeId}>
                                 {i && i.officeSpace}{' '}
                               </option>
-                            ))}
-                        </select>
-                        {chkSpace &&
-                          (props.state.AssignedSpace === '' ||
-                            props.state.AssignedSpace === null) && (
-                            <div className="d-flex">
-                              <img
-                                src={Warnning}
-                                alt="warn"
-                                style={{
-                                  margin: '4px 5px 0px 0px',
-                                  height: '14px',
-                                }}
-                              />
-                              <p style={{ margin: '0px', color: 'red' }}>
-                                You have to fill in this field to assign a space
-                              </p>
-                            </div>
-                          )}
-                      </div>
-                    )}
+                            </>
+                          ))}
+                      </select>
+                    </div>
 
                     <div className="modal-footer mt-2 border-none pad-0">
                       <button
@@ -750,11 +840,10 @@ const Employee = props => {
                         onClick={() => {
                           // handleClose();
                           props.handleStateClear();
-                          setchkspace(true);
                         }}
                         value="Save"
                       >
-                        Save
+                        Save{' '}
                         {props.updateEmployeeLoading && (
                           <div className="spinner-border" />
                         )}
@@ -767,7 +856,6 @@ const Employee = props => {
                         onClick={() => {
                           setShow(false);
                           props.handleStateClear();
-                          setchkspace(false);
                           props.onCancel();
                         }}
                       >
@@ -790,8 +878,42 @@ const Employee = props => {
                           alt=""
                           style={{ paddingRight: '5px', marginBottom: ' 4px' }}
                         />
-
                         {props.apiMessage}
+                      </div>
+                      <div
+                        style={{
+                          float: 'right',
+                          fontSize: 'large',
+                          marginLeft: '10px',
+                        }}
+                        onClick={props.handleData}
+                        className="day-pointer"
+                        aria-hidden="true"
+                      >
+                        &#10006;
+                      </div>
+                    </div>
+                  )}
+                  {props.userMessage && (
+                    <div
+                      className={`"alert fade show mx-auto ${
+                        props.apiSuccess
+                          ? 'alert alert-success'
+                          : 'alert alert-danger '
+                      } "`}
+                      style={{ position: 'revert' }}
+                    >
+                      <div>
+                        <img
+                          src={
+                            props.userMessageStatus
+                              ? checkedCircle
+                              : crossCircle
+                          }
+                          alt=""
+                          style={{ paddingRight: '5px', marginBottom: ' 4px' }}
+                        />
+                        {props.userMessage}
                       </div>
                       <div
                         style={{
@@ -822,18 +944,21 @@ Employee.propTypes = {
   employeeData: PropTypes.object,
   singleEmployeeData: PropTypes.object,
   handleSubmit: PropTypes.func,
+  handleRole: PropTypes.func,
   handleChange: PropTypes.func,
   workSpace: PropTypes.object,
   state: PropTypes.object,
+  userRoles: PropTypes.object,
+  officeLocation: PropTypes.object,
   employeeCount: PropTypes.number,
   handlePageChange: PropTypes.func,
   handleLimitChange: PropTypes.func,
   handleSearcha: PropTypes.func,
-  handleChangeBox: PropTypes.func,
   handleBadgeData: PropTypes.func,
   updateEmployee: PropTypes.object,
   handleData: PropTypes.func,
-  handleChangeSpace: PropTypes.func,
+  handleSelectedoffice: PropTypes.func,
+  handleSelectedRole: PropTypes.func,
   verifyBadgeMsg: PropTypes.string,
   verifyBadgeSuccess: PropTypes.bool,
   handleStateClear: PropTypes.func,
@@ -846,6 +971,10 @@ Employee.propTypes = {
   handleUnassignedSpace: PropTypes.func,
   clearAssign: PropTypes.func,
   onCancel: PropTypes.func,
+  replaceImage: PropTypes.func,
+  empTotalPage: PropTypes.number,
+  userMessage: PropTypes.string,
+  userMessageStatus: PropTypes.bool,
 };
 
 export default Employee;

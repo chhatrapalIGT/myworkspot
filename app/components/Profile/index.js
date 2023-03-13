@@ -60,6 +60,7 @@ const Profile = ({
   requestRemoveDelegateUser,
   requestRemoveSpinIcon,
   isLoading,
+  userRemoveLoading,
 }) => {
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
@@ -709,7 +710,7 @@ const Profile = ({
             </div>
           </div>
 
-          {/* <div className="workspot-access mt-40">
+          <div className="workspot-access mt-40">
             <div className="container">
               <h4 className="common-title">Name Plate Pins</h4>
               <p className="w-50 stroke-2 mt-3">
@@ -762,7 +763,7 @@ const Profile = ({
                 </div>
               )}
             </div>
-          </div> */}
+          </div>
           <div className="workspot-access mt-40">
             <div className="container">
               <h4 className="common-title">
@@ -807,29 +808,39 @@ const Profile = ({
 
           <div className="workspot-access mt-4">
             <div className="container">
-              <div className="card work-access-inner">
-                <div className="d-flex w-100 justify-content-between align-items-center">
-                  <h5>
-                    I Can Update <i>my</i>Workspot for
-                  </h5>
+              {userRemoveLoading ? (
+                <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
+                  <Spinner
+                    className="app-spinner profile"
+                    animation="grow"
+                    variant="dark"
+                  />
                 </div>
-                <div className="access-to">
-                  {delegateListData &&
-                    delegateListData.map(i => (
-                      <div className="access-one">
-                        <img src={i.delegateUserPhoto || ProfileImg} alt="" />
-                        {i.delegateUserFistname} {i.delegateUserLastname}
-                        <a
-                          className="close_btn"
-                          href
-                          onClick={() => handleDelegateRemove(i.employeeid)}
-                        >
-                          <img src={Close} alt="" />
-                        </a>
-                      </div>
-                    ))}
+              ) : (
+                <div className="card work-access-inner">
+                  <div className="d-flex w-100 justify-content-between align-items-center">
+                    <h5>
+                      I Can Update <i>my</i>Workspot for
+                    </h5>
+                  </div>
+                  <div className="access-to">
+                    {delegateListData &&
+                      delegateListData.map(i => (
+                        <div className="access-one">
+                          <img src={i.delegateUserPhoto || ProfileImg} alt="" />
+                          {i.delegateUserFistname} {i.delegateUserLastname}
+                          <a
+                            className="close_btn"
+                            href
+                            onClick={() => handleDelegateRemove(i.employeeid)}
+                          >
+                            <img src={Close} alt="" />
+                          </a>
+                        </div>
+                      ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -1170,6 +1181,7 @@ Profile.propTypes = {
   verifyBadgeLoading: PropTypes.bool,
   badgeUpdateLoading: PropTypes.bool,
   isLoading: PropTypes.bool,
+  userRemoveLoading: PropTypes.bool,
   verifyBadgeChk: PropTypes.object,
   spinIcon: PropTypes.array,
   selectEmpIcon: PropTypes.array,

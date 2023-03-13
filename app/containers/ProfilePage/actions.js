@@ -39,6 +39,10 @@ import {
   SUCCESS_REMOVE_SPIN_ICON,
   REQUEST_REMOVE_SPIN_ICON,
   FAILED_REMOVE_SPIN_ICON,
+  REQUEST_GET_ADMIN_OWNER,
+  SUCCESS_GET_ADMIN_OWNER,
+  FAILED_GET_ADMIN_OWNER,
+  CLEAR_ADMIN_OWNER,
 } from './constants';
 
 export const requestGetProfileOfficeData = payload => ({
@@ -236,4 +240,22 @@ export const successRemoveSpinIcon = payload => ({
 export const failedRemoveSpinIcon = error => ({
   type: FAILED_REMOVE_SPIN_ICON,
   payload: error,
+});
+
+export const requestgetAdminOwner = payload => ({
+  type: REQUEST_GET_ADMIN_OWNER,
+  payload,
+});
+
+export const getAdminOwnerSuccess = payload => ({
+  type: SUCCESS_GET_ADMIN_OWNER,
+  payload,
+});
+
+export const getAdminOwnerFailed = error => ({
+  type: FAILED_GET_ADMIN_OWNER,
+  payload: error,
+});
+export const clearAdminOwner = () => ({
+  type: CLEAR_ADMIN_OWNER,
 });

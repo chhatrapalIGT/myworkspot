@@ -32,6 +32,7 @@ import {
   requestGetSelectIcon,
   requestRemoveDelegateUser,
   requestRemoveSpinIcon,
+  clearAdminOwner,
 } from './actions';
 
 class ProfilePage extends Component {
@@ -103,6 +104,7 @@ class ProfilePage extends Component {
   componentWillUnmount() {
     this.props.clearBoardData();
     this.props.clearData();
+    this.props.clearAdminOwner();
   }
 
   componentDidUpdate() {
@@ -132,8 +134,9 @@ class ProfilePage extends Component {
     ) {
       setTimeout(() => {
         this.props.clearData();
+        this.props.clearAdminOwner();
         this.props.clearBoardData();
-      }, 5000);
+      }, 9000);
     }
 
     if (
@@ -155,6 +158,7 @@ class ProfilePage extends Component {
 
   handlecloseDataIcon = () => {
     this.props.clearData();
+    this.props.clearAdminOwner();
     this.props.clearBoardData();
     this.props.clearBadgeSuccess();
   };
@@ -233,6 +237,7 @@ class ProfilePage extends Component {
     this.handleCloseBadge();
     this.props.clearBadgeSuccess();
     this.props.clearData();
+    this.props.clearAdminOwner();
   };
 
   handleButtonData = (selectedDay, finalval) => {
@@ -390,6 +395,7 @@ class ProfilePage extends Component {
       getSelectIconRequest,
       addSpinIcon,
       isLoading,
+      userRemoveLoading,
     } = this.props;
     const validateBadge =
       history &&
@@ -401,6 +407,7 @@ class ProfilePage extends Component {
         <div id="content-wrap">
           <Profile
             isLoading={isLoading}
+            userRemoveLoading={userRemoveLoading}
             addSpinIcon={addSpinIcon}
             getSelectIconRequest={getSelectIconRequest}
             requestRemoveSpinIcon={removeSpinIconRequest}
@@ -460,6 +467,7 @@ const mapStateToProps = state => {
     userData: profile && profile.userList,
     addSpinIcon: profile && profile.addSpinIcon,
     isLoading: profile && profile.loading,
+    userRemoveLoading: profile && profile.delegateLoading,
     delegateList: profile && profile.delegateList && profile.delegateList,
     spinIcon: profile && profile.spinIcon,
     selectEmpIcon:
@@ -510,6 +518,7 @@ export function mapDispatchToProps(dispatch) {
     requestAddOfficeLocation: payload =>
       dispatch(requestAddOfficeLocation(payload)),
     clearData: () => dispatch(clearData()),
+    clearAdminOwner: () => dispatch(clearAdminOwner()),
     clearBoardData: () => dispatch(clearBoardData()),
     clearBadgeSuccess: () => dispatch(clearBadgeSuccess()),
     clearProfileBadgeSuccess: () => dispatch(clearProfileBadgeSuccess()),
@@ -553,6 +562,7 @@ ProfilePage.propTypes = {
   locationSuccess: PropTypes.bool,
   locationMessage: PropTypes.string,
   clearData: PropTypes.object,
+  clearAdminOwner: PropTypes.object,
   clearBoardData: PropTypes.object,
   badgeUpdateData: PropTypes.object,
   requestVerifyBadge: PropTypes.object,
@@ -577,6 +587,7 @@ ProfilePage.propTypes = {
   selectEmpIcon: PropTypes.array,
   addSpinIcon: PropTypes.object,
   isLoading: PropTypes.bool,
+  userRemoveLoading: PropTypes.bool,
 };
 
 export default compose(

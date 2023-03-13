@@ -41,6 +41,10 @@ import {
   REQUEST_REMOVE_SPIN_ICON,
   SUCCESS_REMOVE_SPIN_ICON,
   FAILED_REMOVE_SPIN_ICON,
+  REQUEST_GET_ADMIN_OWNER,
+  SUCCESS_GET_ADMIN_OWNER,
+  FAILED_GET_ADMIN_OWNER,
+  CLEAR_ADMIN_OWNER,
 } from './constants';
 
 // The initial state of the App
@@ -64,14 +68,22 @@ const initialState = {
   selectEmpIcon: {},
   removeSpinIcon: {},
   addSpinIcon: {},
+  // getOwner: {},
   error: '',
   success: false,
   loading: false,
+  delegateLoading: false,
   message: '',
   totalPage: '',
   apiSuccess: false,
   badgeSuccess: false,
   apiMessage: '',
+  getOwner: {
+    error: '',
+    success: false,
+    message: '',
+    loading: '',
+  },
 };
 
 const profilePageReducer = (state = initialState, action) =>
@@ -283,19 +295,19 @@ const profilePageReducer = (state = initialState, action) =>
         break;
 
       case REQUEST_REMOVE_DELEGATE_USER:
-        draft.loading = true;
+        draft.delegateLoading = true;
         draft.error = '';
         draft.success = false;
         break;
       case SUCCESS_REMOVE_DELEGATE_USER:
-        draft.loading = false;
+        draft.delegateLoading = false;
         draft.success = action.payload.success;
         draft.message = action.payload.message;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;
       case FAILED_REMOVE_DELEGATE_USER:
-        draft.loading = false;
+        draft.delegateLoading = false;
         draft.success = action.payload.success;
         draft.message = action.payload.message;
         draft.apiMessage = action.payload.message;
@@ -317,6 +329,28 @@ const profilePageReducer = (state = initialState, action) =>
         draft.success = action.payload.success;
         draft.apiSuccess = false;
         draft.error = action.payload.message;
+        break;
+
+      case REQUEST_GET_ADMIN_OWNER:
+        draft.getOwner.loading = true;
+        draft.getOwner.error = '';
+        draft.getOwner.success = false;
+        break;
+      case SUCCESS_GET_ADMIN_OWNER:
+        draft.getOwner.loading = false;
+        draft.getOwner.success = true;
+        draft.getOwner = action.payload;
+        break;
+      case FAILED_GET_ADMIN_OWNER:
+        draft.getOwner.loading = false;
+        draft.getOwner.success = false;
+        draft.getOwner.error = action.payload.message;
+        draft.getOwner = action.payload;
+        break;
+      case CLEAR_ADMIN_OWNER:
+        draft.getOwner.message = '';
+        draft.getOwner.success = false;
+        draft.getOwner.error = '';
         break;
       default:
     }

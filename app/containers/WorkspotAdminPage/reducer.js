@@ -8,11 +8,20 @@ import {
   REQUEST_CAPACITY_WARNING,
   SUCCESS_CAPACITY_WARNING,
   FAILED_CAPACITY_WARNING,
+  REQUEST_EXPORT_LOCATION_CAPACITY,
+  SUCCESS_EXPORT_LOCATION_CAPACITY,
+  FAILED_EXPORT_LOCATION_CAPACITY,
 } from './constants';
 
 const initialState = {
   getLocationCapacity: {
     capacity: [],
+    success: false,
+    message: '',
+    loading: false,
+  },
+  getExportLocation: {
+    export: [],
     success: false,
     message: '',
     loading: false,
@@ -49,6 +58,28 @@ const workspotAdminReducer = (state = initialState, action) =>
         draft.getLocationCapacity.loading = false;
         draft.getLocationCapacity.message = action.payload.message;
         draft.getLocationCapacity.capacity = {};
+        draft.apiSuccess = action.payload.success;
+        draft.apiMessage = action.payload.message;
+        break;
+
+      case REQUEST_EXPORT_LOCATION_CAPACITY:
+        draft.getExportLocation.success = false;
+        draft.getExportLocation.loading = true;
+        draft.getExportLocation.message = '';
+        draft.getExportLocation.export = {};
+        break;
+      case SUCCESS_EXPORT_LOCATION_CAPACITY:
+        draft.getExportLocation.success = true;
+        draft.getExportLocation.loading = false;
+        draft.getExportLocation.message = action.payload.message;
+        draft.getExportLocation.export = action.payload.returndata;
+
+        break;
+      case FAILED_EXPORT_LOCATION_CAPACITY:
+        draft.getExportLocation.success = false;
+        draft.getExportLocation.loading = false;
+        draft.getExportLocation.message = action.payload.message;
+        draft.getExportLocation.export = {};
         draft.apiSuccess = action.payload.success;
         draft.apiMessage = action.payload.message;
         break;

@@ -1,3 +1,10 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable dot-notation */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-var */
+/* eslint-disable no-undef-init */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable spaced-comment */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable indent */
@@ -7,18 +14,31 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import moment from 'moment';
 import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from 'prop-types';
+import { Image, Button, Form, Modal } from 'react-bootstrap';
+import { Datepicker } from '@mobiscroll/react';
+import { CSVLink } from 'react-csv';
+import axios from 'axios';
 import {
   getWeekStartEndDate,
   getWeekTitle,
   getStartEndDate,
 } from '../Cal/helpers';
 import checkedCircle from '../../images/check-circle-fill.svg';
+import { generateCSV, exportToSpreadsheet } from '../Common/generateCSV';
 import crossCircle from '../../images/x-circle-fill.svg';
 import BadgeIcon from '../../images/badgeIcon.png';
+import info from '../../images/InfoOne.png';
+import Workstation from '../../images/Workstation.png';
+import PrivateSpace from '../../images/PrivateSpace.png';
+import GreyInfo from '../../images/GreyInfo.png';
+import Calender from '../../images/Calender.png';
+import { CONSTANT } from '../../enum';
+
+const { API_URL } = CONSTANT;
 
 const WorkspotAdmin = ({
   getCapacity,
@@ -28,7 +48,18 @@ const WorkspotAdmin = ({
   apiMessage,
   handleClearCal,
   getWarningData,
+  exportCapacitySuccess,
+  requestExportLocationCapacity,
+  getExportData,
+  exportCapacityLoading,
 }) => {
+  const [open, setOpen] = useState(false);
+  const [excelDataOpen, setExcelDataOpen] = useState(false);
+  const [officeCapacity, setOfficeCapacity] = useState(false);
+  const [expectedCapacity, setExpectedCapacity] = useState(false);
+  const [confirmCapacity, setConfirmCapacity] = useState(false);
+  const [capacitySuccess, setCapacitySuccess] = useState(false);
+
   const uniqueLocation = [];
   getCapacity &&
     Array.isArray(getCapacity) &&
@@ -52,6 +83,13 @@ const WorkspotAdmin = ({
   const [period, setPeriod] = useState('week');
   const [selectedWeek, setSelectedWeek] = useState(new Date());
   const [days, setDays] = useState(() => getWeekStartEndDate(new Date()));
+  const [dateValue, setDateValue] = useState([]);
+  const [errorData, setErrorData] = useState(false);
+  const [checkedError, setCheckedError] = useState(false);
+  const [newExportData, setNewExportData] = useState([]);
+  const [floorCapacityData, setFloorCapacityData] = useState();
+  const [floorBuildings, setFloorBuildings] = useState([]);
+  const [loaidng, setLoading] = useState(false);
 
   const isDateSelected = useCallback(
     date => {
@@ -104,62 +142,324 @@ const WorkspotAdmin = ({
         moment(ele.date).format('MM/DD/YYYY') === moment().format('MM/DD/YYYY')
       ) {
         floorCapacity = ele;
+        sessionStorage.setItem('floorCapacity', JSON.stringify(floorCapacity));
       }
     });
+  useEffect(() => {
+    if (
+      sessionStorage.getItem('floorCapacity') &&
+      sessionStorage.getItem('floorCapacity') !== '' &&
+      sessionStorage.getItem('floorCapacity') !== undefined
+    ) {
+      setFloorCapacityData(JSON.parse(sessionStorage.getItem('floorCapacity')));
+    }
+  }, [sessionStorage.getItem('floorCapacity')]);
 
   const spaces = (item, obj) => {
     return getCapacity
       .find(
         ({ date }) =>
-          moment(date).format('YYYY-MM-DD') === item.date.format('YYYY-MM-DD'),
+          moment(date).format('YYYY-MM-DD') ===
+            item.date.format('YYYY-MM-DD') ||
+          dateValue === item.date.format('YYYY-MM-DD'),
       )
       .data.find(({ id }) => id === obj.id);
   };
 
-  const barColor = (fl, bldg) => {
-    let floorBuilding;
-    const floor = fl && fl.toString();
-    const building = bldg && bldg.toString();
-    if (floor !== null && building !== null) {
-      floorBuilding = building.concat(floor);
-    } else if (floor === null) {
-      floorBuilding = `building ${building}`;
-    } else if (building === null) {
-      floorBuilding = `floor ${floor}`;
+  useEffect(() => {
+    if (dateValue.length > 0) {
+      setErrorData(false);
     }
+  }, [dateValue]);
 
-    let color;
-    switch (floorBuilding) {
-      case 'floor 2':
-        color = '#80D8D7';
-        break;
-      case 'floor 3':
-        color = '#FBE487';
-        break;
-      case 'floor 4':
-        color = '#B18BFC';
-        break;
-      case 'floor 8':
-        color = '#F6C580';
-        break;
-      case 'building 1':
-        color = '#80D8D7';
-        break;
-      case 'building 2':
-        color = '#FBE487';
-        break;
-      case '31':
-        color = '#B18BFC';
-        break;
-      case '32':
-        color = '#F6C580';
-        break;
-      default:
-        color = '';
-    }
+  const apiCall = dateObj => {
+    let token = sessionStorage.getItem('AccessToken');
+    token = JSON.parse(token);
 
-    return color;
+    return new Promise((resolve, reject) => {
+      axios
+        .get(
+          `${API_URL}/adminPanel/locationCapacity/LocationCapacity?startdate=${
+            dateObj.startdate
+          }&enddate=${dateObj.enddate}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.idtoken}`,
+            },
+          },
+        )
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => reject(err));
+    });
   };
+
+  let finalResponse = undefined;
+  const handleExportCSV = () => {
+    if (
+      dateValue.length === 0 &&
+      !officeCapacity &&
+      !expectedCapacity &&
+      !confirmCapacity
+    ) {
+      setCheckedError(true);
+      setErrorData(true);
+    } else if (
+      (dateValue.length === 0 && officeCapacity) ||
+      (dateValue.length === 0 && expectedCapacity) ||
+      (dateValue.length === 0 && confirmCapacity)
+    ) {
+      setErrorData(true);
+    } else if (
+      dateValue.length > 0 &&
+      !officeCapacity &&
+      !expectedCapacity &&
+      !confirmCapacity
+    ) {
+      setCheckedError(true);
+    } else {
+      const startDate = moment(
+        dateValue && dateValue.length && dateValue && dateValue[0],
+      ).format('YYYY-MM-DD');
+      const endDate = moment(
+        dateValue && dateValue.length && dateValue && dateValue[1],
+      ).format('YYYY-MM-DD');
+      const dateRangeArr = [];
+      const startdate = moment(startDate);
+      const enddate = moment(endDate);
+      let startdateLoop = startdate;
+      while (startdateLoop <= enddate) {
+        const endDateLoop = moment(startdateLoop, 'DD-MM-YYYY').add(
+          enddate.diff(startdateLoop, 'days') >= 15
+            ? 15
+            : enddate.diff(startdateLoop, 'days') === 0
+            ? 0
+            : enddate.diff(startdateLoop, 'days') % 15,
+          'days',
+        );
+        dateRangeArr.push({
+          startDateData: moment(startdateLoop).format('YYYY-MM-DD'),
+          endDateData: moment(endDateLoop).format('YYYY-MM-DD'),
+        });
+        startdateLoop = moment(endDateLoop, 'DD-MM-YYYY').add(1, 'days');
+      }
+      setLoading(true);
+      dateRangeArr &&
+        dateRangeArr.length > 0 &&
+        Promise.allSettled(
+          dateRangeArr.map(ele =>
+            apiCall({
+              startdate: ele.startDateData,
+              enddate: ele.endDateData,
+            }),
+          ),
+        ).then(results => {
+          const allRes = results
+            .filter(res => res.status === 'fulfilled')
+            .map(res => res.value);
+
+          if (allRes.length) {
+            const returnData = [];
+            finalResponse = allRes[0];
+            for (let i = 0; i < allRes.length; i++) {
+              const element = allRes[i]['data']['returndata'];
+              returnData.push(...element);
+            }
+            finalResponse['data']['returndata'] = returnData;
+            const allFinalData =
+              finalResponse.data && finalResponse.data.returndata;
+            setLoading(false);
+            setNewExportData(allFinalData);
+            const exportSuccess =
+              finalResponse.data && finalResponse.data.success;
+            setCapacitySuccess(exportSuccess);
+          }
+        });
+      setCheckedError(false);
+      setErrorData(false);
+      setDateValue([]);
+    }
+  };
+
+  const selectedChange = ev => {
+    const dateSplit = ev.valueText.split(' - ');
+    setDateValue(dateSplit);
+  };
+
+  useEffect(() => {
+    if (
+      floorCapacityData &&
+      floorCapacityData.data &&
+      floorCapacityData.data.length > 0
+    )
+      floorCapacityData.data.filter(arr => {
+        const data =
+          arr &&
+          arr.FloorBuilding &&
+          arr.FloorBuilding.length > 0 &&
+          arr.FloorBuilding.filter(ele => ele.floor === 3 || ele.floor === 8);
+        if (data && data.length > 0) {
+          setFloorBuildings(data);
+        }
+      });
+  }, [floorCapacityData]);
+
+  useEffect(() => {
+    if (
+      newExportData &&
+      newExportData.length > 0 &&
+      capacitySuccess &&
+      officeCapacity
+    ) {
+      const finaldataOffice = [];
+      newExportData.filter(obj => {
+        const data =
+          obj &&
+          obj.data &&
+          obj.data.length > 0 &&
+          obj.data.filter(arr => arr.id === 'DC' || arr.id === 'RIC');
+        data;
+        data.length > 0 &&
+          data.map(arr => {
+            const objData = {
+              officeId: arr.id,
+              Date: obj.date,
+              officeCapacity: `${parseFloat(
+                arr && arr.officeCapacity,
+              ).toFixed()}%`,
+              worksStationSpaceCapacity: `${parseFloat(
+                Math.round((arr && arr.workstationsSpacesOfficeCapacity) || 0),
+              ).toFixed()}%`,
+              privateSpaceCapacity: `${parseFloat(
+                Math.round((arr && arr.privateSpacesOfficeCapacity) || 0),
+              ).toFixed()}%`,
+            };
+            finaldataOffice.push(objData);
+          });
+      });
+
+      const header = Object.keys(finaldataOffice[0]);
+      if (excelDataOpen) {
+        generateCSV('CSV', header, finaldataOffice, 'Office Capacity');
+      } else {
+        exportToSpreadsheet(finaldataOffice, 'Office Capacity');
+      }
+      setOpen(false);
+    }
+    if (
+      newExportData &&
+      newExportData.length > 0 &&
+      capacitySuccess &&
+      expectedCapacity
+    ) {
+      const finaldataExpected = [];
+      newExportData.filter(obj => {
+        const data =
+          obj &&
+          obj.data &&
+          obj.data.length > 0 &&
+          obj.data.filter(arr => arr.id === 'DC' || arr.id === 'RIC');
+        data;
+        data.length > 0 &&
+          data.map(arr => {
+            const objData = {
+              officeId: arr.id,
+              Date: obj.date,
+              expectedAttendance: arr.expectedAttendance || 0,
+            };
+            finaldataExpected.push(objData);
+          });
+      });
+
+      const header = Object.keys(finaldataExpected[0]);
+      if (excelDataOpen) {
+        generateCSV('CSV', header, finaldataExpected, 'Expected Attendance');
+        setOpen(false);
+      } else {
+        exportToSpreadsheet(finaldataExpected, 'Expected Attendance');
+        setOpen(false);
+      }
+    }
+    if (
+      newExportData &&
+      newExportData.length > 0 &&
+      capacitySuccess &&
+      confirmCapacity
+    ) {
+      const finaldataConfirmed = [];
+      newExportData.filter(obj => {
+        const data =
+          obj &&
+          obj.data &&
+          obj.data.length > 0 &&
+          obj.data.filter(arr => arr.id === 'DC' || arr.id === 'RIC');
+        data;
+        data.length > 0 &&
+          data.map(arr => {
+            const objData = {
+              officeId: arr.id,
+              Date: obj.date,
+              confirmAttendance: arr.confirmAttendance || 0,
+            };
+            finaldataConfirmed.push(objData);
+          });
+      });
+
+      const header = Object.keys(finaldataConfirmed[0]);
+      if (excelDataOpen) {
+        generateCSV('CSV', header, finaldataConfirmed, 'Confirmed Attendance');
+      } else {
+        exportToSpreadsheet(finaldataConfirmed, 'Confirmed Attendance');
+      }
+      setOpen(false);
+    }
+  }, [newExportData, capacitySuccess]);
+
+  // const barColor = (fl, bldg) => {
+  //   let floorBuilding;
+  //   const floor = fl && fl.toString();
+  //   const building = bldg && bldg.toString();
+  //   if (floor !== null && building !== null) {
+  //     floorBuilding = building.concat(floor);
+  //   } else if (floor === null) {
+  //     floorBuilding = `building ${building}`;
+  //   } else if (building === null) {
+  //     floorBuilding = `floor ${floor}`;
+  //   }
+
+  //   let color;
+  //   switch (floorBuilding) {
+  //     case 'floor 2':
+  //       color = '#80D8D7';
+  //       break;
+  //     case 'floor 3':
+  //       color = '#FBE487';
+  //       break;
+  //     case 'floor 4':
+  //       color = '#B18BFC';
+  //       break;
+  //     case 'floor 8':
+  //       color = '#F6C580';
+  //       break;
+  //     case 'building 1':
+  //       color = '#80D8D7';
+  //       break;
+  //     case 'building 2':
+  //       color = '#FBE487';
+  //       break;
+  //     case '31':
+  //       color = '#B18BFC';
+  //       break;
+  //     case '32':
+  //       color = '#F6C580';
+  //       break;
+  //     default:
+  //       color = '';
+  //   }
+
+  //   return color;
+  // };
 
   return (
     <>
@@ -211,25 +511,545 @@ const WorkspotAdmin = ({
                   </div>
                 ),
             )}
-
-          <div className="wrapper_main cal_wrapper">
+          <div className="wrapper_main_head cal_wrapper">
             <div className="myteam_wrapper">
               <div className="container">
-                <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between">
-                  <div>
-                    <h4 className="common-title">Office Capacity</h4>
+                <div className="chart-data">
+                  <div className="row">
+                    {/*Today's Drafts*/}
+                    {floorCapacityData &&
+                      floorCapacityData.data &&
+                      floorCapacityData.data.map(
+                        obj =>
+                          obj.locationname === 'Washington, DC' && (
+                            <div className="chart-para">
+                              Today, {moment(obj.date).format('LL')}
+                            </div>
+                          ),
+                      )}
+
+                    <div className="col-lg-4 pl-0">
+                      <div className="bg-w width_exp">
+                        <div className="align-items-center mb-1">
+                          <span className="office-title-capacity">
+                            Expected Attendance
+                          </span>
+                          <span className="ps-1 ml-1">
+                            &nbsp;
+                            <Image
+                              src={GreyInfo}
+                              className="ml_img expected_img hover-data-cursor"
+                            />
+                            <span className="hover-data expected_hover expected_upper">
+                              <div className="d-flex justify-content-around">
+                                <span>
+                                  Number of employees who have selected an
+                                  office <br />
+                                  via their intent or weekly default.
+                                </span>
+                              </div>
+                            </span>
+                          </span>
+                        </div>
+                        {floorCapacityData &&
+                          floorCapacityData.data &&
+                          floorCapacityData.data.map(obj =>
+                            obj.locationname === 'Washington, DC' ? (
+                              <>
+                                <div className="Expectd-title-capacity">
+                                  {obj.locationname === 'Washington, DC'
+                                    ? 'Washington, DC'
+                                    : obj.locationname}
+                                </div>
+                                <h1 className="heading_exp">
+                                  {obj.expectedAttendance || 0}
+                                </h1>
+                              </>
+                            ) : (
+                              obj.locationname === 'Richmond, VA' && (
+                                <>
+                                  <div className="Expectd-title-capacity">
+                                    {obj.locationname === 'Richmond, VA'
+                                      ? 'Richmond, VA'
+                                      : obj.locationname}
+                                  </div>
+                                  <h1 className="heading_exp">
+                                    {obj.expectedAttendance || 0}
+                                  </h1>
+                                </>
+                              )
+                            ),
+                          )}
+                      </div>
+                    </div>
+                    <div className="col-lg-8">
+                      <div className="d-flex" style={{ height: '100%' }}>
+                        <div className="capacity_title w-50">
+                          {floorCapacityData &&
+                            floorCapacityData.data &&
+                            floorCapacityData.data.map(
+                              obj =>
+                                obj.locationname === 'Washington, DC' && (
+                                  <div className="bg-w">
+                                    <div className="align-items-center mb-1">
+                                      <span className="office-title-capacity">
+                                        Office Capacity
+                                      </span>
+                                      <span className="ps-1 ml-1">
+                                        &nbsp;
+                                        <Image
+                                          src={GreyInfo}
+                                          className="ml_img expected_img hover-data-cursor"
+                                        />
+                                        <span className="hover-data expected_hover office_upper">
+                                          <div className="d-flex justify-content-around">
+                                            <span>
+                                              Office capacity for flex spaces.
+                                            </span>
+                                          </div>
+                                        </span>
+                                      </span>
+                                    </div>
+                                    <div className="chart-title">
+                                      {obj.locationname === 'Washington, DC'
+                                        ? 'Washington, DC'
+                                        : obj.locationname}
+                                      &nbsp;-&nbsp;
+                                      {`${parseFloat(
+                                        obj.officeCapacity || 0,
+                                      ).toFixed()}%`}
+                                    </div>
+                                    <div style={{ height: '100%' }}>
+                                      <div
+                                        className="bar-graph bar-graph-horizontal bar-graph-one"
+                                        style={{
+                                          height: '86%',
+                                          display: 'flex',
+                                          flexDirection: 'column',
+                                        }}
+                                      >
+                                        {floorBuildings &&
+                                          floorBuildings.map(fl => (
+                                            <div className="bar-one d-flex">
+                                              <div
+                                                className="year"
+                                                style={{
+                                                  width: '18%',
+                                                  margin: 'auto',
+                                                }}
+                                              >
+                                                {fl.building === null &&
+                                                  `Floor ${fl.floor}`}
+                                                {fl.floor === null &&
+                                                  `Building ${fl.building}`}
+                                                {fl.building !== null &&
+                                                  fl.floor !== null &&
+                                                  `Bldg ${fl.building}, Floor ${
+                                                    fl.floor
+                                                  }`}
+                                              </div>
+
+                                              <div
+                                                style={{
+                                                  width: '100%',
+                                                  marginLeft: '10px',
+                                                }}
+                                              >
+                                                <div
+                                                  className="bar bar_hover d-flex"
+                                                  style={{
+                                                    width: '80%',
+                                                  }}
+                                                >
+                                                  <p
+                                                    className="bar bar_hover hover-data-cursor"
+                                                    style={{
+                                                      backgroundColor:
+                                                        '#FF8D62',
+                                                      height: '20px',
+                                                      width: `${
+                                                        fl.workstationsSpacesOfficeCapacity
+                                                      }%`,
+                                                    }}
+                                                  >
+                                                    <span className="hover-data hover_pop-up">
+                                                      <div className="d-flex justify-content-around">
+                                                        <span>
+                                                          Workstations
+                                                          <Image
+                                                            className="d-block w-100 hover-data-cursor"
+                                                            src={Workstation}
+                                                          />
+                                                        </span>
+                                                        <span className="digit">
+                                                          {`${Math.round(
+                                                            fl &&
+                                                              fl.workstationsAssignment,
+                                                          )}/${Math.round(
+                                                            fl &&
+                                                              fl.workstationsSpaces,
+                                                          )}`}
+                                                        </span>
+                                                      </div>
+                                                      <div className="d-flex justify-content-around">
+                                                        <span className="mg_pop">
+                                                          Private Spaces
+                                                          <Image
+                                                            className="d-block w-100 hover-data-cursor"
+                                                            src={PrivateSpace}
+                                                          />
+                                                        </span>
+                                                        <span className="digit">
+                                                          {`${Math.round(
+                                                            fl &&
+                                                              fl.privateAssignment,
+                                                          )}/${Math.round(
+                                                            fl &&
+                                                              fl.privateSpaces,
+                                                          )}`}
+                                                        </span>
+                                                      </div>
+                                                    </span>
+                                                  </p>
+                                                  <div
+                                                    className="persantage"
+                                                    style={{
+                                                      width: '30%',
+                                                    }}
+                                                  >
+                                                    {`${Math.round(
+                                                      fl &&
+                                                        fl.workstationsSpacesOfficeCapacity,
+                                                    )}%`}
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  className="bar bar_hover d-flex"
+                                                  style={{
+                                                    width: '80%',
+                                                  }}
+                                                >
+                                                  <p
+                                                    className="bar bar_hover hover-data-cursor"
+                                                    style={{
+                                                      backgroundColor:
+                                                        '#00B1B0',
+                                                      height: '20px',
+                                                      width: `${
+                                                        fl.privateSpacesOfficeCapacity
+                                                      }%`,
+                                                    }}
+                                                  >
+                                                    <span className="hover-data hover_pop-up">
+                                                      <div className="d-flex justify-content-around">
+                                                        <span>
+                                                          Workstations
+                                                          <Image
+                                                            className="d-block w-100 hover-data-cursor"
+                                                            src={Workstation}
+                                                          />
+                                                        </span>
+                                                        <span className="digit">
+                                                          {`${Math.round(
+                                                            fl &&
+                                                              fl.workstationsAssignment,
+                                                          )}/${Math.round(
+                                                            fl &&
+                                                              fl.workstationsSpaces,
+                                                          )}`}
+                                                        </span>
+                                                      </div>
+                                                      <div className="d-flex justify-content-around">
+                                                        <span className="mg_pop">
+                                                          Private Spaces
+                                                          <Image
+                                                            className="d-block w-100 hover-data-cursor"
+                                                            src={PrivateSpace}
+                                                          />
+                                                        </span>
+                                                        <span className="digit">
+                                                          {`${Math.round(
+                                                            fl &&
+                                                              fl.privateAssignment,
+                                                          )}/${Math.round(
+                                                            fl &&
+                                                              fl.privateSpaces,
+                                                          )}`}
+                                                        </span>
+                                                      </div>
+                                                    </span>
+                                                  </p>
+                                                  <div
+                                                    className="persantage"
+                                                    style={{
+                                                      width: '30%',
+                                                    }}
+                                                  >
+                                                    {`${Math.round(
+                                                      fl &&
+                                                        fl.privateSpacesOfficeCapacity,
+                                                    )}%`}
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          ))}
+
+                                        <div
+                                          className="per-line1"
+                                          style={{ marginTop: 'auto' }}
+                                        >
+                                          <div
+                                            className="test d-flex"
+                                            style={{
+                                              width: '100%',
+                                              marginLeft: '21px',
+                                            }}
+                                          >
+                                            <div className="per-bar">0</div>
+                                            <div className="per-bar">20%</div>
+                                            <div className="per-bar">40%</div>
+                                            <div className="per-bar">60%</div>
+                                            <div className="per-bar">80%</div>
+                                            <div className="per-bar">100%</div>
+                                          </div>
+                                          <div className="d2" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ),
+                            )}
+                        </div>
+                        <div className="capacity_title w-50">
+                          {floorCapacityData &&
+                            floorCapacityData.data &&
+                            floorCapacityData.data.map(
+                              obj =>
+                                obj.locationname === 'Richmond, VA' && (
+                                  <div className="bg-w">
+                                    <div className="chart-title capacity_top">
+                                      {obj.locationname === 'Richmond, VA'
+                                        ? 'Richmond, VA'
+                                        : obj.locationname}
+                                      &nbsp;-&nbsp;
+                                      {`${parseFloat(
+                                        obj.officeCapacity || 0,
+                                      ).toFixed()}%`}
+                                    </div>
+                                    <div style={{ height: '100%' }}>
+                                      <div
+                                        className="bar-graph bar-graph-horizontal bar-graph-one"
+                                        style={{
+                                          height: '86%',
+                                          display: 'flex',
+                                          flexDirection: 'column',
+                                        }}
+                                      >
+                                        {obj.FloorBuilding &&
+                                          obj.FloorBuilding.map(fl => (
+                                            <div className="bar-one d-flex">
+                                              <div
+                                                className="month"
+                                                style={{
+                                                  width: '18%',
+                                                  margin: 'auto',
+                                                }}
+                                              >
+                                                {fl.building === null &&
+                                                  `Floor ${fl.floor}`}
+                                                {fl.floor === null &&
+                                                  `Building ${fl.building}`}
+                                                {fl.building !== null &&
+                                                  fl.floor !== null &&
+                                                  `Bldg ${fl.building}, Floor ${
+                                                    fl.floor
+                                                  }`}
+                                              </div>
+                                              <div
+                                                style={{
+                                                  width: '100%',
+                                                  marginLeft: '10px',
+                                                }}
+                                              >
+                                                <div
+                                                  className="bar bar_hover d-flex"
+                                                  style={{
+                                                    width: '80%',
+                                                  }}
+                                                >
+                                                  <p
+                                                    className="bar bar_hover hover-data-cursor"
+                                                    style={{
+                                                      backgroundColor:
+                                                        '#FF8D62',
+                                                      height: '20px',
+                                                      width: `${
+                                                        fl.workstationsSpacesOfficeCapacity
+                                                      }%`,
+                                                    }}
+                                                  >
+                                                    <span className="hover-data hover_pop-up">
+                                                      <div className="d-flex justify-content-around">
+                                                        <span>
+                                                          Workstations
+                                                          <Image
+                                                            className="d-block w-100 hover-data-cursor"
+                                                            src={Workstation}
+                                                          />
+                                                        </span>
+                                                        <span className="digit">
+                                                          {`${Math.round(
+                                                            fl &&
+                                                              fl.workstationsAssignment,
+                                                          )}/${Math.round(
+                                                            fl &&
+                                                              fl.workstationsSpaces,
+                                                          )}`}
+                                                        </span>
+                                                      </div>
+                                                      <div className="d-flex justify-content-around">
+                                                        <span className="mg_pop">
+                                                          Private Spaces
+                                                          <Image
+                                                            className="d-block w-100 hover-data-cursor"
+                                                            src={PrivateSpace}
+                                                          />
+                                                        </span>
+                                                        <span className="digit">
+                                                          {`${Math.round(
+                                                            fl &&
+                                                              fl.privateAssignment,
+                                                          )}/${Math.round(
+                                                            fl &&
+                                                              fl.privateSpaces,
+                                                          )}`}
+                                                        </span>
+                                                      </div>
+                                                    </span>
+                                                  </p>
+                                                  <div
+                                                    className="persantage"
+                                                    style={{
+                                                      width: '30%',
+                                                    }}
+                                                  >
+                                                    {`${Math.round(
+                                                      fl &&
+                                                        fl.workstationsSpacesOfficeCapacity,
+                                                    )}%`}
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  className="bar bar_hover d-flex"
+                                                  style={{
+                                                    width: '80%',
+                                                  }}
+                                                >
+                                                  <p
+                                                    className="bar bar_hover hover-data-cursor"
+                                                    style={{
+                                                      backgroundColor:
+                                                        '#00B1B0',
+                                                      height: '20px',
+                                                      width: `${
+                                                        fl.privateSpacesOfficeCapacity
+                                                      }%`,
+                                                    }}
+                                                  >
+                                                    <span className="hover-data hover_pop-up">
+                                                      <div className="d-flex justify-content-around">
+                                                        <span>
+                                                          Workstations
+                                                          <Image
+                                                            className="d-block w-100 hover-data-cursor"
+                                                            src={Workstation}
+                                                          />
+                                                        </span>
+                                                        <span className="digit">
+                                                          {`${Math.round(
+                                                            fl &&
+                                                              fl.workstationsAssignment,
+                                                          )}/${Math.round(
+                                                            fl &&
+                                                              fl.workstationsSpaces,
+                                                          )}`}
+                                                        </span>
+                                                      </div>
+                                                      <div className="d-flex justify-content-around">
+                                                        <span className="mg_pop">
+                                                          Private Spaces
+                                                          <Image
+                                                            className="d-block w-100 hover-data-cursor"
+                                                            src={PrivateSpace}
+                                                          />
+                                                        </span>
+                                                        <span className="digit">
+                                                          {`${Math.round(
+                                                            fl &&
+                                                              fl.privateAssignment,
+                                                          )}/${Math.round(
+                                                            fl &&
+                                                              fl.privateSpaces,
+                                                          )}`}
+                                                        </span>
+                                                      </div>
+                                                    </span>
+                                                  </p>
+                                                  <div
+                                                    className="persantage"
+                                                    style={{
+                                                      width: '30%',
+                                                    }}
+                                                  >
+                                                    {`${Math.round(
+                                                      fl &&
+                                                        fl.privateSpacesOfficeCapacity,
+                                                    )}%`}
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          ))}
+
+                                        <div
+                                          className="per-line1"
+                                          style={{ marginTop: 'auto' }}
+                                        >
+                                          <div
+                                            className="test d-flex"
+                                            style={{
+                                              width: '100%',
+                                              marginLeft: '21px',
+                                            }}
+                                          >
+                                            <div className="per-bar">0</div>
+                                            <div className="per-bar">20%</div>
+                                            <div className="per-bar">40%</div>
+                                            <div className="per-bar">60%</div>
+                                            <div className="per-bar">80%</div>
+                                            <div className="per-bar">100%</div>
+                                          </div>
+                                          <div className="d2" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ),
+                            )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                </div>
+
+                {/*Weekly Report*/}
+                <div className="input-button-strip w-100 d-flex align-items-center justify-content-between">
+                  <div>
+                    <h4 className="common-title">Weekly Report</h4>
+                  </div>
+
                   <div className="d-flex align-items-center">
-                    {/* <div>
-                      <button
-                        type="submit"
-                        className="disable-btn opa2"
-                        onClick={handleToday}
-                      >
-                        {' '}
-                        Show current week
-                      </button>
-                    </div> */}
                     <p className="week-range m-auto admin-week">{title}</p>
                     <div className="change-log">
                       <button
@@ -250,7 +1070,40 @@ const WorkspotAdmin = ({
                         &rsaquo;
                       </button>
                     </div>
+                    <Button
+                      variant="primary"
+                      className="export_btn"
+                      onClick={() => {
+                        setOpen(true);
+                        setOfficeCapacity(false);
+                        setExpectedCapacity(false);
+                        setConfirmCapacity(false);
+                      }}
+                    >
+                      Export Report
+                    </Button>
                   </div>
+                </div>
+
+                {/*Office Attendance */}
+
+                <div
+                  className="d-flex align-items-center mt-3"
+                  style={{ position: 'relative' }}
+                >
+                  <span className="common-title-capacity">Office Capacity</span>
+                  <span className="common-img ps-1">
+                    &nbsp;
+                    <Image
+                      src={info}
+                      className="expected_img_office hover-data-cursor"
+                    />
+                    <span className="hover-data expected_hover office_lower">
+                      <div className="d-flex justify-content-around">
+                        <span>Office capacity for flex spaces.</span>
+                      </div>
+                    </span>
+                  </span>
                 </div>
 
                 <div className="table1">
@@ -263,7 +1116,7 @@ const WorkspotAdmin = ({
                             <td className="admin-day-name">
                               <p
                                 style={{
-                                  textAlign: 'right',
+                                  textAlign: 'center',
                                   marginBottom: '5px',
                                   marginTop: '13px',
                                   fontSize: '14px',
@@ -292,7 +1145,7 @@ const WorkspotAdmin = ({
                         <tr>
                           {(obj.id === 'DC' || obj.id === 'RIC') && (
                             <>
-                              <td className="admin-loc-name">
+                              <td className="admin-loc-name table1_color">
                                 {obj.locationname}
                               </td>
                               {days.dateToDisplay.map(item => {
@@ -306,21 +1159,36 @@ const WorkspotAdmin = ({
                                           : 'data-64'
                                       }
                                       style={
-                                        data && data.LocationPercentage >= '80%'
+                                        data && data.officeCapacity >= '80%'
                                           ? { color: 'red' }
                                           : { color: '' }
                                       }
                                     >
                                       {`${parseFloat(
-                                        data && data.LocationPercentage,
-                                      ).toFixed(2)}%`}
-                                      {data && data.id !== 'RW' && (
+                                        (data && data.officeCapacity) || 0,
+                                      ).toFixed()}%`}
+                                      {data &&
+                                      data.id !== 'RW' &&
+                                      item.date > new Date() ? (
                                         <span className="hover-data">
                                           Spaces Occupied{' '}
                                           <sapn className="digit">
-                                            {`${data &&
-                                              data.LocationFillCapacity}/${data &&
-                                              data.LocationCapacity}`}
+                                            {`${(data &&
+                                              data.expectedAttendance) ||
+                                              0}/${(data &&
+                                              data.LocationCapacity) ||
+                                              0}`}
+                                          </sapn>
+                                        </span>
+                                      ) : (
+                                        <span className="hover-data">
+                                          Spaces Occupied{' '}
+                                          <sapn className="digit">
+                                            {`${(data &&
+                                              data.totalAssignment) ||
+                                              0}/${(data &&
+                                              data.LocationCapacity) ||
+                                              0}`}
                                           </sapn>
                                         </span>
                                       )}
@@ -335,110 +1203,409 @@ const WorkspotAdmin = ({
                   </table>
                 </div>
 
-                <div className="chart-data">
-                  <div className="row">
-                    {floorCapacity &&
-                      floorCapacity.data &&
-                      floorCapacity.data.map(
-                        obj =>
-                          (obj.id === 'DC' || obj.id === 'RIC') && (
-                            <div className="col-lg-6 pl-0">
-                              <div className="bg-w">
-                                <div className="chart-title">
-                                  {obj.id === 'RIC' ? 'Richmond' : obj.id}{' '}
-                                  Office Capacity -{' '}
-                                  {`${parseFloat(
-                                    obj.LocationPercentage,
-                                  ).toFixed(2)}%`}
-                                </div>
-                                <div className="chart-para">
-                                  Today, {moment(obj.date).format('LL')}
-                                </div>
-                                <div className="bar-chart">
-                                  <div className="bar-graph bar-graph-horizontal bar-graph-one">
-                                    {obj.FloorBuilding &&
-                                      obj.FloorBuilding.map(fl => (
-                                        <div className="bar-one d-flex">
-                                          <div
-                                            className="year"
-                                            style={{
-                                              width: '18%',
-                                            }}
-                                          >
-                                            {fl.building === null &&
-                                              `Floor ${fl.floor}`}
-                                            {fl.floor === null &&
-                                              `Building ${fl.building}`}
-                                            {fl.building !== null &&
-                                              fl.floor !== null &&
-                                              `Bldg ${fl.building}, Floor ${
-                                                fl.floor
-                                              }`}
-                                          </div>
-                                          <div
-                                            className="bar"
-                                            style={{
-                                              width: '75%',
-                                            }}
-                                          >
-                                            <p
-                                              className="bar"
-                                              style={{
-                                                backgroundColor: barColor(
-                                                  fl.floor,
-                                                  fl.building,
-                                                ),
-                                                width: `${fl.percentage}%`,
-                                              }}
-                                            >
-                                              {/* <span className="hover-data">
-                                                Spaces available{' '}
-                                                <span className="digit">
-                                                  {`${fl && fl.percentage}/100`}
-                                                </span>
-                                              </span> */}
-                                            </p>
-                                            <div
-                                              className="persantage"
-                                              // style={{
-                                              //   width: '7%',
-                                              // }}
-                                            >
-                                              {`${parseFloat(
-                                                fl && fl.percentage,
-                                              ).toFixed(2)}%`}
-                                            </div>
-                                          </div>
-                                        </div>
-                                      ))}
+                {/*Expected Attendance */}
 
-                                    <div className="per-line1">
-                                      <div className="d1" />
-                                      <div
-                                        className="test d-flex"
-                                        style={{ width: '75%' }}
-                                      >
-                                        <div className="per-bar">20%</div>
-                                        <div className="per-bar">40%</div>
-                                        <div className="per-bar">60%</div>
-                                        <div className="per-bar">80%</div>
-                                        <div className="per-bar">100%</div>
-                                      </div>
-                                      <div className="d2" />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                      )}
+                <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between position">
+                  <div className="d-flex align-items-center mt-3">
+                    <span className="common-title-capacity">
+                      Expected Attendance
+                    </span>
+                    <span className="ps-1 ml-1">
+                      &nbsp;
+                      <Image
+                        src={info}
+                        className="ml_img expected_img hover-data-cursor"
+                      />
+                      <span className="hover-data expected_hover expected_lower">
+                        <div className="d-flex justify-content-around">
+                          <span>
+                            Number of employees who have selected an office{' '}
+                            <br />
+                            via their intent or weekly default.
+                          </span>
+                        </div>
+                      </span>
+                    </span>
                   </div>
+                </div>
+
+                <div className="table1">
+                  <table>
+                    <tr>
+                      <td />
+                      {days.dateToDisplay.map(item => {
+                        return (
+                          <>
+                            <td className="admin-day-name">
+                              <p
+                                style={{
+                                  textAlign: 'center',
+                                  marginBottom: '5px',
+                                  marginTop: '13px',
+                                  fontSize: '14px',
+                                }}
+                              >
+                                {item.day}{' '}
+                              </p>
+                              <span
+                                className={
+                                  item.disable ? 'c-date disabled' : 'c-date'
+                                }
+                                style={{
+                                  background: isDateSelected(item.date),
+                                  fontSize: '12px',
+                                }}
+                              >
+                                {item.value}
+                              </span>
+                            </td>
+                          </>
+                        );
+                      })}
+                    </tr>
+                    {uniqueLocation.length > 0 &&
+                      uniqueLocation.map(obj => (
+                        <tr>
+                          {(obj.id === 'DC' || obj.id === 'RIC') && (
+                            <>
+                              <td className="admin-loc-name table1_color">
+                                {obj.locationname}
+                              </td>
+                              {days.dateToDisplay.map(item => {
+                                const data = spaces(item, obj);
+                                return (
+                                  <>
+                                    <td
+                                      className={
+                                        data && data.id !== 'RW'
+                                          ? 'data-63 day-pointer'
+                                          : 'data-64'
+                                      }
+                                      style={
+                                        data && data.expectedAttendance >= '80%'
+                                          ? { color: 'red' }
+                                          : { color: '' }
+                                      }
+                                    >
+                                      {parseFloat(
+                                        (data && data.expectedAttendance) || 0,
+                                      ).toFixed()}
+                                      {/* {data &&
+                                      data.id !== 'RW' &&
+                                      item.date > days.startDate ? (
+                                        <span className="hover-data">
+                                          Spaces Occupied{' '}
+                                          <sapn className="digit">
+                                            {`${data &&
+                                              data.confirmAttendance}/${data &&
+                                              data.LocationCapacity}`}
+                                          </sapn>
+                                        </span>
+                                      ) : (
+                                        <span className="hover-data">
+                                          Spaces Occupied{' '}
+                                          <sapn className="digit">
+                                            {`${data &&
+                                              data.totalAssignment}/${data &&
+                                              data.LocationCapacity}`}
+                                          </sapn>
+                                        </span>
+                                      )} */}
+                                    </td>
+                                  </>
+                                );
+                              })}
+                            </>
+                          )}
+                        </tr>
+                      ))}
+                  </table>
+                </div>
+
+                {/*Confirmed Attendance */}
+
+                <div className="input-button-strip mt-4 w-100 d-flex align-items-center justify-content-between">
+                  <div
+                    className="d-flex align-items-center mt-3"
+                    style={{ position: 'relative' }}
+                  >
+                    <span className="common-title-capacity">
+                      Confirmed Attendance
+                    </span>
+                    <span className="common-img ps-1">
+                      &nbsp;
+                      <Image
+                        src={info}
+                        className="expected_img_confirmed hover-data-cursor"
+                      />
+                      <span className="hover-data expected_hover confirm_lower">
+                        <div className="d-flex justify-content-around">
+                          <span>
+                            Number of employees who badged into the office.
+                          </span>
+                        </div>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div className="table1">
+                  <table>
+                    <tr>
+                      <td />
+                      {days.dateToDisplay.map(item => {
+                        return (
+                          <>
+                            <td className="admin-day-name">
+                              <p
+                                style={{
+                                  textAlign: 'center',
+                                  marginBottom: '5px',
+                                  marginTop: '13px',
+                                  fontSize: '14px',
+                                }}
+                              >
+                                {item.day}{' '}
+                              </p>
+                              <span
+                                className={
+                                  item.disable ? 'c-date disabled' : 'c-date'
+                                }
+                                style={{
+                                  background: isDateSelected(item.date),
+                                  fontSize: '12px',
+                                }}
+                              >
+                                {item.value}
+                              </span>
+                            </td>
+                          </>
+                        );
+                      })}
+                    </tr>
+                    {uniqueLocation.length > 0 &&
+                      uniqueLocation.map(obj => (
+                        <tr>
+                          {(obj.id === 'DC' || obj.id === 'RIC') && (
+                            <>
+                              <td className="admin-loc-name table1_color">
+                                {obj.locationname}
+                              </td>
+                              {days.dateToDisplay.map(item => {
+                                const data = spaces(item, obj);
+                                return (
+                                  <>
+                                    <td
+                                      className={
+                                        data && data.id !== 'RW'
+                                          ? 'data-63 day-pointer'
+                                          : 'data-64'
+                                      }
+                                      style={
+                                        data && data.confirmAttendance >= '80%'
+                                          ? { color: 'red' }
+                                          : { color: '' }
+                                      }
+                                    >
+                                      {parseFloat(
+                                        (data && data.confirmAttendance) || 0,
+                                      ).toFixed()}
+                                      {/* {data &&
+                                      data.id !== 'RW' &&
+                                      item.date > days.startDate ? (
+                                        <span className="hover-data">
+                                          Spaces Occupied{' '}
+                                          <sapn className="digit">
+                                            {`${data &&
+                                              data.officeCapacity}/${data &&
+                                              data.LocationCapacity}`}
+                                          </sapn>
+                                        </span>
+                                      ) : (
+                                        <span className="hover-data">
+                                          Spaces Occupied{' '}
+                                          <sapn className="digit">
+                                            {`${data &&
+                                              data.totalAssignment}/${data &&
+                                              data.LocationCapacity}`}
+                                          </sapn>
+                                        </span>
+                                      )} */}
+                                    </td>
+                                  </>
+                                );
+                              })}
+                            </>
+                          )}
+                        </tr>
+                      ))}
+                  </table>
                 </div>
               </div>
             </div>
           </div>
         </>
       )}
+
+      {/* {exportCapacityLoading ? (
+        <Spinner className="app-spinner" animation="grow" variant="dark" />
+      ) : ( */}
+      <Modal
+        className="modal fade test_modal_pins"
+        show={open}
+        onHide={() => {
+          setOpen(false);
+        }}
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-header d-block mypadlr mypt-3">
+          {loaidng ? (
+            <Spinner className="app-spinner" animation="grow" variant="dark" />
+          ) : (
+            <>
+              <div>
+                <h5 className="modal-title date_range" id="exampleModalLabel">
+                  Export Report
+                </h5>
+                {errorData && (
+                  <p
+                    style={{
+                      color: 'red',
+                      marginTop: '10px',
+                      marginBottom: '10px',
+                    }}
+                  >
+                    Please Select Date
+                  </p>
+                )}
+              </div>
+              <span className="mycheckbox">Select date range</span>
+              <div
+                className="invite-team-wrapp choose-date mt-2"
+                style={{ width: '85%', height: '48px' }}
+              >
+                <label
+                  style={{
+                    width: '100%',
+                    marginLeft: '12px',
+                    marginTop: '2px',
+                  }}
+                >
+                  <Datepicker
+                    controls={['calendar']}
+                    select="range"
+                    dateFormat="MMM D YYYY"
+                    value={dateValue}
+                    onChange={selectedChange}
+                  />
+                  <Image
+                    src={Calender}
+                    className="material-icons-outlined-image"
+                  />
+                </label>
+              </div>
+
+              {checkedError && (
+                <p
+                  style={{
+                    color: 'red',
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                  }}
+                >
+                  Please Checked Any One Data
+                </p>
+              )}
+
+              <form
+                className="delegate-workspot-access mycheckbox mt-3 ml-2"
+                action="submit"
+              >
+                <span>What data do you want to export?</span>
+                <>
+                  <Form.Check
+                    className="mt-2 checkedBox"
+                    label="Weekly Office Capacity"
+                    name="group1"
+                    onClick={() => {
+                      setOfficeCapacity(!officeCapacity);
+                      setCheckedError(false);
+                    }}
+                  />
+                  <Form.Check
+                    className="mt-2 checkedBox"
+                    label="Weekly Expected Attendance"
+                    name="group2"
+                    onClick={() => {
+                      setExpectedCapacity(!expectedCapacity);
+                      setCheckedError(false);
+                    }}
+                  />
+                  <Form.Check
+                    className="mt-2 checkedBox"
+                    label="Weekly Confirmed Attendance"
+                    name="group3"
+                    onClick={() => {
+                      setConfirmCapacity(!confirmCapacity);
+                      setCheckedError(false);
+                    }}
+                  />
+                </>
+              </form>
+            </>
+          )}
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            onClick={() => {
+              setOpen(false);
+              setErrorData(false);
+              setCheckedError(false);
+              setDateValue([]);
+            }}
+          />
+        </div>
+        <div className="modal-footer justify-content-between border-0 mypadlr mypb-3 pt-0">
+          <Button
+            variant="primary"
+            className="btn csv-btn-modal"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              handleExportCSV();
+              setExcelDataOpen(true);
+            }}
+            color="blue"
+          >
+            <span className="ml-8">.CSV Export</span>
+          </Button>
+          <Button
+            variant="primary"
+            className="btn csv-btn-modal"
+            data-bs-dismiss="mo dal"
+            onClick={() => {
+              handleExportCSV();
+              setExcelDataOpen(false);
+            }}
+          >
+            .XLSX Export
+          </Button>
+          <Button
+            className="dismiss-cancle"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              setOpen(false);
+              setErrorData(false);
+              setCheckedError(false);
+              setDateValue([]);
+            }}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Modal>
+      {/* )} */}
     </>
   );
 };
@@ -446,11 +1613,15 @@ const WorkspotAdmin = ({
 WorkspotAdmin.propTypes = {
   getCapacity: PropTypes.object,
   requestLocationCapacity: PropTypes.func,
+  requestExportLocationCapacity: PropTypes.func,
   handleClearCal: PropTypes.func,
   capacityLoading: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
+  exportCapacitySuccess: PropTypes.bool,
+  exportCapacityLoading: PropTypes.bool,
   getWarningData: PropTypes.object,
+  getExportData: PropTypes.object,
 };
 
 export default WorkspotAdmin;

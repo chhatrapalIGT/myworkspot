@@ -337,7 +337,25 @@
     width: 100%;
     overflow-x: scroll;
   }
+  .assign-table {
+    width: 100%;
+    overflow-x: scroll;
+  }
+  .neibour-table {
+    width: 100%;
+    overflow-x: scroll;
+  }
   .emp-table table {
+    width: 1000px;
+    overflow-x: scroll;
+    border-radius: 10px !important;
+  }
+  .assign-table table {
+    width: 1000px;
+    overflow-x: scroll;
+    border-radius: 10px !important;
+  }
+  .neibour-table table {
     width: 1000px;
     overflow-x: scroll;
     border-radius: 10px !important;

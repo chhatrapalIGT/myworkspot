@@ -9,20 +9,33 @@ const Pagination = props => {
     siblingCount = 1,
     currentPage,
     pageSize,
+    totalPages,
+    spaceTotalPages,
+    assignTotalPages,
   } = props;
   const paginationRange = usePagination({
     currentPage,
     totalCount,
     siblingCount,
     pageSize,
+    totalPages,
+    spaceTotalPages,
+    assignTotalPages,
   });
 
   const onNext = () => {
-    onPageChange(currentPage + 1);
+    if (
+      currentPage < spaceTotalPages ||
+      currentPage < totalPages ||
+      currentPage < assignTotalPages
+    ) {
+      onPageChange(currentPage + 1);
+    }
   };
-
   const onPrevious = () => {
-    onPageChange(currentPage - 1);
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
   };
 
   // const lastPage =
@@ -50,7 +63,7 @@ const Pagination = props => {
             </span>
           );
         })}
-      <span className="arrow" aria-hidden="true" onClick={onNext}>
+      <span className="arrow" disab aria-hidden="true" onClick={onNext}>
         &rsaquo;
       </span>
     </div>
@@ -63,5 +76,8 @@ Pagination.propTypes = {
   siblingCount: PropTypes.number,
   currentPage: PropTypes.number,
   pageSize: PropTypes.number,
+  totalPages: PropTypes.number,
+  spaceTotalPages: PropTypes.number,
+  assignTotalPages: PropTypes.number,
 };
 export default Pagination;

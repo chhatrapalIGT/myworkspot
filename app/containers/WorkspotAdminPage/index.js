@@ -11,6 +11,7 @@ import {
   requestLocationCapacity,
   resetWorkspotAdminMessage,
   requestCapacityWarning,
+  requestExportLocationCapacity,
 } from './actions';
 import {
   getStartEndDate,
@@ -59,11 +60,20 @@ class WorkspotAdminPage extends Component {
       apiMessage,
       apiSuccess,
       getWarningData,
+      capacitySuccess,
+      exportCapacitySuccess,
+      getExportData,
+      exportCapacityLoading,
     } = this.props;
     return (
       <WorkspotAdmin
+        exportCapacityLoading={exportCapacityLoading}
+        exportCapacitySuccess={exportCapacitySuccess}
+        getExportData={getExportData}
+        capacitySuccess={capacitySuccess}
         getCapacity={getCapacity}
         requestLocationCapacity={this.props.requestLocationCapacity}
+        requestExportLocationCapacity={this.props.requestExportLocationCapacity}
         capacityLoading={capacityLoading}
         apiMessage={apiMessage}
         apiSuccess={apiSuccess}
@@ -81,10 +91,26 @@ const mapStateToProps = state => {
       workspotAdmin &&
       workspotAdmin.getLocationCapacity &&
       workspotAdmin.getLocationCapacity.capacity,
+    getExportData:
+      workspotAdmin &&
+      workspotAdmin.getExportLocation &&
+      workspotAdmin.getExportLocation.export,
     capacityLoading:
       workspotAdmin &&
       workspotAdmin.getLocationCapacity &&
       workspotAdmin.getLocationCapacity.loading,
+    exportCapacityLoading:
+      workspotAdmin &&
+      workspotAdmin.getExportLocation &&
+      workspotAdmin.getExportLocation.loading,
+    exportCapacitySuccess:
+      workspotAdmin &&
+      workspotAdmin.getExportLocation &&
+      workspotAdmin.getExportLocation.success,
+    capacitySuccess:
+      workspotAdmin &&
+      workspotAdmin.getLocationCapacity &&
+      workspotAdmin.getLocationCapacity.success,
     apiMessage: workspotAdmin && workspotAdmin.apiMessage,
     apiSuccess: workspotAdmin && workspotAdmin.apiSuccess,
     getWarningData:
@@ -98,6 +124,8 @@ export function mapDispatchToProps(dispatch) {
   return {
     requestLocationCapacity: payload =>
       dispatch(requestLocationCapacity(payload)),
+    requestExportLocationCapacity: payload =>
+      dispatch(requestExportLocationCapacity(payload)),
     resetWorkspotAdminMessage: () => dispatch(resetWorkspotAdminMessage()),
     requestCapacityWarning: payload =>
       dispatch(requestCapacityWarning(payload)),
@@ -110,11 +138,16 @@ const withReducer = injectReducer({ key: 'workspotAdmin', reducer });
 WorkspotAdminPage.propTypes = {
   requestLocationCapacity: PropTypes.func,
   resetWorkspotAdminMessage: PropTypes.func,
+  requestExportLocationCapacity: PropTypes.func,
   requestCapacityWarning: PropTypes.func,
   getCapacity: PropTypes.object,
+  getExportData: PropTypes.object,
   capacityLoading: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
+  capacitySuccess: PropTypes.bool,
+  exportCapacitySuccess: PropTypes.bool,
+  exportCapacityLoading: PropTypes.bool,
   getWarningData: PropTypes.object,
 };
 
