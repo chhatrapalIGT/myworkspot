@@ -26,7 +26,7 @@ export function* getWhosIn({ payload }) {
   const page = get(payload, 'page', 1);
   const pay = {
     searchFilter: payload.searchKeyword,
-    sortField: payload.sortBy,
+    sortBy: payload.sortBy,
     limit,
     page,
     locationFilter: payload.office,
@@ -34,7 +34,7 @@ export function* getWhosIn({ payload }) {
     buildingFilter: payload.building,
     neighborhoodnameFilter: payload.neighborhood,
     todayDate: moment().format('YYYY-MM-DD'),
-    // todayDate: '2023-03-07',
+    // todayDate: '2023-03-09',
   };
   const requestURL = `${API_URL}/whosIn/getWhosIn`;
   try {

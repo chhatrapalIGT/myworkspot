@@ -419,11 +419,11 @@ const WhoIsIn = props => {
                             className="img-fluid sort-img"
                             alt=""
                             aria-hidden="true"
-                            name="buildingFloor"
+                            name="floorbuilding"
                             onClick={() =>
                               props.handleClickSort(
-                                'buildingFloor',
-                                props.state.sortOrder.buildingFloor,
+                                'floorbuilding',
+                                props.state.sortOrder.floorbuilding,
                               )
                             }
                           />
