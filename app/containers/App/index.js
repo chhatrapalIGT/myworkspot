@@ -30,6 +30,7 @@ import WorkspotAdminPage from '../WorkspotAdminPage';
 import NeighbourHoodPage from '../NeighbourHoodPage';
 import { requestGetOfficeAssignments } from '../NeighbourHoodPage/action';
 import AssignmentPage from '../AssignmentPage';
+import WhoIsIn from '../WhoIsInPage';
 
 const App = props => {
   const [pageLoading, setPageLoading] = useState(true);
@@ -123,6 +124,13 @@ const App = props => {
               props={props}
               path="/employee"
               component={EmployeePage}
+            />
+            <Route
+              exact
+              Route
+              props={props}
+              path="/whoIsIn"
+              component={WhoIsIn}
             />
             <Route
               exact
