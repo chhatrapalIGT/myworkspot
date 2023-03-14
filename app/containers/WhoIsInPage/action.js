@@ -1,28 +1,28 @@
 import {
   CLEAR_OFFICE,
-  FAILED_GET_ASSIGNMENT_DETAIL,
+  FAILED_GET_WHOISIN_DETAIL,
   FAILED_GET_OFFICE_FLOOR,
   FAILED_GET_OFFICE_NEIGHBORHOOD,
-  REQUEST_GET_ASSIGNMENT_DETAIL,
+  REQUEST_GET_WHOISIN_DETAIL,
   REQUEST_GET_OFFICE_FLOOR,
   REQUEST_GET_OFFICE_NEIGHBORHOOD,
-  SUCCESS_GET_ASSIGNMENT_DETAIL,
+  SUCCESS_GET_WHOISIN_DETAIL,
   SUCCESS_GET_OFFICE_FLOOR,
   SUCCESS_GET_OFFICE_NEIGHBORHOOD,
 } from './constants';
 
-export const requestGetAssignmentDetail = payload => ({
-  type: REQUEST_GET_ASSIGNMENT_DETAIL,
+export const requestGetWhoIsInDetail = payload => ({
+  type: REQUEST_GET_WHOISIN_DETAIL,
   payload,
 });
 
-export const getAssignmentDetailSuccess = payload => ({
-  type: SUCCESS_GET_ASSIGNMENT_DETAIL,
+export const getWhoIsInDetailSuccess = payload => ({
+  type: SUCCESS_GET_WHOISIN_DETAIL,
   payload,
 });
 
-export const getAssignmentDetailFailed = error => ({
-  type: FAILED_GET_ASSIGNMENT_DETAIL,
+export const getWhoIsInDetailFailed = error => ({
+  type: FAILED_GET_WHOISIN_DETAIL,
   payload: error,
 });
 

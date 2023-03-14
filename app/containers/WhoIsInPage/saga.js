@@ -4,13 +4,13 @@ import { push } from 'react-router-redux';
 import { get } from 'lodash';
 import moment from 'moment';
 import {
-  REQUEST_GET_ASSIGNMENT_DETAIL,
+  REQUEST_GET_WHOISIN_DETAIL,
   REQUEST_GET_OFFICE_FLOOR,
   REQUEST_GET_OFFICE_NEIGHBORHOOD,
 } from './constants';
 import {
-  getAssignmentDetailSuccess,
-  getAssignmentDetailFailed,
+  getWhoIsInDetailSuccess,
+  getWhoIsInDetailFailed,
   getOfficeFloorSuccess,
   getOfficeFloorFailed,
   getOfficeNeighborhoodSuccess,
@@ -19,26 +19,26 @@ import {
 import { CONSTANT } from '../../enum';
 const { API_URL } = CONSTANT;
 
-export function* getAssignmentData({ payload }) {
+export function* getWhosIn({ payload }) {
   let token = sessionStorage.getItem('AccessToken');
   token = JSON.parse(token);
   const limit = get(payload, 'limit', 10);
   const page = get(payload, 'page', 1);
   const pay = {
-    searchKeyword: payload.searchKeyword,
-    sortBy: payload.sortBy,
+    searchFilter: payload.searchKeyword,
+    sortField: payload.sortBy,
     limit,
     page,
-    office: payload.office,
-    floor: payload.floor,
-    building: payload.building,
-    neighborhood: payload.neighborhood,
-    newExport: false,
+    locationFilter: payload.office,
+    floorFilter: payload.floor,
+    buildingFilter: payload.building,
+    neighborhoodnameFilter: payload.neighborhood,
     todayDate: moment().format('YYYY-MM-DD'),
+    // todayDate: '2023-03-07',
   };
-  const requestURL = `${API_URL}/adminPanel/assignments/getAssigmentsData`;
+  const requestURL = `${API_URL}/whosIn/getWhosIn`;
   try {
-    const assignmentList = yield request({
+    const whosInList = yield request({
       method: 'POST',
       url: requestURL,
       data: pay,
@@ -46,17 +46,17 @@ export function* getAssignmentData({ payload }) {
         Authorization: `Bearer ${token.idtoken}`,
       },
     });
-    const { data } = assignmentList;
+    const { data } = whosInList;
     if (data.status === 403) {
       sessionStorage.clear();
       yield put(push('/auth'));
     } else if (data && data.success) {
-      yield put(getAssignmentDetailSuccess(data || []));
+      yield put(getWhoIsInDetailSuccess(data || []));
     } else {
-      yield put(getAssignmentDetailFailed(data));
+      yield put(getWhoIsInDetailFailed(data));
     }
   } catch (err) {
-    yield put(getAssignmentDetailFailed('Please try again'));
+    yield put(getWhoIsInDetailFailed('Please try again'));
   }
 }
 
@@ -115,7 +115,7 @@ export function* getOfficeNeighbourhood({ payload }) {
 }
 
 export default function* assignmentSaga() {
-  yield takeLatest(REQUEST_GET_ASSIGNMENT_DETAIL, getAssignmentData);
+  yield takeLatest(REQUEST_GET_WHOISIN_DETAIL, getWhosIn);
   yield takeLatest(REQUEST_GET_OFFICE_FLOOR, getOfficeFloor);
   yield takeLatest(REQUEST_GET_OFFICE_NEIGHBORHOOD, getOfficeNeighbourhood);
 }

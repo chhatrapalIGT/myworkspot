@@ -6,12 +6,10 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import moment from 'moment';
 import saga from './saga';
 import reducer from './reducer';
-import Assignments from '../../components/Assignments';
 import {
-  requestGetAssignmentDetail,
+  requestGetWhoIsInDetail,
   requestGetOfficeFloor,
   requestGetOfficeNeighborhood,
 } from './action';
@@ -39,12 +37,11 @@ class WhoIsInPage extends Component {
         buildingFloor: true,
         neighborhood: true,
         assignedSpage: true,
-        badge: true,
       },
     };
   }
 
-  getAssignData = (
+  getWhoIsInData = (
     searchKeyword,
     office,
     floor,
@@ -64,7 +61,7 @@ class WhoIsInPage extends Component {
       page,
       limit,
     };
-    this.props.requestGetAssignmentDetail(finalPayload);
+    this.props.requestGetWhoIsInDetail(finalPayload);
   };
 
   handleSelectedoffice = option => {
@@ -118,7 +115,7 @@ class WhoIsInPage extends Component {
       });
       const timeoutId = setTimeout(() => {
         this.setState({ srcOffice: strArr }, () => {
-          this.getAssignData(
+          this.getWhoIsInData(
             this.state.search,
             strArr,
             this.state.srcFloor,
@@ -191,7 +188,7 @@ class WhoIsInPage extends Component {
         this.setState(
           { srcFloor: strFloorArr, srcBuilding: strBuildingArr },
           () => {
-            this.getAssignData(
+            this.getWhoIsInData(
               this.state.search,
               this.state.srcOffice,
               strFloorArr,
@@ -245,7 +242,7 @@ class WhoIsInPage extends Component {
       }
       const timeoutId = setTimeout(() => {
         this.setState({ srcNeighborhood: strArr }, () => {
-          this.getAssignData(
+          this.getWhoIsInData(
             this.state.search,
             this.state.srcOffice,
             this.state.srcFloor,
@@ -265,7 +262,7 @@ class WhoIsInPage extends Component {
 
   handleLimitChange = e => {
     this.setState({ limit: e, page: 1 });
-    this.getAssignData(
+    this.getWhoIsInData(
       this.state.search,
       this.state.srcOffice,
       this.state.srcFloor,
@@ -280,7 +277,7 @@ class WhoIsInPage extends Component {
   handlePageChange = e => {
     const { limit } = this.state;
     this.setState({ page: e });
-    this.getAssignData(
+    this.getWhoIsInData(
       this.state.search,
       this.state.srcOffice,
       this.state.srcFloor,
@@ -299,7 +296,7 @@ class WhoIsInPage extends Component {
     }
     const timeoutId = setTimeout(() => {
       this.setState({ search: value }, () => {
-        this.props.requestGetAssignmentDetail({
+        this.props.requestGetWhoIsInDetail({
           searchKeyword: this.state.search,
           office: this.state.srcOffice,
           floor: this.state.srcFloor,
@@ -325,7 +322,7 @@ class WhoIsInPage extends Component {
       sortBy = `${[key]}-DESC`;
     }
     this.setState({ sortBy });
-    this.props.requestGetAssignmentDetail({
+    this.props.requestGetWhoIsInDetail({
       searchKeyword: this.state.search,
       office: this.state.srcOffice,
       floor: this.state.srcFloor,
@@ -346,7 +343,7 @@ class WhoIsInPage extends Component {
     this.props.requestGetOfficeLocation({});
     this.props.requestGetOfficeFloor({});
     this.props.requestGetOfficeNeighborhood({});
-    this.props.requestGetAssignmentDetail({
+    this.props.requestGetWhoIsInDetail({
       page: this.state.page,
       limit: this.state.limit,
     });
@@ -359,23 +356,21 @@ class WhoIsInPage extends Component {
 
   render() {
     const {
-      assignmentData,
+      whoIsInData,
       officeLocation,
       officeFloor,
       officeNeighborhood,
-      assignmentLoading,
-      exportAssignmentLoading,
-      assignmentCount,
-      exportAssignmentData,
+      whoIsInLoading,
+      whoIsInCount,
       apiMessage,
       apiSuccess,
-      assignTotalPage,
+      whoIsInTotalPage,
     } = this.props;
     return (
       <div>
         <WhoIsIn
-          assignTotalPage={assignTotalPage}
-          assignmentData={assignmentData}
+          whoIsInTotalPage={whoIsInTotalPage}
+          whoIsInData={whoIsInData}
           officeLocation={officeLocation}
           officeFloor={officeFloor}
           officeNeighborhood={officeNeighborhood}
@@ -387,11 +382,8 @@ class WhoIsInPage extends Component {
           handlePageChange={this.handlePageChange}
           handleClickSort={this.handleClickSort}
           handleSearcha={this.handleSearcha}
-          handleExport={this.handleExport}
-          handleData={this.handleData}
-          assignmentLoading={assignmentLoading}
-          exportAssignmentLoading={exportAssignmentLoading}
-          assignmentCount={assignmentCount}
+          whoIsInLoading={whoIsInLoading}
+          whoIsInCount={whoIsInCount}
           apiSuccess={apiSuccess}
           apiMessage={apiMessage}
           replaceImage={this.replaceImage}
@@ -402,55 +394,43 @@ class WhoIsInPage extends Component {
 }
 
 const mapStateToProps = state => {
-  const { assignment, locationData } = state;
+  const { whoIsIn, locationData } = state;
   return {
-    assignmentData:
-      assignment &&
-      assignment.assignmentDetail &&
-      assignment.assignmentDetail.assignment &&
-      assignment.assignmentDetail.assignment.assignmentsData,
-    officeFloor:
-      assignment && assignment.officeFloor && assignment.officeFloor.floors,
+    whoIsInData:
+      whoIsIn &&
+      whoIsIn.whoIsInDetail &&
+      whoIsIn.whoIsInDetail.whoIsIn &&
+      whoIsIn.whoIsInDetail.whoIsIn.data,
+    officeFloor: whoIsIn && whoIsIn.officeFloor && whoIsIn.officeFloor.floors,
     officeNeighborhood:
-      assignment &&
-      assignment.officeNeighborhood &&
-      assignment.officeNeighborhood.neighborhood,
+      whoIsIn &&
+      whoIsIn.officeNeighborhood &&
+      whoIsIn.officeNeighborhood.neighborhood,
     officeLocation:
       locationData &&
       locationData.getOfficeLocation &&
       locationData.getOfficeLocation.location,
-    assignmentLoading:
-      assignment &&
-      assignment.assignmentDetail &&
-      assignment.assignmentDetail.loading,
-    exportAssignmentData:
-      assignment &&
-      assignment.exportAssignmentDetails &&
-      assignment.exportAssignmentDetails.exportAssignment &&
-      assignment.exportAssignmentDetails.exportAssignment.assignmentsData,
-    exportAssignmentLoading:
-      assignment &&
-      assignment.exportAssignmentDetails &&
-      assignment.exportAssignmentDetails.loading,
-    assignmentCount:
-      assignment &&
-      assignment.assignmentDetail &&
-      assignment.assignmentDetail.assignment &&
-      assignment.assignmentDetail.assignment.count,
-    assignTotalPage:
-      assignment &&
-      assignment.assignmentDetail &&
-      assignment.assignmentDetail.assignment &&
-      assignment.assignmentDetail.assignment.totalPages,
-    apiMessage: assignment && assignment.apiMessage,
-    apiSuccess: assignment && assignment.apiSuccess,
+    whoIsInLoading:
+      whoIsIn && whoIsIn.whoIsInDetail && whoIsIn.whoIsInDetail.loading,
+    whoIsInCount:
+      whoIsIn &&
+      whoIsIn.whoIsInDetail &&
+      whoIsIn.whoIsInDetail.whoIsIn &&
+      whoIsIn.whoIsInDetail.whoIsIn.count,
+    whoIsInTotalPage:
+      whoIsIn &&
+      whoIsIn.whoIsInDetail &&
+      whoIsIn.whoIsInDetail.whoIsIn &&
+      whoIsIn.whoIsInDetail.whoIsIn.totalPages,
+    apiMessage: whoIsIn && whoIsIn.apiMessage,
+    apiSuccess: whoIsIn && whoIsIn.apiSuccess,
   };
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    requestGetAssignmentDetail: payload =>
-      dispatch(requestGetAssignmentDetail(payload)),
+    requestGetWhoIsInDetail: payload =>
+      dispatch(requestGetWhoIsInDetail(payload)),
     requestGetOfficeLocation: payload =>
       dispatch(requestGetOfficeLocation(payload)),
     requestGetOfficeFloor: payload => dispatch(requestGetOfficeFloor(payload)),
@@ -459,23 +439,21 @@ export function mapDispatchToProps(dispatch) {
     dispatch,
   };
 }
-const withReducer = injectReducer({ key: 'assignment', reducer });
-const withSaga = injectSaga({ key: 'assignment', saga });
+const withReducer = injectReducer({ key: 'whoIsIn', reducer });
+const withSaga = injectSaga({ key: 'whoIsIn', saga });
 
 WhoIsInPage.propTypes = {
-  requestGetAssignmentDetail: PropTypes.func,
+  requestGetWhoIsInDetail: PropTypes.func,
   requestGetOfficeLocation: PropTypes.func,
   requestGetOfficeFloor: PropTypes.func,
   requestGetOfficeNeighborhood: PropTypes.func,
   officeLocation: PropTypes.object,
   officeFloor: PropTypes.object,
   officeNeighborhood: PropTypes.object,
-  assignmentData: PropTypes.object,
-  exportAssignmentData: PropTypes.object,
-  assignmentLoading: PropTypes.bool,
-  exportAssignmentLoading: PropTypes.bool,
-  assignmentCount: PropTypes.number,
-  assignTotalPage: PropTypes.number,
+  whoIsInLoading: PropTypes.bool,
+  whoIsInCount: PropTypes.number,
+  whoIsInData: PropTypes.array,
+  whoIsInTotalPage: PropTypes.number,
   apiSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
 };

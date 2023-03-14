@@ -4,6 +4,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 import { Image, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Pagination from '../Employee/Pagination';
@@ -16,7 +17,7 @@ const { USER_IMAGE_SRC_LIVE } = CONSTANT;
 const WhoIsIn = props => {
   const {
     state,
-    assignmentData,
+    whoIsInData,
     officeLocation,
     officeFloor,
     officeNeighborhood,
@@ -30,6 +31,9 @@ const WhoIsIn = props => {
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([
     { label: 'All', name: 'All', value: 'All' },
   ]);
+
+  const today = moment();
+  const currentDate = today.format('dddd, MMMM D, YYYY');
 
   useEffect(() => {
     const tempArr = [
@@ -207,9 +211,7 @@ const WhoIsIn = props => {
           <div className="container">
             <div className="d-flex align-items-center justify-content-between mb-4">
               <h4 className="common-title"> {"Who's in?"} </h4>
-              <span className="px-4 py-3 fw-normal">
-                Tuesday, February 21, 2023
-              </span>
+              <span className="px-4 py-3 fw-normal">{currentDate}</span>
             </div>
             <div className="head d-flex align-items-center">
               <div className="office-selections wrap">
@@ -366,156 +368,167 @@ const WhoIsIn = props => {
             </div>
             <div className="assign-table">
               <table>
-                <tr>
-                  <th style={{ width: '20%' }}>
-                    <span className="d-flex text-nowrap">
-                      Name{' '}
-                      <span className="ms-1">
-                        <img
-                          src={Sort}
-                          className="img-fluid sort-img custom-sort-img"
-                          alt=""
-                          name="name"
-                          aria-hidden="true"
-                          onClick={() =>
-                            props.handleClickSort(
-                              'name',
-                              props.state.sortOrder.name,
-                            )
-                          }
-                        />
-                      </span>
-                    </span>
-                  </th>
-                  <th style={{ width: '16%' }}>
-                    <span className="d-flex text-nowrap">
-                      Department{' '}
-                      <span>
-                        <img
-                          src={Sort}
-                          className="img-fluid sort-img"
-                          name="department"
-                          alt=""
-                          aria-hidden="true"
-                          onClick={() =>
-                            props.handleClickSort(
-                              'department',
-                              props.state.sortOrder.department,
-                            )
-                          }
-                        />
-                      </span>
-                    </span>
-                  </th>
-                  <th style={{ width: '16%' }}>
-                    <span className="d-flex text-nowrap">
-                      Building/Floor{' '}
-                      <span>
-                        <img
-                          src={Sort}
-                          className="img-fluid sort-img"
-                          alt=""
-                          aria-hidden="true"
-                          name="buildingFloor"
-                          onClick={() =>
-                            props.handleClickSort(
-                              'buildingFloor',
-                              props.state.sortOrder.buildingFloor,
-                            )
-                          }
-                        />
-                      </span>
-                    </span>
-                  </th>
-                  <th style={{ width: '16%' }}>
-                    <span className="d-flex text-nowrap">
-                      Neighborhood{' '}
-                      <span>
-                        <img
-                          src={Sort}
-                          className="img-fluid sort-img"
-                          alt=""
-                          aria-hidden="true"
-                          name="neighborhood"
-                          onClick={() =>
-                            props.handleClickSort(
-                              'neighborhood',
-                              props.state.sortOrder.neighborhood,
-                            )
-                          }
-                        />
-                      </span>
-                    </span>
-                  </th>
-                  <th style={{ width: '16%' }}>
-                    <span className="d-flex text-nowrap">
-                      Assigned Space{' '}
-                      <span>
-                        <img
-                          src={Sort}
-                          className="img-fluid sort-img"
-                          alt=""
-                          aria-hidden="true"
-                          name="assignedSpace"
-                          onClick={() =>
-                            props.handleClickSort(
-                              'assignedSpace',
-                              props.state.sortOrder.assignedSpace,
-                            )
-                          }
-                        />
-                      </span>
-                    </span>
-                  </th>
-                </tr>
-                {props.assignmentLoading ? (
+                <tbody>
                   <tr>
-                    <td colSpan="5">
-                      <Spinner
-                        className="app-spinner"
-                        animation="grow"
-                        variant="dark"
-                      />
-                    </td>
+                    <th style={{ width: '20%' }}>
+                      <span className="d-flex text-nowrap">
+                        Name{' '}
+                        <span className="ms-1">
+                          <img
+                            src={Sort}
+                            className="img-fluid sort-img custom-sort-img"
+                            alt=""
+                            name="name"
+                            aria-hidden="true"
+                            onClick={() =>
+                              props.handleClickSort(
+                                'name',
+                                props.state.sortOrder.name,
+                              )
+                            }
+                          />
+                        </span>
+                      </span>
+                    </th>
+                    <th style={{ width: '20%' }}>
+                      <span className="d-flex text-nowrap">
+                        Department{' '}
+                        <span>
+                          <img
+                            src={Sort}
+                            className="img-fluid sort-img"
+                            name="department"
+                            alt=""
+                            aria-hidden="true"
+                            onClick={() =>
+                              props.handleClickSort(
+                                'department',
+                                props.state.sortOrder.department,
+                              )
+                            }
+                          />
+                        </span>
+                      </span>
+                    </th>
+                    <th style={{ width: '20%' }}>
+                      <span className="d-flex text-nowrap">
+                        Building/Floor{' '}
+                        <span>
+                          <img
+                            src={Sort}
+                            className="img-fluid sort-img"
+                            alt=""
+                            aria-hidden="true"
+                            name="buildingFloor"
+                            onClick={() =>
+                              props.handleClickSort(
+                                'buildingFloor',
+                                props.state.sortOrder.buildingFloor,
+                              )
+                            }
+                          />
+                        </span>
+                      </span>
+                    </th>
+                    <th style={{ width: '20%' }}>
+                      <span className="d-flex text-nowrap">
+                        Neighborhood{' '}
+                        <span>
+                          <img
+                            src={Sort}
+                            className="img-fluid sort-img"
+                            alt=""
+                            aria-hidden="true"
+                            name="neighborhoodname"
+                            onClick={() =>
+                              props.handleClickSort(
+                                'neighborhoodname',
+                                props.state.sortOrder.neighborhoodname,
+                              )
+                            }
+                          />
+                        </span>
+                      </span>
+                    </th>
+                    <th style={{ width: '20%' }}>
+                      <span className="d-flex text-nowrap">
+                        Assigned Space{' '}
+                        <span>
+                          <img
+                            src={Sort}
+                            className="img-fluid sort-img"
+                            alt=""
+                            aria-hidden="true"
+                            name="workspacename"
+                            onClick={() =>
+                              props.handleClickSort(
+                                'workspacename',
+                                props.state.sortOrder.workspacename,
+                              )
+                            }
+                          />
+                        </span>
+                      </span>
+                    </th>
                   </tr>
-                ) : props.assignmentData &&
-                  props.assignmentData.length === 0 ? (
-                  <tr>
-                    <td colSpan="6">
-                      <div className="employee-norecord">
-                        {'No record found'}
-                      </div>
-                    </td>
-                  </tr>
-                ) : (
-                  assignmentData &&
-                  assignmentData.length > 0 &&
-                  assignmentData.map((i, index) => (
-                    <tr key={index + 1}>
-                      <td
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <img
-                          onError={props.replaceImage}
-                          src={`${USER_IMAGE_SRC_LIVE}${i.employeeid}.wiki.jpg`}
-                          className="img-fluid table-user-img"
-                          alt=""
-                          style={{ height: '32px' }}
-                        />{' '}
-                        <span>{i.name}</span>
+                </tbody>
+                {props.whoIsInLoading ? (
+                  <tbody>
+                    <tr>
+                      <td colSpan="5">
+                        <Spinner
+                          className="app-spinner"
+                          animation="grow"
+                          variant="dark"
+                        />
                       </td>
-                      <td>{i.department}</td>
-                      <td>
-                        {i.floor !== null ? `Floor ${i.floor}` : ''}{' '}
-                        {i.building !== null ? `Building ${i.building}` : ''}
-                      </td>
-                      <td>{i.neighborhood}</td>
-                      <td>{i.assignedSpace}</td>
                     </tr>
-                  ))
+                  </tbody>
+                ) : props.whoIsInData && props.whoIsInData.length === 0 ? (
+                  <tbody>
+                    <tr>
+                      <td colSpan="6">
+                        <div className="employee-norecord">
+                          {'No record found'}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                ) : (
+                  <tbody>
+                    {whoIsInData &&
+                      whoIsInData.length > 0 &&
+                      whoIsInData.map((i, index) => (
+                        <tr key={index + 1}>
+                          <td
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <img
+                              onError={props.replaceImage}
+                              src={`${USER_IMAGE_SRC_LIVE}${
+                                i.employeeid
+                              }.wiki.jpg`}
+                              className="img-fluid table-user-img"
+                              alt=""
+                              style={{ height: '32px' }}
+                            />{' '}
+                            <span>{i.name}</span>
+                          </td>
+                          <td>{i.department}</td>
+                          <td>
+                            {i.floor !== null ? `Floor ${i.floor}` : ''}{' '}
+                            {i.building !== null
+                              ? `Building ${i.building}`
+                              : ''}
+                          </td>
+                          <td>{i.neighborhoodname}</td>
+                          <td>{i.workspacename}</td>
+                        </tr>
+                      ))}
+                  </tbody>
                 )}
               </table>
               <div className="table-bot-flex">
@@ -531,20 +544,20 @@ const WhoIsIn = props => {
                     <option value="20">20 per page</option>
                     <option value="30">30 per page</option>
                     <option value="40">40 per page</option>
-                    <option value={props.assignmentCount}>View All</option>
+                    <option value={props.whoIsInCount}>View All</option>
                   </select>
                 </div>
                 <div className="">
                   {state.page * state.limit - (state.limit - 1)} -
-                  {state.page * state.limit} of {props.assignmentCount} shown
+                  {state.page * state.limit} of {props.whoIsInCount} shown
                 </div>
                 <Pagination
                   className="pagination-bar"
                   currentPage={state.page}
-                  totalCounts={props.assignmentCount * state.limit}
-                  totalCount={props.assignmentCount}
+                  totalCounts={props.whoIsInCount * state.limit}
+                  totalCount={props.whoIsInCount}
                   pageSize={state.limit}
-                  assignTotalPages={props.assignTotalPage}
+                  totalPages={props.whoIsInTotalPage}
                   onPageChange={page => props.handlePageChange(page)}
                 />
               </div>
@@ -557,7 +570,7 @@ const WhoIsIn = props => {
 };
 
 WhoIsIn.propTypes = {
-  assignmentData: PropTypes.array,
+  whoIsInData: PropTypes.array,
   officeLocation: PropTypes.object,
   officeFloor: PropTypes.object,
   officeNeighborhood: PropTypes.object,
@@ -569,9 +582,9 @@ WhoIsIn.propTypes = {
   handlePageChange: PropTypes.func,
   handleClickSort: PropTypes.func,
   handleSearcha: PropTypes.func,
-  assignmentLoading: PropTypes.bool,
-  assignmentCount: PropTypes.number,
-  assignTotalPage: PropTypes.number,
+  whoIsInLoading: PropTypes.bool,
+  whoIsInCount: PropTypes.number,
+  whoIsInTotalPage: PropTypes.number,
   replaceImage: PropTypes.func,
 };
 

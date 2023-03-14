@@ -1,6 +1,6 @@
-export const REQUEST_GET_ASSIGNMENT_DETAIL = 'requestGetAssignmentDetail';
-export const SUCCESS_GET_ASSIGNMENT_DETAIL = 'getAssignmentDetailSuccess';
-export const FAILED_GET_ASSIGNMENT_DETAIL = 'getAssignmentDetailFailed';
+export const REQUEST_GET_WHOISIN_DETAIL = 'requestGetWhoIsInDetail';
+export const SUCCESS_GET_WHOISIN_DETAIL = 'getWhoIsInDetailSuccess';
+export const FAILED_GET_WHOISIN_DETAIL = 'getWhoIsInDetailFailed';
 
 export const REQUEST_GET_OFFICE_FLOOR = 'requestGetOfficeFloor';
 export const SUCCESS_GET_OFFICE_FLOOR = 'getOfficeFloorSuccess';

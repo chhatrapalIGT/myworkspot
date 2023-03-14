@@ -2,25 +2,25 @@ import produce from 'immer';
 
 import {
   CLEAR_OFFICE,
-  FAILED_GET_ASSIGNMENT_DETAIL,
+  FAILED_GET_WHOISIN_DETAIL,
   FAILED_GET_OFFICE_FLOOR,
   FAILED_GET_OFFICE_NEIGHBORHOOD,
-  REQUEST_GET_ASSIGNMENT_DETAIL,
+  REQUEST_GET_WHOISIN_DETAIL,
   REQUEST_GET_OFFICE_FLOOR,
   REQUEST_GET_OFFICE_NEIGHBORHOOD,
-  SUCCESS_GET_ASSIGNMENT_DETAIL,
+  SUCCESS_GET_WHOISIN_DETAIL,
   SUCCESS_GET_OFFICE_FLOOR,
   SUCCESS_GET_OFFICE_NEIGHBORHOOD,
 } from './constants';
 
 // The initial state of the App
 const initialState = {
-  assignmentDetail: {
+  whoIsInDetail: {
     error: '',
     success: false,
     message: '',
     loading: false,
-    assignment: [],
+    whoIsIn: [],
   },
   officeFloor: {
     error: '',
@@ -41,23 +41,23 @@ const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const AssignmentReducer = (state = initialState, action) =>
+const WhoIsInReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case REQUEST_GET_ASSIGNMENT_DETAIL:
-        draft.assignmentDetail.loading = true;
-        draft.assignmentDetail.error = '';
+      case REQUEST_GET_WHOISIN_DETAIL:
+        draft.whoIsInDetail.loading = true;
+        draft.whoIsInDetail.error = '';
         break;
-      case SUCCESS_GET_ASSIGNMENT_DETAIL:
-        draft.assignmentDetail.loading = false;
-        draft.assignmentDetail.success = true;
-        draft.assignmentDetail.assignment = action.payload;
-        draft.assignmentDetail.error = '';
+      case SUCCESS_GET_WHOISIN_DETAIL:
+        draft.whoIsInDetail.loading = false;
+        draft.whoIsInDetail.success = true;
+        draft.whoIsInDetail.whoIsIn = action.payload;
+        draft.whoIsInDetail.error = '';
         break;
-      case FAILED_GET_ASSIGNMENT_DETAIL:
-        draft.assignmentDetail.loading = false;
-        draft.assignmentDetail.success = action.payload.success;
-        draft.assignmentDetail.message = action.payload;
+      case FAILED_GET_WHOISIN_DETAIL:
+        draft.whoIsInDetail.loading = false;
+        draft.whoIsInDetail.success = action.payload.success;
+        draft.whoIsInDetail.message = action.payload;
         draft.apiMessage = action.payload.message;
         draft.apiSuccess = action.payload.success;
         break;
@@ -101,4 +101,4 @@ const AssignmentReducer = (state = initialState, action) =>
         draft.getOfficeData.success = false;
     }
   });
-export default AssignmentReducer;
+export default WhoIsInReducer;
