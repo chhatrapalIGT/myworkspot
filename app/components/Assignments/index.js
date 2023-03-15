@@ -456,7 +456,7 @@ const Assignments = props => {
                       <span className="ms-1">
                         <img
                           src={Sort}
-                          className="img-fluid sort-img custom-sort-img"
+                          className="img-fluid sort-img"
                           alt=""
                           name="name"
                           aria-hidden="true"
