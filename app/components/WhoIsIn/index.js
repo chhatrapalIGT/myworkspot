@@ -376,14 +376,14 @@ const WhoIsIn = props => {
                         <span className="ms-1">
                           <img
                             src={Sort}
-                            className="img-fluid sort-img custom-sort-img"
+                            className="img-fluid sort-img"
                             alt=""
-                            name="name"
+                            name="sortName"
                             aria-hidden="true"
                             onClick={() =>
                               props.handleClickSort(
-                                'name',
-                                props.state.sortOrder.name,
+                                'sortName',
+                                props.state.sortOrder.sortName,
                               )
                             }
                           />
