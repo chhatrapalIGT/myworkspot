@@ -474,7 +474,7 @@ const Header = props => {
                                 </a>
                               </Link>
                             </li>
-                            <li
+                            {/* <li
                               onClick={() => setSidebar(false)}
                               aria-hidden="true"
                             >
@@ -488,7 +488,7 @@ const Header = props => {
                                   Who's In?
                                 </a>
                               </Link>
-                            </li>
+                            </li> */}
                             <li
                               onClick={() => setSidebar(false)}
                               aria-hidden="true"
