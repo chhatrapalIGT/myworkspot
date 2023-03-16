@@ -1190,9 +1190,9 @@ const Spaces = ({
           </div>
           <div className="neibour-table">
             <table id="tableData">
-              <tr>
+              <tr style={{ width: '100%' }}>
                 {sessionStorage.getItem('Admin Owner') === 'true' && (
-                  <th>
+                  <th style={{ width: '5%' }}>
                     {spaceAllChecked.length === 0 ||
                     spaceAllChecked.length === spaceValue.length ? (
                       <Form.Check
@@ -1217,7 +1217,7 @@ const Spaces = ({
                     )}
                   </th>
                 )}
-                <th>
+                <th style={{ width: '15%' }}>
                   <span className="d-flex text-nowrap">
                     Building/floor{' '}
                     <span className="ms-1">
@@ -1238,7 +1238,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '15%' }}>
                   <span className="d-flex text-nowrap">
                     Neighborhood{' '}
                     <span className="ms-1">
@@ -1259,7 +1259,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '12%' }}>
                   <span className="d-flex text-nowrap">
                     Space{' '}
                     <span className="ms-1">
@@ -1277,7 +1277,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '17%' }}>
                   <span className="d-flex text-nowrap">
                     Space type{' '}
                     <span className="ms-1">
@@ -1298,7 +1298,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '15%' }}>
                   <span className="d-flex text-nowrap">
                     Assigned{' '}
                     <span className="ms-1">
@@ -1316,7 +1316,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '15%' }}>
                   <span className="d-flex text-nowrap">
                     algorithm Status{' '}
                     <span className="ms-1">
@@ -1798,15 +1798,17 @@ const Spaces = ({
                                   isShowRowDropdown === idx &&
                                   isShowColDropdown === 'spaceType'
                                     ? currentCheckedValue
-                                    : i.assigned === 'Not assigned' &&
-                                      (i.type === 'Workstation' ||
-                                        i.type === 'Office')
-                                    ? `${i.type} (flex)`
-                                    : i.assigned !== 'Not assigned' &&
-                                      (i.type === 'Workstation' ||
-                                        i.type === 'Office')
-                                    ? `${i.type} (Permanent)`
                                     : i.type
+                                  // i.assigned === 'Not assigned' &&
+                                  //   (i.type === 'Workstation' ||
+                                  //     i.type === 'Office')
+                                  // ? `${i.type} (flex)`
+                                  // : i.assigned !== 'Not assigned' &&
+                                  //   (i.type === 'Workstation' ||
+                                  //     i.type === 'Office')
+                                  // ? `${i.type} (Permanent)`
+                                  // :
+                                  // i.type
                                 }
                                 className="drop-input"
                               />
@@ -1917,14 +1919,15 @@ const Spaces = ({
                         <div className="arrow-on-hover">
                           {i.attributes === '' || i.attributes === null ? (
                             <span>
-                              {i.assigned === 'Not assigned' &&
+                              {i.type}
+                              {/* {i.assigned === 'Not assigned' &&
                               (i.type === 'Workstation' || i.type === 'Office')
                                 ? `${i.type} (flex)`
                                 : i.assigned !== 'Not assigned' &&
                                   (i.type === 'Workstation' ||
                                     i.type === 'Office')
                                 ? `${i.type} (Permanent)`
-                                : i.type}
+                                : i.type} */}
                             </span>
                           ) : (
                             <span>{`${i.type} (${i.attributes})`}</span>
