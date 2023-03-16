@@ -1798,6 +1798,14 @@ const Spaces = ({
                                   isShowRowDropdown === idx &&
                                   isShowColDropdown === 'spaceType'
                                     ? currentCheckedValue
+                                    : i.assigned === 'Not assigned' &&
+                                      (i.type === 'Workstation' ||
+                                        i.type === 'Office')
+                                    ? `${i.type} (flex)`
+                                    : i.assigned !== 'Not assigned' &&
+                                      (i.type === 'Workstation' ||
+                                        i.type === 'Office')
+                                    ? `${i.type} (Permanent)`
                                     : i.type
                                 }
                                 className="drop-input"
@@ -1908,7 +1916,16 @@ const Spaces = ({
                       ) : (
                         <div className="arrow-on-hover">
                           {i.attributes === '' || i.attributes === null ? (
-                            <span>{i.type}</span>
+                            <span>
+                              {i.assigned === 'Not assigned' &&
+                              (i.type === 'Workstation' || i.type === 'Office')
+                                ? `${i.type} (flex)`
+                                : i.assigned !== 'Not assigned' &&
+                                  (i.type === 'Workstation' ||
+                                    i.type === 'Office')
+                                ? `${i.type} (Permanent)`
+                                : i.type}
+                            </span>
                           ) : (
                             <span>{`${i.type} (${i.attributes})`}</span>
                           )}

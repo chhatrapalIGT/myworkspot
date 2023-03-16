@@ -4118,7 +4118,13 @@ tr.exited {
   margin-right: 0;
 }
 .assigned_text .table-filter-dropdown .table-filter-dropdown-group .drop-input {
-  min-width: auto !important;
+ // min-width: auto !important;
+ color: transparent;
+  text-shadow: 0 0 0 #00355f !important;
+
+  &:focus {
+      outline: none;
+  }
 }
 
 #tableData tr:hover,
