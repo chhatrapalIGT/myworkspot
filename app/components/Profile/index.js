@@ -223,12 +223,12 @@ const Profile = ({
     handleSelectedNamesChange(data);
   };
 
-  const data = location && location.length && location[location.length - 1];
+  const data = location && location.length && location[location.length - 3];
+
   const finalLocation =
     location && location.length
       ? location.filter(obj => obj && obj.locationCode !== 'RW')
       : '';
-
   const handleRemove = name => {
     const newArr = [...userListData];
     const dataVal = newArr.filter(datas => datas.employeeid === name);
