@@ -1801,7 +1801,7 @@ const Spaces = ({
                                     : i.assigned === 'Not assigned' &&
                                       (i.type === 'Workstation' ||
                                         i.type === 'Office')
-                                    ? `${i.type} (Flex)`
+                                    ? `${i.type}`
                                     : i.assigned !== 'Not assigned' &&
                                       (i.type === 'Workstation' ||
                                         i.type === 'Office')
