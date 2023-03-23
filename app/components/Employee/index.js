@@ -116,7 +116,7 @@ const Employee = props => {
     workspace.map(i => {
       if (i && i.length > 0) {
         i.map(j =>
-          finalData.push({ officeSpace: j.workspacenumber, officeId: j.id }),
+          finalData.push({ officeSpace: j.workspacename, officeId: j.id }),
         );
       }
     });

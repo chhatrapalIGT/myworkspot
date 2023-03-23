@@ -1000,12 +1000,18 @@ const Spaces = ({
       {manageDataMessage && (
         <div
           className={`"alert fade show mx-auto ${
-            manageDataSuccess ? 'alert alert-success' : 'alert alert-danger '
+            manageDataSuccess && manageDataSuccess
+              ? 'alert alert-success'
+              : 'alert alert-danger '
           } "`}
         >
           <div>
             <img
-              src={manageDataSuccess ? checkedCircle : crossCircle}
+              src={
+                manageDataSuccess && manageDataSuccess
+                  ? checkedCircle
+                  : crossCircle
+              }
               alt=""
               style={{ paddingRight: '5px', marginBottom: ' 4px' }}
             />
