@@ -332,6 +332,9 @@ class WhoIsInPage extends Component {
     this.props.requestGetWhoIsInDetail({
       page: this.state.page,
       limit: this.state.limit,
+      locationId: ['DC'],
+      floor: ['3', '8'],
+      building: [],
     });
   }
 

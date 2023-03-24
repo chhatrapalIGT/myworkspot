@@ -550,7 +550,7 @@ const WhoIsIn = props => {
                     <option value="20">20 per page</option>
                     <option value="30">30 per page</option>
                     <option value="40">40 per page</option>
-                    {/* <option value={props.whoIsInCount}>View All</option> */}
+                    <option value={props.whoIsInCount}>View All</option>
                   </select>
                 </div>
                 <div className="">
