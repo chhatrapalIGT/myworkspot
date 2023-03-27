@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable func-names */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
@@ -117,7 +118,6 @@ class ProfilePage extends Component {
       locationApiMessage,
       locationApiSuccess,
     } = this.props;
-
     if (
       getProfileLocation &&
       !getProfileLocation.loading &&
@@ -249,20 +249,20 @@ class ProfilePage extends Component {
     this.setState({ data: false });
     const { timings, finalLocationDay } = this.state;
     const { getProfileLocation } = this.props;
-    const finalData = getProfileLocation && getProfileLocation.weeklyLocation;
-    if (finalData) {
-      finalData.forEach(obj => {
-        // eslint-disable-next-line array-callback-return
-        timings.map(e => {
-          if (e.day === obj.dayofweek) {
-            finalLocationDay.push({
-              day: obj.dayofweek,
-              name: obj.locationName,
-              id: obj.locationCode,
-            });
-          }
+    if (getProfileLocation && getProfileLocation) {
+      getProfileLocation &&
+        getProfileLocation.weeklyLocation.forEach(obj => {
+          // eslint-disable-next-line array-callback-return
+          timings.map(e => {
+            if (e.day === obj.dayofweek) {
+              finalLocationDay.push({
+                day: obj.dayofweek,
+                name: obj.locationName,
+                id: obj.locationCode,
+              });
+            }
+          });
         });
-      });
     }
     return finalLocationDay;
   };
