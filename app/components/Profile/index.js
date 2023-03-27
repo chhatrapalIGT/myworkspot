@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-lonely-if */
 /* eslint-disable react/no-unescaped-entities */
@@ -61,6 +63,7 @@ const Profile = ({
   requestRemoveSpinIcon,
   isLoading,
   userRemoveLoading,
+  getProfileLocation,
 }) => {
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
@@ -222,6 +225,28 @@ const Profile = ({
     handleButtonData(name, data);
     handleSelectedNamesChange(data);
   };
+
+  useEffect(() => {
+    state.finalLocationDay = [];
+    if (
+      getProfileLocation &&
+      getProfileLocation.weeklyLocation &&
+      getProfileLocation.weeklyLocation.length > 0
+    ) {
+      getProfileLocation &&
+        getProfileLocation.weeklyLocation.forEach(obj => {
+          // eslint-disable-next-line array-callback-return
+          state.timings.map(e => {
+            if (e.day === obj.dayofweek) {
+              state.finalLocationDay.push({
+                day: obj.dayofweek,
+                name: obj.locationName,
+              });
+            }
+          });
+        });
+    }
+  }, [getProfileLocation, state.finalLocationDay, state.timings]);
 
   const data = location && location.length && location[location.length - 3];
 
@@ -1187,5 +1212,6 @@ Profile.propTypes = {
   selectEmpIcon: PropTypes.array,
   handleManageFirstBox: PropTypes.func,
   requestAddSpinIcon: PropTypes.func,
+  getProfileLocation: PropTypes.object,
 };
 export default Profile;
