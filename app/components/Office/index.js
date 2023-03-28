@@ -229,7 +229,7 @@ const Office = ({
 
   return (
     <>
-      <div className="wrapper_main">
+      <div className="wrapper_main mobile-pt-0">
         {officeUpdateMessage && (
           <div
             className={`alert fade show mx-auto ${

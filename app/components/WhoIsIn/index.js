@@ -212,11 +212,11 @@ const WhoIsIn = props => {
   return (
     <>
       <div className="wrapper_main emp_wrapper">
-        <div className="office_maps" style={{ marginBottom: '95px' }}>
+        <div className="office_maps">
           <div className="container">
-            <div className="d-flex align-items-center justify-content-between mb-4">
+            <div className="d-flex align-items-center justify-content-between mb-0 mb-md-4">
               <h4 className="common-title"> {"Who's in?"} </h4>
-              <span className="px-4 py-3 fw-normal">{currentDate}</span>
+              <span className="px-0 px-md-4 py-3 fw-normal">{currentDate}</span>
             </div>
             <div className="head d-flex align-items-center">
               <div className="office-selections wrap">

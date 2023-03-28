@@ -1065,7 +1065,7 @@ span.disabled {
 
 .chart-data {
   margin-top: 30px;
-  padding: 10px;
+  padding: 10px 0;
   border-radius: 8px;
 }
 
@@ -1906,4 +1906,26 @@ div[class*='qy-menu'] * {
   background-color: #EBF6FF;
   padding-top: 15px;
   padding-bottom: 15px;
+}
+
+@media(max-width: 767px){
+  .chart-para {
+    margin-left: 0;
+  }
+  .chart-data {
+    margin-top: 0;
+  }
+  .blue_pagination span {
+    margin: 0px 0px;
+  }
+  .dash-menu-item {
+    margin-left: 0;
+}
+  .accordion2{
+    padding-left: 50px;
+  }
+  .accordion2::after {
+    top: 32px;
+    left: 20px;
+  }
 }
