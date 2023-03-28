@@ -687,9 +687,18 @@ const Spaces = ({
             spaceType: false,
           };
           return val;
+        } else {
+          const val = {
+            ...el,
+            isInput: false,
+            algorithm: false,
+            isFloor: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
         }
-
-        return el;
       });
     setSpaceValue(spaceInp);
   };
@@ -709,8 +718,18 @@ const Spaces = ({
             spaceType: false,
           };
           return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
         }
-        return el;
       });
     setSpaceValue(spaceInp);
   };
@@ -730,8 +749,18 @@ const Spaces = ({
             spaceType: false,
           };
           return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
         }
-        return el;
       });
     setSpaceValue(spaceInp);
   };
@@ -751,8 +780,18 @@ const Spaces = ({
             spaceType: toggleStatus,
           };
           return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: toggleStatus,
+          };
+          return val;
         }
-        return el;
       });
     setSpaceValue(spaceInp);
   };
@@ -772,8 +811,18 @@ const Spaces = ({
             spaceType: false,
           };
           return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
         }
-        return el;
       });
     setSpaceValue(spaceInp);
   };
@@ -1058,7 +1107,7 @@ const Spaces = ({
                   <input
                     type="input"
                     style={{ cursor: 'alias' }}
-                    className="dropdown-toggle"
+                    className="dropdown-toggle filter-cursor"
                     value={state.finalOfficeVal}
                     placeholder="All"
                     data-bs-toggle="dropdown"
@@ -1101,7 +1150,7 @@ const Spaces = ({
                   <input
                     type="input"
                     style={{ cursor: 'alias' }}
-                    className="dropdown-toggle"
+                    className="dropdown-toggle filter-cursor"
                     value={state.finalFloorVal}
                     placeholder="All"
                     data-bs-toggle="dropdown"
@@ -1143,7 +1192,7 @@ const Spaces = ({
                   <input
                     type="input"
                     style={{ cursor: 'alias' }}
-                    className="dropdown-toggle"
+                    className="dropdown-toggle filter-cursor"
                     value={state.finalNeighborhoodVal}
                     placeholder="All"
                     data-bs-toggle="dropdown"

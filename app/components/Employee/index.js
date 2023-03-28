@@ -246,7 +246,7 @@ const Employee = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalRoleVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"
@@ -288,7 +288,7 @@ const Employee = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalOfficeVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"

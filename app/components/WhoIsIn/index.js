@@ -230,7 +230,7 @@ const WhoIsIn = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalOfficeVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"
@@ -274,7 +274,7 @@ const WhoIsIn = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalFloorVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"
@@ -317,7 +317,7 @@ const WhoIsIn = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalNeighborhoodVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"

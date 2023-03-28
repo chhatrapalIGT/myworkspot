@@ -3755,7 +3755,7 @@ div[class*='qy-menu'] * {
     border: 0;
     font-size: 16px;
     font-weight: 600;
-    color: #00355f !important;
+    color: #00355f;
     background-color: transparent;
     font-family: 'Museo Sans Regular';
     position: relative;
@@ -4152,4 +4152,12 @@ tr.exited {
 }
 .mrgn-top {
   margin-top: -4px;
+}
+
+.filter-cursor {
+  color: transparent !important;
+  text-shadow: 0 0 0 #00355f;
+  &:focus {
+      outline: none;
+  }
 }
