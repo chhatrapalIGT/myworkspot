@@ -55,7 +55,7 @@ const Boarding = ({
 
   const final = state.timings.filter(data => data.name !== '');
 
-  const data = location && location.length && location[location.length - 1];
+  const data = location && location.length && location[location.length - 3];
 
   const finalLocation =
     location && location.length

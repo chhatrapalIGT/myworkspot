@@ -54,7 +54,7 @@ const Report = ({
 }) => {
   const [isdata, setData] = useState(false);
   const [isDiv, setDiv] = useState(false);
-  const data = location && location.length && location[location.length - 1];
+  const data = location && location.length && location[location.length - 3];
   const colourStyles = {
     control: styles => ({
       ...styles,
