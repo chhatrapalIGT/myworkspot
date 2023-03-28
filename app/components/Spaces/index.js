@@ -489,7 +489,7 @@ const Spaces = ({
               Building: obj.building || '-',
               Floor: obj.floor || '-',
               Neighborhood: obj.neighborhoodname || '-',
-              Space: obj.workspacename || '-',
+              Space: obj.workspacenumber || '-',
               SpaceType: obj.type || '-',
               Attributes: obj.attributes || '-',
               Assigned: obj.assigned || '-',
@@ -503,7 +503,7 @@ const Spaces = ({
               Building: obj.building || '-',
               Floor: obj.floor || '-',
               Neighborhood: obj.neighborhoodname || '-',
-              Space: obj.workspacename || '-',
+              Space: obj.workspacenumber || '-',
               SpaceType: obj.type || '-',
               Attributes: obj.attributes || '-',
               Assigned: obj.assigned || '-',
@@ -788,7 +788,7 @@ const Spaces = ({
             algorithm: false,
             isNeighborh: false,
             isPen: false,
-            spaceType: toggleStatus,
+            spaceType: false,
           };
           return val;
         }
@@ -1746,7 +1746,7 @@ const Spaces = ({
                                   isShowRowDropdown === idx &&
                                   isShowColDropdown === 'space'
                                     ? currentCheckedValue
-                                    : i.workspacename
+                                    : i.workspacenumber
                                 }
                                 onKeyDown={event => {
                                   handleKeydown(event);
@@ -1761,7 +1761,7 @@ const Spaces = ({
                             ) : (
                               <input
                                 type="text"
-                                value={i.workspacename}
+                                value={i.workspacenumber}
                                 onKeyDown={event => {
                                   handleKeydown(event);
                                 }}
@@ -1819,7 +1819,7 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="select-none arrow-on-hover">
-                          {i.workspacename || editedText}
+                          {i.workspacenumber || editedText}
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               className="editInput img_height"
@@ -2440,7 +2440,9 @@ const Spaces = ({
                                                 e.target.checked,
                                                 'neighborhoodClick',
                                               );
-                                              setSpaceData(space.workspacename);
+                                              setSpaceData(
+                                                space.workspacenumber,
+                                              );
                                             }}
                                           />
                                           <div className="dash-menu-data">
@@ -2451,7 +2453,7 @@ const Spaces = ({
                                                   'neighborhoodClick' && (
                                                   <div
                                                     className={
-                                                      space.workspacename ===
+                                                      space.workspacenumber ===
                                                       spaceData
                                                         ? 'spinner-border space_Update_load'
                                                         : ''
@@ -2461,9 +2463,9 @@ const Spaces = ({
                                             </label>
                                             <div
                                               className="dash-menu-list2"
-                                              value={space.workspacename}
+                                              value={space.workspacenumber}
                                             >
-                                              {space.workspacename}{' '}
+                                              {space.workspacenumber}{' '}
                                             </div>
                                           </div>
                                         </>
