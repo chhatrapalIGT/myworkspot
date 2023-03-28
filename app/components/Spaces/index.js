@@ -1010,7 +1010,7 @@ const Spaces = ({
   };
 
   return (
-    <div className="wrapper_main" ref={ref}>
+    <div className="wrapper_main mobile-pt-0" ref={ref}>
       {setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage && (
         <div
           className={`alert fade show mx-auto ${
@@ -1086,7 +1086,7 @@ const Spaces = ({
             <h4 className="common-title">Manage Spaces</h4>
             <Button
               variant="primary"
-              className="px-4 py-3"
+              className="px-2 px-md-4 py-2 py-md-3"
               style={{ borderRadius: '8px' }}
               onClick={() => {
                 setOpen(true);

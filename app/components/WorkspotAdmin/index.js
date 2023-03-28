@@ -528,7 +528,7 @@ const WorkspotAdmin = ({
                           ),
                       )}
 
-                    <div className="col-lg-4 pl-0">
+                    <div className="col-lg-4">
                       <div className="bg-w width_exp">
                         <div className="align-items-center mb-1">
                           <span className="office-title-capacity">
@@ -583,7 +583,7 @@ const WorkspotAdmin = ({
                       </div>
                     </div>
                     <div className="col-lg-8">
-                      <div className="d-flex" style={{ height: '100%' }}>
+                      <div className="d-md-flex" style={{ height: '100%' }}>
                         <div className="capacity_title w-50">
                           {floorCapacityData &&
                             floorCapacityData.data &&
@@ -1044,14 +1044,14 @@ const WorkspotAdmin = ({
                 </div>
 
                 {/*Weekly Report*/}
-                <div className="input-button-strip w-100 d-flex align-items-center justify-content-between">
+                <div className="input-button-strip w-100 d-md-flex align-items-center justify-content-between">
                   <div>
                     <h4 className="common-title">Weekly Report</h4>
                   </div>
 
-                  <div className="d-flex align-items-center">
+                  <div className="d-md-flex align-items-center">
                     <p className="week-range m-auto admin-week">{title}</p>
-                    <div className="change-log">
+                    <div className="change-log mt-2 mb-3 mt-md-0 mb-md-0">
                       <button
                         type="submit"
                         className="prev disable"
@@ -1072,7 +1072,7 @@ const WorkspotAdmin = ({
                     </div>
                     <Button
                       variant="primary"
-                      className="export_btn"
+                      className="export_btn ms-0 ms-md-1"
                       onClick={() => {
                         setOpen(true);
                         setOfficeCapacity(false);

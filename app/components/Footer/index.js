@@ -8,13 +8,13 @@ const Footer = () => (
     <footer className="site-footer">
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-md-3">
+          <div className="col-md-3 common_ftr-col col-left">
             <img src={footerlogo} alt="" />
           </div>
-          <div className="col-md-6 align_set">
+          <div className="col-md-6 align_set common_ftr-col">
             <p>© {year} EAB. All Rights Reserved </p>
           </div>
-          <div className="col-md-3 help_part">
+          <div className="col-md-3 help_part common_ftr-col col-right">
             <a
               style={{ textDecoration: 'underline' }}
               target="_blank"
