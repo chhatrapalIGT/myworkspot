@@ -647,7 +647,11 @@ const Employee = props => {
                       >
                         {role &&
                           role.map(ele => (
-                            <option key={ele.name} value={ele.name}>
+                            <option
+                              key={ele.name}
+                              value={ele.name}
+                              selected={props.state.role === ele.name}
+                            >
                               {ele.name}
                             </option>
                           ))}
