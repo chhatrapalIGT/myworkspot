@@ -57,7 +57,8 @@ const Header = props => {
     (props.profileUser && props.profileUser.delegateUserList) || [],
   );
   const [defaultapick, setDefaultapick] = useState(false);
-
+  let delegetIDs;
+  let empIDs;
   const handleClose = () => {
     const data = [...selectData];
     function unique(dataVal, key) {
@@ -70,6 +71,11 @@ const Header = props => {
       props.requestUserlistData({});
     }
   }, [props.getOwnerSuccess]);
+
+  useEffect(() => {
+    delegetIDs = sessionStorage.getItem('delegateId');
+    empIDs = sessionStorage.getItem('empid');
+  }, [sessionStorage.getItem('delegateId'), sessionStorage.getItem('empid')]);
 
   useEffect(() => {
     if (selectData && selectData.length) {
@@ -550,7 +556,13 @@ const Header = props => {
                       ) : (
                         <div
                           aria-hidden="true"
-                          onClick={() => setEditProfile(!editProfile)}
+                          onClick={() => {
+                            setEditProfile(!editProfile);
+                            // props.requestUserlistData({
+                            //   dalegateEmployeeid: delegetIDs,
+                            //   employeeid: empIDs,
+                            // });
+                          }}
                           onHide={() => setEditProfile(false)}
                           className={
                             // eslint-disable-next-line no-nested-ternary
