@@ -133,12 +133,12 @@ const Spaces = ({
     if (!manageDataSuccess && manageDataMessage) {
       setTimeout(() => {
         handleData();
-      }, 7000);
+      }, 3000);
     }
     if (manageDataSuccess && manageDataMessage) {
       setTimeout(() => {
         handleData();
-      }, 7000);
+      }, 3000);
     }
   }, [manageDataSuccess, manageDataMessage]);
 
