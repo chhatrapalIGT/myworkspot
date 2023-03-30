@@ -496,6 +496,8 @@
   max-height: 300px !important;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
+  position: relative;
+    z-index: 0;
 }
 
 .panel .dash-menu-list {
