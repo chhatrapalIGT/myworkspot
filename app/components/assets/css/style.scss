@@ -4226,15 +4226,11 @@ tr.exited {
 }
 
 @media (max-width: 767px) {
-.filter-cursor {
-  border: none !important;
-  color: transparent !important;
-  display: inline-block !important;
-  font-size: 2em !important;
-  text-shadow: 0 0 0 gray !important;
-  
-  &:focus {
-      outline: none !important;
+  .filter-cursor {
+    color: transparent !important;
+    text-shadow: 0 0 0 #00355f;
+    &:focus {
+        outline: none;
+    }
   }
-}
 }
