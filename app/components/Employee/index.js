@@ -586,20 +586,19 @@ const Employee = props => {
               ) : (
                 <div className="modal-body pt-0">
                   <div className="prof-flex">
-                    <div className="mar-4">
+                    <div className="mar-4 employee-img">
                       <img
                         src={`${USER_IMAGE_SRC_LIVE}${props.state.id}.wiki.jpg`}
                         className="img-fluid"
                         onError={props.replaceImage}
                         style={{
                           borderRadius: '50%',
-                          height: '120px',
-                          width: '120px',
+                          width: '100%',
                         }}
                         alt=""
                       />
                     </div>
-                    <div className="">
+                    <div className="flex-1">
                       <div className="pro-title">
                         {props.singleEmployeeData &&
                           props.singleEmployeeData.FirstName}{' '}

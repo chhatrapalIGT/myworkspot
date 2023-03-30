@@ -260,6 +260,11 @@
   margin-bottom: 20px;
 }
 
+.prof-flex .employee-img{
+  width: 120px;
+  height: 120px;
+}
+
 .prof-flex p {
   padding: 0;
   margin: 0;
@@ -1927,5 +1932,15 @@ div[class*='qy-menu'] * {
   .accordion2::after {
     top: 32px;
     left: 20px;
+  }
+  .accordion2.active::after {
+    top: 15px;
+    left: 20px;
+  }
+  .panel1 {
+    padding-left: 50px;
+  }
+  .panel1::before {
+    left: 38px;
   }
 }
