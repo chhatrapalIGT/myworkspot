@@ -4234,7 +4234,17 @@ tr.exited {
   
 // }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
+@supports (-webkit-touch-callout: none) {
+  .filter-cursor {
+    color: transparent !important;
+    text-shadow: 0 0 0 #00355f;
+    &:focus {
+        outline: none;
+    }
+  }
+}
+
+@supports not (-webkit-touch-callout: none) {
   .filter-cursor {
     color: transparent !important;
     text-shadow: 0 0 0 #00355f;
