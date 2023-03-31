@@ -1320,7 +1320,7 @@ const Spaces = ({
                 <th>
                   <span className="d-flex text-nowrap">
                     Space{' '}
-                    <span className="ms-1">
+                    <span className="ms-2">
                       <img
                         src={Sort}
                         className="img-fluid sort-img"
@@ -1458,6 +1458,7 @@ const Spaces = ({
                             >
                               <input
                                 type="input"
+                                readOnly
                                 style={{ cursor: 'alias' }}
                                 value={
                                   currentCheckedValue !== '' &&
@@ -1516,6 +1517,7 @@ const Spaces = ({
                                   spaceAllChecked.length > 1 ? (
                                     <>
                                       <input
+                                        readOnly
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
@@ -1603,6 +1605,7 @@ const Spaces = ({
                               }}
                             >
                               <input
+                                readOnly
                                 type="input"
                                 style={{ cursor: 'alias' }}
                                 value={
@@ -1662,6 +1665,7 @@ const Spaces = ({
                                   spaceAllChecked.length > 1 ? (
                                     <>
                                       <input
+                                        readOnly
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
@@ -1743,6 +1747,7 @@ const Spaces = ({
                           >
                             {currentCheckedValue !== '' ? (
                               <input
+                                readOnly
                                 type="text"
                                 defaultValue={
                                   currentCheckedValue !== '' &&
@@ -1763,6 +1768,7 @@ const Spaces = ({
                               />
                             ) : (
                               <input
+                                readOnly
                                 type="text"
                                 value={i.workspacenumber}
                                 onKeyDown={event => {
@@ -1849,6 +1855,7 @@ const Spaces = ({
                               }}
                             >
                               <input
+                                readOnly
                                 type="input"
                                 style={{ cursor: 'alias' }}
                                 value={
@@ -1917,6 +1924,7 @@ const Spaces = ({
                                   spaceAllChecked.length > 1 ? (
                                     <>
                                       <input
+                                        readOnly
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
@@ -2023,6 +2031,7 @@ const Spaces = ({
                               }}
                             >
                               <input
+                                readOnly
                                 type="input"
                                 style={{ cursor: 'alias' }}
                                 value={
@@ -2085,6 +2094,7 @@ const Spaces = ({
                                   spaceAllChecked.length > 1 ? (
                                     <>
                                       <input
+                                        readOnly
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
