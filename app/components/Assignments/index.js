@@ -305,6 +305,7 @@ const Assignments = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
+                      readOnly
                       className="dropdown-toggle pointer filter-cursor"
                       value={state.finalOfficeVal}
                       placeholder="All"
@@ -349,6 +350,7 @@ const Assignments = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
+                      readOnly
                       className="dropdown-toggle pointer filter-cursor"
                       value={state.finalFloorVal}
                       placeholder="All"
@@ -392,6 +394,7 @@ const Assignments = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
+                      readOnly
                       className="dropdown-toggle pointer filter-cursor"
                       value={state.finalNeighborhoodVal}
                       placeholder="All"

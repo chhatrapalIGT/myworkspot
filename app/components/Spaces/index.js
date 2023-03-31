@@ -1107,6 +1107,7 @@ const Spaces = ({
                   <input
                     type="input"
                     style={{ cursor: 'alias' }}
+                    readOnly
                     className="dropdown-toggle filter-cursor"
                     value={state.finalOfficeVal}
                     placeholder="All"
@@ -1150,6 +1151,7 @@ const Spaces = ({
                   <input
                     type="input"
                     style={{ cursor: 'alias' }}
+                    readOnly
                     className="dropdown-toggle filter-cursor"
                     value={state.finalFloorVal}
                     placeholder="All"
@@ -1192,6 +1194,7 @@ const Spaces = ({
                   <input
                     type="input"
                     style={{ cursor: 'alias' }}
+                    readOnly
                     className="dropdown-toggle filter-cursor"
                     value={state.finalNeighborhoodVal}
                     placeholder="All"

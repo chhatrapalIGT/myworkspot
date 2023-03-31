@@ -436,7 +436,7 @@
     margin-right: 10px;
   }
   .wrapper_main {
-    padding: 50px 0 0 0;
+    padding: 50px 0 100px 0;
   }
 
   .manage_width {
@@ -456,7 +456,7 @@
     margin: 0rem 0.5rem 0rem 0rem;
   }
   .cal_wrapper {
-    padding: 0;
+    padding: 50px 0 100px 0;
   }
   .site-header {
     padding: 12px 0;

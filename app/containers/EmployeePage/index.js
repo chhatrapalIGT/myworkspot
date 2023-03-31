@@ -225,6 +225,7 @@ class EmployeePage extends Component {
     if (name === 'floor') {
       this.setState({
         [name]: value,
+        handleUnassign: false,
       });
     } else {
       this.setState({
