@@ -589,7 +589,8 @@ const Employee = props => {
                     <div className="mar-4 employee-img">
                       <img
                         src={`${USER_IMAGE_SRC_LIVE}${props.state.id}.wiki.jpg`}
-                        className="img-fluid"
+                        // className="img-fluid"
+                        className="profile-fluid"
                         onError={props.replaceImage}
                         style={{
                           borderRadius: '50%',
