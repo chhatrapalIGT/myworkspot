@@ -1265,7 +1265,7 @@ const Spaces = ({
                     ) : (
                       <>
                         <img
-                          style={{ height: '17px', width: '17px' }}
+                          style={{ height: '18px', width: '17px' }}
                           aria-hidden
                           onClick={() => handleClear()}
                           src={CheckboxInput}
@@ -1275,7 +1275,7 @@ const Spaces = ({
                     )}
                   </th>
                 )}
-                <th>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex text-nowrap">
                     Building/floor{' '}
                     <span className="ms-1">
@@ -1296,7 +1296,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex text-nowrap">
                     Neighborhood{' '}
                     <span className="ms-1">
@@ -1317,7 +1317,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '18%' }}>
                   <span className="d-flex text-nowrap">
                     Space{' '}
                     <span className="ms-2">
@@ -1335,7 +1335,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex text-nowrap">
                     Space type{' '}
                     <span className="ms-1">
@@ -1356,7 +1356,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex text-nowrap">
                     Assigned{' '}
                     <span className="ms-1">
@@ -1374,7 +1374,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex text-nowrap">
                     algorithm Status{' '}
                     <span className="ms-1">
