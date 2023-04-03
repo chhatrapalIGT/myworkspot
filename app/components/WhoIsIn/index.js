@@ -22,9 +22,7 @@ const WhoIsIn = props => {
     officeFloor,
     officeNeighborhood,
   } = props;
-  const [officeLocations, setOfficeLocations] = useState([
-    { label: 'All', name: 'All', value: 'All' },
-  ]);
+  const [officeLocations, setOfficeLocations] = useState([]);
   const [officeFloors, setOfficeFloors] = useState([
     { label: 'All', name: 'All', value: 'All' },
   ]);
@@ -36,9 +34,7 @@ const WhoIsIn = props => {
   const currentDate = today.format('dddd, MMMM D, YYYY');
 
   useEffect(() => {
-    const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: false },
-    ];
+    const tempArr = [];
     officeLocation &&
       officeLocation.map(obj => {
         if (obj.id === 'DC' || obj.id === 'RIC') {
@@ -54,18 +50,51 @@ const WhoIsIn = props => {
   }, [officeLocation]);
 
   useEffect(() => {
-    const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: false },
-    ];
+    const tempArr = [];
+
+    if (state.filterApplied) {
+      tempArr.push({
+        label: 'All',
+        name: 'All',
+        value: 'All',
+        isSelected: true,
+      });
+    } else {
+      tempArr.push({
+        label: 'All',
+        name: 'All',
+        value: 'All',
+        isSelected: false,
+      });
+    }
+
     officeFloor &&
       officeFloor.map(obj => {
-        if (obj.floor !== null) {
-          tempArr.push({
-            label: `Floor ${obj.floor}`,
-            name: `Floor ${obj.floor}`,
-            value: `Floor ${obj.floor}`,
-            isSelected: false,
-          });
+        if (state.filterApplied) {
+          if (obj.floor !== null) {
+            tempArr.push({
+              label: `Floor ${obj.floor}`,
+              name: `Floor ${obj.floor}`,
+              value: `Floor ${obj.floor}`,
+              isSelected: true,
+            });
+          }
+        } else if (obj.floor !== null) {
+          if (obj.floor === 3 || obj.floor === 8) {
+            tempArr.push({
+              label: `Floor ${obj.floor}`,
+              name: `Floor ${obj.floor}`,
+              value: `Floor ${obj.floor}`,
+              isSelected: true,
+            });
+          } else {
+            tempArr.push({
+              label: `Floor ${obj.floor}`,
+              name: `Floor ${obj.floor}`,
+              value: `Floor ${obj.floor}`,
+              isSelected: false,
+            });
+          }
         }
       });
     setOfficeFloors(tempArr);
@@ -73,7 +102,7 @@ const WhoIsIn = props => {
 
   useEffect(() => {
     const tempArr = [
-      { label: 'All', name: 'All', value: 'All', isSelected: false },
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
     ];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
@@ -82,49 +111,25 @@ const WhoIsIn = props => {
             label: obj.name,
             name: obj.name,
             value: obj.name,
-            isSelected: false,
+            isSelected: true,
           });
       });
     setOfficeNeighborhoods(tempArr);
   }, [officeNeighborhood]);
 
-  const handleSelectedList = (index, status) => {
-    let officeList = [];
-    officeList =
-      officeLocations &&
-      officeLocations.map((item, i) => {
-        if (index === 0) {
-          return {
-            label: item.name,
-            name: item.name,
-            value: item.value,
-            isSelected: status,
-          };
-        }
-        if (i === index) {
-          return {
-            label: item.name,
-            name: item.name,
-            value: item.value,
-            isSelected: status,
-          };
-        }
-        return item;
-      });
+  const handleSelectedList = val => {
+    props.handleSelectedoffice(val);
 
-    if (officeList.length) {
-      const isAllChecked =
-        officeList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
-          .length ===
-        officeList.length - 1;
-
-      officeList = officeList.map(ele => ({
-        ...ele,
-        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+    let floorList = [];
+    floorList =
+      officeFloors &&
+      officeFloors.map(item => ({
+        label: item.name,
+        name: item.name,
+        value: item.value,
+        isSelected: true,
       }));
-    }
-    setOfficeLocations(officeList);
-    props.handleSelectedoffice(officeList);
+    setOfficeFloors(floorList);
   };
 
   const handleSelectedFloorList = (index, status) => {
@@ -207,24 +212,26 @@ const WhoIsIn = props => {
   return (
     <>
       <div className="wrapper_main emp_wrapper">
-        <div className="office_maps" style={{ marginBottom: '95px' }}>
+        <div className="office_maps">
           <div className="container">
-            <div className="d-flex align-items-center justify-content-between mb-4">
+            <div className="d-flex align-items-center justify-content-between mb-0 mb-md-4">
               <h4 className="common-title"> {"Who's in?"} </h4>
-              <span className="px-4 py-3 fw-normal">{currentDate}</span>
+              <span className="px-0 px-md-4 py-3 fw-normal">{currentDate}</span>
             </div>
             <div className="head d-flex align-items-center">
               <div className="office-selections wrap">
                 <div className="menu-img">
                   <img src={Menu} className="img-fluid" alt="" />
                 </div>
+
                 <div className="custom-filter-dropdown pointer">
                   <span className="pointer title">Office</span>
                   <div className="dropdown pointer">
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      readOnly
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalOfficeVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"
@@ -243,18 +250,18 @@ const WhoIsIn = props => {
                       aria-labelledby="dropdownMenuButton1"
                     >
                       {officeLocations &&
-                        officeLocations.map((item, index) => (
+                        officeLocations.map(item => (
                           <li
                             className="pointer"
                             aria-hidden
-                            onClick={() =>
-                              handleSelectedList(index, !item.isSelected)
-                            }
+                            onClick={() => handleSelectedList(item.name)}
                           >
                             <span className="item-text">{item.name}</span>
                             <div
                               className={
-                                item.isSelected ? 'selected_val float-end' : ''
+                                item.name === state.finalOfficeVal
+                                  ? 'selected_val float-end'
+                                  : ''
                               }
                             />
                           </li>
@@ -268,8 +275,9 @@ const WhoIsIn = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalFloorVal}
+                      readOnly
                       placeholder="All"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton2"
@@ -311,8 +319,9 @@ const WhoIsIn = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalNeighborhoodVal}
+                      readOnly
                       placeholder="All"
                       data-bs-toggle="dropdown"
                       data-target="#dropdownMenuButton3"

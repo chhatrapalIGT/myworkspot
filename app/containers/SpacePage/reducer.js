@@ -197,7 +197,6 @@ const spaceReducer = (state = initialState, action) =>
       case REQUEST_MANAGE_UPDATE_SPACE:
         draft.updateManageSpace.loading = true;
         draft.updateManageSpace.error = '';
-        draft.updateManageSpace.success = false;
         break;
       case SUCCESS_MANAGE_UPDATE_SPACE:
         draft.updateManageSpace.loading = false;

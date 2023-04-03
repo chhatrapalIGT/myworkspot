@@ -24,13 +24,16 @@ class WhoIsInPage extends Component {
       page: 1,
       limit: 10,
       search: '',
+      selectedNames: 'DC',
       selectedOffice: [],
       selectedFloor: [],
       selectedBuilding: [],
       selectedNeighbor: [],
-      finalOfficeVal: 'All',
-      finalFloorVal: 'All',
+      finalOfficeVal: 'Washington, DC',
+      finalFloorVal: 'Floor 3, +1',
       finalNeighborhoodVal: 'All',
+      srcFloor: ['3', '8'],
+      filterApplied: false,
       sortOrder: {
         name: true,
         department: true,
@@ -66,70 +69,48 @@ class WhoIsInPage extends Component {
 
   handleSelectedoffice = option => {
     const space = [];
-    option.map(i => {
-      if (i.isSelected) {
-        space.push(i.value);
-      }
-      return true;
+    const arrStr = option.split(', ');
+    space.push(arrStr[1] === 'VA' ? 'RIC' : 'DC');
+    this.setState({ finalOfficeVal: option });
+    this.setState({ page: 1 });
+    if (this.state.typingTimeout) {
+      clearTimeout(this.state.typingTimeout);
+    }
+    this.props.requestGetOfficeFloor({
+      locationId: space,
     });
-    const selectOfficeList = option.filter(item => item.isSelected === true);
-    let finalOfficeVal;
-    this.setState({ selectedOffice: selectOfficeList }, () => {
-      const val = this.state.selectedOffice.length
-        ? this.state.selectedOffice[0].name
-        : '';
-      if (val === 'All') {
-        finalOfficeVal = val;
-      } else if (this.state.selectedOffice.length > 1) {
-        const length = `, +${this.state.selectedOffice.length - 1}`;
-        finalOfficeVal = val.concat(length);
-        this.setState({ finalOfficeVal });
-      } else if (this.state.selectedOffice.length > 0) {
-        finalOfficeVal = val;
-      } else if (!this.state.selectedOffice.length) {
-        finalOfficeVal = '';
-      }
-      this.setState({ finalOfficeVal });
-      const strArr = space.filter(i => i !== 'All');
-      this.setState({ page: 1 });
-      if (this.state.typingTimeout) {
-        clearTimeout(this.state.typingTimeout);
-      }
-      this.props.requestGetOfficeFloor({
-        locationId: strArr,
+    this.props.requestGetOfficeNeighborhood({
+      floor: [],
+      building: [],
+      locationId: space,
+    });
+    this.setState({
+      filterApplied: true,
+      selectedFloor: [],
+      selectedBuilding: [],
+      selectedNeighbor: [],
+      finalFloorVal: 'All',
+      finalNeighborhoodVal: 'All',
+      srcFloor: [],
+      srcBuilding: [],
+      srcNeighborhood: [],
+    });
+    const timeoutId = setTimeout(() => {
+      this.setState({ srcOffice: space }, () => {
+        this.getWhoIsInData(
+          this.state.search,
+          space,
+          this.state.srcFloor,
+          this.state.srcBuilding,
+          this.state.srcNeighborhood,
+          this.state.sortBy,
+          this.state.page,
+          this.state.limit,
+        );
       });
-      this.props.requestGetOfficeNeighborhood({
-        floor: [],
-        building: [],
-        locationId: strArr,
-      });
-      this.setState({
-        selectedFloor: [],
-        selectedBuilding: [],
-        selectedNeighbor: [],
-        finalFloorVal: 'All',
-        finalNeighborhoodVal: 'All',
-        srcFloor: [],
-        srcBuilding: [],
-        srcNeighborhood: [],
-      });
-      const timeoutId = setTimeout(() => {
-        this.setState({ srcOffice: strArr }, () => {
-          this.getWhoIsInData(
-            this.state.search,
-            strArr,
-            this.state.srcFloor,
-            this.state.srcBuilding,
-            this.state.srcNeighborhood,
-            this.state.sortBy,
-            this.state.page,
-            this.state.limit,
-          );
-        });
-      }, 1000);
-      this.setState({
-        typingTimeout: timeoutId,
-      });
+    }, 1000);
+    this.setState({
+      typingTimeout: timeoutId,
     });
   };
 
@@ -177,6 +158,7 @@ class WhoIsInPage extends Component {
         locationId: this.state.srcOffice,
       });
       this.setState({
+        filterApplied: true,
         selectedNeighbor: [],
         finalNeighborhoodVal: 'All',
         srcNeighborhood: [],
@@ -341,11 +323,18 @@ class WhoIsInPage extends Component {
 
   componentDidMount() {
     this.props.requestGetOfficeLocation({});
-    this.props.requestGetOfficeFloor({});
+    this.props.requestGetOfficeFloor({
+      floor: ['3', '8'],
+      building: [],
+      locationId: ['DC'],
+    });
     this.props.requestGetOfficeNeighborhood({});
     this.props.requestGetWhoIsInDetail({
       page: this.state.page,
       limit: this.state.limit,
+      locationId: ['DC'],
+      floor: ['3', '8'],
+      building: [],
     });
   }
 

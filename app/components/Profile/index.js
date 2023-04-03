@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-lonely-if */
 /* eslint-disable react/no-unescaped-entities */
@@ -61,6 +63,7 @@ const Profile = ({
   requestRemoveSpinIcon,
   isLoading,
   userRemoveLoading,
+  getProfileLocation,
 }) => {
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
@@ -223,12 +226,34 @@ const Profile = ({
     handleSelectedNamesChange(data);
   };
 
-  const data = location && location.length && location[location.length - 1];
+  useEffect(() => {
+    state.finalLocationDay = [];
+    if (
+      getProfileLocation &&
+      getProfileLocation.weeklyLocation &&
+      getProfileLocation.weeklyLocation.length > 0
+    ) {
+      getProfileLocation &&
+        getProfileLocation.weeklyLocation.forEach(obj => {
+          // eslint-disable-next-line array-callback-return
+          state.timings.map(e => {
+            if (e.day === obj.dayofweek) {
+              state.finalLocationDay.push({
+                day: obj.dayofweek,
+                name: obj.locationName,
+              });
+            }
+          });
+        });
+    }
+  }, [getProfileLocation, state.finalLocationDay, state.timings]);
+
+  const data = location && location.length && location[location.length - 3];
+
   const finalLocation =
     location && location.length
       ? location.filter(obj => obj && obj.locationCode !== 'RW')
       : '';
-
   const handleRemove = name => {
     const newArr = [...userListData];
     const dataVal = newArr.filter(datas => datas.employeeid === name);
@@ -1187,5 +1212,6 @@ Profile.propTypes = {
   selectEmpIcon: PropTypes.array,
   handleManageFirstBox: PropTypes.func,
   requestAddSpinIcon: PropTypes.func,
+  getProfileLocation: PropTypes.object,
 };
 export default Profile;

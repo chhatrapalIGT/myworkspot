@@ -298,13 +298,13 @@ const Calender = ({
 
   return (
     <div className={!setVisible && 'myteam_wrapper'}>
-      <div className="container">
-        <div className={setVisible && 'update-office-workspot mt-40'}>
+      <div className="container p-0">
+        <div className={setVisible && 'update-office-workspot mt-40 px-3'}>
           {setVisible && <p className="week-range">{title}</p>}
 
-          <div className="input-button-strip w-100 mt-4 d-flex align-items-center">
+          <div className="input-button-strip w-100 mt-4 d-flex align-items-center justify-content-between">
             <div
-              className={`change-log  me-4 ${
+              className={`change-log  me-0 me-md-4 ${
                 !setVisible ? 'main_card_adjust' : ''
               }`}
             >

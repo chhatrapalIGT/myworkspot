@@ -260,6 +260,11 @@
   margin-bottom: 20px;
 }
 
+.prof-flex .employee-img{
+  width: 120px;
+  height: 120px;
+}
+
 .prof-flex p {
   padding: 0;
   margin: 0;
@@ -491,6 +496,8 @@
   max-height: 300px !important;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
+  position: relative;
+    z-index: 0;
 }
 
 .panel .dash-menu-list {
@@ -1065,7 +1072,7 @@ span.disabled {
 
 .chart-data {
   margin-top: 30px;
-  padding: 10px;
+  padding: 10px 0;
   border-radius: 8px;
 }
 
@@ -1906,4 +1913,36 @@ div[class*='qy-menu'] * {
   background-color: #EBF6FF;
   padding-top: 15px;
   padding-bottom: 15px;
+}
+
+@media(max-width: 767px){
+  .chart-para {
+    margin-left: 0;
+  }
+  .chart-data {
+    margin-top: 0;
+  }
+  .blue_pagination span {
+    margin: 0px 0px;
+  }
+  .dash-menu-item {
+    margin-left: 0;
+}
+  .accordion2{
+    padding-left: 50px;
+  }
+  .accordion2::after {
+    top: 32px;
+    left: 20px;
+  }
+  .accordion2.active::after {
+    top: 15px;
+    left: 20px;
+  }
+  .panel1 {
+    padding-left: 50px;
+  }
+  .panel1::before {
+    left: 38px;
+  }
 }

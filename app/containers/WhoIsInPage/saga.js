@@ -29,7 +29,7 @@ export function* getWhosIn({ payload }) {
     sortBy: payload.sortBy,
     limit,
     page,
-    locationFilter: payload.office,
+    locationFilter: payload.locationId || payload.office,
     floorFilter: payload.floor,
     buildingFilter: payload.building,
     neighborhoodnameFilter: payload.neighborhood,

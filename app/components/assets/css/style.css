@@ -140,7 +140,7 @@
   }
   .site-header .header_wrapper .main-menu {
     position: fixed;
-    z-index: 1000;
+    z-index: 9999;
     left: 0;
     height: 100%;
     top: 0;
@@ -374,6 +374,9 @@
 }
 
 @media (max-width: 767px) {
+  .common-title {
+    font-size: 18px;
+  }
   .report_title {
     margin-left: 11px;
   }
@@ -433,14 +436,14 @@
     margin-right: 10px;
   }
   .wrapper_main {
-    padding: 50px 0;
+    padding: 50px 0 100px 0;
   }
 
   .manage_width {
     padding: 0px;
   }
   .emp_wrapper {
-    padding: 50px 0 130px;
+    /* padding: 0; */
   }
   .test_modal-employee {
     max-width: 100% !important;
@@ -453,7 +456,7 @@
     margin: 0rem 0.5rem 0rem 0rem;
   }
   .cal_wrapper {
-    padding: 50px 0 130px;
+    padding: 50px 0 100px 0;
   }
   .site-header {
     padding: 12px 0;
@@ -531,6 +534,7 @@
   .update-office-workspot .week-month-toggle {
     margin-left: 0px;
     width: 56%;
+    margin-top: 10px;
   }
   .update-office-workspot .week-month-toggle .week-view {
     font-size: 12px;
@@ -578,7 +582,8 @@
   }
   .office_maps .head .office-selections {
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 0;
+    display: grid;
   }
   .modal .modal-body {
     padding: 1rem 1rem;
@@ -738,5 +743,8 @@
     margin-left: 74px;
     margin-top: -16px;
     width: 75% !important;
+  }
+  .mobile-pt-0{
+    padding-top: 0;
   }
 }

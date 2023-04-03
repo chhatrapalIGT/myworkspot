@@ -279,14 +279,14 @@ const Assignments = props => {
 
   return (
     <>
-      <div className="wrapper_main emp_wrapper">
+      <div className="wrapper_main emp_wrapper mobile-pt-0">
         <div className="office_maps" style={{ marginBottom: '95px' }}>
           <div className="container">
             <div className="d-flex align-items-center justify-content-between mb-4">
               <h4 className="common-title">Assignments</h4>
               <Button
                 variant="primary"
-                className="px-4 py-3 fw-normal"
+                className="px-2 px-md-4 py-2 py-md-3 fw-normal"
                 onClick={() => {
                   setOpen(true);
                 }}
@@ -305,7 +305,8 @@ const Assignments = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      readOnly
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalOfficeVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"
@@ -349,7 +350,8 @@ const Assignments = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      readOnly
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalFloorVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"
@@ -392,7 +394,8 @@ const Assignments = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      readOnly
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalNeighborhoodVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"

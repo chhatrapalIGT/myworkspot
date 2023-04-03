@@ -231,8 +231,8 @@ const Employee = props => {
           </div>
         </div>
       )}
-      <div className="wrapper_main emp_wrapper">
-        <div className="office_maps" style={{ marginBottom: '95px' }}>
+      <div className="wrapper_main emp_wrapper mobile-pt-0">
+        <div className="office_maps">
           <div className="container">
             <h4 className="common-title mb-4">Employees</h4>
             <div className="head d-flex align-items-center">
@@ -246,7 +246,8 @@ const Employee = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      readOnly
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalRoleVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"
@@ -288,7 +289,8 @@ const Employee = props => {
                     <input
                       type="input"
                       style={{ cursor: 'alias' }}
-                      className="dropdown-toggle pointer"
+                      readOnly
+                      className="dropdown-toggle pointer filter-cursor"
                       value={state.finalOfficeVal}
                       placeholder="All"
                       data-bs-toggle="dropdown"
@@ -586,20 +588,20 @@ const Employee = props => {
               ) : (
                 <div className="modal-body pt-0">
                   <div className="prof-flex">
-                    <div className="mar-4">
+                    <div className="mar-4 employee-img">
                       <img
                         src={`${USER_IMAGE_SRC_LIVE}${props.state.id}.wiki.jpg`}
-                        className="img-fluid"
+                        // className="img-fluid"
+                        className="profile-fluid"
                         onError={props.replaceImage}
                         style={{
                           borderRadius: '50%',
-                          height: '120px',
-                          width: '120px',
+                          width: '100%',
                         }}
                         alt=""
                       />
                     </div>
-                    <div className="">
+                    <div className="flex-1">
                       <div className="pro-title">
                         {props.singleEmployeeData &&
                           props.singleEmployeeData.FirstName}{' '}
@@ -647,7 +649,11 @@ const Employee = props => {
                       >
                         {role &&
                           role.map(ele => (
-                            <option key={ele.name} value={ele.name}>
+                            <option
+                              key={ele.name}
+                              value={ele.name}
+                              selected={props.state.role === ele.name}
+                            >
                               {ele.name}
                             </option>
                           ))}

@@ -133,12 +133,12 @@ const Spaces = ({
     if (!manageDataSuccess && manageDataMessage) {
       setTimeout(() => {
         handleData();
-      }, 7000);
+      }, 3000);
     }
     if (manageDataSuccess && manageDataMessage) {
       setTimeout(() => {
         handleData();
-      }, 7000);
+      }, 3000);
     }
   }, [manageDataSuccess, manageDataMessage]);
 
@@ -489,7 +489,7 @@ const Spaces = ({
               Building: obj.building || '-',
               Floor: obj.floor || '-',
               Neighborhood: obj.neighborhoodname || '-',
-              Space: obj.workspacename || '-',
+              Space: obj.workspacenumber || '-',
               SpaceType: obj.type || '-',
               Attributes: obj.attributes || '-',
               Assigned: obj.assigned || '-',
@@ -503,7 +503,7 @@ const Spaces = ({
               Building: obj.building || '-',
               Floor: obj.floor || '-',
               Neighborhood: obj.neighborhoodname || '-',
-              Space: obj.workspacename || '-',
+              Space: obj.workspacenumber || '-',
               SpaceType: obj.type || '-',
               Attributes: obj.attributes || '-',
               Assigned: obj.assigned || '-',
@@ -687,9 +687,18 @@ const Spaces = ({
             spaceType: false,
           };
           return val;
+        } else {
+          const val = {
+            ...el,
+            isInput: false,
+            algorithm: false,
+            isFloor: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
         }
-
-        return el;
       });
     setSpaceValue(spaceInp);
   };
@@ -709,8 +718,18 @@ const Spaces = ({
             spaceType: false,
           };
           return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
         }
-        return el;
       });
     setSpaceValue(spaceInp);
   };
@@ -730,8 +749,18 @@ const Spaces = ({
             spaceType: false,
           };
           return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
         }
-        return el;
       });
     setSpaceValue(spaceInp);
   };
@@ -751,8 +780,18 @@ const Spaces = ({
             spaceType: toggleStatus,
           };
           return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
         }
-        return el;
       });
     setSpaceValue(spaceInp);
   };
@@ -772,8 +811,18 @@ const Spaces = ({
             spaceType: false,
           };
           return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+          };
+          return val;
         }
-        return el;
       });
     setSpaceValue(spaceInp);
   };
@@ -961,7 +1010,7 @@ const Spaces = ({
   };
 
   return (
-    <div className="wrapper_main" ref={ref}>
+    <div className="wrapper_main mobile-pt-0" ref={ref}>
       {setSpaceUpdate && setSpaceUpdate.showUpdateStatusMessage && (
         <div
           className={`alert fade show mx-auto ${
@@ -1000,12 +1049,18 @@ const Spaces = ({
       {manageDataMessage && (
         <div
           className={`"alert fade show mx-auto ${
-            manageDataSuccess ? 'alert alert-success' : 'alert alert-danger '
+            manageDataSuccess && manageDataSuccess
+              ? 'alert alert-success'
+              : 'alert alert-danger '
           } "`}
         >
           <div>
             <img
-              src={manageDataSuccess ? checkedCircle : crossCircle}
+              src={
+                manageDataSuccess && manageDataSuccess
+                  ? checkedCircle
+                  : crossCircle
+              }
               alt=""
               style={{ paddingRight: '5px', marginBottom: ' 4px' }}
             />
@@ -1031,7 +1086,7 @@ const Spaces = ({
             <h4 className="common-title">Manage Spaces</h4>
             <Button
               variant="primary"
-              className="px-4 py-3"
+              className="px-2 px-md-4 py-2 py-md-3"
               style={{ borderRadius: '8px' }}
               onClick={() => {
                 setOpen(true);
@@ -1052,7 +1107,8 @@ const Spaces = ({
                   <input
                     type="input"
                     style={{ cursor: 'alias' }}
-                    className="dropdown-toggle"
+                    readOnly
+                    className="dropdown-toggle filter-cursor"
                     value={state.finalOfficeVal}
                     placeholder="All"
                     data-bs-toggle="dropdown"
@@ -1095,7 +1151,8 @@ const Spaces = ({
                   <input
                     type="input"
                     style={{ cursor: 'alias' }}
-                    className="dropdown-toggle"
+                    readOnly
+                    className="dropdown-toggle filter-cursor"
                     value={state.finalFloorVal}
                     placeholder="All"
                     data-bs-toggle="dropdown"
@@ -1137,7 +1194,8 @@ const Spaces = ({
                   <input
                     type="input"
                     style={{ cursor: 'alias' }}
-                    className="dropdown-toggle"
+                    readOnly
+                    className="dropdown-toggle filter-cursor"
                     value={state.finalNeighborhoodVal}
                     placeholder="All"
                     data-bs-toggle="dropdown"
@@ -1207,7 +1265,7 @@ const Spaces = ({
                     ) : (
                       <>
                         <img
-                          style={{ height: '17px', width: '17px' }}
+                          style={{ height: '18px', width: '17px' }}
                           aria-hidden
                           onClick={() => handleClear()}
                           src={CheckboxInput}
@@ -1217,7 +1275,7 @@ const Spaces = ({
                     )}
                   </th>
                 )}
-                <th>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex text-nowrap">
                     Building/floor{' '}
                     <span className="ms-1">
@@ -1238,7 +1296,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex text-nowrap">
                     Neighborhood{' '}
                     <span className="ms-1">
@@ -1259,10 +1317,10 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '18%' }}>
                   <span className="d-flex text-nowrap">
                     Space{' '}
-                    <span className="ms-1">
+                    <span className="ms-2">
                       <img
                         src={Sort}
                         className="img-fluid sort-img"
@@ -1277,7 +1335,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex text-nowrap">
                     Space type{' '}
                     <span className="ms-1">
@@ -1298,7 +1356,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex text-nowrap">
                     Assigned{' '}
                     <span className="ms-1">
@@ -1316,7 +1374,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th>
+                <th style={{ width: '16%' }}>
                   <span className="d-flex text-nowrap">
                     algorithm Status{' '}
                     <span className="ms-1">
@@ -1400,6 +1458,7 @@ const Spaces = ({
                             >
                               <input
                                 type="input"
+                                readOnly
                                 style={{ cursor: 'alias' }}
                                 value={
                                   currentCheckedValue !== '' &&
@@ -1458,6 +1517,7 @@ const Spaces = ({
                                   spaceAllChecked.length > 1 ? (
                                     <>
                                       <input
+                                        readOnly
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
@@ -1545,6 +1605,7 @@ const Spaces = ({
                               }}
                             >
                               <input
+                                readOnly
                                 type="input"
                                 style={{ cursor: 'alias' }}
                                 value={
@@ -1604,6 +1665,7 @@ const Spaces = ({
                                   spaceAllChecked.length > 1 ? (
                                     <>
                                       <input
+                                        readOnly
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
@@ -1685,13 +1747,14 @@ const Spaces = ({
                           >
                             {currentCheckedValue !== '' ? (
                               <input
+                                readOnly
                                 type="text"
                                 defaultValue={
                                   currentCheckedValue !== '' &&
                                   isShowRowDropdown === idx &&
                                   isShowColDropdown === 'space'
                                     ? currentCheckedValue
-                                    : i.workspacename
+                                    : i.workspacenumber
                                 }
                                 onKeyDown={event => {
                                   handleKeydown(event);
@@ -1705,8 +1768,9 @@ const Spaces = ({
                               />
                             ) : (
                               <input
+                                readOnly
                                 type="text"
-                                value={i.workspacename}
+                                value={i.workspacenumber}
                                 onKeyDown={event => {
                                   handleKeydown(event);
                                 }}
@@ -1764,7 +1828,7 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="select-none arrow-on-hover">
-                          {i.workspacename || editedText}
+                          {i.workspacenumber || editedText}
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               className="editInput img_height"
@@ -1791,6 +1855,7 @@ const Spaces = ({
                               }}
                             >
                               <input
+                                readOnly
                                 type="input"
                                 style={{ cursor: 'alias' }}
                                 value={
@@ -1801,7 +1866,7 @@ const Spaces = ({
                                     : i.assigned === 'Not assigned' &&
                                       (i.type === 'Workstation' ||
                                         i.type === 'Office')
-                                    ? `${i.type} (Flex)`
+                                    ? `${i.type}`
                                     : i.assigned !== 'Not assigned' &&
                                       (i.type === 'Workstation' ||
                                         i.type === 'Office')
@@ -1859,6 +1924,7 @@ const Spaces = ({
                                   spaceAllChecked.length > 1 ? (
                                     <>
                                       <input
+                                        readOnly
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
@@ -1965,6 +2031,7 @@ const Spaces = ({
                               }}
                             >
                               <input
+                                readOnly
                                 type="input"
                                 style={{ cursor: 'alias' }}
                                 value={
@@ -2027,6 +2094,7 @@ const Spaces = ({
                                   spaceAllChecked.length > 1 ? (
                                     <>
                                       <input
+                                        readOnly
                                         type="checkbox"
                                         className="getAll"
                                         name="all"
@@ -2385,7 +2453,9 @@ const Spaces = ({
                                                 e.target.checked,
                                                 'neighborhoodClick',
                                               );
-                                              setSpaceData(space.workspacename);
+                                              setSpaceData(
+                                                space.workspacenumber,
+                                              );
                                             }}
                                           />
                                           <div className="dash-menu-data">
@@ -2396,7 +2466,7 @@ const Spaces = ({
                                                   'neighborhoodClick' && (
                                                   <div
                                                     className={
-                                                      space.workspacename ===
+                                                      space.workspacenumber ===
                                                       spaceData
                                                         ? 'spinner-border space_Update_load'
                                                         : ''
@@ -2406,9 +2476,9 @@ const Spaces = ({
                                             </label>
                                             <div
                                               className="dash-menu-list2"
-                                              value={space.workspacename}
+                                              value={space.workspacenumber}
                                             >
-                                              {space.workspacename}{' '}
+                                              {space.workspacenumber}{' '}
                                             </div>
                                           </div>
                                         </>

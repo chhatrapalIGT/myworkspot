@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable func-names */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
@@ -109,23 +110,13 @@ class ProfilePage extends Component {
 
   componentDidUpdate() {
     const {
-      getProfileLocationSuccess,
-      getProfileLocation,
+      // getProfileLocationSuccess,
       apiMessage,
       locationMessage,
       badgeUpdateData,
       locationApiMessage,
       locationApiSuccess,
     } = this.props;
-
-    if (
-      getProfileLocation &&
-      !getProfileLocation.loading &&
-      getProfileLocationSuccess &&
-      this.state.data
-    ) {
-      this.handleData();
-    }
     if (
       apiMessage ||
       locationMessage ||
@@ -243,28 +234,6 @@ class ProfilePage extends Component {
   handleButtonData = (selectedDay, finalval) => {
     this.setState({ selectedDay });
     this.setState({ finalval });
-  };
-
-  handleData = () => {
-    this.setState({ data: false });
-    const { timings, finalLocationDay } = this.state;
-    const { getProfileLocation } = this.props;
-    const finalData = getProfileLocation && getProfileLocation.weeklyLocation;
-    if (finalData) {
-      finalData.forEach(obj => {
-        // eslint-disable-next-line array-callback-return
-        timings.map(e => {
-          if (e.day === obj.dayofweek) {
-            finalLocationDay.push({
-              day: obj.dayofweek,
-              name: obj.locationName,
-              id: obj.locationCode,
-            });
-          }
-        });
-      });
-    }
-    return finalLocationDay;
   };
 
   handleSelectedNamesChange = name => {
@@ -555,7 +524,6 @@ ProfilePage.propTypes = {
   userData: PropTypes.object,
   requestDelegateData: PropTypes.object,
   delegateList: PropTypes.object,
-  getProfileLocationSuccess: PropTypes.bool,
   delegateSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
