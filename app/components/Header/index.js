@@ -759,33 +759,38 @@ const Header = props => {
                             )}
                           </div>
                           {props.profileUser &&
-                            props.profileUser.delegateUserList &&
-                            props.profileUser.delegateUserList.map(obj => (
-                              <>
-                                <div
-                                  aria-hidden="true"
-                                  className="popup-secondary-profile day-pointer"
-                                  onClick={() =>
-                                    delegetuser(obj, props.profileUser.role)
-                                  }
-                                >
-                                  <img
-                                    src={
-                                      (obj && obj.delegateUserPhoto) || Profile
+                            props.profileUser.delegateUserListForDropDown &&
+                            props.profileUser.delegateUserListForDropDown.map(
+                              obj => (
+                                <>
+                                  <div
+                                    aria-hidden="true"
+                                    className="popup-secondary-profile day-pointer"
+                                    onClick={() =>
+                                      delegetuser(obj, props.profileUser.role)
                                     }
-                                    alt=""
-                                    style={{ marginBottom: '10px' }}
-                                  />
-                                  <div className="sec-profile-info">
-                                    <h4>
-                                      {obj && obj.delegateUserFistname}{' '}
-                                      {obj && obj.delegateUserLastname}{' '}
-                                    </h4>
-                                    <span>{obj && obj.delegateUserEmail}</span>
+                                  >
+                                    <img
+                                      src={
+                                        (obj && obj.delegateUserPhoto) ||
+                                        Profile
+                                      }
+                                      alt=""
+                                      style={{ marginBottom: '10px' }}
+                                    />
+                                    <div className="sec-profile-info">
+                                      <h4>
+                                        {obj && obj.delegateUserFistname}{' '}
+                                        {obj && obj.delegateUserLastname}{' '}
+                                      </h4>
+                                      <span>
+                                        {obj && obj.delegateUserEmail}
+                                      </span>
+                                    </div>
                                   </div>
-                                </div>
-                              </>
-                            ))}
+                                </>
+                              ),
+                            )}
                           {props.profileUser &&
                           props.profileUser.role === 'Admin Owner' &&
                           sessionStorage.getItem('Admin Owner') === 'false' ? (
