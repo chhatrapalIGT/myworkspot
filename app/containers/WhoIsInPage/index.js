@@ -56,7 +56,7 @@ class WhoIsInPage extends Component {
   ) => {
     const finalPayload = {
       searchKeyword,
-      office,
+      office: this.state.srcOffice || ['DC'],
       floor,
       building,
       neighborhood,
