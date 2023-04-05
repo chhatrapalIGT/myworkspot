@@ -211,7 +211,7 @@ const WhoIsIn = props => {
 
   return (
     <>
-      <div className="wrapper_main emp_wrapper">
+      <div className="wrapper_main emp_wrapper ">
         <div className="office_maps">
           <div className="container">
             <div className="d-flex align-items-center justify-content-between mb-0 mb-md-4">

@@ -279,7 +279,7 @@ const Assignments = props => {
 
   return (
     <>
-      <div className="wrapper_main emp_wrapper mobile-pt-0">
+      <div className="wrapper_main emp_wrapper">
         <div className="office_maps" style={{ marginBottom: '95px' }}>
           <div className="container">
             <div className="d-flex align-items-center justify-content-between mb-4">

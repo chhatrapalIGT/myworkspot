@@ -304,7 +304,7 @@ const WorkSpot = ({
           className={`${
             badgeData && badgeData.badgeNumber !== ''
               ? 'manage_width wrapper_main'
-              : 'wrapper_main'
+              : 'badge_wrap'
           }`}
         >
           <div className="container">

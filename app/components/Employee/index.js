@@ -231,7 +231,7 @@ const Employee = props => {
           </div>
         </div>
       )}
-      <div className="wrapper_main emp_wrapper mobile-pt-0">
+      <div className="wrapper_main emp_wrapper">
         <div className="office_maps">
           <div className="container">
             <h4 className="common-title mb-4">Employees</h4>
