@@ -938,6 +938,7 @@ const Profile = ({
                   onClick={() => setModal(false)}
                 />
               </div>
+              {/* {console.log('finalLocation::::::::::', finalLocation)} */}
               <div className="modal-body">
                 <form className="delegate-workspot-access" action="submit">
                   <div className="selection">
@@ -951,7 +952,8 @@ const Profile = ({
                           finalLocation.map(i => (
                             <option
                               htmlFor="jane"
-                              value={i.locationname}
+                              value=""
+                              display="none"
                               id="location"
                               style={{ padding: '50px' }}
                             >
