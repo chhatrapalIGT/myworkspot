@@ -80,7 +80,7 @@ class WhoIsInPage extends Component {
       locationId: space,
     });
     this.props.requestGetOfficeNeighborhood({
-      floor: [],
+      floor: ['3', '8'],
       building: [],
       locationId: space,
     });
@@ -91,16 +91,17 @@ class WhoIsInPage extends Component {
       selectedNeighbor: [],
       finalFloorVal: 'All',
       finalNeighborhoodVal: 'All',
-      srcFloor: [],
+      srcFloor: space === 'DC' ? ['3', '8'] : [],
       srcBuilding: [],
       srcNeighborhood: [],
     });
     const timeoutId = setTimeout(() => {
+      const floor = ['3', '8'];
       this.setState({ srcOffice: space }, () => {
         this.getWhoIsInData(
           this.state.search,
           space,
-          this.state.srcFloor,
+          space[0] === 'DC' ? ['3', '8'] : this.state.srcFloor,
           this.state.srcBuilding,
           this.state.srcNeighborhood,
           this.state.sortBy,
