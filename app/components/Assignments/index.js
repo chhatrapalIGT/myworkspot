@@ -282,7 +282,7 @@ const Assignments = props => {
       <div className="wrapper_main emp_wrapper">
         <div className="office_maps" style={{ marginBottom: '95px' }}>
           <div className="container">
-            <div className="d-flex align-items-center justify-content-between mb-4">
+            <div className="d-flex justify-content-between mb-4">
               <h4 className="common-title">Assignments</h4>
               <Button
                 variant="primary"
