@@ -750,3 +750,9 @@
     width: 75% !important;
   }
 }
+
+@media (max-width: 767px) {
+  .footer-button-group .apply-btn{
+    margin: 0 10px 0 10px !important;
+  }
+}
