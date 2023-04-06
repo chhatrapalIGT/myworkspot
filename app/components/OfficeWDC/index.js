@@ -180,15 +180,13 @@ const OfficeWDC = ({
         className={`${
           badgeData && badgeData.badgeNumber !== ''
             ? 'manage_width wrapper_main'
-            : 'wrapper_main'
+            : 'badge_wrap'
         }`}
       >
         <div className="office_maps">
           <div className="container">
-            <div className="head d-flex align-items-center mt-4">
-              <h4 className="common-title" style={{ marginTop: '20px' }}>
-                Office Maps
-              </h4>
+            <div className="head d-flex align-items-center">
+              <h4 className="common-title mt-0 mt-md-3">Office Maps</h4>
               <div className="office-selections d-flex">
                 <div className="selction_one">
                   <label htmlFor="Office">Office</label>

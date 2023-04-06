@@ -436,11 +436,15 @@
     margin-right: 10px;
   }
   .wrapper_main {
-    padding: 50px 0 100px 0;
+    padding: 65px 0 100px 0;
+  }
+
+  .badge_wrap {
+    padding: 140px 0 100px 0;
   }
 
   .manage_width {
-    padding: 0px;
+    padding: 65px 0 100px 0;
   }
   .emp_wrapper {
     /* padding: 0; */
@@ -456,7 +460,7 @@
     margin: 0rem 0.5rem 0rem 0rem;
   }
   .cal_wrapper {
-    padding: 50px 0 100px 0;
+    padding: 65px 0 100px 0;
   }
   .site-header {
     padding: 12px 0;
@@ -635,6 +639,7 @@
   .office-structure .office-structure-inner .right-map .drag_image img {
     height: fit-content;
   }
+
 }
 
 @media (max-width: 575px) {
@@ -743,8 +748,5 @@
     margin-left: 74px;
     margin-top: -16px;
     width: 75% !important;
-  }
-  .mobile-pt-0{
-    padding-top: 0;
   }
 }

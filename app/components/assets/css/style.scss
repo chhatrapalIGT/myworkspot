@@ -2694,6 +2694,9 @@ input[type='text'] {
   padding-top: 78px;
   position: relative;
   min-height: 100vh;
+  @media (max-width: 767px) {
+    padding-top: 0px;
+  }
 }
 
 #content-wrap {
@@ -4228,4 +4231,10 @@ tr.exited {
 .profile-fluid {
   max-width: 100%;
   height: 100%;
+}
+.manage_width {
+  padding: 50px 0;
+}
+.badge_wrap {
+  padding: 50px 0 50px 0;
 }

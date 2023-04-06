@@ -360,10 +360,10 @@ const Report = ({
         className={`${
           BadgeData && BadgeData.badgeNumber !== ''
             ? 'manage_width wrapper_main'
-            : 'wrapper_main'
+            : 'badge_wrap'
         }`}
       >
-        <div className="mt-4 weekly-default-inner d-flex flex-wrap" />
+        <div className="weekly-default-inner d-flex flex-wrap" />
         <div className="container">
           <h4 className="common-title">My Team</h4>
 
