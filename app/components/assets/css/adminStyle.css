@@ -695,6 +695,7 @@
   flex-wrap: wrap;
   width: 100%;
   background-color: #F5FAFF;
+  min-height: 50px;
 }
 
 .accordion_box .panel p:first-child {
