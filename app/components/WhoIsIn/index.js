@@ -51,33 +51,37 @@ const WhoIsIn = props => {
 
   useEffect(() => {
     const tempArr = [];
-
-    if (state.filterApplied) {
-      tempArr.push({
-        label: 'All',
-        name: 'All',
-        value: 'All',
-        isSelected: true,
-      });
-    } else {
-      tempArr.push({
-        label: 'All',
-        name: 'All',
-        value: 'All',
-        isSelected: false,
-      });
-    }
+    tempArr.push({
+      label: 'All',
+      name: 'All',
+      value: 'All',
+      isSelected: true,
+    });
 
     officeFloor &&
       officeFloor.map(obj => {
         if (state.filterApplied) {
           if (obj.floor !== null) {
-            tempArr.push({
-              label: `Floor ${obj.floor}`,
-              name: `Floor ${obj.floor}`,
-              value: `Floor ${obj.floor}`,
-              isSelected: true,
-            });
+            if (
+              (obj.floor === 3 || obj.floor === 8) &&
+              state.finalOfficeVal === 'Washington, DC'
+            ) {
+              tempArr.push({
+                label: `Floor ${obj.floor}`,
+                name: `Floor ${obj.floor}`,
+                value: `Floor ${obj.floor}`,
+                isSelected: true,
+              });
+            }
+
+            if (state.finalOfficeVal === 'Richmond, VA') {
+              tempArr.push({
+                label: `Floor ${obj.floor}`,
+                name: `Floor ${obj.floor}`,
+                value: `Floor ${obj.floor}`,
+                isSelected: true,
+              });
+            }
           }
         } else if (obj.floor !== null) {
           if (obj.floor === 3 || obj.floor === 8) {
@@ -86,13 +90,6 @@ const WhoIsIn = props => {
               name: `Floor ${obj.floor}`,
               value: `Floor ${obj.floor}`,
               isSelected: true,
-            });
-          } else {
-            tempArr.push({
-              label: `Floor ${obj.floor}`,
-              name: `Floor ${obj.floor}`,
-              value: `Floor ${obj.floor}`,
-              isSelected: false,
             });
           }
         }
@@ -119,7 +116,6 @@ const WhoIsIn = props => {
 
   const handleSelectedList = val => {
     props.handleSelectedoffice(val);
-
     let floorList = [];
     floorList =
       officeFloors &&
