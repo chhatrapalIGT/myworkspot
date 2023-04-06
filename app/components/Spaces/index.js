@@ -1082,7 +1082,7 @@ const Spaces = ({
       )}
       <div className="office_maps" style={{ marginBottom: '65px' }}>
         <div className="container">
-          <div className="d-flex align-items-center justify-content-between mb-4">
+          <div className="d-flex justify-content-between mb-4">
             <h4 className="common-title">Manage Spaces</h4>
             <Button
               variant="primary"

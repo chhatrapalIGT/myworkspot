@@ -30,7 +30,7 @@ class WhoIsInPage extends Component {
       selectedBuilding: [],
       selectedNeighbor: [],
       finalOfficeVal: 'Washington, DC',
-      finalFloorVal: 'Floor 3, +1',
+      finalFloorVal: 'All',
       finalNeighborhoodVal: 'All',
       srcFloor: ['3', '8'],
       filterApplied: false,
