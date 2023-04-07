@@ -55,16 +55,20 @@ class WhoIsInPage extends Component {
     page,
     limit,
   ) => {
+    const FloorVal = [];
+    if (this.state.finalFloorVal === '') {
+      if (this.state.finalOfficeVal === 'Washington, DC') {
+        FloorVal.push('3', '8');
+      }
+      if (this.state.finalOfficeVal === 'Richmond, VA') {
+        FloorVal.push('2');
+      }
+    }
+
     const finalPayload = {
       searchKeyword,
       office: this.state.srcOffice || ['DC'],
-      floor:
-        // eslint-disable-next-line no-nested-ternary
-        this.state.srcFloor.length > 0
-          ? this.state.srcFloor
-          : this.state.srcOffice[0] === 'DC'
-          ? ['3', '8']
-          : ['2'],
+      floor: this.state.finalFloorVal === '' ? FloorVal : this.state.srcFloor,
       building,
       neighborhood,
       sortBy,
