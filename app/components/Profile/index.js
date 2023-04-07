@@ -27,6 +27,7 @@ const { SPIN_IMAGE_URL_LIVE } = CONSTANT;
 
 const Profile = ({
   handleButtonData,
+  requestUserlistData,
   state,
   handleCheckbox,
   handleUserSelectData,
@@ -64,6 +65,7 @@ const Profile = ({
   isLoading,
   userRemoveLoading,
   getProfileLocation,
+  empSuccess,
 }) => {
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
@@ -103,7 +105,6 @@ const Profile = ({
       setemployee(selectEmpIcon);
     }
   }, [selectEmpIcon]);
-
   const inputval =
     userData && userData.badgeNumber && userData.badgeNumber.slice(3, 6);
   const inputval2 =
@@ -149,6 +150,11 @@ const Profile = ({
       setInputSet('');
     }
   }, [badgeUpdateData, delegrateUsersList, verifyBadgeChk, userData]);
+  useEffect(() => {
+    if (empSuccess) {
+      requestUserlistData(userData.employeeid);
+    }
+  }, [empSuccess]);
 
   const handleSpinSelect = name => {
     const dataName = [...employee];
@@ -329,10 +335,13 @@ const Profile = ({
   return (
     <Fragment>
       <div>
-        {(apiMessage || locationMessage || locationApiMessage) && (
+        {(apiMessage ||
+          locationMessage ||
+          locationApiMessage ||
+          empSuccess) && (
           <div
             className={`alert fade show mx-auto ${
-              apiSuccess || locationSuccess || locationApiSuccess
+              apiSuccess || locationSuccess || locationApiSuccess || empSuccess
                 ? 'alert alert-success'
                 : 'alert alert-danger'
             }`}
@@ -340,7 +349,10 @@ const Profile = ({
             <div style={{ display: 'contents', lineHeight: '30px' }}>
               <img
                 src={
-                  apiSuccess || locationSuccess || locationApiSuccess
+                  apiSuccess ||
+                  locationSuccess ||
+                  locationApiSuccess ||
+                  empSuccess
                     ? checkedCircle
                     : crossCircle
                 }
@@ -938,7 +950,6 @@ const Profile = ({
                   onClick={() => setModal(false)}
                 />
               </div>
-              {/* {console.log('finalLocation::::::::::', finalLocation)} */}
               <div className="modal-body">
                 <form className="delegate-workspot-access" action="submit">
                   <div className="selection">
@@ -1214,6 +1225,8 @@ Profile.propTypes = {
   selectEmpIcon: PropTypes.array,
   handleManageFirstBox: PropTypes.func,
   requestAddSpinIcon: PropTypes.func,
+  requestUserlistData: PropTypes.func,
   getProfileLocation: PropTypes.object,
+  empSuccess: PropTypes.bool,
 };
 export default Profile;

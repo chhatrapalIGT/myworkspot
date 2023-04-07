@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable func-names */
 /* eslint-disable react/no-unused-state */
@@ -365,6 +367,8 @@ class ProfilePage extends Component {
       addSpinIcon,
       isLoading,
       userRemoveLoading,
+      requestUserlistData,
+      empSuccess,
     } = this.props;
     const validateBadge =
       history &&
@@ -375,6 +379,8 @@ class ProfilePage extends Component {
       <>
         <div id="content-wrap">
           <Profile
+            empSuccess={empSuccess}
+            requestUserlistData={requestUserlistData}
             isLoading={isLoading}
             userRemoveLoading={userRemoveLoading}
             addSpinIcon={addSpinIcon}
@@ -450,6 +456,7 @@ const mapStateToProps = state => {
     locationSuccess: locationData && locationData.addOfficeLocation.success,
     locationMessage: locationData && locationData.addOfficeLocation.message,
     apiSuccess: profile && profile.apiSuccess,
+    empSuccess: profile && profile.empSuccess,
     apiMessage: profile && profile.apiMessage,
     locationApiMessage: locationData && locationData.apiMessage,
     locationApiSuccess: locationData && locationData.apiSuccess,
