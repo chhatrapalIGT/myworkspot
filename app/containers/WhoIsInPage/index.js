@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
@@ -57,7 +58,13 @@ class WhoIsInPage extends Component {
     const finalPayload = {
       searchKeyword,
       office: this.state.srcOffice || ['DC'],
-      floor,
+      floor:
+        // eslint-disable-next-line no-nested-ternary
+        this.state.srcFloor.length > 0
+          ? this.state.srcFloor
+          : this.state.srcOffice[0] === 'DC'
+          ? ['3', '8']
+          : ['2'],
       building,
       neighborhood,
       sortBy,
@@ -91,7 +98,7 @@ class WhoIsInPage extends Component {
       selectedNeighbor: [],
       finalFloorVal: 'All',
       finalNeighborhoodVal: 'All',
-      srcFloor: space[0] === 'DC' ? ['3', '8'] : [],
+      srcFloor: space[0] === 'DC' ? ['3', '8'] : ['2'],
       srcBuilding: [],
       srcNeighborhood: [],
     });
