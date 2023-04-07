@@ -82,6 +82,11 @@ const WorkSpot = ({
       document.removeEventListener('mousedown', handleClickOutside, false);
     };
   });
+  console.log(
+    'neighborhoodData:::::::::',
+    neighborhoodData && neighborhoodData.isAssignmentUpdate,
+  );
+  console.log('neighborhood:::::::::', neighborhood);
   const handleChange = event => {
     setAllUser(colleaguesData);
     let newList = [];
@@ -615,64 +620,69 @@ const WorkSpot = ({
               )
             )}
           </div>
-          <div className="office-structure mt-4">
-            {(moment().format('ddd') !== 'Sat' ||
-              moment().format('ddd') !== 'Sun') &&
-              neighborhoodData &&
-              neighborhoodData.locationCode !== 'RW' &&
-              neighborhoodData &&
-              neighborhoodData.locationCode !== 'PTO' &&
-              neighborhoodData &&
-              neighborhoodData.locationCode !== 'EAB' &&
-              ((neighborhoodData && neighborhoodData.image !== '') ||
-                (halfDayData && halfDayData.image !== '')) && (
-                //    &&
-                // ((neighborhoodData &&
-                //   neighborhoodData.resource &&
-                //   neighborhoodData.resource.length > 0) ||
-                //   (halfDayData &&
-                //     halfDayData.resource &&
-                //     halfDayData.resource.length > 0))
-                <div className="container" style={{ height: '100%' }}>
-                  {neighborhoodLoad ? (
-                    <div className="card building-block-head">
-                      <Spinner
-                        className="app-spinner workspot_spinner"
-                        animation="grow"
-                        variant="dark"
-                      />
-                    </div>
-                  ) : (
-                    !isEmpty(neighborhood.neighborhoodData) && (
-                      <MapComponent
-                        building={
-                          neighborhoodData.building || halfDayData.building
-                        }
-                        floor={neighborhoodData.floor || halfDayData.floor}
-                        state={state}
-                        imgStyle={imgStyle}
-                        dataStyle={dataStyle}
-                        handleZoomIn={handleZoomIn}
-                        handleZoomOut={handleZoomOut}
-                        handleDefault={handleDefault}
-                        mapImage={
-                          (neighborhoodData && neighborhoodData.image) ||
-                          (halfDayData && halfDayData.image)
-                        }
-                        officeResource={
-                          (neighborhoodData && neighborhoodData.resource) ||
-                          (halfDayData && halfDayData.resource)
-                        }
-                        locationName={
-                          (neighborhoodData && neighborhoodData.locationName) ||
-                          (halfDayData && halfDayData.locationName)
-                        }
-                      />
-                    )
-                  )}
-                </div>
-              )}
-          </div>
+          {neighborhoodData && neighborhoodData.isAssignmentUpdate === true ? (
+            <div className="office-structure mt-4">
+              {(moment().format('ddd') !== 'Sat' ||
+                moment().format('ddd') !== 'Sun') &&
+                neighborhoodData &&
+                neighborhoodData.locationCode !== 'RW' &&
+                neighborhoodData &&
+                neighborhoodData.locationCode !== 'PTO' &&
+                neighborhoodData &&
+                neighborhoodData.locationCode !== 'EAB' &&
+                ((neighborhoodData && neighborhoodData.image !== '') ||
+                  (halfDayData && halfDayData.image !== '')) && (
+                  //    &&
+                  // ((neighborhoodData &&
+                  //   neighborhoodData.resource &&
+                  //   neighborhoodData.resource.length > 0) ||
+                  //   (halfDayData &&
+                  //     halfDayData.resource &&
+                  //     halfDayData.resource.length > 0))
+                  <div className="container" style={{ height: '100%' }}>
+                    {neighborhoodLoad ? (
+                      <div className="card building-block-head">
+                        <Spinner
+                          className="app-spinner workspot_spinner"
+                          animation="grow"
+                          variant="dark"
+                        />
+                      </div>
+                    ) : (
+                      !isEmpty(neighborhood.neighborhoodData) && (
+                        <MapComponent
+                          building={
+                            neighborhoodData.building || halfDayData.building
+                          }
+                          floor={neighborhoodData.floor || halfDayData.floor}
+                          state={state}
+                          imgStyle={imgStyle}
+                          dataStyle={dataStyle}
+                          handleZoomIn={handleZoomIn}
+                          handleZoomOut={handleZoomOut}
+                          handleDefault={handleDefault}
+                          mapImage={
+                            (neighborhoodData && neighborhoodData.image) ||
+                            (halfDayData && halfDayData.image)
+                          }
+                          officeResource={
+                            (neighborhoodData && neighborhoodData.resource) ||
+                            (halfDayData && halfDayData.resource)
+                          }
+                          locationName={
+                            (neighborhoodData &&
+                              neighborhoodData.locationName) ||
+                            (halfDayData && halfDayData.locationName)
+                          }
+                        />
+                      )
+                    )}
+                  </div>
+                )}
+            </div>
+          ) : (
+            ''
+          )}
           <Calender
             defaultSelected={state.defaultSelected}
             setModal={setModal}
