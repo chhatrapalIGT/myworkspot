@@ -231,6 +231,11 @@ const WorkSpot = ({
     return dates;
   };
 
+  const remot =
+    neighborhoodData && neighborhoodData.data && neighborhoodData.data[0];
+  const remot1 =
+    neighborhoodData && neighborhoodData.data && neighborhoodData.data[1];
+
   const employeeMapColor =
     (employeeData && employeeData.colorcode) === '0072CE'
       ? 'Blue'
@@ -547,9 +552,11 @@ const WorkSpot = ({
                     )}
 
                     <div className="building-location-strip d-flex flex-wrap align-items-center">
-                      {neighborhoodData &&
-                      neighborhoodData.data &&
-                      neighborhoodData.data.length > 0 ? (
+                      {(neighborhoodData &&
+                        neighborhoodData.data &&
+                        neighborhoodData.data.length > 0 &&
+                        (remot && remot.locationCode === 'RW')) ||
+                      (remot1 && remot1.locationCode === 'RW') ? (
                         <>
                           {neighborhoodData &&
                             neighborhoodData.locationCode !== 'PTO' &&
