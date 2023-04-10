@@ -747,7 +747,7 @@ const Profile = ({
             </div>
           </div>
 
-          <div className="workspot-access mt-40">
+          {/* <div className="workspot-access mt-40">
             <div className="container">
               <h4 className="common-title">Name Plate Pins</h4>
               <p className="w-50 stroke-2 mt-3">
@@ -800,7 +800,8 @@ const Profile = ({
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
+
           <div className="workspot-access mt-40">
             <div className="container">
               <h4 className="common-title">
