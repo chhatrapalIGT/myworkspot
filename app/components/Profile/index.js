@@ -269,7 +269,7 @@ const Profile = ({
     locationNewApiSuccess,
   ]);
 
-  const data = location && location.length && location[location.length - 1];
+  const data = location && location.length && location[location.length - 3];
 
   const finalLocation =
     location && location.length
