@@ -38,6 +38,7 @@ const initialState = {
   },
   apiMessage: '',
   apiSuccess: false,
+  newApiSuccess: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -66,18 +67,21 @@ const onBoardingReducer = (state = initialState, action) =>
 
       case REQUEST_ADD_OFFICE_LOCATION:
         draft.addOfficeLocation.loading = true;
+        draft.newApiSuccess = false;
         draft.addOfficeLocation.error = '';
         break;
       case SUCCESS_ADD_OFFICE_LOCATION:
         draft.addOfficeLocation.loading = false;
         draft.addOfficeLocation.message = action.payload.message;
         draft.addOfficeLocation.success = action.payload.success;
+        draft.newApiSuccess = true;
 
         break;
       case FAILED_ADD_OFFICE_LOCATION:
         draft.addOfficeLocation.loading = false;
         draft.addOfficeLocation.message = action.payload.message;
         draft.addOfficeLocation.success = action.payload.success;
+        draft.newApiSuccess = false;
         break;
       case CLEAR_BOARD_DATA:
         draft.addOfficeLocation.message = '';

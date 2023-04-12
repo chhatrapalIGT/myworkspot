@@ -66,6 +66,8 @@ const Profile = ({
   userRemoveLoading,
   getProfileLocation,
   empSuccess,
+  requestGetProfileOfficeData,
+  locationNewApiSuccess,
 }) => {
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
@@ -150,11 +152,18 @@ const Profile = ({
       setInputSet('');
     }
   }, [badgeUpdateData, delegrateUsersList, verifyBadgeChk, userData]);
+
   useEffect(() => {
     if (empSuccess) {
       requestUserlistData(userData.employeeid);
     }
   }, [empSuccess]);
+
+  useEffect(() => {
+    if (locationNewApiSuccess) {
+      requestGetProfileOfficeData({});
+    }
+  }, [locationNewApiSuccess]);
 
   const handleSpinSelect = name => {
     const dataName = [...employee];
@@ -235,9 +244,10 @@ const Profile = ({
   useEffect(() => {
     state.finalLocationDay = [];
     if (
-      getProfileLocation &&
-      getProfileLocation.weeklyLocation &&
-      getProfileLocation.weeklyLocation.length > 0
+      (getProfileLocation &&
+        getProfileLocation.weeklyLocation &&
+        getProfileLocation.weeklyLocation.length > 0) ||
+      locationNewApiSuccess
     ) {
       getProfileLocation &&
         getProfileLocation.weeklyLocation.forEach(obj => {
@@ -252,9 +262,14 @@ const Profile = ({
           });
         });
     }
-  }, [getProfileLocation, state.finalLocationDay, state.timings]);
+  }, [
+    getProfileLocation,
+    state.finalLocationDay,
+    state.timings,
+    locationNewApiSuccess,
+  ]);
 
-  const data = location && location.length && location[location.length - 3];
+  const data = location && location.length && location[location.length - 1];
 
   const finalLocation =
     location && location.length
@@ -964,8 +979,7 @@ const Profile = ({
                           finalLocation.map(i => (
                             <option
                               htmlFor="jane"
-                              value=""
-                              display="none"
+                              value={i.locationname}
                               id="location"
                               style={{ padding: '50px' }}
                             >
@@ -1229,5 +1243,7 @@ Profile.propTypes = {
   requestUserlistData: PropTypes.func,
   getProfileLocation: PropTypes.object,
   empSuccess: PropTypes.bool,
+  requestGetProfileOfficeData: PropTypes.func,
+  locationNewApiSuccess: PropTypes.bool,
 };
 export default Profile;

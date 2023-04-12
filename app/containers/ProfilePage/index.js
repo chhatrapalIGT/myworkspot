@@ -368,7 +368,9 @@ class ProfilePage extends Component {
       isLoading,
       userRemoveLoading,
       requestUserlistData,
+      requestGetProfileOfficeData,
       empSuccess,
+      locationNewApiSuccess,
     } = this.props;
     const validateBadge =
       history &&
@@ -379,7 +381,9 @@ class ProfilePage extends Component {
       <>
         <div id="content-wrap">
           <Profile
+            locationNewApiSuccess={locationNewApiSuccess}
             empSuccess={empSuccess}
+            requestGetProfileOfficeData={requestGetProfileOfficeData}
             requestUserlistData={requestUserlistData}
             isLoading={isLoading}
             userRemoveLoading={userRemoveLoading}
@@ -460,6 +464,7 @@ const mapStateToProps = state => {
     apiMessage: profile && profile.apiMessage,
     locationApiMessage: locationData && locationData.apiMessage,
     locationApiSuccess: locationData && locationData.apiSuccess,
+    locationNewApiSuccess: locationData && locationData.newApiSuccess,
     badgeUpdateData: profile && profile.badgeUpdate,
     badgeUpdateSuccess:
       profile && profile.badgeUpdate && profile.badgeUpdate.success,
