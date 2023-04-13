@@ -436,7 +436,7 @@ class WorkSpotPage extends Component {
     const payload = {
       data: {
         // eslint-disable-next-line radix
-        locationid: a ? a.id : 'DC',
+        locationid: a ? a.id : 'BLM',
         weekofday: locDate,
       },
       employeeid: employeeId,
