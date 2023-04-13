@@ -412,7 +412,7 @@ class WorkSpotPage extends Component {
     const payload = {
       data: {
         // eslint-disable-next-line radix
-        locationid: a ? a.id : 'DC',
+        locationid: a ? a.id : 'BLM',
         weekofday: [moment(updatingObject.date).format('YYYY-MM-DD')],
       },
       privateSpace,
