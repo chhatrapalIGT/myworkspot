@@ -37,7 +37,8 @@ const App = props => {
   const [neighborData, setneighborData] = useState();
   const location = useLocation();
   const pathName = location.pathname;
-
+  const { referrer } = document;
+  console.log('referrer', referrer);
   useEffect(() => {
     if (sessionStorage.getItem('neighborData')) {
       setneighborData(JSON.parse(sessionStorage.getItem('neighborData')));
@@ -54,6 +55,7 @@ const App = props => {
       hash === '' &&
       !pathName.includes('/NeighBorhoodLocation')
     ) {
+      sessionStorage.setItem('referrer', referrer);
       history.push('/auth');
     }
   };
