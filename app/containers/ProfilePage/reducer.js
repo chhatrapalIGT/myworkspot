@@ -76,6 +76,7 @@ const initialState = {
   message: '',
   totalPage: '',
   apiSuccess: false,
+  empSuccess: false,
   badgeSuccess: false,
   apiMessage: '',
   getOwner: {
@@ -146,6 +147,7 @@ const profilePageReducer = (state = initialState, action) =>
       case CLEAR_DATA:
         draft.apiMessage = '';
         draft.apiSuccess = false;
+        draft.empSuccess = false;
         draft.message = '';
         draft.success = false;
         draft.loading = false;
@@ -297,21 +299,19 @@ const profilePageReducer = (state = initialState, action) =>
       case REQUEST_REMOVE_DELEGATE_USER:
         draft.delegateLoading = true;
         draft.error = '';
-        draft.success = false;
+        draft.empSuccess = false;
         break;
       case SUCCESS_REMOVE_DELEGATE_USER:
         draft.delegateLoading = false;
-        draft.success = action.payload.success;
+        draft.empSuccess = true;
         draft.message = action.payload.message;
         draft.apiMessage = action.payload.message;
-        draft.apiSuccess = action.payload.success;
         break;
       case FAILED_REMOVE_DELEGATE_USER:
         draft.delegateLoading = false;
-        draft.success = action.payload.success;
+        draft.empSuccess = false;
         draft.message = action.payload.message;
         draft.apiMessage = action.payload.message;
-        draft.apiSuccess = action.payload.success;
         break;
 
       case REQUEST_REMOVE_SPIN_ICON:

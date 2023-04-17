@@ -1747,7 +1747,6 @@ const Spaces = ({
                           >
                             {currentCheckedValue !== '' ? (
                               <input
-                                readOnly
                                 type="text"
                                 defaultValue={
                                   currentCheckedValue !== '' &&
@@ -1768,7 +1767,6 @@ const Spaces = ({
                               />
                             ) : (
                               <input
-                                readOnly
                                 type="text"
                                 value={i.workspacenumber}
                                 onKeyDown={event => {
