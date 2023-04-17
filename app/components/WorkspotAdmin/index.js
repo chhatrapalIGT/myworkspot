@@ -1159,7 +1159,7 @@ const WorkspotAdmin = ({
                                           : 'data-64'
                                       }
                                       style={
-                                        data && data.officeCapacity >= '80%'
+                                        data && data.officeCapacity >= 85
                                           ? { color: 'red' }
                                           : { color: '' }
                                       }
