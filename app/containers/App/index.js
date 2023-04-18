@@ -59,8 +59,8 @@ const App = props => {
       console.log('history.location.pathname', history.location.pathname);
       console.log('history.location.origin', history.location.origin);
       if (!['/auth', '/callBack'].includes(history.location.pathname)) {
-        sessionStorage.setItem('redirectUrl', history.location.pathname);
-        sessionStorage.setItem('referrer', referrer);
+        localStorage.setItem('redirectUrl', history.location.pathname);
+        localStorage.setItem('referrer', referrer);
       }
       history.push('/auth');
     }

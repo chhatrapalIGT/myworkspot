@@ -10,8 +10,8 @@ export default function CallBack({ location }) {
     return <Redirect to="/auth" />;
   }
   sessionStorage.setItem('AccessToken', JSON.stringify(response));
-  const redirectURL = sessionStorage.getItem('redirectUrl') || '/';
+  const redirectURL = localStorage.getItem('redirectUrl') || '/';
   console.log('redirectURL', redirectURL);
-  sessionStorage.removeItem('sessionStorage');
+  localStorage.removeItem('sessionStorage');
   return <Redirect to={redirectURL} />;
 }
