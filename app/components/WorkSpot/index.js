@@ -82,11 +82,6 @@ const WorkSpot = ({
       document.removeEventListener('mousedown', handleClickOutside, false);
     };
   });
-  console.log(
-    'neighborhoodData:::::::::',
-    neighborhoodData && neighborhoodData.isAssignmentUpdate,
-  );
-  console.log('neighborhood:::::::::', neighborhood);
   const handleChange = event => {
     setAllUser(colleaguesData);
     let newList = [];
@@ -553,67 +548,107 @@ const WorkSpot = ({
 
                     <div className="building-location-strip d-flex flex-wrap align-items-center">
                       {neighborhoodData &&
-                        neighborhoodData.locationCode !== 'PTO' &&
-                        (neighborhoodData &&
-                          neighborhoodData.locationCode !== 'EAB') && (
-                          <>
-                            {(((state.tempLocation.includes('DC') ||
-                              state.tempLocation.includes('VA')) &&
-                              (neighborhoodData &&
-                                !neighborhoodData.isAssignmentUpdate) &&
-                              isChange) ||
-                              (neighborhoodData &&
-                                !neighborhoodData.isAssignmentUpdate &&
-                                ((neighborhoodData &&
-                                  neighborhoodData.locationCode === 'DC') ||
-                                  (neighborhoodData &&
-                                    neighborhoodData.locationCode ===
-                                      'RIC'))) ||
-                              (neighborhoodData &&
-                                neighborhoodData.locationCode !== 'RW')) && (
-                              <div
-                                className="location d-flex align-items-center"
-                                aria-hidden="true"
-                                target="_blank"
-                              >
-                                <a
-                                  className="address_url"
-                                  target="_blank"
-                                  href={`https://www.google.com/maps/search/${(neighborhoodData &&
-                                    neighborhoodData.officeAddress) ||
-                                    halfDayData.officeAddress}`}
+                      neighborhoodData.data &&
+                      neighborhoodData.data.length > 0 ? (
+                        <>
+                          {neighborhoodData &&
+                            neighborhoodData.locationCode !== 'PTO' &&
+                            (neighborhoodData &&
+                              neighborhoodData.locationCode !== 'EAB') && (
+                              <>
+                                <div
+                                  className="change-workspot d-flex align-items-center"
+                                  onClick={() => {
+                                    handleEditModal(true);
+                                    // handleData();
+                                    setChange(true);
+                                    // setLocUpdate(false);
+                                    setDate('');
+                                  }}
+                                  aria-hidden="true"
                                 >
-                                  <img src={union} alt="" />
-
-                                  {(neighborhoodData &&
-                                    neighborhoodData.officeAddress) ||
-                                    halfDayData.officeAddress}
-                                </a>
-                              </div>
+                                  <img
+                                    src={editPen}
+                                    alt=""
+                                    className="onHover"
+                                    aria-hidden="true"
+                                  />{' '}
+                                  <a href className="change-workspot">
+                                    Change Today's Workspot
+                                  </a>
+                                </div>
+                              </>
                             )}
-                            <div
-                              className="change-workspot d-flex align-items-center"
-                              onClick={() => {
-                                handleEditModal(true);
-                                // handleData();
-                                setChange(true);
-                                // setLocUpdate(false);
-                                setDate('');
-                              }}
-                              aria-hidden="true"
-                            >
-                              <img
-                                src={editPen}
-                                alt=""
-                                className="onHover"
-                                aria-hidden="true"
-                              />{' '}
-                              <a href className="change-workspot">
-                                Change Today's Workspot
-                              </a>
-                            </div>
-                          </>
-                        )}
+                        </>
+                      ) : (
+                        <>
+                          {neighborhoodData &&
+                            neighborhoodData.locationCode !== 'PTO' &&
+                            (neighborhoodData &&
+                              neighborhoodData.locationCode !== 'EAB') && (
+                              <>
+                                {(((state.tempLocation.includes('DC') ||
+                                  state.tempLocation.includes('VA')) &&
+                                  (neighborhoodData &&
+                                    !neighborhoodData.isAssignmentUpdate) &&
+                                  isChange) ||
+                                  (neighborhoodData &&
+                                    !neighborhoodData.isAssignmentUpdate &&
+                                    ((neighborhoodData &&
+                                      neighborhoodData.locationCode === 'DC') ||
+                                      (neighborhoodData &&
+                                        neighborhoodData.locationCode ===
+                                          'RIC'))) ||
+                                  (neighborhoodData &&
+                                    neighborhoodData.locationCode !==
+                                      'RW')) && (
+                                  <>
+                                    <div
+                                      className="location d-flex align-items-center"
+                                      aria-hidden="true"
+                                      target="_blank"
+                                    >
+                                      <a
+                                        className="address_url"
+                                        target="_blank"
+                                        href={`https://www.google.com/maps/search/${(neighborhoodData &&
+                                          neighborhoodData.officeAddress) ||
+                                          halfDayData.officeAddress}`}
+                                      >
+                                        <img src={union} alt="" />
+
+                                        {(neighborhoodData &&
+                                          neighborhoodData.officeAddress) ||
+                                          halfDayData.officeAddress}
+                                      </a>
+                                    </div>
+                                  </>
+                                )}
+                                <div
+                                  className="change-workspot d-flex align-items-center"
+                                  onClick={() => {
+                                    handleEditModal(true);
+                                    // handleData();
+                                    setChange(true);
+                                    // setLocUpdate(false);
+                                    setDate('');
+                                  }}
+                                  aria-hidden="true"
+                                >
+                                  <img
+                                    src={editPen}
+                                    alt=""
+                                    className="onHover"
+                                    aria-hidden="true"
+                                  />{' '}
+                                  <a href className="change-workspot">
+                                    Change Today's Workspot
+                                  </a>
+                                </div>
+                              </>
+                            )}
+                        </>
+                      )}
                     </div>
                   </>
                 </div>
