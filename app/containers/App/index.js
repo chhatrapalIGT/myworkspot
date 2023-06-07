@@ -38,7 +38,6 @@ const App = props => {
   const location = useLocation();
   const pathName = location.pathname;
   const { referrer } = document;
-  console.log('referrer', referrer);
   useEffect(() => {
     if (sessionStorage.getItem('neighborData')) {
       setneighborData(JSON.parse(sessionStorage.getItem('neighborData')));
@@ -47,7 +46,6 @@ const App = props => {
 
   const history = useHistory();
 
-  console.log('history:::', history);
   const requestLogin = async () => {
     const session = sessionStorage.getItem('AccessToken');
     const { hash } = history.location;
@@ -56,8 +54,6 @@ const App = props => {
       hash === '' &&
       !pathName.includes('/NeighBorhoodLocation')
     ) {
-      console.log('history.location.pathname', history.location.pathname);
-      console.log('history.location.origin', history.location.origin);
       if (!['/auth', '/callBack'].includes(history.location.pathname)) {
         localStorage.setItem('redirectUrl', history.location.pathname);
         localStorage.setItem('referrer', referrer);

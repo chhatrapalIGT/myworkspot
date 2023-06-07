@@ -61,7 +61,7 @@ class WhoIsInPage extends Component {
         FloorVal.push('3', '8');
       }
       if (this.state.finalOfficeVal === 'Richmond, VA') {
-        FloorVal.push('2');
+        FloorVal.push('1', '2');
       }
     }
 
@@ -102,7 +102,7 @@ class WhoIsInPage extends Component {
       selectedNeighbor: [],
       finalFloorVal: 'All',
       finalNeighborhoodVal: 'All',
-      srcFloor: space[0] === 'DC' ? ['3', '8'] : ['2'],
+      srcFloor: space[0] === 'DC' ? ['3', '8'] : ['1', '2'],
       srcBuilding: [],
       srcNeighborhood: [],
     });
