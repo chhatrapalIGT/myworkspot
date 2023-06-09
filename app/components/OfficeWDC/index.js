@@ -131,6 +131,9 @@ const OfficeWDC = ({
           case 'Floor 2':
             imageSrc = valFinalFloor.image;
             break;
+          case 'Floor 1':
+            imageSrc = valFinalFloor.image;
+            break;
         }
         break;
       case 'Birmingham, AL':
