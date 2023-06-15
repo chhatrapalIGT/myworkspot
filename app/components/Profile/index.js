@@ -68,6 +68,7 @@ const Profile = ({
   empSuccess,
   requestGetProfileOfficeData,
   locationNewApiSuccess,
+  addBadgeDataSuccess,
 }) => {
   const [show, setShow] = useState(false);
   const [openBadge, setOpenBadge] = useState(false);
@@ -154,10 +155,11 @@ const Profile = ({
   }, [badgeUpdateData, delegrateUsersList, verifyBadgeChk, userData]);
 
   useEffect(() => {
-    if (empSuccess) {
+    if (empSuccess || addBadgeDataSuccess) {
+      setOpenBadge(false);
       requestUserlistData(userData.employeeid);
     }
-  }, [empSuccess]);
+  }, [empSuccess, addBadgeDataSuccess]);
 
   useEffect(() => {
     if (locationNewApiSuccess) {
@@ -1243,6 +1245,7 @@ Profile.propTypes = {
   requestUserlistData: PropTypes.func,
   getProfileLocation: PropTypes.object,
   empSuccess: PropTypes.bool,
+  addBadgeDataSuccess: PropTypes.bool,
   requestGetProfileOfficeData: PropTypes.func,
   locationNewApiSuccess: PropTypes.bool,
 };

@@ -155,6 +155,7 @@ const profilePageReducer = (state = initialState, action) =>
 
       case REQUEST_BADGE_DATA:
         draft.loading = true;
+        draft.badgeSuccess = false;
         draft.error = '';
         break;
       case SUCCESS_BADGE_DATA:
@@ -168,6 +169,7 @@ const profilePageReducer = (state = initialState, action) =>
         break;
       case FAILED_BADGE_DATA:
         draft.loading = false;
+        draft.badgeSuccess = false;
         draft.success = action.payload.success;
         draft.message = action.payload.message;
         draft.apiMessage = action.payload.message;

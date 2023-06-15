@@ -371,6 +371,7 @@ class ProfilePage extends Component {
       requestGetProfileOfficeData,
       empSuccess,
       locationNewApiSuccess,
+      addBadgeDataSuccess,
     } = this.props;
     const validateBadge =
       history &&
@@ -432,6 +433,7 @@ class ProfilePage extends Component {
             badgeUpdateSuccess={badgeUpdateSuccess}
             badgeUpdateLoading={badgeUpdateLoading}
             verifyBadgeChk={verifyBadgeChk}
+            addBadgeDataSuccess={addBadgeDataSuccess}
           />
         </div>
       </>
@@ -482,6 +484,7 @@ const mapStateToProps = state => {
       locationData.verifyBadge.loading,
     verifyBadgeChk:
       locationData && locationData.verifyBadge && locationData.verifyBadge,
+    addBadgeDataSuccess: profile && profile.badgeSuccess,
     verifyBadgeMsg:
       locationData &&
       locationData.verifyBadge &&
