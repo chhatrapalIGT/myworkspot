@@ -36,6 +36,24 @@ const algoStatus = [
     name: 'Inactive',
     value: 'Inactive',
   },
+  {
+    name: 'Not applicable',
+    value: 'Not applicable',
+  },
+];
+const Zoom = [
+  {
+    name: 'Yes',
+    value: 'Yes',
+  },
+  {
+    name: 'No',
+    value: 'No',
+  },
+  {
+    name: 'Not applicable',
+    value: 'Not applicable',
+  },
 ];
 
 const Spaces = ({
@@ -88,6 +106,8 @@ const Spaces = ({
   const [open, setOpen] = useState(false);
   const [isEditing, setisEditing] = useState(false);
   const [editedText, setEditedText] = useState('');
+  const [editedSpaceName, setEditedSpaceName] = useState('');
+  const [editedCapacity, setEditedCapacity] = useState('');
   const [csvOpen, setCsvOpen] = useState('');
   const [userinfo, setUserInfo] = useState({
     offices: [],
@@ -110,6 +130,12 @@ const Spaces = ({
   const inputValue = e => {
     setEditedText(e.target.value);
   };
+  const inputSpaceNameValue = e => {
+    setEditedSpaceName(e.target.value);
+  };
+  const inputCapacityValue = e => {
+    setEditedCapacity(e.target.value);
+  };
   const ref = useRef();
 
   const handleClear = () => {
@@ -123,6 +149,8 @@ const Spaces = ({
         isPen: false,
         spaceType: false,
         isInput: false,
+        isSpaceName: false,
+        isCapacity: false,
       };
       return alldata;
     });
@@ -165,6 +193,11 @@ const Spaces = ({
               building: ele.building || null,
               neighborhoodname: ele.neighborhoodname || null,
               locationid: ele.locationid || null,
+              workspaceName: null,
+              capacity: null,
+              zoomRoom: null,
+              bookableInOutlook: null,
+              restrictedRoom: null,
             });
             neibourObj.push({
               id: ele.id || null,
@@ -172,6 +205,11 @@ const Spaces = ({
               building: ele.building || null,
               neighborhoodname: currentCheckedValue,
               locationid: ele.locationid || null,
+              workspaceName: null,
+              capacity: null,
+              zoomRoom: null,
+              bookableInOutlook: null,
+              restrictedRoom: null,
             });
           });
       } else {
@@ -182,6 +220,11 @@ const Spaces = ({
           building: cols.building || null,
           neighborhoodname: cols.neighborhoodname || null,
           locationid: cols.locationid || null,
+          workspaceName: null,
+          capacity: null,
+          zoomRoom: null,
+          bookableInOutlook: null,
+          restrictedRoom: null,
         });
         neibourObj.push({
           id: cols.id || null,
@@ -189,6 +232,11 @@ const Spaces = ({
           building: cols.building || null,
           neighborhoodname: currentCheckedValue,
           locationid: cols.locationid || null,
+          workspaceName: null,
+          capacity: null,
+          zoomRoom: null,
+          bookableInOutlook: null,
+          restrictedRoom: null,
         });
       }
     } else {
@@ -199,6 +247,11 @@ const Spaces = ({
         building: cols.building || null,
         neighborhoodname: cols.neighborhoodname || null,
         locationid: cols.locationid || null,
+        workspaceName: null,
+        capacity: null,
+        zoomRoom: null,
+        bookableInOutlook: null,
+        restrictedRoom: null,
       });
       neibourObj.push({
         id: cols.id || null,
@@ -206,6 +259,11 @@ const Spaces = ({
         building: cols.building || null,
         neighborhoodname: currentCheckedValue,
         locationid: cols.locationid || null,
+        workspaceName: null,
+        capacity: null,
+        zoomRoom: null,
+        bookableInOutlook: null,
+        restrictedRoom: null,
       });
     }
     let payload = {};
@@ -215,6 +273,11 @@ const Spaces = ({
         neighborhoodname: null,
         Space_No: null,
         Space_Type: null,
+        workspaceName: null,
+        capacity: null,
+        zoomRoom: null,
+        bookableInOutlook: null,
+        restrictedRoom: null,
         active: null,
         id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
@@ -226,6 +289,11 @@ const Spaces = ({
         floor: null,
         Space_No: null,
         Space_Type: null,
+        workspaceName: null,
+        capacity: null,
+        zoomRoom: null,
+        bookableInOutlook: null,
+        restrictedRoom: null,
         active: null,
         id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
@@ -238,6 +306,11 @@ const Spaces = ({
         neighborhoodname: null,
         Space_Type: null,
         active: null,
+        workspaceName: null,
+        capacity: null,
+        zoomRoom: null,
+        bookableInOutlook: null,
+        restrictedRoom: null,
         id: cols.id,
       };
       requestManageUpdateSpace(payload);
@@ -249,6 +322,11 @@ const Spaces = ({
         Space_No: null,
         floor: null,
         active: null,
+        workspaceName: null,
+        capacity: null,
+        zoomRoom: null,
+        bookableInOutlook: null,
+        restrictedRoom: null,
         id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
       requestManageUpdateSpace(payload);
@@ -259,7 +337,92 @@ const Spaces = ({
         neighborhoodname: null,
         Space_No: null,
         floor: null,
-        active: currentCheckedValue === 'Active' ? true : false,
+        active:
+          currentCheckedValue === 'Active'
+            ? true
+            : currentCheckedValue === 'Not applicable'
+            ? 'Not applicable'
+            : false,
+        workspaceName: null,
+        capacity: null,
+        zoomRoom: null,
+        bookableInOutlook: null,
+        restrictedRoom: null,
+        id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'spaceNameCols') {
+      payload = {
+        Space_Type: null,
+        neighborhoodname: null,
+        Space_No: null,
+        floor: null,
+        workspaceName: currentCheckedValue,
+        capacity: null,
+        zoomRoom: null,
+        bookableInOutlook: null,
+        restrictedRoom: null,
+        id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'capacityCols') {
+      payload = {
+        Space_Type: null,
+        neighborhoodname: null,
+        Space_No: null,
+        floor: null,
+        workspaceName: null,
+        capacity: currentCheckedValue,
+        zoomRoom: null,
+        bookableInOutlook: null,
+        restrictedRoom: null,
+        id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'zoomRoomCols') {
+      payload = {
+        Space_Type: null,
+        neighborhoodname: null,
+        Space_No: null,
+        floor: null,
+        workspaceName: null,
+        capacity: null,
+        zoomRoom: currentCheckedValue,
+        bookableInOutlook: null,
+        restrictedRoom: null,
+        id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'restrictedRoomCols') {
+      payload = {
+        Space_Type: null,
+        neighborhoodname: null,
+        Space_No: null,
+        floor: null,
+        workspaceName: null,
+        zoomRoom: null,
+        capacity: null,
+        bookableInOutlook: null,
+        restrictedRoom: currentCheckedValue,
+        id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
+      };
+      requestManageUpdateSpace(payload);
+    }
+    if (map === 'outLookCols') {
+      payload = {
+        Space_Type: null,
+        neighborhoodname: null,
+        Space_No: null,
+        floor: null,
+        workspaceName: null,
+        capacity: null,
+        zoomRoom: null,
+        restrictedRoom: null,
+        bookableInOutlook: currentCheckedValue,
         id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
       requestManageUpdateSpace(payload);
@@ -318,6 +481,8 @@ const Spaces = ({
             isFloor: false,
             isNeighborh: false,
             spaceType: false,
+            isSpaceName: false,
+            isCapacity: false,
             algorithm: false,
             isPen: false,
           };
@@ -685,6 +850,11 @@ const Spaces = ({
             isNeighborh: false,
             isPen: false,
             spaceType: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isSpaceName: false,
+            isCapacity: false,
           };
           return val;
         } else {
@@ -696,6 +866,11 @@ const Spaces = ({
             isNeighborh: false,
             isPen: false,
             spaceType: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isSpaceName: false,
+            isCapacity: false,
           };
           return val;
         }
@@ -716,6 +891,11 @@ const Spaces = ({
             isNeighborh: false,
             isPen: false,
             spaceType: false,
+            isSpaceName: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
           };
           return val;
         } else {
@@ -727,6 +907,11 @@ const Spaces = ({
             isNeighborh: false,
             isPen: false,
             spaceType: false,
+            isSpaceName: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
           };
           return val;
         }
@@ -747,6 +932,11 @@ const Spaces = ({
             isNeighborh: toggleStatus,
             isPen: false,
             spaceType: false,
+            isSpaceName: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
           };
           return val;
         } else {
@@ -758,6 +948,11 @@ const Spaces = ({
             isNeighborh: false,
             isPen: false,
             spaceType: false,
+            isSpaceName: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
           };
           return val;
         }
@@ -778,6 +973,11 @@ const Spaces = ({
             isNeighborh: false,
             isPen: false,
             spaceType: toggleStatus,
+            isSpaceName: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
           };
           return val;
         } else {
@@ -789,6 +989,11 @@ const Spaces = ({
             isNeighborh: false,
             isPen: false,
             spaceType: false,
+            isSpaceName: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
           };
           return val;
         }
@@ -809,6 +1014,11 @@ const Spaces = ({
             isNeighborh: false,
             isPen: false,
             spaceType: false,
+            isSpaceName: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
           };
           return val;
         } else {
@@ -820,6 +1030,216 @@ const Spaces = ({
             isNeighborh: false,
             isPen: false,
             spaceType: false,
+            isSpaceName: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
+          };
+          return val;
+        }
+      });
+    setSpaceValue(spaceInp);
+  };
+  const handleZoomRoom = (id, toggleStatus) => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            iszoomRoom: toggleStatus,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+            isSpaceName: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
+          };
+          return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            iszoomRoom: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+            isSpaceName: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
+          };
+          return val;
+        }
+      });
+    setSpaceValue(spaceInp);
+  };
+  const handleRestrictedRoom = (id, toggleStatus) => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            iszoomRoom: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+            isSpaceName: false,
+            isOutLook: false,
+            isRestrictedRoom: toggleStatus,
+            isCapacity: false,
+          };
+          return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            iszoomRoom: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+            isSpaceName: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
+          };
+          return val;
+        }
+      });
+    setSpaceValue(spaceInp);
+  };
+  const handleOutLook = (id, toggleStatus) => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            iszoomRoom: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+            isSpaceName: false,
+            isOutLook: toggleStatus,
+            isRestrictedRoom: false,
+            isCapacity: false,
+          };
+          return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            iszoomRoom: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+            isSpaceName: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
+          };
+          return val;
+        }
+      });
+    setSpaceValue(spaceInp);
+  };
+  const handleSpaceName = (id, toggleStatus) => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            isSpaceName: toggleStatus,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
+          };
+          return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isSpaceName: false,
+            isPen: false,
+            spaceType: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+            isCapacity: false,
+          };
+          return val;
+        }
+      });
+    setSpaceValue(spaceInp);
+  };
+  const handleCapacity = (id, toggleStatus) => {
+    const spaceInp =
+      spaceValue &&
+      spaceValue.length > 0 &&
+      spaceValue.map(el => {
+        if (el.id === id) {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            isSpaceName: false,
+            isCapacity: toggleStatus,
+            algorithm: false,
+            isNeighborh: false,
+            isPen: false,
+            spaceType: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
+          };
+          return val;
+        } else {
+          const val = {
+            ...el,
+            isFloor: false,
+            isInput: false,
+            algorithm: false,
+            isNeighborh: false,
+            isSpaceName: false,
+            isCapacity: false,
+            isPen: false,
+            spaceType: false,
+            iszoomRoom: false,
+            isOutLook: false,
+            isRestrictedRoom: false,
           };
           return val;
         }
@@ -1275,7 +1695,7 @@ const Spaces = ({
                     )}
                   </th>
                 )}
-                <th style={{ width: '16%' }}>
+                <th style={{ width: '9%' }}>
                   <span className="d-flex text-nowrap">
                     Building/floor{' '}
                     <span className="ms-1">
@@ -1285,7 +1705,7 @@ const Spaces = ({
                         alt=""
                         name="floor"
                         aria-hidden="true"
-                        value={manageData.floor}
+                        // value={manageData.floor}
                         onClick={() =>
                           handleClickSort(
                             'building_floor',
@@ -1296,7 +1716,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '16%' }}>
+                <th style={{ width: '9%' }}>
                   <span className="d-flex text-nowrap">
                     Neighborhood{' '}
                     <span className="ms-1">
@@ -1306,7 +1726,7 @@ const Spaces = ({
                         name="neighborhood"
                         alt=""
                         aria-hidden="true"
-                        value={manageData.neighborhood}
+                        // value={manageData.neighborhood}
                         onClick={() =>
                           handleClickSort(
                             'neighborhood',
@@ -1317,7 +1737,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '18%' }}>
+                <th style={{ width: '9%' }}>
                   <span className="d-flex text-nowrap">
                     Space{' '}
                     <span className="ms-2">
@@ -1327,7 +1747,7 @@ const Spaces = ({
                         alt=""
                         aria-hidden="true"
                         name="space"
-                        value={manageData.space}
+                        // value={manageData.space}
                         onClick={() =>
                           handleClickSort('space', state.sortOrder.space)
                         }
@@ -1335,7 +1755,28 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '16%' }}>
+                <th style={{ width: '10%' }}>
+                  <span className="d-flex text-nowrap">
+                    Space Name{' '}
+                    <span className="ms-2">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        alt=""
+                        aria-hidden="true"
+                        name="workspaceName"
+                        // value={manageData.workspaceName}
+                        onClick={() =>
+                          handleClickSort(
+                            'workspaceName',
+                            state.sortOrder.workspaceName,
+                          )
+                        }
+                      />
+                    </span>
+                  </span>
+                </th>
+                <th style={{ width: '9%' }}>
                   <span className="d-flex text-nowrap">
                     Space type{' '}
                     <span className="ms-1">
@@ -1345,7 +1786,7 @@ const Spaces = ({
                         alt=""
                         aria-hidden="true"
                         name="type"
-                        value={manageData.type}
+                        // value={manageData.type}
                         onClick={() =>
                           handleClickSort(
                             'space_type',
@@ -1356,7 +1797,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '16%' }}>
+                <th style={{ width: '9%' }}>
                   <span className="d-flex text-nowrap">
                     Assigned{' '}
                     <span className="ms-1">
@@ -1366,7 +1807,7 @@ const Spaces = ({
                         alt=""
                         aria-hidden="true"
                         name="assigned"
-                        value={manageData.assigned}
+                        // value={manageData.assigned}
                         onClick={() =>
                           handleClickSort('assigned', state.sortOrder.assigned)
                         }
@@ -1374,7 +1815,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '16%' }}>
+                <th style={{ width: '9%' }}>
                   <span className="d-flex text-nowrap">
                     algorithm Status{' '}
                     <span className="ms-1">
@@ -1384,11 +1825,89 @@ const Spaces = ({
                         alt=""
                         name="status"
                         aria-hidden="true"
-                        value={manageData.status}
+                        // value={manageData.status}
                         onClick={() =>
                           handleClickSort(
                             'algorithm_status',
                             state.sortOrder.algorithm_status,
+                          )
+                        }
+                      />
+                    </span>
+                  </span>
+                </th>
+                <th style={{ minWidth: '146px' }}>
+                  <span className="d-flex text-nowrap">
+                    Capacity{' '}
+                    <span className="ms-1">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        alt=""
+                        name="capacity"
+                        aria-hidden="true"
+                        // value={manageData.capacity}
+                        onClick={() =>
+                          handleClickSort('capacity', state.sortOrder.capacity)
+                        }
+                      />
+                    </span>
+                  </span>
+                </th>
+                <th>
+                  <span className="d-flex text-nowrap">
+                    Zoom Room?{' '}
+                    <span className="ms-1">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        alt=""
+                        name="zoomRoom"
+                        aria-hidden="true"
+                        // value={manageData.zoomRoom}
+                        onClick={() =>
+                          handleClickSort('zoomRoom', state.sortOrder.zoomRoom)
+                        }
+                      />
+                    </span>
+                  </span>
+                </th>
+                <th>
+                  <span className="d-flex text-nowrap">
+                    Restricted Room?{' '}
+                    <span className="ms-1">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        alt=""
+                        name="restrictedRoom"
+                        aria-hidden="true"
+                        // value={manageData.restrictedRoom}
+                        onClick={() =>
+                          handleClickSort(
+                            'restrictedRoom',
+                            state.sortOrder.restrictedRoom,
+                          )
+                        }
+                      />
+                    </span>
+                  </span>
+                </th>
+                <th>
+                  <span className="d-flex text-nowrap">
+                    Bookable in Outlook?{' '}
+                    <span className="ms-1">
+                      <img
+                        src={Sort}
+                        className="img-fluid sort-img"
+                        alt=""
+                        name="bookableInOutlook"
+                        aria-hidden="true"
+                        // value={manageData.bookableInOutlook}
+                        onClick={() =>
+                          handleClickSort(
+                            'bookableInOutlook',
+                            state.sortOrder.bookableInOutlook,
                           )
                         }
                       />
@@ -1838,6 +2357,112 @@ const Spaces = ({
                       )}
                     </td>
                     <td className="assigned_text">
+                      {i.isSpaceName ? (
+                        <div className="table-input-group">
+                          <div
+                            className=""
+                            aria-hidden
+                            onClick={() => {
+                              setIsShowDropdown(true);
+                              setIsShowColDropdown('workspaceName');
+                              setIsShowRowDropdown(idx);
+                              setChangeAll(false);
+                              setCurrentCheckedValue('');
+                            }}
+                          >
+                            {currentCheckedValue !== '' ? (
+                              <input
+                                type="text"
+                                defaultValue={
+                                  currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
+                                  isShowColDropdown === 'workspaceName'
+                                    ? currentCheckedValue
+                                    : i.spaceName
+                                }
+                                onKeyDown={event => {
+                                  handleKeydown(event);
+                                }}
+                                className="updateSpace"
+                                onChange={e => {
+                                  setCurrentCheckedValue(e.target.value);
+                                  inputSpaceNameValue(e);
+                                }}
+                                onBlur={onEditEnd}
+                              />
+                            ) : (
+                              <input
+                                type="text"
+                                value={i.spaceName}
+                                onKeyDown={event => {
+                                  handleKeydown(event);
+                                }}
+                                className="updateSpace"
+                                onChange={e => {
+                                  setCurrentCheckedValue(e.target.value);
+                                  inputSpaceNameValue(e);
+                                }}
+                                onBlur={onEditEnd}
+                              />
+                            )}
+                          </div>
+                          {isShowDropdown &&
+                          isShowRowDropdown === idx &&
+                          isShowColDropdown === 'workspaceName' ? (
+                            <div className="list-group">
+                              <div className="drop-footer">
+                                <div className="footer-button-group right">
+                                  <span
+                                    className="onHover"
+                                    aria-hidden
+                                    onClick={() => {
+                                      setIsShowColDropdown('');
+                                      setIsShowRowDropdown(null);
+                                      setCurrentCheckedValue('');
+                                      setIsShowDropdown(false);
+                                      setEditedText('');
+                                      handleSpaceName(i.id, false);
+                                    }}
+                                  >
+                                    Cancel
+                                  </span>{' '}
+                                  <Button
+                                    onClick={() => {
+                                      handleUpdateManageSpace(
+                                        spaceAllChecked,
+                                        i,
+                                        'spaceNameCols',
+                                      );
+                                      setIsShowColDropdown('');
+                                      setIsShowRowDropdown(null);
+                                      setCurrentCheckedValue('');
+                                      handleSpaceName(i.id, false);
+                                    }}
+                                    className="btn apply-btn"
+                                  >
+                                    Apply
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            ''
+                          )}
+                        </div>
+                      ) : (
+                        <div className="select-none arrow-on-hover">
+                          {i.spaceName || editedSpaceName}
+                          {sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <Image
+                              className="editInput img_height"
+                              src={GreyPencil}
+                              onClick={() => handleSpaceName(i.id, true)}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </td>
+                    <td className="assigned_text">
                       {i.spaceType ? (
                         <div className="table-filter-dropdown col-custom-width">
                           <div className="table-filter-dropdown-group">
@@ -2039,6 +2664,8 @@ const Spaces = ({
                                     ? currentCheckedValue
                                     : i.active === true
                                     ? 'Active'
+                                    : i.active === null
+                                    ? 'Not applicable'
                                     : 'Inactive'
                                 }
                                 className="drop-input"
@@ -2150,7 +2777,11 @@ const Spaces = ({
                       ) : (
                         <div className="arrow-on-hover">
                           <span>
-                            {i.active === true ? 'Active' : 'Inactive'}
+                            {i.active === true
+                              ? 'Active'
+                              : i.active === null
+                              ? 'Not applicable'
+                              : 'Inactive'}
                           </span>
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
@@ -2161,41 +2792,578 @@ const Spaces = ({
                         </div>
                       )}
                     </td>
+                    <td className="assigned_text">
+                      {i.isCapacity ? (
+                        <div className="table-input-group">
+                          <div
+                            className=""
+                            aria-hidden
+                            onClick={() => {
+                              setIsShowDropdown(true);
+                              setIsShowColDropdown('capacity');
+                              setIsShowRowDropdown(idx);
+                              setChangeAll(false);
+                              setCurrentCheckedValue('');
+                            }}
+                          >
+                            {currentCheckedValue !== '' ? (
+                              <input
+                                type="text"
+                                defaultValue={
+                                  currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
+                                  isShowColDropdown === 'capacity'
+                                    ? currentCheckedValue
+                                    : i.capacity
+                                }
+                                onKeyDown={event => {
+                                  handleKeydown(event);
+                                }}
+                                className="updateSpace"
+                                onChange={e => {
+                                  setCurrentCheckedValue(e.target.value);
+                                  inputSpaceNameValue(e);
+                                }}
+                                onBlur={onEditEnd}
+                              />
+                            ) : (
+                              <input
+                                type="text"
+                                value={i.capacity}
+                                onKeyDown={event => {
+                                  handleKeydown(event);
+                                }}
+                                className="updateSpace"
+                                onChange={e => {
+                                  setCurrentCheckedValue(e.target.value);
+                                  inputSpaceNameValue(e);
+                                }}
+                                onBlur={onEditEnd}
+                              />
+                            )}
+                          </div>
+                          {isShowDropdown &&
+                          isShowRowDropdown === idx &&
+                          isShowColDropdown === 'capacity' ? (
+                            <div className="list-group">
+                              <div className="drop-footer">
+                                <div className="footer-button-group right">
+                                  <span
+                                    className="onHover"
+                                    aria-hidden
+                                    onClick={() => {
+                                      setIsShowColDropdown('');
+                                      setIsShowRowDropdown(null);
+                                      setCurrentCheckedValue('');
+                                      setIsShowDropdown(false);
+                                      setEditedText('');
+                                      handleCapacity(i.id, false);
+                                    }}
+                                  >
+                                    Cancel
+                                  </span>{' '}
+                                  <Button
+                                    onClick={() => {
+                                      handleUpdateManageSpace(
+                                        spaceAllChecked,
+                                        i,
+                                        'capacityCols',
+                                      );
+                                      setIsShowColDropdown('');
+                                      setIsShowRowDropdown(null);
+                                      setCurrentCheckedValue('');
+                                      handleCapacity(i.id, false);
+                                    }}
+                                    className="btn apply-btn"
+                                  >
+                                    Apply
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            ''
+                          )}
+                        </div>
+                      ) : (
+                        <div className="select-none arrow-on-hover">
+                          {i.capacity || editedCapacity}
+                          {sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <Image
+                              className="editInput img_height"
+                              src={GreyPencil}
+                              onClick={() => handleCapacity(i.id, true)}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </td>
+                    <td className="assigned_text">
+                      {i.iszoomRoom ? (
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('zoom');
+                                setIsShowRowDropdown(idx);
+                                setChangeAll(false);
+                                setCurrentCheckedValue('');
+                              }}
+                            >
+                              <input
+                                readOnly
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
+                                  isShowColDropdown === 'zoom'
+                                    ? currentCheckedValue
+                                    : i.zoomRoom
+                                }
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                                onClick={() => {
+                                  setIsShowColDropdown('');
+                                  setIsShowRowDropdown(null);
+                                  setCurrentCheckedValue('');
+                                  setIsShowDropdown(false);
+                                  setEditedText('');
+                                  handleZoomRoom(i.id, !isShowDropdown);
+                                }}
+                              />
+                            </div>
+                            {isShowDropdown &&
+                            isShowRowDropdown === idx &&
+                            isShowColDropdown === 'zoom' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {Zoom &&
+                                    Zoom.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          setCurrentCheckedValue(item.name);
+                                        }}
+                                      >
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        readOnly
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                        onChange={e => handleChangeAll(e)}
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
+                                  <div className="footer-button-group right">
+                                    <span
+                                      className="onHover"
+                                      aria-hidden
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                        setEditedText('');
+                                        handleZoomRoom(i.id, false);
+                                      }}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          i,
+                                          'zoomRoomCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        handleZoomRoom(i.id, false);
+                                      }}
+                                      className="btn apply-btn"
+                                    >
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="arrow-on-hover">
+                          <span>{i.zoomRoom}</span>
+                          {sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <Image
+                              onClick={() => handleZoomRoom(i.id, true)}
+                              src={hoverImage}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </td>
+                    <td className="assigned_text">
+                      {i.isRestrictedRoom ? (
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('restrictedRoom');
+                                setIsShowRowDropdown(idx);
+                                setChangeAll(false);
+                                setCurrentCheckedValue('');
+                              }}
+                            >
+                              <input
+                                readOnly
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
+                                  isShowColDropdown === 'restrictedRoom'
+                                    ? currentCheckedValue
+                                    : i.restrictedRoom
+                                }
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                                onClick={() => {
+                                  setIsShowColDropdown('');
+                                  setIsShowRowDropdown(null);
+                                  setCurrentCheckedValue('');
+                                  setIsShowDropdown(false);
+                                  setEditedText('');
+                                  handleRestrictedRoom(i.id, !isShowDropdown);
+                                }}
+                              />
+                            </div>
+                            {isShowDropdown &&
+                            isShowRowDropdown === idx &&
+                            isShowColDropdown === 'restrictedRoom' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {Zoom &&
+                                    Zoom.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          setCurrentCheckedValue(item.name);
+                                        }}
+                                      >
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        readOnly
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                        onChange={e => handleChangeAll(e)}
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
+                                  <div className="footer-button-group right">
+                                    <span
+                                      className="onHover"
+                                      aria-hidden
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                        setEditedText('');
+                                        handleRestrictedRoom(i.id, false);
+                                      }}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          i,
+                                          'restrictedRoomCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        handleRestrictedRoom(i.id, false);
+                                      }}
+                                      className="btn apply-btn"
+                                    >
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="arrow-on-hover">
+                          <span>{i.restrictedRoom}</span>
+                          {sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <Image
+                              onClick={() => handleRestrictedRoom(i.id, true)}
+                              src={hoverImage}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </td>
+                    <td className="assigned_text">
+                      {i.isOutLook ? (
+                        <div className="table-filter-dropdown">
+                          <div className="table-filter-dropdown-group">
+                            <div
+                              className=""
+                              aria-hidden
+                              onClick={() => {
+                                setIsShowDropdown(true);
+                                setIsShowColDropdown('outLook');
+                                setIsShowRowDropdown(idx);
+                                setChangeAll(false);
+                                setCurrentCheckedValue('');
+                              }}
+                            >
+                              <input
+                                readOnly
+                                type="input"
+                                style={{ cursor: 'alias' }}
+                                value={
+                                  currentCheckedValue !== '' &&
+                                  isShowRowDropdown === idx &&
+                                  isShowColDropdown === 'outLook'
+                                    ? currentCheckedValue
+                                    : i.bookableInOutlook
+                                }
+                                className="drop-input"
+                              />
+                              <Image
+                                className="img_select"
+                                src={SelectDownArrow}
+                                onClick={() => {
+                                  setIsShowColDropdown('');
+                                  setIsShowRowDropdown(null);
+                                  setCurrentCheckedValue('');
+                                  setIsShowDropdown(false);
+                                  setEditedText('');
+                                  handleOutLook(i.id, !isShowDropdown);
+                                }}
+                              />
+                            </div>
+                            {isShowDropdown &&
+                            isShowRowDropdown === idx &&
+                            isShowColDropdown === 'outLook' ? (
+                              <div className="dropdown-list-group">
+                                <ul>
+                                  {Zoom &&
+                                    Zoom.map((item, index) => (
+                                      <li
+                                        key={item.name}
+                                        aria-hidden
+                                        onClick={() => {
+                                          setCurrentCheckedValue(item.name);
+                                        }}
+                                      >
+                                        {currentCheckedValue === item.name ? (
+                                          <div className="list-items isChecked">
+                                            <span>{item.name}</span>
+                                            <img
+                                              src={CheckedItem}
+                                              alt=""
+                                              className="float-end"
+                                            />
+                                          </div>
+                                        ) : (
+                                          <div className="list-items">
+                                            <span>{item.name}</span>
+                                          </div>
+                                        )}
+                                      </li>
+                                    ))}
+                                </ul>
+                                <div className="drop-footer">
+                                  {spaceAllChecked &&
+                                  spaceAllChecked.length > 1 ? (
+                                    <>
+                                      <input
+                                        readOnly
+                                        type="checkbox"
+                                        className="getAll"
+                                        name="all"
+                                        onChange={e => handleChangeAll(e)}
+                                      />
+                                      <small className="getAll_text">
+                                        Update{' '}
+                                        {spaceAllChecked &&
+                                          spaceAllChecked.length}{' '}
+                                        selected items
+                                      </small>
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
+                                  <div className="footer-button-group right">
+                                    <span
+                                      className="onHover"
+                                      aria-hidden
+                                      onClick={() => {
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        setIsShowDropdown(false);
+                                        setEditedText('');
+                                        handleOutLook(i.id, false);
+                                      }}
+                                    >
+                                      Cancel
+                                    </span>{' '}
+                                    <Button
+                                      onClick={() => {
+                                        handleUpdateManageSpace(
+                                          spaceAllChecked,
+                                          i,
+                                          'outLookCols',
+                                        );
+                                        setIsShowColDropdown('');
+                                        setIsShowRowDropdown(null);
+                                        setCurrentCheckedValue('');
+                                        handleOutLook(i.id, false);
+                                      }}
+                                      className="btn apply-btn"
+                                    >
+                                      Apply
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="arrow-on-hover">
+                          <span>{i.bookableInOutlook}</span>
+                          {sessionStorage.getItem('Admin Owner') === 'true' && (
+                            <Image
+                              onClick={() => handleOutLook(i.id, true)}
+                              src={hoverImage}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </td>
                   </tr>
                 ))
               )}
             </table>
-            <div className="table-bot-flex">
-              <div className="selction_one">
-                <select
-                  name=""
-                  id=""
-                  className="pad-manual"
-                  value={state.limit}
-                  onChange={e => handleLimitChange(e.target.value)}
-                >
-                  <option value="10">10 per page</option>
-                  <option value="20">20 per page</option>
-                  <option value="30">30 per page</option>
-                  <option value="40">40 per page</option>
-                  <option value={dataCount && dataCount.count}>View All</option>
-                </select>
-              </div>
-              <div className="">
-                {state.page * state.limit - (state.limit - 1)} -
-                {state.page * state.limit} of {dataCount && dataCount.count}{' '}
-                shown
-              </div>
-              <Pagination
-                className="pagination-bar"
-                currentPage={state.page}
-                totalCounts={dataCount && dataCount.count * state.limit}
-                totalCount={dataCount && dataCount.count}
-                pageSize={state.limit}
-                spaceTotalPages={manageTotalPages}
-                onPageChange={page => handlePageChange(page)}
-              />
+          </div>
+          <div className="table-bot-flex">
+            <div className="selction_one">
+              <select
+                name=""
+                id=""
+                className="pad-manual"
+                value={state.limit}
+                onChange={e => handleLimitChange(e.target.value)}
+              >
+                <option value="10">10 per page</option>
+                <option value="20">20 per page</option>
+                <option value="30">30 per page</option>
+                <option value="40">40 per page</option>
+                <option value={dataCount && dataCount.count}>View All</option>
+              </select>
             </div>
+            <div className="">
+              {state.page * state.limit - (state.limit - 1)} -
+              {state.page * state.limit} of {dataCount && dataCount.count} shown
+            </div>
+            <Pagination
+              className="pagination-bar"
+              currentPage={state.page}
+              totalCounts={dataCount && dataCount.count * state.limit}
+              totalCount={dataCount && dataCount.count}
+              pageSize={state.limit}
+              spaceTotalPages={manageTotalPages}
+              onPageChange={page => handlePageChange(page)}
+            />
           </div>
         </div>
       </div>
