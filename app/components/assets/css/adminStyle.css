@@ -45,6 +45,7 @@
 .neibour-table {
   margin: 20px 0;
   border-radius: 10px;
+  overflow-x: scroll;
 }
 
 .new-emp-table {
