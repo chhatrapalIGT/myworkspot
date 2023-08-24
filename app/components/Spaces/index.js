@@ -2267,12 +2267,12 @@ const Spaces = ({
                             {currentCheckedValue !== '' ? (
                               <input
                                 type="text"
-                                defaultValue={
+                                value={
                                   currentCheckedValue !== '' &&
                                   isShowRowDropdown === idx &&
                                   isShowColDropdown === 'space'
                                     ? currentCheckedValue
-                                    : i.workspacenumber
+                                    : editedText
                                 }
                                 onKeyDown={event => {
                                   handleKeydown(event);
@@ -2287,7 +2287,7 @@ const Spaces = ({
                             ) : (
                               <input
                                 type="text"
-                                value={i.workspacenumber}
+                                value={editedText}
                                 onKeyDown={event => {
                                   handleKeydown(event);
                                 }}
@@ -2321,6 +2321,7 @@ const Spaces = ({
                                     Cancel
                                   </span>{' '}
                                   <Button
+                                    disabled={!editedText}
                                     onClick={() => {
                                       handleUpdateManageSpace(
                                         spaceAllChecked,
@@ -2345,12 +2346,15 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="select-none arrow-on-hover">
-                          {i.workspacenumber || editedText}
+                          {i.workspacenumber}
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               className="editInput img_height"
                               src={GreyPencil}
-                              onClick={() => handlePane(i.id, true)}
+                              onClick={() => {
+                                handlePane(i.id, true);
+                                setEditedText(i.workspacenumber);
+                              }}
                             />
                           )}
                         </div>
@@ -2373,12 +2377,12 @@ const Spaces = ({
                             {currentCheckedValue !== '' ? (
                               <input
                                 type="text"
-                                defaultValue={
+                                value={
                                   currentCheckedValue !== '' &&
                                   isShowRowDropdown === idx &&
                                   isShowColDropdown === 'workspaceName'
                                     ? currentCheckedValue
-                                    : i.spaceName
+                                    : editedSpaceName
                                 }
                                 onKeyDown={event => {
                                   handleKeydown(event);
@@ -2393,7 +2397,7 @@ const Spaces = ({
                             ) : (
                               <input
                                 type="text"
-                                value={i.spaceName}
+                                value={editedSpaceName}
                                 onKeyDown={event => {
                                   handleKeydown(event);
                                 }}
@@ -2451,12 +2455,15 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="select-none arrow-on-hover">
-                          {i.spaceName || editedSpaceName}
+                          {i.spaceName}
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               className="editInput img_height"
                               src={GreyPencil}
-                              onClick={() => handleSpaceName(i.id, true)}
+                              onClick={() => {
+                                handleSpaceName(i.id, true);
+                                setEditedSpaceName(i.spaceName);
+                              }}
                             />
                           )}
                         </div>
@@ -2809,12 +2816,12 @@ const Spaces = ({
                             {currentCheckedValue !== '' ? (
                               <input
                                 type="text"
-                                defaultValue={
+                                value={
                                   currentCheckedValue !== '' &&
                                   isShowRowDropdown === idx &&
                                   isShowColDropdown === 'capacity'
                                     ? currentCheckedValue
-                                    : i.capacity
+                                    : editedCapacity
                                 }
                                 onKeyDown={event => {
                                   handleKeydown(event);
@@ -2822,21 +2829,21 @@ const Spaces = ({
                                 className="updateSpace"
                                 onChange={e => {
                                   setCurrentCheckedValue(e.target.value);
-                                  inputSpaceNameValue(e);
+                                  inputCapacityValue(e);
                                 }}
                                 onBlur={onEditEnd}
                               />
                             ) : (
                               <input
                                 type="text"
-                                value={i.capacity}
+                                value={editedCapacity}
                                 onKeyDown={event => {
                                   handleKeydown(event);
                                 }}
                                 className="updateSpace"
                                 onChange={e => {
                                   setCurrentCheckedValue(e.target.value);
-                                  inputSpaceNameValue(e);
+                                  inputCapacityValue(e);
                                 }}
                                 onBlur={onEditEnd}
                               />
@@ -2887,12 +2894,15 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="select-none arrow-on-hover">
-                          {i.capacity || editedCapacity}
+                          {i.capacity}
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               className="editInput img_height"
                               src={GreyPencil}
-                              onClick={() => handleCapacity(i.id, true)}
+                              onClick={() => {
+                                handleCapacity(i.id, true);
+                                setEditedCapacity(i.capacity);
+                              }}
                             />
                           )}
                         </div>
