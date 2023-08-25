@@ -1733,7 +1733,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '10%' }}>
+                <th style={{ minWidth: '150px' }}>
                   <span className="d-flex text-nowrap">
                     Space Name{' '}
                     <span className="ms-2">
@@ -1742,12 +1742,12 @@ const Spaces = ({
                         className="img-fluid sort-img"
                         alt=""
                         aria-hidden="true"
-                        name="workspaceName"
+                        name="spaceName"
                         // value={manageData.workspaceName}
                         onClick={() =>
                           handleClickSort(
                             'spaceName',
-                            state.sortOrder.workspaceName,
+                            state.sortOrder.spaceName,
                           )
                         }
                       />
@@ -2357,7 +2357,7 @@ const Spaces = ({
                             aria-hidden
                             onClick={() => {
                               setIsShowDropdown(true);
-                              setIsShowColDropdown('workspaceName');
+                              setIsShowColDropdown('spaceName');
                               setIsShowRowDropdown(idx);
                               setChangeAll(false);
                               setCurrentCheckedValue('');
@@ -2369,7 +2369,7 @@ const Spaces = ({
                                 value={
                                   currentCheckedValue !== '' &&
                                   isShowRowDropdown === idx &&
-                                  isShowColDropdown === 'workspaceName'
+                                  isShowColDropdown === 'spaceName'
                                     ? currentCheckedValue
                                     : editedSpaceName
                                 }
@@ -2401,7 +2401,7 @@ const Spaces = ({
                           </div>
                           {isShowDropdown &&
                           isShowRowDropdown === idx &&
-                          isShowColDropdown === 'workspaceName' ? (
+                          isShowColDropdown === 'spaceName' ? (
                             <div className="list-group">
                               <div className="drop-footer">
                                 <div className="footer-button-group right">
