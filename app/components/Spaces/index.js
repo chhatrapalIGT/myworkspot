@@ -1746,7 +1746,7 @@ const Spaces = ({
                         // value={manageData.workspaceName}
                         onClick={() =>
                           handleClickSort(
-                            'workspaceName',
+                            'spaceName',
                             state.sortOrder.workspaceName,
                           )
                         }
