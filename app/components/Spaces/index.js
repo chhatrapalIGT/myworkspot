@@ -1715,7 +1715,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '9%' }}>
+                <th style={{ minWidth: '150px' }}>
                   <span className="d-flex text-nowrap">
                     Space{' '}
                     <span className="ms-2">
@@ -1895,7 +1895,7 @@ const Spaces = ({
               </tr>
               {manageLoading ? (
                 <tr>
-                  <td colSpan="7">
+                  <td colSpan="12">
                     <Spinner
                       className="app-spinner"
                       animation="grow"
@@ -1905,7 +1905,7 @@ const Spaces = ({
                 </tr>
               ) : manageSpace && manageSpace.length === 0 ? (
                 <tr>
-                  <td colSpan="7">
+                  <td colSpan="12">
                     <div className="employee-norecord">No record found</div>
                   </td>
                 </tr>
