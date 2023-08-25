@@ -126,7 +126,9 @@ const Spaces = ({
   const [exportDC, setExportDC] = useState(true);
   const [exportRIC, setExportRIC] = useState(true);
   let updatedFloors = [];
-  const updatedNeighborhood = [];
+  const updatedNeighborhood = [
+    { label: 'Select', name: 'Select', value: 'Select', isSelected: true },
+  ];
   const inputValue = e => {
     setEditedText(e.target.value);
   };
@@ -193,11 +195,6 @@ const Spaces = ({
               building: ele.building || null,
               neighborhoodname: ele.neighborhoodname || null,
               locationid: ele.locationid || null,
-              workspaceName: null,
-              capacity: null,
-              zoomRoom: null,
-              bookableInOutlook: null,
-              restrictedRoom: null,
             });
             neibourObj.push({
               id: ele.id || null,
@@ -205,11 +202,6 @@ const Spaces = ({
               building: ele.building || null,
               neighborhoodname: currentCheckedValue,
               locationid: ele.locationid || null,
-              workspaceName: null,
-              capacity: null,
-              zoomRoom: null,
-              bookableInOutlook: null,
-              restrictedRoom: null,
             });
           });
       } else {
@@ -220,11 +212,6 @@ const Spaces = ({
           building: cols.building || null,
           neighborhoodname: cols.neighborhoodname || null,
           locationid: cols.locationid || null,
-          workspaceName: null,
-          capacity: null,
-          zoomRoom: null,
-          bookableInOutlook: null,
-          restrictedRoom: null,
         });
         neibourObj.push({
           id: cols.id || null,
@@ -232,11 +219,6 @@ const Spaces = ({
           building: cols.building || null,
           neighborhoodname: currentCheckedValue,
           locationid: cols.locationid || null,
-          workspaceName: null,
-          capacity: null,
-          zoomRoom: null,
-          bookableInOutlook: null,
-          restrictedRoom: null,
         });
       }
     } else {
@@ -247,23 +229,14 @@ const Spaces = ({
         building: cols.building || null,
         neighborhoodname: cols.neighborhoodname || null,
         locationid: cols.locationid || null,
-        workspaceName: null,
-        capacity: null,
-        zoomRoom: null,
-        bookableInOutlook: null,
-        restrictedRoom: null,
       });
       neibourObj.push({
         id: cols.id || null,
         floor: cols.floor || null,
         building: cols.building || null,
-        neighborhoodname: currentCheckedValue,
+        neighborhoodname:
+          currentCheckedValue === 'Select' ? '' : currentCheckedValue,
         locationid: cols.locationid || null,
-        workspaceName: null,
-        capacity: null,
-        zoomRoom: null,
-        bookableInOutlook: null,
-        restrictedRoom: null,
       });
     }
     let payload = {};
@@ -284,6 +257,7 @@ const Spaces = ({
       requestManageUpdateSpace(payload);
     }
     if (map === 'neibourCols') {
+      console.log('neibourObj', neibourObj);
       payload = {
         neighborhoodname: neibourObj,
         floor: null,
@@ -1776,7 +1750,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ width: '9%' }}>
+                <th style={{ minWidth: '215px' }}>
                   <span className="d-flex text-nowrap">
                     Space type{' '}
                     <span className="ms-1">
@@ -2108,7 +2082,14 @@ const Spaces = ({
                         </div>
                       )}
                     </td>
-                    <td className="assigned_text">
+                    <td
+                      className={`${
+                        i.isNeighborh === 'Select'
+                          ? 'notAssign_text'
+                          : 'assigned_text'
+                      }`}
+                      style={{ width: '133px', whiteSpace: 'inherit' }}
+                    >
                       {i.isNeighborh ? (
                         <div className="table-filter-dropdown">
                           <div className="table-filter-dropdown-group">
