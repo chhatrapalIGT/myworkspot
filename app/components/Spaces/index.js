@@ -176,6 +176,7 @@ const Spaces = ({
     if (manageDataSuccess) {
       handleManagespaceUpdate();
       requestGetLockSpace();
+      handleScroll();
     }
   }, [manageDataSuccess]);
 
@@ -620,6 +621,10 @@ const Spaces = ({
       setUpdateState('');
     }
   }
+  const handleScroll = () => {
+    const scrollElm = document.querySelector('.neibour-table');
+    scrollElm.scrollLeft = 0;
+  };
   useEffect(() => {
     const DCarr = [];
     const RICarr = [];
@@ -2086,14 +2091,7 @@ const Spaces = ({
                         </div>
                       )}
                     </td>
-                    <td
-                      className={`${
-                        i.isNeighborh === 'Select'
-                          ? 'notAssign_text'
-                          : 'assigned_text'
-                      }`}
-                      style={{ width: '133px', whiteSpace: 'inherit' }}
-                    >
+                    <td className="assigned_text">
                       {i.isNeighborh ? (
                         <div className="table-filter-dropdown">
                           <div className="table-filter-dropdown-group">
@@ -2772,7 +2770,14 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="arrow-on-hover">
-                          <span>
+                          <span
+                            className={`${
+                              i.active === null
+                                ? 'notAssign_text'
+                                : 'assigned_text'
+                            }`}
+                            style={{ width: '133px', whiteSpace: 'inherit' }}
+                          >
                             {i.active === true
                               ? 'Active'
                               : i.active === null
