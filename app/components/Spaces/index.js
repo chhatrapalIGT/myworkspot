@@ -257,7 +257,6 @@ const Spaces = ({
       requestManageUpdateSpace(payload);
     }
     if (map === 'neibourCols') {
-      console.log('neibourObj', neibourObj);
       payload = {
         neighborhoodname: neibourObj,
         floor: null,
@@ -337,6 +336,7 @@ const Spaces = ({
         zoomRoom: null,
         bookableInOutlook: null,
         restrictedRoom: null,
+        active: null,
         id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
       requestManageUpdateSpace(payload);
@@ -352,6 +352,7 @@ const Spaces = ({
         zoomRoom: null,
         bookableInOutlook: null,
         restrictedRoom: null,
+        active: null,
         id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
       requestManageUpdateSpace(payload);
@@ -367,6 +368,7 @@ const Spaces = ({
         zoomRoom: currentCheckedValue,
         bookableInOutlook: null,
         restrictedRoom: null,
+        active: null,
         id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
       requestManageUpdateSpace(payload);
@@ -381,6 +383,7 @@ const Spaces = ({
         zoomRoom: null,
         capacity: null,
         bookableInOutlook: null,
+        active: null,
         restrictedRoom: currentCheckedValue,
         id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
@@ -396,6 +399,7 @@ const Spaces = ({
         capacity: null,
         zoomRoom: null,
         restrictedRoom: null,
+        active: null,
         bookableInOutlook: currentCheckedValue,
         id: rowData.length > 0 ? idData : idData[0].id || [cols.id],
       };
@@ -2221,7 +2225,11 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="arrow-on-hover">
-                          <span>{i.neighborhoodname}</span>
+                          <span>
+                            {i.neighborhoodname === null
+                              ? 'Select'
+                              : i.neighborhoodname}
+                          </span>
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               onClick={() => handleNeibour(i.id, true)}
