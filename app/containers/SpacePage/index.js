@@ -84,9 +84,12 @@ class OfficeMap extends Component {
       building: [],
       locationId: ['DC'],
     });
-    this.props.requestGetOfficeNeighborhood({});
+    this.props.requestGetOfficeNeighborhood({
+      floor: ['3', '8'],
+      building: [],
+      locationId: ['DC'],
+    });
     this.props.requestGetLockSpace({});
-    this.props.requestGetNeighborName({});
     this.props.requestGetOfficesType({});
   }
 

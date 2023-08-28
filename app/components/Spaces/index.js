@@ -594,19 +594,19 @@ const Spaces = ({
     ];
     officeNeighborhood &&
       officeNeighborhood.map(obj => {
-        if (obj.name !== '4th Floor') {
-          tempArr.push({
-            label: obj.name,
-            name: obj.name,
-            value: obj.name,
-            isSelected: true,
-          });
-          updatedNeighborhood.push({
-            label: obj.name,
-            name: obj.name,
-            value: obj.name,
-          });
-        }
+        // if (obj.name !== '4th Floor') {
+        tempArr.push({
+          label: obj.name,
+          name: obj.name,
+          value: obj.name,
+          isSelected: true,
+        });
+        updatedNeighborhood.push({
+          label: obj.name,
+          name: obj.name,
+          value: obj.name,
+        });
+        // }
       });
     setOfficeNeighborhoods(tempArr);
     setUpdatedNeibour(updatedNeighborhood);
