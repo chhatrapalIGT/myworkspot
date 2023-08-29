@@ -100,7 +100,6 @@ const Spaces = ({
   const [setActive, setActiveState] = useState('');
   const [updateState, setUpdateState] = useState('');
   const [manageLoader, setManageLoader] = useState('');
-  const [manageData, setManageData] = useState({});
   const [spaceData, setSpaceData] = useState('');
   const [spaceValue, setSpaceValue] = useState([]);
   const [spaceAllChecked, setSpaceAllChecked] = useState([]);
@@ -123,13 +122,12 @@ const Spaces = ({
   const [isShowColDropdown, setIsShowColDropdown] = useState('');
   const [isShowRowDropdown, setIsShowRowDropdown] = useState(null);
   const [currentCheckedValue, setCurrentCheckedValue] = useState('');
+  const [neighbourValue, setNeighbourValueValue] = useState('');
   const [changeAll, setChangeAll] = useState(false);
   const [exportDC, setExportDC] = useState(true);
   const [exportRIC, setExportRIC] = useState(true);
   let updatedFloors = [];
-  const updatedNeighborhood = [
-    { label: 'Select', name: 'Select', value: 'Select', isSelected: true },
-  ];
+  const updatedNeighborhood = [];
   const inputValue = e => {
     setEditedText(e.target.value);
   };
@@ -231,7 +229,7 @@ const Spaces = ({
         floor: cols.floor || null,
         building: cols.building || null,
         neighborhoodname:
-          currentCheckedValue === 'Select' ? '' : currentCheckedValue,
+          currentCheckedValue === '' ? neighbourValue : currentCheckedValue,
         locationid: cols.locationid || null,
       });
     }
@@ -286,7 +284,7 @@ const Spaces = ({
     }
     if (map === 'spaceTypesCols') {
       payload = {
-        Space_Type: currentCheckedValue,
+        Space_Type: currentCheckedValue === '' ? null : currentCheckedValue,
         neighborhoodname: null,
         Space_No: null,
         floor: null,
@@ -328,7 +326,7 @@ const Spaces = ({
         Space_No: null,
         floor: null,
         workspaceName:
-          currentCheckedValue === '' ? 'Not applicable' : currentCheckedValue,
+          editedSpaceName === '' ? 'Not applicable' : editedSpaceName,
         capacity: null,
         zoomRoom: null,
         bookableInOutlook: null,
@@ -345,7 +343,7 @@ const Spaces = ({
         Space_No: null,
         floor: null,
         workspaceName: null,
-        capacity: currentCheckedValue,
+        capacity: editedCapacity,
         zoomRoom: null,
         bookableInOutlook: null,
         restrictedRoom: null,
@@ -1734,7 +1732,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ minWidth: '150px' }}>
+                <th style={{ minWidth: '280px' }}>
                   <span className="d-flex text-nowrap">
                     Space Name{' '}
                     <span className="ms-2">
@@ -2100,6 +2098,7 @@ const Spaces = ({
                                 setIsShowRowDropdown(idx);
                                 setChangeAll(false);
                                 setCurrentCheckedValue('');
+                                setNeighbourValueValue(i.neighborhoodname);
                               }}
                             >
                               <input
@@ -2139,6 +2138,9 @@ const Spaces = ({
                                         aria-hidden
                                         onClick={() => {
                                           setCurrentCheckedValue(item.name);
+                                          setNeighbourValueValue(
+                                            i.neighborhoodname,
+                                          );
                                         }}
                                       >
                                         {currentCheckedValue === item.name ? (
@@ -2219,11 +2221,7 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="arrow-on-hover">
-                          <span>
-                            {i.neighborhoodname === null
-                              ? 'Select'
-                              : i.neighborhoodname}
-                          </span>
+                          <span>{i.neighborhoodname}</span>
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               onClick={() => handleNeibour(i.id, true)}
