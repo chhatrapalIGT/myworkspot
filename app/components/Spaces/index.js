@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-else-return */
@@ -131,12 +132,6 @@ const Spaces = ({
   ];
   const inputValue = e => {
     setEditedText(e.target.value);
-  };
-  const inputSpaceNameValue = e => {
-    setEditedSpaceName(e.target.value);
-  };
-  const inputCapacityValue = e => {
-    setEditedCapacity(e.target.value);
   };
   const ref = useRef();
 
@@ -332,7 +327,8 @@ const Spaces = ({
         neighborhoodname: null,
         Space_No: null,
         floor: null,
-        workspaceName: currentCheckedValue,
+        workspaceName:
+          currentCheckedValue === '' ? 'Not applicable' : currentCheckedValue,
         capacity: null,
         zoomRoom: null,
         bookableInOutlook: null,
@@ -2377,7 +2373,7 @@ const Spaces = ({
                                 className="updateSpace"
                                 onChange={e => {
                                   setCurrentCheckedValue(e.target.value);
-                                  inputSpaceNameValue(e);
+                                  setEditedSpaceName(e.target.value);
                                 }}
                                 onBlur={onEditEnd}
                               />
@@ -2391,7 +2387,7 @@ const Spaces = ({
                                 className="updateSpace"
                                 onChange={e => {
                                   setCurrentCheckedValue(e.target.value);
-                                  inputSpaceNameValue(e);
+                                  setEditedSpaceName(e.target.value);
                                 }}
                                 onBlur={onEditEnd}
                               />
@@ -2822,8 +2818,12 @@ const Spaces = ({
                                 }}
                                 className="updateSpace"
                                 onChange={e => {
-                                  setCurrentCheckedValue(e.target.value);
-                                  inputCapacityValue(e);
+                                  const numericValue = e.target.value.replace(
+                                    /[^0-9+\-]/g,
+                                    '',
+                                  );
+                                  setCurrentCheckedValue(numericValue);
+                                  setEditedCapacity(numericValue);
                                 }}
                                 onBlur={onEditEnd}
                               />
@@ -2836,8 +2836,12 @@ const Spaces = ({
                                 }}
                                 className="updateSpace"
                                 onChange={e => {
-                                  setCurrentCheckedValue(e.target.value);
-                                  inputCapacityValue(e);
+                                  const numericValue = e.target.value.replace(
+                                    /[^0-9+\-]/g,
+                                    '',
+                                  );
+                                  setCurrentCheckedValue(numericValue);
+                                  setEditedCapacity(numericValue);
                                 }}
                                 onBlur={onEditEnd}
                               />

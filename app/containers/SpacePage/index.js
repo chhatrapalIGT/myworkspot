@@ -112,19 +112,35 @@ class OfficeMap extends Component {
     }
     const timeoutId = setTimeout(() => {
       this.setState({ [name]: value }, () => {
-        this.props.requestGetManageSpace({
-          searchFilter: this.state.searchVal,
-          // officeSearch: this.state.srcOffice,
-          // floorSearch: this.state.srcFloor,
-          buldingSearch: this.state.srcBuilding,
-          // neighborhoodSearch: this.state.srcNeighborhood,
-          officeSearch: this.state.srcOffice,
-          floorSearch: this.state.floorSearch,
-          neighborhoodSearch: this.state.neighborhoodSearch,
-          sort_column: this.state.sort_column,
-          limit: this.state.limit,
-          page: this.state.page,
-        });
+        if (this.state.searchVal !== '') {
+          this.props.requestGetManageSpace({
+            searchFilter: this.state.searchVal,
+            // officeSearch: this.state.srcOffice,
+            // floorSearch: this.state.srcFloor,
+            buldingSearch: this.state.srcBuilding,
+            // neighborhoodSearch: this.state.srcNeighborhood,
+            officeSearch: this.state.srcOffice,
+            floorSearch: this.state.floorSearch,
+            neighborhoodSearch: this.state.neighborhoodSearch,
+            sort_column: this.state.sort_column,
+            limit: this.state.limit,
+            page: this.state.page,
+          });
+        } else {
+          this.props.requestGetManageSpace({
+            searchFilter: this.state.searchVal,
+            // officeSearch: this.state.srcOffice,
+            // floorSearch: this.state.srcFloor,
+            buldingSearch: this.state.srcBuilding,
+            // neighborhoodSearch: this.state.srcNeighborhood,
+            officeSearch: this.state.srcOffice,
+            floorSearch: this.state.floorSearch,
+            neighborhoodSearch: this.state.neighborhoodSearch,
+            sort_column: this.state.sort_column,
+            limit: 10,
+            page: this.state.page,
+          });
+        }
       });
     }, 1000);
     this.setState({
