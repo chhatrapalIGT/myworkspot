@@ -113,33 +113,19 @@ class OfficeMap extends Component {
     const timeoutId = setTimeout(() => {
       this.setState({ [name]: value }, () => {
         if (this.state.searchVal !== '') {
-          this.props.requestGetManageSpace({
-            searchFilter: this.state.searchVal,
-            // officeSearch: this.state.srcOffice,
-            // floorSearch: this.state.srcFloor,
-            buldingSearch: this.state.srcBuilding,
-            // neighborhoodSearch: this.state.srcNeighborhood,
-            officeSearch: this.state.srcOffice,
-            floorSearch: this.state.floorSearch,
-            neighborhoodSearch: this.state.neighborhoodSearch,
-            sort_column: this.state.sort_column,
-            limit: this.state.limit,
-            page: this.state.page,
-          });
+          this.getManageData(
+            this.state.searchVal,
+            this.state.srcOffice,
+            this.state.srcFloor,
+            this.state.srcBuilding,
+            this.state.srcNeighborhood,
+            this.state.sort_column,
+            this.state.page,
+            this.state.limit,
+            this.state.newExport,
+          );
         } else {
-          this.props.requestGetManageSpace({
-            searchFilter: this.state.searchVal,
-            // officeSearch: this.state.srcOffice,
-            // floorSearch: this.state.srcFloor,
-            buldingSearch: this.state.srcBuilding,
-            // neighborhoodSearch: this.state.srcNeighborhood,
-            officeSearch: this.state.srcOffice,
-            floorSearch: this.state.floorSearch,
-            neighborhoodSearch: this.state.neighborhoodSearch,
-            sort_column: this.state.sort_column,
-            limit: 10,
-            page: this.state.page,
-          });
+          this.handleLimitChange(10);
         }
       });
     }, 1000);
