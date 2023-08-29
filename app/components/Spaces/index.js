@@ -1732,7 +1732,7 @@ const Spaces = ({
                     </span>
                   </span>
                 </th>
-                <th style={{ minWidth: '280px' }}>
+                <th style={{ minWidth: '340px' }}>
                   <span className="d-flex text-nowrap">
                     Space Name{' '}
                     <span className="ms-2">
