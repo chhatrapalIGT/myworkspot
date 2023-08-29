@@ -241,13 +241,19 @@ class EmployeePage extends Component {
     }
     const timeoutId = setTimeout(() => {
       this.setState({ [name]: value }, () => {
-        this.props.requestGetEmployeeDetail({
-          search: this.state.searchVal,
-          value: this.state.strVal,
-          space: this.state.strSpace,
-          sortBy: this.state.sortBy,
-          limit: this.state.limit,
-        });
+        if (this.state.searchVal !== '') {
+          this.getEmpData(
+            '',
+            this.state.searchVal,
+            this.state.strVal,
+            this.state.strSpace,
+            this.state.sortBy,
+            this.state.page,
+            this.state.limit,
+          );
+        } else {
+          this.handleLimitChange(10);
+        }
       });
     }, 1000);
     this.setState({

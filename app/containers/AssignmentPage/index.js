@@ -299,16 +299,20 @@ class AssignmentPage extends Component {
     }
     const timeoutId = setTimeout(() => {
       this.setState({ search: value }, () => {
-        this.props.requestGetAssignmentDetail({
-          searchKeyword: this.state.search,
-          office: this.state.srcOffice,
-          floor: this.state.srcFloor,
-          building: this.state.srcBuilding,
-          neighborhood: this.state.srcNeighborhood,
-          sortBy: this.state.sortBy,
-          page: this.state.page,
-          limit: this.state.limit,
-        });
+        if (this.state.search !== '') {
+          this.getAssignData(
+            this.state.search,
+            this.state.srcOffice,
+            this.state.srcFloor,
+            this.state.srcBuilding,
+            this.state.srcNeighborhood,
+            this.state.sortBy,
+            this.state.page,
+            this.state.limit,
+          );
+        } else {
+          this.handleLimitChange(10);
+        }
       });
     }, 1000);
     this.setState({

@@ -289,16 +289,20 @@ class WhoIsInPage extends Component {
     }
     const timeoutId = setTimeout(() => {
       this.setState({ search: value }, () => {
-        this.props.requestGetWhoIsInDetail({
-          searchKeyword: this.state.search,
-          office: this.state.srcOffice,
-          floor: this.state.srcFloor,
-          building: this.state.srcBuilding,
-          neighborhood: this.state.srcNeighborhood,
-          sortBy: this.state.sortBy,
-          page: this.state.page,
-          limit: this.state.limit,
-        });
+        if (this.state.search !== '') {
+          this.getWhoIsInData(
+            this.state.search,
+            this.state.srcOffice,
+            this.state.srcFloor,
+            this.state.srcBuilding,
+            this.state.srcNeighborhood,
+            this.state.sortBy,
+            this.state.page,
+            this.state.limit,
+          );
+        } else {
+          this.handleLimitChange(10);
+        }
       });
     }, 1000);
     this.setState({
@@ -339,7 +343,11 @@ class WhoIsInPage extends Component {
       building: [],
       locationId: ['DC'],
     });
-    this.props.requestGetOfficeNeighborhood({});
+    this.props.requestGetOfficeNeighborhood({
+      floor: ['3', '8'],
+      building: [],
+      locationId: ['DC'],
+    });
     this.props.requestGetWhoIsInDetail({
       page: this.state.page,
       limit: this.state.limit,
