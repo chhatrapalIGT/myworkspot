@@ -2438,7 +2438,16 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="select-none arrow-on-hover">
-                          {i.spaceName}
+                          <span
+                            className={`${
+                              i.spaceName === 'Not applicable'
+                                ? 'notAssign_text'
+                                : 'assigned_text'
+                            }`}
+                            style={{ width: '133px', whiteSpace: 'inherit' }}
+                          >
+                            {i.spaceName}
+                          </span>
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               className="editInput img_height"
@@ -3040,7 +3049,16 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="arrow-on-hover">
-                          <span>{i.zoomRoom}</span>
+                          <span
+                            className={`${
+                              i.zoomRoom === 'Not applicable'
+                                ? 'notAssign_text'
+                                : 'assigned_text'
+                            }`}
+                            style={{ width: '133px', whiteSpace: 'inherit' }}
+                          >
+                            {i.zoomRoom}
+                          </span>
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               onClick={() => handleZoomRoom(i.id, true)}
@@ -3184,7 +3202,16 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="arrow-on-hover">
-                          <span>{i.restrictedRoom}</span>
+                          <span
+                            className={`${
+                              i.restrictedRoom === 'Not applicable'
+                                ? 'notAssign_text'
+                                : 'assigned_text'
+                            }`}
+                            style={{ width: '133px', whiteSpace: 'inherit' }}
+                          >
+                            {i.restrictedRoom}
+                          </span>
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               onClick={() => handleRestrictedRoom(i.id, true)}
@@ -3328,7 +3355,16 @@ const Spaces = ({
                         </div>
                       ) : (
                         <div className="arrow-on-hover">
-                          <span>{i.bookableInOutlook}</span>
+                          <span
+                            className={`${
+                              i.bookableInOutlook === 'Not applicable'
+                                ? 'notAssign_text'
+                                : 'assigned_text'
+                            }`}
+                            style={{ width: '133px', whiteSpace: 'inherit' }}
+                          >
+                            {i.bookableInOutlook}
+                          </span>
                           {sessionStorage.getItem('Admin Owner') === 'true' && (
                             <Image
                               onClick={() => handleOutLook(i.id, true)}

@@ -336,25 +336,31 @@ const WhoIsIn = props => {
                       aria-labelledby="dropdownMenuButton3"
                     >
                       {officeNeighborhoods &&
-                        officeNeighborhoods.map((item, index) => (
-                          <li
-                            className="pointer"
-                            aria-hidden
-                            onClick={() =>
-                              handleSelectedNeighborList(
-                                index,
-                                !item.isSelected,
-                              )
-                            }
-                          >
-                            <span className="item-text">{item.name}</span>
-                            <div
-                              className={
-                                item.isSelected ? 'selected_val float-end' : ''
+                        officeNeighborhoods.map((item, index) =>
+                          item.name !== '8th Floor' ? (
+                            <li
+                              className="pointer"
+                              aria-hidden
+                              onClick={() =>
+                                handleSelectedNeighborList(
+                                  index,
+                                  !item.isSelected,
+                                )
                               }
-                            />
-                          </li>
-                        ))}
+                            >
+                              <span className="item-text">{item.name}</span>
+                              <div
+                                className={
+                                  item.isSelected
+                                    ? 'selected_val float-end'
+                                    : ''
+                                }
+                              />
+                            </li>
+                          ) : (
+                            ' '
+                          ),
+                        )}
                     </ul>
                   </div>
                 </div>
