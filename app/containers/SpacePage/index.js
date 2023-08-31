@@ -494,7 +494,7 @@ class OfficeMap extends Component {
       floorSearch: this.state.srcFloor,
       buldingSearch: this.state.srcBuilding,
       neighborhoodSearch: this.state.srcNeighborhood,
-      spaceTypeSearch: this.state.this.state.srcOfficeType,
+      spaceTypeSearch: this.state.srcOfficeType,
       searchFilter: this.state.searchVal,
       sort_column,
       limit: this.state.limit,
