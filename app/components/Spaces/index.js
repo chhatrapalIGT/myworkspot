@@ -1696,7 +1696,7 @@ const Spaces = ({
                 </div>
               </div>
               <div className="custom-filter-dropdown">
-                <span>Office Type</span>
+                <span>Space Type</span>
                 <div className="dropdown">
                   <input
                     type="input"
