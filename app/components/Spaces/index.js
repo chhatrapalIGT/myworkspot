@@ -83,6 +83,7 @@ const Spaces = ({
   officeNeighborhood,
   handleSelectedFloor,
   handleSelectedNeighbor,
+  handleSelectedOfficeType,
   lockSpaceData,
   neighborData,
   floorBulidingData,
@@ -118,6 +119,7 @@ const Spaces = ({
   const [updatedOfficeFloor, setUpdatedOfficeFloor] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
   const [updatedNeibour, setUpdatedNeibour] = useState([]);
+  const [officeOfficetypes, setOfficeOfficetypes] = useState([]);
   const [isShowDropdown, setIsShowDropdown] = useState(false);
   const [isShowColDropdown, setIsShowColDropdown] = useState('');
   const [isShowRowDropdown, setIsShowRowDropdown] = useState(null);
@@ -128,6 +130,7 @@ const Spaces = ({
   const [exportRIC, setExportRIC] = useState(true);
   let updatedFloors = [];
   const updatedNeighborhood = [];
+  const updatedOfficetype = [];
   const inputValue = e => {
     setEditedText(e.target.value);
   };
@@ -605,6 +608,22 @@ const Spaces = ({
     setOfficeNeighborhoods(tempArr);
     setUpdatedNeibour(updatedNeighborhood);
   }, [officeNeighborhood]);
+
+  useEffect(() => {
+    const tempArr = [
+      { label: 'All', name: 'All', value: 'All', isSelected: true },
+    ];
+    officesData &&
+      officesData.map(obj => {
+        tempArr.push({
+          label: obj.name,
+          name: obj.name,
+          value: obj.name,
+          isSelected: true,
+        });
+      });
+    setOfficeOfficetypes(tempArr);
+  }, [officesData]);
 
   function toggleAccordion(id) {
     setColor('');
@@ -1401,6 +1420,45 @@ const Spaces = ({
     handleSelectedNeighbor(neighborList);
   };
 
+  const handleSelectedOfficetypeList = (index, status) => {
+    let officeTypeList = [];
+    officeTypeList =
+      officeOfficetypes &&
+      officeOfficetypes.map((item, i) => {
+        if (index === 0) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        if (i === index) {
+          return {
+            label: item.name,
+            name: item.name,
+            value: item.value,
+            isSelected: status,
+          };
+        }
+        return item;
+      });
+
+    if (officeTypeList.length) {
+      const isAllChecked =
+        officeTypeList.filter(
+          ele => ele.name !== 'All' && ele.isSelected === true,
+        ).length ===
+        officeTypeList.length - 1;
+      officeTypeList = officeTypeList.map(ele => ({
+        ...ele,
+        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
+      }));
+    }
+    setOfficeOfficetypes(officeTypeList);
+    handleSelectedOfficeType(officeTypeList);
+  };
+
   const handleChangeAll = e => {
     const { value, checked } = e.target;
     setChangeAll(checked);
@@ -1519,6 +1577,9 @@ const Spaces = ({
                     src={SelectDownArrow}
                   />
                   <ul
+                    style={{
+                      zIndex: '998',
+                    }}
                     className="dropdown-menu"
                     id="dropdownMenuButton1"
                     aria-labelledby="dropdownMenuButton1"
@@ -1562,6 +1623,9 @@ const Spaces = ({
                     src={SelectDownArrow}
                   />
                   <ul
+                    style={{
+                      zIndex: '998',
+                    }}
                     className="dropdown-menu"
                     id="dropdownMenuButton2"
                     aria-labelledby="dropdownMenuButton2"
@@ -1605,6 +1669,9 @@ const Spaces = ({
                     src={SelectDownArrow}
                   />
                   <ul
+                    style={{
+                      zIndex: '998',
+                    }}
                     className="dropdown-menu"
                     id="dropdownMenuButton3"
                     aria-labelledby="dropdownMenuButton3"
@@ -1615,6 +1682,57 @@ const Spaces = ({
                           aria-hidden
                           onClick={() =>
                             handleSelectedNeighborList(index, !item.isSelected)
+                          }
+                        >
+                          <span>{item.name}</span>
+                          <div
+                            className={
+                              item.isSelected ? 'selected_val float-end' : ''
+                            }
+                          />
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="custom-filter-dropdown">
+                <span>Office Type</span>
+                <div className="dropdown">
+                  <input
+                    type="input"
+                    style={{ cursor: 'alias' }}
+                    readOnly
+                    className="dropdown-toggle filter-cursor"
+                    value={state.finalOfficeTypeVal}
+                    placeholder="All"
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton4"
+                  />
+                  <Image
+                    className="img_select"
+                    data-bs-toggle="dropdown"
+                    data-target="#dropdownMenuButton4"
+                    src={SelectDownArrow}
+                  />
+                  <ul
+                    style={{
+                      maxHeight: '300px',
+                      overflowY: 'scroll',
+                      zIndex: '998',
+                    }}
+                    className="dropdown-menu"
+                    id="dropdownMenuButton4"
+                    aria-labelledby="dropdownMenuButton4"
+                  >
+                    {officeOfficetypes &&
+                      officeOfficetypes.map((item, index) => (
+                        <li
+                          aria-hidden
+                          onClick={() =>
+                            handleSelectedOfficetypeList(
+                              index,
+                              !item.isSelected,
+                            )
                           }
                         >
                           <span>{item.name}</span>
@@ -3629,7 +3747,14 @@ const Spaces = ({
                                   >
                                     <span className="dash-menu-item1 line">
                                       <span
-                                        className={`sq-${floor.name.toLowerCase()}`}
+                                        className={
+                                          floor.name === 'Orange' ||
+                                          floor.name === 'Teal' ||
+                                          floor.name === 'Blue' ||
+                                          floor.name === 'Yellow'
+                                            ? `sq-${floor.name.toLowerCase()}`
+                                            : `sq-gray`
+                                        }
                                       />{' '}
                                       {floor.name}{' '}
                                     </span>
@@ -3740,6 +3865,7 @@ Spaces.propTypes = {
   handleSelectedoffice: PropTypes.func,
   handleSelectedFloor: PropTypes.func,
   handleSelectedNeighbor: PropTypes.func,
+  handleSelectedOfficeType: PropTypes.func,
   handleFloorByName: PropTypes.func,
   requestGetLockSpace: PropTypes.func,
   handleData: PropTypes.func,

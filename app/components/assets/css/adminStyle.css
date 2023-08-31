@@ -767,6 +767,22 @@
   border: 1px solid #f9d843;
 }
 
+.sq-gray {
+  position: relative;
+}
+
+.sq-gray:before {
+  position: absolute;
+  content: '';
+  top: -4px;
+  left: -38px;
+  width: 26px;
+  height: 26px;
+  background-color: #E3E4E8;
+  border-radius: 8px;
+  border: 1px solid #b4b4b4;
+}
+
 .accordion_box {
   position: relative;
 }

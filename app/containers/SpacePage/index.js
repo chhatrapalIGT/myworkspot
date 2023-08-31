@@ -43,15 +43,19 @@ class OfficeMap extends Component {
       selectedFloor: [],
       selectedBuilding: [],
       selectedNeighbor: [],
+      selectedOfficetype: [],
       finalOfficeVal: 'Washington, DC',
       finalFloorVal: 'Floor 3, +1',
       finalNeighborhoodVal: 'All',
+      finalOfficeTypeVal: 'All',
       neighborhoodSearch: [],
       neighborName: [],
+      officeTypeName: [],
       srcOffice: ['DC'],
       srcFloor: ['3', '8'],
       srcBuilding: [],
       srcNeighborhood: [],
+      srcOfficeType: [],
       newExport: false,
       filterApplied: false,
       sortOrder: {
@@ -99,6 +103,7 @@ class OfficeMap extends Component {
       officeSearch: this.state.srcOffice,
       floorSearch: this.state.srcFloor,
       neighborhoodSearch: this.state.neighborhoodSearch,
+      spaceTypeSearch: this.state.spaceTypeSearch,
       sort_column: this.state.sort_column,
       limit: this.state.limit,
       page: this.state.page,
@@ -119,6 +124,7 @@ class OfficeMap extends Component {
             this.state.srcFloor,
             this.state.srcBuilding,
             this.state.srcNeighborhood,
+            this.state.srcOfficeType,
             this.state.sort_column,
             this.state.page,
             this.state.limit,
@@ -146,6 +152,7 @@ class OfficeMap extends Component {
     floorSearch,
     buldingSearch,
     neighborhoodSearch,
+    spaceTypeSearch,
     sort_column,
     page,
     limit,
@@ -157,6 +164,7 @@ class OfficeMap extends Component {
       floorSearch,
       buldingSearch,
       neighborhoodSearch,
+      spaceTypeSearch,
       sort_column,
       page,
       limit,
@@ -218,11 +226,13 @@ class OfficeMap extends Component {
         selectedFloor: [],
         selectedBuilding: [],
         selectedNeighbor: [],
+        selectedOfficetype: [],
         finalFloorVal: 'All',
         finalNeighborhoodVal: 'All',
         srcFloor: [],
         srcBuilding: [],
         srcNeighborhood: [],
+        srcOfficeType: [],
       });
       const timeoutId = setTimeout(() => {
         this.setState({ srcOffice: strArr }, () => {
@@ -232,6 +242,7 @@ class OfficeMap extends Component {
             this.state.srcFloor,
             this.state.srcBuilding,
             this.state.srcNeighborhood,
+            this.state.srcOfficeType,
             this.state.sort_column,
             this.state.page,
             this.state.limit,
@@ -294,8 +305,10 @@ class OfficeMap extends Component {
       this.setState({
         filterApplied: true,
         selectedNeighbor: [],
+        selectedOfficetype: [],
         finalNeighborhoodVal: 'All',
         srcNeighborhood: [],
+        srcOfficeType: [],
       });
       const timeoutId = setTimeout(() => {
         this.setState(
@@ -307,6 +320,7 @@ class OfficeMap extends Component {
               strFloorArr,
               strBuildingArr,
               this.state.srcNeighborhood,
+              this.state.srcOfficeType,
               this.state.sort_column,
               this.state.page,
               this.state.limit,
@@ -362,6 +376,7 @@ class OfficeMap extends Component {
             this.state.srcFloor,
             this.state.srcBuilding,
             strArr,
+            this.state.srcOfficeType,
             this.state.sort_column,
             this.state.page,
             this.state.limit,
@@ -375,36 +390,47 @@ class OfficeMap extends Component {
     });
   };
 
-  handleNeighborName = option => {
-    const space = option.map(i => i.value);
-    let finalNeighborhoodVal;
-    this.setState({ neighborName: option }, () => {
-      const val = this.state.neighborName.length
-        ? this.state.neighborName[0].name
-        : '';
-      if (this.state.neighborName.length > 1) {
-        const length = `, +${this.state.neighborName.length - 1}`;
-        finalNeighborhoodVal = val.concat(length);
-        this.setState({ finalNeighborhoodVal });
-      } else if (this.state.neighborName.length > 0) {
-        finalNeighborhoodVal = val;
+  handleSelectedOfficeType = option => {
+    const space = [];
+    option.map(i => {
+      if (i.isSelected) {
+        space.push(i.value);
       }
-      this.setState({ finalNeighborhoodVal });
-      const strArr = [];
-      space.forEach(ev => {
-        strArr.push(ev);
-      });
+      return true;
+    });
+    const selectedOfficeTypeList = option.filter(
+      item => item.isSelected === true,
+    );
+    let finalOfficeTypeVal;
+    this.setState({ selectedOfficetype: selectedOfficeTypeList }, () => {
+      const val = this.state.selectedOfficetype.length
+        ? this.state.selectedOfficetype[0].name
+        : '';
+      if (val === 'All') {
+        finalOfficeTypeVal = val;
+      } else if (this.state.selectedOfficetype.length > 1) {
+        const length = `, +${this.state.selectedOfficetype.length - 1}`;
+        finalOfficeTypeVal = val.concat(length);
+        this.setState({ finalOfficeTypeVal });
+      } else if (this.state.selectedOfficetype.length > 0) {
+        finalOfficeTypeVal = val;
+      } else if (!this.state.selectedOfficetype.length) {
+        finalOfficeTypeVal = '';
+      }
+      this.setState({ finalOfficeTypeVal });
+      const strArr = space.filter(i => i !== 'All');
       this.setState({ page: 1 });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
       const timeoutId = setTimeout(() => {
-        this.setState({ srcNeighborhood: strArr }, () => {
+        this.setState({ srcOfficeType: strArr }, () => {
           this.getManageData(
             this.state.searchVal,
             this.state.srcOffice,
-            this.state.strFloorArr,
-            this.state.strBuildingArr,
+            this.state.srcFloor,
+            this.state.srcBuilding,
+            this.state.srcNeighborhood,
             strArr,
             this.state.sort_column,
             this.state.page,
@@ -427,6 +453,7 @@ class OfficeMap extends Component {
       this.state.srcFloor,
       this.state.srcBuilding,
       this.state.srcNeighborhood,
+      this.state.srcOfficeType,
       this.state.sort_column,
       1,
       e,
@@ -443,6 +470,7 @@ class OfficeMap extends Component {
       this.state.srcFloor,
       this.state.srcBuilding,
       this.state.srcNeighborhood,
+      this.state.srcOfficeType,
       this.state.sort_column,
       e,
       limit,
@@ -466,6 +494,7 @@ class OfficeMap extends Component {
       floorSearch: this.state.srcFloor,
       buldingSearch: this.state.srcBuilding,
       neighborhoodSearch: this.state.srcNeighborhood,
+      spaceTypeSearch: this.state.this.state.srcOfficeType,
       searchFilter: this.state.searchVal,
       sort_column,
       limit: this.state.limit,
@@ -565,6 +594,7 @@ class OfficeMap extends Component {
             handleSelectedoffice={this.handleSelectedoffice}
             handleSelectedFloor={this.handleSelectedFloor}
             handleSelectedNeighbor={this.handleSelectedNeighbor}
+            handleSelectedOfficeType={this.handleSelectedOfficeType}
             requestGetManageSpace={this.props.requestGetManageSpace}
             requestGetManageExport={this.props.requestGetManageExport}
             requestGetNeighborName={this.props.requestGetNeighborName}
