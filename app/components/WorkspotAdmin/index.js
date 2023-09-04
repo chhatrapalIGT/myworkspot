@@ -156,14 +156,29 @@ const WorkspotAdmin = ({
   }, [sessionStorage.getItem('floorCapacity')]);
 
   const spaces = (item, obj) => {
-    return getCapacity
-      .find(
-        ({ date }) =>
-          moment(date).format('YYYY-MM-DD') ===
-            item.date.format('YYYY-MM-DD') ||
-          dateValue === item.date.format('YYYY-MM-DD'),
-      )
-      .data.find(({ id }) => id === obj.id);
+    const foundCapacity = getCapacity.find(
+      ({ date }) =>
+        moment(date).format('YYYY-MM-DD') === item.date.format('YYYY-MM-DD') ||
+        dateValue === item.date.format('YYYY-MM-DD'),
+    );
+
+    if (foundCapacity) {
+      const foundData = foundCapacity.data.find(({ id }) => id === obj.id);
+
+      if (foundData) {
+        return foundData;
+      }
+    }
+    return false;
+
+    // return getCapacity
+    //   .find(
+    //     ({ date }) =>
+    //       moment(date).format('YYYY-MM-DD') ===
+    //         item.date.format('YYYY-MM-DD') ||
+    //       dateValue === item.date.format('YYYY-MM-DD'),
+    //   )
+    //   .data.find(({ id }) => id === obj.id);
   };
 
   useEffect(() => {
