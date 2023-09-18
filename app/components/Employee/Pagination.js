@@ -63,7 +63,7 @@ const Pagination = props => {
             </span>
           );
         })}
-      <span className="arrow" disab aria-hidden="true" onClick={onNext}>
+      <span className="arrow" aria-hidden="true" onClick={onNext}>
         &rsaquo;
       </span>
     </div>

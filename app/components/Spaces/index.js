@@ -1,20 +1,15 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-escape */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-else-return */
-/* eslint-disable consistent-return */
-/* eslint-disable react/no-this-in-sfc */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable indent */
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
-import { Button, Form, Image, Modal, Dropdown } from 'react-bootstrap';
-import createClass from 'create-react-class';
-import Select, { components } from 'react-select';
+import { Button, Form, Image, Modal } from 'react-bootstrap';
 import { exportToSpreadsheet, generateCSV } from '../Common/generateCSV';
 import Sort from '../assets/images/sort.png';
 import Search from '../assets/images/admin/search.png';
@@ -28,6 +23,7 @@ import CheckboxInput from '../assets/images/Checkbox_input.svg';
 import Pagination from '../Employee/Pagination';
 import CheckedItem from '../assets/images/Checked.svg';
 import hoverImage from '../assets/images/hoverImage.png';
+
 const algoStatus = [
   {
     name: 'Active',
@@ -64,13 +60,11 @@ const Spaces = ({
   handleCloseUpdate,
   spaceUpdate,
   setSpaceUpdate,
-  officeSuccess,
   requestUpdateActiveStatus,
   manageSpace,
   manageLoading,
   exportManage,
   exportLoading,
-  exportSuccess,
   handleLimitChange,
   handlePageChange,
   dataCount,
@@ -85,7 +79,6 @@ const Spaces = ({
   handleSelectedNeighbor,
   handleSelectedOfficeType,
   lockSpaceData,
-  neighborData,
   floorBulidingData,
   requestManageUpdateSpace,
   handleManagespaceUpdate,
@@ -105,7 +98,6 @@ const Spaces = ({
   const [spaceValue, setSpaceValue] = useState([]);
   const [spaceAllChecked, setSpaceAllChecked] = useState([]);
   const [open, setOpen] = useState(false);
-  const [isEditing, setisEditing] = useState(false);
   const [editedText, setEditedText] = useState('');
   const [editedSpaceName, setEditedSpaceName] = useState('');
   const [editedCapacity, setEditedCapacity] = useState('');
@@ -115,7 +107,6 @@ const Spaces = ({
   });
   const [officeLocations, setOfficeLocations] = useState([]);
   const [officeFloors, setOfficeFloors] = useState([]);
-  const [buildFloors, setBuildFloors] = useState([]);
   const [updatedOfficeFloor, setUpdatedOfficeFloor] = useState([]);
   const [officeNeighborhoods, setOfficeNeighborhoods] = useState([]);
   const [updatedNeibour, setUpdatedNeibour] = useState([]);
@@ -126,14 +117,13 @@ const Spaces = ({
   const [currentCheckedValue, setCurrentCheckedValue] = useState('');
   const [neighbourValue, setNeighbourValueValue] = useState('');
   const [changeAll, setChangeAll] = useState(false);
-  const [exportDC, setExportDC] = useState(true);
-  const [exportRIC, setExportRIC] = useState(true);
   let updatedFloors = [];
   const updatedNeighborhood = [];
-  const updatedOfficetype = [];
+
   const inputValue = e => {
     setEditedText(e.target.value);
   };
+
   const ref = useRef();
 
   const handleClear = () => {
@@ -430,16 +420,11 @@ const Spaces = ({
     }
   };
 
-  const onEditEnd = () => {
-    setisEditing(false);
-  };
-
   function handleKeydown(event) {
     if (event.key === 'Enter') {
       if (event.target.value !== '') {
         event.preventDefault();
         event.stopPropagation();
-        setisEditing(false);
       }
     }
     return event.key === 'Enter' || event.key === 'Escape';
@@ -501,6 +486,7 @@ const Spaces = ({
       });
     setOfficeLocations(tempArr);
   }, [officeLocation]);
+
   useEffect(() => {
     const tempArr = [];
 
@@ -655,7 +641,10 @@ const Spaces = ({
               Attributes: obj.attributes || '-',
               Assigned: obj.assigned || '-',
               AlgorithmStatus: obj.active || '-',
-              // id: obj.id || '-',
+              Capacity: obj.capacity || '-',
+              ZoomRoom: obj.zoomRoom || '-',
+              RestrictedRoom: obj.restrictedRoom || '-',
+              BookableInOutlook: obj.bookableInOutlook || '-',
             });
           }
           if (obj.locationid === 'RIC') {
@@ -669,7 +658,10 @@ const Spaces = ({
               Attributes: obj.attributes || '-',
               Assigned: obj.assigned || '-',
               AlgorithmStatus: obj.active || '-',
-              // id: obj.id || '-',
+              Capacity: obj.capacity || '-',
+              ZoomRoom: obj.zoomRoom || '-',
+              RestrictedRoom: obj.restrictedRoom || '-',
+              BookableInOutlook: obj.bookableInOutlook || '-',
             });
           }
         });
@@ -684,7 +676,10 @@ const Spaces = ({
         Attributes: '',
         Assigned: '',
         AlgorithmStatus: '',
-        // id: '',
+        Capacity: '',
+        ZoomRoom: '',
+        RestrictedRoom: '',
+        BookableInOutlook: '',
       });
       RICarr.push({
         OfficeId: '',
@@ -696,7 +691,10 @@ const Spaces = ({
         Attributes: '',
         Assigned: '',
         AlgorithmStatus: '',
-        // id: '',
+        Capacity: '',
+        ZoomRoom: '',
+        RestrictedRoom: '',
+        BookableInOutlook: '',
       });
     }
     if (csvOpen === 'CSV') {
@@ -717,8 +715,6 @@ const Spaces = ({
       }
       setCsvOpen('');
       setOpen(false);
-      setExportDC(false);
-      setExportRIC(false);
       setUserInfo({ offices: [] });
     }
     if (csvOpen === 'XLSX') {
@@ -735,8 +731,6 @@ const Spaces = ({
       }
       setCsvOpen('');
       setOpen(false);
-      setExportDC(false);
-      setExportRIC(false);
       setUserInfo({ offices: [] });
     }
     setUserInfo({ offices: [] });
@@ -1244,7 +1238,7 @@ const Spaces = ({
   };
 
   const onCheckbox = (e, idx) => {
-    const { value, checked } = e.target;
+    const { checked } = e.target;
     const spaceInp =
       spaceValue &&
       spaceValue.length > 0 &&
@@ -1343,43 +1337,6 @@ const Spaces = ({
     setOfficeFloors(floorList);
     handleSelectedFloor(floorList);
   };
-  const handleSelectedBuildFloorList = (index, status) => {
-    let floorList = [];
-    floorList =
-      buildFloors &&
-      buildFloors.map((item, i) => {
-        if (index === 0) {
-          return {
-            label: item.name,
-            name: item.name,
-            value: item.value,
-            isSelected: status,
-          };
-        }
-        if (i === index) {
-          return {
-            label: item.name,
-            name: item.name,
-            value: item.value,
-            isSelected: status,
-          };
-        }
-        return item;
-      });
-
-    if (floorList.length) {
-      const isAllChecked =
-        floorList.filter(ele => ele.name !== 'All' && ele.isSelected === true)
-          .length ===
-        floorList.length - 1;
-      floorList = floorList.map(ele => ({
-        ...ele,
-        isSelected: ele.name === 'All' ? isAllChecked : ele.isSelected,
-      }));
-    }
-    setBuildFloors(floorList);
-    handleSelectedFloor(floorList);
-  };
 
   const handleSelectedNeighborList = (index, status) => {
     let neighborList = [];
@@ -1460,7 +1417,7 @@ const Spaces = ({
   };
 
   const handleChangeAll = e => {
-    const { value, checked } = e.target;
+    const { checked } = e.target;
     setChangeAll(checked);
   };
 
@@ -2101,7 +2058,7 @@ const Spaces = ({
                               <div className="dropdown-list-group">
                                 <ul>
                                   {updatedOfficeFloor &&
-                                    updatedOfficeFloor.map((item, index) => (
+                                    updatedOfficeFloor.map(item => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -2250,7 +2207,7 @@ const Spaces = ({
                               <div className="dropdown-list-group">
                                 <ul>
                                   {updatedNeibour &&
-                                    updatedNeibour.map((item, index) => (
+                                    updatedNeibour.map(item => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -2381,7 +2338,6 @@ const Spaces = ({
                                   setCurrentCheckedValue(e.target.value);
                                   inputValue(e);
                                 }}
-                                onBlur={onEditEnd}
                               />
                             ) : (
                               <input
@@ -2395,7 +2351,6 @@ const Spaces = ({
                                   setCurrentCheckedValue(e.target.value);
                                   inputValue(e);
                                 }}
-                                onBlur={onEditEnd}
                               />
                             )}
                           </div>
@@ -2491,7 +2446,6 @@ const Spaces = ({
                                   setCurrentCheckedValue(e.target.value);
                                   setEditedSpaceName(e.target.value);
                                 }}
-                                onBlur={onEditEnd}
                               />
                             ) : (
                               <input
@@ -2505,7 +2459,6 @@ const Spaces = ({
                                   setCurrentCheckedValue(e.target.value);
                                   setEditedSpaceName(e.target.value);
                                 }}
-                                onBlur={onEditEnd}
                               />
                             )}
                           </div>
@@ -2632,7 +2585,7 @@ const Spaces = ({
                               <div className="dropdown-list-group">
                                 <ul>
                                   {officesData &&
-                                    officesData.map((item, index) => (
+                                    officesData.map(item => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -2804,7 +2757,7 @@ const Spaces = ({
                               <div className="dropdown-list-group">
                                 <ul>
                                   {algoStatus &&
-                                    algoStatus.map((item, index) => (
+                                    algoStatus.map(item => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -2950,7 +2903,6 @@ const Spaces = ({
                                   setCurrentCheckedValue(numericValue);
                                   setEditedCapacity(numericValue);
                                 }}
-                                onBlur={onEditEnd}
                               />
                             ) : (
                               <input
@@ -2968,7 +2920,6 @@ const Spaces = ({
                                   setCurrentCheckedValue(numericValue);
                                   setEditedCapacity(numericValue);
                                 }}
-                                onBlur={onEditEnd}
                               />
                             )}
                           </div>
@@ -3078,7 +3029,7 @@ const Spaces = ({
                               <div className="dropdown-list-group">
                                 <ul>
                                   {Zoom &&
-                                    Zoom.map((item, index) => (
+                                    Zoom.map(item => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -3231,7 +3182,7 @@ const Spaces = ({
                               <div className="dropdown-list-group">
                                 <ul>
                                   {Zoom &&
-                                    Zoom.map((item, index) => (
+                                    Zoom.map(item => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -3384,7 +3335,7 @@ const Spaces = ({
                               <div className="dropdown-list-group">
                                 <ul>
                                   {Zoom &&
-                                    Zoom.map((item, index) => (
+                                    Zoom.map(item => (
                                       <li
                                         key={item.name}
                                         aria-hidden
@@ -3842,12 +3793,10 @@ Spaces.propTypes = {
   handleManagespaceUpdate: PropTypes.func,
   handleCloseUpdate: PropTypes.func,
   spaceUpdate: PropTypes.object,
-  officeSuccess: PropTypes.object,
   setSpaceUpdate: PropTypes.object,
   manageSpace: PropTypes.object,
   exportManage: PropTypes.object,
   lockSpaceData: PropTypes.object,
-  neighborData: PropTypes.object,
   floorBulidingData: PropTypes.object,
   manageDataSuccess: PropTypes.bool,
   officeNeighborhood: PropTypes.object,
@@ -3855,7 +3804,6 @@ Spaces.propTypes = {
   officesData: PropTypes.object,
   exportLoading: PropTypes.bool,
   manageLoading: PropTypes.bool,
-  exportSuccess: PropTypes.bool,
   dataCount: PropTypes.object,
   handleLimitChange: PropTypes.func,
   handlePageChange: PropTypes.func,
