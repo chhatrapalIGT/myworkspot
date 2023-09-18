@@ -1136,7 +1136,7 @@ const Profile = ({
                 <>
                   <div>
                     {spinIcon &&
-                      spinIcon.length &&
+                      spinIcon.length > 0 &&
                       spinIcon.map(elec => (
                         <>
                           <div
