@@ -642,9 +642,9 @@ const Spaces = ({
               Assigned: obj.assigned || '-',
               AlgorithmStatus: obj.active || '-',
               Capacity: obj.capacity || '-',
-              ZoomRoom: obj.zoomRoom || '-',
-              RestrictedRoom: obj.restrictedRoom || '-',
-              BookableInOutlook: obj.bookableInOutlook || '-',
+              'ZoomRoom?': obj.zoomRoom || '-',
+              'RestrictedRoom?': obj.restrictedRoom || '-',
+              'BookableInOutlook?': obj.bookableInOutlook || '-',
             });
           }
           if (obj.locationid === 'RIC') {
@@ -659,9 +659,9 @@ const Spaces = ({
               Assigned: obj.assigned || '-',
               AlgorithmStatus: obj.active || '-',
               Capacity: obj.capacity || '-',
-              ZoomRoom: obj.zoomRoom || '-',
-              RestrictedRoom: obj.restrictedRoom || '-',
-              BookableInOutlook: obj.bookableInOutlook || '-',
+              'ZoomRoom?': obj.zoomRoom || '-',
+              'RestrictedRoom?': obj.restrictedRoom || '-',
+              'BookableInOutlook?': obj.bookableInOutlook || '-',
             });
           }
         });
@@ -677,9 +677,9 @@ const Spaces = ({
         Assigned: '',
         AlgorithmStatus: '',
         Capacity: '',
-        ZoomRoom: '',
-        RestrictedRoom: '',
-        BookableInOutlook: '',
+        'ZoomRoom?': '',
+        'RestrictedRoom?': '',
+        'BookableInOutlook?': '',
       });
       RICarr.push({
         OfficeId: '',
@@ -692,9 +692,9 @@ const Spaces = ({
         Assigned: '',
         AlgorithmStatus: '',
         Capacity: '',
-        ZoomRoom: '',
-        RestrictedRoom: '',
-        BookableInOutlook: '',
+        'ZoomRoom?': '',
+        'RestrictedRoom?': '',
+        'BookableInOutlook?': '',
       });
     }
     if (csvOpen === 'CSV') {
