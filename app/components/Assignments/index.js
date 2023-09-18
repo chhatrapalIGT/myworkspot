@@ -105,26 +105,28 @@ const Assignments = props => {
       exportAssignmentData &&
         exportAssignmentData.map(obj => {
           customArr.push({
-            name: obj.name || '-',
-            employeeid: obj.employeeid || '-',
-            department: obj.department || '-',
-            floor: obj.floor || '-',
-            building: obj.building || '-',
-            neighborhood: obj.neighborhood || '-',
-            assignedSpace: obj.assignedSpace || '-',
-            badge: obj.badge || '-',
+            OfficeId: obj.locationid,
+            Name: obj.name || '-',
+            Employeeid: obj.employeeid || '-',
+            Department: obj.department || '-',
+            Floor: obj.floor || '-',
+            Building: obj.building || '-',
+            Neighborhood: obj.neighborhood || '-',
+            AssignedSpace: obj.assignedSpace || '-',
+            Badge: obj.badge || '-',
           });
         });
     } else {
       customArr.push({
-        name: '',
-        employeeid: '',
-        department: '',
-        floor: '',
-        building: '',
-        neighborhood: '',
-        assignedSpace: '',
-        badge: '',
+        OfficeId: '',
+        Name: '',
+        Employeeid: '',
+        Department: '',
+        Floor: '',
+        Building: '',
+        Neighborhood: '',
+        AssignedSpace: '',
+        Badge: '',
       });
     }
     if (exportType === 'CSV') {
