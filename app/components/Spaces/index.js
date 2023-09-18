@@ -639,7 +639,12 @@ const Spaces = ({
               SpaceType: obj.type || '-',
               Attributes: obj.attributes || '-',
               Assigned: obj.assigned || '-',
-              AlgorithmStatus: obj.active || '-',
+              AlgorithmStatus:
+                obj.active === true
+                  ? 'Active'
+                  : obj.active === null
+                  ? 'Not applicable'
+                  : 'Inactive',
               Capacity: obj.capacity || '-',
               'ZoomRoom?': obj.zoomRoom || '-',
               'RestrictedRoom?': obj.restrictedRoom || '-',
@@ -655,7 +660,12 @@ const Spaces = ({
               SpaceType: obj.type || '-',
               Attributes: obj.attributes || '-',
               Assigned: obj.assigned || '-',
-              AlgorithmStatus: obj.active || '-',
+              AlgorithmStatus:
+                obj.active === true
+                  ? 'Active'
+                  : obj.active === null
+                  ? 'Not applicable'
+                  : 'Inactive',
               Capacity: obj.capacity || '-',
               'ZoomRoom?': obj.zoomRoom || '-',
               'RestrictedRoom?': obj.restrictedRoom || '-',
@@ -3793,7 +3803,7 @@ Spaces.propTypes = {
   manageSpace: PropTypes.object,
   exportManage: PropTypes.object,
   lockSpaceData: PropTypes.object,
-  floorBulidingData: PropTypes.object,
+  floorBulidingData: PropTypes.array,
   manageDataSuccess: PropTypes.bool,
   officeNeighborhood: PropTypes.object,
   officeFloor: PropTypes.object,

@@ -954,7 +954,7 @@ Employee.propTypes = {
   handleChange: PropTypes.func,
   workSpace: PropTypes.object,
   state: PropTypes.object,
-  userRoles: PropTypes.object,
+  userRoles: PropTypes.array,
   officeLocation: PropTypes.object,
   employeeCount: PropTypes.number,
   handlePageChange: PropTypes.func,

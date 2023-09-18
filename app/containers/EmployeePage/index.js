@@ -597,9 +597,9 @@ const withReducer = injectReducer({ key: 'employee', reducer });
 const withSaga = injectSaga({ key: 'employee', saga });
 
 EmployeePage.propTypes = {
-  requestGetEmployeeDetail: PropTypes.object,
+  requestGetEmployeeDetail: PropTypes.func,
   requestgetUserRole: PropTypes.func,
-  userRoles: PropTypes.object,
+  userRoles: PropTypes.array,
   employeeData: PropTypes.object,
   requestEditEmployeeDetail: PropTypes.object,
   singleEmployeeData: PropTypes.object,

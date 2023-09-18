@@ -1626,7 +1626,7 @@ const WorkspotAdmin = ({
 };
 
 WorkspotAdmin.propTypes = {
-  getCapacity: PropTypes.object,
+  getCapacity: PropTypes.array,
   requestLocationCapacity: PropTypes.func,
   requestExportLocationCapacity: PropTypes.func,
   handleClearCal: PropTypes.func,
@@ -1635,8 +1635,8 @@ WorkspotAdmin.propTypes = {
   apiSuccess: PropTypes.bool,
   exportCapacitySuccess: PropTypes.bool,
   exportCapacityLoading: PropTypes.bool,
-  getWarningData: PropTypes.object,
-  getExportData: PropTypes.object,
+  getWarningData: PropTypes.array,
+  getExportData: PropTypes.array,
 };
 
 export default WorkspotAdmin;

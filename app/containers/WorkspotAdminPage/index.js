@@ -140,15 +140,15 @@ WorkspotAdminPage.propTypes = {
   resetWorkspotAdminMessage: PropTypes.func,
   requestExportLocationCapacity: PropTypes.func,
   requestCapacityWarning: PropTypes.func,
-  getCapacity: PropTypes.object,
-  getExportData: PropTypes.object,
+  getCapacity: PropTypes.array,
+  getExportData: PropTypes.array,
   capacityLoading: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
   capacitySuccess: PropTypes.bool,
   exportCapacitySuccess: PropTypes.bool,
   exportCapacityLoading: PropTypes.bool,
-  getWarningData: PropTypes.object,
+  getWarningData: PropTypes.array,
 };
 
 export default compose(
