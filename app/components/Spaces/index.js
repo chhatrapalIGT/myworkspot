@@ -633,8 +633,7 @@ const Spaces = ({
           if (obj.locationid === 'DC') {
             DCarr.push({
               OfficeId: obj.locationid,
-              Building: obj.building || '-',
-              Floor: obj.floor || '-',
+              'Building/Floor': obj.floor || '-',
               Neighborhood: obj.neighborhoodname || '-',
               Space: obj.workspacenumber || '-',
               SpaceType: obj.type || '-',
@@ -650,8 +649,7 @@ const Spaces = ({
           if (obj.locationid === 'RIC') {
             RICarr.push({
               OfficeId: obj.locationid,
-              Building: obj.building || '-',
-              Floor: obj.floor || '-',
+              'Building/Floor': obj.floor || '-',
               Neighborhood: obj.neighborhoodname || '-',
               Space: obj.workspacenumber || '-',
               SpaceType: obj.type || '-',
@@ -668,8 +666,7 @@ const Spaces = ({
     } else {
       DCarr.push({
         OfficeId: '',
-        Building: '',
-        Floor: '',
+        'Building/Floor': '',
         Neighborhood: '',
         Space: '',
         SpaceType: '',
@@ -683,8 +680,7 @@ const Spaces = ({
       });
       RICarr.push({
         OfficeId: '',
-        Building: '',
-        Floor: '',
+        'Building/Floor': '',
         Neighborhood: '',
         Space: '',
         SpaceType: '',
