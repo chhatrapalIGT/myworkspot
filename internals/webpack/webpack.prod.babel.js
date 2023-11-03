@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const webPackDefault = require('./webpack.base.babel');
@@ -29,22 +28,22 @@ const webPackConfigs = webPackDefault({
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          warnings: false,
+          format: {
+            comments: false,
+          },
           compress: {
             comparisons: false,
           },
-          parse: {},
           mangle: true,
           output: {
             comments: false,
             ascii_only: true,
           },
+          parallel: true,
+          cache: true,
         },
-        parallel: true,
-        cache: true,
-        sourceMap: true,
       }),
-      new OptimizeCSSAssetsPlugin({}),
+      new MiniCssExtractPlugin({}),
     ],
   },
 

@@ -63,7 +63,7 @@ const webPackConfigs = options => ({
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
         exclude: /images/,
-        use: 'file-loader',
+        type: 'asset/resource',
       },
       {
         test: /\.(jpg|png|gif)$/,
