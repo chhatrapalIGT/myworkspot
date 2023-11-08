@@ -6,10 +6,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import injectReducer from '../../utils/injectReducer';
+import injectSaga from '../../utils/injectSaga';
 import Profile from '../../images/myprofile.png';
 import Report from '../../components/Report';
 import allImage from '../../images/icon.svg';

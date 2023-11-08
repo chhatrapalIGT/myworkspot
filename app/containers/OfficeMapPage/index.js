@@ -1,11 +1,11 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import injectReducer from '../../utils/injectReducer';
+import injectSaga from '../../utils/injectSaga';
 import saga from './saga';
 import reducer from './reducer';
 import { requestGetOfficeData, clearOffice } from './actions';

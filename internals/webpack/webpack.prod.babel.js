@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const webPackDefault = require('./webpack.base.babel');
 
@@ -73,7 +72,7 @@ const webPackConfigs = webPackDefault({
       },
     }),
 
-    new HashedModuleIdsPlugin({
+    new webpack.ids.HashedModuleIdsPlugin({
       hashFunction: 'sha256',
       hashDigest: 'hex',
       hashDigestLength: 20,

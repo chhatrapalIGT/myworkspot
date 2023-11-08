@@ -8,11 +8,11 @@
 /* eslint-disable vars-on-top */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { compose } from 'redux';
+import injectReducer from '../../utils/injectReducer';
+import injectSaga from '../../utils/injectSaga';
 import saga from './saga';
 import reducer from './reducer';
 import { requestGetOfficeAssignments } from './action';

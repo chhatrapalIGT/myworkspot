@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import request from 'utils/request';
 import { push } from 'react-router-redux';
+import request from '../../utils/request';
 import {
   REQUEST_GET_PROFILE_OFFICE_DATA,
   REQUEST_USERLIST_DATA,

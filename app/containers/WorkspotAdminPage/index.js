@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
-import injectReducer from 'utils/injectReducer';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
 import WorkspotAdmin from '../../components/WorkspotAdmin';
 import {

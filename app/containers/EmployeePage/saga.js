@@ -1,7 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import request from 'utils/request';
 import { push } from 'react-router-redux';
 import { get } from 'lodash';
+import request from '../../utils/request';
 import {
   REQUEST_GET_EMPLOYEE_DETAIL,
   REQUEST_EDIT_EMPLOYEE_DETAIL,

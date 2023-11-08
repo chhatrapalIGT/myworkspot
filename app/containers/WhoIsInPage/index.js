@@ -3,10 +3,10 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import injectReducer from '../../utils/injectReducer';
+import injectSaga from '../../utils/injectSaga';
 import saga from './saga';
 import reducer from './reducer';
 import {

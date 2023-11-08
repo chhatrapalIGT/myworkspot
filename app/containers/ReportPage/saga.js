@@ -3,8 +3,8 @@
  */
 
 import { put, takeLatest } from 'redux-saga/effects';
-import request from 'utils/request';
 import { push } from 'react-router-redux';
+import request from '../../utils/request';
 import { REQUEST_GET_TEAM_MEMBER, REQUEST_ADD_TEAM_MEMBER } from './constants';
 
 import {

@@ -5,11 +5,11 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
-import injectReducer from 'utils/injectReducer';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import injectReducer from '../../utils/injectReducer';
 import Workspot from '../../components/WorkSpot';
 import reducer from './reducer';
 import {

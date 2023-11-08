@@ -8,7 +8,6 @@ import {
   useHistory,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { connect } from 'react-redux';
 // import HomePage from 'containers/HomePage/Loadable';
 import Spinner from 'react-bootstrap/Spinner';
@@ -24,6 +23,7 @@ import Footer from '../../components/Footer';
 import CallBack from '../../components/Login/CallBack';
 import Login from '../../components/Login';
 import EmployeePage from '../EmployeePage';
+import NotFoundPage from '../NotFoundPage/Loadable';
 import officeUpload from '../UploadMapPage';
 import space from '../SpacePage';
 import WorkspotAdminPage from '../WorkspotAdminPage';

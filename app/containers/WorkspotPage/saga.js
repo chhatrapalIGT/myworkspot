@@ -3,9 +3,9 @@
  */
 
 import { put, takeLatest } from 'redux-saga/effects';
-import request from 'utils/request';
 import moment from 'moment';
 import { push } from 'react-router-redux';
+import request from '../../utils/request';
 import {
   REQUEST_GET_LOCATION,
   REQUEST_GET_WEEKLY_DEFAULT,

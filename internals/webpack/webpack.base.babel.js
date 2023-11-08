@@ -3,28 +3,24 @@
  */
 
 const path = require('path');
-// const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-const IS_BUILD_SOURCE_MAP = true;
 
 const webPackConfigs = options => ({
   mode: options.mode,
   entry: options.entry,
   output: Object.assign(
     {
-      // Compile into js/build.js
       path: path.resolve(process.cwd(), 'build'),
       publicPath: '/',
     },
     options.output,
-  ), // Merge with env dependent settings
+  ),
   optimization: options.optimization,
   module: {
     rules: [
       {
-        test: /\.js$/, // Transform all .js files required somewhere with Babel
+        test: /\.js$/,
         exclude: /node_modules\/(?!(react-redux-toastr)\/).*/,
         use: {
           loader: 'babel-loader',
@@ -42,21 +38,12 @@ const webPackConfigs = options => ({
           },
           {
             loader: 'css-loader',
-            options: {
-              sourceMap: IS_BUILD_SOURCE_MAP,
-            },
           },
           {
             loader: 'postcss-loader',
-            options: {
-              sourceMap: IS_BUILD_SOURCE_MAP,
-            },
           },
           {
             loader: 'sass-loader',
-            options: {
-              sourceMap: IS_BUILD_SOURCE_MAP,
-            },
           },
         ],
       },
@@ -69,9 +56,8 @@ const webPackConfigs = options => ({
         test: /\.(jpg|png|gif)$/,
         use: [
           {
-            loader: 'url-loader',
+            loader: 'file-loader',
             options: {
-              // Inline files smaller than 10 kB
               limit: 10 * 1024,
             },
           },
@@ -80,10 +66,6 @@ const webPackConfigs = options => ({
             options: {
               mozjpeg: {
                 enabled: false,
-                // NOTE: mozjpeg is disabled as it causes errors in some Linux environments
-                // Try enabling it in your environment by switching the config to:
-                // enabled: true,
-                // progressive: true,
               },
               gifsicle: {
                 interlaced: false,
@@ -100,14 +82,12 @@ const webPackConfigs = options => ({
         ],
       },
       {
-        test: /\.svg$/,
-        include: /sprite/,
-        use: 'svg-sprite-loader',
+        test: /\.png$/,
+        type: 'asset/resource',
       },
       {
         test: /\.svg$/,
-        use: 'url-loader',
-        exclude: /sprite/,
+        type: 'asset/resource',
       },
       {
         test: /\.html$/,
@@ -124,12 +104,7 @@ const webPackConfigs = options => ({
       },
     ],
   },
-  plugins: options.plugins.concat([
-    // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
-    // inside your code for any environment checks; Terser will automatically
-    // drop any unreachable code.
-    new Dotenv(),
-  ]),
+  plugins: options.plugins.concat([new Dotenv(), new MiniCssExtractPlugin()]),
   resolve: {
     modules: ['app', 'node_modules'],
     alias: {
@@ -139,7 +114,7 @@ const webPackConfigs = options => ({
     mainFields: ['browser', 'main', 'jsnext:main'],
   },
   devtool: false,
-  target: 'web', // Make web variables accessible to webpack, e.g. window
+  target: 'web',
   performance: options.performance || {},
 });
 

@@ -1,18 +1,14 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-plusplus */
 /* eslint-disable dot-notation */
 /* eslint-disable prefer-destructuring */
-/* eslint-disable no-var */
 /* eslint-disable no-undef-init */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable spaced-comment */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable indent */
 /* eslint-disable array-callback-return */
 /* eslint-disable arrow-body-style */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import moment from 'moment';
@@ -20,7 +16,6 @@ import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from 'prop-types';
 import { Image, Button, Form, Modal } from 'react-bootstrap';
 import { Datepicker } from '@mobiscroll/react';
-import { CSVLink } from 'react-csv';
 import axios from 'axios';
 import {
   getWeekStartEndDate,
@@ -48,10 +43,6 @@ const WorkspotAdmin = ({
   apiMessage,
   handleClearCal,
   getWarningData,
-  exportCapacitySuccess,
-  requestExportLocationCapacity,
-  getExportData,
-  exportCapacityLoading,
 }) => {
   const [open, setOpen] = useState(false);
   const [excelDataOpen, setExcelDataOpen] = useState(false);
@@ -493,6 +484,7 @@ const WorkspotAdmin = ({
             <div>{apiMessage || ''}</div>
           </div>
           <div
+            aria-hidden
             style={{ float: 'right', fontSize: 'large' }}
             onClick={() => handleClearCal()}
             className="day-pointer al_cross"
@@ -1074,7 +1066,11 @@ const WorkspotAdmin = ({
                       >
                         &lsaquo;
                       </button>
-                      <span className="what-day" onClick={handleToday}>
+                      <span
+                        aria-hidden
+                        className="what-day"
+                        onClick={handleToday}
+                      >
                         Today
                       </span>
                       <button
@@ -1500,6 +1496,7 @@ const WorkspotAdmin = ({
                 style={{ width: '85%', height: '48px' }}
               >
                 <label
+                  htmlFor="Date"
                   style={{
                     width: '100%',
                     marginLeft: '12px',
@@ -1628,15 +1625,11 @@ const WorkspotAdmin = ({
 WorkspotAdmin.propTypes = {
   getCapacity: PropTypes.array,
   requestLocationCapacity: PropTypes.func,
-  requestExportLocationCapacity: PropTypes.func,
   handleClearCal: PropTypes.func,
   capacityLoading: PropTypes.bool,
   apiMessage: PropTypes.string,
   apiSuccess: PropTypes.bool,
-  exportCapacitySuccess: PropTypes.bool,
-  exportCapacityLoading: PropTypes.bool,
   getWarningData: PropTypes.array,
-  getExportData: PropTypes.array,
 };
 
 export default WorkspotAdmin;

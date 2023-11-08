@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import request from 'utils/request';
 import { push } from 'react-router-redux';
+import request from '../../utils/request';
 import { REQUEST_GET_OFFICE_DATA } from './constants';
 import { getOfficeDataSuccess, getOfficeDataFailed } from './actions';
 import { CONSTANT } from '../../enum';

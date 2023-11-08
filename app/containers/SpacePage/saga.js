@@ -1,7 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import request from 'utils/request';
 // import { get } from 'lodash';
 import { push } from 'react-router-redux';
+import request from '../../utils/request';
 import {
   REQUEST_UPDATE_ACTIVE_STATUS,
   REQUEST_GET_MANAGE_SPACE,

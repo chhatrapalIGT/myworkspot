@@ -1,8 +1,8 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import request from 'utils/request';
 import { push } from 'react-router-redux';
 import { get } from 'lodash';
 import moment from 'moment';
+import request from '../../utils/request';
 import {
   REQUEST_GET_WHOISIN_DETAIL,
   REQUEST_GET_OFFICE_FLOOR,
