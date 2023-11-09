@@ -752,9 +752,9 @@ const Assignments = props => {
 Assignments.propTypes = {
   assignmentData: PropTypes.array,
   exportAssignmentData: PropTypes.object,
-  officeLocation: PropTypes.object,
-  officeFloor: PropTypes.object,
-  officeNeighborhood: PropTypes.object,
+  officeLocation: PropTypes.array,
+  officeFloor: PropTypes.array,
+  officeNeighborhood: PropTypes.array,
   state: PropTypes.object,
   handleSelectedoffice: PropTypes.func,
   handleSelectedFloor: PropTypes.func,

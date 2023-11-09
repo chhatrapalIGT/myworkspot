@@ -1698,8 +1698,8 @@ Calender.propTypes = {
   teamLoading: PropTypes.bool,
   setChange: PropTypes.bool,
   colleagueDataLoader: PropTypes.bool,
-  colleagueWeeklyData: PropTypes.object,
-  handleColleagueModal: PropTypes.object,
+  colleagueWeeklyData: PropTypes.array,
+  handleColleagueModal: PropTypes.func,
   handleDefault: PropTypes.func,
 };
 

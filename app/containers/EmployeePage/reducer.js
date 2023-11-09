@@ -34,7 +34,7 @@ const initialState = {
     success: false,
     message: '',
     loading: false,
-    singleEmployee: [],
+    singleEmployee: {},
   },
   UpdateEmployee: {
     error: '',
@@ -97,7 +97,7 @@ const EmployeeReducer = (state = initialState, action) =>
         break;
       case FAILED_EDIT_EMPLOYEE_DETAIL:
         draft.EditEmployeeDetail.loading = false;
-        draft.EditEmployeeDetail.singleEmployee = [];
+        draft.EditEmployeeDetail.singleEmployee = {};
         draft.EditEmployeeDetail.success = action.payload.success;
         draft.EditEmployeeDetail.message = action.payload;
         draft.apiMessage = action.payload.message;

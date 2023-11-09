@@ -1155,7 +1155,7 @@ const WorkSpot = ({
                           value={arr && arr.locationname}
                           name="work_area"
                           selected={
-                            state.updatingObject.prevLocation ===
+                            state.updatingObject.work_area_name ===
                             arr.locationCode
                           }
                         >
@@ -1240,14 +1240,14 @@ WorkSpot.propTypes = {
   handleColleageUpdate: PropTypes.func,
   handleEditModal: PropTypes.func,
   handleUpdatingModalData: PropTypes.func,
-  locationData: PropTypes.object,
+  locationData: PropTypes.array,
   onUpdateWorkspot: PropTypes.func,
   neighborhoodData: PropTypes.object,
   errSuccess: PropTypes.bool,
   neighborhood: PropTypes.object,
   neighborhoodLoad: PropTypes.bool,
-  colleaguesData: PropTypes.object,
-  colleagueWeeklyData: PropTypes.object,
+  colleaguesData: PropTypes.array,
+  colleagueWeeklyData: PropTypes.array,
   colleagueDataLoader: PropTypes.bool,
   profileUserLoading: PropTypes.bool,
   apiMessage: PropTypes.string,
@@ -1255,7 +1255,7 @@ WorkSpot.propTypes = {
   leadersCommittee: PropTypes.bool,
   requestGetColleagueData: PropTypes.func,
   handleCheckbox: PropTypes.func,
-  monthData: PropTypes.object,
+  monthData: PropTypes.array,
   handleClearCal: PropTypes.func,
   handleRemoveUserSelect: PropTypes.func,
   dataStyle: PropTypes.object,

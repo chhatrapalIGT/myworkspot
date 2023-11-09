@@ -30,6 +30,7 @@ const webPackConfigs = webPackDefault({
           format: {
             comments: false,
           },
+          parse: {},
           compress: {
             comparisons: false,
           },

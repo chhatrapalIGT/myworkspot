@@ -56,12 +56,6 @@ const webPackConfigs = options => ({
         test: /\.(jpg|png|gif)$/,
         use: [
           {
-            loader: 'file-loader',
-            options: {
-              limit: 10 * 1024,
-            },
-          },
-          {
             loader: 'image-webpack-loader',
             options: {
               mozjpeg: {

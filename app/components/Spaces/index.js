@@ -3796,7 +3796,7 @@ const Spaces = ({
 
 Spaces.propTypes = {
   state: PropTypes.object,
-  officeLocation: PropTypes.object,
+  officeLocation: PropTypes.array,
   handleUserSelect: PropTypes.func,
   requestUpdateActiveStatus: PropTypes.func,
   requestManageUpdateSpace: PropTypes.func,
@@ -3809,8 +3809,8 @@ Spaces.propTypes = {
   lockSpaceData: PropTypes.object,
   floorBulidingData: PropTypes.array,
   manageDataSuccess: PropTypes.bool,
-  officeNeighborhood: PropTypes.object,
-  officeFloor: PropTypes.object,
+  officeNeighborhood: PropTypes.array,
+  officeFloor: PropTypes.array,
   officesData: PropTypes.object,
   exportLoading: PropTypes.bool,
   manageLoading: PropTypes.bool,

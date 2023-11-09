@@ -1638,7 +1638,6 @@ span.hover-data::after {
   font-size: 14px;
   font-weight: 600;
   text-align: center;
-  padding-right: 5px !important;
 }
 
 .admin-day-name:nth-child(4)>span {

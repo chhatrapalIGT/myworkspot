@@ -31,7 +31,7 @@ const initialState = {
   },
   verifyBadge: {
     err: '',
-    success: '',
+    success: false,
     message: '',
     loading: false,
     update: '',

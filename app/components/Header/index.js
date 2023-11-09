@@ -893,6 +893,7 @@ const Header = props => {
                                 onClick={() => {
                                   props.requestDelegateData({});
                                   setShow(true);
+                                  setSearchName([]);
                                 }}
                                 aria-hidden="true"
                                 className="popup-secondary-profile day-pointer"
@@ -1125,7 +1126,7 @@ export function mapDispatchToProps(dispatch) {
 }
 
 Header.propTypes = {
-  profileUser: PropTypes.object,
+  profileUser: PropTypes.array,
   profileUserLoading: PropTypes.bool,
   // success: PropTypes.bool,
   getOwnerSuccess: PropTypes.object,
@@ -1138,7 +1139,7 @@ Header.propTypes = {
   requestDelegateProfile: PropTypes.func,
   delegateHeaderProfileSuccess: PropTypes.bool,
   requestgetAdminOwner: PropTypes.func,
-  requestDelegateData: PropTypes.array,
+  requestDelegateData: PropTypes.func,
 };
 
 export default compose(

@@ -183,7 +183,7 @@ MapComponent.propTypes = {
   handleZoomOut: PropTypes.func,
   handleDefault: PropTypes.func,
   mapImage: PropTypes.string,
-  officeResource: PropTypes.object,
+  officeResource: PropTypes.array,
   locationName: PropTypes.string,
 };
 

@@ -140,7 +140,7 @@ const withSaga = injectSaga({ key: 'officeData', saga });
 
 OfficeMap.propTypes = {
   requestGetOfficeData: PropTypes.func,
-  officeLocation: PropTypes.object,
+  officeLocation: PropTypes.array,
   officeLocationErrorHandle: PropTypes.string,
   clearOffice: PropTypes.func,
   badgeData: PropTypes.object,

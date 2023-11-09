@@ -427,7 +427,7 @@ OfficeWDC.propTypes = {
   handleZoomIn: PropTypes.func,
   handleDefault: PropTypes.func,
   officeLocationErrorHandle: PropTypes.string,
-  officeLocation: PropTypes.object,
+  officeLocation: PropTypes.array,
   handleClearOffice: PropTypes.func,
   dataStyle: PropTypes.object,
   badgeData: PropTypes.object,

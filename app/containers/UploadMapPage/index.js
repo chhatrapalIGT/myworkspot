@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
@@ -206,7 +207,7 @@ UploadMap.propTypes = {
   requestAddUpdateResource: PropTypes.func,
   clearOfficeData: PropTypes.func,
   clearUploadSuccess: PropTypes.func,
-  officeLocation: PropTypes.object,
+  officeLocation: PropTypes.array,
   officeUpdateMessage: PropTypes.string,
   officeUpdateSuccess: PropTypes.bool,
   uploadCsv: PropTypes.object,

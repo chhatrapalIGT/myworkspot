@@ -537,7 +537,7 @@ ProfilePage.propTypes = {
   location: PropTypes.array,
   getProfileLocation: PropTypes.object,
   userData: PropTypes.object,
-  requestDelegateData: PropTypes.object,
+  requestDelegateData: PropTypes.func,
   delegateList: PropTypes.object,
   delegateSuccess: PropTypes.bool,
   apiMessage: PropTypes.string,

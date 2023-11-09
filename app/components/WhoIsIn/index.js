@@ -584,9 +584,9 @@ const WhoIsIn = props => {
 
 WhoIsIn.propTypes = {
   whoIsInData: PropTypes.array,
-  officeLocation: PropTypes.object,
-  officeFloor: PropTypes.object,
-  officeNeighborhood: PropTypes.object,
+  officeLocation: PropTypes.array,
+  officeFloor: PropTypes.array,
+  officeNeighborhood: PropTypes.array,
   state: PropTypes.object,
   handleSelectedoffice: PropTypes.func,
   handleSelectedFloor: PropTypes.func,

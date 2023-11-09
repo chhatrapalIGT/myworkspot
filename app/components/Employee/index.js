@@ -344,7 +344,7 @@ const Employee = props => {
 
             <div className="emp-table emp-text-color table-responsive">
               <table className="table">
-                <tr>
+                <tr style={{ borderTop: '0px' }}>
                   <th style={{ width: '22%' }}>
                     <span className="d-flex align-items-center">
                       <strong> Name</strong>
@@ -467,7 +467,7 @@ const Employee = props => {
                 ) : (
                   employeeData &&
                   employeeData.map(i => (
-                    <tr>
+                    <tr style={{ borderTop: '0px' }}>
                       <td>
                         <span className="d-flex align-items-center">
                           <span className="me-1">
@@ -955,7 +955,7 @@ Employee.propTypes = {
   workSpace: PropTypes.object,
   state: PropTypes.object,
   userRoles: PropTypes.array,
-  officeLocation: PropTypes.object,
+  officeLocation: PropTypes.array,
   employeeCount: PropTypes.number,
   handlePageChange: PropTypes.func,
   handleLimitChange: PropTypes.func,

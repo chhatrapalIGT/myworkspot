@@ -767,7 +767,7 @@ Office.propTypes = {
   handleZoomOut: PropTypes.func,
   handleZoomIn: PropTypes.func,
   handleDefault: PropTypes.func,
-  officeLocation: PropTypes.object,
+  officeLocation: PropTypes.array,
   handleUserSelect: PropTypes.func,
   requestFileUpload: PropTypes.func,
   handleCloseIcon: PropTypes.func,

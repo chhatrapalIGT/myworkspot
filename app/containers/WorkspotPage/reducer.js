@@ -54,7 +54,7 @@ const initialState = {
   neighborhood: {
     message: '',
     success: false,
-    neighborhoodData: [],
+    neighborhoodData: {},
     isloading: false,
   },
 
