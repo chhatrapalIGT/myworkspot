@@ -307,21 +307,22 @@ const Profile = ({
     requestRemoveDelegateUser({ delegateid: dataVal[0].employeeid });
   };
 
-  const handleSpinRemove = name => {
-    const newArr = employee;
-    const dataVal =
-      selectEmpIcon &&
-      selectEmpIcon.length > 0 &&
-      selectEmpIcon.filter(ele => ele.id === name);
+  // const handleSpinRemove = name => {
+  //   const newArr = employee;
+  //   const dataVal =
+  //     selectEmpIcon &&
+  //     selectEmpIcon.length > 0 &&
+  //     selectEmpIcon.filter(ele => ele.id === name);
 
-    if (dataVal[0].id) {
-      const idx = newArr.findIndex(val => val.id === name);
-      newArr.splice(idx, 1);
-    }
-    setemployee(prestate => prestate.filter(ele => ele.id !== dataVal[0].id));
-    // setDemoData(prestate => prestate.filter(ele => ele !== dataVal[0].pinId));
-    requestRemoveSpinIcon({ pinId: [dataVal[0].id] });
-  };
+  //   if (dataVal[0].id) {
+  //     const idx = newArr.findIndex(val => val.id === name);
+  //     newArr.splice(idx, 1);
+  //   }
+  //   setemployee(prestate => prestate.filter(ele => ele.id !== dataVal[0].id));
+  //   // setDemoData(prestate => prestate.filter(ele => ele !== dataVal[0].pinId));
+  //   requestRemoveSpinIcon({ pinId: [dataVal[0].id] });
+  // };
+
   const handleAddSpinIcon = () => {
     requestAddSpinIcon({ pin: demoData });
   };
@@ -764,7 +765,7 @@ const Profile = ({
             </div>
           </div>
 
-          <div className="workspot-access mt-40">
+          {/* <div className="workspot-access mt-40">
             <div className="container">
               <h4 className="common-title">Name Plate Pins</h4>
               <p className="w-50 stroke-2 mt-3">
@@ -817,7 +818,7 @@ const Profile = ({
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
 
           <div className="workspot-access mt-40">
             <div className="container">
