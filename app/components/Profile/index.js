@@ -177,7 +177,7 @@ const Profile = ({
       tempDemo.splice(indexOne, 1);
       setEmpOpen(false);
     } else {
-      if (dataName.length !== 2 || tempDemo.length !== 2) {
+      if (dataName.length !== 3 || tempDemo.length !== 3) {
         dataName.push(name);
         tempDemo.push(name.id);
         setEmpOpen(false);
