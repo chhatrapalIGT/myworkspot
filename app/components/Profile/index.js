@@ -768,7 +768,7 @@ const Profile = ({
             <div className="container">
               <h4 className="common-title">Name Plate Pins</h4>
               <p className="w-50 stroke-2 mt-3">
-                You can select up to 2 pins to display on your name plate.
+                You can select up to 3 pins to display on your name plate.
               </p>
               {isLoading ? (
                 <div className="card mt-4 weekly-default-inner d-flex flex-wrap">
