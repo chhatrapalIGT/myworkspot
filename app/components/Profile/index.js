@@ -308,7 +308,7 @@ const Profile = ({
   };
 
   const handleSpinRemove = name => {
-    const newArr = employee;
+    const newArr = [...employee];
     const dataVal =
       selectEmpIcon &&
       selectEmpIcon.length > 0 &&
@@ -316,12 +316,13 @@ const Profile = ({
 
     if (dataVal[0].id) {
       const idx = newArr.findIndex(val => val.id === name);
-      newArr.splice(idx, 1);
+      newArr.splice(idx, 0);
     }
     setemployee(prestate => prestate.filter(ele => ele.id !== dataVal[0].id));
     // setDemoData(prestate => prestate.filter(ele => ele !== dataVal[0].pinId));
     requestRemoveSpinIcon({ pinId: [dataVal[0].id] });
   };
+
   const handleAddSpinIcon = () => {
     requestAddSpinIcon({ pin: demoData });
   };
@@ -1125,7 +1126,7 @@ const Profile = ({
             </h5>
             {empOpen && (
               <span style={{ color: 'red' }}>
-                You can only select up to 2 pins.
+                You can only select up to 3 pins.
               </span>
             )}
             <div
