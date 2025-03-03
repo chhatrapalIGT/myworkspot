@@ -10,7 +10,13 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
 import moment from 'moment';
 import Spinner from 'react-bootstrap/Spinner';
 import PropTypes from 'prop-types';
@@ -81,6 +87,7 @@ const WorkspotAdmin = ({
   const [floorCapacityData, setFloorCapacityData] = useState();
   const [floorBuildings, setFloorBuildings] = useState([]);
   const [loaidng, setLoading] = useState(false);
+  const datepickerRef = useRef(null);
 
   const isDateSelected = useCallback(
     date => {
@@ -1504,6 +1511,7 @@ const WorkspotAdmin = ({
                   }}
                 >
                   <Datepicker
+                    ref={datepickerRef}
                     controls={['calendar']}
                     select="range"
                     dateFormat="MMM D YYYY"
@@ -1513,6 +1521,8 @@ const WorkspotAdmin = ({
                   <Image
                     src={Calender}
                     className="material-icons-outlined-image"
+                    onClick={() => datepickerRef.current?.open?.()}
+                    style={{ cursor: 'pointer', marginLeft: '8px' }}
                   />
                 </label>
               </div>
