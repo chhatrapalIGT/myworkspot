@@ -395,24 +395,26 @@ class WorkSpotPage extends Component {
   };
 
   onSubmit = () => {
-    // eslint-disable-next-line no-unused-vars
     const { updatingObject, privateSpace } = this.state;
-    const { locationData, employeeId } = this.props;
-    const a =
-      locationData &&
-      locationData.find(
-        obj => obj.locationname === updatingObject.work_area_name,
-      );
+    const { locationData, employeeId, neighborhoodData } = this.props;
+
+    // Ensure work_area_name is valid
+    if (!updatingObject || !updatingObject.work_area_name) return;
+
+    const selectedLocation = locationData?.find(
+      obj => obj.locationname === updatingObject.work_area_name,
+    );
+
+    if (!selectedLocation) return;
+
     this.setState({
-      tempLocation: updatingObject.work_area_name
-        ? updatingObject.work_area_name
-        : this.props.neighborhoodData &&
-          this.props.neighborhoodData.locationCode,
+      tempLocation:
+        updatingObject.work_area_name || (neighborhoodData?.locationCode || ''),
     });
+
     const payload = {
       data: {
-        // eslint-disable-next-line radix
-        locationid: a ? a.id : 'BLM',
+        locationid: selectedLocation?.id || '',
         weekofday: [moment(updatingObject.date).format('YYYY-MM-DD')],
       },
       privateSpace,
@@ -420,7 +422,7 @@ class WorkSpotPage extends Component {
     };
     this.props.requestUpdateWorkspot(payload);
     this.updateWorkspotData(
-      a && a.locationCode,
+      selectedLocation?.locationCode,
       moment(updatingObject.date).format('YYYY-MM-DD'),
       updatingObject.work_area_name,
     );
