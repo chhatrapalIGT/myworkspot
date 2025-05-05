@@ -1089,7 +1089,13 @@ const WorkSpot = ({
           <Modal
             className="modal fade test_modal"
             show={state.editModal}
-            onHide={() => handleEditModal(false)}
+            onHide={() => {
+              updateModalData(
+                'work_area_name',
+                neighborhoodData?.locationName || '',
+              );
+              handleEditModal(false);
+            }}
             aria-labelledby="exampleModalLabel"
             style={{ maxWidth: 'calc(100% - 0rem)' }}
             aria-hidden="true"
@@ -1109,6 +1115,10 @@ const WorkSpot = ({
                     data-bs-dismiss="modal"
                     aria-label="Close"
                     onClick={() => {
+                      updateModalData(
+                        'work_area_name',
+                        neighborhoodData?.locationName || '',
+                      );
                       handleEditModal(false);
                     }}
                   />
@@ -1209,6 +1219,10 @@ const WorkSpot = ({
                     className="btn dismiss"
                     data-bs-dismiss="modal"
                     onClick={() => {
+                      updateModalData(
+                        'work_area_name',
+                        neighborhoodData?.locationName || '',
+                      );
                       handleEditModal(false);
                     }}
                   >
