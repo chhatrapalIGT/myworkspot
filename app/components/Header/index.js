@@ -33,6 +33,7 @@ import BadgeIcon from '../../images/badgeIcon.png';
 import searchicon from '../assets/images/search-blue.svg';
 
 import { CONSTANT } from '../../enum';
+import { X_API_KEY } from '../../config/env';
 
 const { API_URL } = CONSTANT;
 
@@ -229,6 +230,7 @@ const Header = props => {
         {
           headers: {
             Authorization: `Bearer ${token.idtoken}`,
+            'x-api-key': X_API_KEY,
           },
         },
       )

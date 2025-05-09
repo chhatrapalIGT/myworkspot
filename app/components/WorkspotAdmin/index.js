@@ -38,6 +38,7 @@ import PrivateSpace from '../../images/PrivateSpace.png';
 import GreyInfo from '../../images/GreyInfo.png';
 import Calender from '../../images/Calender.png';
 import { CONSTANT } from '../../enum';
+import { X_API_KEY } from '../../config/env';
 
 const { API_URL } = CONSTANT;
 
@@ -198,6 +199,7 @@ const WorkspotAdmin = ({
           {
             headers: {
               Authorization: `Bearer ${token.idtoken}`,
+              'x-api-key': X_API_KEY,
             },
           },
         )

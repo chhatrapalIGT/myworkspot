@@ -7,6 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import './styles.scss';
 import { CONSTANT } from '../../enum';
 import crossCircle from '../../images/x-circle-fill.svg';
+import { X_API_KEY } from '../../config/env';
 
 const { API_URL } = CONSTANT;
 
@@ -23,6 +24,7 @@ const FAQ = () => {
       // withCredentials: true,
       headers: {
         Authorization: `Bearer ${token.idtoken}`,
+        'x-api-key': X_API_KEY,
       },
     })
       .then(res => {

@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import { CONSTANT } from '../../enum';
+import { X_API_KEY } from '../../config/env';
 
 const { API_URL } = CONSTANT;
 
@@ -27,6 +28,7 @@ export default function Login() {
         },
         headers: {
           Authorization: '',
+          'x-api-key': X_API_KEY,
         },
       })
       // eslint-disable-next-line consistent-return

@@ -3,6 +3,7 @@ export const PROTOCOL = process.env.API_PROTOCOL;
 export const DOMAIN = process.env.API_DOMAIN;
 export const PORT = process.env.API_PORT;
 export const MAP_URL = process.env.IMAGE_SRC;
+export const { X_API_KEY } = process.env;
 
 export const PROTOCOL_LIVE = process.env.API_PROTOCOL_LIVE;
 export const DOMAIN_LIVE = process.env.API_DOMAIN_LIVE;

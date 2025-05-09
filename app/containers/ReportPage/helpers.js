@@ -5,6 +5,7 @@
 import moment from 'moment';
 import Axios from 'axios';
 import { CONSTANT } from '../../enum';
+import { X_API_KEY } from '../../config/env';
 const { API_URL } = CONSTANT;
 
 export const getMyTeamData = async (startDate, endDate) => {
@@ -30,6 +31,7 @@ export const getMyTeamData = async (startDate, endDate) => {
     {
       headers: {
         Authorization: `Bearer ${token.idtoken}`,
+        'x-api-key': X_API_KEY,
       },
     },
     //    {
