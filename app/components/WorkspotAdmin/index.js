@@ -1519,6 +1519,8 @@ const WorkspotAdmin = ({
                     dateFormat="MMM D YYYY"
                     value={dateValue}
                     onChange={selectedChange}
+                    theme="ios"
+                    themeVariant="light"
                   />
                   <Image
                     src={Calender}
