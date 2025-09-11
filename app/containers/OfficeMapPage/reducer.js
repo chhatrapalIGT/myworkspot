@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { produce } from 'immer';
 import {
   REQUEST_GET_OFFICE_DATA,
   SUCCESS_GET_OFFICE_DATA,

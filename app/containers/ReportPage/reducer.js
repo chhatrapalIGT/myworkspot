@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import produce from 'immer';
+import { produce } from 'immer';
 import {
   REQUEST_GET_TEAM_MEMBER,
   SUCCESS_GET_TEAM_MEMBER,

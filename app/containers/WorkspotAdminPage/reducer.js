@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import produce from 'immer';
+import { produce } from 'immer';
 import {
   REQUEST_LOCATION_CAPACITY,
   SUCCESS_LOCATION_CAPACITY,

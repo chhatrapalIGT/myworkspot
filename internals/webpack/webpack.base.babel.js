@@ -66,26 +66,6 @@ const webPackConfigs = (options) => ({
       {
         test: /\.(jpg|png|gif)$/,
         type: 'asset/resource',
-        use: [
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              mozjpeg: {
-                enabled: false,
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              optipng: {
-                optimizationLevel: 7,
-              },
-              pngquant: {
-                quality: [0.65, 0.9],
-                speed: 4,
-              },
-            },
-          },
-        ],
       },
       {
         test: /\.png$/,

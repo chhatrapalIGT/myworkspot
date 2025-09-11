@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { produce } from 'immer';
 
 import {
   FAILED_GET_OFFICE_ASSIGNMENTS,

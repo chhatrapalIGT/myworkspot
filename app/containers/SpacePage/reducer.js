@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { produce } from 'immer';
 import {
   REQUEST_UPDATE_ACTIVE_STATUS,
   SUCCESS_UPDATE_ACTIVE_STATUS,
