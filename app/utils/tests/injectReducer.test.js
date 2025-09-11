@@ -6,16 +6,18 @@ import { memoryHistory } from 'react-router-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
 import renderer from 'react-test-renderer';
-import { render } from 'react-testing-library';
+import { render } from '@testing-library/react';
 
 import configureStore from '../../configureStore';
 import injectReducer, { useInjectReducer } from '../injectReducer';
 import * as reducerInjectors from '../reducerInjectors';
 
 // Fixtures
-const Component = () => null;
+function Component() {
+  return null;
+}
 
-const reducer = s => s;
+const reducer = (s) => s;
 
 describe('injectReducer decorator', () => {
   let store;
@@ -79,7 +81,7 @@ describe('useInjectReducer hook', () => {
     };
     reducerInjectors.default = jest.fn().mockImplementation(() => injectors);
     store = configureStore({}, memoryHistory);
-    ComponentWithReducer = () => {
+    ComponentWithReducer = function () {
       useInjectReducer({ key: 'test', reducer });
       return null;
     };

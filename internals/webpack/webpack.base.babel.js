@@ -6,16 +6,14 @@ const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const webPackConfigs = options => ({
+const webPackConfigs = (options) => ({
   mode: options.mode,
   entry: options.entry,
-  output: Object.assign(
-    {
-      path: path.resolve(process.cwd(), 'build'),
-      publicPath: '/',
-    },
-    options.output,
-  ),
+  output: {
+    path: path.resolve(process.cwd(), 'build'),
+    publicPath: '/',
+    ...options.output,
+  },
   optimization: options.optimization,
   module: {
     rules: [
@@ -54,6 +52,7 @@ const webPackConfigs = options => ({
       },
       {
         test: /\.(jpg|png|gif)$/,
+        type: 'asset/resource',
         use: [
           {
             loader: 'image-webpack-loader',
@@ -68,7 +67,7 @@ const webPackConfigs = options => ({
                 optimizationLevel: 7,
               },
               pngquant: {
-                quality: '65-90',
+                quality: [0.65, 0.9],
                 speed: 4,
               },
             },
@@ -89,10 +88,10 @@ const webPackConfigs = options => ({
       },
       {
         test: /\.(mp4|webm)$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10000,
           },
         },
       },

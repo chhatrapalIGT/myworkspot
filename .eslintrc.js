@@ -6,8 +6,8 @@ const prettierOptions = JSON.parse(
 );
 
 module.exports = {
-  parser: 'babel-eslint',
-  extends: ['airbnb', 'prettier', 'prettier/react'],
+  parser: '@babel/eslint-parser',
+  extends: ['airbnb', 'prettier'],
   plugins: ['prettier', 'redux-saga', 'react', 'react-hooks', 'jsx-a11y'],
   env: {
     jest: true,
@@ -16,8 +16,12 @@ module.exports = {
     es6: true,
   },
   parserOptions: {
-    ecmaVersion: 6,
+    ecmaVersion: 2020,
     sourceType: 'module',
+    requireConfigFile: false,
+    babelOptions: {
+      presets: ['@babel/preset-react'],
+    },
     ecmaFeatures: {
       jsx: true,
     },

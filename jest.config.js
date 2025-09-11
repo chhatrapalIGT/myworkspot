@@ -1,4 +1,5 @@
 module.exports = {
+  testEnvironment: 'jsdom',
   collectCoverageFrom: [
     'app/**/*.{js,jsx}',
     '!app/**/*.test.{js,jsx}',
@@ -23,7 +24,7 @@ module.exports = {
   },
   setupFilesAfterEnv: [
     '<rootDir>/internals/testing/test-bundler.js',
-    'react-testing-library/cleanup-after-each',
+    '@testing-library/jest-dom',
   ],
   setupFiles: ['raf/polyfill'],
   testRegex: 'tests/.*\\.test\\.js$',

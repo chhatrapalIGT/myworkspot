@@ -2081,7 +2081,7 @@ input[type='text'] {
         font-size: 16px;
       }
     }
-    .chip:not(1) {
+    .chip:not(:first-child) {
       padding: 4px 0px !important;
     }
   }

@@ -6,7 +6,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -25,7 +31,7 @@ import MapComponent from '../Resource/map';
 import checkedCircle from '../../images/check-circle-fill.svg';
 import crossCircle from '../../images/x-circle-fill.svg';
 
-const WorkSpot = ({
+function WorkSpot({
   onSubmit,
   state,
   onChange,
@@ -61,7 +67,7 @@ const WorkSpot = ({
   handleRemoveUserSelect,
   handleClear,
   badgeData,
-}) => {
+}) {
   const [isModal, setModal] = useState(false);
   const [visible, setVisible] = useState(false);
   const [isEmployeeModal, setEmployeeModal] = useState(false);
@@ -73,7 +79,76 @@ const WorkSpot = ({
   const [employeeData, setEmployeeData] = useState({});
   const [searchName, setSearchName] = useState([]);
   const [isChange, setChange] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(''); // Add search term state
   const divRef = useRef();
+  const debounceTimer = useRef(null); // Add debounce timer ref
+
+  // Memoize preprocessed colleague data for better performance
+  const preprocessedColleagues = useMemo(
+    () =>
+      colleaguesData?.map((colleague) => ({
+        ...colleague,
+        searchableText:
+          `${colleague.firstname} ${colleague.lastname}`.toLowerCase(),
+      })) || [],
+    [colleaguesData],
+  );
+
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    (searchValue) => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+
+      debounceTimer.current = setTimeout(() => {
+        if (searchValue.trim() === '') {
+          setSearch(false);
+          setSearchName([]);
+          return;
+        }
+
+        if (searchValue.length < 2) {
+          // Don't search for single characters to improve performance
+          setSearch(false);
+          setSearchName([]);
+          return;
+        }
+
+        setSearch(true);
+        const filter = searchValue.toLowerCase().trim();
+
+        const filteredResults = preprocessedColleagues.filter((colleague) =>
+          colleague.searchableText.includes(filter),
+        );
+
+        setSearchName(filteredResults);
+      }, 300); // 300ms debounce delay
+    },
+    [preprocessedColleagues],
+  );
+
+  // Optimized handleChange function
+  const handleChange = useCallback(
+    (event) => {
+      const { value } = event.target;
+      setSearchTerm(value);
+      setAllUser(colleaguesData);
+      debouncedSearch(value);
+    },
+    [colleaguesData, debouncedSearch],
+  );
+
+  // Cleanup debounce timer on unmount
+  useEffect(
+    () => () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    },
+    [],
+  );
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside, false);
     document.addEventListener('mousedown', handleClickOutside, false);
@@ -82,31 +157,13 @@ const WorkSpot = ({
       document.removeEventListener('mousedown', handleClickOutside, false);
     };
   });
-  const handleChange = event => {
-    setAllUser(colleaguesData);
-    let newList = [];
-    if (event.target.value !== '' && colleaguesData.length) {
-      setSearch(true);
-      newList = colleaguesData.filter(({ firstname, lastname }) => {
-        const first = firstname.toLowerCase();
-        const last = lastname.toLowerCase();
-        const finalDataList = first.concat(' ', last);
-        const filter = event.target.value.toLowerCase().trim();
-        return finalDataList.includes(filter);
-      });
-    } else {
-      setSearch(false);
-      newList = [];
-    }
-    setSearchName(newList);
-  };
 
   const newArr = useMemo(() => {
     const d =
       locationData &&
       locationData.length > 0 &&
       locationData &&
-      locationData.filter(obj => !obj.locationname.includes('Remote Work'));
+      locationData.filter((obj) => !obj.locationname.includes('Remote Work'));
     return d;
   });
 
@@ -114,9 +171,15 @@ const WorkSpot = ({
     if (isEmployeeModal && searchName.length) {
       setSearchName([]);
     }
+    // Clear search term when modal closes
+    if (!isEmployeeModal) {
+      setSearchTerm('');
+      setSearch(false);
+      setSearchName([]);
+    }
   }, [isEmployeeModal]);
 
-  const handleClickOutside = event => {
+  const handleClickOutside = (event) => {
     if (divRef && divRef.current && !divRef.current.contains(event.target)) {
       setModal(false);
       setEmployee(false);
@@ -129,7 +192,7 @@ const WorkSpot = ({
     locationData &&
     locationData.length > 0 &&
     locationData &&
-    locationData.find(obj => obj.locationname.includes('Remote Work'));
+    locationData.find((obj) => obj.locationname.includes('Remote Work'));
 
   const updateModalData = (key, val) => {
     handleUpdatingModalData(key, val);
@@ -154,36 +217,36 @@ const WorkSpot = ({
 
   const halfDayData =
     neighborhoodData && neighborhoodData.data
-      ? neighborhoodData.data.find(obj => obj.locationCode !== 'PTO')
+      ? neighborhoodData.data.find((obj) => obj.locationCode !== 'PTO')
       : '';
 
   const neighborhoodColor =
     (neighborhoodData && neighborhoodData.colorcode) === '0072CE'
       ? 'Blue'
       : (neighborhoodData && neighborhoodData.colorcode) === 'ED8B00'
-      ? 'Orange'
-      : (neighborhoodData && neighborhoodData.colorcode) === '00B1B0'
-      ? 'Teal'
-      : (neighborhoodData && neighborhoodData.colorcode) === 'F7CA0F'
-      ? 'Yellow'
-      : '';
+        ? 'Orange'
+        : (neighborhoodData && neighborhoodData.colorcode) === '00B1B0'
+          ? 'Teal'
+          : (neighborhoodData && neighborhoodData.colorcode) === 'F7CA0F'
+            ? 'Yellow'
+            : '';
 
   const halfdayColor =
     (halfDayData && halfDayData.colorcode) === '0072CE'
       ? 'Blue'
       : (halfDayData && halfDayData.colorcode) === 'ED8B00'
-      ? 'Orange'
-      : (halfDayData && halfDayData.colorcode) === '00B1B0'
-      ? 'Teal'
-      : (halfDayData && halfDayData.colorcode) === 'F7CA0F'
-      ? 'Yellow'
-      : '';
+        ? 'Orange'
+        : (halfDayData && halfDayData.colorcode) === '00B1B0'
+          ? 'Teal'
+          : (halfDayData && halfDayData.colorcode) === 'F7CA0F'
+            ? 'Yellow'
+            : '';
 
   const dateData = () => {
     const dates = [];
     // eslint-disable-next-line no-unused-expressions
     monthData &&
-      monthData.filter(ele => {
+      monthData.filter((ele) => {
         const prevDate = moment(ele.date).isBefore(moment(), 'day');
 
         // const getMonth = moment(ele.date).format('MM');
@@ -193,7 +256,7 @@ const WorkSpot = ({
         // const currentMonth = getMonth !== nextMonth;
         const datas =
           ele && ele.data
-            ? ele.data.find(obj => obj && obj.locationCode !== 'PTO')
+            ? ele.data.find((obj) => obj && obj.locationCode !== 'PTO')
             : '';
 
         let obj = {};
@@ -202,7 +265,8 @@ const WorkSpot = ({
             ele.officetype === 'EAB Office' ||
             (datas &&
               datas.officetype === 'EAB Office' &&
-              (ele && ele.locationCode !== 'EAB'))
+              ele &&
+              ele.locationCode !== 'EAB')
           ) {
             obj = {
               date: ele.date,
@@ -212,7 +276,8 @@ const WorkSpot = ({
             ele.locationCode === 'RW' ||
             (datas &&
               datas.locationCode === 'RW' &&
-              (ele && ele.locationCode !== 'RW'))
+              ele &&
+              ele.locationCode !== 'RW')
           ) {
             obj = {
               date: ele.date,
@@ -240,16 +305,16 @@ const WorkSpot = ({
     (employeeData && employeeData.colorcode) === '0072CE'
       ? 'Blue'
       : (employeeData && employeeData.colorcode) === 'ED8B00'
-      ? 'Orange'
-      : (employeeData && employeeData.colorcode) === '00B1B0'
-      ? 'Teal'
-      : (employeeData && employeeData.colorcode) === 'F7CA0F'
-      ? 'Yellow'
-      : '';
+        ? 'Orange'
+        : (employeeData && employeeData.colorcode) === '00B1B0'
+          ? 'Teal'
+          : (employeeData && employeeData.colorcode) === 'F7CA0F'
+            ? 'Yellow'
+            : '';
 
   const invalidDate = () => {
     const dates = [];
-    monthData.filter(ele => {
+    monthData.filter((ele) => {
       let data = {};
       if (ele.locationCode === 'PTO' || ele.locationCode === 'EAB') {
         data = {
@@ -262,7 +327,7 @@ const WorkSpot = ({
     return dates;
   };
 
-  const htmlDecode = content => {
+  const htmlDecode = (content) => {
     const e = document.createElement('div');
     e.innerHTML = content;
     return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue;
@@ -345,8 +410,8 @@ const WorkSpot = ({
                   className={
                     ((state.tempLocation.includes('DC') ||
                       state.tempLocation.includes('VA')) &&
-                      (neighborhoodData &&
-                        !neighborhoodData.isAssignmentUpdate) &&
+                      neighborhoodData &&
+                      !neighborhoodData.isAssignmentUpdate &&
                       isChange) ||
                     (neighborhoodData &&
                       !neighborhoodData.isAssignmentUpdate &&
@@ -356,308 +421,306 @@ const WorkSpot = ({
                           neighborhoodData.locationCode === 'RIC')))
                       ? 'card building-block-head default'
                       : (neighborhoodData &&
-                          neighborhoodData.locationCode === 'BHM') ||
-                        (neighborhoodData &&
-                          neighborhoodData.locationCode === 'BLM')
-                      ? 'card building-block-head default'
-                      : neighborhoodColor === 'Blue' || halfdayColor === 'Blue'
-                      ? 'card building-block-head blue'
-                      : neighborhoodColor === 'Orange' ||
-                        halfdayColor === 'Orange'
-                      ? 'card building-block-head orange'
-                      : neighborhoodColor === 'Teal' || halfdayColor === 'Teal'
-                      ? 'card building-block-head teal'
-                      : neighborhoodColor === 'Yellow' ||
-                        halfdayColor === 'Yellow'
-                      ? 'card building-block-head yellow'
-                      : (neighborhoodData &&
-                          neighborhoodData.locationCode === 'PTO') ||
-                        (neighborhoodData &&
-                          neighborhoodData.locationCode === 'EAB')
-                      ? 'card building-block-head paid-time'
-                      : neighborhoodData &&
-                        neighborhoodData.locationCode === 'RW'
-                      ? 'card building-block-head remote'
-                      : 'card building-block-head default'
+                            neighborhoodData.locationCode === 'BHM') ||
+                          (neighborhoodData &&
+                            neighborhoodData.locationCode === 'BLM')
+                        ? 'card building-block-head default'
+                        : neighborhoodColor === 'Blue' ||
+                            halfdayColor === 'Blue'
+                          ? 'card building-block-head blue'
+                          : neighborhoodColor === 'Orange' ||
+                              halfdayColor === 'Orange'
+                            ? 'card building-block-head orange'
+                            : neighborhoodColor === 'Teal' ||
+                                halfdayColor === 'Teal'
+                              ? 'card building-block-head teal'
+                              : neighborhoodColor === 'Yellow' ||
+                                  halfdayColor === 'Yellow'
+                                ? 'card building-block-head yellow'
+                                : (neighborhoodData &&
+                                      neighborhoodData.locationCode ===
+                                        'PTO') ||
+                                    (neighborhoodData &&
+                                      neighborhoodData.locationCode === 'EAB')
+                                  ? 'card building-block-head paid-time'
+                                  : neighborhoodData &&
+                                      neighborhoodData.locationCode === 'RW'
+                                    ? 'card building-block-head remote'
+                                    : 'card building-block-head default'
                   }
                   style={{ backgroundColor: 'white' }}
                 >
-                  <>
-                    {((state.tempLocation.includes('DC') ||
-                      state.tempLocation.includes('VA')) &&
+                  {((state.tempLocation.includes('DC') ||
+                    state.tempLocation.includes('VA')) &&
+                    neighborhoodData &&
+                    !neighborhoodData.isAssignmentUpdate &&
+                    isChange) ||
+                  (neighborhoodData &&
+                    !neighborhoodData.isAssignmentUpdate &&
+                    ((neighborhoodData &&
+                      neighborhoodData.locationCode === 'DC') ||
                       (neighborhoodData &&
-                        !neighborhoodData.isAssignmentUpdate) &&
-                      isChange) ||
-                    (neighborhoodData &&
-                      !neighborhoodData.isAssignmentUpdate &&
-                      ((neighborhoodData &&
-                        neighborhoodData.locationCode === 'DC') ||
-                        (neighborhoodData &&
-                          neighborhoodData.locationCode === 'RIC'))) ||
-                    (neighborhoodData &&
-                      !neighborhoodData.isAssignmentUpdate &&
-                      ((halfDayData && halfDayData.locationCode === 'DC') ||
-                        (halfDayData &&
-                          halfDayData.locationCode === 'RIC'))) ? (
-                      <>
+                        neighborhoodData.locationCode === 'RIC'))) ||
+                  (neighborhoodData &&
+                    !neighborhoodData.isAssignmentUpdate &&
+                    ((halfDayData && halfDayData.locationCode === 'DC') ||
+                      (halfDayData && halfDayData.locationCode === 'RIC'))) ? (
+                    <>
+                      <p className="stroke-2">
+                        Hi {neighborhoodData && neighborhoodData.username}, your{' '}
+                        {state.tempLocation.includes('DC') ||
+                        (((neighborhoodData &&
+                          neighborhoodData.locationCode === 'DC') ||
+                          (halfDayData && halfDayData.locationCode === 'DC')) &&
+                          neighborhoodData &&
+                          !neighborhoodData.isAssignmentUpdate) ? (
+                          <span> DC </span>
+                        ) : (
+                          <span>Richmond </span>
+                        )}
+                        neighborhood assignment will be ready shortly!
+                      </p>
+                      <h3 className="building-name neighborhood-font">
+                        Please check back in a few minutes
+                      </h3>
+                    </>
+                  ) : (
+                    <>
+                      {(neighborhoodData &&
+                        neighborhoodData.locationCode === 'RIC') ||
+                      halfDayData.locationCode === 'RIC' ? (
                         <p className="stroke-2">
                           Hi {neighborhoodData && neighborhoodData.username},
-                          your{' '}
-                          {state.tempLocation.includes('DC') ||
-                          (((neighborhoodData &&
-                            neighborhoodData.locationCode === 'DC') ||
-                            (halfDayData &&
-                              halfDayData.locationCode === 'DC')) &&
-                            (neighborhoodData &&
-                              !neighborhoodData.isAssignmentUpdate)) ? (
-                            <span> DC </span>
-                          ) : (
-                            <span>Richmond </span>
-                          )}
-                          neighborhood assignment will be ready shortly!
+                          your <span>Richmond </span>
+                          neighborhood today is
                         </p>
-                        <h3 className="building-name neighborhood-font">
-                          Please check back in a few minutes
-                        </h3>
-                      </>
-                    ) : (
-                      <>
-                        {(neighborhoodData &&
-                          neighborhoodData.locationCode === 'RIC') ||
-                        halfDayData.locationCode === 'RIC' ? (
+                      ) : (neighborhoodData &&
+                          neighborhoodData.locationCode === 'DC') ||
+                        halfDayData.locationCode === 'DC' ? (
+                        <p className="stroke-2">
+                          Hi {neighborhoodData && neighborhoodData.username},
+                          your <span> DC </span>
+                          neighborhood today is
+                        </p>
+                      ) : (
+                        <>
                           <p className="stroke-2">
                             Hi {neighborhoodData && neighborhoodData.username},
-                            your <span>Richmond </span>
-                            neighborhood today is
+                            your workspot today is
                           </p>
-                        ) : (neighborhoodData &&
-                            neighborhoodData.locationCode === 'DC') ||
-                          halfDayData.locationCode === 'DC' ? (
-                          <p className="stroke-2">
-                            Hi {neighborhoodData && neighborhoodData.username},
-                            your <span> DC </span>
-                            neighborhood today is
-                          </p>
-                        ) : (
-                          <>
-                            <p className="stroke-2">
-                              Hi {neighborhoodData && neighborhoodData.username}
-                              , your workspot today is
-                            </p>
 
-                            {neighborhoodData &&
-                              neighborhoodData.locationCode === 'PTO' && (
-                                <div className="block-info d-flex flex-wrap">
-                                  <h3 className="building-name-paid-time">
-                                    {neighborhoodData &&
-                                      neighborhoodData.timeofftype}
-                                  </h3>
-                                </div>
-                              )}
-
-                            {neighborhoodData &&
-                            neighborhoodData.locationCode === 'EAB' ? (
+                          {neighborhoodData &&
+                            neighborhoodData.locationCode === 'PTO' && (
                               <div className="block-info d-flex flex-wrap">
-                                <h3
-                                  className="building-name-paid-time"
-                                  style={{ borderRight: '1px solid #95a7b8' }}
-                                >
+                                <h3 className="building-name-paid-time">
                                   {neighborhoodData &&
-                                    neighborhoodData.eabHolidayType}
-                                </h3>
-                                <h3
-                                  className="eab-holiday-name"
-                                  title={
-                                    neighborhoodData &&
-                                    neighborhoodData.locationName
-                                  }
-                                >
-                                  {neighborhoodData &&
-                                    neighborhoodData.locationName}
+                                    neighborhoodData.timeofftype}
                                 </h3>
                               </div>
-                            ) : (
-                              <div className="block-info d-flex flex-wrap">
+                            )}
+
+                          {neighborhoodData &&
+                          neighborhoodData.locationCode === 'EAB' ? (
+                            <div className="block-info d-flex flex-wrap">
+                              <h3
+                                className="building-name-paid-time"
+                                style={{ borderRight: '1px solid #95a7b8' }}
+                              >
+                                {neighborhoodData &&
+                                  neighborhoodData.eabHolidayType}
+                              </h3>
+                              <h3
+                                className="eab-holiday-name"
+                                title={
+                                  neighborhoodData &&
+                                  neighborhoodData.locationName
+                                }
+                              >
+                                {neighborhoodData &&
+                                  neighborhoodData.locationName}
+                              </h3>
+                            </div>
+                          ) : (
+                            <div className="block-info d-flex flex-wrap">
+                              <h3
+                                className={
+                                  (neighborhoodData &&
+                                    neighborhoodData.locationCode === 'DC') ||
+                                  halfDayData.locationCode === 'DC' ||
+                                  (neighborhoodData &&
+                                    neighborhoodData.locationCode === 'RIC') ||
+                                  halfDayData.locationCode === 'RIC'
+                                    ? 'building-name'
+                                    : 'building-data-name'
+                                }
+                              >
+                                {(neighborhoodData &&
+                                  neighborhoodData.locationName) ||
+                                  (halfDayData && halfDayData.locationName)}
+                              </h3>
+                            </div>
+                          )}
+                        </>
+                      )}
+
+                      {neighborhoodData &&
+                        neighborhoodData.locationCode !== 'BHM' &&
+                        neighborhoodData &&
+                        neighborhoodData.locationCode !== 'BLM' && (
+                          <>
+                            <div className="block-info d-flex flex-wrap">
+                              {((neighborhoodData &&
+                                neighborhoodData.building) ||
+                                halfDayData.building) && (
+                                <h3 className="building-name">
+                                  {`Building ${
+                                    (neighborhoodData &&
+                                      neighborhoodData.building) ||
+                                    halfDayData.building
+                                  }`}
+                                </h3>
+                              )}
+                              {((neighborhoodData && neighborhoodData.floor) ||
+                                halfDayData.floor) && (
                                 <h3
                                   className={
-                                    (neighborhoodData &&
-                                      neighborhoodData.locationCode === 'DC') ||
-                                    halfDayData.locationCode === 'DC' ||
-                                    (neighborhoodData &&
-                                      neighborhoodData.locationCode ===
-                                        'RIC') ||
-                                    halfDayData.locationCode === 'RIC'
-                                      ? 'building-name'
-                                      : 'building-data-name'
+                                    neighborhoodColor !== '' ||
+                                    halfdayColor !== ''
+                                      ? 'floor-name'
+                                      : 'floor-data-name'
                                   }
                                 >
-                                  {(neighborhoodData &&
-                                    neighborhoodData.locationName) ||
-                                    (halfDayData && halfDayData.locationName)}
+                                  {`Floor ${
+                                    (neighborhoodData &&
+                                      neighborhoodData.floor) ||
+                                    halfDayData.floor
+                                  }`}
                                 </h3>
+                              )}
+                              <h3 className="color-code">
+                                {neighborhoodColor || halfdayColor}
+                              </h3>
+                            </div>
+                            {((neighborhoodData &&
+                              neighborhoodData.workspacenumber) ||
+                              (halfDayData && halfDayData.workspacenumber)) && (
+                              <div className="space-data">
+                                {`Space ${
+                                  (neighborhoodData &&
+                                    neighborhoodData.workspacenumber) ||
+                                  (halfDayData && halfDayData.workspacenumber)
+                                }`}
                               </div>
                             )}
                           </>
                         )}
+                    </>
+                  )}
 
+                  <div className="building-location-strip d-flex flex-wrap align-items-center">
+                    {(neighborhoodData &&
+                      neighborhoodData.data &&
+                      neighborhoodData.data.length > 0 &&
+                      remot &&
+                      remot.locationCode === 'RW') ||
+                    (remot1 && remot1.locationCode === 'RW') ? (
+                      <>
                         {neighborhoodData &&
-                          neighborhoodData.locationCode !== 'BHM' &&
+                          neighborhoodData.locationCode !== 'PTO' &&
                           neighborhoodData &&
-                          neighborhoodData.locationCode !== 'BLM' && (
+                          neighborhoodData.locationCode !== 'EAB' && (
+                            <div
+                              className="change-workspot d-flex align-items-center"
+                              onClick={() => {
+                                handleEditModal(true);
+                                // handleData();
+                                setChange(true);
+                                // setLocUpdate(false);
+                                setDate('');
+                              }}
+                              aria-hidden="true"
+                            >
+                              <img
+                                src={editPen}
+                                alt=""
+                                className="onHover"
+                                aria-hidden="true"
+                              />{' '}
+                              <a href className="change-workspot">
+                                Change Today's Workspot
+                              </a>
+                            </div>
+                          )}
+                      </>
+                    ) : (
+                      <>
+                        {neighborhoodData &&
+                          neighborhoodData.locationCode !== 'PTO' &&
+                          neighborhoodData &&
+                          neighborhoodData.locationCode !== 'EAB' && (
                             <>
-                              <div className="block-info d-flex flex-wrap">
-                                {((neighborhoodData &&
-                                  neighborhoodData.building) ||
-                                  halfDayData.building) && (
-                                  <h3 className="building-name">
-                                    {`Building ${(neighborhoodData &&
-                                      neighborhoodData.building) ||
-                                      halfDayData.building}`}
-                                  </h3>
-                                )}
-                                {((neighborhoodData &&
-                                  neighborhoodData.floor) ||
-                                  halfDayData.floor) && (
-                                  <h3
-                                    className={
-                                      neighborhoodColor !== '' ||
-                                      halfdayColor !== ''
-                                        ? 'floor-name'
-                                        : 'floor-data-name'
-                                    }
+                              {(((state.tempLocation.includes('DC') ||
+                                state.tempLocation.includes('VA')) &&
+                                neighborhoodData &&
+                                !neighborhoodData.isAssignmentUpdate &&
+                                isChange) ||
+                                (neighborhoodData &&
+                                  !neighborhoodData.isAssignmentUpdate &&
+                                  ((neighborhoodData &&
+                                    neighborhoodData.locationCode === 'DC') ||
+                                    (neighborhoodData &&
+                                      neighborhoodData.locationCode ===
+                                        'RIC'))) ||
+                                (neighborhoodData &&
+                                  neighborhoodData.locationCode !== 'RW')) && (
+                                <div
+                                  className="location d-flex align-items-center"
+                                  aria-hidden="true"
+                                  target="_blank"
+                                >
+                                  <a
+                                    className="address_url"
+                                    target="_blank"
+                                    href={`https://www.google.com/maps/search/${
+                                      (neighborhoodData &&
+                                        neighborhoodData.officeAddress) ||
+                                      halfDayData.officeAddress
+                                    }`}
                                   >
-                                    {`Floor ${(neighborhoodData &&
-                                      neighborhoodData.floor) ||
-                                      halfDayData.floor}`}
-                                  </h3>
-                                )}
-                                <h3 className="color-code">
-                                  {neighborhoodColor || halfdayColor}
-                                </h3>
-                              </div>
-                              {((neighborhoodData &&
-                                neighborhoodData.workspacenumber) ||
-                                (halfDayData &&
-                                  halfDayData.workspacenumber)) && (
-                                <div className="space-data">
-                                  {`Space ${(neighborhoodData &&
-                                    neighborhoodData.workspacenumber) ||
-                                    (halfDayData &&
-                                      halfDayData.workspacenumber)}`}
+                                    <img src={union} alt="" />
+
+                                    {(neighborhoodData &&
+                                      neighborhoodData.officeAddress) ||
+                                      halfDayData.officeAddress}
+                                  </a>
                                 </div>
                               )}
+                              <div
+                                className="change-workspot d-flex align-items-center"
+                                onClick={() => {
+                                  handleEditModal(true);
+                                  // handleData();
+                                  setChange(true);
+                                  // setLocUpdate(false);
+                                  setDate('');
+                                }}
+                                aria-hidden="true"
+                              >
+                                <img
+                                  src={editPen}
+                                  alt=""
+                                  className="onHover"
+                                  aria-hidden="true"
+                                />{' '}
+                                <a href className="change-workspot">
+                                  Change Today's Workspot
+                                </a>
+                              </div>
                             </>
                           )}
                       </>
                     )}
-
-                    <div className="building-location-strip d-flex flex-wrap align-items-center">
-                      {(neighborhoodData &&
-                        neighborhoodData.data &&
-                        neighborhoodData.data.length > 0 &&
-                        (remot && remot.locationCode === 'RW')) ||
-                      (remot1 && remot1.locationCode === 'RW') ? (
-                        <>
-                          {neighborhoodData &&
-                            neighborhoodData.locationCode !== 'PTO' &&
-                            (neighborhoodData &&
-                              neighborhoodData.locationCode !== 'EAB') && (
-                              <>
-                                <div
-                                  className="change-workspot d-flex align-items-center"
-                                  onClick={() => {
-                                    handleEditModal(true);
-                                    // handleData();
-                                    setChange(true);
-                                    // setLocUpdate(false);
-                                    setDate('');
-                                  }}
-                                  aria-hidden="true"
-                                >
-                                  <img
-                                    src={editPen}
-                                    alt=""
-                                    className="onHover"
-                                    aria-hidden="true"
-                                  />{' '}
-                                  <a href className="change-workspot">
-                                    Change Today's Workspot
-                                  </a>
-                                </div>
-                              </>
-                            )}
-                        </>
-                      ) : (
-                        <>
-                          {neighborhoodData &&
-                            neighborhoodData.locationCode !== 'PTO' &&
-                            (neighborhoodData &&
-                              neighborhoodData.locationCode !== 'EAB') && (
-                              <>
-                                {(((state.tempLocation.includes('DC') ||
-                                  state.tempLocation.includes('VA')) &&
-                                  (neighborhoodData &&
-                                    !neighborhoodData.isAssignmentUpdate) &&
-                                  isChange) ||
-                                  (neighborhoodData &&
-                                    !neighborhoodData.isAssignmentUpdate &&
-                                    ((neighborhoodData &&
-                                      neighborhoodData.locationCode === 'DC') ||
-                                      (neighborhoodData &&
-                                        neighborhoodData.locationCode ===
-                                          'RIC'))) ||
-                                  (neighborhoodData &&
-                                    neighborhoodData.locationCode !==
-                                      'RW')) && (
-                                  <>
-                                    <div
-                                      className="location d-flex align-items-center"
-                                      aria-hidden="true"
-                                      target="_blank"
-                                    >
-                                      <a
-                                        className="address_url"
-                                        target="_blank"
-                                        href={`https://www.google.com/maps/search/${(neighborhoodData &&
-                                          neighborhoodData.officeAddress) ||
-                                          halfDayData.officeAddress}`}
-                                      >
-                                        <img src={union} alt="" />
-
-                                        {(neighborhoodData &&
-                                          neighborhoodData.officeAddress) ||
-                                          halfDayData.officeAddress}
-                                      </a>
-                                    </div>
-                                  </>
-                                )}
-                                <div
-                                  className="change-workspot d-flex align-items-center"
-                                  onClick={() => {
-                                    handleEditModal(true);
-                                    // handleData();
-                                    setChange(true);
-                                    // setLocUpdate(false);
-                                    setDate('');
-                                  }}
-                                  aria-hidden="true"
-                                >
-                                  <img
-                                    src={editPen}
-                                    alt=""
-                                    className="onHover"
-                                    aria-hidden="true"
-                                  />{' '}
-                                  <a href className="change-workspot">
-                                    Change Today's Workspot
-                                  </a>
-                                </div>
-                              </>
-                            )}
-                        </>
-                      )}
-                    </div>
-                  </>
+                  </div>
                 </div>
               )
             )}
@@ -745,7 +808,7 @@ const WorkSpot = ({
             colleagueDataLoader={colleagueDataLoader}
             displayDefault={state.displayDefault}
             requestGetColleagueData={requestGetColleagueData}
-            handleColleagueModal={datas => setEmployeeData(datas)}
+            handleColleagueModal={(datas) => setEmployeeData(datas)}
           />
           <Modal
             className="modal fade test_modal"
@@ -828,7 +891,7 @@ const WorkSpot = ({
                       <select name="work_place" onChange={onChange}>
                         <optgroup label="EAB Office">
                           {newArr &&
-                            newArr.map(i => (
+                            newArr.map((i) => (
                               <option
                                 value={i.locationname}
                                 id="location"
@@ -925,6 +988,9 @@ const WorkSpot = ({
                     onClick={() => {
                       setEmployeeModal(false);
                       handleRemoveUserSelect();
+                      setSearchTerm('');
+                      setSearch(false);
+                      setSearchName([]);
                     }}
                   />
                 </div>
@@ -933,16 +999,19 @@ const WorkSpot = ({
                   placeholder="Search..."
                   className="searchbox"
                   name="searchValue"
+                  value={searchTerm}
                   onChange={handleChange}
                 />
                 <div className="modal-body modal-update" id="data_workspot">
                   <form className="delegate-workspot-access" action="submit">
                     {searchName &&
-                      searchName.map(i => (
+                      searchName.map((i) => (
                         <div
                           aria-hidden="true"
-                          className={`${state.selectedColleagues.includes(i) &&
-                            'checked_item'}  form-group`}
+                          className={`${
+                            state.selectedColleagues.includes(i) &&
+                            'checked_item'
+                          }  form-group`}
                           onClick={() => handleUserSelect(i)}
                         >
                           <img src={ProfileImg} alt="" />
@@ -977,6 +1046,9 @@ const WorkSpot = ({
                     onClick={() => {
                       setEmployeeModal(false);
                       handleRemoveUserSelect();
+                      setSearchTerm('');
+                      setSearch(false);
+                      setSearchName([]);
                     }}
                   >
                     Close
@@ -1038,14 +1110,17 @@ const WorkSpot = ({
                     employeeData.locationCode !== 'PTO' &&
                     employeeData &&
                     employeeData.locationCode !== 'EAB' &&
-                    (employeeData &&
-                      employeeData.building === null &&
-                      (employeeData && employeeData.floor === null) &&
-                      (employeeData && employeeData.colorcode === '') &&
-                      (employeeData && employeeData.image === '') &&
-                      (employeeData &&
-                        employeeData.resource &&
-                        employeeData.resource.length === 0)) ? (
+                    employeeData &&
+                    employeeData.building === null &&
+                    employeeData &&
+                    employeeData.floor === null &&
+                    employeeData &&
+                    employeeData.colorcode === '' &&
+                    employeeData &&
+                    employeeData.image === '' &&
+                    employeeData &&
+                    employeeData.resource &&
+                    employeeData.resource.length === 0 ? (
                       <div
                         className="container px-0"
                         style={{ height: '100%' }}
@@ -1134,13 +1209,13 @@ const WorkSpot = ({
                       <select
                         name="work_area_name"
                         className="dropdown_opt"
-                        onChange={e =>
+                        onChange={(e) =>
                           updateModalData('work_area_name', e.target.value)
                         }
                       >
                         <optgroup label="EAB Office">
                           {newArr &&
-                            newArr.map(i => (
+                            newArr.map((i) => (
                               <option
                                 value={i.locationname}
                                 id="location"
@@ -1236,7 +1311,7 @@ const WorkSpot = ({
       )}
     </>
   );
-};
+}
 
 WorkSpot.propTypes = {
   onSubmit: PropTypes.func,
