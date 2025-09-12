@@ -84,7 +84,7 @@ const initialState = {
 
 /* eslint-disable default-case, no-param-reassign */
 const spaceReducer = (state = initialState, action) =>
-  produce(state, draft => {
+  produce(state, (draft) => {
     switch (action.type) {
       case REQUEST_UPDATE_ACTIVE_STATUS:
         draft.updateStatus.loading = true;

@@ -52,7 +52,7 @@ const initialState = {
 
 /* eslint-disable default-case, no-param-reassign */
 const AssignmentReducer = (state = initialState, action) =>
-  produce(state, draft => {
+  produce(state, (draft) => {
     switch (action.type) {
       case REQUEST_GET_ASSIGNMENT_DETAIL:
         draft.assignmentDetail.loading = true;

@@ -43,7 +43,7 @@ const initialState = {
 
 /* eslint-disable default-case, no-param-reassign */
 const onBoardingReducer = (state = initialState, action) =>
-  produce(state, draft => {
+  produce(state, (draft) => {
     switch (action.type) {
       case REQUEST_GET_OFFICE_LOCATION:
         draft.getOfficeLocation.loading = true;

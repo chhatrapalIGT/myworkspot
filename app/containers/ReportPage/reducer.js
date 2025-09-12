@@ -29,7 +29,7 @@ const initialState = {
 };
 
 const reportReducer = (state = initialState, action) =>
-  produce(state, draft => {
+  produce(state, (draft) => {
     // eslint-disable-next-line default-case
     switch (action.type) {
       case REQUEST_GET_TEAM_MEMBER:

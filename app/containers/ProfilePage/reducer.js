@@ -88,7 +88,7 @@ const initialState = {
 };
 
 const profilePageReducer = (state = initialState, action) =>
-  produce(state, draft => {
+  produce(state, (draft) => {
     switch (action.type) {
       case REQUEST_GET_PROFILE_OFFICE_DATA:
         draft.loading = true;

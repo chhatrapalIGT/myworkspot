@@ -18,7 +18,7 @@ const initialState = {
 
 /* eslint-disable default-case, no-param-reassign */
 const NeighbourHoodReducer = (state = initialState, action) =>
-  produce(state, draft => {
+  produce(state, (draft) => {
     switch (action.type) {
       case REQUEST_GET_OFFICE_ASSIGNMENTS:
         draft.getOfficeLocation.loading = true;
